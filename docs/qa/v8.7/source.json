@@ -1,0 +1,11 @@
+{
+  "version": "0.8.7",
+  "sourceSha256": "4f2e17ebb3353eb9996c0dc397b9df90f2f32d22dd3c2ee1d1a47fd7ec350608",
+  "browserPerformanceReceipts": [
+    "native-input-performance.json",
+    "forced-worker-starvation.json",
+    "preservation-and-performance.json"
+  ],
+  "audioOutput": "muted in owned test browsers; native sound settings enabled",
+  "goalStatus": "active; Chaos tail frames remain above 8 ms"
+}

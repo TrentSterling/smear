@@ -2,7 +2,7 @@
 
 A blood-and-contact ragdoll playground by Trent Sterling / Tront. Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V8.6 / 0.8.6** continues the DRAGMARK prototype under the name SMEAR.
+**V8.7 / 0.8.7** continues the DRAGMARK prototype under the name SMEAR.
 
 **Play:** https://tront.xyz/smear/ · **Source:** https://github.com/TrentSterling/smear
 
@@ -21,6 +21,8 @@ Open `index.html` in desktop Firefox, Zen, Chrome, or Edge with hardware acceler
 
 Stains last for the session. Tuning saves in browser storage; V8 migrates available settings from `dragmark.tune.v7` into `smear.tune.v8` on the same browser origin.
 
+V8.7 transfers cropped RGBA buffers from the paint worker on Firefox/Zen. If that worker stalls, recovery replays bounded chunks from retained CPU pigment without GPU readback, uploads only changed pixels, and restarts the worker once. A forced-stall comparison reduced the worst main-thread frame from 453 ms to 21 ms while preserving exact simulation and every surface and skin PNG. Native Firefox pistol and drag captures average 60 FPS; ten-dummy Chaos still has slower tail frames. See [V8.7 measurements and limits](docs/qa/performance-v8.7.md).
+
 V8.6 retains pistol tracer programs, uses dynamic collision broad phases and GPU-instanced ragdoll details, and separates animated HUD elements into small canvases. It also resumes automatically after graphics-context restoration. See [V8.6 measurements and verification](docs/qa/performance-v8.6.md).
 
 V8.5 moves brush rasterization into an embedded OffscreenCanvas worker and transfers only changed regions to WebGL as ImageBitmaps. Gameplay sends contact events; the worker expands the original bristles. Persistent pigment stays off the main thread during play, while wet transfer and physics remain deterministic. The synchronous backend handles unsupported browsers and bounded worker overload. See [worker painting measurements and verification](docs/qa/performance-v8.5.md). The [V8.4 fixes](docs/qa/performance-v8.4.md) include floor Spill, particle pooling, collision caching, and retained HUD drawing.
@@ -31,7 +33,7 @@ Use **Perf** or **F3** while playing. A small FPS badge remains visible with the
 
 The spike log retains the latest 64 hitches with simulation ticks, workload, camera, uploads, and drag context. Browser long tasks and long animation frames are retained where supported. **Freeze capture** keeps the history while gameplay continues; **Export JSON** downloads raw frames, spikes, events, and environment details. Choose a 60/120/144/240 FPS budget to adjust the spike threshold. `?perf=1` opens the panel on load. Hidden-tab gaps are excluded.
 
-Upload-call CPU overlaps prep/render. GPU time and rAF intervals measure different things from main-thread work. Worker raster time, bitmap time, paint latency, and pending events are reported separately; they are not extra exclusive main-thread phases. See [runtime profiling notes](docs/qa/runtime-v8.3.md) for measurement boundaries and verification. `window.__smear.perf.report()` returns the same capture from the console. For inspection, `await window.__smear.paintReady()` drains pending paint and refreshes retained canvases; `paintStatus()` identifies the active backend. `?paintSync=1` selects the compatibility backend.
+Upload-call CPU overlaps prep/render. GPU time and rAF intervals measure different things from main-thread work. Worker raster time, transfer preparation, paint latency, and pending events are reported separately; they are not extra exclusive main-thread phases. Recovery details include pending events, last and maximum task duration, worker restarts, and retained CPU pigment bytes. Recovery tasks scheduled outside rAF can affect callback intervals without belonging to the preceding frame's exclusive phases. See [runtime profiling notes](docs/qa/runtime-v8.3.md) for measurement boundaries and verification. `window.__smear.perf.report()` returns the same capture from the console. For inspection, `await window.__smear.paintReady()` drains pending paint and refreshes retained canvases; `paintStatus()` identifies the active backend. `?paintSync=1` selects the compatibility backend; `?paintBitmap=1` selects the earlier Firefox transport for comparison.
 
 ## Files
 
@@ -42,6 +44,7 @@ Upload-call CPU overlaps prep/render. GPU time and rAF intervals measure differe
 - `tools/particles-profile.mjs`: fixed-work Firefox/Chrome particle and paint benchmarks.
 - `tools/particles-compare.mjs`: exact motion, transforms, pigment and supply comparison.
 - `tools/worker-verify.mjs`: worker clear/wash/removal races, failure recovery and bounded overload against synchronous pigment.
+- `tools/recovery-profile.mjs`: forced worker starvation compared with V8.6, including exact simulation, surface pigment and skin pigment checks.
 - `tools/hud-verify.mjs`: retained HUD versus complete redraw pixel checks.
 - `tools/profile.mjs`: CPU profiles and frame distributions on the real GPU.
 - `tools/runtime-verify.mjs`: live profiler, native drag, hitch, export and UI checks.
