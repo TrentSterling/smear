@@ -43,3 +43,7 @@ npm run verify
 ```
 
 The profiler creates an instrumented HTML copy under `tools/out/` so the benchmark advances physics and rendering without a diagnostic state snapshot per frame. The shipped game's normal animation loop remains intact.
+
+## Public deployment
+
+The V8.2 Pages build completed successfully for commit `b7fcb0d`. HTTPS serves the current version and the cropped-upload code at [tront.xyz/smear](https://tront.xyz/smear/). The [live-site receipt](v8.2/publish-live.json) contains 14 passing checks, including a real mouse drag producing floor smears, no WebGL errors after the drag, and the portfolio card and OG image at desktop and phone widths. [Live drag capture](v8.2/live-mouse-drag.png).
