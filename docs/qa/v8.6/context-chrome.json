@@ -1,0 +1,11 @@
+{
+  "checks": [
+    "cycle 0: all surface and skin pigment survives restoration",
+    "cycle 0: actual physics and rendering resume once",
+    "cycle 1: all surface and skin pigment survives restoration",
+    "cycle 1: actual physics and rendering resume once",
+    "no native context lifecycle errors"
+  ],
+  "errors": [],
+  "result": "COMPLETE native context restoration checks passed"
+}

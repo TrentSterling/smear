@@ -12,7 +12,7 @@ export async function launch({port, width = 1280, height = 800, headless = true}
   const args = [
     headless ? '--headless=new' : '', `--remote-debugging-port=${port}`, `--user-data-dir=${dir}`,
     `--window-size=${width},${height}`, '--disable-features=CalculateNativeWinOcclusion', '--disable-backgrounding-occluded-windows', '--disable-renderer-backgrounding', '--disable-background-timer-throttling',
-    '--no-first-run', '--no-default-browser-check', '--autoplay-policy=no-user-gesture-required', '--hide-scrollbars',
+    '--no-first-run', '--no-default-browser-check', '--autoplay-policy=no-user-gesture-required', '--hide-scrollbars', '--mute-audio',
   ].filter(Boolean);
   const proc = spawn(CHROME, args, {stdio: 'ignore', windowsHide: true});
   let info;

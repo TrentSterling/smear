@@ -1,0 +1,176 @@
+{
+  "version": "0.8.6",
+  "checks": [
+    "original V7 preserved byte for byte",
+    "UTF-8 UI symbols retain their original codepoints",
+    "V7 reference demo produces contact smears",
+    "SMEAR V8 reports the new name and version",
+    "page and accessibility branding updated",
+    "hardware WebGL renderer",
+    "V8 smear demo repeats deterministically after reset",
+    "demo leaves splashes, smears, and landed droplets",
+    "HUD and About show the current release version",
+    "live simulation advances without non-finite bodies",
+    "starting view is in front of the relocated divider",
+    "all starting dummies visible at 1280x720",
+    "all starting dummies visible at 1366x768",
+    "all starting dummies visible at 1920x1080",
+    "canonical and social sharing metadata point to SMEAR",
+    "wall spill creates persistent wet wall deposits",
+    "native mouse drag paints persistent floor smears and releases the body",
+    "legacy V7 tuning migrates into SMEAR V8 storage",
+    "existing SMEAR tuning takes precedence over legacy settings",
+    "no browser exceptions or console errors"
+  ],
+  "browserErrors": [],
+  "v7": {
+    "version": "0.7",
+    "simTime": 14.374999999999824,
+    "dolls": 3,
+    "bodies": 45,
+    "particles": 25,
+    "wetSupply": 668.1745129132751,
+    "stats": {
+      "steps": 1725,
+      "splats": 1708,
+      "strokeSegments": 9292,
+      "smearMeters": 104.01720412342806,
+      "broadSegments": 2296,
+      "dropletsLanded": 1058,
+      "liftBreaks": 206,
+      "paintUploads": 8,
+      "transfer": 9.455097169793824,
+      "shots": 0,
+      "contacts": 28,
+      "maxJoint": 0.00013079351356012824,
+      "bodyPaints": 1168,
+      "pressurePeak": 43.68229337581911,
+      "bodyDrops": 171,
+      "abrasionWork": 9880.5385814184,
+      "abrasionDamage": 35.85533899814367,
+      "freshAbrasionBlood": 18.056076882436862,
+      "abrasionWounds": 8,
+      "collisionDamage": 85.76133946847959,
+      "impactInjuries": 15
+    }
+  },
+  "gpu": {
+    "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5070 Ti (0x00002C05) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "v8": {
+    "version": "0.8.6",
+    "simTime": 14.374999999999824,
+    "dolls": 3,
+    "bodies": 45,
+    "particles": 8,
+    "wetSupply": 154.73134222717727,
+    "stats": {
+      "steps": 1725,
+      "splats": 582,
+      "strokeSegments": 7059,
+      "smearMeters": 80.66054769759448,
+      "broadSegments": 1870,
+      "dropletsLanded": 262,
+      "liftBreaks": 122,
+      "paintUploads": 8,
+      "transfer": 12.493050354557763,
+      "shots": 0,
+      "contacts": 37,
+      "maxJoint": 0.0002765640373401895,
+      "bodyPaints": 1063,
+      "pressurePeak": 12.400278961589356,
+      "bodyDrops": 119,
+      "abrasionWork": 1021.0795236825039,
+      "abrasionDamage": 2.7958310272782168,
+      "freshAbrasionBlood": 2.261421532691284,
+      "abrasionWounds": 1,
+      "collisionDamage": 18.434592088365644,
+      "impactInjuries": 7
+    }
+  },
+  "wall": {
+    "wetWalls": [
+      {
+        "id": 16,
+        "n": [
+          0,
+          0,
+          1
+        ],
+        "center": [
+          0,
+          2.5,
+          -7.996999999999999
+        ],
+        "wet": 9.404240194708109
+      }
+    ],
+    "state": {
+      "version": "0.8.6",
+      "simTime": 1.8749999999999958,
+      "dolls": 3,
+      "bodies": 45,
+      "particles": 1,
+      "wetSupply": 30.16319663044851,
+      "stats": {
+        "steps": 225,
+        "splats": 87,
+        "strokeSegments": 48,
+        "smearMeters": 0.5591450791427208,
+        "broadSegments": 14,
+        "dropletsLanded": 15,
+        "liftBreaks": 0,
+        "paintUploads": 32,
+        "transfer": 1.5116941371242456,
+        "shots": 0,
+        "contacts": 34,
+        "maxJoint": 0.00001741778210384788,
+        "bodyPaints": 64,
+        "pressurePeak": 1.398511158372854,
+        "bodyDrops": 4,
+        "abrasionWork": 0,
+        "abrasionDamage": 0,
+        "freshAbrasionBlood": 0,
+        "abrasionWounds": 0,
+        "collisionDamage": 0,
+        "impactInjuries": 0
+      }
+    }
+  },
+  "mouseDrag": {
+    "held": "Torso",
+    "state": {
+      "version": "0.8.6",
+      "simTime": 2.124999999999995,
+      "dolls": 3,
+      "bodies": 45,
+      "particles": 30,
+      "wetSupply": 181.9486235478562,
+      "stats": {
+        "steps": 255,
+        "splats": 311,
+        "strokeSegments": 3800,
+        "smearMeters": 44.49281994913248,
+        "broadSegments": 615,
+        "dropletsLanded": 106,
+        "liftBreaks": 35,
+        "paintUploads": 258,
+        "transfer": 1.5780245658371843,
+        "shots": 0,
+        "contacts": 14,
+        "maxJoint": 0.03402981043516775,
+        "bodyPaints": 255,
+        "pressurePeak": 59.77874871728678,
+        "bodyDrops": 33,
+        "abrasionWork": 33854.03715058697,
+        "abrasionDamage": 126.9264720643662,
+        "freshAbrasionBlood": 28.17091528920749,
+        "abrasionWounds": 15,
+        "collisionDamage": 19.07797107821159,
+        "impactInjuries": 5
+      }
+    }
+  },
+  "result": "COMPLETE all checks passed"
+}

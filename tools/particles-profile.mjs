@@ -17,6 +17,7 @@ const fixture=`const particleBench=(()=>{
  function cloud(){for(let i=0;i<900;i++){const k=i+frameIndex*17;emitDrop(new V(-5.6+hash(k*31)*11.2,1.4+hash(k*53)*3,-5.7+hash(k*71)*11.4),new V((hash(k*113)-.5)*3,hash(k*29)*3,(hash(k*43)-.5)*3),.004+hash(k*17)*.008);}}
  function setup(which,hide=false){scenario=which;manual=true;preset('default');applyTuning({recover:false,walking:false});resetWorld(true);runtimeProfiler.show(false);runtimeProfiler.capture(true);runtimeProfiler.clear();
   if(which==='air'){for(let i=0;i<7;i++)addDummy();cloud();}
+  if(which==='chaos')chaosScene();
   if(which==='pistol'||which.startsWith('drag-')){viewAt(new V(3.4,3.3,4.8),new V(0,.3,1));const b=dolls[0].byName.Torso;for(const d of dolls)knockDown(d,60);
    if(which.startsWith('drag-')){for(const part of dolls[0].parts){for(const n of [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]])wetBody(part,new V(...n),.85,new V(...n).multiply(part.half),.15);if(which==='drag-floor')addWound(part,new V(0,0,part.half.z),new V(0,0,1),null,true);}for(let i=0;i<12;i++){const n=new V(0,0,1);addWound(b,new V(0,0,b.half.z),n,null,true);}const p=b.p.clone();grab={body:b,local:new V(),target:p.clone(),desired:p.clone(),distance:4,manual:true};}}
   dropMesh.visible=!hide;frameIndex=0;updateMs=buildMs=seen=updates=0;
@@ -36,7 +37,7 @@ const runtime=resolve(out,'runtime.html');await writeFile(runtime,html.replace('
 const page=browser==='firefox'?await launchFirefox({width:3000,height:1800,port:9595}):await launch({width:3000,height:1800,port:9596});
 const reports=[];
 try{
- const cases=[['air',false],['air',true],['pistol',false],['drag-air',false],['drag-floor',false]].filter(([scenario])=>!process.argv[5]||scenario===process.argv[5]);
+ const cases=[['air',false],['air',true],['pistol',false],['drag-air',false],['drag-floor',false],['chaos',false]].filter(([scenario])=>!process.argv[5]||scenario===process.argv[5]);
  for(const [scenario,hide] of cases){
   await page.goto(pathToFileURL(runtime).href);await until(()=>page.eval('!!window.__smear?.particleBench&&!document.getElementById("loading")'),{label:'particle fixture boot'});
   await page.eval(`(async()=>{const b=window.__smear.particleBench;b.setup('${scenario}',${hide});for(let i=0;i<60;i++){await new Promise(r=>__benchRAF(r));b.advance(performance.now());}await window.__smear.paintReady?.();b.resetCounters();window.__benchDone=false;window.__benchStart=()=>{const work=[],gaps=[];let i=0,previous=0;const frame=async now=>{const t=performance.now();b.advance(now);work.push(performance.now()-t);if(previous)gaps.push(now-previous);previous=now;if(++i<240)__benchRAF(frame);else{const summary=v=>{const s=v.slice(3).sort((a,b)=>a-b),q=p=>s[Math.min(s.length-1,Math.ceil(s.length*p)-1)];return{mean:s.reduce((a,b)=>a+b,0)/s.length,p50:q(.5),p95:q(.95),p99:q(.99),max:s.at(-1)};};await window.__smear.paintReady?.();window.__benchReport={work:summary(work),intervals:summary(gaps),...b.result()};window.__benchDone=true;}};__benchRAF(frame);};})()`);

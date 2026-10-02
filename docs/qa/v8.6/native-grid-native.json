@@ -1,0 +1,2004 @@
+{
+  "input": "index.html",
+  "label": "grid-native",
+  "browser": "firefox",
+  "reports": [
+    {
+      "stage": "boot",
+      "telemetry": {
+        "schema": 1,
+        "version": "0.8.5",
+        "capturing": true,
+        "visible": true,
+        "capacity": 8192,
+        "windowMs": 15000,
+        "budgetMs": 16.666666666666668,
+        "totalFrames": 42,
+        "excludedGaps": 0,
+        "summary": {
+          "frames": 42,
+          "seconds": 0.721,
+          "fps": 58.25242718446602,
+          "latestFPS": 55.55555555555556,
+          "intervalMs": {
+            "p50": 17,
+            "p95": 18,
+            "p99": 32,
+            "max": 32
+          },
+          "workMs": 3.5,
+          "workPercentileMs": {
+            "p50": 3,
+            "p95": 6,
+            "p99": 14,
+            "max": 14
+          },
+          "phases": {
+            "physics": 0.6428571428571429,
+            "paint": 0.19047619047619047,
+            "drops": 0.023809523809523808,
+            "uploadPrep": 0.19047619047619047,
+            "render": 1.7142857142857142,
+            "hud": 0.2857142857142857,
+            "profiler": 0.047619047619047616,
+            "input": 0.2857142857142857,
+            "other": 0.11904761904761904
+          },
+          "overBudget": 2,
+          "spikeFrames": 1,
+          "uploadCPU": 0.21428571428571427,
+          "uploadMiB": 12.325119018554688,
+          "uploadMiBPerSecond": 17.094478527815102,
+          "uploadCalls": 175,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        },
+        "histogram": [
+          {
+            "label": "<15",
+            "min": 0,
+            "max": 15,
+            "count": 0
+          },
+          {
+            "label": "15-30",
+            "min": 15,
+            "max": 30,
+            "count": 0
+          },
+          {
+            "label": "30-45",
+            "min": 30,
+            "max": 45,
+            "count": 2
+          },
+          {
+            "label": "45-60",
+            "min": 45,
+            "max": 60,
+            "count": 25
+          },
+          {
+            "label": "60-90",
+            "min": 60,
+            "max": 90,
+            "count": 15
+          },
+          {
+            "label": "90-144",
+            "min": 90,
+            "max": 144,
+            "count": 0
+          },
+          {
+            "label": "144-240",
+            "min": 144,
+            "max": 240,
+            "count": 0
+          },
+          {
+            "label": "240+",
+            "min": 240,
+            "max": null,
+            "count": 0
+          }
+        ],
+        "spikes": [
+          {
+            "id": 3,
+            "time": 1247,
+            "interval": 32,
+            "rafInterval": 33.33999999999992,
+            "rafDelay": 4.059999999999945,
+            "work": 11,
+            "physics": 0,
+            "paint": 1,
+            "drops": 0,
+            "uploadPrep": 5,
+            "render": 3,
+            "hud": 0,
+            "profiler": 1,
+            "input": 1,
+            "other": 0,
+            "steps": 2,
+            "droppedSimMs": 0,
+            "uploadCPU": 3,
+            "uploadBytes": 8053828,
+            "uploadCalls": 20,
+            "gpu": -1,
+            "calls": 156,
+            "triangles": 63546,
+            "dolls": 3,
+            "activeBodies": 45,
+            "particles": 1,
+            "wounds": 1,
+            "paintQueue": 36,
+            "wetQueue": 19,
+            "workerPaintMS": 8,
+            "workerBitmapMS": 5,
+            "paintLatencyMS": 896,
+            "paintPending": 2,
+            "x": 0.1,
+            "y": 1.68,
+            "z": 4.1,
+            "tool": 0,
+            "held": 0,
+            "paused": 0,
+            "slow": 0,
+            "demo": 0,
+            "action": "",
+            "heapBytes": null
+          }
+        ],
+        "events": [],
+        "paintWorker": {
+          "backend": "OffscreenCanvas worker",
+          "raster": "CPU worker raster",
+          "reason": "",
+          "queued": 0,
+          "inFlight": 0,
+          "oldestPendingMS": 0,
+          "maxQueued": 157,
+          "jobs": 21,
+          "workerMS": 1,
+          "bitmapMS": 0,
+          "latencyMS": 3,
+          "meanWorkerMS": 0.6666666666666666,
+          "meanBitmapMS": 0.38095238095238093,
+          "maxLatencyMS": 896,
+          "canvases": 84,
+          "readyBitmaps": 0
+        },
+        "gpu": {
+          "supported": false,
+          "samples": 0,
+          "pending": 0,
+          "disjoints": 0
+        },
+        "observerTypes": [],
+        "last": {
+          "id": 42,
+          "time": 1909,
+          "interval": 18,
+          "rafInterval": 16.660000000000082,
+          "rafDelay": 0,
+          "work": 4,
+          "physics": 2,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 2,
+          "hud": 0,
+          "profiler": 0,
+          "input": 0,
+          "other": 0,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "uploadCPU": 0,
+          "uploadBytes": 1156,
+          "uploadCalls": 1,
+          "gpu": -1,
+          "calls": 156,
+          "triangles": 63546,
+          "dolls": 3,
+          "activeBodies": 45,
+          "particles": 1,
+          "wounds": 1,
+          "paintQueue": 0,
+          "wetQueue": 0,
+          "workerPaintMS": 1,
+          "workerBitmapMS": 0,
+          "paintLatencyMS": 3,
+          "paintPending": 0,
+          "x": 0.1,
+          "y": 1.68,
+          "z": 4.1,
+          "tool": 0,
+          "held": 0,
+          "paused": 0,
+          "slow": 0,
+          "demo": 0
+        },
+        "heapBytes": null,
+        "environment": {
+          "url": "null/C:/trontstack/smear/tools/out/spikes-grid-native-firefox/runtime.html",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:157.0) Gecko/20100101 Firefox/157.0",
+          "viewport": [
+            3000,
+            1800
+          ],
+          "pixelRatio": 1,
+          "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 980 Direct3D11 vs_5_0 ps_5_0), or similar",
+          "engine": "Three.js 140",
+          "tune": {
+            "grab": 1.25,
+            "pose": 1,
+            "impact": 1,
+            "bleeding": 1.35,
+            "transfer": 1,
+            "drying": 100,
+            "coverage": 1.12,
+            "damage": 1,
+            "look": 1,
+            "fov": 70,
+            "recover": false,
+            "walking": false
+          }
+        },
+        "exportedAt": "2026-10-02T21:31:48.332Z"
+      },
+      "gl": {
+        "calls": {
+          "texImage2D": {
+            "count": 10,
+            "total": 0,
+            "max": 0
+          },
+          "bufferData": {
+            "count": 436,
+            "total": 1,
+            "max": 1
+          },
+          "compileShader": {
+            "count": 28,
+            "total": 0,
+            "max": 0
+          },
+          "linkProgram": {
+            "count": 14,
+            "total": 0,
+            "max": 0
+          },
+          "getProgramParameter": {
+            "count": 40,
+            "total": 0,
+            "max": 0
+          },
+          "getActiveUniform": {
+            "count": 178,
+            "total": 0,
+            "max": 0
+          },
+          "getUniformLocation": {
+            "count": 178,
+            "total": 0,
+            "max": 0
+          },
+          "texSubImage2D": {
+            "count": 337,
+            "total": 113,
+            "max": 30
+          },
+          "getActiveAttrib": {
+            "count": 25,
+            "total": 0,
+            "max": 0
+          },
+          "drawArrays": {
+            "count": 20,
+            "total": 0,
+            "max": 0
+          },
+          "drawElements": {
+            "count": 10620,
+            "total": 1,
+            "max": 1
+          },
+          "drawElementsInstanced": {
+            "count": 266,
+            "total": 0,
+            "max": 0
+          },
+          "bufferSubData": {
+            "count": 217,
+            "total": 0,
+            "max": 0
+          }
+        },
+        "slow": [
+          {
+            "stage": "boot",
+            "name": "texSubImage2D",
+            "ms": 2,
+            "time": 1076
+          },
+          {
+            "stage": "boot",
+            "name": "texSubImage2D",
+            "ms": 2,
+            "time": 1082
+          },
+          {
+            "stage": "boot",
+            "name": "texSubImage2D",
+            "ms": 2,
+            "time": 1084
+          },
+          {
+            "stage": "boot",
+            "name": "texSubImage2D",
+            "ms": 2,
+            "time": 1087
+          },
+          {
+            "stage": "boot",
+            "name": "texSubImage2D",
+            "ms": 2,
+            "time": 1093
+          },
+          {
+            "stage": "boot",
+            "name": "texSubImage2D",
+            "ms": 2,
+            "time": 1100
+          },
+          {
+            "stage": "boot",
+            "name": "texSubImage2D",
+            "ms": 2,
+            "time": 1102
+          },
+          {
+            "stage": "boot",
+            "name": "texSubImage2D",
+            "ms": 28,
+            "time": 1111
+          },
+          {
+            "stage": "boot",
+            "name": "texSubImage2D",
+            "ms": 30,
+            "time": 1158
+          }
+        ]
+      },
+      "paint": {
+        "backend": "OffscreenCanvas worker",
+        "raster": "CPU worker raster",
+        "reason": "",
+        "queued": 0,
+        "inFlight": 0,
+        "oldestPendingMS": 0,
+        "maxQueued": 157,
+        "jobs": 21,
+        "workerMS": 1,
+        "bitmapMS": 0,
+        "latencyMS": 3,
+        "meanWorkerMS": 0.6666666666666666,
+        "meanBitmapMS": 0.38095238095238093,
+        "maxLatencyMS": 896,
+        "canvases": 84,
+        "readyBitmaps": 0
+      }
+    },
+    {
+      "stage": "first-pistol",
+      "telemetry": {
+        "schema": 1,
+        "version": "0.8.5",
+        "capturing": true,
+        "visible": true,
+        "capacity": 8192,
+        "windowMs": 15000,
+        "budgetMs": 16.666666666666668,
+        "totalFrames": 45,
+        "excludedGaps": 0,
+        "summary": {
+          "frames": 45,
+          "seconds": 0.756,
+          "fps": 59.523809523809526,
+          "latestFPS": 58.8235294117647,
+          "intervalMs": {
+            "p50": 17,
+            "p95": 18,
+            "p99": 25,
+            "max": 25
+          },
+          "workMs": 4.022222222222222,
+          "workPercentileMs": {
+            "p50": 4,
+            "p95": 5,
+            "p99": 19,
+            "max": 19
+          },
+          "phases": {
+            "physics": 0.8888888888888888,
+            "paint": 0.3111111111111111,
+            "drops": 0.044444444444444446,
+            "uploadPrep": 0.3111111111111111,
+            "render": 2,
+            "hud": 0.1111111111111111,
+            "profiler": 0.08888888888888889,
+            "input": 0.15555555555555556,
+            "other": 0.1111111111111111
+          },
+          "overBudget": 2,
+          "spikeFrames": 0,
+          "uploadCPU": 0.15555555555555556,
+          "uploadMiB": 6.890460968017578,
+          "uploadMiBPerSecond": 9.114366359811612,
+          "uploadCalls": 161,
+          "steps": 2.0444444444444443,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        },
+        "histogram": [
+          {
+            "label": "<15",
+            "min": 0,
+            "max": 15,
+            "count": 0
+          },
+          {
+            "label": "15-30",
+            "min": 15,
+            "max": 30,
+            "count": 0
+          },
+          {
+            "label": "30-45",
+            "min": 30,
+            "max": 45,
+            "count": 1
+          },
+          {
+            "label": "45-60",
+            "min": 45,
+            "max": 60,
+            "count": 27
+          },
+          {
+            "label": "60-90",
+            "min": 60,
+            "max": 90,
+            "count": 17
+          },
+          {
+            "label": "90-144",
+            "min": 90,
+            "max": 144,
+            "count": 0
+          },
+          {
+            "label": "144-240",
+            "min": 144,
+            "max": 240,
+            "count": 0
+          },
+          {
+            "label": "240+",
+            "min": 240,
+            "max": null,
+            "count": 0
+          }
+        ],
+        "spikes": [],
+        "events": [],
+        "paintWorker": {
+          "backend": "OffscreenCanvas worker",
+          "raster": "CPU worker raster",
+          "reason": "",
+          "queued": 0,
+          "inFlight": 2,
+          "oldestPendingMS": 13,
+          "maxQueued": 157,
+          "jobs": 56,
+          "workerMS": 0,
+          "bitmapMS": 0,
+          "latencyMS": 2,
+          "meanWorkerMS": 0.39285714285714285,
+          "meanBitmapMS": 0.14285714285714285,
+          "maxLatencyMS": 896,
+          "canvases": 87,
+          "readyBitmaps": 2
+        },
+        "gpu": {
+          "supported": false,
+          "samples": 0,
+          "pending": 0,
+          "disjoints": 0
+        },
+        "observerTypes": [],
+        "last": {
+          "id": 89,
+          "time": 2726,
+          "interval": 17,
+          "rafInterval": 16.679999999999836,
+          "rafDelay": 0,
+          "work": 3,
+          "physics": 1,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 1,
+          "render": 1,
+          "hud": 0,
+          "profiler": 0,
+          "input": 0,
+          "other": 0,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "uploadCPU": 1,
+          "uploadBytes": 507360,
+          "uploadCalls": 5,
+          "gpu": -1,
+          "calls": 182,
+          "triangles": 65396,
+          "dolls": 3,
+          "activeBodies": 45,
+          "particles": 22,
+          "wounds": 2,
+          "paintQueue": 0,
+          "wetQueue": 0,
+          "workerPaintMS": 0,
+          "workerBitmapMS": 0,
+          "paintLatencyMS": 3,
+          "paintPending": 1,
+          "x": 3.4,
+          "y": 1.68,
+          "z": 4.8,
+          "tool": 1,
+          "held": 0,
+          "paused": 0,
+          "slow": 0,
+          "demo": 0
+        },
+        "heapBytes": null,
+        "environment": {
+          "url": "null/C:/trontstack/smear/tools/out/spikes-grid-native-firefox/runtime.html",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:157.0) Gecko/20100101 Firefox/157.0",
+          "viewport": [
+            3000,
+            1800
+          ],
+          "pixelRatio": 1,
+          "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 980 Direct3D11 vs_5_0 ps_5_0), or similar",
+          "engine": "Three.js 140",
+          "tune": {
+            "grab": 1.25,
+            "pose": 1,
+            "impact": 1,
+            "bleeding": 1.35,
+            "transfer": 1,
+            "drying": 100,
+            "coverage": 1.12,
+            "damage": 1,
+            "look": 1,
+            "fov": 70,
+            "recover": false,
+            "walking": false
+          }
+        },
+        "exportedAt": "2026-10-02T21:31:49.151Z"
+      },
+      "gl": {
+        "calls": {
+          "texSubImage2D": {
+            "count": 166,
+            "total": 8,
+            "max": 1
+          },
+          "bufferSubData": {
+            "count": 232,
+            "total": 1,
+            "max": 1
+          },
+          "drawElements": {
+            "count": 12175,
+            "total": 2,
+            "max": 1
+          },
+          "drawElementsInstanced": {
+            "count": 320,
+            "total": 0,
+            "max": 0
+          },
+          "bufferData": {
+            "count": 8,
+            "total": 0,
+            "max": 0
+          },
+          "drawArrays": {
+            "count": 2,
+            "total": 0,
+            "max": 0
+          },
+          "compileShader": {
+            "count": 4,
+            "total": 0,
+            "max": 0
+          },
+          "linkProgram": {
+            "count": 2,
+            "total": 0,
+            "max": 0
+          },
+          "getProgramParameter": {
+            "count": 6,
+            "total": 0,
+            "max": 0
+          },
+          "getActiveUniform": {
+            "count": 10,
+            "total": 0,
+            "max": 0
+          },
+          "getUniformLocation": {
+            "count": 10,
+            "total": 1,
+            "max": 1
+          },
+          "getActiveAttrib": {
+            "count": 2,
+            "total": 0,
+            "max": 0
+          }
+        },
+        "slow": []
+      },
+      "paint": {
+        "backend": "OffscreenCanvas worker",
+        "raster": "CPU worker raster",
+        "reason": "",
+        "queued": 0,
+        "inFlight": 2,
+        "oldestPendingMS": 13,
+        "maxQueued": 157,
+        "jobs": 56,
+        "workerMS": 0,
+        "bitmapMS": 0,
+        "latencyMS": 2,
+        "meanWorkerMS": 0.39285714285714285,
+        "meanBitmapMS": 0.14285714285714285,
+        "maxLatencyMS": 896,
+        "canvases": 87,
+        "readyBitmaps": 2
+      }
+    },
+    {
+      "stage": "sustained-pistol",
+      "telemetry": {
+        "schema": 1,
+        "version": "0.8.5",
+        "capturing": true,
+        "visible": true,
+        "capacity": 8192,
+        "windowMs": 15000,
+        "budgetMs": 16.666666666666668,
+        "totalFrames": 598,
+        "excludedGaps": 0,
+        "summary": {
+          "frames": 598,
+          "seconds": 9.968,
+          "fps": 59.99197431781702,
+          "latestFPS": 55.55555555555556,
+          "intervalMs": {
+            "p50": 17,
+            "p95": 17,
+            "p99": 18,
+            "max": 19
+          },
+          "workMs": 4.5602006688963215,
+          "workPercentileMs": {
+            "p50": 4,
+            "p95": 6,
+            "p99": 7,
+            "max": 17
+          },
+          "phases": {
+            "physics": 0.8745819397993311,
+            "paint": 0.3494983277591973,
+            "drops": 0.2725752508361204,
+            "uploadPrep": 0.5334448160535117,
+            "render": 1.9966555183946488,
+            "hud": 0.12207357859531773,
+            "profiler": 0.10033444816053512,
+            "input": 0.1939799331103679,
+            "other": 0.11705685618729098
+          },
+          "overBudget": 2,
+          "spikeFrames": 0,
+          "uploadCPU": 0.34448160535117056,
+          "uploadMiB": 251.2791633605957,
+          "uploadMiBPerSecond": 25.208583804233115,
+          "uploadCalls": 4769,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        },
+        "histogram": [
+          {
+            "label": "<15",
+            "min": 0,
+            "max": 15,
+            "count": 0
+          },
+          {
+            "label": "15-30",
+            "min": 15,
+            "max": 30,
+            "count": 0
+          },
+          {
+            "label": "30-45",
+            "min": 30,
+            "max": 45,
+            "count": 0
+          },
+          {
+            "label": "45-60",
+            "min": 45,
+            "max": 60,
+            "count": 380
+          },
+          {
+            "label": "60-90",
+            "min": 60,
+            "max": 90,
+            "count": 218
+          },
+          {
+            "label": "90-144",
+            "min": 90,
+            "max": 144,
+            "count": 0
+          },
+          {
+            "label": "144-240",
+            "min": 144,
+            "max": 240,
+            "count": 0
+          },
+          {
+            "label": "240+",
+            "min": 240,
+            "max": null,
+            "count": 0
+          }
+        ],
+        "spikes": [],
+        "events": [],
+        "paintWorker": {
+          "backend": "OffscreenCanvas worker",
+          "raster": "CPU worker raster",
+          "reason": "",
+          "queued": 0,
+          "inFlight": 6,
+          "oldestPendingMS": 15,
+          "maxQueued": 157,
+          "jobs": 655,
+          "workerMS": 1,
+          "bitmapMS": 0,
+          "latencyMS": 4,
+          "meanWorkerMS": 0.5053435114503817,
+          "meanBitmapMS": 0.24580152671755726,
+          "maxLatencyMS": 896,
+          "canvases": 90,
+          "readyBitmaps": 3
+        },
+        "gpu": {
+          "supported": false,
+          "samples": 0,
+          "pending": 0,
+          "disjoints": 0
+        },
+        "observerTypes": [],
+        "last": {
+          "id": 688,
+          "time": 12709,
+          "interval": 18,
+          "rafInterval": 16.659999999999854,
+          "rafDelay": 0,
+          "work": 5,
+          "physics": 2,
+          "paint": 1,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 2,
+          "hud": 0,
+          "profiler": 0,
+          "input": 0,
+          "other": 0,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "uploadCPU": 0,
+          "uploadBytes": 323712,
+          "uploadCalls": 7,
+          "gpu": -1,
+          "calls": 181,
+          "triangles": 69812,
+          "dolls": 3,
+          "activeBodies": 45,
+          "particles": 142,
+          "wounds": 11,
+          "paintQueue": 0,
+          "wetQueue": 0,
+          "workerPaintMS": 0,
+          "workerBitmapMS": 0,
+          "paintLatencyMS": 6,
+          "paintPending": 6,
+          "x": 3.4,
+          "y": 1.68,
+          "z": 4.8,
+          "tool": 1,
+          "held": 0,
+          "paused": 0,
+          "slow": 0,
+          "demo": 0
+        },
+        "heapBytes": null,
+        "environment": {
+          "url": "null/C:/trontstack/smear/tools/out/spikes-grid-native-firefox/runtime.html",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:157.0) Gecko/20100101 Firefox/157.0",
+          "viewport": [
+            3000,
+            1800
+          ],
+          "pixelRatio": 1,
+          "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 980 Direct3D11 vs_5_0 ps_5_0), or similar",
+          "engine": "Three.js 140",
+          "tune": {
+            "grab": 1.25,
+            "pose": 1,
+            "impact": 1,
+            "bleeding": 1.35,
+            "transfer": 1,
+            "drying": 100,
+            "coverage": 1.12,
+            "damage": 1,
+            "look": 1,
+            "fov": 70,
+            "recover": false,
+            "walking": false
+          }
+        },
+        "exportedAt": "2026-10-02T21:31:59.136Z"
+      },
+      "gl": {
+        "calls": {
+          "texSubImage2D": {
+            "count": 4775,
+            "total": 206,
+            "max": 2
+          },
+          "bufferSubData": {
+            "count": 3038,
+            "total": 13,
+            "max": 1
+          },
+          "drawElements": {
+            "count": 155997,
+            "total": 27,
+            "max": 1
+          },
+          "drawElementsInstanced": {
+            "count": 4193,
+            "total": 3,
+            "max": 1
+          },
+          "drawArrays": {
+            "count": 72,
+            "total": 0,
+            "max": 0
+          }
+        },
+        "slow": [
+          {
+            "stage": "sustained-pistol",
+            "name": "texSubImage2D",
+            "ms": 2,
+            "time": 3695
+          }
+        ]
+      },
+      "paint": {
+        "backend": "OffscreenCanvas worker",
+        "raster": "CPU worker raster",
+        "reason": "",
+        "queued": 0,
+        "inFlight": 6,
+        "oldestPendingMS": 15,
+        "maxQueued": 157,
+        "jobs": 655,
+        "workerMS": 1,
+        "bitmapMS": 0,
+        "latencyMS": 4,
+        "meanWorkerMS": 0.5053435114503817,
+        "meanBitmapMS": 0.24580152671755726,
+        "maxLatencyMS": 896,
+        "canvases": 90,
+        "readyBitmaps": 3
+      }
+    },
+    {
+      "stage": "drag",
+      "telemetry": {
+        "schema": 1,
+        "version": "0.8.5",
+        "capturing": true,
+        "visible": true,
+        "capacity": 8192,
+        "windowMs": 15000,
+        "budgetMs": 16.666666666666668,
+        "totalFrames": 496,
+        "excludedGaps": 0,
+        "summary": {
+          "frames": 496,
+          "seconds": 8.267,
+          "fps": 59.99758074271199,
+          "latestFPS": 58.8235294117647,
+          "intervalMs": {
+            "p50": 17,
+            "p95": 17,
+            "p99": 18,
+            "max": 19
+          },
+          "workMs": 4.139112903225806,
+          "workPercentileMs": {
+            "p50": 4,
+            "p95": 5,
+            "p99": 6,
+            "max": 13
+          },
+          "phases": {
+            "physics": 0.7459677419354839,
+            "paint": 0.3407258064516129,
+            "drops": 0.056451612903225805,
+            "uploadPrep": 0.6088709677419355,
+            "render": 2.0161290322580645,
+            "hud": 0.08064516129032258,
+            "profiler": 0.1028225806451613,
+            "input": 0.1028225806451613,
+            "other": 0.0846774193548387
+          },
+          "overBudget": 1,
+          "spikeFrames": 0,
+          "uploadCPU": 0.3649193548387097,
+          "uploadMiB": 222.24026107788086,
+          "uploadMiBPerSecond": 26.882818565124094,
+          "uploadCalls": 3032,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        },
+        "histogram": [
+          {
+            "label": "<15",
+            "min": 0,
+            "max": 15,
+            "count": 0
+          },
+          {
+            "label": "15-30",
+            "min": 15,
+            "max": 30,
+            "count": 0
+          },
+          {
+            "label": "30-45",
+            "min": 30,
+            "max": 45,
+            "count": 0
+          },
+          {
+            "label": "45-60",
+            "min": 45,
+            "max": 60,
+            "count": 320
+          },
+          {
+            "label": "60-90",
+            "min": 60,
+            "max": 90,
+            "count": 176
+          },
+          {
+            "label": "90-144",
+            "min": 90,
+            "max": 144,
+            "count": 0
+          },
+          {
+            "label": "144-240",
+            "min": 144,
+            "max": 240,
+            "count": 0
+          },
+          {
+            "label": "240+",
+            "min": 240,
+            "max": null,
+            "count": 0
+          }
+        ],
+        "spikes": [],
+        "events": [],
+        "paintWorker": {
+          "backend": "OffscreenCanvas worker",
+          "raster": "CPU worker raster",
+          "reason": "",
+          "queued": 0,
+          "inFlight": 67,
+          "oldestPendingMS": 7,
+          "maxQueued": 274,
+          "jobs": 1144,
+          "workerMS": 5,
+          "bitmapMS": 0,
+          "latencyMS": 7,
+          "meanWorkerMS": 2.5262237762237763,
+          "meanBitmapMS": 0.2727272727272727,
+          "maxLatencyMS": 896,
+          "canvases": 90,
+          "readyBitmaps": 0
+        },
+        "gpu": {
+          "supported": false,
+          "samples": 0,
+          "pending": 0,
+          "disjoints": 0
+        },
+        "observerTypes": [],
+        "last": {
+          "id": 1211,
+          "time": 21660,
+          "interval": 17,
+          "rafInterval": 16.659999999999854,
+          "rafDelay": 0.47999999999956344,
+          "work": 4,
+          "physics": 0,
+          "paint": 1,
+          "drops": 0,
+          "uploadPrep": 1,
+          "render": 2,
+          "hud": 0,
+          "profiler": 0,
+          "input": 0,
+          "other": 0,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "uploadCPU": 0,
+          "uploadBytes": 526788,
+          "uploadCalls": 10,
+          "gpu": -1,
+          "calls": 165,
+          "triangles": 63836,
+          "dolls": 3,
+          "activeBodies": 45,
+          "particles": 4,
+          "wounds": 23,
+          "paintQueue": 0,
+          "wetQueue": 0,
+          "workerPaintMS": 5,
+          "workerBitmapMS": 0,
+          "paintLatencyMS": 7,
+          "paintPending": 64,
+          "x": 3.4,
+          "y": 1.68,
+          "z": 4.8,
+          "tool": 0,
+          "held": 1,
+          "paused": 0,
+          "slow": 0,
+          "demo": 0
+        },
+        "heapBytes": null,
+        "environment": {
+          "url": "null/C:/trontstack/smear/tools/out/spikes-grid-native-firefox/runtime.html",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:157.0) Gecko/20100101 Firefox/157.0",
+          "viewport": [
+            3000,
+            1800
+          ],
+          "pixelRatio": 1,
+          "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 980 Direct3D11 vs_5_0 ps_5_0), or similar",
+          "engine": "Three.js 140",
+          "tune": {
+            "grab": 1.25,
+            "pose": 1,
+            "impact": 1,
+            "bleeding": 1.35,
+            "transfer": 1,
+            "drying": 100,
+            "coverage": 1.12,
+            "damage": 1,
+            "look": 1,
+            "fov": 70,
+            "recover": false,
+            "walking": false
+          }
+        },
+        "exportedAt": "2026-10-02T21:32:08.080Z"
+      },
+      "gl": {
+        "calls": {
+          "texSubImage2D": {
+            "count": 3038,
+            "total": 179,
+            "max": 2
+          },
+          "bufferSubData": {
+            "count": 2980,
+            "total": 16,
+            "max": 1
+          },
+          "drawElements": {
+            "count": 121269,
+            "total": 32,
+            "max": 1
+          },
+          "drawElementsInstanced": {
+            "count": 2982,
+            "total": 3,
+            "max": 1
+          },
+          "bufferData": {
+            "count": 5,
+            "total": 0,
+            "max": 0
+          },
+          "getProgramParameter": {
+            "count": 1,
+            "total": 0,
+            "max": 0
+          },
+          "getActiveAttrib": {
+            "count": 1,
+            "total": 0,
+            "max": 0
+          },
+          "drawArrays": {
+            "count": 496,
+            "total": 1,
+            "max": 1
+          }
+        },
+        "slow": [
+          {
+            "stage": "drag",
+            "name": "texSubImage2D",
+            "ms": 2,
+            "time": 15077
+          },
+          {
+            "stage": "drag",
+            "name": "texSubImage2D",
+            "ms": 2,
+            "time": 16977
+          }
+        ]
+      },
+      "paint": {
+        "backend": "OffscreenCanvas worker",
+        "raster": "CPU worker raster",
+        "reason": "",
+        "queued": 0,
+        "inFlight": 67,
+        "oldestPendingMS": 9,
+        "maxQueued": 274,
+        "jobs": 1144,
+        "workerMS": 5,
+        "bitmapMS": 0,
+        "latencyMS": 7,
+        "meanWorkerMS": 2.5262237762237763,
+        "meanBitmapMS": 0.2727272727272727,
+        "maxLatencyMS": 896,
+        "canvases": 90,
+        "readyBitmaps": 0
+      }
+    },
+    {
+      "stage": "chaos",
+      "telemetry": {
+        "schema": 1,
+        "version": "0.8.5",
+        "capturing": true,
+        "visible": true,
+        "capacity": 8192,
+        "windowMs": 15000,
+        "budgetMs": 16.666666666666668,
+        "totalFrames": 279,
+        "excludedGaps": 0,
+        "summary": {
+          "frames": 279,
+          "seconds": 5.016,
+          "fps": 55.622009569377994,
+          "latestFPS": 58.8235294117647,
+          "intervalMs": {
+            "p50": 17,
+            "p95": 25,
+            "p99": 29,
+            "max": 31
+          },
+          "workMs": 12.164874551971327,
+          "workPercentileMs": {
+            "p50": 12,
+            "p95": 18,
+            "p99": 22,
+            "max": 22
+          },
+          "phases": {
+            "physics": 4.910394265232975,
+            "paint": 1.189964157706093,
+            "drops": 0.4659498207885305,
+            "uploadPrep": 1.3942652329749103,
+            "render": 3.7096774193548385,
+            "hud": 0.043010752688172046,
+            "profiler": 0.11469534050179211,
+            "input": 0.1863799283154122,
+            "other": 0.15053763440860216
+          },
+          "overBudget": 101,
+          "spikeFrames": 11,
+          "uploadCPU": 1.114695340501792,
+          "uploadMiB": 499.06532287597656,
+          "uploadMiBPerSecond": 99.49468159409422,
+          "uploadCalls": 7018,
+          "steps": 2.161290322580645,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        },
+        "histogram": [
+          {
+            "label": "<15",
+            "min": 0,
+            "max": 15,
+            "count": 0
+          },
+          {
+            "label": "15-30",
+            "min": 15,
+            "max": 30,
+            "count": 0
+          },
+          {
+            "label": "30-45",
+            "min": 30,
+            "max": 45,
+            "count": 28
+          },
+          {
+            "label": "45-60",
+            "min": 45,
+            "max": 60,
+            "count": 154
+          },
+          {
+            "label": "60-90",
+            "min": 60,
+            "max": 90,
+            "count": 94
+          },
+          {
+            "label": "90-144",
+            "min": 90,
+            "max": 144,
+            "count": 3
+          },
+          {
+            "label": "144-240",
+            "min": 144,
+            "max": 240,
+            "count": 0
+          },
+          {
+            "label": "240+",
+            "min": 240,
+            "max": null,
+            "count": 0
+          }
+        ],
+        "spikes": [
+          {
+            "id": 1249,
+            "time": 22728,
+            "interval": 27,
+            "rafInterval": 16.68000000000029,
+            "rafDelay": 1.819999999999709,
+            "work": 20,
+            "physics": 6,
+            "paint": 3,
+            "drops": 1,
+            "uploadPrep": 2,
+            "render": 7,
+            "hud": 0,
+            "profiler": 0,
+            "input": 1,
+            "other": 0,
+            "steps": 3,
+            "droppedSimMs": 0,
+            "uploadCPU": 1,
+            "uploadBytes": 4297928,
+            "uploadCalls": 31,
+            "gpu": -1,
+            "calls": 269,
+            "triangles": 219028,
+            "dolls": 10,
+            "activeBodies": 150,
+            "particles": 439,
+            "wounds": 41,
+            "paintQueue": 14,
+            "wetQueue": 8,
+            "workerPaintMS": 3,
+            "workerBitmapMS": 2,
+            "paintLatencyMS": 21,
+            "paintPending": 80,
+            "x": 3.4,
+            "y": 1.68,
+            "z": 4.8,
+            "tool": 0,
+            "held": 0,
+            "paused": 0,
+            "slow": 0,
+            "demo": 0,
+            "action": "",
+            "heapBytes": null
+          },
+          {
+            "id": 1251,
+            "time": 22780,
+            "interval": 29,
+            "rafInterval": 16.68000000000029,
+            "rafDelay": 3.819999999999709,
+            "work": 21,
+            "physics": 8,
+            "paint": 2,
+            "drops": 0,
+            "uploadPrep": 4,
+            "render": 4,
+            "hud": 0,
+            "profiler": 0,
+            "input": 1,
+            "other": 2,
+            "steps": 3,
+            "droppedSimMs": 0,
+            "uploadCPU": 4,
+            "uploadBytes": 7477592,
+            "uploadCalls": 49,
+            "gpu": -1,
+            "calls": 272,
+            "triangles": 220992,
+            "dolls": 10,
+            "activeBodies": 150,
+            "particles": 468,
+            "wounds": 45,
+            "paintQueue": 16,
+            "wetQueue": 7,
+            "workerPaintMS": 7,
+            "workerBitmapMS": 6,
+            "paintLatencyMS": 23,
+            "paintPending": 140,
+            "x": 3.4,
+            "y": 1.68,
+            "z": 4.8,
+            "tool": 0,
+            "held": 0,
+            "paused": 0,
+            "slow": 0,
+            "demo": 0,
+            "action": "",
+            "heapBytes": null
+          },
+          {
+            "id": 1253,
+            "time": 22833,
+            "interval": 27,
+            "rafInterval": 33.340000000000146,
+            "rafDelay": 6.819999999999709,
+            "work": 19,
+            "physics": 7,
+            "paint": 2,
+            "drops": 1,
+            "uploadPrep": 4,
+            "render": 5,
+            "hud": 0,
+            "profiler": 0,
+            "input": 0,
+            "other": 0,
+            "steps": 3,
+            "droppedSimMs": 0,
+            "uploadCPU": 4,
+            "uploadBytes": 7089848,
+            "uploadCalls": 52,
+            "gpu": -1,
+            "calls": 272,
+            "triangles": 221820,
+            "dolls": 10,
+            "activeBodies": 150,
+            "particles": 491,
+            "wounds": 52,
+            "paintQueue": 14,
+            "wetQueue": 16,
+            "workerPaintMS": 7,
+            "workerBitmapMS": 4,
+            "paintLatencyMS": 23,
+            "paintPending": 194,
+            "x": 3.4,
+            "y": 1.68,
+            "z": 4.8,
+            "tool": 0,
+            "held": 0,
+            "paused": 0,
+            "slow": 0,
+            "demo": 0,
+            "action": "",
+            "heapBytes": null
+          },
+          {
+            "id": 1254,
+            "time": 22860,
+            "interval": 29,
+            "rafInterval": 16.659999999999854,
+            "rafDelay": 0.47999999999956344,
+            "work": 22,
+            "physics": 7,
+            "paint": 4,
+            "drops": 1,
+            "uploadPrep": 5,
+            "render": 4,
+            "hud": 0,
+            "profiler": 0,
+            "input": 0,
+            "other": 1,
+            "steps": 4,
+            "droppedSimMs": 0,
+            "uploadCPU": 3,
+            "uploadBytes": 5736248,
+            "uploadCalls": 37,
+            "gpu": -1,
+            "calls": 272,
+            "triangles": 220632,
+            "dolls": 10,
+            "activeBodies": 150,
+            "particles": 458,
+            "wounds": 54,
+            "paintQueue": 12,
+            "wetQueue": 8,
+            "workerPaintMS": 9,
+            "workerBitmapMS": 3,
+            "paintLatencyMS": 25,
+            "paintPending": 252,
+            "x": 3.4,
+            "y": 1.68,
+            "z": 4.8,
+            "tool": 0,
+            "held": 0,
+            "paused": 0,
+            "slow": 0,
+            "demo": 0,
+            "action": "",
+            "heapBytes": null
+          },
+          {
+            "id": 1256,
+            "time": 22914,
+            "interval": 31,
+            "rafInterval": 33.340000000000146,
+            "rafDelay": 4.479999999999563,
+            "work": 22,
+            "physics": 7,
+            "paint": 2,
+            "drops": 2,
+            "uploadPrep": 5,
+            "render": 5,
+            "hud": 0,
+            "profiler": 0,
+            "input": 0,
+            "other": 1,
+            "steps": 3,
+            "droppedSimMs": 0,
+            "uploadCPU": 5,
+            "uploadBytes": 8166092,
+            "uploadCalls": 51,
+            "gpu": -1,
+            "calls": 273,
+            "triangles": 219050,
+            "dolls": 10,
+            "activeBodies": 150,
+            "particles": 414,
+            "wounds": 57,
+            "paintQueue": 17,
+            "wetQueue": 20,
+            "workerPaintMS": 12,
+            "workerBitmapMS": 3,
+            "paintLatencyMS": 51,
+            "paintPending": 869,
+            "x": 3.4,
+            "y": 1.68,
+            "z": 4.8,
+            "tool": 0,
+            "held": 0,
+            "paused": 0,
+            "slow": 0,
+            "demo": 0,
+            "action": "",
+            "heapBytes": null
+          },
+          {
+            "id": 1258,
+            "time": 22962,
+            "interval": 27,
+            "rafInterval": 16.659999999999854,
+            "rafDelay": 2.4799999999995634,
+            "work": 19,
+            "physics": 4,
+            "paint": 1,
+            "drops": 3,
+            "uploadPrep": 6,
+            "render": 5,
+            "hud": 0,
+            "profiler": 0,
+            "input": 0,
+            "other": 0,
+            "steps": 2,
+            "droppedSimMs": 0,
+            "uploadCPU": 7,
+            "uploadBytes": 9856220,
+            "uploadCalls": 64,
+            "gpu": -1,
+            "calls": 273,
+            "triangles": 217502,
+            "dolls": 10,
+            "activeBodies": 150,
+            "particles": 371,
+            "wounds": 58,
+            "paintQueue": 15,
+            "wetQueue": 18,
+            "workerPaintMS": 21,
+            "workerBitmapMS": 4,
+            "paintLatencyMS": 71,
+            "paintPending": 844,
+            "x": 3.4,
+            "y": 1.68,
+            "z": 4.8,
+            "tool": 0,
+            "held": 0,
+            "paused": 0,
+            "slow": 0,
+            "demo": 0,
+            "action": "",
+            "heapBytes": null
+          },
+          {
+            "id": 1260,
+            "time": 23003,
+            "interval": 26,
+            "rafInterval": 33.340000000000146,
+            "rafDelay": 10.159999999999854,
+            "work": 19,
+            "physics": 4,
+            "paint": 3,
+            "drops": 0,
+            "uploadPrep": 7,
+            "render": 5,
+            "hud": 0,
+            "profiler": 0,
+            "input": 0,
+            "other": 0,
+            "steps": 2,
+            "droppedSimMs": 0,
+            "uploadCPU": 5,
+            "uploadBytes": 9870720,
+            "uploadCalls": 65,
+            "gpu": -1,
+            "calls": 275,
+            "triangles": 216486,
+            "dolls": 10,
+            "activeBodies": 150,
+            "particles": 319,
+            "wounds": 58,
+            "paintQueue": 19,
+            "wetQueue": 22,
+            "workerPaintMS": 16,
+            "workerBitmapMS": 5,
+            "paintLatencyMS": 56,
+            "paintPending": 763,
+            "x": 3.4,
+            "y": 1.68,
+            "z": 4.8,
+            "tool": 0,
+            "held": 0,
+            "paused": 0,
+            "slow": 0,
+            "demo": 0,
+            "action": "",
+            "heapBytes": null
+          },
+          {
+            "id": 1266,
+            "time": 23130,
+            "interval": 27,
+            "rafInterval": 16.659999999999854,
+            "rafDelay": 3.819999999999709,
+            "work": 19,
+            "physics": 7,
+            "paint": 4,
+            "drops": 0,
+            "uploadPrep": 3,
+            "render": 5,
+            "hud": 0,
+            "profiler": 0,
+            "input": 0,
+            "other": 0,
+            "steps": 3,
+            "droppedSimMs": 0,
+            "uploadCPU": 3,
+            "uploadBytes": 4507120,
+            "uploadCalls": 40,
+            "gpu": -1,
+            "calls": 275,
+            "triangles": 217746,
+            "dolls": 10,
+            "activeBodies": 150,
+            "particles": 354,
+            "wounds": 66,
+            "paintQueue": 5,
+            "wetQueue": 18,
+            "workerPaintMS": 3,
+            "workerBitmapMS": 2,
+            "paintLatencyMS": 22,
+            "paintPending": 110,
+            "x": 3.4,
+            "y": 1.68,
+            "z": 4.8,
+            "tool": 0,
+            "held": 0,
+            "paused": 0,
+            "slow": 0,
+            "demo": 0,
+            "action": "",
+            "heapBytes": null
+          },
+          {
+            "id": 1278,
+            "time": 23413,
+            "interval": 26,
+            "rafInterval": 16.659999999999854,
+            "rafDelay": 3.4799999999995634,
+            "work": 19,
+            "physics": 7,
+            "paint": 1,
+            "drops": 1,
+            "uploadPrep": 4,
+            "render": 6,
+            "hud": 0,
+            "profiler": 0,
+            "input": 0,
+            "other": 0,
+            "steps": 3,
+            "droppedSimMs": 0,
+            "uploadCPU": 2,
+            "uploadBytes": 3992636,
+            "uploadCalls": 30,
+            "gpu": -1,
+            "calls": 277,
+            "triangles": 213922,
+            "dolls": 10,
+            "activeBodies": 150,
+            "particles": 224,
+            "wounds": 67,
+            "paintQueue": 16,
+            "wetQueue": 25,
+            "workerPaintMS": 3,
+            "workerBitmapMS": 1,
+            "paintLatencyMS": 17,
+            "paintPending": 619,
+            "x": 3.4,
+            "y": 1.68,
+            "z": 4.8,
+            "tool": 0,
+            "held": 0,
+            "paused": 0,
+            "slow": 0,
+            "demo": 0,
+            "action": "",
+            "heapBytes": null
+          },
+          {
+            "id": 1279,
+            "time": 23439,
+            "interval": 29,
+            "rafInterval": 33.340000000000146,
+            "rafDelay": 12.819999999999709,
+            "work": 21,
+            "physics": 7,
+            "paint": 1,
+            "drops": 2,
+            "uploadPrep": 4,
+            "render": 5,
+            "hud": 0,
+            "profiler": 1,
+            "input": 0,
+            "other": 1,
+            "steps": 3,
+            "droppedSimMs": 0,
+            "uploadCPU": 2,
+            "uploadBytes": 6332032,
+            "uploadCalls": 50,
+            "gpu": -1,
+            "calls": 277,
+            "triangles": 213706,
+            "dolls": 10,
+            "activeBodies": 150,
+            "particles": 218,
+            "wounds": 67,
+            "paintQueue": 14,
+            "wetQueue": 21,
+            "workerPaintMS": 8,
+            "workerBitmapMS": 3,
+            "paintLatencyMS": 24,
+            "paintPending": 81,
+            "x": 3.4,
+            "y": 1.68,
+            "z": 4.8,
+            "tool": 0,
+            "held": 0,
+            "paused": 0,
+            "slow": 0,
+            "demo": 0,
+            "action": "",
+            "heapBytes": null
+          },
+          {
+            "id": 1280,
+            "time": 23468,
+            "interval": 29,
+            "rafInterval": 33.31999999999971,
+            "rafDelay": 8.479999999999563,
+            "work": 22,
+            "physics": 9,
+            "paint": 4,
+            "drops": 1,
+            "uploadPrep": 2,
+            "render": 5,
+            "hud": 1,
+            "profiler": 0,
+            "input": 0,
+            "other": 0,
+            "steps": 4,
+            "droppedSimMs": 0,
+            "uploadCPU": 1,
+            "uploadBytes": 2952636,
+            "uploadCalls": 29,
+            "gpu": -1,
+            "calls": 277,
+            "triangles": 213130,
+            "dolls": 10,
+            "activeBodies": 150,
+            "particles": 202,
+            "wounds": 67,
+            "paintQueue": 15,
+            "wetQueue": 24,
+            "workerPaintMS": 3,
+            "workerBitmapMS": 1,
+            "paintLatencyMS": 25,
+            "paintPending": 641,
+            "x": 3.4,
+            "y": 1.68,
+            "z": 4.8,
+            "tool": 0,
+            "held": 0,
+            "paused": 0,
+            "slow": 0,
+            "demo": 0,
+            "action": "",
+            "heapBytes": null
+          }
+        ],
+        "events": [],
+        "paintWorker": {
+          "backend": "OffscreenCanvas worker",
+          "raster": "CPU worker raster",
+          "reason": "",
+          "queued": 11,
+          "inFlight": 142,
+          "oldestPendingMS": 42,
+          "maxQueued": 1218,
+          "jobs": 1361,
+          "workerMS": 1,
+          "bitmapMS": 1,
+          "latencyMS": 36,
+          "meanWorkerMS": 2.6113152094048493,
+          "meanBitmapMS": 0.45407788390889053,
+          "maxLatencyMS": 896,
+          "canvases": 203,
+          "readyBitmaps": 0
+        },
+        "gpu": {
+          "supported": false,
+          "samples": 0,
+          "pending": 0,
+          "disjoints": 0
+        },
+        "observerTypes": [],
+        "last": {
+          "id": 1525,
+          "time": 27679,
+          "interval": 17,
+          "rafInterval": 16.68000000000029,
+          "rafDelay": 2.8400000000001455,
+          "work": 11,
+          "physics": 4,
+          "paint": 2,
+          "drops": 0,
+          "uploadPrep": 1,
+          "render": 4,
+          "hud": 0,
+          "profiler": 0,
+          "input": 0,
+          "other": 0,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "uploadCPU": 1,
+          "uploadBytes": 1764708,
+          "uploadCalls": 23,
+          "gpu": -1,
+          "calls": 277,
+          "triangles": 208378,
+          "dolls": 10,
+          "activeBodies": 150,
+          "particles": 70,
+          "wounds": 68,
+          "paintQueue": 9,
+          "wetQueue": 8,
+          "workerPaintMS": 1,
+          "workerBitmapMS": 1,
+          "paintLatencyMS": 36,
+          "paintPending": 142,
+          "x": 3.4,
+          "y": 1.68,
+          "z": 4.8,
+          "tool": 0,
+          "held": 0,
+          "paused": 0,
+          "slow": 0,
+          "demo": 0
+        },
+        "heapBytes": null,
+        "environment": {
+          "url": "null/C:/trontstack/smear/tools/out/spikes-grid-native-firefox/runtime.html",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:157.0) Gecko/20100101 Firefox/157.0",
+          "viewport": [
+            3000,
+            1800
+          ],
+          "pixelRatio": 1,
+          "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 980 Direct3D11 vs_5_0 ps_5_0), or similar",
+          "engine": "Three.js 140",
+          "tune": {
+            "grab": 1.25,
+            "pose": 1,
+            "impact": 1,
+            "bleeding": 1.35,
+            "transfer": 1,
+            "drying": 100,
+            "coverage": 1.12,
+            "damage": 1,
+            "look": 1,
+            "fov": 70,
+            "recover": false,
+            "walking": false
+          }
+        },
+        "exportedAt": "2026-10-02T21:32:14.106Z"
+      },
+      "gl": {
+        "calls": {
+          "texSubImage2D": {
+            "count": 7028,
+            "total": 307,
+            "max": 2
+          },
+          "bufferSubData": {
+            "count": 1400,
+            "total": 12,
+            "max": 1
+          },
+          "drawElements": {
+            "count": 133180,
+            "total": 21,
+            "max": 1
+          },
+          "drawElementsInstanced": {
+            "count": 1680,
+            "total": 1,
+            "max": 1
+          },
+          "bufferData": {
+            "count": 8,
+            "total": 0,
+            "max": 0
+          }
+        },
+        "slow": [
+          {
+            "stage": "chaos",
+            "name": "texSubImage2D",
+            "ms": 2,
+            "time": 23001
+          },
+          {
+            "stage": "chaos",
+            "name": "texSubImage2D",
+            "ms": 2,
+            "time": 23424
+          },
+          {
+            "stage": "chaos",
+            "name": "texSubImage2D",
+            "ms": 2,
+            "time": 23520
+          },
+          {
+            "stage": "chaos",
+            "name": "texSubImage2D",
+            "ms": 2,
+            "time": 23552
+          },
+          {
+            "stage": "chaos",
+            "name": "texSubImage2D",
+            "ms": 2,
+            "time": 23914
+          },
+          {
+            "stage": "chaos",
+            "name": "texSubImage2D",
+            "ms": 2,
+            "time": 25168
+          },
+          {
+            "stage": "chaos",
+            "name": "texSubImage2D",
+            "ms": 2,
+            "time": 27434
+          }
+        ]
+      },
+      "paint": {
+        "backend": "OffscreenCanvas worker",
+        "raster": "CPU worker raster",
+        "reason": "",
+        "queued": 11,
+        "inFlight": 142,
+        "oldestPendingMS": 47,
+        "maxQueued": 1218,
+        "jobs": 1361,
+        "workerMS": 1,
+        "bitmapMS": 1,
+        "latencyMS": 36,
+        "meanWorkerMS": 2.6113152094048493,
+        "meanBitmapMS": 0.45407788390889053,
+        "maxLatencyMS": 896,
+        "canvases": 203,
+        "readyBitmaps": 0
+      }
+    }
+  ],
+  "errors": [],
+  "sourceSha256": "da4e8ec8cd8471d7b85e00dc6fd4e4982f3ba7e2738e4a15c431deedcacb6d3a"
+}

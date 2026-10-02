@@ -1,0 +1,36 @@
+{
+  "checks": [
+    {
+      "scenario": "room",
+      "ticks": 600,
+      "sha256": "5b6f46c586f0137e938456508257bacf86c266bb4717fb5cbe985d24804e194e"
+    },
+    {
+      "scenario": "chaos",
+      "ticks": 600,
+      "sha256": "f3af4782cd01528c04081ee4de54302ba55fef95bae7271b7210b22ad3c57a91"
+    },
+    {
+      "scenario": "pile",
+      "ticks": 600,
+      "sha256": "4ac6cc20951de819fe4231a60208d5607784929775fe421f9820fb8244fcc6c0"
+    },
+    {
+      "scenario": "boundary",
+      "ticks": 600,
+      "sha256": "03bf61d6b969a6150122940ff07ff8a74590e18e5cf2ff5942d8f7c76662ba60"
+    },
+    {
+      "scenario": "overflow",
+      "ticks": 600,
+      "sha256": "999154628e614d0bc90c86ff54957783fd4b8e248ec7e427435ca9aef3db5856"
+    },
+    {
+      "scenario": "recovery",
+      "ticks": 600,
+      "sha256": "79a541132059397483279216f82dbeb6921c10816253e24378f1a819e4c35f03"
+    }
+  ],
+  "errors": [],
+  "result": "COMPLETE physics preservation checks passed"
+}

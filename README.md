@@ -2,7 +2,7 @@
 
 A blood-and-contact ragdoll playground by Trent Sterling / Tront. Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V8.5 / 0.8.5** continues the DRAGMARK prototype under the name SMEAR.
+**V8.6 / 0.8.6** continues the DRAGMARK prototype under the name SMEAR.
 
 **Play:** https://tront.xyz/smear/ · **Source:** https://github.com/TrentSterling/smear
 
@@ -20,6 +20,8 @@ Open `index.html` in desktop Firefox, Zen, Chrome, or Edge with hardware acceler
 - Controls or About: run the built-in smear demo.
 
 Stains last for the session. Tuning saves in browser storage; V8 migrates available settings from `dragmark.tune.v7` into `smear.tune.v8` on the same browser origin.
+
+V8.6 retains pistol tracer programs, uses dynamic collision broad phases and GPU-instanced ragdoll details, and separates animated HUD elements into small canvases. It also resumes automatically after graphics-context restoration. See [V8.6 measurements and verification](docs/qa/performance-v8.6.md).
 
 V8.5 moves brush rasterization into an embedded OffscreenCanvas worker and transfers only changed regions to WebGL as ImageBitmaps. Gameplay sends contact events; the worker expands the original bristles. Persistent pigment stays off the main thread during play, while wet transfer and physics remain deterministic. The synchronous backend handles unsupported browsers and bounded worker overload. See [worker painting measurements and verification](docs/qa/performance-v8.5.md). The [V8.4 fixes](docs/qa/performance-v8.4.md) include floor Spill, particle pooling, collision caching, and retained HUD drawing.
 

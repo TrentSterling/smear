@@ -1,0 +1,10 @@
+{
+  "checks": [
+    "180-body room",
+    "out-of-grid body collisions",
+    "equal-distance collision ordering",
+    "fast segments across multiple cells"
+  ],
+  "errors": [],
+  "result": "COMPLETE particle collision checks passed"
+}

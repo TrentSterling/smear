@@ -1,0 +1,5073 @@
+{
+  "browser": "Firefox",
+  "checks": [
+    "initial HUD",
+    "button hover",
+    "button hover cleared",
+    "pistol reticle",
+    "reticle moved",
+    "recoil and hit marker",
+    "hit marker expired",
+    "hover tooltip",
+    "subpixel tooltip moved",
+    "tooltip clamped",
+    "tooltip removed",
+    "grab hint and reticle",
+    "released grab",
+    "paused HUD",
+    "slow HUD",
+    "HUD hidden",
+    "HUD restored",
+    "controls panel",
+    "tuning panel",
+    "live tuning change",
+    "about panel",
+    "reset panel",
+    "close panel and change modes",
+    "profiler panel open",
+    "toast expired",
+    "resize"
+  ],
+  "audits": [
+    {
+      "name": "initial HUD",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ]
+    },
+    {
+      "name": "button hover",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ]
+    },
+    {
+      "name": "button hover cleared",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ]
+    },
+    {
+      "name": "pistol reticle",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ]
+    },
+    {
+      "name": "reticle moved",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ]
+    },
+    {
+      "name": "recoil and hit marker",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ]
+    },
+    {
+      "name": "hit marker expired",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ]
+    },
+    {
+      "name": "hover tooltip",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ]
+    },
+    {
+      "name": "subpixel tooltip moved",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ]
+    },
+    {
+      "name": "tooltip clamped",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ]
+    },
+    {
+      "name": "tooltip removed",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ]
+    },
+    {
+      "name": "grab hint and reticle",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ]
+    },
+    {
+      "name": "released grab",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ]
+    },
+    {
+      "name": "paused HUD",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ]
+    },
+    {
+      "name": "slow HUD",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ]
+    },
+    {
+      "name": "HUD hidden",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [],
+      "referenceButtons": []
+    },
+    {
+      "name": "HUD restored",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: Free",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Walk",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound on",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ]
+    },
+    {
+      "name": "controls panel",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Close",
+          "x": 1199,
+          "y": 265,
+          "w": 71,
+          "h": 34
+        },
+        {
+          "label": "Play smear demo",
+          "x": 651,
+          "y": 769,
+          "w": 151,
+          "h": 38
+        },
+        {
+          "label": "Center camera",
+          "x": 812,
+          "y": 769,
+          "w": 137,
+          "h": 38
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Close",
+          "x": 1199,
+          "y": 265,
+          "w": 71,
+          "h": 34
+        },
+        {
+          "label": "Play smear demo",
+          "x": 651,
+          "y": 769,
+          "w": 151,
+          "h": 38
+        },
+        {
+          "label": "Center camera",
+          "x": 812,
+          "y": 769,
+          "w": 137,
+          "h": 38
+        }
+      ]
+    },
+    {
+      "name": "tuning panel",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Close",
+          "x": 1151,
+          "y": 282,
+          "w": 71,
+          "h": 34
+        },
+        {
+          "label": "Handling",
+          "x": 699,
+          "y": 333,
+          "w": 104,
+          "h": 34
+        },
+        {
+          "label": "Blood",
+          "x": 810,
+          "y": 333,
+          "w": 104,
+          "h": 34
+        },
+        {
+          "label": "Camera",
+          "x": 921,
+          "y": 333,
+          "w": 104,
+          "h": 34
+        },
+        {
+          "label": "Bleeding",
+          "x": 857,
+          "y": 385,
+          "w": 299,
+          "h": 32
+        },
+        {
+          "label": "Wet transfer",
+          "x": 857,
+          "y": 432,
+          "w": 299,
+          "h": 32
+        },
+        {
+          "label": "Drying time",
+          "x": 857,
+          "y": 479,
+          "w": 299,
+          "h": 32
+        },
+        {
+          "label": "Brush coverage",
+          "x": 857,
+          "y": 526,
+          "w": 299,
+          "h": 32
+        },
+        {
+          "label": "Stop bleeding",
+          "x": 699,
+          "y": 595,
+          "w": 130,
+          "h": 35
+        },
+        {
+          "label": "Wash dummies",
+          "x": 837,
+          "y": 595,
+          "w": 138,
+          "h": 35
+        },
+        {
+          "label": "Clean room",
+          "x": 983,
+          "y": 595,
+          "w": 121,
+          "h": 35
+        },
+        {
+          "label": "Default",
+          "x": 772,
+          "y": 727,
+          "w": 92,
+          "h": 34
+        },
+        {
+          "label": "Heavy",
+          "x": 871,
+          "y": 727,
+          "w": 88,
+          "h": 34
+        },
+        {
+          "label": "Wet",
+          "x": 966,
+          "y": 727,
+          "w": 79,
+          "h": 34
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Close",
+          "x": 1151,
+          "y": 282,
+          "w": 71,
+          "h": 34
+        },
+        {
+          "label": "Handling",
+          "x": 699,
+          "y": 333,
+          "w": 104,
+          "h": 34
+        },
+        {
+          "label": "Blood",
+          "x": 810,
+          "y": 333,
+          "w": 104,
+          "h": 34
+        },
+        {
+          "label": "Camera",
+          "x": 921,
+          "y": 333,
+          "w": 104,
+          "h": 34
+        },
+        {
+          "label": "Bleeding",
+          "x": 857,
+          "y": 385,
+          "w": 299,
+          "h": 32
+        },
+        {
+          "label": "Wet transfer",
+          "x": 857,
+          "y": 432,
+          "w": 299,
+          "h": 32
+        },
+        {
+          "label": "Drying time",
+          "x": 857,
+          "y": 479,
+          "w": 299,
+          "h": 32
+        },
+        {
+          "label": "Brush coverage",
+          "x": 857,
+          "y": 526,
+          "w": 299,
+          "h": 32
+        },
+        {
+          "label": "Stop bleeding",
+          "x": 699,
+          "y": 595,
+          "w": 130,
+          "h": 35
+        },
+        {
+          "label": "Wash dummies",
+          "x": 837,
+          "y": 595,
+          "w": 138,
+          "h": 35
+        },
+        {
+          "label": "Clean room",
+          "x": 983,
+          "y": 595,
+          "w": 121,
+          "h": 35
+        },
+        {
+          "label": "Default",
+          "x": 772,
+          "y": 727,
+          "w": 92,
+          "h": 34
+        },
+        {
+          "label": "Heavy",
+          "x": 871,
+          "y": 727,
+          "w": 88,
+          "h": 34
+        },
+        {
+          "label": "Wet",
+          "x": 966,
+          "y": 727,
+          "w": 79,
+          "h": 34
+        }
+      ]
+    },
+    {
+      "name": "live tuning change",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Close",
+          "x": 1151,
+          "y": 282,
+          "w": 71,
+          "h": 34
+        },
+        {
+          "label": "Handling",
+          "x": 699,
+          "y": 333,
+          "w": 104,
+          "h": 34
+        },
+        {
+          "label": "Blood",
+          "x": 810,
+          "y": 333,
+          "w": 104,
+          "h": 34
+        },
+        {
+          "label": "Camera",
+          "x": 921,
+          "y": 333,
+          "w": 104,
+          "h": 34
+        },
+        {
+          "label": "Bleeding",
+          "x": 857,
+          "y": 385,
+          "w": 299,
+          "h": 32
+        },
+        {
+          "label": "Wet transfer",
+          "x": 857,
+          "y": 432,
+          "w": 299,
+          "h": 32
+        },
+        {
+          "label": "Drying time",
+          "x": 857,
+          "y": 479,
+          "w": 299,
+          "h": 32
+        },
+        {
+          "label": "Brush coverage",
+          "x": 857,
+          "y": 526,
+          "w": 299,
+          "h": 32
+        },
+        {
+          "label": "Stop bleeding",
+          "x": 699,
+          "y": 595,
+          "w": 130,
+          "h": 35
+        },
+        {
+          "label": "Wash dummies",
+          "x": 837,
+          "y": 595,
+          "w": 138,
+          "h": 35
+        },
+        {
+          "label": "Clean room",
+          "x": 983,
+          "y": 595,
+          "w": 121,
+          "h": 35
+        },
+        {
+          "label": "Default",
+          "x": 772,
+          "y": 727,
+          "w": 92,
+          "h": 34
+        },
+        {
+          "label": "Heavy",
+          "x": 871,
+          "y": 727,
+          "w": 88,
+          "h": 34
+        },
+        {
+          "label": "Wet",
+          "x": 966,
+          "y": 727,
+          "w": 79,
+          "h": 34
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Close",
+          "x": 1151,
+          "y": 282,
+          "w": 71,
+          "h": 34
+        },
+        {
+          "label": "Handling",
+          "x": 699,
+          "y": 333,
+          "w": 104,
+          "h": 34
+        },
+        {
+          "label": "Blood",
+          "x": 810,
+          "y": 333,
+          "w": 104,
+          "h": 34
+        },
+        {
+          "label": "Camera",
+          "x": 921,
+          "y": 333,
+          "w": 104,
+          "h": 34
+        },
+        {
+          "label": "Bleeding",
+          "x": 857,
+          "y": 385,
+          "w": 299,
+          "h": 32
+        },
+        {
+          "label": "Wet transfer",
+          "x": 857,
+          "y": 432,
+          "w": 299,
+          "h": 32
+        },
+        {
+          "label": "Drying time",
+          "x": 857,
+          "y": 479,
+          "w": 299,
+          "h": 32
+        },
+        {
+          "label": "Brush coverage",
+          "x": 857,
+          "y": 526,
+          "w": 299,
+          "h": 32
+        },
+        {
+          "label": "Stop bleeding",
+          "x": 699,
+          "y": 595,
+          "w": 130,
+          "h": 35
+        },
+        {
+          "label": "Wash dummies",
+          "x": 837,
+          "y": 595,
+          "w": 138,
+          "h": 35
+        },
+        {
+          "label": "Clean room",
+          "x": 983,
+          "y": 595,
+          "w": 121,
+          "h": 35
+        },
+        {
+          "label": "Default",
+          "x": 772,
+          "y": 727,
+          "w": 92,
+          "h": 34
+        },
+        {
+          "label": "Heavy",
+          "x": 871,
+          "y": 727,
+          "w": 88,
+          "h": 34
+        },
+        {
+          "label": "Wet",
+          "x": 966,
+          "y": 727,
+          "w": 79,
+          "h": 34
+        }
+      ]
+    },
+    {
+      "name": "about panel",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Close",
+          "x": 1151,
+          "y": 265,
+          "w": 71,
+          "h": 34
+        },
+        {
+          "label": "tront.xyz",
+          "x": 699,
+          "y": 723,
+          "w": 110,
+          "h": 35
+        },
+        {
+          "label": "Tune",
+          "x": 817,
+          "y": 723,
+          "w": 82,
+          "h": 35
+        },
+        {
+          "label": "Heal dummies",
+          "x": 907,
+          "y": 723,
+          "w": 135,
+          "h": 35
+        },
+        {
+          "label": "Play smear demo",
+          "x": 699,
+          "y": 772,
+          "w": 151,
+          "h": 38
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Close",
+          "x": 1151,
+          "y": 265,
+          "w": 71,
+          "h": 34
+        },
+        {
+          "label": "tront.xyz",
+          "x": 699,
+          "y": 723,
+          "w": 110,
+          "h": 35
+        },
+        {
+          "label": "Tune",
+          "x": 817,
+          "y": 723,
+          "w": 82,
+          "h": 35
+        },
+        {
+          "label": "Heal dummies",
+          "x": 907,
+          "y": 723,
+          "w": 135,
+          "h": 35
+        },
+        {
+          "label": "Play smear demo",
+          "x": 699,
+          "y": 772,
+          "w": 151,
+          "h": 38
+        }
+      ]
+    },
+    {
+      "name": "reset panel",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Close",
+          "x": 1151,
+          "y": 447,
+          "w": 71,
+          "h": 34
+        },
+        {
+          "label": "Keep playing",
+          "x": 988,
+          "y": 585,
+          "w": 124,
+          "h": 39
+        },
+        {
+          "label": "Reset room",
+          "x": 1121,
+          "y": 585,
+          "w": 101,
+          "h": 39
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Close",
+          "x": 1151,
+          "y": 447,
+          "w": 71,
+          "h": 34
+        },
+        {
+          "label": "Keep playing",
+          "x": 988,
+          "y": 585,
+          "w": 124,
+          "h": 39
+        },
+        {
+          "label": "Reset room",
+          "x": 1121,
+          "y": 585,
+          "w": 101,
+          "h": 39
+        }
+      ]
+    },
+    {
+      "name": "close panel and change modes",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: FPS",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Fly",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound off",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Perf / F3",
+          "x": 18,
+          "y": 70,
+          "w": 177,
+          "h": 27
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: FPS",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Fly",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound off",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ]
+    },
+    {
+      "name": "profiler panel open",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: FPS",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Fly",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound off",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: FPS",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Fly",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound off",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ]
+    },
+    {
+      "name": "toast expired",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: FPS",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Fly",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound off",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Add dummy",
+          "x": 1288,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 1400,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 1474,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 1544,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 1614,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 1682,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 1750,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1838,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "1  Grab",
+          "x": 796.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 907.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 1018.5,
+          "y": 1012,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: FPS",
+          "x": 18,
+          "y": 1015,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Fly",
+          "x": 145,
+          "y": 1015,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound off",
+          "x": 1809,
+          "y": 1015,
+          "w": 93,
+          "h": 36
+        }
+      ]
+    },
+    {
+      "name": "resize",
+      "different": 0,
+      "maxDelta": 0,
+      "referenceDifferent": 0,
+      "referenceMax": 0,
+      "samples": [],
+      "width": 1100,
+      "height": 700,
+      "buttons": [
+        {
+          "label": "Add dummy",
+          "x": 468,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 580,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 654,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 724,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 794,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 862,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 930,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1018,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "1  Grab",
+          "x": 386.5,
+          "y": 632,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 497.5,
+          "y": 632,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 608.5,
+          "y": 632,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: FPS",
+          "x": 18,
+          "y": 635,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Fly",
+          "x": 145,
+          "y": 635,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound off",
+          "x": 989,
+          "y": 635,
+          "w": 93,
+          "h": 36
+        }
+      ],
+      "referenceButtons": [
+        {
+          "label": "Add dummy",
+          "x": 468,
+          "y": 20,
+          "w": 106,
+          "h": 38
+        },
+        {
+          "label": "Chaos",
+          "x": 580,
+          "y": 20,
+          "w": 68,
+          "h": 38
+        },
+        {
+          "label": "Clean",
+          "x": 654,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Reset",
+          "x": 724,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "Tune",
+          "x": 794,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Perf",
+          "x": 862,
+          "y": 20,
+          "w": 62,
+          "h": 38
+        },
+        {
+          "label": "Controls",
+          "x": 930,
+          "y": 20,
+          "w": 82,
+          "h": 38
+        },
+        {
+          "label": "About",
+          "x": 1018,
+          "y": 20,
+          "w": 64,
+          "h": 38
+        },
+        {
+          "label": "1  Grab",
+          "x": 386.5,
+          "y": 632,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "2  Pistol",
+          "x": 497.5,
+          "y": 632,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "3  Spill",
+          "x": 608.5,
+          "y": 632,
+          "w": 105,
+          "h": 42
+        },
+        {
+          "label": "Mouse: FPS",
+          "x": 18,
+          "y": 635,
+          "w": 121,
+          "h": 36
+        },
+        {
+          "label": "Fly",
+          "x": 145,
+          "y": 635,
+          "w": 70,
+          "h": 36
+        },
+        {
+          "label": "Sound off",
+          "x": 989,
+          "y": 635,
+          "w": 93,
+          "h": 36
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "result": "COMPLETE retained HUD checks passed"
+}
