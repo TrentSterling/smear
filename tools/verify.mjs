@@ -1,0 +1,147 @@
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { readFile, mkdir, writeFile } from 'node:fs/promises';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { resolve, dirname } from 'node:path';
+import { launch, sleep, until } from './cdp.mjs';
+
+const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const out = resolve(root, 'tools/out');
+await mkdir(out, { recursive: true });
+const receipts = { version: '0.8.0', checks: [], browserErrors: [] };
+function check(name, fn) {
+  fn();
+  receipts.checks.push(name);
+  console.log(`PASS ${name}`);
+}
+function finiteBodies(state) {
+  assert(state.parts.length > 0);
+  for (const part of state.parts) {
+    assert(part.p.every(Number.isFinite), `${part.name} position`);
+    assert(part.q.every(Number.isFinite), `${part.name} rotation`);
+    assert(Number.isFinite(part.speed), `${part.name} speed`);
+  }
+}
+function deterministic(state) {
+  const copy = structuredClone(state);
+  delete copy.name;
+  delete copy.version;
+  delete copy.stats.physicsMS;
+  delete copy.stats.frameMS;
+  return copy;
+}
+function brief(state) {
+  const { physicsMS, frameMS, ...stats } = state.stats;
+  return { version: state.version, simTime: state.simTime, dolls: state.dolls, bodies: state.bodies, particles: state.particles, wetSupply: state.wetSupply, stats };
+}
+const original = await readFile(resolve(root, 'versions/dragmark_v7.html'));
+check('original V7 preserved byte for byte', () => assert.equal(createHash('sha256').update(original).digest('hex'), '4dfe17e606b18ce7471f176b4c2afa0229b2f32e60b5b88c2971ebc6a75bc41f'));
+
+const page = await launch({ port: Number(process.env.SMEAR_CDP_PORT || 9587), width: 1366, height: 768 });
+try {
+  // Start both deterministic traces before any real-time animation frames.
+  // V7's surface reset retains wet-cell timestamps from prior live frames.
+  await page.init(`(() => {
+    const raf=requestAnimationFrame.bind(window),queued=[];
+    let hold=true;
+    window.requestAnimationFrame=fn=>hold?queued.push(fn):raf(fn);
+    window.__qaReleaseFrames=()=>{hold=false;for(const fn of queued.splice(0))raf(fn);};
+  })()`);
+  await page.goto(pathToFileURL(resolve(root, 'versions/dragmark_v7.html')).href);
+  await until(() => page.eval('!!window.__dragmark && !document.getElementById("loading")'), { label: 'V7 boot' });
+  const baseline = await page.eval('(() => {const a=window.__dragmark;a.manual(true);a.preset("default");return a.trace(60,14);})()');
+  check('V7 reference demo produces contact smears', () => {
+    assert(baseline.stats.smearMeters > 0);
+    assert(baseline.stats.strokeSegments > 0);
+    finiteBodies(baseline);
+  });
+  receipts.v7 = brief(baseline);
+
+  await page.goto(pathToFileURL(resolve(root, 'index.html')).href);
+  await until(() => page.eval('!!window.__smear && !document.getElementById("loading")'), { label: 'SMEAR V8 boot' });
+  const initial = await page.eval('window.__smear.state()');
+  check('SMEAR V8 reports the new name and version', () => {
+    assert.equal(initial.name, 'SMEAR');
+    assert.equal(initial.version, '0.8.0');
+  });
+  const branding = await page.eval('({title:document.title,label:document.getElementById("world").getAttribute("aria-label"),description:document.querySelector("meta[name=description]").content})');
+  check('page and accessibility branding updated', () => {
+    assert.equal(branding.title, 'SMEAR 08 \u2022 Tront');
+    assert(branding.label.startsWith('SMEAR'));
+    assert(branding.description.startsWith('SMEAR:'));
+  });
+  const gpu = await page.eval('(() => {const c=document.getElementById("world"),g=c.getContext("webgl2")||c.getContext("webgl"),e=g.getExtension("WEBGL_debug_renderer_info");return {version:g.getParameter(g.VERSION),renderer:e?g.getParameter(e.UNMASKED_RENDERER_WEBGL):g.getParameter(g.RENDERER)};})()');
+  receipts.gpu = gpu;
+  console.log(`GPU ${gpu.renderer}`);
+  check('hardware WebGL renderer', () => assert(!/swiftshader|llvmpipe|software/i.test(gpu.renderer)));
+  const candidate = await page.eval('(() => {const a=window.__smear;a.manual(true);a.preset("default");return a.trace(60,14);})()');
+  check('V8 deterministic smear demo matches V7', () => assert.deepEqual(deterministic(candidate), deterministic(baseline)));
+  check('demo leaves splashes, smears, and landed droplets', () => {
+    assert(candidate.stats.splats > 0);
+    assert(candidate.stats.smearMeters > 0);
+    assert(candidate.stats.dropletsLanded > 0);
+    finiteBodies(candidate);
+  });
+  receipts.v8 = brief(candidate);
+  await page.eval('for(let i=0;i<16;i++)window.__smear.render()');
+  await page.shot(resolve(out, 'smear-v8-demo.png'));
+  await page.eval('window.__smear.panel("about")');
+  await page.shot(resolve(out, 'smear-v8-about.png'));
+
+  const liveStart = await page.eval('(() => {const a=window.__smear;a.panel(null);a.reset();a.manual(false);window.__qaReleaseFrames();return a.state();})()');
+  await sleep(1000);
+  const live = await page.eval('window.__smear.state()');
+  check('live simulation advances without non-finite bodies', () => {
+    assert(live.simTime > liveStart.simTime);
+    finiteBodies(live);
+  });
+  check('starting view is in front of the V7 divider', () => {
+    assert(live.player.p[2] < 3.05 - .17 - .23);
+    assert.equal(live.player.mode, 'walk');
+  });
+  await page.shot(resolve(out, 'smear-v8-room.png'));
+
+  const wall = await page.eval('(() => {const a=window.__smear;a.panel(null);a.reset();a.manual(true);a.wallSpill("front");const deposited=a.state();a.step(180);a.view([3,2.8,-3],[.1,2,-7.8]);return {deposited,after:a.state(),wetWalls:a.paintFaces().filter(s=>Math.abs(s.n[1])<.2&&s.wet>0)};})()');
+  check('wall spill creates persistent wet wall deposits', () => {
+    assert(wall.deposited.stats.splats > 0);
+    assert(wall.wetWalls.length > 0);
+    assert(wall.after.wetSupply > 0);
+    finiteBodies(wall.after);
+  });
+  receipts.wall = { wetWalls: wall.wetWalls, state: brief(wall.after) };
+  await page.eval('for(let i=0;i<16;i++)window.__smear.render()');
+  await page.shot(resolve(out, 'smear-v8-wall.png'));
+
+  await page.eval('localStorage.removeItem("smear.tune.v8");localStorage.setItem("dragmark.tune.v7",JSON.stringify({grab:1.9,bleeding:1.7,fov:76,walking:false}))');
+  await page.goto(pathToFileURL(resolve(root, 'index.html')).href);
+  await until(() => page.eval('!!window.__smear && !document.getElementById("loading")'), { label: 'tuning migration boot' });
+  const migration = await page.eval('({tune:window.__smear.state().tune,saved:JSON.parse(localStorage.getItem("smear.tune.v8")),legacy:JSON.parse(localStorage.getItem("dragmark.tune.v7"))})');
+  check('legacy V7 tuning migrates into SMEAR V8 storage', () => {
+    for (const [key,value] of Object.entries({grab:1.9,bleeding:1.7,fov:76,walking:false})) {
+      assert.equal(migration.tune[key],value);
+      assert.equal(migration.saved[key],value);
+      assert.equal(migration.legacy[key],value);
+    }
+  });
+  await page.eval('localStorage.setItem("smear.tune.v8",JSON.stringify({grab:1.1,fov:66}));localStorage.setItem("dragmark.tune.v7",JSON.stringify({grab:2.6,fov:89}))');
+  await page.goto(pathToFileURL(resolve(root, 'index.html')).href);
+  await until(() => page.eval('!!window.__smear && !document.getElementById("loading")'), { label: 'existing SMEAR settings boot' });
+  const retained = await page.eval('window.__smear.state().tune');
+  check('existing SMEAR tuning takes precedence over legacy settings', () => {
+    assert.equal(retained.grab,1.1);
+    assert.equal(retained.fov,66);
+  });
+  receipts.browserErrors = page.logs.filter(s => /^EXCEPTION:|^error:/i.test(s));
+  check('no browser exceptions or console errors', () => assert.deepEqual(receipts.browserErrors, []));
+  receipts.result = 'COMPLETE all checks passed';
+  console.log(`${receipts.result} (${receipts.checks.length} checks)`);
+} catch (error) {
+  receipts.result = 'FAIL';
+  receipts.error = error.stack;
+  receipts.browserErrors = page.logs;
+  await page.shot(resolve(out, 'failure.png')).catch(() => {});
+  throw error;
+} finally {
+  await writeFile(resolve(out, 'verification.json'), JSON.stringify(receipts, null, 2) + '\n');
+  page.kill();
+}
