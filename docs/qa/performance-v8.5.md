@@ -71,3 +71,5 @@ GitHub Pages serves V8.5 with the original UTF-8 symbols restored. HTTPS served 
 The [public game and Games card receipt](v8.5/publish-live.json) passes all 14 checks, including the current version, native floor dragging, valid WebGL state, 1200 x 630 OG image and portfolio card at desktop and phone widths. [Public Firefox gameplay](v8.5/firefox-live.json) passes all 11 checks; Spill, sustained pistol and soaked dragging retain the worker backend. [Public F3 profiling](v8.5/runtime-live.json) passes all 20 checks, including native dragging, histogram, hitch capture, freezes, export and mobile containment.
 
 The final UI encoding correction passed 22 retained-HUD pixel checks in each browser and adds a source encoding regression check to the gameplay harness.
+
+The [final native Firefox drag capture](v8.5/firefox-drag.png) shows the corrected footer and separate worker timing on the public build.

@@ -1,9 +1,15 @@
 {
   "url": "https://tront.xyz/smear/",
   "status": 200,
-  "local": "fd2a9babae6e8ecc7c869edd4ad80bb5e6f8aa4697f790ffa22d3e1cb5983fa4",
-  "live": "fd2a9babae6e8ecc7c869edd4ad80bb5e6f8aa4697f790ffa22d3e1cb5983fa4",
+  "local": "28bab15276e9fcf9b999feacc12aaf5c7246e64d98098c7b403c972e4aa82e13",
+  "live": "28bab15276e9fcf9b999feacc12aaf5c7246e64d98098c7b403c972e4aa82e13",
   "exact": true,
   "worker": true,
-  "version": true
+  "version": true,
+  "unicode": [
+    176,
+    183,
+    215,
+    8594
+  ]
 }
