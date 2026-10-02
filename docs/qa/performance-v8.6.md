@@ -35,3 +35,9 @@ Both HUD harnesses pass 26 retained/composited redraw comparisons against the fr
 Other release checks cover gameplay/UTF-8/V7 preservation, GPU pigment in both browsers, synchronous compatibility, worker lifecycle/failure/overload, particle collision order, native Firefox Spill/pistol/drag, live F3/export and bounded profiler storage. Own-browser tests exercise sound code while muting output: Chrome uses `--mute-audio`; Firefox also inserts a silent gain at its audio destination. Gameplay audio settings stay enabled during native-input verification.
 
 Reproduce with `npm run verify:release`, `node tools/physics-verify.mjs firefox`, `node tools/details-verify.mjs firefox`, and `node tools/particles-profile.mjs index.html <label> firefox`. Keep GPU-owning harnesses sequential and record desktop load before interpreting tail latency.
+
+## Public deployment
+
+V8.6 is published at https://tront.xyz/smear/ from commit `fe1f200fa030b7dc2871a70b11bf632144a996a5`. The [source receipt](v8.6/public-source.json) confirms the live response exactly matches the Git blob: SHA-256 `808a1c49a81ba08c106916f4ca56c64d46587f2aab70b7ab0f02f85c243c5b96`. The tested Windows working file uses CRLF; normalizing its line endings yields the exact deployed bytes.
+
+The real website passes [14 publication checks](v8.6/public-publish.json), [11 native Firefox checks](v8.6/public-firefox.json), and [20 profiler checks](v8.6/public-runtime.json). The SMEAR card and 1200 x 630 OG image render within desktop and mobile viewports. The initial publication check also found [eight pixels of page-wide mobile overflow](v8.6/public-navigation-overflow.json) from the shared site theme button and its tooltip. The card itself stays within the viewport (left 21.39, right 368.59 at 390 px). The harness now verifies the requested card bounds and separately records page-wide dimensions; the unrelated navigation issue remains visible in these receipts.

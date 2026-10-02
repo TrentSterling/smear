@@ -1,0 +1,19 @@
+{
+  "game": "https://tront.xyz/smear/",
+  "games": "https://tront.xyz/games/",
+  "checks": [
+    "game HTTP 200",
+    "served game is 0.8.6",
+    "OG image HTTP 200 and image/png",
+    "OG image is 1200 x 630",
+    "favicon HTTP 200",
+    "served game boots with all dummies visible",
+    "served simulation advances",
+    "served game paints floor smears during a native mouse drag",
+    "no WebGL errors after live drag uploads",
+    "SMEAR card and OG image render at 1366px",
+    "portfolio category filters work at 1366px"
+  ],
+  "result": "FAIL",
+  "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(card.width<=card.viewport+1)\n\n    at file:///C:/trontstack/smear/tools/publish-check.mjs:47:192\n    at pass (file:///C:/trontstack/smear/tools/publish-check.mjs:13:24)\n    at file:///C:/trontstack/smear/tools/publish-check.mjs:47:5"
+}

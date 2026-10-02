@@ -1,0 +1,44 @@
+{
+  "game": "https://tront.xyz/smear/",
+  "games": "https://tront.xyz/games/",
+  "checks": [
+    "game HTTP 200",
+    "served game is 0.8.6",
+    "OG image HTTP 200 and image/png",
+    "OG image is 1200 x 630",
+    "favicon HTTP 200",
+    "served game boots with all dummies visible",
+    "served simulation advances",
+    "served game paints floor smears during a native mouse drag",
+    "no WebGL errors after live drag uploads",
+    "SMEAR card and OG image render within the viewport at 1366px",
+    "portfolio category filters work at 1366px",
+    "SMEAR card and OG image render within the viewport at 390px",
+    "portfolio category filters work at 390px",
+    "no JavaScript exceptions on game or portfolio"
+  ],
+  "portfolioLayout": [
+    {
+      "width": 1366,
+      "count": 1,
+      "text": "SMEAR (2026)\n\nLeave a mark. Grab a dummy, slam it, and drag it through blood that stays. A physics playground with contact smears, wall splashes, and dripping stains.\n\nPrototype\nPhysics",
+      "viewport": 1366,
+      "left": 819.5625,
+      "right": 1065.515625,
+      "visible": "flex",
+      "image": 1200
+    },
+    {
+      "width": 392,
+      "count": 1,
+      "text": "SMEAR (2026)\n\nLeave a mark. Grab a dummy, slam it, and drag it through blood that stays. A physics playground with contact smears, wall splashes, and dripping stains.\n\nPrototype\nPhysics",
+      "viewport": 390,
+      "left": 21.390625,
+      "right": 368.59375,
+      "visible": "flex",
+      "image": 1200
+    }
+  ],
+  "errors": [],
+  "result": "COMPLETE publish checks passed"
+}

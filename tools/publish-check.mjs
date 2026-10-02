@@ -9,7 +9,7 @@ const label=process.argv[4]||'preview';
 const release=JSON.parse(await readFile(new URL('../package.json',import.meta.url),'utf8'));
 const out=resolve('tools/out',`publish-${label}`);
 await mkdir(out,{recursive:true});
-const receipts={game,games,checks:[]};
+const receipts={game,games,checks:[],portfolioLayout:[]};
 function pass(name,fn){fn();receipts.checks.push(name);console.log('PASS '+name);}
 const html=await fetch(game);pass('game HTTP 200',()=>assert.equal(html.status,200));
 const source=await html.text();pass('served game is '+release.version,()=>assert(source.includes(`version:'${release.version}'`)));
@@ -43,8 +43,9 @@ try{
     await until(()=>page.eval('(()=>{const i=document.querySelector("a[href=\\"https://tront.xyz/smear/\\"] img");return i.complete&&i.naturalWidth===1200;})()'),{label:'portfolio card image'});
     await page.eval('document.querySelector("a[href=\\"https://tront.xyz/smear/\\"] img").decode().then(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))))');
     await until(()=>page.eval('getComputedStyle(document.body).opacity==="1"'),{label:'portfolio reveal'});
-    const card=await page.eval('(()=>{const cards=document.querySelectorAll("a[href=\\"https://tront.xyz/smear/\\"]"),c=cards[0];return {count:cards.length,text:c.innerText,width:document.documentElement.scrollWidth,viewport:innerWidth,visible:getComputedStyle(c).display,image:c.querySelector("img").naturalWidth};})()');
-    pass(`SMEAR card and OG image render at ${width}px`,()=>{assert.equal(card.count,1);assert(card.text.includes('SMEAR'));assert.notEqual(card.visible,'none');assert.equal(card.image,1200);assert(card.width<=card.viewport+1);});
+    const card=await page.eval('(()=>{const cards=document.querySelectorAll("a[href=\\"https://tront.xyz/smear/\\"]"),c=cards[0],r=c.getBoundingClientRect();return {count:cards.length,text:c.innerText,width:document.documentElement.scrollWidth,viewport:innerWidth,left:r.left,right:r.right,visible:getComputedStyle(c).display,image:c.querySelector("img").naturalWidth};})()');
+    receipts.portfolioLayout.push({width,...card});
+    pass(`SMEAR card and OG image render within the viewport at ${width}px`,()=>{assert.equal(card.count,1);assert(card.text.includes('SMEAR'));assert.notEqual(card.visible,'none');assert.equal(card.image,1200);assert(card.left>=-1&&card.right<=card.viewport+1);});
     await page.shot(resolve(out,`games-${width}.png`));
     const filters=await page.eval('(()=>{const c=document.querySelector("a[href=\\"https://tront.xyz/smear/\\"]"),r={};for(const key of ["prototype","game","tool","all"]){document.getElementById("filter-"+key).click();r[key]=getComputedStyle(c).display;}return r;})()');
     pass(`portfolio category filters work at ${width}px`,()=>{assert.notEqual(filters.prototype,'none');assert.notEqual(filters.all,'none');assert.equal(filters.game,'none');assert.equal(filters.tool,'none');});
