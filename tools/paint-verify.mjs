@@ -37,7 +37,7 @@ const page=firefox?await launchFirefox({port:9595,width:1366,height:768}):await 
 const receipt={path:firefox?'Firefox/Zen bounded region copies':fallback?'WebGL 1-compatible region copies':'WebGL 2 direct subrects',checks:[],audits:[]};
 function pass(name,test){test();receipt.checks.push(name);console.log('PASS '+name);}
 try{
- await page.goto(pathToFileURL(resolve(out,'runtime.html')).href);
+ await page.goto(pathToFileURL(resolve(out,'runtime.html')).href+(fallback?'?paintSync=1':''));
  await until(()=>page.eval('!!window.__smear&&!document.getElementById("loading")'),{label:'paint verification boot'});
  await page.eval('window.__smear.manual(true);window.__smear.preset("default")');
  for(const [name,setup]of [
@@ -51,12 +51,17 @@ try{
   ['clean and repaint',`a.clean();a.puddle([.05,0,.05],.7,1);a.puddle([-7.7,0,7.7],.8,1);a.puddle([7.7,0,-7.7],.8,1);`],
   ['complete clear',`a.clean();`]
  ]){
-  await page.eval(`(()=>{const a=window.__smear;${setup}for(let i=0;i<24;i++)a.render();})()`);
+  const bounded=setup.replace('a.trace(60,14);',`a.demo();for(let i=0;i<840;i++){a.rawStep(2);a.render();if(i%8===0)await a.paintReady?.(false);}`)
+   .replaceAll('a.rawStep(2);a.render();}', 'a.rawStep(2);a.render();if(i%8===0)await a.paintReady?.(false);}')
+   .replace('a.step(480);', 'for(let i=0;i<240;i++){a.rawStep(2);a.render();if(i%8===0)await a.paintReady?.(false);}');
+  await page.eval(`(async()=>{const a=window.__smear;${bounded}for(let i=0;i<24;i++)a.render();await a.paintReady?.();})()`);
   const r=await page.eval('window.__smear.auditPaint()');receipt.audits.push({name,...r});
   pass(`GPU paint matches retained canvas after ${name}`,()=>assert.equal(r.mismatches,0,JSON.stringify(r)));
   await page.shot(resolve(out,name.replaceAll(' ','-')+'.png'));
  }
  pass('region copy canvases are reused within a bounded set',()=>assert(receipt.audits.at(-1).copyCanvases<=32));
+ receipt.paintBackend=await page.eval('__smear.paintStatus?.()');
+ if(!fallback)pass('painting stayed on the worker through all raster cases',()=>assert.equal(receipt.paintBackend.backend,'OffscreenCanvas worker'));
  const glError=await page.eval('document.getElementById("world").getContext("webgl2").getError()');pass('no WebGL errors after cropped uploads and wet-map updates',()=>assert.equal(glError,0));
  receipt.errors=page.logs.filter(s=>/^EXCEPTION:|^error:/i.test(s));pass('no painting browser exceptions or errors',()=>assert.deepEqual(receipt.errors,[]));
  receipt.result='COMPLETE painting checks passed';console.log(receipt.result+` (${receipt.checks.length} checks)`);

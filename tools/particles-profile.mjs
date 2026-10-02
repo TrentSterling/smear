@@ -29,7 +29,7 @@ const fixture=`const particleBench=(()=>{
   physicsStep();physicsStep();renderNow();runtimeProfiler.finish(t);frameIndex++;
  }
  function resetCounters(){updateMs=buildMs=seen=updates=0;runtimeProfiler.clear();}
- function result(){return{updateMs,buildMs,seen,updates,telemetry:runtimeProfiler.report(),state:state(),drops:dropList.map(d=>({p:d.p.toArray(),prev:d.prev.toArray(),v:d.v.toArray(),r:d.r,life:d.life,owner:d.owner})),paint:surfaces.map(s=>({id:s.id,image:s.canvas.toDataURL(),supply:Array.from(s.supply)})),matrices:Array.from(dropMesh.instanceMatrix.array.slice(0,dropList.length*16))};}
+ function result(){return{updateMs,buildMs,seen,updates,telemetry:runtimeProfiler.report(),paintWorker:window.__smear.paintStatus?.(),state:state(),drops:dropList.map(d=>({p:d.p.toArray(),prev:d.prev.toArray(),v:d.v.toArray(),r:d.r,life:d.life,owner:d.owner})),paint:surfaces.map(s=>({id:s.id,image:s.canvas.toDataURL(),supply:Array.from(s.supply)})),matrices:Array.from(dropMesh.instanceMatrix.array.slice(0,dropList.length*16))};}
  return{setup,advance,resetCounters,result};
 })();`;
 const runtime=resolve(out,'runtime.html');await writeFile(runtime,html.replace('</head>','<script>window.__benchRAF=requestAnimationFrame.bind(window);window.requestAnimationFrame=()=>0;</script></head>').replace('window.__smear={state,',fixture+'\nwindow.__smear={particleBench,state,'));
@@ -39,10 +39,10 @@ try{
  const cases=[['air',false],['air',true],['pistol',false],['drag-air',false],['drag-floor',false]].filter(([scenario])=>!process.argv[5]||scenario===process.argv[5]);
  for(const [scenario,hide] of cases){
   await page.goto(pathToFileURL(runtime).href);await until(()=>page.eval('!!window.__smear?.particleBench&&!document.getElementById("loading")'),{label:'particle fixture boot'});
-  await page.eval(`(()=>{const b=window.__smear.particleBench;b.setup('${scenario}',${hide});for(let i=0;i<60;i++)b.advance(performance.now());b.resetCounters();window.__benchDone=false;window.__benchStart=()=>{const work=[],gaps=[];let i=0,previous=0;const frame=now=>{const t=performance.now();b.advance(now);work.push(performance.now()-t);if(previous)gaps.push(now-previous);previous=now;if(++i<240)__benchRAF(frame);else{const summary=v=>{const s=v.slice(3).sort((a,b)=>a-b),q=p=>s[Math.min(s.length-1,Math.ceil(s.length*p)-1)];return{mean:s.reduce((a,b)=>a+b,0)/s.length,p50:q(.5),p95:q(.95),p99:q(.99),max:s.at(-1)};};window.__benchReport={work:summary(work),intervals:summary(gaps),...b.result()};window.__benchDone=true;}};__benchRAF(frame);};})()`);
+  await page.eval(`(async()=>{const b=window.__smear.particleBench;b.setup('${scenario}',${hide});for(let i=0;i<60;i++){await new Promise(r=>__benchRAF(r));b.advance(performance.now());}await window.__smear.paintReady?.();b.resetCounters();window.__benchDone=false;window.__benchStart=()=>{const work=[],gaps=[];let i=0,previous=0;const frame=async now=>{const t=performance.now();b.advance(now);work.push(performance.now()-t);if(previous)gaps.push(now-previous);previous=now;if(++i<240)__benchRAF(frame);else{const summary=v=>{const s=v.slice(3).sort((a,b)=>a-b),q=p=>s[Math.min(s.length-1,Math.ceil(s.length*p)-1)];return{mean:s.reduce((a,b)=>a+b,0)/s.length,p50:q(.5),p95:q(.95),p99:q(.99),max:s.at(-1)};};await window.__smear.paintReady?.();window.__benchReport={work:summary(work),intervals:summary(gaps),...b.result()};window.__benchDone=true;}};__benchRAF(frame);};})()`);
   await page.eval('window.__benchStart()');await until(()=>page.eval('window.__benchDone'),{timeout:120000,every:500,label:'particle workload'});
   const r=await page.eval('window.__benchReport');reports.push({scenario,hide,...r});
-  console.log(JSON.stringify({scenario,hide,work:r.work,intervals:r.intervals,updateMsPerFrame:r.updateMs/240,buildMsPerFrame:r.buildMs/240,meanDropsPerTick:r.seen/r.updates,phases:r.telemetry.summary.phases}));
+  console.log(JSON.stringify({scenario,hide,work:r.work,intervals:r.intervals,updateMsPerFrame:r.updateMs/240,buildMsPerFrame:r.buildMs/240,meanDropsPerTick:r.seen/r.updates,phases:r.telemetry.summary.phases,paintWorker:r.paintWorker}));
   await page.shot(resolve(out,scenario+(hide?'-hidden':'')+'.png'));
  }
  const result={source,sourceSha256:createHash('sha256').update(html).digest('hex'),browser,label,reports,errors:page.logs.filter(s=>/^EXCEPTION:|^error:/i.test(s))};

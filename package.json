@@ -1,6 +1,6 @@
 {
   "name": "smear",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "private": true,
   "description": "A self-contained blood-and-contact ragdoll playground by Trent Sterling.",
   "type": "module",
@@ -15,6 +15,7 @@
     "profile:runtime": "node tools/runtime-profile.mjs",
     "verify:firefox": "node tools/firefox-verify.mjs",
     "profile:particles": "node tools/particles-profile.mjs",
-    "verify:particles": "node tools/particles-verify.mjs"
+    "verify:particles": "node tools/particles-verify.mjs",
+    "verify:worker": "node tools/worker-verify.mjs"
   }
 }

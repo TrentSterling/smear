@@ -1,0 +1,31 @@
+{
+  "checks": [
+    "graphics context restoration retains pigment: exact simulation and wet transfer",
+    "graphics context restoration retains pigment: all retained pigment preserved",
+    "graphics context restoration retains pigment: no GPU errors and bounded resources",
+    "graphics context restoration retains pigment: worker retained",
+    "clear while paint is in flight: exact simulation and wet transfer",
+    "clear while paint is in flight: all retained pigment preserved",
+    "clear while paint is in flight: no GPU errors and bounded resources",
+    "clear while paint is in flight: worker retained",
+    "body removal while paint is in flight: exact simulation and wet transfer",
+    "body removal while paint is in flight: all retained pigment preserved",
+    "body removal while paint is in flight: no GPU errors and bounded resources",
+    "body removal while paint is in flight: worker retained",
+    "wash while paint is in flight: exact simulation and wet transfer",
+    "wash while paint is in flight: all retained pigment preserved",
+    "wash while paint is in flight: no GPU errors and bounded resources",
+    "wash while paint is in flight: worker retained",
+    "worker failure with outstanding paint: exact simulation and wet transfer",
+    "worker failure with outstanding paint: all retained pigment preserved",
+    "worker failure with outstanding paint: no GPU errors and bounded resources",
+    "worker failure with outstanding paint: explicit working fallback",
+    "bounded overload preserves paint: exact simulation and wet transfer",
+    "bounded overload preserves paint: all retained pigment preserved",
+    "bounded overload preserves paint: no GPU errors and bounded resources",
+    "bounded overload preserves paint: explicit working fallback",
+    "no lifecycle browser errors"
+  ],
+  "errors": [],
+  "result": "COMPLETE worker lifecycle checks passed"
+}

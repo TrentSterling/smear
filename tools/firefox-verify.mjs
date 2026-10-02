@@ -38,6 +38,7 @@ try{
  await page.mouse('mouseReleased',p.x,p.y);const dragged=await page.eval('__smear.state()');
  pass('native Firefox drag retains floor smears and releases the body',()=>{assert(held);assert.equal(dragged.grab,null);assert(dragged.stats.smearMeters>.1);});
  await profile('native soaked dummy drag');await page.shot(resolve(out,'drag.png'));
+ pass('native Spill, pistol and dragging retain off-thread painting',()=>assert(receipt.profiles.every(p=>p.paintWorker?.backend==='OffscreenCanvas worker')));
  const healed=await page.eval('(()=>{__smear.manual(true);__smear.heal();__smear.render();return __smear.state();})()');
  pass('healing clears pooled particles from the draw',()=>assert.equal(healed.particles,0));
  const reset=await page.eval('(()=>{const a=__smear;a.reset();a.hit(0,"Torso");a.step(120);return a.state();})()');

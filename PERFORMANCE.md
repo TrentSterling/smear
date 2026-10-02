@@ -1,10 +1,10 @@
 # Performance
 
-V8.4 targets Firefox/Zen paint uploads, droplet collisions and allocations, body paint atlas updates, and unnecessary HUD redraws. It also fixes the floor Spill crash. Current paired measurements and exact preservation checks are in [Firefox performance and verification](docs/qa/performance-v8.4.md).
+V8.5 removes brush expansion and rasterization from the gameplay thread. An embedded worker owns persistent paint, sends cropped ImageBitmaps to WebGL, and reports its costs and backlog separately in F3. Main-thread paint no longer performs Canvas strokes or pigment readbacks during gameplay. See [worker painting measurements and verification](docs/qa/performance-v8.5.md). The earlier particle, upload, HUD, and floor Spill changes are documented in [V8.4](docs/qa/performance-v8.4.md).
 
 V8.3 adds a live runtime profiler. Open **F3 / Perf** in the game and export a capture immediately after a hitch. See [runtime profiling and verification](docs/qa/runtime-v8.3.md). It preserves raw frame gaps, records CPU phases and workload, and samples GPU render/upload duration asynchronously when the extension is available.
 
-Current painting measurements: [V8.2 floor-drag profiling and verification](docs/qa/painting-v8.2.md).
+Earlier Canvas painting measurements: [V8.2 floor-drag profiling and verification](docs/qa/painting-v8.2.md).
 
 Measured October 1, 2026 in Chrome, headless, WebGL 2 through ANGLE Direct3D 11 on Trent's RTX 5070 Ti. Viewport: 1920 x 1080. CPU profiles use 1 ms samples; frames use `requestAnimationFrame` timestamps. These are paired local measurements with Chrome's 60 Hz presentation limit.
 
@@ -30,7 +30,7 @@ The arena layout now keeps the initial sightlines and drag area clear. Wet-cell 
 
 In the optimized Chaos run, rendering occupied about 2.3 ms of sampled main-thread time per frame; `updateBlood` about 1.2 ms, body-pair collision work about 0.6 ms, and texture upload work about 0.5 ms. These samples are nested, so they should not be added together.
 
-- Canvas bristle strokes and dirty paint uploads are the next targets for heavier gore workloads. Any replacement must retain ragged smears, layered pigment, and persistent stains.
+- V8.5 runs the original layered brush rasterization in the paint worker. Wet supply and contact physics stay authoritative on the main thread. Worker event queues and paint latency remain visible when a machine is overloaded.
 - Body-pair work becomes more relevant toward the twelve-dummy limit. Its all-pairs scan remains in this release.
 - GPU duration was not measured with timer queries. The adapter was verified, and observed frame presentation and main-thread CPU costs are recorded separately.
 

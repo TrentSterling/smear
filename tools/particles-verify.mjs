@@ -6,13 +6,13 @@ import {pathToFileURL} from 'node:url';
 import {launch,until} from './cdp.mjs';
 
 const out=resolve('tools/out/particle-collisions');await mkdir(out,{recursive:true});
-const fixture=`function particleCollisionProbe(which){manual=true;preset('default');applyTuning({walking:false,recover:false});resetWorld();
+const fixture=`async function particleCollisionProbe(which){manual=true;preset('default');applyTuning({walking:false,recover:false});resetWorld();
  for(let i=0;i<9;i++)addDummy();if(dolls.length!==12)throw Error('Expected the 180-body limit');
  if(which==='overflow'){for(let i=0;i<bodies.length;i++)bodies[i].p.set(22+(i%15)*.7,4+Math.floor(i/15)*.65,-24);}
  if(which==='ties'){for(const b of bodies){b.p.set(0,3,0);b.q.identity();b.iq.identity();}}
  for(let i=0;i<900;i++){const b=bodies[i%bodies.length],axis=new V(hash(i*31)-.5,hash(i*53)-.5,hash(i*71)-.5).normalize(),speed=which==='fast'?280:8;
   emitDrop(b.p.clone().addScaledVector(axis,which==='fast'?1.7:.6),axis.multiplyScalar(-speed),.004+hash(i*29)*.02,i%3===0?b.id:0);dropList.at(-1).life=i%4===0?.219:0;}
- for(let i=0;i<36;i++)updateDrops(STEP);drawDrops();
+ for(let i=0;i<36;i++)updateDrops(STEP);drawDrops();renderNow();await window.__smear.paintReady?.();
  const s=state();delete s.version;delete s.renderer;delete s.stats.physicsMS;delete s.stats.frameMS;delete s.stats.paintUploads;
  return{state:s,drops:dropList.map(d=>({p:d.p.toArray(),prev:d.prev.toArray(),v:d.v.toArray(),r:d.r,life:d.life,owner:d.owner})),matrices:Array.from(dropMesh.instanceMatrix.array.slice(0,dropList.length*16)),pigment:surfaces.map(s=>s.canvas.toDataURL()),skins:bodies.map(b=>b.skinCanvas?.toDataURL()||null),pool:typeof dropPool==='undefined'?null:dropPool.length+dropList.length};}
 `;

@@ -25,7 +25,7 @@ try{
  for(const preset of ['default','wet']){
   await page.goto(pathToFileURL(runtime).href);
   await until(()=>page.eval('!!window.__smear&&!document.getElementById("loading")'),{label:'paint workload boot'});
-  await page.eval(`(()=>{
+  await page.eval(`(async()=>{
    const a=window.__smear;a.manual(true);a.preset('${preset}');a.tune({recover:false,walking:false});a.reset();
    a.moveDoll(0,[-2.3,.16,1.5]);
    const names=a.state().parts.filter(b=>b.doll===1).map(b=>b.name);
@@ -33,16 +33,16 @@ try{
    a.grab(0,'Torso');a.view([3.4,3.3,4.8],[0,.1,1]);
    // Identical physical work per displayed frame, independent of elapsed time.
    window.__paintTarget=i=>[-2.3+4.6*(1-Math.cos(i/60*1.9))*.5,-.24,1.5+Math.sin(i/60*2.4)*.65];
-   for(let i=0;i<90;i++){a.target(window.__paintTarget(i));a.advance(2);}
+   for(let i=0;i<90;i++){await new Promise(r=>__paintRAF(r));a.target(window.__paintTarget(i));a.advance(2);}await a.paintReady?.(false);
    const gl=document.getElementById('world').getContext('webgl2'),proto=Object.getPrototypeOf(gl);
    let uploads=0,bytes=0,uploadMS=0;
    for(const key of ['texImage2D','texSubImage2D']){const upload=proto[key];proto[key]=function(...args){const c=args.find(x=>x instanceof HTMLCanvasElement),t=performance.now();const r=upload.apply(this,args);if(c){uploadMS+=performance.now()-t;uploads++;const explicit=args.length===9;bytes+=(explicit?args[key==='texSubImage2D'?4:3]*args[key==='texSubImage2D'?5:4]:c.width*c.height)*4;}return r;};}
    window.__paintDone=false;window.__paintStart=()=>{
     const costs=[],frames=[],s0=a.state().stats;let previous=performance.now(),i=90;
-    const frame=now=>{const start=performance.now();a.target(window.__paintTarget(i));a.advance(2);costs.push(performance.now()-start);frames.push(now-previous);previous=now;
+    const frame=async now=>{const start=performance.now();a.target(window.__paintTarget(i));a.advance(2);costs.push(performance.now()-start);frames.push(now-previous);previous=now;
      if(++i<690)window.__paintRAF(frame);else{
       const summary=values=>{const s=values.slice(3).sort((a,b)=>a-b),q=p=>s[Math.min(s.length-1,Math.floor(s.length*p))];return{mean:s.reduce((a,b)=>a+b,0)/s.length,p50:q(.5),p95:q(.95),p99:q(.99),max:s.at(-1),over25:s.filter(x=>x>25).length};};
-      window.__paintReport={workMS:summary(costs),frameMS:summary(frames),uploads,uploadMiB:bytes/1048576,uploadMS,state:a.state(),startStats:s0};window.__paintDone=true;
+      await a.paintReady?.();window.__paintReport={paintWorker:a.paintStatus?.(),workMS:summary(costs),frameMS:summary(frames),uploads,uploadMiB:bytes/1048576,uploadMS,state:a.state(),startStats:s0};window.__paintDone=true;
      }};window.__paintRAF(frame);
    };
   })()`);
