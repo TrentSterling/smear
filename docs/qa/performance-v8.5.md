@@ -62,3 +62,10 @@ The lifecycle harness compares clears, body removal and washing during in-flight
 - [Native Firefox gameplay](v8.5/firefox-native.json): 11 checks; held Spill, pistol and drag all retain the worker backend.
 - [Runtime profiler](v8.5/runtime.json): 20 checks.
 - [Profiler overhead](v8.5/runtime-overhead.json): exact simulation equality with capture disabled, recording and the panel visible; rolling storage bounded after 1080 frames. The explicit profiler phase averaged 0.038 ms recording and 0.114 ms with the panel open. Total main-thread work averaged 11.10, 11.44 and 12.17 ms respectively in the ten-dummy Chaos scene.
+
+
+## Public deployment
+
+GitHub Pages built release commit `1b2577ea3a283f8321958877121c838f5e9fbaa4`. HTTPS served the exact tested HTML, SHA-256 `fd2a9babae6e8ecc7c869edd4ad80bb5e6f8aa4697f790ffa22d3e1cb5983fa4`; [source receipt](v8.5/live-source.json).
+
+The [public game and Games card receipt](v8.5/publish-live.json) passes all 14 checks, including the current version, native floor dragging, valid WebGL state, 1200 x 630 OG image and portfolio card at desktop and phone widths. [Public Firefox gameplay](v8.5/firefox-live.json) passes all 11 checks; Spill, sustained pistol and soaked dragging retain the worker backend. [Public F3 profiling](v8.5/runtime-live.json) passes all 20 checks, including native dragging, histogram, hitch capture, freezes, export and mobile containment.
