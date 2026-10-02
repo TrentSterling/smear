@@ -1,0 +1,834 @@
+{
+  "sourceSha256": "6bb69baafb325984841d1022ee6e4ebd9695ef32a03cf84f797806b77c0ffce6",
+  "target": "file:///C:/trontstack/smear/index.html",
+  "checks": [
+    "live telemetry starts before opening the profiler",
+    "runtime profiler uses real hardware WebGL",
+    "native Perf button opens the live panel without pausing gameplay",
+    "FPS histogram, frame history, percentiles and CPU phases render live",
+    "a 115 ms main-thread stall appears unclamped in the histogram and spike log",
+    "external stall is paired with the preceding frame work instead of blamed on catch-up physics",
+    "supported browser long tasks are retained with duration and timestamps",
+    "changing the target budget recalculates spike history for the retained window",
+    "freeze holds the captured history while the game keeps simulating",
+    "native dragging with the profiler open keeps smears and upload telemetry",
+    "Chaos reports actual workload, solver, paint, render and HUD costs",
+    "GPU results are asynchronous and unavailable timers remain explicitly unavailable",
+    "visibility changes exclude background gaps from FPS and spike history",
+    "export includes bounded raw frames, spikes, browser events and environment",
+    "Export JSON button downloads a valid profiling capture",
+    "F3 closes the panel",
+    "profiling panel remains readable and contained at 390 px",
+    "mouse wheel scrolls profiler details instead of being consumed by the game",
+    "unavailable GPU timer keeps CPU telemetry working without reporting an estimated GPU duration",
+    "profiling leaves WebGL state valid and the browser error-free"
+  ],
+  "reports": [
+    {
+      "scenario": "injected-external-stall",
+      "schema": 1,
+      "version": "0.8.3",
+      "capturing": true,
+      "visible": true,
+      "capacity": 8192,
+      "windowMs": 15000,
+      "budgetMs": 16.666666666666668,
+      "totalFrames": 73,
+      "excludedGaps": 0,
+      "summary": {
+        "frames": 73,
+        "seconds": 1.2998000000715255,
+        "fps": 56.1624865332997,
+        "latestFPS": 60.24096376890021,
+        "intervalMs": {
+          "p50": 16.699999928474426,
+          "p95": 16.899999976158142,
+          "p99": 123.69999992847443,
+          "max": 123.69999992847443
+        },
+        "workMs": 2.0589041138348514,
+        "workPercentileMs": {
+          "p50": 1.899999976158142,
+          "p95": 3,
+          "p99": 6.200000047683716,
+          "max": 6.200000047683716
+        },
+        "phases": {
+          "physics": 0.5794520606733349,
+          "paint": 0.13698629973685905,
+          "drops": 0.013698628503982334,
+          "uploadPrep": 0.010958903456387455,
+          "render": 0.939726032622873,
+          "hud": 0.11917807957897447,
+          "profiler": 0.06164383561643835,
+          "input": 0.09999999934679842,
+          "other": 0.09726027429920353
+        },
+        "overBudget": 1,
+        "spikeFrames": 1,
+        "uploadCPU": 0.03424657534246575,
+        "uploadMiB": 5.160350799560547,
+        "uploadMiBPerSecond": 3.9701114011975553,
+        "uploadCalls": 118,
+        "steps": 2.0547945205479454,
+        "droppedSimMs": 48.69999992847443,
+        "gpuMs": 1.9378694736842108,
+        "gpuSamples": 19
+      },
+      "histogram": [
+        {
+          "label": "<15",
+          "min": 0,
+          "max": 15,
+          "count": 1
+        },
+        {
+          "label": "15-30",
+          "min": 15,
+          "max": 30,
+          "count": 0
+        },
+        {
+          "label": "30-45",
+          "min": 30,
+          "max": 45,
+          "count": 0
+        },
+        {
+          "label": "45-60",
+          "min": 45,
+          "max": 60,
+          "count": 38
+        },
+        {
+          "label": "60-90",
+          "min": 60,
+          "max": 90,
+          "count": 32
+        },
+        {
+          "label": "90-144",
+          "min": 90,
+          "max": 144,
+          "count": 1
+        },
+        {
+          "label": "144-240",
+          "min": 144,
+          "max": 240,
+          "count": 0
+        },
+        {
+          "label": "240+",
+          "min": 240,
+          "max": null,
+          "count": 1
+        }
+      ],
+      "spikes": [
+        {
+          "id": 222,
+          "time": 4663.399999976158,
+          "interval": 123.69999992847443,
+          "rafInterval": 16.599999999999454,
+          "rafDelay": 0.2999999761577783,
+          "work": 1.600000023841858,
+          "physics": 0.5,
+          "paint": 0.10000002384185791,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 0.7000000476837158,
+          "hud": 0.10000002384185791,
+          "profiler": 0,
+          "input": 0.19999992847442627,
+          "other": 0,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "uploadCPU": 0,
+          "uploadBytes": 0,
+          "uploadCalls": 0,
+          "gpu": -1,
+          "calls": 237,
+          "triangles": 63546,
+          "dolls": 3,
+          "activeBodies": 45,
+          "particles": 1,
+          "wounds": 1,
+          "paintQueue": 0,
+          "wetQueue": 0,
+          "x": 0.1,
+          "y": 1.68,
+          "z": 4.1,
+          "tool": 0,
+          "held": 0,
+          "paused": 0,
+          "slow": 0,
+          "demo": 0,
+          "action": "Perf",
+          "heapBytes": 19300000
+        }
+      ],
+      "events": [
+        {
+          "time": 4671.799999952316,
+          "kind": "longtask",
+          "name": "longtask",
+          "duration": 115,
+          "details": null
+        },
+        {
+          "time": 4665.299999952316,
+          "kind": "long-animation-frame",
+          "name": "long-animation-frame",
+          "duration": 128.89999997615814,
+          "details": {
+            "blockingDuration": 72.3,
+            "renderStart": 4787.099999904633,
+            "scripts": [
+              {
+                "duration": 115.10000002384186,
+                "executionStart": 4671.899999976158,
+                "forcedStyleAndLayoutDuration": 0,
+                "invoker": "TimerHandler:setTimeout",
+                "sourceFunctionName": "",
+                "sourceURL": "",
+                "sourceCharPosition": -1
+              }
+            ]
+          }
+        }
+      ],
+      "gpu": {
+        "supported": true,
+        "samples": 19,
+        "pending": 0,
+        "disjoints": 0
+      },
+      "observerTypes": [
+        "longtask",
+        "long-animation-frame"
+      ],
+      "last": {
+        "id": 253,
+        "time": 5263.299999952316,
+        "interval": 16.600000023841858,
+        "rafInterval": 16.699999999999818,
+        "rafDelay": 0.2999999523162842,
+        "work": 1.600000023841858,
+        "physics": 0.5,
+        "paint": 0.20000004768371582,
+        "drops": 0,
+        "uploadPrep": 0,
+        "render": 0.7000000476837158,
+        "hud": 0,
+        "profiler": 0,
+        "input": 0,
+        "other": 0.19999992847442627,
+        "steps": 2,
+        "droppedSimMs": 0,
+        "uploadCPU": 0.09999990463256836,
+        "uploadBytes": 51696,
+        "uploadCalls": 5,
+        "gpu": 3.298176,
+        "calls": 237,
+        "triangles": 63546,
+        "dolls": 3,
+        "activeBodies": 45,
+        "particles": 1,
+        "wounds": 1,
+        "paintQueue": 0,
+        "wetQueue": 0,
+        "x": 0.1,
+        "y": 1.68,
+        "z": 4.1,
+        "tool": 0,
+        "held": 0,
+        "paused": 0,
+        "slow": 0,
+        "demo": 0
+      },
+      "heapBytes": 19300000,
+      "environment": {
+        "url": "file:///C:/trontstack/smear/index.html",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "viewport": [
+          1366,
+          768
+        ],
+        "pixelRatio": 1,
+        "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5070 Ti (0x00002C05) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "engine": "Three.js 140",
+        "tune": {
+          "grab": 1.25,
+          "pose": 1,
+          "impact": 1,
+          "bleeding": 1.35,
+          "transfer": 1,
+          "drying": 100,
+          "coverage": 1.12,
+          "damage": 1,
+          "look": 1,
+          "fov": 70,
+          "recover": true,
+          "walking": true
+        }
+      },
+      "exportedAt": "2026-10-02T06:48:26.965Z",
+      "frameCount": 73
+    },
+    {
+      "scenario": "native-drag",
+      "schema": 1,
+      "version": "0.8.3",
+      "capturing": true,
+      "visible": true,
+      "capacity": 8192,
+      "windowMs": 15000,
+      "budgetMs": 16.666666666666668,
+      "totalFrames": 177,
+      "excludedGaps": 0,
+      "summary": {
+        "frames": 177,
+        "seconds": 3.0332000000476835,
+        "fps": 58.354213371098986,
+        "latestFPS": 60.60606060606061,
+        "intervalMs": {
+          "p50": 16.699999928474426,
+          "p95": 16.899999976158142,
+          "p99": 44.700000047683716,
+          "max": 78.60000002384186
+        },
+        "workMs": 4.028248590264616,
+        "workPercentileMs": {
+          "p50": 3.8000000715255737,
+          "p95": 6.200000047683716,
+          "p99": 10.700000047683716,
+          "max": 44.200000047683716
+        },
+        "phases": {
+          "physics": 0.6186440664496126,
+          "paint": 1.3536723165188806,
+          "drops": 0.053672318404677226,
+          "uploadPrep": 0.26440678006511625,
+          "render": 1.3988700539378796,
+          "hud": 0.11807910129848846,
+          "profiler": 0.07457627078234139,
+          "input": 0.05254237395895403,
+          "other": 0.09378530884866661
+        },
+        "overBudget": 2,
+        "spikeFrames": 2,
+        "uploadCPU": 0.35423728436399987,
+        "uploadMiB": 128.1836051940918,
+        "uploadMiBPerSecond": 42.26018897272738,
+        "uploadCalls": 1064,
+        "steps": 2.056497175141243,
+        "droppedSimMs": 3.600000023841865,
+        "gpuMs": 1.2031076363636368,
+        "gpuSamples": 44
+      },
+      "histogram": [
+        {
+          "label": "<15",
+          "min": 0,
+          "max": 15,
+          "count": 1
+        },
+        {
+          "label": "15-30",
+          "min": 15,
+          "max": 30,
+          "count": 1
+        },
+        {
+          "label": "30-45",
+          "min": 30,
+          "max": 45,
+          "count": 0
+        },
+        {
+          "label": "45-60",
+          "min": 45,
+          "max": 60,
+          "count": 90
+        },
+        {
+          "label": "60-90",
+          "min": 60,
+          "max": 90,
+          "count": 85
+        },
+        {
+          "label": "90-144",
+          "min": 90,
+          "max": 144,
+          "count": 0
+        },
+        {
+          "label": "144-240",
+          "min": 144,
+          "max": 240,
+          "count": 0
+        },
+        {
+          "label": "240+",
+          "min": 240,
+          "max": null,
+          "count": 0
+        }
+      ],
+      "spikes": [
+        {
+          "id": 301,
+          "time": 6796.599999904633,
+          "interval": 78.60000002384186,
+          "rafInterval": 16.800000000000182,
+          "rafDelay": 0.29999990463238646,
+          "work": 2,
+          "physics": 0.6000000238418579,
+          "paint": 0.10000002384185791,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 1,
+          "hud": 0.09999990463256836,
+          "profiler": 0,
+          "input": 0.10000002384185791,
+          "other": 0.10000002384185791,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "uploadCPU": 0.10000002384185791,
+          "uploadBytes": 12544,
+          "uploadCalls": 1,
+          "gpu": 1.268288,
+          "calls": 237,
+          "triangles": 63546,
+          "dolls": 3,
+          "activeBodies": 45,
+          "particles": 1,
+          "wounds": 1,
+          "paintQueue": 0,
+          "wetQueue": 0,
+          "x": 0.1,
+          "y": 1.68,
+          "z": 4.1,
+          "tool": 0,
+          "held": 0,
+          "paused": 0,
+          "slow": 0,
+          "demo": 0,
+          "action": "Perf",
+          "heapBytes": 19300000
+        },
+        {
+          "id": 303,
+          "time": 6887.099999904633,
+          "interval": 44.700000047683716,
+          "rafInterval": 50,
+          "rafDelay": 7.39999990463275,
+          "work": 44.200000047683716,
+          "physics": 0.40000009536743164,
+          "paint": 0.5,
+          "drops": 0,
+          "uploadPrep": 0.09999990463256836,
+          "render": 42.800000071525574,
+          "hud": 0.3999999761581421,
+          "profiler": 0,
+          "input": 0,
+          "other": 0,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "uploadCPU": 1,
+          "uploadBytes": 2770856,
+          "uploadCalls": 22,
+          "gpu": -1,
+          "calls": 256,
+          "triangles": 63768,
+          "dolls": 3,
+          "activeBodies": 45,
+          "particles": 1,
+          "wounds": 1,
+          "paintQueue": 46,
+          "wetQueue": 31,
+          "x": 3.4,
+          "y": 3.261808002020762,
+          "z": 4.8,
+          "tool": 0,
+          "held": 1,
+          "paused": 0,
+          "slow": 0,
+          "demo": 0,
+          "action": "Perf",
+          "heapBytes": 19300000
+        }
+      ],
+      "events": [
+        {
+          "time": 6799,
+          "kind": "long-animation-frame",
+          "name": "long-animation-frame",
+          "duration": 86.89999997615814,
+          "details": {
+            "blockingDuration": 0,
+            "renderStart": 6875.199999928474,
+            "scripts": []
+          }
+        }
+      ],
+      "gpu": {
+        "supported": true,
+        "samples": 44,
+        "pending": 0,
+        "disjoints": 0
+      },
+      "observerTypes": [
+        "longtask",
+        "long-animation-frame"
+      ],
+      "last": {
+        "id": 447,
+        "time": 9313.399999976158,
+        "interval": 16.5,
+        "rafInterval": 16.600000000000364,
+        "rafDelay": 0.2999999761577783,
+        "work": 4.299999952316284,
+        "physics": 0.5,
+        "paint": 2,
+        "drops": 0.10000002384185791,
+        "uploadPrep": 0.30000007152557373,
+        "render": 1.1999999284744263,
+        "hud": 0,
+        "profiler": 0.10000002384185791,
+        "input": 0,
+        "other": 0.09999990463256836,
+        "steps": 2,
+        "droppedSimMs": 0,
+        "uploadCPU": 0.20000004768371582,
+        "uploadBytes": 1263472,
+        "uploadCalls": 5,
+        "gpu": -1,
+        "calls": 246,
+        "triangles": 63970,
+        "dolls": 3,
+        "activeBodies": 45,
+        "particles": 12,
+        "wounds": 17,
+        "paintQueue": 0,
+        "wetQueue": 0,
+        "x": 3.4,
+        "y": 1.68,
+        "z": 4.8,
+        "tool": 0,
+        "held": 0,
+        "paused": 0,
+        "slow": 0,
+        "demo": 0
+      },
+      "heapBytes": 19300000,
+      "environment": {
+        "url": "file:///C:/trontstack/smear/index.html",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "viewport": [
+          1366,
+          768
+        ],
+        "pixelRatio": 1,
+        "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5070 Ti (0x00002C05) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "engine": "Three.js 140",
+        "tune": {
+          "grab": 1.25,
+          "pose": 1,
+          "impact": 1,
+          "bleeding": 1.35,
+          "transfer": 1,
+          "drying": 100,
+          "coverage": 1.12,
+          "damage": 1,
+          "look": 1,
+          "fov": 70,
+          "recover": false,
+          "walking": false
+        }
+      },
+      "exportedAt": "2026-10-02T06:48:31.015Z",
+      "frameCount": 177
+    },
+    {
+      "scenario": "chaos",
+      "schema": 1,
+      "version": "0.8.3",
+      "capturing": true,
+      "visible": true,
+      "capacity": 8192,
+      "windowMs": 15000,
+      "budgetMs": 16.666666666666668,
+      "totalFrames": 130,
+      "excludedGaps": 0,
+      "summary": {
+        "frames": 130,
+        "seconds": 2.1889000000953676,
+        "fps": 59.390561466643554,
+        "latestFPS": 59.17159729922821,
+        "intervalMs": {
+          "p50": 16.699999928474426,
+          "p95": 17.09999990463257,
+          "p99": 25.200000047683716,
+          "max": 40.40000009536743
+        },
+        "workMs": 9.993076921426333,
+        "workPercentileMs": {
+          "p50": 9.200000047683716,
+          "p95": 15.5,
+          "p99": 24.5,
+          "max": 39
+        },
+        "phases": {
+          "physics": 3.329230773448944,
+          "paint": 2.059999998716208,
+          "drops": 1.4476923043911274,
+          "uploadPrep": 0.19384615512994618,
+          "render": 2.3800000025675847,
+          "hud": 0.12384614577660194,
+          "profiler": 0.07230769120729887,
+          "input": 0.11000000421817487,
+          "other": 0.27615384597044723
+        },
+        "overBudget": 4,
+        "spikeFrames": 2,
+        "uploadCPU": 0.3930769296792837,
+        "uploadMiB": 452.5768165588379,
+        "uploadMiBPerSecond": 206.7599326324271,
+        "uploadCalls": 3185,
+        "steps": 2.0692307692307694,
+        "droppedSimMs": 53.00000000000001,
+        "gpuMs": 1.8153648484848484,
+        "gpuSamples": 33
+      },
+      "histogram": [
+        {
+          "label": "<15",
+          "min": 0,
+          "max": 15,
+          "count": 0
+        },
+        {
+          "label": "15-30",
+          "min": 15,
+          "max": 30,
+          "count": 1
+        },
+        {
+          "label": "30-45",
+          "min": 30,
+          "max": 45,
+          "count": 1
+        },
+        {
+          "label": "45-60",
+          "min": 45,
+          "max": 60,
+          "count": 71
+        },
+        {
+          "label": "60-90",
+          "min": 60,
+          "max": 90,
+          "count": 56
+        },
+        {
+          "label": "90-144",
+          "min": 90,
+          "max": 144,
+          "count": 1
+        },
+        {
+          "label": "144-240",
+          "min": 144,
+          "max": 240,
+          "count": 0
+        },
+        {
+          "label": "240+",
+          "min": 240,
+          "max": null,
+          "count": 0
+        }
+      ],
+      "spikes": [
+        {
+          "id": 465,
+          "time": 9724.599999904633,
+          "interval": 40.40000009536743,
+          "rafInterval": 150,
+          "rafDelay": 111.59999990463257,
+          "work": 39,
+          "physics": 13.700000047683716,
+          "paint": 4.1000001430511475,
+          "drops": 12.599999785423279,
+          "uploadPrep": 0,
+          "render": 7.700000047683716,
+          "hud": 0.20000004768371582,
+          "profiler": 0.09999990463256836,
+          "input": 0.30000007152557373,
+          "other": 0.2999999523162842,
+          "steps": 9,
+          "droppedSimMs": 53.00000000000001,
+          "uploadCPU": 5.3999998569488525,
+          "uploadBytes": 15821568,
+          "uploadCalls": 32,
+          "gpu": 3.495168,
+          "calls": 498,
+          "triangles": 210064,
+          "dolls": 10,
+          "activeBodies": 150,
+          "particles": 871,
+          "wounds": 31,
+          "paintQueue": 59,
+          "wetQueue": 59,
+          "x": 3.4,
+          "y": 1.68,
+          "z": 4.8,
+          "tool": 0,
+          "held": 0,
+          "paused": 0,
+          "slow": 0,
+          "demo": 0,
+          "action": "Perf",
+          "heapBytes": 19300000
+        },
+        {
+          "id": 505,
+          "time": 10415.099999904633,
+          "interval": 25.200000047683716,
+          "rafInterval": 16.700000000000728,
+          "rafDelay": 2.0999999046325684,
+          "work": 24.5,
+          "physics": 9.399999976158142,
+          "paint": 4.200000047683716,
+          "drops": 7,
+          "uploadPrep": 0.5,
+          "render": 2.399999976158142,
+          "hud": 0.10000002384185791,
+          "profiler": 0.09999990463256836,
+          "input": 0.20000004768371582,
+          "other": 0.6000000238418579,
+          "steps": 3,
+          "droppedSimMs": 0,
+          "uploadCPU": 0.7000001668930054,
+          "uploadBytes": 3291332,
+          "uploadCalls": 25,
+          "gpu": 0.881664,
+          "calls": 534,
+          "triangles": 212380,
+          "dolls": 10,
+          "activeBodies": 150,
+          "particles": 521,
+          "wounds": 40,
+          "paintQueue": 7,
+          "wetQueue": 2,
+          "x": 3.4,
+          "y": 1.68,
+          "z": 4.8,
+          "tool": 0,
+          "held": 0,
+          "paused": 0,
+          "slow": 0,
+          "demo": 0,
+          "action": "Perf",
+          "heapBytes": 19300000
+        }
+      ],
+      "events": [
+        {
+          "time": 9600,
+          "kind": "long-animation-frame",
+          "name": "long-animation-frame",
+          "duration": 163.69999992847443,
+          "details": {
+            "blockingDuration": 0,
+            "renderStart": 9724.399999976158,
+            "scripts": []
+          }
+        }
+      ],
+      "gpu": {
+        "supported": true,
+        "samples": 33,
+        "pending": 0,
+        "disjoints": 0
+      },
+      "observerTypes": [
+        "longtask",
+        "long-animation-frame"
+      ],
+      "last": {
+        "id": 594,
+        "time": 11896.599999904633,
+        "interval": 16.90000009536743,
+        "rafInterval": 16.80000000000109,
+        "rafDelay": 0.29999990463329596,
+        "work": 7,
+        "physics": 2.9000000953674316,
+        "paint": 0.8999999761581421,
+        "drops": 0.2999999523162842,
+        "uploadPrep": 0.19999992847442627,
+        "render": 2.200000047683716,
+        "hud": 0.19999992847442627,
+        "profiler": 0,
+        "input": 0,
+        "other": 0.30000007152557373,
+        "steps": 2,
+        "droppedSimMs": 0,
+        "uploadCPU": 0.3999999761581421,
+        "uploadBytes": 2752324,
+        "uploadCalls": 23,
+        "gpu": -1,
+        "calls": 544,
+        "triangles": 202064,
+        "dolls": 10,
+        "activeBodies": 150,
+        "particles": 90,
+        "wounds": 68,
+        "paintQueue": 2,
+        "wetQueue": 20,
+        "x": 3.4,
+        "y": 1.68,
+        "z": 4.8,
+        "tool": 0,
+        "held": 0,
+        "paused": 0,
+        "slow": 0,
+        "demo": 0
+      },
+      "heapBytes": 19300000,
+      "environment": {
+        "url": "file:///C:/trontstack/smear/index.html",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "viewport": [
+          1366,
+          768
+        ],
+        "pixelRatio": 1,
+        "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5070 Ti (0x00002C05) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "engine": "Three.js 140",
+        "tune": {
+          "grab": 1.25,
+          "pose": 1,
+          "impact": 1,
+          "bleeding": 1.35,
+          "transfer": 1,
+          "drying": 100,
+          "coverage": 1.12,
+          "damage": 1,
+          "look": 1,
+          "fov": 70,
+          "recover": false,
+          "walking": false
+        }
+      },
+      "exportedAt": "2026-10-02T06:48:33.606Z",
+      "frameCount": 130
+    }
+  ],
+  "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5070 Ti (0x00002C05) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "result": "COMPLETE runtime profiling checks passed"
+}

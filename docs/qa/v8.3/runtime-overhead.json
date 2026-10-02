@@ -1,0 +1,272 @@
+{
+  "sourceSha256": "6bb69baafb325984841d1022ee6e4ebd9695ef32a03cf84f797806b77c0ffce6",
+  "result": "COMPLETE fixed-work simulation and rolling-window checks passed",
+  "simulationStatesMatched": true,
+  "reports": [
+    {
+      "mode": "disabled",
+      "work": {
+        "mean": 8.425316458512961,
+        "p50": 8,
+        "p95": 11.299999952316284,
+        "p99": 13.099999904632568,
+        "max": 22.90000009536743
+      },
+      "intervals": {
+        "mean": 16.666525423728814,
+        "p50": 16.699999999999818,
+        "p95": 16.800000000000182,
+        "p99": 16.800000000000182,
+        "max": 16.800000000000182
+      },
+      "summary": {
+        "frames": 0,
+        "seconds": 0,
+        "fps": 0,
+        "latestFPS": 0,
+        "intervalMs": {
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "workMs": 0,
+        "workPercentileMs": {
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 0,
+          "hud": 0,
+          "profiler": 0,
+          "input": 0,
+          "other": 0
+        },
+        "overBudget": 0,
+        "spikeFrames": 0,
+        "uploadCPU": 0,
+        "uploadMiB": 0,
+        "uploadMiBPerSecond": 0,
+        "uploadCalls": 0,
+        "steps": 0,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "gpu": {
+        "supported": true,
+        "samples": 0,
+        "pending": 0,
+        "disjoints": 0
+      },
+      "frameCount": 0,
+      "totalFrames": 0,
+      "profilerMaxMs": null
+    },
+    {
+      "mode": "recording",
+      "work": {
+        "mean": 9.22700422172305,
+        "p50": 8.899999976158142,
+        "p95": 12.399999976158142,
+        "p99": 13.699999928474426,
+        "max": 16.299999952316284
+      },
+      "intervals": {
+        "mean": 16.666949152542355,
+        "p50": 16.699999999999818,
+        "p95": 16.799999999999727,
+        "p99": 16.800000000000182,
+        "max": 16.800000000000182
+      },
+      "summary": {
+        "frames": 239,
+        "seconds": 3.981600000023842,
+        "fps": 60.026120152343,
+        "latestFPS": 59.88023977742326,
+        "intervalMs": {
+          "p50": 16.699999928474426,
+          "p95": 16.800000071525574,
+          "p99": 17,
+          "max": 37.299999952316284
+        },
+        "workMs": 9.247698746465739,
+        "workPercentileMs": {
+          "p50": 8.899999976158142,
+          "p95": 12.399999976158142,
+          "p99": 13.699999928474426,
+          "max": 16.299999952316284
+        },
+        "phases": {
+          "physics": 3.4577405891657875,
+          "paint": 1.773640164770342,
+          "drops": 0.5117154819696019,
+          "uploadPrep": 0.23179915709475593,
+          "render": 2.858158997412007,
+          "hud": 0.164016738097538,
+          "profiler": 0.035983264695650365,
+          "input": 0,
+          "other": 0.21464435326005624
+        },
+        "overBudget": 1,
+        "spikeFrames": 1,
+        "uploadCPU": 0.3778242635926442,
+        "uploadMiB": 603.0600929260254,
+        "uploadMiBPerSecond": 151.46174726803653,
+        "uploadCalls": 5460,
+        "steps": 2,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "gpu": {
+        "supported": true,
+        "samples": 0,
+        "pending": 0,
+        "disjoints": 0
+      },
+      "frameCount": 239,
+      "totalFrames": 239,
+      "profilerMaxMs": 0.20000004768371582
+    },
+    {
+      "mode": "panel",
+      "work": {
+        "mean": 9.421097051242233,
+        "p50": 8.900000095367432,
+        "p95": 12.799999952316284,
+        "p99": 15.399999976158142,
+        "max": 17.399999976158142
+      },
+      "intervals": {
+        "mean": 16.666949152542372,
+        "p50": 16.699999999999818,
+        "p95": 16.800000000000182,
+        "p99": 16.800000000000182,
+        "max": 16.800000000000182
+      },
+      "summary": {
+        "frames": 239,
+        "seconds": 3.964299999952316,
+        "fps": 60.28807103470342,
+        "latestFPS": 60.240964201507595,
+        "intervalMs": {
+          "p50": 16.699999928474426,
+          "p95": 16.800000071525574,
+          "p99": 17.600000023841858,
+          "max": 24.09999990463257
+        },
+        "workMs": 9.405020925290415,
+        "workPercentileMs": {
+          "p50": 8.899999976158142,
+          "p95": 12.799999952316284,
+          "p99": 15.399999976158142,
+          "max": 17.399999976158142
+        },
+        "phases": {
+          "physics": 3.363598324264941,
+          "paint": 1.8531380747152673,
+          "drops": 0.5025104683313409,
+          "uploadPrep": 0.237238496417281,
+          "render": 2.9518828441907172,
+          "hud": 0.1602510478207257,
+          "profiler": 0.09456066955582368,
+          "input": 0,
+          "other": 0.24184099999431785
+        },
+        "overBudget": 2,
+        "spikeFrames": 0,
+        "uploadCPU": 0.3882845111471839,
+        "uploadMiB": 603.0600929260254,
+        "uploadMiBPerSecond": 152.12271849589567,
+        "uploadCalls": 5460,
+        "steps": 2,
+        "droppedSimMs": 0,
+        "gpuMs": 1.7274047999999995,
+        "gpuSamples": 60
+      },
+      "gpu": {
+        "supported": true,
+        "samples": 60,
+        "pending": 0,
+        "disjoints": 0
+      },
+      "frameCount": 239,
+      "totalFrames": 239,
+      "profilerMaxMs": 1.4000000953674316
+    },
+    {
+      "mode": "panel-window",
+      "work": {
+        "mean": 7.606963788566483,
+        "p50": 7,
+        "p95": 11,
+        "p99": 16.700000047683716,
+        "max": 43.59999990463257
+      },
+      "intervals": {
+        "mean": 16.743959107806806,
+        "p50": 16.69999999999891,
+        "p95": 16.799999999999272,
+        "p99": 16.80000000000109,
+        "max": 50
+      },
+      "summary": {
+        "frames": 895,
+        "seconds": 15,
+        "fps": 59.666666666666664,
+        "latestFPS": 59.880239349981295,
+        "intervalMs": {
+          "p50": 16.699999928474426,
+          "p95": 16.800000071525574,
+          "p99": 19.800000071525574,
+          "max": 44.199999928474426
+        },
+        "workMs": 7.2520670396655635,
+        "workPercentileMs": {
+          "p50": 6.799999952316284,
+          "p95": 9.400000095367432,
+          "p99": 18.600000023841858,
+          "max": 43.59999990463257
+        },
+        "phases": {
+          "physics": 3.0137430204359514,
+          "paint": 0.8251396641384956,
+          "drops": 0.37005586251200245,
+          "uploadPrep": 0.20525139723410155,
+          "render": 2.3963128498812627,
+          "hud": 0.12905028052836157,
+          "profiler": 0.13184357328787863,
+          "input": 0,
+          "other": 0.18067039164750937
+        },
+        "overBudget": 11,
+        "spikeFrames": 6,
+        "uploadCPU": 0.3065921803426476,
+        "uploadMiB": 1080.1413955688477,
+        "uploadMiBPerSecond": 72.00942637125651,
+        "uploadCalls": 15812,
+        "steps": 2,
+        "droppedSimMs": 0,
+        "gpuMs": 2.0991329999999992,
+        "gpuSamples": 224
+      },
+      "gpu": {
+        "supported": true,
+        "samples": 270,
+        "pending": 0,
+        "disjoints": 0
+      },
+      "frameCount": 895,
+      "totalFrames": 1079,
+      "profilerMaxMs": 5.599999904632568
+    }
+  ],
+  "errors": []
+}

@@ -1,5 +1,7 @@
 # Performance
 
+V8.3 adds a live runtime profiler. Open **F3 / Perf** in the game and export a capture immediately after a hitch. See [runtime profiling and verification](docs/qa/runtime-v8.3.md). It preserves raw frame gaps, records CPU phases and workload, and samples GPU render/upload duration asynchronously when the extension is available.
+
 Current painting measurements: [V8.2 floor-drag profiling and verification](docs/qa/painting-v8.2.md).
 
 Measured October 1, 2026 in Chrome, headless, WebGL 2 through ANGLE Direct3D 11 on Trent's RTX 5070 Ti. Viewport: 1920 x 1080. CPU profiles use 1 ms samples; frames use `requestAnimationFrame` timestamps. These are paired local measurements with Chrome's 60 Hz presentation limit.
