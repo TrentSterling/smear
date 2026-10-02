@@ -27,3 +27,11 @@ Chaos had two slower frames, with a maximum of 33.4 ms. These are single local r
 `node tools/publish-check.mjs` returned `COMPLETE publish checks passed (12 checks)` against the combined local game and portfolio preview. The [receipt](publish-preview-v8.1.json) covers served HTML, the 1200 x 630 PNG, favicon, live game, visible dummies, card images, and category filters at [desktop](v8.1/games-1366.png) and [phone](v8.1/games-390.png) widths.
 
 The OG image is rendered from the actual game and used by both page metadata and the portfolio card. GitHub Pages serves the game from the `smear` repository's `main` branch at its root; the user site's existing custom domain supplies the project URL. Public URLs are checked again after deployment using the same publishing harness.
+
+## Public release
+
+Published to [TrentSterling/smear](https://github.com/TrentSterling/smear), with Pages on `main` at the repository root and HTTPS enforcement enabled. The portfolio card was published in commit `6ebf074` of `TrentSterling/trentsterling.github.io`.
+
+The real-browser check against [the public game](https://tront.xyz/smear/) and [games portfolio](https://tront.xyz/games/) returned `COMPLETE publish checks passed (12 checks)`. The [public receipt](publish-live-v8.1.json) confirms V8.1, successful game and image requests, all starting dummies visible, advancing simulation, category filters, and no JavaScript exceptions.
+
+Captured after full image decoding: [live game](v8.1/live-game.png), [desktop card](v8.1/live-games-1366.png), and [phone card](v8.1/live-games-390.png).

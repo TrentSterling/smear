@@ -1,0 +1,20 @@
+{
+  "game": "https://tront.xyz/smear/",
+  "games": "https://tront.xyz/games/",
+  "checks": [
+    "game HTTP 200",
+    "served game is V8.1",
+    "OG image HTTP 200 and image/png",
+    "OG image is 1200 x 630",
+    "favicon HTTP 200",
+    "served game boots with all dummies visible",
+    "served simulation advances",
+    "SMEAR card and OG image render at 1366px",
+    "portfolio category filters work at 1366px",
+    "SMEAR card and OG image render at 390px",
+    "portfolio category filters work at 390px",
+    "no JavaScript exceptions on game or portfolio"
+  ],
+  "errors": [],
+  "result": "COMPLETE publish checks passed"
+}

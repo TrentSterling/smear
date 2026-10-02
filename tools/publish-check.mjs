@@ -30,7 +30,9 @@ try{
     await page.goto(games);
     await until(()=>page.eval('!!document.body?.classList.contains("fonts-loaded")'),{label:'portfolio fonts'});
     await page.eval('document.querySelector("a[href=\\"https://tront.xyz/smear/\\"]").scrollIntoView({block:"center"})');
-    await until(()=>page.eval('document.querySelector("a[href=\\"https://tront.xyz/smear/\\"] img").naturalWidth===1200'),{label:'portfolio card image'});
+    await until(()=>page.eval('(()=>{const i=document.querySelector("a[href=\\"https://tront.xyz/smear/\\"] img");return i.complete&&i.naturalWidth===1200;})()'),{label:'portfolio card image'});
+    await page.eval('document.querySelector("a[href=\\"https://tront.xyz/smear/\\"] img").decode().then(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))))');
+    await until(()=>page.eval('getComputedStyle(document.body).opacity==="1"'),{label:'portfolio reveal'});
     const card=await page.eval('(()=>{const cards=document.querySelectorAll("a[href=\\"https://tront.xyz/smear/\\"]"),c=cards[0];return {count:cards.length,text:c.innerText,width:document.documentElement.scrollWidth,viewport:innerWidth,visible:getComputedStyle(c).display,image:c.querySelector("img").naturalWidth};})()');
     pass(`SMEAR card and OG image render at ${width}px`,()=>{assert.equal(card.count,1);assert(card.text.includes('SMEAR'));assert.notEqual(card.visible,'none');assert.equal(card.image,1200);assert(card.width<=card.viewport+1);});
     await page.shot(resolve(out,`games-${width}.png`));
