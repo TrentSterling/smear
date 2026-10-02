@@ -1,5 +1,7 @@
 # Performance
 
+Current painting measurements: [V8.2 floor-drag profiling and verification](docs/qa/painting-v8.2.md).
+
 Measured October 1, 2026 in Chrome, headless, WebGL 2 through ANGLE Direct3D 11 on Trent's RTX 5070 Ti. Viewport: 1920 x 1080. CPU profiles use 1 ms samples; frames use `requestAnimationFrame` timestamps. These are paired local measurements with Chrome's 60 Hz presentation limit.
 
 ## Collision optimization in the same arena

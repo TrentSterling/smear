@@ -1,0 +1,66 @@
+{
+  "path": "WebGL 2 direct subrects",
+  "checks": [
+    "GPU paint matches retained canvas after smear demo",
+    "GPU paint matches retained canvas after tile seams and borders",
+    "GPU paint matches retained canvas after small edge brushes and tall faces",
+    "GPU paint matches retained canvas after wall drips and rotated faces",
+    "GPU paint matches retained canvas after clean and repaint",
+    "GPU paint matches retained canvas after complete clear",
+    "region copy canvases are reused within a bounded set",
+    "no WebGL errors after cropped uploads and wet-map updates",
+    "no painting browser exceptions or errors"
+  ],
+  "audits": [
+    {
+      "name": "smear demo",
+      "pixels": 11770978,
+      "mismatches": 0,
+      "maxDelta": 0.9960784313725526,
+      "failures": [],
+      "copyCanvases": 0
+    },
+    {
+      "name": "tile seams and borders",
+      "pixels": 11770978,
+      "mismatches": 0,
+      "maxDelta": 0.9960784313725526,
+      "failures": [],
+      "copyCanvases": 0
+    },
+    {
+      "name": "small edge brushes and tall faces",
+      "pixels": 11770978,
+      "mismatches": 0,
+      "maxDelta": 0.9843137254901961,
+      "failures": [],
+      "copyCanvases": 0
+    },
+    {
+      "name": "wall drips and rotated faces",
+      "pixels": 11770978,
+      "mismatches": 0,
+      "maxDelta": 0.9960784313725526,
+      "failures": [],
+      "copyCanvases": 0
+    },
+    {
+      "name": "clean and repaint",
+      "pixels": 11770978,
+      "mismatches": 0,
+      "maxDelta": 0.9058823529411768,
+      "failures": [],
+      "copyCanvases": 0
+    },
+    {
+      "name": "complete clear",
+      "pixels": 11770978,
+      "mismatches": 0,
+      "maxDelta": 0,
+      "failures": [],
+      "copyCanvases": 0
+    }
+  ],
+  "errors": [],
+  "result": "COMPLETE painting checks passed"
+}

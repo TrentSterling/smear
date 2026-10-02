@@ -1,0 +1,27 @@
+{
+  "before": "C:\\trontstack\\smear\\tools\\out\\paint-before.html",
+  "after": "C:\\trontstack\\smear\\index.html",
+  "checks": [
+    "default: exact simulation and stain statistics match V8.1",
+    "default: floor pigment and coverage match V8.1 within rounding tolerance",
+    "wet: exact simulation and stain statistics match V8.1",
+    "wet: floor pigment and coverage match V8.1 within rounding tolerance"
+  ],
+  "images": [
+    {
+      "preset": "default",
+      "meanChannelDelta": 0.017187398274739585,
+      "maxChannelDelta": 9,
+      "width": 2560,
+      "height": 2560
+    },
+    {
+      "preset": "wet",
+      "meanChannelDelta": 0.016381276448567707,
+      "maxChannelDelta": 9,
+      "width": 2560,
+      "height": 2560
+    }
+  ],
+  "result": "COMPLETE paint preservation checks passed"
+}

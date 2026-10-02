@@ -44,6 +44,8 @@ try {
   // Start both deterministic traces before any real-time animation frames.
   // V7's surface reset retains wet-cell timestamps from prior live frames.
   await page.init(`(() => {
+    window.__qaDrawnTexts=new Set();const fillText=CanvasRenderingContext2D.prototype.fillText;
+    CanvasRenderingContext2D.prototype.fillText=function(text,...args){window.__qaDrawnTexts.add(String(text));return fillText.call(this,text,...args);};
     const raf=requestAnimationFrame.bind(window),queued=[];
     let hold=true;
     window.requestAnimationFrame=fn=>hold?queued.push(fn):raf(fn);
@@ -89,6 +91,9 @@ try {
   await page.eval('for(let i=0;i<16;i++)window.__smear.render()');
   await page.shot(resolve(out, 'smear-v8-demo.png'));
   await page.eval('window.__smear.panel("about")');
+  const drawnTexts=await page.eval('Array.from(window.__qaDrawnTexts)');
+  const [,minor,patch]=release.version.split('.'),visibleRelease=minor.padStart(2,'0')+'.'+patch;
+  check('HUD and About show the current release version',()=>{assert(drawnTexts.includes(visibleRelease));assert(drawnTexts.includes('SMEAR '+visibleRelease));});
   await page.shot(resolve(out, 'smear-v8-about.png'));
 
   const liveStart = await page.eval('(() => {const a=window.__smear;a.panel(null);a.reset();a.manual(false);window.__qaReleaseFrames();return a.state();})()');
@@ -134,6 +139,25 @@ try {
   receipts.wall = { wetWalls: wall.wetWalls, state: brief(wall.after) };
   await page.eval('for(let i=0;i<16;i++)window.__smear.render()');
   await page.shot(resolve(out, 'smear-v8-wall.png'));
+
+  const dragStart=await page.eval(`(()=>{const a=window.__smear;a.preset('default');a.panel(null);a.reset();a.tune({recover:false,walking:false});a.view([3.4,3.3,4.8],[0,.1,1]);for(const name of ['Torso','Hips','Head'])for(const n of [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]])a.bodyPaint(0,name,n,.85);a.manual(false);return{point:a.project(0,'Torso'),stats:a.state().stats};})()`);
+  await page.mouse('mouseMoved',dragStart.point.x,dragStart.point.y);
+  await page.mouse('mousePressed',dragStart.point.x,dragStart.point.y);
+  const held=await page.eval('window.__smear.state().grab');
+  for(let i=1;i<=48;i++){
+    await page.mouse('mouseMoved',dragStart.point.x+Math.sin(i/48*Math.PI)*250,Math.min(720,dragStart.point.y+75));
+    await sleep(16);
+  }
+  await page.mouse('mouseReleased',dragStart.point.x,dragStart.point.y);
+  const dragged=await page.eval('window.__smear.state()');
+  check('native mouse drag paints persistent floor smears and releases the body',()=>{
+    assert(held,'mouse must grab a physical body');assert.equal(dragged.grab,null);
+    assert(dragged.stats.strokeSegments>dragStart.stats.strokeSegments);
+    assert(dragged.stats.smearMeters>dragStart.stats.smearMeters+.1);
+    finiteBodies(dragged);
+  });
+  receipts.mouseDrag={held,state:brief(dragged)};
+  await page.shot(resolve(out,'smear-v8-mouse-drag.png'));
 
   await page.eval('localStorage.removeItem("smear.tune.v8");localStorage.setItem("dragmark.tune.v7",JSON.stringify({grab:1.9,bleeding:1.7,fov:76,walking:false}))');
   await page.goto(pathToFileURL(resolve(root, 'index.html')).href);

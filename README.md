@@ -2,7 +2,7 @@
 
 A blood-and-contact ragdoll playground by Trent Sterling / Tront. Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V8.1 / 0.8.1** continues the DRAGMARK prototype under the name SMEAR.
+**V8.2 / 0.8.2** continues the DRAGMARK prototype under the name SMEAR.
 
 **Play:** https://tront.xyz/smear/ · **Source:** https://github.com/TrentSterling/smear
 
@@ -29,6 +29,8 @@ Stains last for the session. Tuning saves in browser storage; V8 migrates availa
 - `tools/og-shot.mjs`: repeatable 1200 x 630 social image rendered from the game.
 - `og-image.png`: social sharing and portfolio card image.
 - `docs/qa/`: recovery and verification receipts.
+
+Painting performance and preservation receipts are in [V8.2 floor-drag notes](docs/qa/painting-v8.2.md). Use `npm run profile:paint` and `npm run verify:paint` for the focused workload.
 
 Run `npm run verify` with Node 22+ and Chrome installed. `CHROME` can override the executable path. Browser captures and JSON receipts go in `tools/out/`.
 

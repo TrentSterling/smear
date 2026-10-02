@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.8.2 / V8.2
+
+- Cached deterministic bristle shapes and colors, removed per-bristle point allocations, and used numeric opacity instead of parsing a new RGBA string for each stroke.
+- Tracked conservative dirty rectangles and uploaded only changed canvas regions through WebGL 2. Kept complete initialization/clearing and a bounded region-copy fallback for WebGL 1.
+- Preserved all smear samples, bristles, wet transfer, contact physics, and pigment density; added exact simulation and reference-image comparisons.
+- Added sustained floor-drag profiling, GPU-to-canvas pixel audits, and native mouse-drag verification locally and on the public website.
+
 ## 0.8.1 / V8.1
 
 - Moved central pillars to the perimeter and the divider behind spawn, opening sightlines to all three starting dummies and the central drag area.
