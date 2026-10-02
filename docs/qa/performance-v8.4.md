@@ -70,3 +70,9 @@ npm run profile:runtime
 ```
 
 Each browser harness launches and terminates only its own dedicated browser process and profile. `CHROME` and `FIREFOX` override their executable paths.
+
+## Public deployment
+
+GitHub Pages built release commit `3a5bbcf0a63593e3c8388f4186ad5c1869567afc`. HTTPS served the exact release HTML, SHA-256 `c99dab81ec7360cba100e30b21b2fda44a5861622bef9438648729fd58e8052b`.
+
+The [published game and portfolio receipt](v8.4/publish-live.json) passes all 14 checks: current version, native floor dragging, valid WebGL state, 1200 x 630 OG image, and the Games card at desktop and phone widths. The [live profiler receipt](v8.4/runtime-live.json) passes 20 checks. The [live Firefox gameplay receipt](v8.4/firefox-live.json) passes all 10 checks, including native held Spill on an empty floor point, sustained pistol fire and a soaked dummy drag at 3000 x 1800.
