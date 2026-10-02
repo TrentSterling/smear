@@ -6,6 +6,8 @@ Current version: V8.5 / `0.8.5`. `index.html` is the complete offline game. Pres
 
 Keep the offline entry point usable without a build or CDN. Preserve persistent stains, contact-driven smears, wall spills, gravity-driven drips, and embedded third-party notices. Browser tuning uses `smear.tune.v8` and migrates available legacy tuning from `dragmark.tune.v7`.
 
+Use explicit UTF-8 for all text I/O. Windows PowerShell's default `Get-Content` encoding can corrupt the degree, middle-dot, multiplication and arrow symbols when text is rewritten as UTF-8. The gameplay harness checks those original codepoints.
+
 Verification: `npm run verify`. It opens its own headless Chrome on the real GPU, checks repeatable smear physics after reset, validates all spawn sightlines at three desktop sizes, exercises wall spills and storage migration, and saves captures to `tools/out/`. The focused collision optimization was separately verified against the exact V7 simulation before relocating arena geometry; its receipt is in `docs/qa/collision-preservation.json`. Never claim runtime success without running it. Never terminate unrelated browsers.
 
 Profile with `npm run profile`; regenerate the social image with `npm run og`. GitHub Pages uses `main`, repository root, and the portfolio's existing custom domain. Do not add a project-level CNAME. Validate releases and the portfolio card with `node tools/publish-check.mjs <game-url> <games-url> <label>`.

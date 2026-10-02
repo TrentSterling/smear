@@ -55,7 +55,7 @@ The lifecycle harness compares clears, body removal and washing during in-flight
 
 ## Release verification
 
-- [Full gameplay](v8.5/gameplay.json): 19 checks.
+- [Full gameplay](v8.5/gameplay.json): 20 checks, including preserved UTF-8 UI symbols.
 - GPU pigment versus retained canvas: [Chrome worker](v8.5/paint-worker-chrome.json) and [Firefox worker](v8.5/paint-worker-firefox.json), 13 checks each; [synchronous compatibility](v8.5/paint-fallback.json), 12 checks.
 - Worker lifecycle and recovery: [Chrome](v8.5/worker-chrome.json) and [Firefox](v8.5/worker-firefox.json), 25 checks each.
 - [Particle collision preservation](v8.5/particle-collisions.json): four exact 180-body, overflow, ordering and fast-segment cases.
@@ -66,6 +66,8 @@ The lifecycle harness compares clears, body removal and washing during in-flight
 
 ## Public deployment
 
-GitHub Pages built release commit `1b2577ea3a283f8321958877121c838f5e9fbaa4`. HTTPS served the exact tested HTML, SHA-256 `fd2a9babae6e8ecc7c869edd4ad80bb5e6f8aa4697f790ffa22d3e1cb5983fa4`; [source receipt](v8.5/live-source.json).
+GitHub Pages serves V8.5 with the original UTF-8 symbols restored. HTTPS served the exact tested HTML, SHA-256 `28bab15276e9fcf9b999feacc12aaf5c7246e64d98098c7b403c972e4aa82e13`; [source receipt](v8.5/live-source.json).
 
 The [public game and Games card receipt](v8.5/publish-live.json) passes all 14 checks, including the current version, native floor dragging, valid WebGL state, 1200 x 630 OG image and portfolio card at desktop and phone widths. [Public Firefox gameplay](v8.5/firefox-live.json) passes all 11 checks; Spill, sustained pistol and soaked dragging retain the worker backend. [Public F3 profiling](v8.5/runtime-live.json) passes all 20 checks, including native dragging, histogram, hitch capture, freezes, export and mobile containment.
+
+The final UI encoding correction passed 22 retained-HUD pixel checks in each browser and adds a source encoding regression check to the gameplay harness.

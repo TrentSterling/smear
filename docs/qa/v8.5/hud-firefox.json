@@ -1,0 +1,229 @@
+{
+  "browser": "Firefox",
+  "checks": [
+    "initial HUD",
+    "button hover",
+    "button hover cleared",
+    "pistol reticle",
+    "reticle moved",
+    "recoil and hit marker",
+    "hit marker expired",
+    "grab hint and reticle",
+    "released grab",
+    "paused HUD",
+    "slow HUD",
+    "HUD hidden",
+    "HUD restored",
+    "controls panel",
+    "tuning panel",
+    "live tuning change",
+    "about panel",
+    "reset panel",
+    "close panel and change modes",
+    "profiler panel open",
+    "toast expired",
+    "resize"
+  ],
+  "audits": [
+    {
+      "name": "initial HUD",
+      "different": 0,
+      "maxDelta": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": 15
+    },
+    {
+      "name": "button hover",
+      "different": 0,
+      "maxDelta": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": 15
+    },
+    {
+      "name": "button hover cleared",
+      "different": 0,
+      "maxDelta": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": 15
+    },
+    {
+      "name": "pistol reticle",
+      "different": 0,
+      "maxDelta": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": 15
+    },
+    {
+      "name": "reticle moved",
+      "different": 0,
+      "maxDelta": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": 15
+    },
+    {
+      "name": "recoil and hit marker",
+      "different": 0,
+      "maxDelta": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": 15
+    },
+    {
+      "name": "hit marker expired",
+      "different": 0,
+      "maxDelta": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": 15
+    },
+    {
+      "name": "grab hint and reticle",
+      "different": 0,
+      "maxDelta": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": 15
+    },
+    {
+      "name": "released grab",
+      "different": 0,
+      "maxDelta": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": 15
+    },
+    {
+      "name": "paused HUD",
+      "different": 0,
+      "maxDelta": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": 14
+    },
+    {
+      "name": "slow HUD",
+      "different": 0,
+      "maxDelta": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": 14
+    },
+    {
+      "name": "HUD hidden",
+      "different": 0,
+      "maxDelta": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": 0
+    },
+    {
+      "name": "HUD restored",
+      "different": 0,
+      "maxDelta": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": 15
+    },
+    {
+      "name": "controls panel",
+      "different": 0,
+      "maxDelta": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": 3
+    },
+    {
+      "name": "tuning panel",
+      "different": 0,
+      "maxDelta": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": 14
+    },
+    {
+      "name": "live tuning change",
+      "different": 0,
+      "maxDelta": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": 14
+    },
+    {
+      "name": "about panel",
+      "different": 0,
+      "maxDelta": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": 5
+    },
+    {
+      "name": "reset panel",
+      "different": 0,
+      "maxDelta": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": 3
+    },
+    {
+      "name": "close panel and change modes",
+      "different": 0,
+      "maxDelta": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": 15
+    },
+    {
+      "name": "profiler panel open",
+      "different": 0,
+      "maxDelta": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": 14
+    },
+    {
+      "name": "toast expired",
+      "different": 0,
+      "maxDelta": 0,
+      "samples": [],
+      "width": 1920,
+      "height": 1080,
+      "buttons": 14
+    },
+    {
+      "name": "resize",
+      "different": 0,
+      "maxDelta": 0,
+      "samples": [],
+      "width": 1100,
+      "height": 700,
+      "buttons": 14
+    }
+  ],
+  "errors": [],
+  "result": "COMPLETE retained HUD checks passed"
+}

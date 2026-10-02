@@ -38,6 +38,8 @@ function brief(state) {
 }
 const original = await readFile(resolve(root, 'versions/dragmark_v7.html'));
 check('original V7 preserved byte for byte', () => assert.equal(createHash('sha256').update(original).digest('hex'), '4dfe17e606b18ce7471f176b4c2afa0229b2f32e60b5b88c2971ebc6a75bc41f'));
+const gameSource=await readFile(resolve(root,'index.html'),'utf8');
+check('UTF-8 UI symbols retain their original codepoints',()=>assert.deepEqual([...new Set([...gameSource].map(c=>c.codePointAt(0)).filter(c=>c>127))].sort((a,b)=>a-b),[176,183,215,8594]));
 
 const page = await launch({ port: Number(process.env.SMEAR_CDP_PORT || 9587), width: 1366, height: 768 });
 try {
