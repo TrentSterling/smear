@@ -8,7 +8,8 @@ import { launch, sleep, until } from './cdp.mjs';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const out = resolve(root, 'tools/out');
 await mkdir(out, { recursive: true });
-const receipts = { version: '0.8.0', checks: [], browserErrors: [] };
+const release = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'));
+const receipts = { version: release.version, checks: [], browserErrors: [] };
 function check(name, fn) {
   fn();
   receipts.checks.push(name);
@@ -28,6 +29,7 @@ function deterministic(state) {
   delete copy.version;
   delete copy.stats.physicsMS;
   delete copy.stats.frameMS;
+  delete copy.renderer;
   return copy;
 }
 function brief(state) {
@@ -62,11 +64,11 @@ try {
   const initial = await page.eval('window.__smear.state()');
   check('SMEAR V8 reports the new name and version', () => {
     assert.equal(initial.name, 'SMEAR');
-    assert.equal(initial.version, '0.8.0');
+    assert.equal(initial.version, release.version);
   });
   const branding = await page.eval('({title:document.title,label:document.getElementById("world").getAttribute("aria-label"),description:document.querySelector("meta[name=description]").content})');
   check('page and accessibility branding updated', () => {
-    assert.equal(branding.title, 'SMEAR 08 \u2022 Tront');
+    assert.equal(branding.title, 'SMEAR | Blood & Ragdoll Playground');
     assert(branding.label.startsWith('SMEAR'));
     assert(branding.description.startsWith('SMEAR:'));
   });
@@ -75,7 +77,8 @@ try {
   console.log(`GPU ${gpu.renderer}`);
   check('hardware WebGL renderer', () => assert(!/swiftshader|llvmpipe|software/i.test(gpu.renderer)));
   const candidate = await page.eval('(() => {const a=window.__smear;a.manual(true);a.preset("default");return a.trace(60,14);})()');
-  check('V8 deterministic smear demo matches V7', () => assert.deepEqual(deterministic(candidate), deterministic(baseline)));
+  const repeated = await page.eval('window.__smear.trace(60,14)');
+  check('V8 smear demo repeats deterministically after reset', () => assert.deepEqual(deterministic(candidate), deterministic(repeated)));
   check('demo leaves splashes, smears, and landed droplets', () => {
     assert(candidate.stats.splats > 0);
     assert(candidate.stats.smearMeters > 0);
@@ -95,11 +98,31 @@ try {
     assert(live.simTime > liveStart.simTime);
     finiteBodies(live);
   });
-  check('starting view is in front of the V7 divider', () => {
-    assert(live.player.p[2] < 3.05 - .17 - .23);
+  check('starting view is in front of the relocated divider', () => {
+    assert(live.player.p[2] < 5.8 - .17 - .23);
     assert.equal(live.player.mode, 'walk');
   });
   await page.shot(resolve(out, 'smear-v8-room.png'));
+
+  for(const [width,height] of [[1280,720],[1366,768],[1920,1080]]){
+    await page.call('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});
+    await until(()=>page.eval(`window.__smear.quality().canvas[0]===${width}&&window.__smear.quality().canvas[1]===${height}`),{label:`canvas resize ${width}x${height}`});
+    const visible=await page.eval('(()=>{const a=window.__smear;a.manual(true);a.reset();for(let i=0;i<16;i++)a.render();return a.visibility();})()');
+    check(`all starting dummies visible at ${width}x${height}`,()=>{
+      assert.equal(visible.length,3);
+      assert(visible.every(d=>d.visible),JSON.stringify(visible));
+    });
+    await page.shot(resolve(out,`spawn-${width}.png`));
+  }
+  await page.call('Emulation.setDeviceMetricsOverride',{width:1366,height:768,deviceScaleFactor:1,mobile:false});
+  await until(()=>page.eval('window.__smear.quality().canvas[0]===1366'),{label:'restore capture size'});
+
+  const social=await page.eval('({canonical:document.querySelector("link[rel=canonical]").href,image:document.querySelector("meta[property=\\"og:image\\"]").content,twitter:document.querySelector("meta[name=\\"twitter:card\\"]").content})');
+  check('canonical and social sharing metadata point to SMEAR',()=>{
+    assert.equal(social.canonical,'https://tront.xyz/smear/');
+    assert.equal(social.image,'https://tront.xyz/smear/og-image.png?v=081');
+    assert.equal(social.twitter,'summary_large_image');
+  });
 
   const wall = await page.eval('(() => {const a=window.__smear;a.panel(null);a.reset();a.manual(true);a.wallSpill("front");const deposited=a.state();a.step(180);a.view([3,2.8,-3],[.1,2,-7.8]);return {deposited,after:a.state(),wetWalls:a.paintFaces().filter(s=>Math.abs(s.n[1])<.2&&s.wet>0)};})()');
   check('wall spill creates persistent wet wall deposits', () => {

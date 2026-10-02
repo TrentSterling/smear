@@ -2,7 +2,9 @@
 
 A blood-and-contact ragdoll playground by Trent Sterling / Tront. Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V8 / 0.8.0** continues the DRAGMARK prototype under the name SMEAR.
+**V8.1 / 0.8.1** continues the DRAGMARK prototype under the name SMEAR.
+
+**Play:** https://tront.xyz/smear/ · **Source:** https://github.com/TrentSterling/smear
 
 ## Run
 
@@ -22,9 +24,16 @@ Stains last for the session. Tuning saves in browser storage; V8 migrates availa
 
 - `index.html`: current SMEAR V8.
 - `versions/dragmark_v7.html`: Trent's original V7, preserved byte for byte.
-- `tools/verify.mjs`: Chrome runtime checks and a deterministic V7/V8 smear comparison.
+- `tools/verify.mjs`: Chrome runtime, reset, and spawn visibility checks.
+- `tools/profile.mjs`: CPU profiles and frame distributions on the real GPU.
+- `tools/og-shot.mjs`: repeatable 1200 x 630 social image rendered from the game.
+- `og-image.png`: social sharing and portfolio card image.
 - `docs/qa/`: recovery and verification receipts.
 
 Run `npm run verify` with Node 22+ and Chrome installed. `CHROME` can override the executable path. Browser captures and JSON receipts go in `tools/out/`.
 
-Three.js retains its embedded copyright and MIT license header. SMEAR's source includes the original procedural content and AI-assisted implementation from the DRAGMARK thread.
+`npm run serve` previews the game at `http://127.0.0.1:8198/`. `npm run profile` records the room, smear demo, and 10-dummy Chaos preset. `npm run og` regenerates the social image. See [PERFORMANCE.md](PERFORMANCE.md) for measurements and remaining costs.
+
+GitHub Pages serves the repository root from `main`. `.nojekyll` keeps the HTML and image assets intact; the portfolio's custom domain supplies `tront.xyz/smear/`.
+
+Three.js retains its embedded copyright and MIT license header; the full license is in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). SMEAR's source includes the original procedural content and AI-assisted implementation from the DRAGMARK thread.

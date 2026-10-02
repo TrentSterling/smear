@@ -1,0 +1,850 @@
+{
+  "source": "C:\\trontstack\\smear\\index.html",
+  "label": "release",
+  "reports": [
+    {
+      "scenario": "room",
+      "label": "release",
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5070 Ti (0x00002C05) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "frameMs": {
+        "p50": 16.699999999999818,
+        "p95": 16.799999999999272,
+        "p99": 16.80000000000109,
+        "max": 16.80000000000109
+      },
+      "frames": 480,
+      "over25ms": 0,
+      "heap": [
+        17100000,
+        17100000,
+        17100000,
+        17100000,
+        17100000,
+        17100000,
+        17100000,
+        17100000
+      ],
+      "dolls": 3,
+      "simTime": 9.941666666666743,
+      "renderer": {
+        "calls": 237,
+        "triangles": 63546,
+        "geometries": 100,
+        "textures": 154
+      },
+      "stats": {
+        "steps": 1193,
+        "splats": 138,
+        "strokeSegments": 57,
+        "smearMeters": 0.6331259909609095,
+        "broadSegments": 19,
+        "dropletsLanded": 49,
+        "liftBreaks": 36,
+        "paintUploads": 211,
+        "transfer": 3.0569417644419743,
+        "shots": 0,
+        "contacts": 33,
+        "maxJoint": 0.00004962153832391098,
+        "physicsMS": 0.3540954419573599,
+        "frameMS": 16.66652949386485,
+        "bodyPaints": 137,
+        "pressurePeak": 1.398511158372854,
+        "bodyDrops": 16
+      },
+      "cpu": {
+        "durationMs": 8048.2,
+        "self": [
+          {
+            "function": "(idle)",
+            "line": 0,
+            "ms": 6702.8,
+            "percent": 83.3
+          },
+          {
+            "function": "(program)",
+            "line": 0,
+            "ms": 258.7,
+            "percent": 3.2
+          },
+          {
+            "function": "solveWorld",
+            "line": 626,
+            "ms": 66.2,
+            "percent": 0.8
+          },
+          {
+            "function": "physicsStep",
+            "line": 729,
+            "ms": 43.8,
+            "percent": 0.5
+          },
+          {
+            "function": "frame",
+            "line": 1238,
+            "ms": 31.5,
+            "percent": 0.4
+          },
+          {
+            "function": "(anonymous)",
+            "line": 29,
+            "ms": 30.5,
+            "percent": 0.4
+          },
+          {
+            "function": "ps.upload",
+            "line": 29,
+            "ms": 24.7,
+            "percent": 0.3
+          },
+          {
+            "function": "(garbage collector)",
+            "line": 0,
+            "ms": 23.8,
+            "percent": 0.3
+          },
+          {
+            "function": "bloodContact",
+            "line": 815,
+            "ms": 23.2,
+            "percent": 0.3
+          },
+          {
+            "function": "jointPosition",
+            "line": 608,
+            "ms": 22.6,
+            "percent": 0.3
+          },
+          {
+            "function": "renderBufferDirect",
+            "line": 29,
+            "ms": 21.9,
+            "percent": 0.3
+          },
+          {
+            "function": "n",
+            "line": 29,
+            "ms": 21.6,
+            "percent": 0.3
+          },
+          {
+            "function": "intersectsObject",
+            "line": 29,
+            "ms": 20.3,
+            "percent": 0.3
+          },
+          {
+            "function": "bindVertexArray",
+            "line": 0,
+            "ms": 20.1,
+            "percent": 0.3
+          },
+          {
+            "function": "Lt",
+            "line": 29,
+            "ms": 19.7,
+            "percent": 0.2
+          },
+          {
+            "function": "rotate",
+            "line": 335,
+            "ms": 19.6,
+            "percent": 0.2
+          },
+          {
+            "function": "compose",
+            "line": 29,
+            "ms": 16.6,
+            "percent": 0.2
+          },
+          {
+            "function": "walkingTargets",
+            "line": 468,
+            "ms": 16.4,
+            "percent": 0.2
+          }
+        ],
+        "inclusive": [
+          {
+            "function": "frame",
+            "line": 1238,
+            "ms": 1061.3,
+            "percent": 13.2
+          },
+          {
+            "function": "renderNow",
+            "line": 1233,
+            "ms": 618.1,
+            "percent": 7.7
+          },
+          {
+            "function": "render",
+            "line": 29,
+            "ms": 540.3,
+            "percent": 6.7
+          },
+          {
+            "function": "physicsStep",
+            "line": 729,
+            "ms": 359.7,
+            "percent": 4.5
+          },
+          {
+            "function": "Pt",
+            "line": 29,
+            "ms": 294.8,
+            "percent": 3.7
+          },
+          {
+            "function": "Dt",
+            "line": 29,
+            "ms": 293.4,
+            "percent": 3.6
+          },
+          {
+            "function": "Nt",
+            "line": 29,
+            "ms": 287.2,
+            "percent": 3.6
+          },
+          {
+            "function": "renderBufferDirect",
+            "line": 29,
+            "ms": 276.5,
+            "percent": 3.4
+          },
+          {
+            "function": "(program)",
+            "line": 0,
+            "ms": 258.7,
+            "percent": 3.2
+          },
+          {
+            "function": "(anonymous)",
+            "line": 29,
+            "ms": 191.1,
+            "percent": 2.4
+          },
+          {
+            "function": "Ys.render",
+            "line": 29,
+            "ms": 100.4,
+            "percent": 1.2
+          },
+          {
+            "function": "ps.upload",
+            "line": 29,
+            "ms": 83.1,
+            "percent": 1
+          },
+          {
+            "function": "solveWorld",
+            "line": 626,
+            "ms": 77.8,
+            "percent": 1
+          },
+          {
+            "function": "Lt",
+            "line": 29,
+            "ms": 74.4,
+            "percent": 0.9
+          },
+          {
+            "function": "_",
+            "line": 29,
+            "ms": 74,
+            "percent": 0.9
+          },
+          {
+            "function": "_",
+            "line": 29,
+            "ms": 74,
+            "percent": 0.9
+          },
+          {
+            "function": "Lt",
+            "line": 29,
+            "ms": 71.7,
+            "percent": 0.9
+          },
+          {
+            "function": "jointPosition",
+            "line": 608,
+            "ms": 63.7,
+            "percent": 0.8
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "demo",
+      "label": "release",
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5070 Ti (0x00002C05) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "frameMs": {
+        "p50": 16.69999999999891,
+        "p95": 16.800000000000182,
+        "p99": 16.80000000000109,
+        "max": 16.899999999999636
+      },
+      "frames": 840,
+      "over25ms": 0,
+      "heap": [
+        17100000,
+        17100000,
+        17100000,
+        17100000,
+        17100000,
+        17100000,
+        17100000,
+        17100000,
+        17100000,
+        17100000,
+        17100000,
+        17100000,
+        17100000,
+        17100000
+      ],
+      "dolls": 3,
+      "simTime": 14.491666666666484,
+      "renderer": {
+        "calls": 258,
+        "triangles": 63824,
+        "geometries": 121,
+        "textures": 205
+      },
+      "stats": {
+        "steps": 1739,
+        "splats": 593,
+        "strokeSegments": 7060,
+        "smearMeters": 80.6659006275861,
+        "broadSegments": 1871,
+        "dropletsLanded": 271,
+        "liftBreaks": 122,
+        "paintUploads": 1492,
+        "transfer": 12.57093767490036,
+        "shots": 0,
+        "contacts": 37,
+        "maxJoint": 0.00027630340229659983,
+        "physicsMS": 0.4779993173287594,
+        "frameMS": 16.66352204982172,
+        "bodyPaints": 1067,
+        "pressurePeak": 12.400278961589356,
+        "bodyDrops": 119,
+        "abrasionWork": 1021.0795236825039,
+        "abrasionDamage": 2.7958310272782168,
+        "freshAbrasionBlood": 2.261421532691284,
+        "abrasionWounds": 1,
+        "collisionDamage": 18.434592088365644,
+        "impactInjuries": 7
+      },
+      "cpu": {
+        "durationMs": 14022.2,
+        "self": [
+          {
+            "function": "(idle)",
+            "line": 0,
+            "ms": 11188.2,
+            "percent": 79.8
+          },
+          {
+            "function": "(program)",
+            "line": 0,
+            "ms": 304.2,
+            "percent": 2.2
+          },
+          {
+            "function": "patchUV",
+            "line": 160,
+            "ms": 247.5,
+            "percent": 1.8
+          },
+          {
+            "function": "texSubImage2D",
+            "line": 0,
+            "ms": 123.5,
+            "percent": 0.9
+          },
+          {
+            "function": "(anonymous)",
+            "line": 29,
+            "ms": 99.8,
+            "percent": 0.7
+          },
+          {
+            "function": "solveWorld",
+            "line": 626,
+            "ms": 97.1,
+            "percent": 0.7
+          },
+          {
+            "function": "physicsStep",
+            "line": 729,
+            "ms": 71.7,
+            "percent": 0.5
+          },
+          {
+            "function": "n",
+            "line": 29,
+            "ms": 65.1,
+            "percent": 0.5
+          },
+          {
+            "function": "bloodContact",
+            "line": 815,
+            "ms": 52.8,
+            "percent": 0.4
+          },
+          {
+            "function": "ps.upload",
+            "line": 29,
+            "ms": 51.1,
+            "percent": 0.4
+          },
+          {
+            "function": "bindVertexArray",
+            "line": 0,
+            "ms": 45.3,
+            "percent": 0.3
+          },
+          {
+            "function": "frame",
+            "line": 1238,
+            "ms": 44.6,
+            "percent": 0.3
+          },
+          {
+            "function": "(garbage collector)",
+            "line": 0,
+            "ms": 42.2,
+            "percent": 0.3
+          },
+          {
+            "function": "Cr",
+            "line": 29,
+            "ms": 39.2,
+            "percent": 0.3
+          },
+          {
+            "function": "stroke",
+            "line": 0,
+            "ms": 39.2,
+            "percent": 0.3
+          },
+          {
+            "function": "renderBufferDirect",
+            "line": 29,
+            "ms": 28.4,
+            "percent": 0.2
+          },
+          {
+            "function": "rotate",
+            "line": 335,
+            "ms": 28.4,
+            "percent": 0.2
+          },
+          {
+            "function": "walkingTargets",
+            "line": 468,
+            "ms": 28.2,
+            "percent": 0.2
+          }
+        ],
+        "inclusive": [
+          {
+            "function": "frame",
+            "line": 1238,
+            "ms": 2485.8,
+            "percent": 17.7
+          },
+          {
+            "function": "renderNow",
+            "line": 1233,
+            "ms": 1298.2,
+            "percent": 9.3
+          },
+          {
+            "function": "render",
+            "line": 29,
+            "ms": 1151.4,
+            "percent": 8.2
+          },
+          {
+            "function": "physicsStep",
+            "line": 729,
+            "ms": 1117.7,
+            "percent": 8
+          },
+          {
+            "function": "Dt",
+            "line": 29,
+            "ms": 776.5,
+            "percent": 5.5
+          },
+          {
+            "function": "Pt",
+            "line": 29,
+            "ms": 776.5,
+            "percent": 5.5
+          },
+          {
+            "function": "Nt",
+            "line": 29,
+            "ms": 769,
+            "percent": 5.5
+          },
+          {
+            "function": "renderBufferDirect",
+            "line": 29,
+            "ms": 740.4,
+            "percent": 5.3
+          },
+          {
+            "function": "(anonymous)",
+            "line": 29,
+            "ms": 585.1,
+            "percent": 4.2
+          },
+          {
+            "function": "updateBlood",
+            "line": 845,
+            "ms": 517.5,
+            "percent": 3.7
+          },
+          {
+            "function": "bloodContact",
+            "line": 815,
+            "ms": 497.9,
+            "percent": 3.6
+          },
+          {
+            "function": "patch",
+            "line": 279,
+            "ms": 381.2,
+            "percent": 2.7
+          },
+          {
+            "function": "forFloorTiles",
+            "line": 274,
+            "ms": 379.8,
+            "percent": 2.7
+          },
+          {
+            "function": "(anonymous)",
+            "line": 279,
+            "ms": 376.8,
+            "percent": 2.7
+          },
+          {
+            "function": "patchUV",
+            "line": 160,
+            "ms": 351.3,
+            "percent": 2.5
+          },
+          {
+            "function": "ps.upload",
+            "line": 29,
+            "ms": 312.2,
+            "percent": 2.2
+          },
+          {
+            "function": "(program)",
+            "line": 0,
+            "ms": 304.2,
+            "percent": 2.2
+          },
+          {
+            "function": "Ur",
+            "line": 29,
+            "ms": 196.5,
+            "percent": 1.4
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "chaos",
+      "label": "release",
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5070 Ti (0x00002C05) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "frameMs": {
+        "p50": 16.699999999999818,
+        "p95": 16.799999999999272,
+        "p99": 16.80000000000109,
+        "max": 33.40000000000009
+      },
+      "frames": 597,
+      "over25ms": 2,
+      "heap": [
+        17100000,
+        17100000,
+        17100000,
+        17100000,
+        17100000,
+        17100000,
+        17100000,
+        17100000,
+        17100000,
+        17100000
+      ],
+      "dolls": 10,
+      "simTime": 10.541666666666709,
+      "renderer": {
+        "calls": 544,
+        "triangles": 207006,
+        "geometries": 170,
+        "textures": 285
+      },
+      "stats": {
+        "steps": 1265,
+        "splats": 5997,
+        "strokeSegments": 5166,
+        "smearMeters": 63.92643341226372,
+        "broadSegments": 689,
+        "dropletsLanded": 4434,
+        "liftBreaks": 305,
+        "paintUploads": 4144,
+        "transfer": 24.93983178985297,
+        "shots": 0,
+        "contacts": 103,
+        "maxJoint": 0.001524486361691429,
+        "physicsMS": 2.048265543394465,
+        "frameMS": 16.663935275135376,
+        "bodyPaints": 2480,
+        "pressurePeak": 55.341874429286925,
+        "bodyDrops": 778,
+        "knockdowns": 8,
+        "abrasionWork": 966.4648385363016,
+        "collisionDamage": 168.0163790823966,
+        "impactInjuries": 26,
+        "abrasionDamage": 1.6490639773223308,
+        "freshAbrasionBlood": 1.0435938075502214,
+        "bodyCollisions": 5,
+        "abrasionWounds": 8,
+        "recoveryStarts": 9,
+        "recoveries": 5
+      },
+      "cpu": {
+        "durationMs": 10043.2,
+        "self": [
+          {
+            "function": "(idle)",
+            "line": 0,
+            "ms": 4736,
+            "percent": 47.2
+          },
+          {
+            "function": "physicsStep",
+            "line": 729,
+            "ms": 435.3,
+            "percent": 4.3
+          },
+          {
+            "function": "solveWorld",
+            "line": 626,
+            "ms": 374,
+            "percent": 3.7
+          },
+          {
+            "function": "(program)",
+            "line": 0,
+            "ms": 303.7,
+            "percent": 3
+          },
+          {
+            "function": "solveBodyPair",
+            "line": 720,
+            "ms": 220.7,
+            "percent": 2.2
+          },
+          {
+            "function": "texSubImage2D",
+            "line": 0,
+            "ms": 156,
+            "percent": 1.6
+          },
+          {
+            "function": "updateDrops",
+            "line": 862,
+            "ms": 139.1,
+            "percent": 1.4
+          },
+          {
+            "function": "bloodContact",
+            "line": 815,
+            "ms": 137.1,
+            "percent": 1.4
+          },
+          {
+            "function": "patchUV",
+            "line": 160,
+            "ms": 124.8,
+            "percent": 1.2
+          },
+          {
+            "function": "rotate",
+            "line": 335,
+            "ms": 95.4,
+            "percent": 1
+          },
+          {
+            "function": "dripStroke",
+            "line": 220,
+            "ms": 95.4,
+            "percent": 1
+          },
+          {
+            "function": "(anonymous)",
+            "line": 29,
+            "ms": 94.7,
+            "percent": 0.9
+          },
+          {
+            "function": "distanceToSquared",
+            "line": 29,
+            "ms": 83.5,
+            "percent": 0.8
+          },
+          {
+            "function": "n",
+            "line": 29,
+            "ms": 83.4,
+            "percent": 0.8
+          },
+          {
+            "function": "distanceToSquared",
+            "line": 29,
+            "ms": 80.6,
+            "percent": 0.8
+          },
+          {
+            "function": "(garbage collector)",
+            "line": 0,
+            "ms": 73.4,
+            "percent": 0.7
+          },
+          {
+            "function": "copy",
+            "line": 29,
+            "ms": 68.3,
+            "percent": 0.7
+          },
+          {
+            "function": "updateBlood",
+            "line": 845,
+            "ms": 58,
+            "percent": 0.6
+          }
+        ],
+        "inclusive": [
+          {
+            "function": "frame",
+            "line": 1238,
+            "ms": 4926.8,
+            "percent": 49.1
+          },
+          {
+            "function": "physicsStep",
+            "line": 729,
+            "ms": 3048.2,
+            "percent": 30.4
+          },
+          {
+            "function": "renderNow",
+            "line": 1233,
+            "ms": 1719.2,
+            "percent": 17.1
+          },
+          {
+            "function": "render",
+            "line": 29,
+            "ms": 1490,
+            "percent": 14.8
+          },
+          {
+            "function": "Pt",
+            "line": 29,
+            "ms": 1011.1,
+            "percent": 10.1
+          },
+          {
+            "function": "Dt",
+            "line": 29,
+            "ms": 1009.7,
+            "percent": 10.1
+          },
+          {
+            "function": "Nt",
+            "line": 29,
+            "ms": 985.7,
+            "percent": 9.8
+          },
+          {
+            "function": "renderBufferDirect",
+            "line": 29,
+            "ms": 952.2,
+            "percent": 9.5
+          },
+          {
+            "function": "(anonymous)",
+            "line": 29,
+            "ms": 774.6,
+            "percent": 7.7
+          },
+          {
+            "function": "updateBlood",
+            "line": 845,
+            "ms": 745.9,
+            "percent": 7.4
+          },
+          {
+            "function": "solveWorld",
+            "line": 626,
+            "ms": 570.5,
+            "percent": 5.7
+          },
+          {
+            "function": "bloodContact",
+            "line": 815,
+            "ms": 500.4,
+            "percent": 5
+          },
+          {
+            "function": "ps.upload",
+            "line": 29,
+            "ms": 396.1,
+            "percent": 3.9
+          },
+          {
+            "function": "updateDrops",
+            "line": 862,
+            "ms": 332,
+            "percent": 3.3
+          },
+          {
+            "function": "solveBodyPair",
+            "line": 720,
+            "ms": 320.1,
+            "percent": 3.2
+          },
+          {
+            "function": "jointPosition",
+            "line": 608,
+            "ms": 310.1,
+            "percent": 3.1
+          },
+          {
+            "function": "(program)",
+            "line": 0,
+            "ms": 303.7,
+            "percent": 3
+          },
+          {
+            "function": "Ur",
+            "line": 29,
+            "ms": 231.9,
+            "percent": 2.3
+          }
+        ]
+      }
+    }
+  ],
+  "errors": []
+}
