@@ -147,7 +147,7 @@ const runtimeProfiler=(()=>{
   }
   intervals.sort();work.sort();const q=(p,a=intervals)=>n?a[Math.min(n-1,Math.ceil(n*p)-1)]:0,avg=k=>n?totals[k]/n:0,phases=Object.fromEntries(stages.map(k=>[k,avg(k)]));
   const last=n?row(indices[n-1]):null;
-  return {schema:1,version:'0.8.3',capturing,visible,capacity:CAP,windowMs:WINDOW_MS,budgetMs:budget,totalFrames,excludedGaps:skipped,...(includeFrames?{frames:indices.map(row)}:{indices}),
+  return {schema:1,version:'0.8.4',capturing,visible,capacity:CAP,windowMs:WINDOW_MS,budgetMs:budget,totalFrames,excludedGaps:skipped,...(includeFrames?{frames:indices.map(row)}:{indices}),
    summary:{frames:n,seconds:totals.interval/1000,fps:n?1000*n/totals.interval:0,latestFPS:last?1000/last.interval:0,intervalMs:{p50:q(.5),p95:q(.95),p99:q(.99),max:intervals.at(-1)||0},workMs:avg('work'),workPercentileMs:{p50:q(.5,work),p95:q(.95,work),p99:q(.99,work),max:work.at(-1)||0},phases,overBudget,spikeFrames,uploadCPU:avg('uploadCPU'),uploadMiB:totals.uploadBytes/1048576,uploadMiBPerSecond:totals.interval?totals.uploadBytes/1048576/(totals.interval/1000):0,uploadCalls:totals.uploadCalls,steps:avg('steps'),droppedSimMs:totals.droppedSimMs,gpuMs:gpuCount?gpuTotal/gpuCount:null,gpuSamples:gpuCount},
    histogram,spikes:spikes.slice(),events:events.slice(),gpu:{supported:!!ext,samples:gpuSamples,pending:gpuPending.length,disjoints:gpuDisjoints},observerTypes:observers.map(o=>o.type),last,heapBytes:performance.memory?.usedJSHeapSize??null};
  }
@@ -216,24 +216,27 @@ function wallLabel(text,pos,width,height){const mat=new T.MeshBasicMaterial({map
 // -------- Surface pigment / transferable wet supply (separate channels) --------
 const TILE=4, RES=640, WET_RES=56, tileMap=new Map(),dirtyPaint=new Set(),dirtyWet=new Set();
 const paintCopies=new Map(),paintCopyPosition=new T.Vector2();
+// Selecting source rows from large DOM canvases is slow on Firefox.
+// Bounded reusable source canvases avoid the measured cost on Gecko/Zen.
+const directPaintSubrect=renderer.capabilities.isWebGL2&&!/Firefox\//.test(navigator.userAgent);
 function uploadPaintRegion(s){
  const r=s.dirtyRect;if(!r)return;
- const gl=renderer.getContext();
- if(s.textureReady&&renderer.capabilities.isWebGL2){
+ const gl=renderer.getContext(),width=s.canvas.width,height=s.canvas.height;
+ if(s.textureReady&&directPaintSubrect){
   renderer.state.activeTexture(gl.TEXTURE0);renderer.state.bindTexture(gl.TEXTURE_2D,renderer.properties.get(s.tex).__webglTexture);
   gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,s.tex.flipY);gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,s.tex.premultiplyAlpha);gl.pixelStorei(gl.UNPACK_ALIGNMENT,4);gl.pixelStorei(gl.UNPACK_COLORSPACE_CONVERSION_WEBGL,gl.NONE);
   // DOM-source row selection follows flipY, so both offsets use bottom-origin rows.
-  gl.pixelStorei(gl.UNPACK_SKIP_PIXELS,r.x0);gl.pixelStorei(gl.UNPACK_SKIP_ROWS,s.res-r.y1);
-  gl.texSubImage2D(gl.TEXTURE_2D,0,r.x0,s.res-r.y1,r.x1-r.x0,r.y1-r.y0,gl.RGBA,gl.UNSIGNED_BYTE,s.canvas);
+  gl.pixelStorei(gl.UNPACK_SKIP_PIXELS,r.x0);gl.pixelStorei(gl.UNPACK_SKIP_ROWS,height-r.y1);
+  gl.texSubImage2D(gl.TEXTURE_2D,0,r.x0,height-r.y1,r.x1-r.x0,r.y1-r.y0,gl.RGBA,gl.UNSIGNED_BYTE,s.canvas);
   gl.pixelStorei(gl.UNPACK_SKIP_PIXELS,0);gl.pixelStorei(gl.UNPACK_SKIP_ROWS,0);renderer.state.unbindTexture();s.dirtyRect=null;return;
  }
- const w=Math.min(s.res,2**Math.ceil(Math.log2(r.x1-r.x0))),h=Math.min(s.res,2**Math.ceil(Math.log2(r.y1-r.y0)));
- if(!s.textureReady||w*h>=s.res*s.res*.65){s.textureReady=false;s.tex.needsUpdate=true;s.dirtyRect=null;return;}
- const x=clamp(r.x0,0,s.res-w),y=clamp(r.y0,0,s.res-h),key=w+'x'+h;
+ const w=Math.min(width,2**Math.ceil(Math.log2(r.x1-r.x0))),h=Math.min(height,2**Math.ceil(Math.log2(r.y1-r.y0)));
+ if(!s.textureReady||w*h>=width*height*.65){s.textureReady=false;s.tex.needsUpdate=true;s.dirtyRect=null;return;}
+ const x=clamp(r.x0,0,width-w),y=clamp(r.y0,0,height-h),key=w+'x'+h;
  let copy=paintCopies.get(key);if(!copy){const c=document.createElement('canvas');c.width=w;c.height=h;copy={canvas:c,g:c.getContext('2d',{willReadFrequently:true}),tex:new T.Texture(c)};if(paintCopies.size>=32){const oldest=paintCopies.keys().next().value;paintCopies.get(oldest).tex.dispose();paintCopies.delete(oldest);}paintCopies.set(key,copy);}
  copy.g.clearRect(0,0,w,h);copy.g.drawImage(s.canvas,x,y,w,h,0,0,w,h);
  // Texture coordinates run from the bottom; canvas dirty bounds run from the top.
- paintCopyPosition.set(x,s.res-y-h);renderer.copyTextureToTexture(paintCopyPosition,copy.tex,s.tex);s.dirtyRect=null;
+ paintCopyPosition.set(x,height-y-h);renderer.copyTextureToTexture(paintCopyPosition,copy.tex,s.tex);s.dirtyRect=null;
 }
 const brushes=[];
 const bristleCache=new Map();
@@ -432,6 +435,7 @@ function forFloorTiles(a,b,r,fn){const x0=clamp(Math.floor((Math.min(a.x,b.x)-r)
 const floorReceiver={
  id:'floor',n:new V(0,1,0),u:new V(1,0,0),v:new V(0,0,1),w:16,h:16,
  uv(p){return{x:p.x+8,y:p.z+8};},
+ addWet(x,y,r,amount,owner=0){const uv={x,y};forFloorTiles(uv,uv,r,s=>s.addWet(x-s.ix*4,y-s.iz*4,r,amount,owner));},
  splat(p,r,a=1,ang=0,el=1,owner=0){const uv=this.uv(p),pat=Math.floor(rand()*65536);forFloorTiles(uv,uv,r*Math.max(2,el),(s)=>s.splatUV(uv.x-s.ix*4,uv.y-s.iz*4,r,a,ang,el,pat,owner));},
  patch(a,b,wet,pat,travel,owner){const aa=this.uv(a.p),bb=this.uv(b.p),extent=Math.max(a.rx,a.ry,b.rx,b.ry)*1.5;forFloorTiles(aa,bb,extent,s=>s.patchUV({...a,x:aa.x-s.ix*4,y:aa.y-s.iz*4},{...b,x:bb.x-s.ix*4,y:bb.y-s.iz*4},wet,pat,travel,owner));},
  pickup(p,dt,owner=0){const uv=this.uv(p);if(uv.x<0||uv.y<0||uv.x>=16||uv.y>=16)return 0;const ix=Math.floor(uv.x/4),iz=Math.floor(uv.y/4);return tileMap.get(ix+','+iz).pickupUV(uv.x-ix*4,uv.y-iz*4,dt,owner);}
@@ -906,10 +910,12 @@ function physicsStep(dt=STEP){const start=performance.now(),profile=runtimeProfi
  stats.physicsMS=mix(stats.physicsMS,performance.now()-start,.04);
 }
 // ---------------- Wounds, ballistic droplets, contact painting ----------------
-const dropList=[], MAX_DROPS=900;
+const dropList=[],dropPool=[], MAX_DROPS=900;
 const dropMesh=new T.InstancedMesh(new T.SphereGeometry(1,6,4),new T.MeshStandardMaterial({color:0x680615,roughness:.28,metalness:0,envMapIntensity:.5}),MAX_DROPS);dropMesh.instanceMatrix.setUsage(T.DynamicDrawUsage);dropMesh.frustumCulled=false;dropMesh.count=0;scene.add(dropMesh);
 const dropObject=new T.Object3D(), dropDir=new V(), particleY=new V(0,1,0);
-function emitDrop(p,v,r,owner=0){if(dropList.length>=MAX_DROPS)return;dropList.push({p:p.clone(),prev:p.clone(),v:v.clone(),r,life:0,owner});}
+function emitDrop(p,v,r,owner=0){if(dropList.length>=MAX_DROPS)return;const d=dropPool.pop()||{p:new V(),prev:new V(),v:new V(),r:0,life:0,owner:0};d.p.copy(p);d.prev.copy(p);d.v.copy(v);d.r=r;d.life=0;d.owner=owner;dropList.push(d);dropsChanged=true;}
+function removeDrop(i){const d=dropList[i];dropList[i]=dropList[dropList.length-1];dropList.pop();dropPool.push(d);}
+function clearDrops(){while(dropList.length)dropPool.push(dropList.pop());dropsChanged=true;}
 // -------- Body-local pigment atlas; separate wet supply on six contact faces --------
 const SKIN_TILE=112;
 function faceOf(n){const a=[Math.abs(n.x),Math.abs(n.y),Math.abs(n.z)];const i=a[0]>a[1]&&a[0]>a[2]?0:a[1]>a[2]?1:2;return i*2+(n.getComponent(i)<0?1:0);}
@@ -917,6 +923,7 @@ function ensureSkin(b){
  if(b.skinCanvas)return;
  const c=document.createElement('canvas');c.width=SKIN_TILE*3;c.height=SKIN_TILE*2;b.skinCanvas=c;b.skinCtx=c.getContext('2d',{willReadFrequently:true});
  const t=new T.CanvasTexture(c);t.encoding=T.LinearEncoding;t.generateMipmaps=false;t.minFilter=t.magFilter=T.LinearFilter;b.skinTexture=t;
+ b.skinPaint={canvas:c,tex:t,textureReady:false,dirtyRect:null};t.onUpdate=()=>{b.skinPaint.textureReady=true;};
  b.mesh.geometry.computeBoundingBox();b.skinMin=b.mesh.geometry.boundingBox.min.clone();b.skinSize=b.mesh.geometry.boundingBox.getSize(new V());
  const mat=cleanSkin.clone();mat.emissive.setHex(0);b.skinA=new V();b.skinB=new V();
  mat.onBeforeCompile=sh=>{
@@ -950,12 +957,14 @@ function paintBody(b,p,normal,radius=.06,amount=.7,wound=false){
   const rx=clamp(radius/sizeX*SKIN_TILE,2,SKIN_TILE*.95),ry=clamp(radius/sizeY*SKIN_TILE,2,SKIN_TILE*.95);
   g.save();g.beginPath();g.rect(f%3*SKIN_TILE,Math.floor(f/3)*SKIN_TILE,SKIN_TILE,SKIN_TILE);g.clip();g.globalAlpha=clamp(amount*strength,0,1);g.drawImage(brushes[pat],x-rx,y-ry,rx*2,ry*2);
   if(wound){g.fillStyle='#26030a';g.beginPath();g.ellipse(x,y,Math.max(1,rx*.1),Math.max(1,ry*.13),0,0,TAU);g.fill();}g.restore();
+  const cx=f%3*SKIN_TILE,cy=Math.floor(f/3)*SKIN_TILE,x0=Math.max(cx,Math.floor(x-rx)-2),y0=Math.max(cy,Math.floor(y-ry)-2),x1=Math.min(cx+SKIN_TILE,Math.ceil(x+rx)+2),y1=Math.min(cy+SKIN_TILE,Math.ceil(y+ry)+2),dirty=b.skinPaint.dirtyRect;
+  if(dirty){dirty.x0=Math.min(dirty.x0,x0);dirty.y0=Math.min(dirty.y0,y0);dirty.x1=Math.max(dirty.x1,x1);dirty.y1=Math.max(dirty.y1,y1);}else b.skinPaint.dirtyRect={x0,y0,x1,y1};
  }
  b.skinDirty=true;stats.bodyPaints=(stats.bodyPaints||0)+1;
 }
 function skinPaint(b,p,uv){const n=new V(p.x/b.half.x,p.y/b.half.y,p.z/b.half.z).normalize();paintBody(b,p,n,.052,.95,true);}
 function wetBody(b,normal,amount,point=null,radius=.07){const f=faceOf(normal);b.coat[f]=clamp(b.coat[f]+amount,0,1.6);b.wet=Math.max(...b.coat);if(point)paintBody(b,point,normal,radius,clamp(amount*2,.04,.9));return f;}
-function syncSkin(b){if(b.skinTexture){if(b.skinDirty){b.skinTexture.needsUpdate=true;b.skinDirty=false;}b.skinA.set(b.coat[0],b.coat[1],b.coat[2]);b.skinB.set(b.coat[3],b.coat[4],b.coat[5]);}}
+function syncSkin(b){if(b.skinTexture){if(b.skinDirty){uploadPaintRegion(b.skinPaint);b.skinDirty=false;}b.skinA.set(b.coat[0],b.coat[1],b.coat[2]);b.skinB.set(b.coat[3],b.coat[4],b.coat[5]);}}
 function addWound(b,local,normal,uv=null,burst=true){
  if(b.wounds.length>=6)b.wounds.shift();const n=normal.clone().normalize();if(n.lengthSq()<.1)n.set(0,0,1);
  const wound={p:local.clone(),n,t:simTime,next:simTime+rnd(.05,.16),face:faceOf(n)};b.wounds.push(wound);wetBody(b,n,.7);b.hitTime=simTime;paintBody(b,local,n,.054,1,true);
@@ -1021,32 +1030,53 @@ function rayBox(origin,dir,max,b,out){const o=scratch[18].copy(origin).sub(b.p).
  if(tmin<.000001||tmin>max||!face)return false;out.t=tmin;out.receiver=b.faces[face];out.p.copy(dir).multiplyScalar(tmin).add(origin);return !!out.receiver;
 }
 const dropHit={p:new V(),receiver:null,t:0};
+const dropDelta=new V(),dropPoint=new V(),dropNormal=new V(),dropOffset=new V(),dropLocal=new V(),dropTangent=new V();
+// Centers occupy one cell each; segment queries expand by the largest body bound.
+// The overflow list preserves collisions with bodies outside the room/grid.
+const DROP_GRID=32,dropHeads=new Int16Array(DROP_GRID**3),dropNext=new Int16Array(180),dropCandidates=new Int16Array(180),dropOverflow=new Int16Array(180);
+let dropOverflowCount=0,dropBodyBound=0,dropTick=0,dropsChanged=true;
+function buildDropGrid(){
+ dropHeads.fill(-1);dropOverflowCount=0;dropBodyBound=0;dropTick++;
+ for(let i=0;i<bodies.length;i++){const b=bodies[i],x=Math.floor(b.p.x+16),y=Math.floor(b.p.y+4),z=Math.floor(b.p.z+16);dropBodyBound=Math.max(dropBodyBound,b.bound+.025);
+  if(x<0||x>=DROP_GRID||y<0||y>=DROP_GRID||z<0||z>=DROP_GRID){dropOverflow[dropOverflowCount++]=i;continue;}
+  const cell=(z*DROP_GRID+y)*DROP_GRID+x;dropNext[i]=dropHeads[cell];dropHeads[cell]=i;
+ }
+}
+function candidateDropBodies(d){
+ const r=dropBodyBound,x0=clamp(Math.floor(Math.min(d.prev.x,d.p.x)-r+16),0,31),x1=clamp(Math.floor(Math.max(d.prev.x,d.p.x)+r+16),0,31),y0=clamp(Math.floor(Math.min(d.prev.y,d.p.y)-r+4),0,31),y1=clamp(Math.floor(Math.max(d.prev.y,d.p.y)+r+4),0,31),z0=clamp(Math.floor(Math.min(d.prev.z,d.p.z)-r+16),0,31),z1=clamp(Math.floor(Math.max(d.prev.z,d.p.z)+r+16),0,31);
+ let count=0;for(let z=z0;z<=z1;z++)for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++)for(let i=dropHeads[(z*DROP_GRID+y)*DROP_GRID+x];i!==-1;i=dropNext[i])dropCandidates[count++]=i;
+ for(let i=0;i<dropOverflowCount;i++)dropCandidates[count++]=dropOverflow[i];
+ // Preserve original body order, including equal-distance tie handling.
+ for(let i=1;i<count;i++){const v=dropCandidates[i];let j=i-1;while(j>=0&&dropCandidates[j]>v){dropCandidates[j+1]=dropCandidates[j];j--;}dropCandidates[j+1]=v;}return count;
+}
 function updateDrops(dt){
+ if(!dropList.length)return;const useGrid=bodies.length>60;if(useGrid)buildDropGrid();else dropTick++;dropsChanged=true;
  for(let i=dropList.length-1;i>=0;i--){
   const d=dropList[i];d.prev.copy(d.p);d.v.y-=9.81*dt;d.v.multiplyScalar(Math.exp(-.08*dt));d.p.addScaledVector(d.v,dt);d.life+=dt;
   let receiver=null,point=null,best=Infinity,bodyHit=null,bodyN=null;
-  const delta=new V().subVectors(d.p,d.prev),len=delta.length();if(len>1e-8)delta.multiplyScalar(1/len);
-  if(d.p.y<=.003&&d.prev.y>0){const f=d.prev.y/(d.prev.y-d.p.y);point=new V().lerpVectors(d.prev,d.p,f);point.y=0;receiver=floorReceiver;best=f*len;}
+  const delta=dropDelta.subVectors(d.p,d.prev),len=delta.length();if(len>1e-8)delta.multiplyScalar(1/len);
+  if(d.p.y<=.003&&d.prev.y>0){const f=d.prev.y/(d.prev.y-d.p.y);point=dropPoint.lerpVectors(d.prev,d.p,f);point.y=0;receiver=floorReceiver;best=f*len;}
   if(len>1e-8){
    const mx=(d.prev.x+d.p.x)*.5,my=(d.prev.y+d.p.y)*.5,mz=(d.prev.z+d.p.z)*.5,hx=Math.abs(d.p.x-d.prev.x)*.5+.000001,hy=Math.abs(d.p.y-d.prev.y)*.5+.000001,hz=Math.abs(d.p.z-d.prev.z)*.5+.000001;
-   for(const b of staticBoxes){if(Math.abs(mx-b.p.x)>b.extent.x+hx||Math.abs(my-b.p.y)>b.extent.y+hy||Math.abs(mz-b.p.z)>b.extent.z+hz)continue;if(rayBox(d.prev,delta,Math.min(len,best),b,dropHit)){best=dropHit.t;point=dropHit.p.clone();receiver=dropHit.receiver;}}
-   for(const b of bodies){
+   for(const b of staticBoxes){if(Math.abs(mx-b.p.x)>b.extent.x+hx||Math.abs(my-b.p.y)>b.extent.y+hy||Math.abs(mz-b.p.z)>b.extent.z+hz)continue;if(rayBox(d.prev,delta,Math.min(len,best),b,dropHit)){best=dropHit.t;point=dropPoint.copy(dropHit.p);receiver=dropHit.receiver;}}
+   const candidates=useGrid?candidateDropBodies(d):bodies.length;for(let ci=0;ci<candidates;ci++){const b=bodies[useGrid?dropCandidates[ci]:ci];
     if(d.owner===b.id&&d.life<.22)continue;
     if(b.p.distanceToSquared(d.prev)>(b.bound+len+.025)**2)continue;
-    for(const s of b.samples){
-     const c=b.world(s.p,new V()),oc=d.prev.clone().sub(c),projection=oc.dot(delta),radius=s.r+d.r*.4,disc=projection*projection-(oc.lengthSq()-radius*radius);if(disc<0)continue;
+    if(b.dropTick!==dropTick){if(!b.dropCenters)b.dropCenters=b.samples.map(()=>new V());for(let si=0;si<b.samples.length;si++)b.world(b.samples[si].p,b.dropCenters[si]);b.dropTick=dropTick;}
+    for(let si=0;si<b.samples.length;si++){const s=b.samples[si];
+     const c=b.dropCenters[si],oc=dropOffset.copy(d.prev).sub(c),projection=oc.dot(delta),radius=s.r+d.r*.4,disc=projection*projection-(oc.lengthSq()-radius*radius);if(disc<0)continue;
      const distance=-projection-Math.sqrt(disc);if(distance<.00001||distance>len||distance>=best)continue;
-     best=distance;point=d.prev.clone().addScaledVector(delta,distance);bodyN=point.clone().sub(c).normalize();bodyHit=b;receiver=null;
+     best=distance;point=dropPoint.copy(d.prev).addScaledVector(delta,distance);bodyN=dropNormal.copy(point).sub(c).normalize();bodyHit=b;receiver=null;
     }
    }
   }
-  if(bodyHit){const local=bodyHit.local(point,new V()),normal=bodyN.applyQuaternion(bodyHit.iq);wetBody(bodyHit,normal,clamp(d.r*2,.009,.045),local,d.r*5);stats.bodyDrops=(stats.bodyDrops||0)+1;dropList[i]=dropList[dropList.length-1];dropList.pop();}
-  else if(receiver){const tang=d.v.clone().addScaledVector(receiver.n,-d.v.dot(receiver.n)),angle=Math.atan2(tang.dot(receiver.v),tang.dot(receiver.u)),elong=clamp(1+tang.length()*.10,1,2.0),vertical=receiver.isVertical&&receiver.isVertical(),speed=tang.length(),rad=d.r*(vertical?rnd(1.10,2.10):rnd(1.70,3.20))*(.84+Math.min(.55,speed*.045)),amt=rnd(vertical?.28:.55,vertical?.62:.92);receiver.splat(point,rad,amt,angle,elong,d.owner);if(vertical&&speed>1.1){const sub=1+(speed>2.5?1:0);for(let s=0;s<sub;s++){const p2=point.clone().addScaledVector(receiver.u,rnd(-.06,.06)).addScaledVector(receiver.v,rnd(-.05,.05));receiver.splat(p2,d.r*rnd(.75,1.55),rnd(.10,.26),angle+rnd(-1.4,1.4),rnd(1.0,1.35),d.owner);}}stats.dropletsLanded++;dropList[i]=dropList[dropList.length-1];dropList.pop();}
-  else if(d.life>7||d.p.y<-.1){dropList[i]=dropList[dropList.length-1];dropList.pop();}
+  if(bodyHit){const local=bodyHit.local(point,dropLocal),normal=bodyN.applyQuaternion(bodyHit.iq);wetBody(bodyHit,normal,clamp(d.r*2,.009,.045),local,d.r*5);stats.bodyDrops=(stats.bodyDrops||0)+1;removeDrop(i);}
+  else if(receiver){const tang=dropTangent.copy(d.v).addScaledVector(receiver.n,-d.v.dot(receiver.n)),angle=Math.atan2(tang.dot(receiver.v),tang.dot(receiver.u)),elong=clamp(1+tang.length()*.10,1,2.0),vertical=receiver.isVertical&&receiver.isVertical(),speed=tang.length(),rad=d.r*(vertical?rnd(1.10,2.10):rnd(1.70,3.20))*(.84+Math.min(.55,speed*.045)),amt=rnd(vertical?.28:.55,vertical?.62:.92);receiver.splat(point,rad,amt,angle,elong,d.owner);if(vertical&&speed>1.1){const sub=1+(speed>2.5?1:0);for(let s=0;s<sub;s++){const p2=point.clone().addScaledVector(receiver.u,rnd(-.06,.06)).addScaledVector(receiver.v,rnd(-.05,.05));receiver.splat(p2,d.r*rnd(.75,1.55),rnd(.10,.26),angle+rnd(-1.4,1.4),rnd(1.0,1.35),d.owner);}}stats.dropletsLanded++;removeDrop(i);}
+  else if(d.life>7||d.p.y<-.1){removeDrop(i);}
  }
 }
 
-function drawDrops(){for(let i=0;i<dropList.length;i++){const d=dropList[i];dropObject.position.copy(d.p);dropDir.copy(d.v).normalize();dropObject.quaternion.setFromUnitVectors(particleY,dropDir);dropObject.scale.set(d.r,d.r*clamp(1+d.v.length()*.21,1,2.7),d.r);dropObject.updateMatrix();dropMesh.setMatrixAt(i,dropObject.matrix);}dropMesh.count=dropList.length;dropMesh.instanceMatrix.needsUpdate=true;}
+function drawDrops(){if(!dropsChanged)return;dropsChanged=false;for(let i=0;i<dropList.length;i++){const d=dropList[i];dropObject.position.copy(d.p);dropDir.copy(d.v).normalize();dropObject.quaternion.setFromUnitVectors(particleY,dropDir);dropObject.scale.set(d.r,d.r*clamp(1+d.v.length()*.21,1,2.7),d.r);dropObject.updateMatrix();dropMesh.setMatrixAt(i,dropObject.matrix);}dropMesh.count=dropList.length;if(dropList.length){dropMesh.instanceMatrix.updateRange.offset=0;dropMesh.instanceMatrix.updateRange.count=dropList.length*16;dropMesh.instanceMatrix.needsUpdate=true;}}
 // ---------------- Interaction: one strong grab, a pistol, and a paint test tool ----------------
 let stickyLook=false,temporaryLook=false,lookAnchor={x:W/2,y:H/2},aimDown=false;
 let recoilPitch=0,shotFlashUntil=-1,hitMarkerUntil=-1,hitMarkerColor='#eee5c9',aimBlend=0;
@@ -1081,7 +1111,7 @@ const traces=[],shells=[];
 function bulletMark(hit){
  const surf=hit.object.userData.surface;if(!surf)return;
  const uv=surf.uv(hit.point),g=surf.g,px=uv.x/surf.w*surf.res,py=uv.y/surf.h*surf.res,r=Math.max(1.5,.018*surf.res/surf.w);
- g.save();g.globalAlpha=.7;g.fillStyle='#474341';g.beginPath();g.ellipse(px,py,r,r*.8,rand()*PI,0,TAU);g.fill();g.globalAlpha=.35;g.strokeStyle='#d8dbd5';g.lineWidth=.8;g.beginPath();g.arc(px,py,r*1.6,.25,3.0);g.stroke();g.restore();surf.dirty();
+ g.save();g.globalAlpha=.7;g.fillStyle='#474341';g.beginPath();g.ellipse(px,py,r,r*.8,rand()*PI,0,TAU);g.fill();g.globalAlpha=.35;g.strokeStyle='#d8dbd5';g.lineWidth=.8;g.beginPath();g.arc(px,py,r*1.6,.25,3.0);g.stroke();g.restore();const pad=r*1.6+1;surf.dirty((px-pad)/surf.res*surf.w,(py-pad)/surf.res*surf.h,(px+pad)/surf.res*surf.w,(py+pad)/surf.res*surf.h);
  stats.bulletMarks=(stats.bulletMarks||0)+1;
 }
 function shoot(){
@@ -1110,6 +1140,7 @@ function shoot(){
  recoilPitch=clamp(recoilPitch+.011,0,.045);
 }
 function surfaceSpill(surface,point,strength=1,owner=0){
+ if(surface.grid)surface=floorReceiver;
  const vertical=surface.isVertical&&surface.isVertical();
  const uv=surface.uv(point),x=clamp(uv.x,.12,surface.w-.12),y=clamp(uv.y,.12,surface.h-.12);
  if(vertical){
@@ -1135,7 +1166,7 @@ function spill(){const hit=cast();if(!hit)return;const b=hit.object.userData.bod
  const surface=hit.object.userData.surface;if(!surface)return;surfaceSpill(surface,hit.point.clone(),1,0);
 }
 function woundAimed(){const b=grab?grab.body:(currentHit&&currentHit.object.userData.body);if(!b)return;activate(b.doll);const local=grab?grab.local:b.local(currentHit.point,new V()),normal=local.clone().normalize();addWound(b,local,normal,null,true);playClick(.04);}
-function washBodies(){for(const b of bodies){b.coat.fill(0);b.wet=0;b.tracks.clear();if(b.skinCanvas){b.skinCtx.clearRect(0,0,b.skinCanvas.width,b.skinCanvas.height);b.skinDirty=true;}}notify('Dummies washed. Injuries remain; active wounds bleed again.');}
+function washBodies(){for(const b of bodies){b.coat.fill(0);b.wet=0;b.tracks.clear();if(b.skinCanvas){b.skinCtx.clearRect(0,0,b.skinCanvas.width,b.skinCanvas.height);b.skinPaint.dirtyRect={x0:0,y0:0,x1:b.skinCanvas.width,y1:b.skinCanvas.height};b.skinPaint.textureReady=false;b.skinDirty=true;}}notify('Dummies washed. Injuries remain; active wounds bleed again.');}
 
 // ---------------- Grounded first person controller; free flight is optional ----------------
 let yaw=0,pitch=0;
@@ -1241,7 +1272,7 @@ function playWhoosh(hard){noiseSound(hard?.19:.12,hard?.15:.08,800,'bandpass');}
 function updateScrape(wet=0,dry=0){if(!audio)return;const on=soundOn&&!paused&&!panel;const v=on?Math.min(1,wet):0,d=on?Math.min(1,dry):0;scrapeGain.gain.setTargetAtTime(v*.065,audio.currentTime,.025);dryGain.gain.setTargetAtTime(d*.041,audio.currentTime,.035);wetFilter.frequency.setTargetAtTime(210+v*440,audio.currentTime,.06);dryFilter.frequency.setTargetAtTime(950+d*1550,audio.currentTime,.06);}
 
 // -------- Canvas-drawn gameplay HUD; independent DOM performance overlay --------
-let buttons=[],pressedUI=false,activeSlider=null,tunePage='handling';
+let buttons=[],pressedUI=false,activeSlider=null,tunePage='handling',lastHUDKey='';
 function notify(s,duration=3.4){toast=s;toastUntil=performance.now()/1000+duration;}
 function rect(x,y,w,h,fill,r=4,stroke=null){ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=1;ctx.stroke();}}
 function text(s,x,y,size=15,color='#ece9df',align='left',weight=400){ctx.fillStyle=color;ctx.font=`${weight} ${size}px Arial`;ctx.textAlign=align;ctx.textBaseline='middle';ctx.fillText(s,x,y);}
@@ -1263,8 +1294,8 @@ function microSplatCluster(receiver,point,dir,owner=0,power=1){
 }
 function goreBurst(p,n,power=1,owner=0){worldSplat(p,n,.14+.08*power,.48+.18*power,owner);for(let i=0;i<Math.floor(12+18*power);i++){const v=n.clone().multiplyScalar(rnd(.45,2.7)*power).add(new V(rnd(-1.6,1.6),rnd(.08,2.1),rnd(-1.6,1.6)));emitDrop(p.clone().addScaledVector(n,.02),v,rnd(.0035,.011)*(.8+.4*power),owner);}}
 function chaosScene(){resetWorld(false,true);cleanSurfaces();const spots=[[-4.9,-4.6],[-1.9,-4.8],[1.4,-4.5],[4.6,-4.2],[-5.2,-1.2],[-2.6,-.5],[2.8,-1.0],[5.0,.2],[-4.6,2.3],[-.6,2.6],[3.2,3.2],[5.2,4.4]];for(let i=dolls.length;i<10&&i<spots.length;i++)newDoll(spots[i][0],spots[i][1],i%2===0);for(const d of dolls){activate(d);knockDown(d,18+rnd(0,26));d.health=Math.max(0,d.health-rnd(12,55));for(const name of ['Head','Torso','Hips']){const b=d.byName[name];if(!b)continue;const local=name==='Head'?new V(rnd(-.02,.02),rnd(-.03,.05),b.half.z*.92):new V(rnd(-b.half.x*.35,b.half.x*.35),rnd(-b.half.y*.25,b.half.y*.28),b.half.z*.88);const normal=new V(rnd(-.45,.45),rnd(.08,1.0),rnd(.25,1.0)).normalize();addWound(b,local,normal,null,true);b.bloodReserve=Math.max(0,b.bloodReserve-rnd(.3,1.1));}for(const b of d.parts){b.v.add(new V(rnd(-1.8,1.8),rnd(.2,3.2),rnd(-1.8,1.8)));b.w.add(new V(rnd(-4,4),rnd(-4,4),rnd(-4,4)));}}const vertical=surfaces.filter(s=>Math.abs(s.n.y)<.2),floors=surfaces.filter(s=>s.n.y>.8&&s.grid);for(let i=0;i<16;i++){const s=vertical[i%vertical.length],x=rnd(.8,s.w-.8),y=rnd(.65,Math.min(s.h-.7,2.4));const p=s.worldFromUV(x,y);const dir=s.n.clone().multiplyScalar(-1).addScaledVector(new V(0,-1,0),rnd(.08,.45)).normalize();goreBurst(p,dir,rnd(.45,1.0),0);microSplatCluster(s,p,dir,0,rnd(.45,1.1));if(rnd(0,1)>.52)s.dripStroke(x,y,clamp(x+rnd(-.05,.05),.2,s.w-.2),clamp(y-rnd(.18,1.0),.12,s.h-.12),rnd(.20,.55),i*17+3);}for(let i=0;i<8;i++){const s=floors[i%floors.length],x=rnd(.45,s.w-.45),y=rnd(.45,s.h-.45),angle=rnd(0,TAU),len=rnd(.45,1.6),nx=Math.cos(angle),ny=Math.sin(angle);let a={x,y,rx:rnd(.05,.09),ry:rnd(.06,.10),angle:rnd(0,TAU)},b={x:clamp(x+nx*len,.3,s.w-.3),y:clamp(y+ny*len,.3,s.h-.3),rx:rnd(.06,.11),ry:rnd(.05,.09),angle:a.angle+rnd(-.5,.5)};s.patchUV(a,b,rnd(.55,.95),i*13+5,len,0);s.splatUV(b.x,b.y,rnd(.12,.28),rnd(.45,.8),angle,rnd(1.2,2.1),i*19+7,0);}notify('Chaos preset: denser gore, finer wall breakup, and cleaner performance.',6);}
-function healAll(){for(const b of bodies){b.wounds.length=0;b.coat.fill(0);b.wet=0;b.wear.fill(0);b.damage=0;b.bloodReserve=9;b.tracks.clear();}for(const d of dolls){d.health=100;d.recoveryWait=.5;d.lastImpact=simTime-.3;}dropList.length=0;notify('Dummies healed and replenished. Stains remain.');}
-function stopBleeding(){for(const b of bodies)b.wounds.length=0;dropList.length=0;notify('Bleeding stopped. Further impacts can cause new wounds.');}
+function healAll(){for(const b of bodies){b.wounds.length=0;b.coat.fill(0);b.wet=0;b.wear.fill(0);b.damage=0;b.bloodReserve=9;b.tracks.clear();}for(const d of dolls){d.health=100;d.recoveryWait=.5;d.lastImpact=simTime-.3;}clearDrops();notify('Dummies healed and replenished. Stains remain.');}
+function stopBleeding(){for(const b of bodies)b.wounds.length=0;clearDrops();notify('Bleeding stopped. Further impacts can cause new wounds.');}
 function addDummy(){
  if(dolls.length>=12){notify('Twelve-dummy limit. Reset for a fresh room.');return;}
  let p=null;for(let i=0;i<32;i++){const c=new V(rnd(-5.8,5.8),0,rnd(-5.8,5.8));if(navFree(c)&&!dolls.some(d=>Math.hypot(d.byName.Hips.p.x-c.x,d.byName.Hips.p.z-c.z)<1)){p=c;break;}}
@@ -1280,9 +1311,15 @@ function slider(label,key,x,y,w){
 function slideAt(x){if(!activeSlider)return;const a=activeSlider,[lo,hi]=TUNE_RANGES[a.key];tune[a.key]=mix(lo,hi,clamp((x-a.x)/a.w,0,1));if(a.key==='drying'||a.key==='fov')tune[a.key]=Math.round(tune[a.key]);bloodScale=tune.bleeding;if(a.key==='fov'){camera.fov=tune.fov;camera.updateProjectionMatrix();}}
 function uiAt(x,y){for(let i=buttons.length-1;i>=0;i--){const b=buttons[i];if(x>=b.x&&x<=b.x+b.w&&y>=b.y&&y<=b.y+b.h)return b;}return null;}
 function drawUI(){
+ // Retain the canvas while its visible content and button hover states agree.
+ // Pointer movement in empty space does not require repainting the full HUD.
+ let over='';if(!document.pointerLockElement)for(let i=0;i<buttons.length;i++){const b=buttons[i];if(mouse.x>=b.x&&mouse.x<=b.x+b.w&&mouse.y>=b.y&&mouse.y<=b.y+b.h)over+=i+',';}
+ const aim=aimXY(),hint=grab?'Wheel: push / pull     Q / E: twist     Press + drag to scrape':performance.now()/1000<toastUntil?toast:'',hover=hovered&&!grab&&!mouse.left&&tool===0?hovered:null,aiming=!!document.pointerLockElement||temporaryLook||tool===1||!!grab;
+ const hudKey=[W,H,DPR,showHUD,panel,tool,paused,slow,stickyLook,player.fly,soundOn,over,runtimeProfiler.visible,runtimeProfiler.badge(),hint,!!demo,hover?.id,hover?.doll.health<=0,hover?.doll.mode,hover?.damage>.3,aiming,hover||aiming?aim.x:0,hover||aiming?aim.y:0,tool===1?viewKick:0,simTime<hitMarkerUntil,hitMarkerColor,panel==='tune'?tunePage:'',panel==='tune'?Object.values(tune).join(','):''].join('|');
+ if(hudKey===lastHUDKey)return;lastHUDKey=hudKey;
  ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);buttons=[];if(!showHUD&&!panel)return;
  if(!panel){
-  rect(18,18,148,42,'rgba(27,35,33,.95)');text('SMEAR',31,39,20,'#efe8d8','left',800);text('08.3',150,40,12,'#bdad8d','right',700);
+  rect(18,18,148,42,'rgba(27,35,33,.95)');text('SMEAR',31,39,20,'#efe8d8','left',800);text('08.4',150,40,12,'#bdad8d','right',700);
   const top=[['Add dummy',106,addDummy],['Chaos',68,chaosScene],['Clean',64,cleanSurfaces],['Reset',64,()=>openPanel('reset')],['Tune',62,()=>openPanel('tune')],['Perf',62,()=>runtimeProfiler.show()],['Controls',82,()=>openPanel('controls')],['About',64,()=>openPanel('about')]];
   let x=W-top.reduce((a,t)=>a+t[1]+6,0)-12;for(const [label,w,action]of top){button(label,x,20,w,38,action);x+=w+6;}
   if(!runtimeProfiler.visible&&!paused&&!slow)button(runtimeProfiler.badge(),18,70,177,27,()=>runtimeProfiler.show(true));
@@ -1309,7 +1346,7 @@ function drawUI(){
  }
  ctx.fillStyle='rgba(10,17,15,.60)';ctx.fillRect(0,0,W,H);
  const pw=Math.min(panel==='controls'?670:574,W-32),ph=panel==='reset'?222:Math.min(panel==='tune'?552:586,H-30),x=(W-pw)/2,y=(H-ph)/2;
- rect(x,y,pw,ph,'#202b27',6,'#667064');const title={reset:'Reset the room?',controls:'Controls',tune:'Tune',about:'SMEAR 08.3'}[panel];text(title,x+26,y+36,25,'#ede6d6','left',700);button('Close',x+pw-96,y+18,71,34,()=>openPanel(null));
+ rect(x,y,pw,ph,'#202b27',6,'#667064');const title={reset:'Reset the room?',controls:'Controls',tune:'Tune',about:'SMEAR 08.4'}[panel];text(title,x+26,y+36,25,'#ede6d6','left',700);button('Close',x+pw-96,y+18,71,34,()=>openPanel(null));
  if(panel==='reset'){text('Clears dummies and stains. Your tuning is kept.',x+26,y+92,15,'#cdd0c4');button('Keep playing',x+pw-259,y+ph-66,124,39,()=>openPanel(null));button('Reset room',x+pw-126,y+ph-66,101,39,()=>{panel=null;resetWorld(true);},true);return;}
  if(panel==='tune'){
   for(const [i,label]of ['Handling','Blood','Camera'].entries())button(label,x+26+i*111,y+69,104,34,()=>tunePage=label.toLowerCase(),tunePage===label.toLowerCase());
@@ -1377,13 +1414,13 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden){keys.clear
 document.addEventListener('pointerlockchange',()=>{canvas.style.cursor=document.pointerLockElement===canvas?'none':'default';if(!document.pointerLockElement){mouse.right=false;stickyLook=false;temporaryLook=false;aimDown=false;if(grab)grab.rayOffset=null;}});
 canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();running=false;$('failure').style.display='block';$('failure').textContent='The graphics context was lost. Reload this HTML to restart.';});
 
-function resize(){W=innerWidth;H=innerHeight;DPR=Math.min(devicePixelRatio||1,1.25);renderer.setPixelRatio(DPR);renderer.setSize(W,H);hud.width=Math.round(W*DPR);hud.height=Math.round(H*DPR);hud.style.width=W+'px';hud.style.height=H+'px';camera.aspect=W/H;camera.updateProjectionMatrix();}
+function resize(){W=innerWidth;H=innerHeight;DPR=Math.min(devicePixelRatio||1,1.25);renderer.setPixelRatio(DPR);renderer.setSize(W,H);hud.width=Math.round(W*DPR);hud.height=Math.round(H*DPR);hud.style.width=W+'px';hud.style.height=H+'px';lastHUDKey='';camera.aspect=W/H;camera.updateProjectionMatrix();}
 window.addEventListener('resize',resize);resize();
 // ---------------- Reset, a real-physics demonstration, diagnostics ----------------
 const sharedGeometry=new Set([baseSphere,unitBox,torsoGeo,pelvisGeo,headGeo,handGeo,footGeo,spineGeo]);
 const sharedMaterial=new Set([cleanSkin,jointMat,darkMat,trimMat,orangeMat]);
 function disposeObject(obj){scene.remove(obj);obj.traverse(o=>{if(o.geometry&&!sharedGeometry.has(o.geometry))o.geometry.dispose();if(o.material&&!sharedMaterial.has(o.material)){if(o.material.map)o.material.map.dispose();o.material.dispose();}});}
-function resetWorld(resetCamera=true,clean=true){releaseGrab();hovered=null;selected=null;currentHit=null;for(const b of bodies)if(b.skinTexture)b.skinTexture.dispose();for(const d of dolls){for(const b of d.parts)disposeObject(b.mesh);for(const j of d.joints)scene.remove(j.cover);scene.remove(d.spine);}bodies.length=joints.length=dolls.length=pickMeshes.length=0;dropList.length=0;for(const t of traces){scene.remove(t.line);t.line.geometry.dispose();t.line.material.dispose();}traces.length=0;for(const k in stats)if(k!=='frameMS')stats[k]=0;simTime=0;seed=78431;bodySerial=dollSerial=1;bloodScale=tune.bleeding;shotClock=spillClock=0;viewKick=0;recoilPitch=0;shotFlashUntil=-1;hitMarkerUntil=-1;player.vel.set(0,0,0);shells.length=0;aimBlend=0;mouse.left=false;paused=false;demo=null;if(clean)for(const s of surfaces)s.clear();newDoll(-.12,.45,true,true);newDoll(-2.4,-2.95);newDoll(2.55,-2.95);for(let i=0;i<45;i++)physicsStep();if(resetCamera)defaultView();for(const d of dolls)syncDoll(d);notify('Grab a dummy. Slam it, drag it, spill on walls, or hit Chaos for a bloodbath.',6);}
+function resetWorld(resetCamera=true,clean=true){releaseGrab();hovered=null;selected=null;currentHit=null;for(const b of bodies)if(b.skinTexture)b.skinTexture.dispose();for(const d of dolls){for(const b of d.parts)disposeObject(b.mesh);for(const j of d.joints)scene.remove(j.cover);scene.remove(d.spine);}bodies.length=joints.length=dolls.length=pickMeshes.length=0;clearDrops();for(const t of traces){scene.remove(t.line);t.line.geometry.dispose();t.line.material.dispose();}traces.length=0;for(const k in stats)if(k!=='frameMS')stats[k]=0;simTime=0;seed=78431;bodySerial=dollSerial=1;bloodScale=tune.bleeding;shotClock=spillClock=0;viewKick=0;recoilPitch=0;shotFlashUntil=-1;hitMarkerUntil=-1;player.vel.set(0,0,0);shells.length=0;aimBlend=0;mouse.left=false;paused=false;demo=null;if(clean)for(const s of surfaces)s.clear();newDoll(-.12,.45,true,true);newDoll(-2.4,-2.95);newDoll(2.55,-2.95);for(let i=0;i<45;i++)physicsStep();if(resetCamera)defaultView();for(const d of dolls)syncDoll(d);notify('Grab a dummy. Slam it, drag it, spill on walls, or hit Chaos for a bloodbath.',6);}
 function startDemo(){releaseGrab();const old=tune.bleeding;resetWorld(false);tool=0;bloodScale=1.75;viewAt(new V(4.3,4.2,6.1),new V(.1,.25,.6));const b=dolls[0].byName['Right foot'],p=b.world(new V(0,0,.10),new V());grab={body:b,local:new V(0,0,.10),target:p.clone(),desired:p.clone(),distance:4,manual:true};selected=b;const curve=new T.CatmullRomCurve3([p.clone(),new V(1.9,.16,1.8),new V(2.1,.16,.2),new V(.7,.16,-.2),new V(-1.3,.16,.2),new V(-1.55,.16,1.55)]);demo={start:simTime,curve,phase:0,oldBlood:old,pivot:null};notify('Actual physics: drag, pivot, lift, drop.',6);}
 function updateDemo(dt){if(!demo)return;const t=simTime-demo.start;if(t<6.5){grab.desired.copy(demo.curve.getPointAt(clamp(t/6.5,0,1)));}
  else if(t<10){if(demo.phase===0){const b=dolls[0].byName.Torso;const local=new V(.13,0,.06),p=b.world(local,new V());grab={body:b,local,target:p.clone(),desired:p.clone(),distance:4,manual:true};selected=b;demo.pivot=p.clone();demo.phase=1;}const a=(t-6.5)*1.05;grab.desired.set(demo.pivot.x+Math.sin(a)*.65,.2,demo.pivot.z+(1-Math.cos(a))*.55);grab.body.w.y+=dt*5;}
@@ -1391,13 +1428,13 @@ function updateDemo(dt){if(!demo)return;const t=simTime-demo.start;if(t<6.5){gra
  else if(t<14){if(grab){grab=null;selected=null;}}
  else{const old=demo.oldBlood;demo=null;bloodScale=old;notify('Your turn. The marks are all persistent surface paint.',5);}}
 function jointError(){let m=0;for(const j of joints){j.a.world(j.pa,scratch[0]);j.b.world(j.pb,scratch[1]);m=Math.max(m,scratch[0].distanceTo(scratch[1]));}return m;}
-function state(){return{name:'SMEAR',version:'0.8.3',tune:{...tune},modes:dolls.map(d=>({id:d.id,mode:d.mode,faceUp:d.recovery?.faceUp||false,settled:d.settled,health:d.health,walkDistance:d.walkDistance,footfalls:d.footfalls,root:d.root.toArray(),goal:d.walk?.goal?.toArray()||null,feet:d.walk?d.walk.feet.map(f=>({p:f.p.toArray(),swing:f.swing})):null})),wetSupply:surfaces.reduce((a,s)=>a+s.supply.reduce((a,b)=>a+b,0),0),engine:'Three.js '+T.REVISION+' + custom rigid-body XPBD',simTime,seed,tool,player:{mode:player.fly?'fly':'walk',p:player.feet.toArray(),grounded:player.grounded,locked:document.pointerLockElement===canvas,sticky:stickyLook},paused,slow,dolls:dolls.length,bodies:bodies.length,activeBodies:bodies.filter(b=>b.active).length,particles:dropList.length,grab:grab?grab.body.name:null,stats:{...stats,maxJoint:jointError()},paintTextures:surfaces.length,paintBytes:surfaces.reduce((s,p)=>s+p.res*p.res*4,0),renderer:{calls:renderer.info.render.calls,triangles:renderer.info.render.triangles,geometries:renderer.info.memory.geometries,textures:renderer.info.memory.textures},parts:bodies.map(b=>({id:b.id,name:b.name,doll:b.doll.id,p:b.p.toArray(),q:b.q.toArray(),speed:b.v.length(),wet:b.wet,coat:Array.from(b.coat),contacts:b.contacts.length,wounds:b.wounds.length,damage:b.damage,wear:Array.from(b.wear),pressure:b.pressure,reserve:b.bloodReserve}))};}
+function state(){return{name:'SMEAR',version:'0.8.4',tune:{...tune},modes:dolls.map(d=>({id:d.id,mode:d.mode,faceUp:d.recovery?.faceUp||false,settled:d.settled,health:d.health,walkDistance:d.walkDistance,footfalls:d.footfalls,root:d.root.toArray(),goal:d.walk?.goal?.toArray()||null,feet:d.walk?d.walk.feet.map(f=>({p:f.p.toArray(),swing:f.swing})):null})),wetSupply:surfaces.reduce((a,s)=>a+s.supply.reduce((a,b)=>a+b,0),0),engine:'Three.js '+T.REVISION+' + custom rigid-body XPBD',simTime,seed,tool,player:{mode:player.fly?'fly':'walk',p:player.feet.toArray(),grounded:player.grounded,locked:document.pointerLockElement===canvas,sticky:stickyLook},paused,slow,dolls:dolls.length,bodies:bodies.length,activeBodies:bodies.filter(b=>b.active).length,particles:dropList.length,grab:grab?grab.body.name:null,stats:{...stats,maxJoint:jointError()},paintTextures:surfaces.length,paintBytes:surfaces.reduce((s,p)=>s+p.res*p.res*4,0),renderer:{calls:renderer.info.render.calls,triangles:renderer.info.render.triangles,geometries:renderer.info.memory.geometries,textures:renderer.info.memory.textures},parts:bodies.map(b=>({id:b.id,name:b.name,doll:b.doll.id,p:b.p.toArray(),q:b.q.toArray(),speed:b.v.length(),wet:b.wet,coat:Array.from(b.coat),contacts:b.contacts.length,wounds:b.wounds.length,damage:b.damage,wear:Array.from(b.wear),pressure:b.pressure,reserve:b.bloodReserve}))};}
 let manual=false;
 const MAX_WET_UPLOADS=10,MAX_PAINT_UPLOADS=6;
 function flushPaint(){let wetBudget=dirtyWet.size>18?12:MAX_WET_UPLOADS;for(const s of Array.from(dirtyWet)){s.wetTex.needsUpdate=true;dirtyWet.delete(s);if(--wetBudget<=0)break;}let paintBudget=dirtyPaint.size>10?8:MAX_PAINT_UPLOADS;for(const s of Array.from(dirtyPaint)){uploadPaintRegion(s);stats.paintUploads++;dirtyPaint.delete(s);if(--paintBudget<=0)break;}}
 function renderNow(dt=0,alpha=1){
- const profile=runtimeProfiler.active;for(const d of dolls)syncDoll(d,alpha);
- runtimeProfiler.gpuBegin();let t=profile?performance.now():0;flushPaint();if(profile)runtimeProfiler.add('uploadPrep',performance.now()-t);
+ const profile=runtimeProfiler.active;runtimeProfiler.gpuBegin();let t=profile?performance.now():0;
+ for(const d of dolls)syncDoll(d,alpha);flushPaint();if(profile)runtimeProfiler.add('uploadPrep',performance.now()-t);
  drawDrops();camera.updateMatrixWorld();updateTools(dt);t=profile?performance.now():0;renderer.render(scene,camera);if(profile)runtimeProfiler.add('render',performance.now()-t);runtimeProfiler.gpuEnd();
  t=profile?performance.now():0;drawUI();if(profile)runtimeProfiler.add('hud',performance.now()-t);
  t=profile?performance.now():0;runtimeProfiler.refresh();if(profile)runtimeProfiler.add('profiler',performance.now()-t);

@@ -1,0 +1,93 @@
+{
+  "path": "WebGL 1-compatible region copies",
+  "checks": [
+    "GPU paint matches retained canvas after smear demo",
+    "GPU paint matches retained canvas after tile seams and borders",
+    "GPU paint matches retained canvas after small edge brushes and tall faces",
+    "GPU paint matches retained canvas after tiny bullet marks at face edges",
+    "GPU paint matches retained canvas after Spill across floor seams",
+    "GPU paint matches retained canvas after wall drips and rotated faces",
+    "GPU paint matches retained canvas after body atlas edges and washing",
+    "GPU paint matches retained canvas after clean and repaint",
+    "GPU paint matches retained canvas after complete clear",
+    "region copy canvases are reused within a bounded set",
+    "no WebGL errors after cropped uploads and wet-map updates",
+    "no painting browser exceptions or errors"
+  ],
+  "audits": [
+    {
+      "name": "smear demo",
+      "pixels": 12899938,
+      "mismatches": 0,
+      "maxDelta": 0.9960784313725526,
+      "failures": [],
+      "copyCanvases": 0
+    },
+    {
+      "name": "tile seams and borders",
+      "pixels": 12899938,
+      "mismatches": 0,
+      "maxDelta": 0.9960784313725526,
+      "failures": [],
+      "copyCanvases": 24
+    },
+    {
+      "name": "small edge brushes and tall faces",
+      "pixels": 12899938,
+      "mismatches": 0,
+      "maxDelta": 0.9921568627451052,
+      "failures": [],
+      "copyCanvases": 24
+    },
+    {
+      "name": "tiny bullet marks at face edges",
+      "pixels": 12899938,
+      "mismatches": 0,
+      "maxDelta": 0.9921568627451052,
+      "failures": [],
+      "copyCanvases": 24
+    },
+    {
+      "name": "Spill across floor seams",
+      "pixels": 12899938,
+      "mismatches": 0,
+      "maxDelta": 0.9921568627451052,
+      "failures": [],
+      "copyCanvases": 24
+    },
+    {
+      "name": "wall drips and rotated faces",
+      "pixels": 12523618,
+      "mismatches": 0,
+      "maxDelta": 0.9960784313725526,
+      "failures": [],
+      "copyCanvases": 26
+    },
+    {
+      "name": "body atlas edges and washing",
+      "pixels": 12899938,
+      "mismatches": 0,
+      "maxDelta": 0.9960784313725526,
+      "failures": [],
+      "copyCanvases": 26
+    },
+    {
+      "name": "clean and repaint",
+      "pixels": 12899938,
+      "mismatches": 0,
+      "maxDelta": 0.9058823529411768,
+      "failures": [],
+      "copyCanvases": 26
+    },
+    {
+      "name": "complete clear",
+      "pixels": 12899938,
+      "mismatches": 0,
+      "maxDelta": 0.8941176470588204,
+      "failures": [],
+      "copyCanvases": 26
+    }
+  ],
+  "errors": [],
+  "result": "COMPLETE painting checks passed"
+}

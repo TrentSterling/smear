@@ -1,5 +1,7 @@
 # Performance
 
+V8.4 targets Firefox/Zen paint uploads, droplet collisions and allocations, body paint atlas updates, and unnecessary HUD redraws. It also fixes the floor Spill crash. Current paired measurements and exact preservation checks are in [Firefox performance and verification](docs/qa/performance-v8.4.md).
+
 V8.3 adds a live runtime profiler. Open **F3 / Perf** in the game and export a capture immediately after a hitch. See [runtime profiling and verification](docs/qa/runtime-v8.3.md). It preserves raw frame gaps, records CPU phases and workload, and samples GPU render/upload duration asynchronously when the extension is available.
 
 Current painting measurements: [V8.2 floor-drag profiling and verification](docs/qa/painting-v8.2.md).

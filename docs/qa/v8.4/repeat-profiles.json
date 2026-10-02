@@ -1,0 +1,890 @@
+[
+  {
+    "label": "candidate-final",
+    "sourceSha256": "bfbe2cace18c03ec62dd13216daadc5e7da8e69c2a01e0a0a8321de503c19754",
+    "reports": [
+      {
+        "scenario": "air",
+        "hide": false,
+        "work": {
+          "mean": 12.518987341772151,
+          "p50": 13,
+          "p95": 16,
+          "p99": 18,
+          "max": 28
+        },
+        "intervals": {
+          "mean": 18.4321186440678,
+          "p50": 16.660000000000764,
+          "p95": 33.339999999999236,
+          "p99": 33.340000000000146,
+          "max": 33.340000000000146
+        },
+        "summary": {
+          "frames": 239,
+          "seconds": 4.423,
+          "fps": 54.035722360388874,
+          "latestFPS": 41.666666666666664,
+          "intervalMs": {
+            "p50": 18,
+            "p95": 26,
+            "p99": 30,
+            "max": 34
+          },
+          "workMs": 12.539748953974895,
+          "workPercentileMs": {
+            "p50": 13,
+            "p95": 16,
+            "p99": 19,
+            "max": 27
+          },
+          "phases": {
+            "physics": 4.807531380753138,
+            "paint": 0.4769874476987448,
+            "drops": 1.1422594142259415,
+            "uploadPrep": 1.602510460251046,
+            "render": 3.99163179916318,
+            "hud": 0.200836820083682,
+            "profiler": 0.04602510460251046,
+            "input": 0,
+            "other": 0.2719665271966527
+          },
+          "overBudget": 112,
+          "spikeFrames": 15,
+          "uploadCPU": 1.0418410041841004,
+          "uploadMiB": 500.75494384765625,
+          "uploadMiBPerSecond": 113.21613019390826,
+          "uploadCalls": 3632,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      },
+      {
+        "scenario": "air",
+        "hide": true,
+        "work": {
+          "mean": 12.582278481012658,
+          "p50": 13,
+          "p95": 16,
+          "p99": 17,
+          "max": 22
+        },
+        "intervals": {
+          "mean": 17.796525423728813,
+          "p50": 16.659999999999854,
+          "p95": 33.32000000000062,
+          "p99": 33.340000000000146,
+          "max": 33.340000000000146
+        },
+        "summary": {
+          "frames": 239,
+          "seconds": 4.264,
+          "fps": 56.050656660412756,
+          "latestFPS": 38.46153846153846,
+          "intervalMs": {
+            "p50": 17,
+            "p95": 25,
+            "p99": 27,
+            "max": 30
+          },
+          "workMs": 12.606694560669457,
+          "workPercentileMs": {
+            "p50": 13,
+            "p95": 16,
+            "p99": 18,
+            "max": 22
+          },
+          "phases": {
+            "physics": 4.824267782426778,
+            "paint": 0.48535564853556484,
+            "drops": 1.2301255230125523,
+            "uploadPrep": 1.4602510460251046,
+            "render": 4.142259414225942,
+            "hud": 0.14644351464435146,
+            "profiler": 0.016736401673640166,
+            "input": 0,
+            "other": 0.301255230125523
+          },
+          "overBudget": 97,
+          "spikeFrames": 7,
+          "uploadCPU": 1.0543933054393306,
+          "uploadMiB": 500.75494384765625,
+          "uploadMiBPerSecond": 117.43783861342781,
+          "uploadCalls": 3632,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      },
+      {
+        "scenario": "pistol",
+        "hide": false,
+        "work": {
+          "mean": 7.012658227848101,
+          "p50": 6,
+          "p95": 10,
+          "p99": 17,
+          "max": 19
+        },
+        "intervals": {
+          "mean": 16.87847457627119,
+          "p50": 16.66000000000031,
+          "p95": 16.68000000000029,
+          "p99": 16.68000000000029,
+          "max": 50
+        },
+        "summary": {
+          "frames": 239,
+          "seconds": 4.026,
+          "fps": 59.364133134624936,
+          "latestFPS": 58.8235294117647,
+          "intervalMs": {
+            "p50": 17,
+            "p95": 19,
+            "p99": 27,
+            "max": 50
+          },
+          "workMs": 7.01673640167364,
+          "workPercentileMs": {
+            "p50": 6,
+            "p95": 10,
+            "p99": 17,
+            "max": 19
+          },
+          "phases": {
+            "physics": 1.5857740585774058,
+            "paint": 0.7238493723849372,
+            "drops": 0.6610878661087866,
+            "uploadPrep": 0.6820083682008368,
+            "render": 2.6359832635983262,
+            "hud": 0.497907949790795,
+            "profiler": 0.02510460251046025,
+            "input": 0,
+            "other": 0.20502092050209206
+          },
+          "overBudget": 15,
+          "spikeFrames": 5,
+          "uploadCPU": 0.4895397489539749,
+          "uploadMiB": 201.227783203125,
+          "uploadMiBPerSecond": 49.982062395212374,
+          "uploadCalls": 1889,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      },
+      {
+        "scenario": "drag-air",
+        "hide": false,
+        "work": {
+          "mean": 4.430379746835443,
+          "p50": 4,
+          "p95": 7,
+          "p99": 7,
+          "max": 19
+        },
+        "intervals": {
+          "mean": 16.66661016949153,
+          "p50": 16.66000000000031,
+          "p95": 16.68000000000029,
+          "p99": 16.68000000000029,
+          "max": 16.68000000000029
+        },
+        "summary": {
+          "frames": 239,
+          "seconds": 3.973,
+          "fps": 60.156053360181225,
+          "latestFPS": 62.5,
+          "intervalMs": {
+            "p50": 17,
+            "p95": 18,
+            "p99": 18,
+            "max": 19
+          },
+          "workMs": 4.430962343096234,
+          "workPercentileMs": {
+            "p50": 4,
+            "p95": 7,
+            "p99": 7,
+            "max": 19
+          },
+          "phases": {
+            "physics": 1.4184100418410042,
+            "paint": 0.29707112970711297,
+            "drops": 0.27615062761506276,
+            "uploadPrep": 0.2301255230125523,
+            "render": 1.9832635983263598,
+            "hud": 0.09205020920502092,
+            "profiler": 0.029288702928870293,
+            "input": 0,
+            "other": 0.10460251046025104
+          },
+          "overBudget": 1,
+          "spikeFrames": 0,
+          "uploadCPU": 0.09623430962343096,
+          "uploadMiB": 25.32476806640625,
+          "uploadMiBPerSecond": 6.374217988020702,
+          "uploadCalls": 812,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      },
+      {
+        "scenario": "drag-floor",
+        "hide": false,
+        "work": {
+          "mean": 14.004219409282701,
+          "p50": 14,
+          "p95": 21,
+          "p99": 23,
+          "max": 27
+        },
+        "intervals": {
+          "mean": 18.290847457627116,
+          "p50": 16.659999999999854,
+          "p95": 33.340000000000146,
+          "p99": 33.340000000000146,
+          "max": 33.340000000000146
+        },
+        "summary": {
+          "frames": 239,
+          "seconds": 4.414,
+          "fps": 54.145899410965114,
+          "latestFPS": 62.5,
+          "intervalMs": {
+            "p50": 17,
+            "p95": 25,
+            "p99": 33,
+            "max": 37
+          },
+          "workMs": 14.125523012552302,
+          "workPercentileMs": {
+            "p50": 14,
+            "p95": 21,
+            "p99": 23,
+            "max": 27
+          },
+          "phases": {
+            "physics": 1.6359832635983265,
+            "paint": 8.439330543933055,
+            "drops": 0.26359832635983266,
+            "uploadPrep": 0.9037656903765691,
+            "render": 2.602510460251046,
+            "hud": 0.16736401673640167,
+            "profiler": 0.012552301255230125,
+            "input": 0,
+            "other": 0.100418410041841
+          },
+          "overBudget": 90,
+          "spikeFrames": 11,
+          "uploadCPU": 0.7154811715481172,
+          "uploadMiB": 316.699951171875,
+          "uploadMiBPerSecond": 71.74896945443476,
+          "uploadCalls": 2119,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      }
+    ]
+  },
+  {
+    "label": "release",
+    "sourceSha256": "309af284573e609c071527a7099f59f9973f5802a66184a87dbcb4bff3a79290",
+    "reports": [
+      {
+        "scenario": "air",
+        "hide": false,
+        "work": {
+          "mean": 11.856540084388186,
+          "p50": 12,
+          "p95": 15,
+          "p99": 18,
+          "max": 40
+        },
+        "intervals": {
+          "mean": 17.584661016949152,
+          "p50": 16.659999999999854,
+          "p95": 33.31999999999971,
+          "p99": 33.340000000000146,
+          "max": 35.400000000000546
+        },
+        "summary": {
+          "frames": 239,
+          "seconds": 4.231,
+          "fps": 56.487827936658,
+          "latestFPS": 47.61904761904762,
+          "intervalMs": {
+            "p50": 17,
+            "p95": 23,
+            "p99": 27,
+            "max": 41
+          },
+          "workMs": 11.866108786610878,
+          "workPercentileMs": {
+            "p50": 12,
+            "p95": 15,
+            "p99": 18,
+            "max": 40
+          },
+          "phases": {
+            "physics": 4.569037656903766,
+            "paint": 0.41422594142259417,
+            "drops": 1.1297071129707112,
+            "uploadPrep": 1.5355648535564854,
+            "render": 3.7656903765690375,
+            "hud": 0.17573221757322174,
+            "profiler": 0.029288702928870293,
+            "input": 0,
+            "other": 0.24686192468619247
+          },
+          "overBudget": 103,
+          "spikeFrames": 7,
+          "uploadCPU": 1.1841004184100419,
+          "uploadMiB": 500.75494384765625,
+          "uploadMiBPerSecond": 118.35380379287551,
+          "uploadCalls": 3632,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      },
+      {
+        "scenario": "air",
+        "hide": true,
+        "work": {
+          "mean": 12.561181434599156,
+          "p50": 12,
+          "p95": 16,
+          "p99": 18,
+          "max": 19
+        },
+        "intervals": {
+          "mean": 17.725932203389828,
+          "p50": 16.659999999999854,
+          "p95": 33.339999999999236,
+          "p99": 33.340000000000146,
+          "max": 33.340000000000146
+        },
+        "summary": {
+          "frames": 239,
+          "seconds": 4.259,
+          "fps": 56.116459262737735,
+          "latestFPS": 43.47826086956522,
+          "intervalMs": {
+            "p50": 17,
+            "p95": 24,
+            "p99": 26,
+            "max": 28
+          },
+          "workMs": 12.585774058577407,
+          "workPercentileMs": {
+            "p50": 12,
+            "p95": 16,
+            "p99": 18,
+            "max": 19
+          },
+          "phases": {
+            "physics": 5.121338912133891,
+            "paint": 0.37656903765690375,
+            "drops": 1.1673640167364017,
+            "uploadPrep": 1.5230125523012552,
+            "render": 3.907949790794979,
+            "hud": 0.16736401673640167,
+            "profiler": 0.04602510460251046,
+            "input": 0,
+            "other": 0.27615062761506276
+          },
+          "overBudget": 101,
+          "spikeFrames": 5,
+          "uploadCPU": 1.00418410041841,
+          "uploadMiB": 500.75494384765625,
+          "uploadMiBPerSecond": 117.5757088160733,
+          "uploadCalls": 3632,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      },
+      {
+        "scenario": "pistol",
+        "hide": false,
+        "work": {
+          "mean": 6.734177215189874,
+          "p50": 6,
+          "p95": 10,
+          "p99": 15,
+          "max": 25
+        },
+        "intervals": {
+          "mean": 16.807796610169483,
+          "p50": 16.660000000000082,
+          "p95": 16.68000000000029,
+          "p99": 16.68000000000029,
+          "max": 33.340000000000146
+        },
+        "summary": {
+          "frames": 239,
+          "seconds": 4.018,
+          "fps": 59.48232951717272,
+          "latestFPS": 66.66666666666667,
+          "intervalMs": {
+            "p50": 17,
+            "p95": 17,
+            "p99": 26,
+            "max": 36
+          },
+          "workMs": 6.7280334728033475,
+          "workPercentileMs": {
+            "p50": 6,
+            "p95": 10,
+            "p99": 15,
+            "max": 25
+          },
+          "phases": {
+            "physics": 1.5690376569037656,
+            "paint": 0.602510460251046,
+            "drops": 0.698744769874477,
+            "uploadPrep": 0.6610878661087866,
+            "render": 2.5481171548117154,
+            "hud": 0.401673640167364,
+            "profiler": 0.02510460251046025,
+            "input": 0,
+            "other": 0.2217573221757322
+          },
+          "overBudget": 6,
+          "spikeFrames": 3,
+          "uploadCPU": 0.606694560669456,
+          "uploadMiB": 201.227783203125,
+          "uploadMiBPerSecond": 50.081578696646346,
+          "uploadCalls": 1889,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      },
+      {
+        "scenario": "drag-air",
+        "hide": false,
+        "work": {
+          "mean": 5.523206751054852,
+          "p50": 5,
+          "p95": 8,
+          "p99": 16,
+          "max": 80
+        },
+        "intervals": {
+          "mean": 17.514067796610167,
+          "p50": 16.659999999999854,
+          "p95": 16.68000000000029,
+          "p99": 67.36000000000013,
+          "max": 89.90000000000009
+        },
+        "summary": {
+          "frames": 239,
+          "seconds": 4.183,
+          "fps": 57.136026775041834,
+          "latestFPS": 58.8235294117647,
+          "intervalMs": {
+            "p50": 17,
+            "p95": 18,
+            "p99": 63,
+            "max": 87
+          },
+          "workMs": 5.506276150627615,
+          "workPercentileMs": {
+            "p50": 5,
+            "p95": 8,
+            "p99": 16,
+            "max": 80
+          },
+          "phases": {
+            "physics": 1.6861924686192469,
+            "paint": 0.3723849372384937,
+            "drops": 0.20920502092050208,
+            "uploadPrep": 0.22594142259414227,
+            "render": 2.594142259414226,
+            "hud": 0.2594142259414226,
+            "profiler": 0.03765690376569038,
+            "input": 0,
+            "other": 0.12133891213389121
+          },
+          "overBudget": 6,
+          "spikeFrames": 4,
+          "uploadCPU": 0.0794979079497908,
+          "uploadMiB": 25.32476806640625,
+          "uploadMiBPerSecond": 6.054211825581222,
+          "uploadCalls": 812,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      },
+      {
+        "scenario": "drag-floor",
+        "hide": false,
+        "work": {
+          "mean": 14.578059071729959,
+          "p50": 15,
+          "p95": 21,
+          "p99": 24,
+          "max": 25
+        },
+        "intervals": {
+          "mean": 18.64398305084746,
+          "p50": 16.660000000000764,
+          "p95": 33.33999999999969,
+          "p99": 33.340000000000146,
+          "max": 33.340000000000146
+        },
+        "summary": {
+          "frames": 239,
+          "seconds": 4.501,
+          "fps": 53.09931126416352,
+          "latestFPS": 58.8235294117647,
+          "intervalMs": {
+            "p50": 17,
+            "p95": 25,
+            "p99": 31,
+            "max": 40
+          },
+          "workMs": 14.719665271966527,
+          "workPercentileMs": {
+            "p50": 15,
+            "p95": 22,
+            "p99": 25,
+            "max": 29
+          },
+          "phases": {
+            "physics": 1.7238493723849373,
+            "paint": 8.744769874476987,
+            "drops": 0.2719665271966527,
+            "uploadPrep": 0.9665271966527197,
+            "render": 2.6778242677824267,
+            "hud": 0.21338912133891214,
+            "profiler": 0.029288702928870293,
+            "input": 0,
+            "other": 0.09205020920502092
+          },
+          "overBudget": 103,
+          "spikeFrames": 10,
+          "uploadCPU": 0.8242677824267782,
+          "uploadMiB": 316.699951171875,
+          "uploadMiBPerSecond": 70.36213089799489,
+          "uploadCalls": 2119,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      }
+    ]
+  },
+  {
+    "label": "release-lf",
+    "sourceSha256": "c99dab81ec7360cba100e30b21b2fda44a5861622bef9438648729fd58e8052b",
+    "reports": [
+      {
+        "scenario": "air",
+        "hide": false,
+        "work": {
+          "mean": 13.071729957805907,
+          "p50": 13,
+          "p95": 17,
+          "p99": 18,
+          "max": 25
+        },
+        "intervals": {
+          "mean": 19.06779661016949,
+          "p50": 16.660000000000764,
+          "p95": 33.340000000000146,
+          "p99": 33.340000000000146,
+          "max": 33.340000000000146
+        },
+        "summary": {
+          "frames": 239,
+          "seconds": 4.576,
+          "fps": 52.22902097902098,
+          "latestFPS": 43.47826086956522,
+          "intervalMs": {
+            "p50": 19,
+            "p95": 27,
+            "p99": 31,
+            "max": 31
+          },
+          "workMs": 13.06694560669456,
+          "workPercentileMs": {
+            "p50": 13,
+            "p95": 17,
+            "p99": 18,
+            "max": 25
+          },
+          "phases": {
+            "physics": 5.062761506276151,
+            "paint": 0.5188284518828452,
+            "drops": 1.2259414225941423,
+            "uploadPrep": 1.707112970711297,
+            "render": 4.050209205020921,
+            "hud": 0.2217573221757322,
+            "profiler": 0.02510460251046025,
+            "input": 0,
+            "other": 0.25523012552301255
+          },
+          "overBudget": 124,
+          "spikeFrames": 19,
+          "uploadCPU": 1.1966527196652719,
+          "uploadMiB": 500.75494384765625,
+          "uploadMiBPerSecond": 109.43071325342139,
+          "uploadCalls": 3632,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      },
+      {
+        "scenario": "air",
+        "hide": true,
+        "work": {
+          "mean": 12.582278481012658,
+          "p50": 12,
+          "p95": 16,
+          "p99": 18,
+          "max": 28
+        },
+        "intervals": {
+          "mean": 18.149661016949157,
+          "p50": 16.66000000000031,
+          "p95": 33.320000000000164,
+          "p99": 33.340000000000146,
+          "max": 50
+        },
+        "summary": {
+          "frames": 239,
+          "seconds": 4.369,
+          "fps": 54.70359349965667,
+          "latestFPS": 43.47826086956522,
+          "intervalMs": {
+            "p50": 17,
+            "p95": 26,
+            "p99": 31,
+            "max": 38
+          },
+          "workMs": 12.644351464435147,
+          "workPercentileMs": {
+            "p50": 12,
+            "p95": 16,
+            "p99": 19,
+            "max": 28
+          },
+          "phases": {
+            "physics": 4.891213389121339,
+            "paint": 0.4476987447698745,
+            "drops": 1.217573221757322,
+            "uploadPrep": 1.493723849372385,
+            "render": 4.087866108786611,
+            "hud": 0.19246861924686193,
+            "profiler": 0.012552301255230125,
+            "input": 0,
+            "other": 0.301255230125523
+          },
+          "overBudget": 104,
+          "spikeFrames": 13,
+          "uploadCPU": 1.0251046025104602,
+          "uploadMiB": 500.75494384765625,
+          "uploadMiBPerSecond": 114.61545979575561,
+          "uploadCalls": 3632,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      },
+      {
+        "scenario": "pistol",
+        "hide": false,
+        "work": {
+          "mean": 7.7974683544303796,
+          "p50": 6,
+          "p95": 12,
+          "p99": 51,
+          "max": 79
+        },
+        "intervals": {
+          "mean": 17.937796610169475,
+          "p50": 16.659999999999854,
+          "p95": 16.68000000000029,
+          "p99": 64.88000000000011,
+          "max": 83.32000000000016
+        },
+        "summary": {
+          "frames": 239,
+          "seconds": 4.283,
+          "fps": 55.80200793836096,
+          "latestFPS": 58.8235294117647,
+          "intervalMs": {
+            "p50": 17,
+            "p95": 23,
+            "p99": 60,
+            "max": 86
+          },
+          "workMs": 7.7907949790794975,
+          "workPercentileMs": {
+            "p50": 6,
+            "p95": 12,
+            "p99": 51,
+            "max": 79
+          },
+          "phases": {
+            "physics": 1.7447698744769875,
+            "paint": 0.7489539748953975,
+            "drops": 0.7071129707112971,
+            "uploadPrep": 0.7740585774058577,
+            "render": 2.9414225941422596,
+            "hud": 0.5355648535564853,
+            "profiler": 0.04184100418410042,
+            "input": 0,
+            "other": 0.29707112970711297
+          },
+          "overBudget": 18,
+          "spikeFrames": 9,
+          "uploadCPU": 0.7154811715481172,
+          "uploadMiB": 201.227783203125,
+          "uploadMiBPerSecond": 46.98290525405673,
+          "uploadCalls": 1889,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      },
+      {
+        "scenario": "drag-air",
+        "hide": false,
+        "work": {
+          "mean": 5.417721518987341,
+          "p50": 5,
+          "p95": 8,
+          "p99": 29,
+          "max": 48
+        },
+        "intervals": {
+          "mean": 17.37279661016949,
+          "p50": 16.659999999999854,
+          "p95": 16.68000000000029,
+          "p99": 49.98000000000002,
+          "max": 50
+        },
+        "summary": {
+          "frames": 239,
+          "seconds": 4.139,
+          "fps": 57.7434162841266,
+          "latestFPS": 58.8235294117647,
+          "intervalMs": {
+            "p50": 17,
+            "p95": 18,
+            "p99": 43,
+            "max": 48
+          },
+          "workMs": 5.410041841004184,
+          "workPercentileMs": {
+            "p50": 5,
+            "p95": 7,
+            "p99": 29,
+            "max": 48
+          },
+          "phases": {
+            "physics": 1.782426778242678,
+            "paint": 0.35564853556485354,
+            "drops": 0.27615062761506276,
+            "uploadPrep": 0.26359832635983266,
+            "render": 2.4435146443514646,
+            "hud": 0.14225941422594143,
+            "profiler": 0.03347280334728033,
+            "input": 0,
+            "other": 0.11297071129707113
+          },
+          "overBudget": 9,
+          "spikeFrames": 7,
+          "uploadCPU": 0.12133891213389121,
+          "uploadMiB": 25.32476806640625,
+          "uploadMiBPerSecond": 6.11857165170482,
+          "uploadCalls": 812,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      },
+      {
+        "scenario": "drag-floor",
+        "hide": false,
+        "work": {
+          "mean": 14.586497890295359,
+          "p50": 14,
+          "p95": 21,
+          "p99": 24,
+          "max": 32
+        },
+        "intervals": {
+          "mean": 18.926525423728812,
+          "p50": 16.66000000000031,
+          "p95": 33.340000000000146,
+          "p99": 33.340000000000146,
+          "max": 33.340000000000146
+        },
+        "summary": {
+          "frames": 239,
+          "seconds": 4.563,
+          "fps": 52.37782160859084,
+          "latestFPS": 62.5,
+          "intervalMs": {
+            "p50": 18,
+            "p95": 27,
+            "p99": 33,
+            "max": 46
+          },
+          "workMs": 14.753138075313808,
+          "workPercentileMs": {
+            "p50": 14,
+            "p95": 22,
+            "p99": 25,
+            "max": 32
+          },
+          "phases": {
+            "physics": 1.6778242677824269,
+            "paint": 9.01255230125523,
+            "drops": 0.2301255230125523,
+            "uploadPrep": 0.9079497907949791,
+            "render": 2.6359832635983262,
+            "hud": 0.18410041841004185,
+            "profiler": 0.02510460251046025,
+            "input": 0,
+            "other": 0.0794979079497908
+          },
+          "overBudget": 100,
+          "spikeFrames": 17,
+          "uploadCPU": 0.7615062761506276,
+          "uploadMiB": 316.699951171875,
+          "uploadMiBPerSecond": 69.40608178213347,
+          "uploadCalls": 2119,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      }
+    ]
+  }
+]

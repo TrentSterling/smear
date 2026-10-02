@@ -2,13 +2,13 @@
 
 A blood-and-contact ragdoll playground by Trent Sterling / Tront. Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V8.3 / 0.8.3** continues the DRAGMARK prototype under the name SMEAR.
+**V8.4 / 0.8.4** continues the DRAGMARK prototype under the name SMEAR.
 
 **Play:** https://tront.xyz/smear/ · **Source:** https://github.com/TrentSterling/smear
 
 ## Run
 
-Open `index.html` in desktop Chrome or Edge with hardware acceleration enabled. It is one offline HTML file with Three.js r140, procedural models, textures, audio, and custom rigid-body physics embedded. No install, build, server, or runtime downloads.
+Open `index.html` in desktop Firefox, Zen, Chrome, or Edge with hardware acceleration enabled. It is one offline HTML file with Three.js r140, procedural models, textures, audio, and custom rigid-body physics embedded. No install, build, server, or runtime downloads.
 
 - Left mouse: grab, fire, or spill with the selected tool.
 - Right drag: look. WASD: move. Shift: sprint. Space: jump. Ctrl: crouch.
@@ -20,6 +20,8 @@ Open `index.html` in desktop Chrome or Edge with hardware acceleration enabled. 
 - Controls or About: run the built-in smear demo.
 
 Stains last for the session. Tuning saves in browser storage; V8 migrates available settings from `dragmark.tune.v7` into `smear.tune.v8` on the same browser origin.
+
+V8.4 fixes floor Spill, tunes paint uploads for Firefox/Zen, pools droplets, caches collision samples, limits particle buffer updates to active instances, and retains unchanged HUD pixels. Before/after workloads preserve exact droplet motion, pigment and wet supply. See [Firefox performance and verification](docs/qa/performance-v8.4.md).
 
 ## Live runtime profiling
 
@@ -34,6 +36,10 @@ Upload-call CPU overlaps prep/render. GPU time and rAF intervals measure differe
 - `index.html`: current SMEAR V8.
 - `versions/dragmark_v7.html`: Trent's original V7, preserved byte for byte.
 - `tools/verify.mjs`: Chrome runtime, reset, and spawn visibility checks.
+- `tools/firefox-verify.mjs`: native Firefox Spill, held pistol and floor drag checks.
+- `tools/particles-profile.mjs`: fixed-work Firefox/Chrome particle and paint benchmarks.
+- `tools/particles-compare.mjs`: exact motion, transforms, pigment and supply comparison.
+- `tools/hud-verify.mjs`: retained HUD versus complete redraw pixel checks.
 - `tools/profile.mjs`: CPU profiles and frame distributions on the real GPU.
 - `tools/runtime-verify.mjs`: live profiler, native drag, hitch, export and UI checks.
 - `tools/runtime-profile.mjs`: fixed-work instrumentation overhead and state comparison.
@@ -43,7 +49,7 @@ Upload-call CPU overlaps prep/render. GPU time and rAF intervals measure differe
 
 Painting performance and preservation receipts are in [V8.2 floor-drag notes](docs/qa/painting-v8.2.md). Use `npm run profile:paint` and `npm run verify:paint` for the focused workload.
 
-Run `npm run verify` with Node 22+ and Chrome installed. `CHROME` can override the executable path. Browser captures and JSON receipts go in `tools/out/`.
+Run `npm run verify` with Node 22+ and Chrome installed. `CHROME` can override the executable path. `npm run verify:firefox` uses its own Firefox profile and browser process; `FIREFOX` can override that executable. Browser captures and JSON receipts go in `tools/out/`.
 
 `npm run serve` previews the game at `http://127.0.0.1:8198/`. `npm run profile` records the room, smear demo, and 10-dummy Chaos preset. `npm run og` regenerates the social image. See [PERFORMANCE.md](PERFORMANCE.md) for measurements and remaining costs.
 
