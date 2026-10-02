@@ -45,3 +45,11 @@ The [Firefox worker receipt](v8.7/worker-firefox.json) passes 56 checks, includi
 The [six-workload preservation receipt](v8.7/preservation-and-performance.json) passes 24 exact comparisons against the final V8.6 capture: simulation/wet transfer, droplet motion/lifetime, instance transforms and every persistent surface PNG with wet supply. This includes 900-drop air, hidden-particle control, pistol, air drag, floor drag and Chaos. `npm run profile:recovery` reproduces the forced-starvation comparison and exact surface/skin checks.
 
 All GPU-owning harnesses run sequentially. Chrome output is muted with `--mute-audio`; Firefox uses a silent destination gain plus profile-level volume zero. Native sound code and settings remain enabled. No unrelated browser or benchmark process is stopped.
+
+## Public deployment
+
+V8.7 is published at https://tront.xyz/smear/ from commit `daa668f95e43126466e2ba8582656e1860386884`. GitHub Pages completed that build on October 2, 2026 at 23:49:33 UTC. The [source receipt](v8.7/public-source.json) confirms the response matches the tested file byte for byte with the SHA-256 above.
+
+The public website passes [14 publication checks](v8.7/public-publish.json), [11 native Firefox checks](v8.7/public-firefox.json), and [20 profiler checks](v8.7/public-runtime.json). The `/games` card and 1200 x 630 OG image remain valid at desktop and mobile sizes. Firefox confirms RGBA worker transport during Spill, pistol and dragging. Its captured game image retains the enabled sound setting while the harness silences output.
+
+The short public native-input capture exposes worse cold-path tails than the warmed profiling table: Spill averages 55.7 FPS, pistol 54.6 FPS and dragging 55.3 FPS. Mean main-thread work is 3.19, 6.46 and 7.08 ms respectively, but pistol CPU p99 reaches 53 ms and dragging reaches 47 ms. The capture includes immediate input after resets and paint setup; host CPU pressure is not recorded in this harness. Render and HUD spikes remain visible in its raw frames. Passing the functional public checks does not establish stable 60 FPS for these paths. Investigation of those spikes and Chaos remains outstanding.
