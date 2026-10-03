@@ -1,0 +1,507 @@
+{
+  "version": "0.9.1",
+  "verifiedAt": "2026-10-03T16:57:44.611994+00:00",
+  "sha256": "38df1f52f0a798ca402f39febb45bad031f2a5cda924d0887cc0f9edeeadcda9",
+  "suites": [
+    {
+      "startedAt": "2026-10-03T16:52:32.073Z",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "result": "COMPLETE compute game checks passed",
+      "checks": [
+        "Hardware GPU compute and no CPU physics/paint readback",
+        "120 GPU ticks; finite bodies and floor collision",
+        "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+        "Compute paints persistent floor pigment",
+        "GPU clear erases every floor tile",
+        "GPU reset restores three dolls",
+        "Repeatable GPU simulation after reset",
+        "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+        "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+        "Audio enabled and running, output separately muted"
+      ],
+      "audio": {
+        "enabled": true,
+        "state": "running"
+      },
+      "name": "compute-chrome",
+      "maximum": {
+        "bodyCount": 180,
+        "maxJoint": 0.018281642718755414
+      },
+      "errors": []
+    },
+    {
+      "startedAt": "2026-10-03T16:52:43.342Z",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "result": "COMPLETE native GPU gameplay and 3000x1800 profiles passed",
+      "checks": [
+        "Native pistol hits and spawns GPU particles",
+        "Native Spill paints walls; GPU gravity drips extend paint",
+        "Native grabbing resolves from GPU body poses",
+        "Native drag creates persistent floor smears",
+        "GPU wash clears all 150 body coatings and pigment",
+        "GPU heal restores reserves and clears airborne drops",
+        "Finite long GPU simulation and recovery"
+      ],
+      "audio": {
+        "enabled": true,
+        "state": "running"
+      },
+      "name": "compute-native-chrome",
+      "errors": [],
+      "viewport": [
+        3000,
+        1800
+      ],
+      "profiles": [
+        {
+          "workload": "idle",
+          "fps": 60,
+          "cpuMS": {
+            "p50": 0.30000007152557373,
+            "p95": 1.1999999284744263,
+            "p99": 1.5,
+            "max": 1.600000023841858
+          },
+          "gpuMS": {
+            "computeMS": {
+              "p50": 0.524288,
+              "p95": 0.851968,
+              "p99": 0.98304,
+              "max": 1.507328
+            },
+            "renderMS": {
+              "p50": 0.524288,
+              "p95": 0.65536,
+              "p99": 0.851968,
+              "max": 0.917504
+            }
+          },
+          "ticksPerSecond": 119.46975973487986,
+          "particles": 4,
+          "stampOverflow": 0,
+          "audit": {
+            "active": false,
+            "reads": {
+              "asynchronous GPU timing": 361,
+              "GPU telemetry snapshot": 24
+            },
+            "writes": {
+              "frame uniforms": 1108992
+            },
+            "canvasReads": 0,
+            "webGLContexts": 0
+          }
+        },
+        {
+          "workload": "pistol",
+          "fps": 60,
+          "cpuMS": {
+            "p50": 0.3999999761581421,
+            "p95": 1.100000023841858,
+            "p99": 1.399999976158142,
+            "max": 1.899999976158142
+          },
+          "gpuMS": {
+            "computeMS": {
+              "p50": 0.65536,
+              "p95": 1.114112,
+              "p99": 1.245184,
+              "max": 1.572864
+            },
+            "renderMS": {
+              "p50": 0.524288,
+              "p95": 0.524288,
+              "p99": 0.589824,
+              "max": 0.917504
+            }
+          },
+          "ticksPerSecond": 119.46975973487986,
+          "particles": 20,
+          "stampOverflow": 0,
+          "audit": {
+            "active": false,
+            "reads": {
+              "asynchronous GPU timing": 361,
+              "GPU telemetry snapshot": 24
+            },
+            "writes": {
+              "frame uniforms": 1108992,
+              "GPU scene instances": 1419616
+            },
+            "canvasReads": 0,
+            "webGLContexts": 0
+          }
+        },
+        {
+          "workload": "spill",
+          "fps": 60,
+          "cpuMS": {
+            "p50": 0.2999999523162842,
+            "p95": 1,
+            "p99": 1.2999999523162842,
+            "max": 1.399999976158142
+          },
+          "gpuMS": {
+            "computeMS": {
+              "p50": 0.589824,
+              "p95": 0.851968,
+              "p99": 1.179648,
+              "max": 1.245184
+            },
+            "renderMS": {
+              "p50": 0.524288,
+              "p95": 0.720896,
+              "p99": 1.114112,
+              "max": 1.31072
+            }
+          },
+          "ticksPerSecond": 119.43018055325493,
+          "particles": 122,
+          "stampOverflow": 0,
+          "audit": {
+            "active": false,
+            "reads": {
+              "asynchronous GPU timing": 361,
+              "GPU telemetry snapshot": 24
+            },
+            "writes": {
+              "frame uniforms": 1108992,
+              "GPU scene instances": 3872
+            },
+            "canvasReads": 0,
+            "webGLContexts": 0
+          }
+        },
+        {
+          "workload": "drag",
+          "fps": 60.00434571887055,
+          "cpuMS": {
+            "p50": 0.30000007152557373,
+            "p95": 0.8999999761581421,
+            "p99": 1.399999976158142,
+            "max": 2.5
+          },
+          "gpuMS": {
+            "computeMS": {
+              "p50": 0.720896,
+              "p95": 1.048576,
+              "p99": 1.245184,
+              "max": 1.507328
+            },
+            "renderMS": {
+              "p50": 0.524288,
+              "p95": 0.524288,
+              "p99": 0.786432,
+              "max": 1.179648
+            }
+          },
+          "ticksPerSecond": 119.25692486316139,
+          "particles": 6,
+          "stampOverflow": 0,
+          "audit": {
+            "active": false,
+            "reads": {
+              "asynchronous GPU timing": 360,
+              "GPU telemetry snapshot": 24
+            },
+            "writes": {
+              "frame uniforms": 1105920
+            },
+            "canvasReads": 0,
+            "webGLContexts": 0
+          }
+        },
+        {
+          "workload": "chaos",
+          "fps": 60,
+          "cpuMS": {
+            "p50": 0.30000007152557373,
+            "p95": 0.8999999761581421,
+            "p99": 1.399999976158142,
+            "max": 1.600000023841858
+          },
+          "gpuMS": {
+            "computeMS": {
+              "p50": 1.048576,
+              "p95": 1.835008,
+              "p99": 2.031616,
+              "max": 2.424832
+            },
+            "renderMS": {
+              "p50": 0.524288,
+              "p95": 0.917504,
+              "p99": 1.179648,
+              "max": 1.507328
+            }
+          },
+          "ticksPerSecond": 119.43018055325493,
+          "particles": 230,
+          "stampOverflow": 0,
+          "audit": {
+            "active": false,
+            "reads": {
+              "asynchronous GPU timing": 361,
+              "GPU telemetry snapshot": 24
+            },
+            "writes": {
+              "frame uniforms": 1108992
+            },
+            "canvasReads": 0,
+            "webGLContexts": 0
+          }
+        }
+      ]
+    },
+    {
+      "startedAt": "2026-10-03T16:53:27.129Z",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:157.0) Gecko/20100101 Firefox/157.0",
+      "result": "COMPLETE compute game checks passed",
+      "checks": [
+        "Hardware GPU compute and no CPU physics/paint readback",
+        "120 GPU ticks; finite bodies and floor collision",
+        "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+        "Compute paints persistent floor pigment",
+        "GPU clear erases every floor tile",
+        "GPU reset restores three dolls",
+        "Repeatable GPU simulation after reset",
+        "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+        "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+        "Audio enabled and running, output separately muted"
+      ],
+      "audio": {
+        "enabled": true,
+        "state": "running"
+      },
+      "name": "compute-firefox",
+      "maximum": {
+        "bodyCount": 180,
+        "maxJoint": 0.018453841382325448
+      },
+      "errors": []
+    },
+    {
+      "startedAt": "2026-10-03T16:54:54.412Z",
+      "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:157.0) Gecko/20100101 Firefox/157.0",
+      "result": "COMPLETE native GPU gameplay and 3000x1800 profiles passed",
+      "checks": [
+        "Native pistol hits and spawns GPU particles",
+        "Native Spill paints walls; GPU gravity drips extend paint",
+        "Native grabbing resolves from GPU body poses",
+        "Native drag creates persistent floor smears",
+        "GPU wash clears all 150 body coatings and pigment",
+        "GPU heal restores reserves and clears airborne drops",
+        "Finite long GPU simulation and recovery"
+      ],
+      "audio": {
+        "enabled": true,
+        "state": "running"
+      },
+      "name": "compute-native-firefox",
+      "errors": [],
+      "viewport": [
+        3000,
+        1800
+      ],
+      "profiles": [
+        {
+          "workload": "idle",
+          "fps": 60.00334280461307,
+          "cpuMS": {
+            "p50": 0,
+            "p95": 1,
+            "p99": 2,
+            "max": 2
+          },
+          "gpuMS": {
+            "computeMS": {
+              "p50": 0.529984,
+              "p95": 0.886784,
+              "p99": 1.092832,
+              "max": 1.204384
+            },
+            "renderMS": {
+              "p50": 0.59104,
+              "p95": 0.787232,
+              "p99": 1.01024,
+              "max": 1.10432
+            }
+          },
+          "ticksPerSecond": 115.97938144329896,
+          "particles": 4,
+          "stampOverflow": 0,
+          "audit": {
+            "active": false,
+            "reads": {
+              "asynchronous GPU timing": 360,
+              "GPU telemetry snapshot": 24
+            },
+            "writes": {
+              "frame uniforms": 1105920
+            },
+            "canvasReads": 0,
+            "webGLContexts": 0
+          }
+        },
+        {
+          "workload": "pistol",
+          "fps": 60,
+          "cpuMS": {
+            "p50": 0,
+            "p95": 1,
+            "p99": 2,
+            "max": 7
+          },
+          "gpuMS": {
+            "computeMS": {
+              "p50": 0.675904,
+              "p95": 1.004704,
+              "p99": 1.167296,
+              "max": 1.285952
+            },
+            "renderMS": {
+              "p50": 0.609632,
+              "p95": 0.797472,
+              "p99": 0.9936,
+              "max": 1.121792
+            }
+          },
+          "ticksPerSecond": 118.07031888798038,
+          "particles": 19,
+          "stampOverflow": 0,
+          "audit": {
+            "active": false,
+            "reads": {
+              "asynchronous GPU timing": 361,
+              "GPU telemetry snapshot": 24
+            },
+            "writes": {
+              "frame uniforms": 1108992,
+              "GPU scene instances": 1418736
+            },
+            "canvasReads": 0,
+            "webGLContexts": 0
+          }
+        },
+        {
+          "workload": "spill",
+          "fps": 60.0132625994695,
+          "cpuMS": {
+            "p50": 0,
+            "p95": 1,
+            "p99": 4,
+            "max": 6
+          },
+          "gpuMS": {
+            "computeMS": {
+              "p50": 0.629024,
+              "p95": 0.940736,
+              "p99": 1.060864,
+              "max": 1.221312
+            },
+            "renderMS": {
+              "p50": 0.625504,
+              "p95": 0.808416,
+              "p99": 1.02192,
+              "max": 1.140896
+            }
+          },
+          "ticksPerSecond": 116.49384316267013,
+          "particles": 121,
+          "stampOverflow": 0,
+          "audit": {
+            "active": false,
+            "reads": {
+              "asynchronous GPU timing": 363,
+              "GPU telemetry snapshot": 25
+            },
+            "writes": {
+              "frame uniforms": 1115136,
+              "GPU scene instances": 3872
+            },
+            "canvasReads": 0,
+            "webGLContexts": 0
+          }
+        },
+        {
+          "workload": "drag",
+          "fps": 59.990001666388935,
+          "cpuMS": {
+            "p50": 0,
+            "p95": 1,
+            "p99": 2,
+            "max": 2
+          },
+          "gpuMS": {
+            "computeMS": {
+              "p50": 0.775328,
+              "p95": 1.20208,
+              "p99": 1.393664,
+              "max": 1.739712
+            },
+            "renderMS": {
+              "p50": 0.597728,
+              "p95": 0.743712,
+              "p99": 0.98736,
+              "max": 1.479488
+            }
+          },
+          "ticksPerSecond": 116.28281526815913,
+          "particles": 15,
+          "stampOverflow": 0,
+          "audit": {
+            "active": false,
+            "reads": {
+              "asynchronous GPU timing": 361,
+              "GPU telemetry snapshot": 24
+            },
+            "writes": {
+              "frame uniforms": 1108992
+            },
+            "canvasReads": 0,
+            "webGLContexts": 0
+          }
+        },
+        {
+          "workload": "chaos",
+          "fps": 60.00334280461307,
+          "cpuMS": {
+            "p50": 0,
+            "p95": 1,
+            "p99": 2,
+            "max": 3
+          },
+          "gpuMS": {
+            "computeMS": {
+              "p50": 1.028672,
+              "p95": 1.796768,
+              "p99": 1.929568,
+              "max": 2.28272
+            },
+            "renderMS": {
+              "p50": 0.644128,
+              "p95": 1.103744,
+              "p99": 1.348576,
+              "max": 1.54048
+            }
+          },
+          "ticksPerSecond": 115.94904047734236,
+          "particles": 227,
+          "stampOverflow": 0,
+          "audit": {
+            "active": false,
+            "reads": {
+              "asynchronous GPU timing": 360,
+              "GPU telemetry snapshot": 24
+            },
+            "writes": {
+              "frame uniforms": 1105920
+            },
+            "canvasReads": 0,
+            "webGLContexts": 0
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -14,7 +14,7 @@ fn uv(r:Record,p:vec3f)->vec2f { let d=p-r.center.xyz;return vec2f(dot(d,r.u.xyz
 fn floorRecord(p:vec3f)->u32 { return u32(clamp(floor((p.z+8)/4),0,3))*4u+u32(clamp(floor((p.x+8)/4),0,3)); }
 fn wetCell(r:Record,p:vec2f)->u32 { let c=vec2u(clamp(p*56.0,vec2f(0),vec2f(55)));return u32(r.extra.y)+c.x+c.y*56u; }
 fn takeWet(cell:u32,wanted:u32)->u32 {
- var old=atomicLoad(&wet[cell]);loop{let amount=min(old,wanted);let result=atomicCompareExchangeWeak(&wet[cell],old,old-amount);if(result.exchanged){return amount;}old=result.old_value;}
+ var old=atomicLoad(&wet[cell]);var amount=0u;loop{amount=min(old,wanted);let result=atomicCompareExchangeWeak(&wet[cell],old,old-amount);if(result.exchanged){break;}old=result.old_value;}return amount;
 }
 fn addWet(cell:u32,amount:u32) {
  var old=atomicLoad(&wet[cell]);loop{let result=atomicCompareExchangeWeak(&wet[cell],old,min(131072u,old+amount));if(result.exchanged){return;}old=result.old_value;}
@@ -86,7 +86,7 @@ fn joint(base:u32,j:u32,angles:bool) {
  if(lane==0u){var hip=localBodies[1];var health=100.0;for(var k=0u;k<15u;k++){health=min(health,localBodies[k].blood.w);}let held=frame.local.w>.5&&u32(frame.goal.w)/15u==group.x;
   if(hip.motor.w<.5){hip.status.z=select(0.0,hip.status.z+dt,length(hip.v.xyz)<.8&&!held);if(hip.status.z>8&&health>25&&(u32(frame.settings.w)&2u)!=0u&&navFree(vec3f(hip.p.x,0,hip.p.z))){hip.motor=vec4f(hip.p.x,0,hip.p.z,1);hip.nav=vec4f(hip.p.x,0,hip.p.z,frame.camera.w+4);}}
   else if(hip.motor.w<1.5){if(frame.camera.w>hip.nav.w){hip.motor.w=2;}}
-  else if((u32(frame.settings.w)&1u)!=0u&&!held){let delta=hip.nav.xz-hip.motor.xz;let distance=length(delta);if(distance<.2&&frame.camera.w>hip.nav.w){for(var attempt=0u;attempt<12u;attempt++){let seed=base+u32(frame.camera.w*120)+attempt*97u;let goal=vec3f(hip.motor.x,0,hip.motor.z)+vec3f(hash(seed)-.5,0,hash(seed+29u)-.5)*4;var clear=navFree(goal);for(var n=1u;n<8u;n++){clear=clear&&navFree(mix(vec3f(hip.motor.x,0,hip.motor.z),goal,f32(n)/8));}if(clear){hip.nav=vec4f(goal,frame.camera.w+.4);break;}}}else if(distance>.2&&frame.camera.w>hip.nav.w){let direction=delta/max(distance,.001);let next=vec3f(hip.motor.x,0,hip.motor.z)+vec3f(direction.x,0,direction.y)*dt*.35;if(navFree(next)){hip.motor.xz=next.xz;hip.motor.y=atan2(direction.x,direction.y);}else{hip.nav.xz=hip.motor.xz;hip.nav.w=frame.camera.w+1;}}}
+  else if((u32(frame.settings.w)&1u)!=0u&&!held){let delta=hip.nav.xz-hip.motor.xz;let distance=length(delta);if(distance<.2&&frame.camera.w>hip.nav.w){for(var attempt=0u;attempt<12u;attempt++){let seed=base+u32(frame.camera.w*120)+attempt*97u;let goal=vec3f(hip.motor.x,0,hip.motor.z)+vec3f(hash(seed)-.5,0,hash(seed+29u)-.5)*4;var clear=navFree(goal);for(var n=1u;n<8u;n++){clear=clear&&navFree(mix(vec3f(hip.motor.x,0,hip.motor.z),goal,f32(n)/8));}if(clear){hip.nav=vec4f(goal,frame.camera.w+.4);break;}}}else if(distance>.2&&frame.camera.w>hip.nav.w){let direction=delta/max(distance,.001);let next=vec3f(hip.motor.x,0,hip.motor.z)+vec3f(direction.x,0,direction.y)*dt*.35;if(navFree(next)){hip.motor.x=next.x;hip.motor.z=next.z;hip.motor.y=atan2(direction.x,direction.y);}else{hip.nav.x=hip.motor.x;hip.nav.z=hip.motor.z;hip.nav.w=frame.camera.w+1;}}}
   for(var k=0u;k<15u;k++){localBodies[k].motor=hip.motor;localBodies[k].nav=hip.nav;localBodies[k].status.z=hip.status.z;}
  }workgroupBarrier();
  if(lane<15u){var b=localBodies[lane];b.prevP=b.p;b.prevQ=b.q;if(b.status.x>.5){b=poseMotor(b,base+lane);b.v.y-=9.81*dt;b.v=vec4f(bounded(b.v.xyz*exp(-.075*dt),21),0);b.w=vec4f(bounded(b.w.xyz*exp(-.36*dt),26),0);b.p=vec4f(b.p.xyz+b.v.xyz*dt,b.p.w);b.q=rotateStep(b.q,b.w.xyz*dt);}localBodies[lane]=b;}workgroupBarrier();
@@ -97,7 +97,7 @@ fn joint(base:u32,j:u32,angles:bool) {
  }
  if(lane<15u){var b=localBodies[lane];let index=base+lane;
   if(b.status.x>.5){b.v=vec4f((b.p.xyz-b.prevP.xyz)/dt,0);var dq=quatMul(b.q,inverseQ(b.prevQ));if(dq.w<0){dq=-dq;}let l=length(dq.xyz);b.w=vec4f(dq.xyz*(2*atan2(l,dq.w)/(max(l,1e-8)*dt)),0);
-   for(var si=0u;si<u32(b.half.w);si++){let s=sample(b,si);let p=rotate(b.q,s.xyz)+b.p.xyz;if(p.y<s.w+.015){b.v.y=max(b.v.y,0);b.v.xz*=exp(-1.8*dt);}}
+   for(var si=0u;si<u32(b.half.w);si++){let s=sample(b,si);let p=rotate(b.q,s.xyz)+b.p.xyz;if(p.y<s.w+.015){b.v.y=max(b.v.y,0);let friction=exp(-1.8*dt);b.v.x*=friction;b.v.z*=friction;}}
   }
   b.blood.y+=dt*max(.05,b.blood.x)*frame.action.z;b.blood.z=max(0,b.blood.z-dt);b.coat.y=max(0,b.coat.y-dt);b.coat.x=max(0,b.coat.x-dt*2.3/frame.tune.w);
   let contact=rotate(b.q,b.s0.xyz)+b.p.xyz;var receiver:i32=-1;var p=vec3f(contact.x,0,contact.z);
@@ -131,7 +131,7 @@ fn rayHit(o:vec3f,d:vec3f,limit:f32,includeBodies:bool,ignoreBody:i32)->RayHit {
  }else if(hit.surface>=0){if(frame.action.y==3){let r=record(u32(hit.surface));splat(u32(hit.surface),hit.p,.32,1,atomicLoad(&work[5]));let c=uv(r,hit.p);atomicMax(&wet[wetCell(r,c)],50000u);for(var k=0u;k<10u;k++){let h=k*37u+atomicLoad(&work[5]);emit(hit.p+hit.n*.03,hit.n*(.5+hash(h)*1.2)+vec3f((hash(h+1u)-.5)*2,hash(h+2u)*1.8,(hash(h+3u)-.5)*2),.008+hash(h+4u)*.01,999u);}}}
 }
 @compute @workgroup_size(64) fn droplets(@builtin(global_invocation_id) id:vec3u) {
- let i=id.x;if(i>=900u||atomicLoad(&work[64u+i])==0u){return;}var p=particles[i];let dt=1.0/120.0;p.previous.xyz=p.p.xyz;p.v.y-=9.81*dt;p.v=vec4f(p.v.xyz*exp(-.08*dt),p.v.w+dt);p.p=vec4f(p.p.xyz+p.v.xyz*dt,p.p.w);let delta=p.p.xyz-p.previous.xyz;let length=length(delta);let h=rayHit(p.previous.xyz,safeNorm(delta),length,true,select(-1,i32(p.previous.w),p.v.w<.22));
+ let i=id.x;if(i>=900u||atomicLoad(&work[64u+i])==0u){return;}var p=particles[i];let dt=1.0/120.0;p.previous=vec4f(p.p.xyz,p.previous.w);p.v.y-=9.81*dt;p.v=vec4f(p.v.xyz*exp(-.08*dt),p.v.w+dt);p.p=vec4f(p.p.xyz+p.v.xyz*dt,p.p.w);let delta=p.p.xyz-p.previous.xyz;let length=length(delta);let h=rayHit(p.previous.xyz,safeNorm(delta),length,true,select(-1,i32(p.previous.w),p.v.w<.22));
  if(h.t<length){if(h.surface>=0){splat(u32(h.surface),h.p,max(.018,p.p.w*3),.7,i+atomicLoad(&work[5]));let r=record(u32(h.surface));atomicMax(&wet[wetCell(r,uv(r,h.p))],12000u);}else if(h.body>=0){let b=bodies[u32(h.body)];let local=rotate(inverseQ(b.q),h.p-b.p.xyz);let n=rotate(inverseQ(b.q),h.n);let a=abs(n);var face:u32;var c:vec2f;var half:vec2f;if(a.x>a.y&&a.x>a.z){face=select(1u,0u,n.x>0);c=local.zy;half=b.half.zy;}else if(a.y>a.z){face=select(3u,2u,n.y>0);c=local.xz;half=b.half.xz;}else{face=select(5u,4u,n.z>0);c=local.xy;half=b.half.xy;}let point=(c/half*.5+.5+vec2f(f32(face%3u),f32(face/3u)))/vec2f(3,2);stamp(header(0).z+u32(h.body),point,point,vec2f(.045,.065),.55,0,f32(i%18u),0);}
   atomicStore(&work[64u+i],0u);atomicSub(&work[9],1u);atomicAdd(&work[17],1u);
  }else if(p.v.w>7||p.p.y<-.15){atomicStore(&work[64u+i],0u);atomicSub(&work[9],1u);}particles[i]=p;

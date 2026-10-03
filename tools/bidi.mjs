@@ -5,10 +5,10 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {sleep} from './cdp.mjs';
 
-export async function launchFirefox({port=9595,width=1920,height=1080}={}){
+export async function launchFirefox({port=9595,width=1920,height=1080,headless=true}={}){
  const dir=mkdtempSync(join(tmpdir(),'smear-firefox-'));
  writeFileSync(join(dir,'user.js'),'user_pref("browser.shell.checkDefaultBrowser",false);\nuser_pref("browser.startup.homepage_override.mstone","ignore");\nuser_pref("webgl.force-enabled",true);\nuser_pref("media.volume_scale","0.0");\n');
- const proc=spawn(process.env.FIREFOX||'C:/Program Files/Mozilla Firefox/firefox.exe',['--headless','--no-remote','--profile',dir,'--remote-debugging-port',String(port),'about:blank'],{windowsHide:true,stdio:['ignore','pipe','pipe']});
+ const proc=spawn(process.env.FIREFOX||'C:/Program Files/Mozilla Firefox/firefox.exe',[...(headless?['--headless']:[]),'--no-remote','--profile',dir,'--remote-debugging-port',String(port),'about:blank'],{windowsHide:true,stdio:['ignore','pipe','pipe']});
  let diagnostics='';for(const stream of [proc.stdout,proc.stderr])stream.on('data',b=>{diagnostics+=(b+'').slice(0,1000);});
  let ws;for(let i=0;i<60;i++){try{const socket=new WebSocket(`ws://127.0.0.1:${port}/session`);await new Promise((r,j)=>{socket.onopen=r;socket.onerror=j;});ws=socket;break;}catch{await sleep(250);}}
  if(!ws){proc.kill();throw Error('Firefox did not start: '+diagnostics);}
