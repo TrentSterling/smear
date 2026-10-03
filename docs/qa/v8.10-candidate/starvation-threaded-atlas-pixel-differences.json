@@ -1,0 +1,207 @@
+{
+  "sourceSha256": "88760353345b672cd310e6365eb0f640561ed62c4304ce27bc9a5350bcf8cd68",
+  "paint": [
+    {
+      "record": 5,
+      "width": 640,
+      "height": 640,
+      "pixels": 409600,
+      "changed": 40,
+      "overTwo": 0,
+      "maxDelta": 0.9960784313725526,
+      "meanDelta": 7.21220128676471e-05
+    },
+    {
+      "record": 6,
+      "width": 640,
+      "height": 640,
+      "pixels": 409600,
+      "changed": 63,
+      "overTwo": 1,
+      "maxDelta": 4,
+      "meanDelta": 9.469784007352926e-05
+    },
+    {
+      "record": 9,
+      "width": 640,
+      "height": 640,
+      "pixels": 409600,
+      "changed": 640,
+      "overTwo": 2,
+      "maxDelta": 10,
+      "meanDelta": 0.0015850758272058874
+    },
+    {
+      "record": 10,
+      "width": 640,
+      "height": 640,
+      "pixels": 409600,
+      "changed": 2234,
+      "overTwo": 3,
+      "maxDelta": 3,
+      "meanDelta": 0.004967543658088261
+    }
+  ],
+  "skin": [
+    {
+      "record": 0,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 7,
+      "overTwo": 0,
+      "maxDelta": 0.9725490196078397,
+      "meanDelta": 7.013221955448839e-05
+    },
+    {
+      "record": 1,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 7,
+      "overTwo": 0,
+      "maxDelta": 1.9450980392156794,
+      "meanDelta": 9.024443110577543e-05
+    },
+    {
+      "record": 2,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 15,
+      "overTwo": 0,
+      "maxDelta": 0.9764705882353013,
+      "meanDelta": 0.0001455269607843139
+    },
+    {
+      "record": 3,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 63,
+      "overTwo": 0,
+      "maxDelta": 0.9803921568627345,
+      "meanDelta": 0.00037004385087368295
+    },
+    {
+      "record": 4,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 100,
+      "overTwo": 0,
+      "maxDelta": 0.9803921568627345,
+      "meanDelta": 0.0007903682306255821
+    },
+    {
+      "record": 5,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 35,
+      "overTwo": 0,
+      "maxDelta": 0.9803921568627345,
+      "meanDelta": 0.00030126633986928155
+    },
+    {
+      "record": 6,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 58,
+      "overTwo": 0,
+      "maxDelta": 0.992156862745091,
+      "meanDelta": 0.00041500975390156036
+    },
+    {
+      "record": 7,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 61,
+      "overTwo": 0,
+      "maxDelta": 0.9372549019607845,
+      "meanDelta": 0.0003848414365746301
+    },
+    {
+      "record": 8,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 34,
+      "overTwo": 0,
+      "maxDelta": 0.9921568627451052,
+      "meanDelta": 0.00028032046151794005
+    },
+    {
+      "record": 9,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 25,
+      "overTwo": 0,
+      "maxDelta": 1.9686274509803923,
+      "meanDelta": 0.0002392102674403098
+    },
+    {
+      "record": 10,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 25,
+      "overTwo": 0,
+      "maxDelta": 0.7999999999999972,
+      "meanDelta": 0.00018747082166199823
+    },
+    {
+      "record": 11,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 13,
+      "overTwo": 0,
+      "maxDelta": 0.6666666666666714,
+      "meanDelta": 9.139072295584892e-05
+    },
+    {
+      "record": 12,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 37,
+      "overTwo": 0,
+      "maxDelta": 0.9764705882353013,
+      "meanDelta": 0.0002737553354675207
+    },
+    {
+      "record": 13,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 41,
+      "overTwo": 0,
+      "maxDelta": 0.9607843137254832,
+      "meanDelta": 0.0003419597005468854
+    },
+    {
+      "record": 14,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 15,
+      "overTwo": 0,
+      "maxDelta": 0.9725490196078397,
+      "meanDelta": 0.00013224039615846307
+    },
+    {
+      "record": 16,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 1,
+      "overTwo": 0,
+      "maxDelta": 0.941176470588232,
+      "meanDelta": 1.2505002000800275e-05
+    }
+  ]
+}

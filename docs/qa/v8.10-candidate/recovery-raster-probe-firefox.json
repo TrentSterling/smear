@@ -1,0 +1,37 @@
+{
+  "browser": "Firefox",
+  "results": [
+    {
+      "options": null,
+      "events": 4134,
+      "records": 23,
+      "changed": 0,
+      "overTwo": 0,
+      "maxDelta": 0,
+      "images": []
+    },
+    {
+      "options": {
+        "willReadFrequently": false
+      },
+      "events": 4134,
+      "records": 23,
+      "changed": 0,
+      "overTwo": 0,
+      "maxDelta": 0,
+      "images": []
+    },
+    {
+      "options": {
+        "willReadFrequently": true
+      },
+      "events": 4134,
+      "records": 23,
+      "changed": 0,
+      "overTwo": 0,
+      "maxDelta": 0,
+      "images": []
+    }
+  ],
+  "errors": []
+}

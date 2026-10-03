@@ -5,7 +5,8 @@ import {pathToFileURL} from 'node:url';
 import {launch,until} from './cdp.mjs';
 import {launchFirefox} from './bidi.mjs';
 import {inflateSync} from 'node:zlib';
-const firefox=process.argv[2]==='firefox',bitmap=process.argv[2]==='bitmap',workerCount=bitmap?1:4,out=resolve('tools/out',firefox?'worker-verify-firefox':bitmap?'worker-verify-bitmap':'worker-verify');await mkdir(out,{recursive:true});
+import {createHash} from 'node:crypto';
+const firefox=process.argv[2]==='firefox',bitmap=process.argv[2]==='bitmap',keepWorkers=process.argv.includes('--keep-workers'),streamRecords=process.argv.includes('--stream-records'),filter=process.argv.slice(3).find(s=>!s.startsWith('--')),workerCount=bitmap?1:4,out=resolve('tools/out',(firefox?'worker-verify-firefox':bitmap?'worker-verify-bitmap':'worker-verify')+(keepWorkers?'-retained':'')+(streamRecords?'-stream':''));await mkdir(out,{recursive:true});
 const source=(await readFile('index.html','utf8'))
  .replace('function apply(slot,deadline){','function apply(slot,deadline,maxPatches=Infinity){')
  .replace('if(performance.now()>=deadline)return;','if(performance.now()>=deadline||maxPatches--<=0)return;')
@@ -19,9 +20,9 @@ const fixture=`let qaGPUReads=0;const qaReadPixels=renderer.getContext().readPix
  clipped:()=>{const s=dolls[0].byName.Torso.skinPaint;paintEngine.draw(s,'skin',[0,100000,100000,10,10,1,0,true]);renderNow();},
 };`;
 const file=resolve(out,'runtime.html');await writeFile(file,source.replace('</head>','<script>window.requestAnimationFrame=()=>0;</script></head>').replace('window.__smear={state,',fixture+'\nwindow.__smear={workerQA,state,'));
-const page=firefox?await launchFirefox({port:9595,width:1280,height:720}):await launch({port:9597,width:1280,height:720}),receipt={checks:[],browser:firefox?'Firefox':'Chrome',transport:bitmap?'ImageBitmap':'RGBA buffers',workerCount,experimental:!firefox&&!bitmap};
+const page=firefox?await launchFirefox({port:9595,width:1280,height:720}):await launch({port:9597,width:1280,height:720}),receipt={checks:[],cases:[],sourceSha256:createHash('sha256').update(await readFile('index.html')).digest('hex'),browser:firefox?'Firefox':'Chrome',transport:bitmap?'ImageBitmap atlas':'RGBA buffers',workerCount,keepWorkers,streamRecords,experimental:streamRecords||keepWorkers||!firefox&&!bitmap};
 const pass=(name,fn)=>{fn();receipt.checks.push(name);console.log('PASS '+name);};
-async function boot(sync=false){const query=new URLSearchParams();if(!firefox&&!bitmap)query.set('paintRGBA','1');if(sync)query.set('paintSync','1');await page.goto(pathToFileURL(file).href+'?'+query);await until(()=>page.eval('!!window.__smear'),{label:'paint lifecycle boot'});await page.eval(`(async()=>{__smear.manual(true);__smear.tune({walking:false,recover:false});__smear.reset();await __smear.paintReady();})()`);}
+async function boot(sync=false){const query=new URLSearchParams();if(!firefox&&!bitmap)query.set('paintRGBA','1');if(sync)query.set('paintSync','1');if(keepWorkers)query.set('paintKeepWorkers','1');if(streamRecords)query.set('paintStreamRecords','1');await page.goto(pathToFileURL(file).href+'?'+query);await until(()=>page.eval('!!window.__smear'),{label:'paint lifecycle boot'});await page.eval(`(async()=>{__smear.manual(true);__smear.tune({walking:false,recover:false});__smear.reset();await __smear.paintReady();})()`);}
 const cases=[
  ['fully clipped skin mark stays off-thread',`a.workerQA.clipped();`],
  ['graphics context restoration retains pigment',`a.puddle([0,0,0],.7);a.bodyPaint(0,'Torso',[0,0,1],.8);a.render();await a.paintReady(false);await a.workerQA.restore();a.render();`],
@@ -39,7 +40,7 @@ const cases=[
  ['overload recovery remains bounded during a 12000-event burst',`a.workerQA.spam(12000);`],
  ['overload with every worker in flight',`a.workerQA.swarm();`],
  ['overload and graphics loss with every worker in flight',`a.workerQA.swarm();await a.workerQA.restore();a.render();`],
-].filter(([name])=>!process.argv[3]||name.includes(process.argv[3]));
+].map(([name,setup])=>[keepWorkers?name.replace('worker restart','worker catch-up').replace('restarted worker','recovered worker'):name,setup]).filter(([name])=>!filter||name.includes(filter));
 try{
  for(const [name,setup]of cases){const results=[];for(const sync of [true,false]){await boot(sync);await page.eval(`(async()=>{const a=__smear;${setup}await a.paintReady();a.render();})()`);
   const data=await page.eval(`(async()=>{const a=__smear,s=a.state();delete s.renderer;delete s.stats.physicsMS;delete s.stats.frameMS;delete s.stats.paintUploads;return{state:s,status:a.paintStatus(),partial:window.qaPartial,swarm:window.qaSwarm,gpuReads:a.workerQA.gpuReads(),pixels:await a.workerQA.pixels(),gl:document.getElementById('world').getContext('webgl2').getError()};})()`);data.pixels=inflateSync(Buffer.from(data.pixels,'base64'));results.push(data);}
@@ -50,8 +51,10 @@ try{
   pass(name+': zero synchronous GPU pigment readbacks',()=>assert.equal(a.gpuReads,0));
   if(name.includes('every worker'))pass(name+': all worker batches actually in flight',()=>{assert.equal(a.swarm.workerCount,workerCount);assert.equal(a.swarm.activeWorkers,a.swarm.workerCount);});
   if(name.includes('partial pigment'))pass(name+': exactly one record presented before failure',()=>{assert(a.partial.before>1);assert.equal(a.partial.after,a.partial.before-1);assert(a.partial.removedOps>0);});
-  if(name.includes('failure')||name.includes('overload'))pass(name+': explicit completed recovery',()=>{assert.equal(a.status.recoveryPending||0,0);if(name.includes('overload')&&!name.includes('second overload')){assert.equal(a.status.backend,'OffscreenCanvas worker');assert.equal(a.status.restarts,1);assert.equal(a.status.workerCount,workerCount);}else assert.equal(a.status.backend,'Canvas2D fallback');});
+  if(name.includes('failure')||name.includes('overload'))pass(name+': explicit completed recovery',()=>{assert.equal(a.status.recoveryPending||0,0);if(keepWorkers&&name.includes('overload')&&!a.status.replayPressure&&!a.status.replayFailures){assert(a.status.retainedRecoveries>0);assert.equal(a.status.backend,'OffscreenCanvas worker');assert.equal(a.status.workerCount,workerCount);assert.equal(a.status.restarts,0);assert.equal(a.status.mainReplayCommands,0);}else if(name.includes('overload')&&!name.includes('second overload')){assert.equal(a.status.backend,'OffscreenCanvas worker');assert.equal(a.status.restarts,1);assert.equal(a.status.workerCount,workerCount);}else if(a.status.replayStarts&&!a.status.replayPressure&&!a.status.replayFailures){assert.equal(a.status.backend,'OffscreenCanvas recovery worker');assert.equal(a.status.workerCount,workerCount);assert.equal(a.status.mainReplayCommands,0);}else assert.equal(a.status.backend,'Canvas2D fallback');});
   else pass(name+': worker retained',()=>assert.equal(a.status.backend,'OffscreenCanvas worker'));
+  if((a.status.replayStarts||a.status.retainedRecoveries)&&!a.status.replayPressure&&!a.status.replayFailures)pass(name+': replay stayed entirely off the main thread',()=>assert.equal(a.status.mainReplayCommands,0));
+  receipt.cases.push({name,pigmentSha256:createHash('sha256').update(a.pixels).digest('hex'),maxPigmentDelta:max,status:a.status,gpuReads:a.gpuReads});
  }
  receipt.errors=page.logs.filter(s=>/^EXCEPTION:|^error:/i.test(s));pass('no lifecycle browser errors',()=>assert.deepEqual(receipt.errors,[]));receipt.result='COMPLETE worker lifecycle checks passed';console.log(receipt.result+` (${receipt.checks.length} checks)`);
 }finally{await writeFile(resolve(out,'verification.json'),JSON.stringify(receipt,null,2)+'\n');page.kill();}

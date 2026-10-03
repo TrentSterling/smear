@@ -1,0 +1,1988 @@
+{
+  "input": "tools/out/firefox-accelerated-raster.html",
+  "label": "accelerated-raster",
+  "browser": "firefox",
+  "sourceSha256": "17564b7cb86ed748c7c8d2e96cd1600a8432bce258a291270d2cba01bbe0170d",
+  "startedAt": "2026-10-03T04:55:00.812Z",
+  "muted": true,
+  "reports": [
+    {
+      "stage": "cold-Spill",
+      "telemetry": {
+        "summary": {
+          "frames": 85,
+          "seconds": 1.703,
+          "fps": 49.911920140927776,
+          "latestFPS": 43.47826086956522,
+          "intervalMs": {
+            "p50": 19,
+            "p95": 32,
+            "p99": 69,
+            "max": 69
+          },
+          "workMs": 8.717647058823529,
+          "workPercentileMs": {
+            "p50": 7,
+            "p95": 21,
+            "p99": 31,
+            "max": 31
+          },
+          "phases": {
+            "physics": 1.4,
+            "paint": 0.9058823529411765,
+            "drops": 0.15294117647058825,
+            "uploadPrep": 0.9058823529411765,
+            "render": 4.235294117647059,
+            "hud": 0.10588235294117647,
+            "profiler": 0.29411764705882354,
+            "input": 0.43529411764705883,
+            "other": 0.2823529411764706
+          },
+          "overBudget": 47,
+          "spikeFrames": 17,
+          "uploadCPU": 0.4823529411764706,
+          "uploadMiB": 21.081161499023438,
+          "uploadMiBPerSecond": 12.378838226085401,
+          "uploadCalls": 308,
+          "steps": 2.4235294117647057,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      },
+      "audit": {
+        "calls": {
+          "canvas.stroke": {
+            "count": 71,
+            "total": 0,
+            "max": 0
+          },
+          "gl.bufferSubData": {
+            "count": 441,
+            "total": 7,
+            "max": 4
+          },
+          "gl.bufferData": {
+            "count": 164,
+            "total": 0,
+            "max": 0
+          },
+          "gl.drawElements": {
+            "count": 14524,
+            "total": 4,
+            "max": 1
+          },
+          "gl.drawElementsInstanced": {
+            "count": 533,
+            "total": 0,
+            "max": 0
+          },
+          "gl.texSubImage2D": {
+            "count": 365,
+            "total": 60,
+            "max": 16
+          },
+          "gl.texStorage2D": {
+            "count": 33,
+            "total": 0,
+            "max": 0
+          },
+          "canvas.clearRect": {
+            "count": 20,
+            "total": 3,
+            "max": 2
+          },
+          "canvas.fillRect": {
+            "count": 2387,
+            "total": 2,
+            "max": 1
+          },
+          "canvas.fillText": {
+            "count": 198,
+            "total": 8,
+            "max": 5
+          },
+          "audio.resume": {
+            "count": 1,
+            "total": 0,
+            "max": 0
+          }
+        },
+        "slow": [
+          {
+            "name": "canvas.fillText",
+            "ms": 5,
+            "time": 3231,
+            "rect": null,
+            "canvas": {
+              "id": "perf-histogram",
+              "width": 432,
+              "height": 95
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 7,
+            "time": 3246,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 2,
+            "time": 3277,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 16,
+            "time": 3284,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "canvas.clearRect",
+            "ms": 2,
+            "time": 3302,
+            "rect": [
+              0,
+              0,
+              3000,
+              116
+            ],
+            "canvas": {
+              "id": "hud",
+              "width": 3000,
+              "height": 116
+            }
+          },
+          {
+            "name": "gl.bufferSubData",
+            "ms": 2,
+            "time": 3492,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 2,
+            "time": 3506,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 2,
+            "time": 3538,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.bufferSubData",
+            "ms": 4,
+            "time": 3557,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 6,
+            "time": 4376,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 2,
+            "time": 4422,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          }
+        ]
+      },
+      "paint": {
+        "backend": "OffscreenCanvas worker",
+        "raster": "Browser accelerated worker raster",
+        "workerCount": 4,
+        "activeWorkers": 3,
+        "mirrorBytes": 10901504,
+        "maxRecoveryPending": 0,
+        "batchLimit": 1024,
+        "transport": "RGBA buffers",
+        "mirrorStorage": "RGBA bytes",
+        "recoveryPending": 0,
+        "recoveryBackend": "worker",
+        "replayStarts": 0,
+        "replayFailures": 0,
+        "replayPressure": 0,
+        "mainReplayCommands": 0,
+        "retainedRecoveries": 0,
+        "streamRecords": false,
+        "recoveryMS": 0,
+        "maxRecoveryMS": 0,
+        "restarts": 0,
+        "reason": "",
+        "queued": 0,
+        "inFlight": 14,
+        "oldestPendingMS": 13,
+        "maxQueued": 86,
+        "jobs": 110,
+        "workerMS": 2,
+        "bitmapMS": 2,
+        "latencyMS": 6,
+        "meanWorkerMS": 1.2181818181818183,
+        "meanBitmapMS": 15.290909090909091,
+        "maxLatencyMS": 1473,
+        "canvases": 84,
+        "readyBitmaps": 1
+      },
+      "audio": {
+        "enabled": true,
+        "unlocked": true,
+        "state": "running",
+        "masterGain": 0.47999998927116394
+      },
+      "hostCPU": {
+        "logicalCPUs": 24,
+        "meanBusyFraction": 0.999272074792097
+      }
+    },
+    {
+      "stage": "cold-pistol",
+      "telemetry": {
+        "summary": {
+          "frames": 300,
+          "seconds": 10.561,
+          "fps": 28.40640090900483,
+          "latestFPS": 6.578947368421052,
+          "intervalMs": {
+            "p50": 20,
+            "p95": 148,
+            "p99": 199,
+            "max": 389
+          },
+          "workMs": 25.44,
+          "workPercentileMs": {
+            "p50": 11,
+            "p95": 126,
+            "p99": 175,
+            "max": 302
+          },
+          "phases": {
+            "physics": 6.996666666666667,
+            "paint": 2.44,
+            "drops": 1.8066666666666666,
+            "uploadPrep": 2.7733333333333334,
+            "render": 8.963333333333333,
+            "hud": 0.41,
+            "profiler": 0.8133333333333334,
+            "input": 0.8866666666666667,
+            "other": 0.35
+          },
+          "overBudget": 176,
+          "spikeFrames": 98,
+          "uploadCPU": 1.62,
+          "uploadMiB": 133.93008422851562,
+          "uploadMiBPerSecond": 12.681572221239998,
+          "uploadCalls": 1908,
+          "steps": 3.3033333333333332,
+          "droppedSimMs": 2220,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      },
+      "audit": {
+        "calls": {
+          "canvas.clearRect": {
+            "count": 379,
+            "total": 26,
+            "max": 5
+          },
+          "canvas.fillRect": {
+            "count": 44963,
+            "total": 42,
+            "max": 17
+          },
+          "canvas.fillText": {
+            "count": 823,
+            "total": 12,
+            "max": 1
+          },
+          "canvas.stroke": {
+            "count": 965,
+            "total": 36,
+            "max": 6
+          },
+          "gl.bufferSubData": {
+            "count": 1535,
+            "total": 24,
+            "max": 5
+          },
+          "gl.bufferData": {
+            "count": 144,
+            "total": 1,
+            "max": 1
+          },
+          "gl.drawElements": {
+            "count": 79013,
+            "total": 41,
+            "max": 7
+          },
+          "gl.drawElementsInstanced": {
+            "count": 2115,
+            "total": 6,
+            "max": 1
+          },
+          "gl.texSubImage2D": {
+            "count": 1960,
+            "total": 461,
+            "max": 22
+          },
+          "gl.texStorage2D": {
+            "count": 31,
+            "total": 0,
+            "max": 0
+          },
+          "audio.createBufferSource": {
+            "count": 108,
+            "total": 3,
+            "max": 1
+          },
+          "audio.createBiquadFilter": {
+            "count": 108,
+            "total": 1,
+            "max": 1
+          },
+          "audio.createGain": {
+            "count": 144,
+            "total": 0,
+            "max": 0
+          },
+          "audio.createOscillator": {
+            "count": 36,
+            "total": 1,
+            "max": 1
+          },
+          "gl.drawArrays": {
+            "count": 29,
+            "total": 0,
+            "max": 0
+          }
+        },
+        "slow": [
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 7,
+            "time": 10544,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.drawElements",
+            "ms": 7,
+            "time": 11025,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "canvas.fillRect",
+            "ms": 2,
+            "time": 11051,
+            "rect": null,
+            "canvas": {
+              "id": "perf-history",
+              "width": 432,
+              "height": 112
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 3,
+            "time": 11328,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 4,
+            "time": 11591,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "canvas.fillRect",
+            "ms": 17,
+            "time": 11974,
+            "rect": null,
+            "canvas": {
+              "id": "perf-history",
+              "width": 432,
+              "height": 112
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 8,
+            "time": 12146,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 6,
+            "time": 12352,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.bufferSubData",
+            "ms": 5,
+            "time": 12487,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 18,
+            "time": 13147,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "canvas.clearRect",
+            "ms": 3,
+            "time": 13311,
+            "rect": [
+              0,
+              0,
+              26,
+              26
+            ],
+            "canvas": {
+              "id": "hud-aim",
+              "width": 26,
+              "height": 26
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 2,
+            "time": 13339,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 9,
+            "time": 13408,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 7,
+            "time": 13434,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 4,
+            "time": 13630,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 9,
+            "time": 13849,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 9,
+            "time": 14101,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 2,
+            "time": 14250,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 2,
+            "time": 14391,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 16,
+            "time": 14464,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 2,
+            "time": 14694,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 10,
+            "time": 14851,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 7,
+            "time": 14863,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 22,
+            "time": 15248,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          }
+        ]
+      },
+      "paint": {
+        "backend": "OffscreenCanvas worker",
+        "raster": "Browser accelerated worker raster",
+        "workerCount": 4,
+        "activeWorkers": 4,
+        "mirrorBytes": 10833920,
+        "maxRecoveryPending": 0,
+        "batchLimit": 1024,
+        "transport": "RGBA buffers",
+        "mirrorStorage": "RGBA bytes",
+        "recoveryPending": 0,
+        "recoveryBackend": "worker",
+        "replayStarts": 0,
+        "replayFailures": 0,
+        "replayPressure": 0,
+        "mainReplayCommands": 0,
+        "retainedRecoveries": 0,
+        "streamRecords": false,
+        "recoveryMS": 0,
+        "maxRecoveryMS": 0,
+        "restarts": 0,
+        "reason": "",
+        "queued": 65,
+        "inFlight": 319,
+        "oldestPendingMS": 6124,
+        "maxQueued": 365,
+        "jobs": 524,
+        "workerMS": 0,
+        "bitmapMS": 447,
+        "latencyMS": 6089,
+        "meanWorkerMS": 1.3931297709923665,
+        "meanBitmapMS": 33.337786259541986,
+        "maxLatencyMS": 6089,
+        "canvases": 89,
+        "readyBitmaps": 5
+      },
+      "audio": {
+        "enabled": true,
+        "unlocked": true,
+        "state": "running",
+        "masterGain": 0.47999998927116394
+      },
+      "hostCPU": {
+        "logicalCPUs": 24,
+        "meanBusyFraction": 0.9993923488895451
+      }
+    },
+    {
+      "stage": "cold-drag",
+      "telemetry": {
+        "summary": {
+          "frames": 433,
+          "seconds": 15.024,
+          "fps": 28.82055378061768,
+          "latestFPS": 71.42857142857143,
+          "intervalMs": {
+            "p50": 22,
+            "p95": 94,
+            "p99": 191,
+            "max": 393
+          },
+          "workMs": 23.196304849884527,
+          "workPercentileMs": {
+            "p50": 10,
+            "p95": 84,
+            "p99": 189,
+            "max": 273
+          },
+          "phases": {
+            "physics": 6.715935334872979,
+            "paint": 2.260969976905312,
+            "drops": 0.17090069284064666,
+            "uploadPrep": 1.1339491916859123,
+            "render": 10.448036951501155,
+            "hud": 0.13856812933025403,
+            "profiler": 1.0600461893764435,
+            "input": 1.0115473441108545,
+            "other": 0.25635103926096997
+          },
+          "overBudget": 285,
+          "spikeFrames": 184,
+          "uploadCPU": 0.5265588914549654,
+          "uploadMiB": 25.546772003173828,
+          "uploadMiBPerSecond": 1.7003974975488438,
+          "uploadCalls": 939,
+          "steps": 3.648960739030023,
+          "droppedSimMs": 1863,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      },
+      "audit": {
+        "calls": {
+          "canvas.clearRect": {
+            "count": 130,
+            "total": 10,
+            "max": 2
+          },
+          "canvas.fillRect": {
+            "count": 59321,
+            "total": 39,
+            "max": 12
+          },
+          "canvas.fillText": {
+            "count": 1384,
+            "total": 30,
+            "max": 13
+          },
+          "canvas.stroke": {
+            "count": 343,
+            "total": 26,
+            "max": 20
+          },
+          "gl.bufferSubData": {
+            "count": 2253,
+            "total": 77,
+            "max": 23
+          },
+          "gl.bufferData": {
+            "count": 120,
+            "total": 1,
+            "max": 1
+          },
+          "gl.drawElements": {
+            "count": 112120,
+            "total": 103,
+            "max": 25
+          },
+          "gl.drawElementsInstanced": {
+            "count": 2716,
+            "total": 14,
+            "max": 7
+          },
+          "gl.texSubImage2D": {
+            "count": 1110,
+            "total": 339,
+            "max": 67
+          },
+          "gl.texStorage2D": {
+            "count": 22,
+            "total": 0,
+            "max": 0
+          }
+        },
+        "slow": [
+          {
+            "name": "gl.drawElementsInstanced",
+            "ms": 5,
+            "time": 22023,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 17,
+            "time": 22760,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "canvas.fillRect",
+            "ms": 2,
+            "time": 23353,
+            "rect": null,
+            "canvas": {
+              "id": "perf-history",
+              "width": 432,
+              "height": 112
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 10,
+            "time": 24083,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.drawElements",
+            "ms": 25,
+            "time": 24494,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "canvas.clearRect",
+            "ms": 2,
+            "time": 24527,
+            "rect": [
+              0,
+              0,
+              432,
+              95
+            ],
+            "canvas": {
+              "id": "perf-histogram",
+              "width": 432,
+              "height": 95
+            }
+          },
+          {
+            "name": "canvas.fillText",
+            "ms": 8,
+            "time": 24532,
+            "rect": null,
+            "canvas": {
+              "id": "perf-histogram",
+              "width": 432,
+              "height": 95
+            }
+          },
+          {
+            "name": "canvas.fillText",
+            "ms": 2,
+            "time": 24540,
+            "rect": null,
+            "canvas": {
+              "id": "perf-histogram",
+              "width": 432,
+              "height": 95
+            }
+          },
+          {
+            "name": "canvas.fillText",
+            "ms": 13,
+            "time": 25985,
+            "rect": null,
+            "canvas": {
+              "id": "perf-histogram",
+              "width": 432,
+              "height": 95
+            }
+          },
+          {
+            "name": "gl.bufferSubData",
+            "ms": 2,
+            "time": 26267,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "canvas.fillRect",
+            "ms": 12,
+            "time": 26283,
+            "rect": null,
+            "canvas": {
+              "id": "perf-history",
+              "width": 432,
+              "height": 112
+            }
+          },
+          {
+            "name": "gl.bufferSubData",
+            "ms": 23,
+            "time": 27524,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.bufferSubData",
+            "ms": 2,
+            "time": 29443,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.drawElements",
+            "ms": 3,
+            "time": 29461,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 6,
+            "time": 30486,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.bufferSubData",
+            "ms": 2,
+            "time": 30807,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 4,
+            "time": 31110,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 2,
+            "time": 31366,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.bufferSubData",
+            "ms": 2,
+            "time": 31429,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "canvas.fillRect",
+            "ms": 4,
+            "time": 32092,
+            "rect": null,
+            "canvas": {
+              "id": "perf-history",
+              "width": 432,
+              "height": 112
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 4,
+            "time": 32438,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 3,
+            "time": 32503,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.bufferSubData",
+            "ms": 4,
+            "time": 32589,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.bufferSubData",
+            "ms": 2,
+            "time": 32658,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          }
+        ]
+      },
+      "paint": {
+        "backend": "OffscreenCanvas worker",
+        "raster": "Browser accelerated worker raster",
+        "workerCount": 4,
+        "activeWorkers": 1,
+        "mirrorBytes": 11069440,
+        "maxRecoveryPending": 0,
+        "batchLimit": 1024,
+        "transport": "RGBA buffers",
+        "mirrorStorage": "RGBA bytes",
+        "recoveryPending": 0,
+        "recoveryBackend": "worker",
+        "replayStarts": 0,
+        "replayFailures": 0,
+        "replayPressure": 0,
+        "mainReplayCommands": 0,
+        "retainedRecoveries": 0,
+        "streamRecords": false,
+        "recoveryMS": 0,
+        "maxRecoveryMS": 0,
+        "restarts": 0,
+        "reason": "",
+        "queued": 0,
+        "inFlight": 2,
+        "oldestPendingMS": 17,
+        "maxQueued": 365,
+        "jobs": 736,
+        "workerMS": 0,
+        "bitmapMS": 6,
+        "latencyMS": 5,
+        "meanWorkerMS": 1.2894021739130435,
+        "meanBitmapMS": 40.46195652173913,
+        "maxLatencyMS": 7387,
+        "canvases": 90,
+        "readyBitmaps": 1
+      },
+      "audio": {
+        "enabled": true,
+        "unlocked": true,
+        "state": "running",
+        "masterGain": 0.47999998927116394
+      },
+      "hostCPU": {
+        "logicalCPUs": 24,
+        "meanBusyFraction": 0.9993709645869348
+      }
+    },
+    {
+      "stage": "cold-Chaos",
+      "telemetry": {
+        "summary": {
+          "frames": 60,
+          "seconds": 6.067,
+          "fps": 9.889566507334761,
+          "latestFPS": 11.904761904761905,
+          "intervalMs": {
+            "p50": 92,
+            "p95": 189,
+            "p99": 281,
+            "max": 281
+          },
+          "workMs": 88.35,
+          "workPercentileMs": {
+            "p50": 77,
+            "p95": 177,
+            "p99": 253,
+            "max": 253
+          },
+          "phases": {
+            "physics": 30.533333333333335,
+            "paint": 24.783333333333335,
+            "drops": 6.6,
+            "uploadPrep": 16.283333333333335,
+            "render": 8.116666666666667,
+            "hud": 0.03333333333333333,
+            "profiler": 0.7833333333333333,
+            "input": 1,
+            "other": 0.21666666666666667
+          },
+          "overBudget": 59,
+          "spikeFrames": 58,
+          "uploadCPU": 5.05,
+          "uploadMiB": 245.57833862304688,
+          "uploadMiBPerSecond": 40.47772187622332,
+          "uploadCalls": 2277,
+          "steps": 7.75,
+          "droppedSimMs": 2204,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      },
+      "audit": {
+        "calls": {
+          "canvas.clearRect": {
+            "count": 50,
+            "total": 5,
+            "max": 1
+          },
+          "canvas.fillRect": {
+            "count": 6251,
+            "total": 2,
+            "max": 1
+          },
+          "canvas.fillText": {
+            "count": 525,
+            "total": 6,
+            "max": 2
+          },
+          "canvas.stroke": {
+            "count": 124036,
+            "total": 248,
+            "max": 5
+          },
+          "gl.bufferSubData": {
+            "count": 314,
+            "total": 9,
+            "max": 1
+          },
+          "gl.bufferData": {
+            "count": 520,
+            "total": 0,
+            "max": 0
+          },
+          "gl.drawElements": {
+            "count": 29090,
+            "total": 18,
+            "max": 10
+          },
+          "gl.drawElementsInstanced": {
+            "count": 377,
+            "total": 0,
+            "max": 0
+          },
+          "gl.texSubImage2D": {
+            "count": 2638,
+            "total": 325,
+            "max": 8
+          },
+          "gl.texStorage2D": {
+            "count": 178,
+            "total": 2,
+            "max": 1
+          },
+          "audio.createBufferSource": {
+            "count": 83,
+            "total": 0,
+            "max": 0
+          },
+          "audio.createBiquadFilter": {
+            "count": 83,
+            "total": 0,
+            "max": 0
+          },
+          "audio.createGain": {
+            "count": 116,
+            "total": 0,
+            "max": 0
+          },
+          "audio.createOscillator": {
+            "count": 33,
+            "total": 0,
+            "max": 0
+          },
+          "canvas.drawImage": {
+            "count": 38126,
+            "total": 428,
+            "max": 8
+          },
+          "canvas.getImageData": {
+            "count": 1896,
+            "total": 276,
+            "max": 9
+          },
+          "canvas.putImageData": {
+            "count": 5,
+            "total": 3,
+            "max": 1
+          }
+        },
+        "slow": [
+          {
+            "name": "canvas.stroke",
+            "ms": 2,
+            "time": 37854,
+            "rect": null,
+            "canvas": {
+              "id": "",
+              "width": 162,
+              "height": 162
+            }
+          },
+          {
+            "name": "canvas.stroke",
+            "ms": 2,
+            "time": 37859,
+            "rect": null,
+            "canvas": {
+              "id": "",
+              "width": 640,
+              "height": 640
+            }
+          },
+          {
+            "name": "canvas.drawImage",
+            "ms": 7,
+            "time": 37878,
+            "rect": null,
+            "canvas": {
+              "id": "",
+              "width": 640,
+              "height": 640
+            }
+          },
+          {
+            "name": "canvas.drawImage",
+            "ms": 2,
+            "time": 37898,
+            "rect": null,
+            "canvas": {
+              "id": "",
+              "width": 336,
+              "height": 224
+            }
+          },
+          {
+            "name": "canvas.drawImage",
+            "ms": 2,
+            "time": 37917,
+            "rect": null,
+            "canvas": {
+              "id": "",
+              "width": 640,
+              "height": 640
+            }
+          },
+          {
+            "name": "canvas.getImageData",
+            "ms": 2,
+            "time": 37928,
+            "rect": null,
+            "canvas": {
+              "id": "",
+              "width": 640,
+              "height": 640
+            }
+          },
+          {
+            "name": "canvas.getImageData",
+            "ms": 2,
+            "time": 37941,
+            "rect": null,
+            "canvas": {
+              "id": "",
+              "width": 640,
+              "height": 640
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 4,
+            "time": 37944,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "canvas.getImageData",
+            "ms": 6,
+            "time": 37950,
+            "rect": null,
+            "canvas": {
+              "id": "",
+              "width": 336,
+              "height": 224
+            }
+          },
+          {
+            "name": "canvas.drawImage",
+            "ms": 2,
+            "time": 37981,
+            "rect": null,
+            "canvas": {
+              "id": "",
+              "width": 252,
+              "height": 252
+            }
+          },
+          {
+            "name": "canvas.stroke",
+            "ms": 5,
+            "time": 38018,
+            "rect": null,
+            "canvas": {
+              "id": "",
+              "width": 252,
+              "height": 252
+            }
+          },
+          {
+            "name": "canvas.drawImage",
+            "ms": 5,
+            "time": 38095,
+            "rect": null,
+            "canvas": {
+              "id": "",
+              "width": 640,
+              "height": 640
+            }
+          },
+          {
+            "name": "canvas.drawImage",
+            "ms": 7,
+            "time": 38146,
+            "rect": null,
+            "canvas": {
+              "id": "",
+              "width": 336,
+              "height": 224
+            }
+          },
+          {
+            "name": "canvas.drawImage",
+            "ms": 8,
+            "time": 38156,
+            "rect": null,
+            "canvas": {
+              "id": "",
+              "width": 162,
+              "height": 162
+            }
+          },
+          {
+            "name": "canvas.drawImage",
+            "ms": 3,
+            "time": 38166,
+            "rect": null,
+            "canvas": {
+              "id": "",
+              "width": 138,
+              "height": 138
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 3,
+            "time": 38261,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 2,
+            "time": 38264,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 2,
+            "time": 38403,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "canvas.drawImage",
+            "ms": 2,
+            "time": 38523,
+            "rect": null,
+            "canvas": {
+              "id": "",
+              "width": 336,
+              "height": 224
+            }
+          },
+          {
+            "name": "canvas.getImageData",
+            "ms": 2,
+            "time": 38632,
+            "rect": null,
+            "canvas": {
+              "id": "",
+              "width": 640,
+              "height": 640
+            }
+          },
+          {
+            "name": "canvas.getImageData",
+            "ms": 4,
+            "time": 38808,
+            "rect": null,
+            "canvas": {
+              "id": "",
+              "width": 768,
+              "height": 768
+            }
+          },
+          {
+            "name": "canvas.drawImage",
+            "ms": 4,
+            "time": 39045,
+            "rect": null,
+            "canvas": {
+              "id": "",
+              "width": 324,
+              "height": 324
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 2,
+            "time": 39099,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          },
+          {
+            "name": "gl.texSubImage2D",
+            "ms": 2,
+            "time": 39103,
+            "rect": null,
+            "canvas": {
+              "id": "world",
+              "width": 3000,
+              "height": 1800
+            }
+          }
+        ]
+      },
+      "paint": {
+        "backend": "Canvas2D fallback",
+        "raster": "Browser accelerated worker raster",
+        "workerCount": 0,
+        "activeWorkers": 0,
+        "mirrorBytes": 70461624,
+        "maxRecoveryPending": 8192,
+        "batchLimit": 1024,
+        "transport": "RGBA buffers",
+        "mirrorStorage": "RGBA bytes",
+        "recoveryPending": 8012,
+        "recoveryBackend": "main",
+        "replayStarts": 1,
+        "replayFailures": 0,
+        "replayPressure": 1,
+        "mainReplayCommands": 26217,
+        "retainedRecoveries": 0,
+        "streamRecords": false,
+        "recoveryMS": 3,
+        "maxRecoveryMS": 88,
+        "restarts": 0,
+        "reason": "Paint worker queue limit",
+        "queued": 0,
+        "inFlight": 0,
+        "oldestPendingMS": 5420,
+        "maxQueued": 4096,
+        "jobs": 741,
+        "workerMS": 13,
+        "bitmapMS": 343,
+        "latencyMS": 595,
+        "meanWorkerMS": 1.330634278002699,
+        "meanBitmapMS": 42.063427800269906,
+        "maxLatencyMS": 7387,
+        "canvases": 203,
+        "readyBitmaps": 0
+      },
+      "audio": {
+        "enabled": true,
+        "unlocked": true,
+        "state": "running",
+        "masterGain": 0.47999998927116394
+      },
+      "hostCPU": {
+        "logicalCPUs": 24,
+        "meanBusyFraction": 0.9924115065134456
+      }
+    }
+  ],
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:157.0) Gecko/20100101 Firefox/157.0",
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 980 Direct3D11 vs_5_0 ps_5_0), or similar",
+    "webgl": "WebGL 2.0",
+    "offscreen": "function",
+    "hardwareConcurrency": 24
+  },
+  "bootAudio": {
+    "enabled": true,
+    "unlocked": false,
+    "state": "suspended",
+    "masterGain": 0.47999998927116394
+  },
+  "bootAudit": {
+    "calls": {
+      "gl.texImage2D": {
+        "count": 10,
+        "total": 2,
+        "max": 2
+      },
+      "canvas.fillRect": {
+        "count": 42,
+        "total": 17,
+        "max": 1
+      },
+      "gl.bufferData": {
+        "count": 452,
+        "total": 0,
+        "max": 0
+      },
+      "gl.compileShader": {
+        "count": 32,
+        "total": 0,
+        "max": 0
+      },
+      "gl.linkProgram": {
+        "count": 16,
+        "total": 0,
+        "max": 0
+      },
+      "gl.getProgramInfoLog": {
+        "count": 16,
+        "total": 1276,
+        "max": 327
+      },
+      "gl.getShaderInfoLog": {
+        "count": 32,
+        "total": 2,
+        "max": 1
+      },
+      "gl.getProgramParameter": {
+        "count": 46,
+        "total": 0,
+        "max": 0
+      },
+      "gl.getActiveUniform": {
+        "count": 188,
+        "total": 0,
+        "max": 0
+      },
+      "gl.getUniformLocation": {
+        "count": 188,
+        "total": 0,
+        "max": 0
+      },
+      "gl.texStorage2D": {
+        "count": 88,
+        "total": 0,
+        "max": 0
+      },
+      "gl.texSubImage2D": {
+        "count": 127,
+        "total": 19,
+        "max": 1
+      },
+      "gl.getActiveAttrib": {
+        "count": 27,
+        "total": 0,
+        "max": 0
+      },
+      "gl.drawArrays": {
+        "count": 20,
+        "total": 0,
+        "max": 0
+      },
+      "canvas.getImageData": {
+        "count": 31,
+        "total": 24,
+        "max": 9
+      },
+      "canvas.putImageData": {
+        "count": 31,
+        "total": 16,
+        "max": 11
+      },
+      "canvas.stroke": {
+        "count": 36,
+        "total": 2,
+        "max": 1
+      },
+      "canvas.fillText": {
+        "count": 42,
+        "total": 5,
+        "max": 1
+      },
+      "gl.drawElements": {
+        "count": 1200,
+        "total": 0,
+        "max": 0
+      },
+      "gl.drawElementsInstanced": {
+        "count": 27,
+        "total": 0,
+        "max": 0
+      },
+      "canvas.clearRect": {
+        "count": 7,
+        "total": 2,
+        "max": 1
+      },
+      "gl.bufferSubData": {
+        "count": 18,
+        "total": 0,
+        "max": 0
+      },
+      "audio.constructor": {
+        "count": 1,
+        "total": 27,
+        "max": 27
+      },
+      "audio.createGain": {
+        "count": 4,
+        "total": 1,
+        "max": 1
+      },
+      "audio.createDynamicsCompressor": {
+        "count": 1,
+        "total": 1,
+        "max": 1
+      },
+      "audio.createBuffer": {
+        "count": 1,
+        "total": 0,
+        "max": 0
+      },
+      "audio.createBufferSource": {
+        "count": 2,
+        "total": 0,
+        "max": 0
+      },
+      "audio.createBiquadFilter": {
+        "count": 2,
+        "total": 0,
+        "max": 0
+      }
+    },
+    "slow": [
+      {
+        "name": "gl.texImage2D",
+        "ms": 2,
+        "time": 612,
+        "rect": null,
+        "canvas": {
+          "id": "world",
+          "width": 300,
+          "height": 150
+        }
+      },
+      {
+        "name": "gl.getProgramInfoLog",
+        "ms": 26,
+        "time": 619,
+        "rect": null,
+        "canvas": {
+          "id": "world",
+          "width": 3000,
+          "height": 1800
+        }
+      },
+      {
+        "name": "gl.getProgramInfoLog",
+        "ms": 83,
+        "time": 648,
+        "rect": null,
+        "canvas": {
+          "id": "world",
+          "width": 3000,
+          "height": 1800
+        }
+      },
+      {
+        "name": "canvas.putImageData",
+        "ms": 11,
+        "time": 788,
+        "rect": null,
+        "canvas": {
+          "id": "",
+          "width": 512,
+          "height": 512
+        }
+      },
+      {
+        "name": "canvas.getImageData",
+        "ms": 9,
+        "time": 815,
+        "rect": null,
+        "canvas": {
+          "id": "",
+          "width": 512,
+          "height": 512
+        }
+      },
+      {
+        "name": "canvas.getImageData",
+        "ms": 2,
+        "time": 839,
+        "rect": null,
+        "canvas": {
+          "id": "",
+          "width": 512,
+          "height": 512
+        }
+      },
+      {
+        "name": "canvas.putImageData",
+        "ms": 2,
+        "time": 847,
+        "rect": null,
+        "canvas": {
+          "id": "",
+          "width": 512,
+          "height": 512
+        }
+      },
+      {
+        "name": "gl.getProgramInfoLog",
+        "ms": 235,
+        "time": 975,
+        "rect": null,
+        "canvas": {
+          "id": "world",
+          "width": 3000,
+          "height": 1800
+        }
+      },
+      {
+        "name": "gl.getProgramInfoLog",
+        "ms": 242,
+        "time": 1213,
+        "rect": null,
+        "canvas": {
+          "id": "world",
+          "width": 3000,
+          "height": 1800
+        }
+      },
+      {
+        "name": "gl.getProgramInfoLog",
+        "ms": 9,
+        "time": 1457,
+        "rect": null,
+        "canvas": {
+          "id": "world",
+          "width": 3000,
+          "height": 1800
+        }
+      },
+      {
+        "name": "gl.getProgramInfoLog",
+        "ms": 13,
+        "time": 1467,
+        "rect": null,
+        "canvas": {
+          "id": "world",
+          "width": 3000,
+          "height": 1800
+        }
+      },
+      {
+        "name": "gl.getProgramInfoLog",
+        "ms": 327,
+        "time": 1482,
+        "rect": null,
+        "canvas": {
+          "id": "world",
+          "width": 3000,
+          "height": 1800
+        }
+      },
+      {
+        "name": "gl.getProgramInfoLog",
+        "ms": 13,
+        "time": 1810,
+        "rect": null,
+        "canvas": {
+          "id": "world",
+          "width": 3000,
+          "height": 1800
+        }
+      },
+      {
+        "name": "gl.getProgramInfoLog",
+        "ms": 16,
+        "time": 1823,
+        "rect": null,
+        "canvas": {
+          "id": "world",
+          "width": 3000,
+          "height": 1800
+        }
+      },
+      {
+        "name": "gl.getProgramInfoLog",
+        "ms": 11,
+        "time": 1840,
+        "rect": null,
+        "canvas": {
+          "id": "world",
+          "width": 3000,
+          "height": 1800
+        }
+      },
+      {
+        "name": "gl.getProgramInfoLog",
+        "ms": 239,
+        "time": 1852,
+        "rect": null,
+        "canvas": {
+          "id": "world",
+          "width": 3000,
+          "height": 1800
+        }
+      },
+      {
+        "name": "gl.getProgramInfoLog",
+        "ms": 13,
+        "time": 2092,
+        "rect": null,
+        "canvas": {
+          "id": "world",
+          "width": 3000,
+          "height": 1800
+        }
+      },
+      {
+        "name": "gl.getProgramInfoLog",
+        "ms": 8,
+        "time": 2110,
+        "rect": null,
+        "canvas": {
+          "id": "world",
+          "width": 3000,
+          "height": 1800
+        }
+      },
+      {
+        "name": "gl.getProgramInfoLog",
+        "ms": 9,
+        "time": 2120,
+        "rect": null,
+        "canvas": {
+          "id": "world",
+          "width": 3000,
+          "height": 1800
+        }
+      },
+      {
+        "name": "gl.getProgramInfoLog",
+        "ms": 24,
+        "time": 2219,
+        "rect": null,
+        "canvas": {
+          "id": "world",
+          "width": 3000,
+          "height": 1800
+        }
+      },
+      {
+        "name": "gl.getProgramInfoLog",
+        "ms": 8,
+        "time": 2244,
+        "rect": null,
+        "canvas": {
+          "id": "world",
+          "width": 3000,
+          "height": 1800
+        }
+      },
+      {
+        "name": "audio.constructor",
+        "ms": 27,
+        "time": 2264
+      }
+    ]
+  },
+  "errors": [],
+  "fullCaptureSha256": "2214865a835cc7775f361b8ea85bf7a40951ea2580a34af729c3c5a570378a31"
+}
