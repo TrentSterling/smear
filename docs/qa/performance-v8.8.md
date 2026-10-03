@@ -49,3 +49,11 @@ The [six-workload paired comparison](v8.8/preservation-and-performance.json) pas
 The [Firefox worker suite](v8.8/worker-firefox.json) passes 68 checks; the [Chromium suite](v8.8/worker-chrome.json) passes 55. New overload/graphics-loss cases first prove every configured worker is actually in flight, then compare every surface and skin atlas with the synchronous reference. Firefox recovery records zero GPU pigment readbacks. Premultiplied raster comparisons permit at most two channel levels across Canvas backends; the separate actual-scene and paired PNG tests above pass exactly.
 
 Remaining work: remove Chromium's synchronous overload recovery, reduce Chaos physics/render main-thread costs, and investigate driver/callback stalls under desktop contention. Passing functional and preservation checks does not close these performance issues.
+
+## Public deployment
+
+V8.8 is published at https://tront.xyz/smear/ from commit `4c5289a327a0655059904dafaf45411856782ba6`. GitHub Pages completed the build on October 3, 2026 at 01:02:08 UTC. The [source receipt](v8.8/public-source.json) confirms the public file matches the tested source byte for byte.
+
+The website passes [14 publication checks](v8.8/public-publish.json), [11 native Firefox checks](v8.8/public-firefox.json) and [20 profiler checks](v8.8/public-runtime.json). The `/games` card and 1200 x 630 OG image remain valid at desktop and mobile sizes. Spill, pistol and dragging all retain four painting workers and produce no gameplay/WebGL errors.
+
+The short public Firefox capture averages 59.2 FPS for Spill, 59.8 FPS for pistol and 59.5 FPS for coated-dummy dragging. Mean CPU work is 3.20, 4.20 and 4.15 ms respectively; CPU p99 is 19, 7 and 10 ms. This capture does not record host CPU pressure and is not an isolated before/after benchmark. The native stress traces above retain the remaining long tails. The performance goal remains active.

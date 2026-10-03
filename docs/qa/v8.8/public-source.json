@@ -1,0 +1,10 @@
+{
+  "url": "https://tront.xyz/smear/?release=v8.8",
+  "status": 200,
+  "version": "0.8.8",
+  "sourceSha256": "9fed255eb070b9a03f4e4517340b7d6d715c827ff65721a7b4d0adadba384098",
+  "commit": "4c5289a327a0655059904dafaf45411856782ba6",
+  "verifiedAt": "2026-10-03T01:02:33.023Z",
+  "result": "PASS public source matches tested file byte for byte",
+  "testedSourceSha256": "9fed255eb070b9a03f4e4517340b7d6d715c827ff65721a7b4d0adadba384098"
+}
