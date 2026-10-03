@@ -1,0 +1,12 @@
+{
+  "url": "https://tront.xyz/smear/",
+  "version": "0.8.9",
+  "sourceSha256": "998a9f8fff66f3dbe5897a8b428e5c09f57d2118dee0d2c922be088d104ba352",
+  "buildCommit": "2677c26f68cb169c58401959ec1226cf531d3689",
+  "buildFinishedAt": "2026-10-03T02:37:43Z",
+  "checkedAt": "2026-10-03T02:42:09.923Z",
+  "htmlHTTPStatus": 200,
+  "servedBytes": 828070,
+  "exactLocalBytesMatch": true,
+  "publicGameCardOGChecks": 14
+}

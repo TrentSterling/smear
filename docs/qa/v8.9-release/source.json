@@ -1,9 +1,12 @@
 {
   "version": "0.8.9",
   "sourceSha256": "998a9f8fff66f3dbe5897a8b428e5c09f57d2118dee0d2c922be088d104ba352",
-  "published": false,
+  "published": true,
   "releaseHarnesses": 17,
   "workerChecksPerBrowser": 79,
   "chromiumDefault": "ImageBitmap",
-  "chromiumRGBA": "Opt-in experimental"
+  "chromiumRGBA": "Opt-in experimental",
+  "codeCommit": "2677c26f68cb169c58401959ec1226cf531d3689",
+  "publicChecks": 45,
+  "performanceGoalComplete": false
 }

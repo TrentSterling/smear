@@ -1,6 +1,6 @@
 # V8.9: retain shaders and bound paint presentation
 
-Release source SHA-256: `998a9f8fff66f3dbe5897a8b428e5c09f57d2118dee0d2c922be088d104ba352`. The performance goal remains active. Publication is pending the final website checks.
+Release source SHA-256: `998a9f8fff66f3dbe5897a8b428e5c09f57d2118dee0d2c922be088d104ba352`. The performance goal remains active. V8.9 is live at https://tront.xyz/smear/. The normal public URL serves the exact tested bytes.
 
 Resets previously disposed the final skin/eye material references and evicted their compiled programs. Native Chromium audits found 30 to 38 ms waits in program/shader-info queries after reset and first pistol use. V8.9 owns one extra reference per compiled program (bounded to 64) and draws pistol/flash variants during loading without firing, consuming RNG or advancing physics. References clear on graphics loss. Both final native browser captures link zero programs after boot in Spill, pistol, dragging and Chaos.
 
@@ -27,3 +27,9 @@ These final captures encounter 95% to 100% host CPU pressure. Shader recompilati
 An earlier Firefox capture with the same shader/initialization/presentation implementation, before the Chromium default was restricted, has approximately 26% to 31% host pressure: Spill 59.86 FPS, pistol 60.04, coated drag 60.02 and Chaos 59.49. Maximum Chaos prep falls from 27 ms before the presentation deadline to 4 ms after it; maximum total work falls from 36 to 20 ms. Those are native captures with different timing, not a deterministic paired speedup. Their exact source fingerprints are in [candidate evidence](performance-v8.9-candidate.md).
 
 Remaining work: heavy-host worker backpressure, main-thread catch-up physics, driver/scheduling stalls and the experimental Chromium RGBA preservation gate. This release does not establish an eight-millisecond bound for every frame or finish the broader performance objective.
+
+## Public deployment
+
+GitHub Pages built code commit `2677c26f68cb169c58401959ec1226cf531d3689` at 2026-10-03 02:37:43 UTC. The [public source receipt](v8.9-release/public-source.json) asserts byte equality with the release file. All 45 public checks pass: [14 game/card/OG checks](v8.9-release/public-game-card-og.json), [11 Firefox gameplay checks](v8.9-release/public-firefox.json), and [20 live profiler checks](v8.9-release/public-runtime.json).
+
+Live Firefox at 3000 x 1800 records Spill 58.14 FPS (4.20 ms mean work), pistol 60.17 FPS (4.66 ms mean, 7 ms CPU p99, 8 ms maximum), and coated dragging 60.02 FPS (4.36 ms mean, 9 ms p99/maximum). Worker painting remains active for all three. These are individual native captures, not guarantees for all scenes or host loads. The broader performance objective remains open.
