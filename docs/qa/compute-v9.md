@@ -36,3 +36,5 @@ The compact machine-readable receipt is compute-v9.json. The existing social ima
 ## Reproduce
 
 Node 22+ and hardware-accelerated Chrome are required. `npm run build` regenerates the single offline index.html. `npm run verify:release` reruns both harnesses. `npm run serve` starts a local preview. F3 displays the raw frame histogram and separate asynchronous GPU distributions. GPU frame/event/sample storage and particle/stamp pools are bounded. No screen resolution, simulation rate, brush count or particle cap was reduced for the measurements.
+
+Published https://tront.xyz/smear/ and its desktop/mobile portfolio card passed `COMPLETE publish checks passed (6 checks)`. The live HTML SHA-256 equals the verified offline build. See compute-v9-live.json. The existing 1200x630 OG image and favicon returned HTTP 200.

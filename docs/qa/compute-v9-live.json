@@ -1,0 +1,49 @@
+{
+  "game": "https://tront.xyz/smear/",
+  "games": "https://tront.xyz/games/",
+  "version": "0.9.0",
+  "checks": [
+    "Live HTTP 200, release version and HTML SHA-256 equal local build",
+    "Live OG 1200x630 PNG and favicon load",
+    "Published hardware WebGPU boot and 120 Hz simulation advances",
+    "Published native GPU pick, drag and release with audio running",
+    "Portfolio card and image fit 1366px viewport",
+    "Portfolio card and image fit 390px viewport"
+  ],
+  "portfolioLayout": [
+    {
+      "width": 1366,
+      "count": 1,
+      "text": "SMEAR (2026)\n\nLeave a mark. Grab a dummy, slam it, and drag it through blood that stays. A physics playground with contact smears, wall splashes, and dripping stains.\n\nPrototype\nPhysics",
+      "left": 819.5625,
+      "right": 1065.515625,
+      "viewport": 1366,
+      "image": 1200
+    },
+    {
+      "width": 390,
+      "count": 1,
+      "text": "SMEAR (2026)\n\nLeave a mark. Grab a dummy, slam it, and drag it through blood that stays. A physics playground with contact smears, wall splashes, and dripping stains.\n\nPrototype\nPhysics",
+      "left": 21.390625,
+      "right": 368.59375,
+      "viewport": 390,
+      "image": 1200
+    }
+  ],
+  "audioOutputMuted": true,
+  "sha256": "6b41145a4c9e67f9bb7a68f388f19f1666bfb2e3508124364f71dd072247801e",
+  "adapter": {
+    "vendor": "nvidia",
+    "architecture": "blackwell",
+    "device": "",
+    "description": "",
+    "isFallbackAdapter": false
+  },
+  "audio": {
+    "enabled": true,
+    "state": "running"
+  },
+  "errors": [],
+  "result": "COMPLETE publish checks passed",
+  "verifiedAt": "2026-10-03T11:29:11.092040+00:00"
+}
