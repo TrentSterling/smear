@@ -32,7 +32,8 @@
 'use strict';
 const T=THREE, V=T.Vector3, Q=T.Quaternion;
 const PI=Math.PI, TAU=PI*2, clamp=(v,a,b)=>Math.max(a,Math.min(b,v)), mix=(a,b,t)=>a+(b-a)*t;
-const $=id=>document.getElementById(id), canvas=$('world'), hud=$('hud'), ctx=hud.getContext('2d');
+const $=id=>document.getElementById(id), canvas=$('world'), hud=$('hud'), hudOptions={willReadFrequently:/Firefox\//.test(navigator.userAgent)&&!new URLSearchParams(location.search).has('hudGPU')};
+const hudContext=hud.getContext('2d',hudOptions),footerHUD=document.createElement('canvas');footerHUD.id='hud-footer';footerHUD.style.pointerEvents='none';footerHUD.style.display='none';document.body.append(footerHUD);const footerContext=footerHUD.getContext('2d',hudOptions);let ctx=hudContext,footerTop=0;
 let W=innerWidth,H=innerHeight,DPR=Math.min(devicePixelRatio||1,1.25), running=true,frameRequest=0;
 let seed=78431; function rand(){seed|=0;seed=seed+0x6D2B79F5|0;let t=seed;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296;}
 function hash(n){let t=Math.imul(n^0x63d83595,0x45d9f3b);t=Math.imul(t^t>>>16,0x45d9f3b);return((t^t>>>16)>>>0)/4294967296;}
@@ -170,7 +171,7 @@ const runtimeProfiler=(()=>{
   }
   intervals.sort();work.sort();const q=(p,a=intervals)=>n?a[Math.min(n-1,Math.ceil(n*p)-1)]:0,avg=k=>n?totals[k]/n:0,phases=Object.fromEntries(stages.map(k=>[k,avg(k)]));
   const last=n?row(indices[n-1]):null;
-  return {schema:1,version:'0.8.7',capturing,visible,capacity:CAP,windowMs:WINDOW_MS,budgetMs:budget,totalFrames,excludedGaps:skipped,...(includeFrames?{frames:indices.map(row)}:{indices}),
+  return {schema:1,version:'0.8.8',capturing,visible,capacity:CAP,windowMs:WINDOW_MS,budgetMs:budget,totalFrames,excludedGaps:skipped,...(includeFrames?{frames:indices.map(row)}:{indices}),
    summary:{frames:n,seconds:totals.interval/1000,fps:n?1000*n/totals.interval:0,latestFPS:last?1000/last.interval:0,intervalMs:{p50:q(.5),p95:q(.95),p99:q(.99),max:intervals.at(-1)||0},workMs:avg('work'),workPercentileMs:{p50:q(.5,work),p95:q(.95,work),p99:q(.99,work),max:work.at(-1)||0},phases,overBudget,spikeFrames,uploadCPU:avg('uploadCPU'),uploadMiB:totals.uploadBytes/1048576,uploadMiBPerSecond:totals.interval?totals.uploadBytes/1048576/(totals.interval/1000):0,uploadCalls:totals.uploadCalls,steps:avg('steps'),droppedSimMs:totals.droppedSimMs,gpuMs:gpuCount?gpuTotal/gpuCount:null,gpuSamples:gpuCount},
    histogram,spikes:spikes.slice(),events:events.slice(),paintWorker:paintTelemetry?.()||null,gpu:{supported:!!ext,samples:gpuSamples,pending:gpuPending.length,disjoints:gpuDisjoints},observerTypes:observers.map(o=>o.type),last,heapBytes:performance.memory?.usedJSHeapSize??null};
  }
@@ -197,7 +198,7 @@ const runtimeProfiler=(()=>{
   drawHistogram(s);drawHistory(s);
   nodes.stages.replaceChildren();for(let k=0;k<stages.length;k++){const e=document.createElement('span');e.style.borderColor=colors[k];e.textContent=({physics:'Physics',paint:'Paint',drops:'Drops',uploadPrep:'Prep',render:'Render',hud:'HUD',profiler:'Profiler',input:'Input',other:'Other'})[stages[k]]+' '+fmt(a.phases[stages[k]]);nodes.stages.append(e);}
   const gpu=a.gpuMs===null?(ext?'GPU pending':'GPU timer unavailable'):('GPU '+fmt(a.gpuMs)+' ms ('+a.gpuSamples+' samples)');
-  nodes.context.textContent=gpu+' | '+fmt(a.uploadMiBPerSecond)+' MiB/s uploads / '+fmt(a.uploadCPU)+' ms CPU\n'+(last?last.calls+' draws / '+Math.round(last.triangles/1000)+'k tris / '+last.dolls+' dolls / '+last.activeBodies+' active / '+last.particles+' drops\nQueues '+last.paintQueue+' paint + '+last.wetQueue+' wet / '+fmt(a.steps)+' ticks/frame / '+fmt(a.droppedSimMs)+' ms discarded sim':'Collecting workload')+(s.heapBytes?' / heap '+Math.round(s.heapBytes/1048576)+' MiB':'');nodes.context.style.whiteSpace='pre-wrap';if(s.paintWorker){const p=s.paintWorker;nodes.context.textContent+='\n'+p.backend+' | raster '+fmt(p.workerMS)+' ms + transfer '+fmt(p.bitmapMS)+' ms (off-thread)\nPaint lag '+fmt(p.latencyMS)+' ms / '+(p.queued+p.inFlight)+' pending events / oldest '+fmt(p.oldestPendingMS)+' ms'+(p.reason?' / '+p.reason:'')+'\nRecovery '+(p.recoveryPending||0)+' events / '+fmt(p.recoveryMS||0)+' ms last / '+fmt(p.maxRecoveryMS||0)+' ms max / '+(p.restarts||0)+' worker restarts / '+fmt((p.mirrorBytes||0)/1048576)+' MiB CPU pigment';}
+  nodes.context.textContent=gpu+' | '+fmt(a.uploadMiBPerSecond)+' MiB/s uploads / '+fmt(a.uploadCPU)+' ms CPU\n'+(last?last.calls+' draws / '+Math.round(last.triangles/1000)+'k tris / '+last.dolls+' dolls / '+last.activeBodies+' active / '+last.particles+' drops\nQueues '+last.paintQueue+' paint + '+last.wetQueue+' wet / '+fmt(a.steps)+' ticks/frame / '+fmt(a.droppedSimMs)+' ms discarded sim':'Collecting workload')+(s.heapBytes?' / heap '+Math.round(s.heapBytes/1048576)+' MiB':'');nodes.context.style.whiteSpace='pre-wrap';if(s.paintWorker){const p=s.paintWorker;nodes.context.textContent+='\n'+p.backend+' ('+(p.workerCount||0)+' workers) | raster '+fmt(p.workerMS)+' ms + transfer '+fmt(p.bitmapMS)+' ms (off-thread)\nPaint lag '+fmt(p.latencyMS)+' ms / '+(p.queued+p.inFlight)+' pending events / oldest '+fmt(p.oldestPendingMS)+' ms'+(p.reason?' / '+p.reason:'')+'\nRecovery '+(p.recoveryPending||0)+' events / '+fmt(p.recoveryMS||0)+' ms last / '+fmt(p.maxRecoveryMS||0)+' ms max / '+(p.restarts||0)+' worker restarts / '+fmt((p.mirrorBytes||0)/1048576)+' MiB CPU pigment';}
   nodes['spike-count'].textContent='>'+fmt(budget*1.5)+' ms / '+a.spikeFrames+' in window';nodes.spikes.replaceChildren();
   for(const r of spikes.slice(-6).reverse()){const tr=document.createElement('tr'),gap=document.createElement('td'),why=document.createElement('td'),largest=stages.reduce((best,k)=>r[k]>r[best]?k:best,'physics');gap.textContent=fmt(r.interval)+' / '+fmt(r.work)+' ms';why.textContent=fmt(Math.max(0,(s.last?.time-r.time||0)/1000))+'s ago; '+largest+' '+fmt(r[largest])+' ms; '+r.steps+' ticks; '+r.dolls+' dolls, '+r.particles+' drops'+(r.held?', dragging':'')+(r.action?'; '+r.action:'')+(r.interval>r.work+budget?' (outside frame gap)':'');tr.title='Camera '+[r.x,r.y,r.z].map(fmt).join(', ')+' | Uploads '+r.uploadCalls+' / '+fmt(r.uploadBytes/1048576)+' MiB | GPU '+(r.gpu<0?'unsampled':fmt(r.gpu)+' ms');tr.append(gap,why);nodes.spikes.append(tr);}
   if(!spikes.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=2;td.textContent='No spikes recorded yet.';tr.append(td);nodes.spikes.append(tr);}
@@ -391,16 +392,19 @@ function rasterSkin(s,f,x,y,rx,ry,alpha,pat,wound){
 function rasterBullet(s,px,py,r,angle){const g=s.g;g.save();g.globalAlpha=.7;g.fillStyle='#474341';g.beginPath();g.ellipse(px,py,r,r*.8,angle,0,TAU);g.fill();g.globalAlpha=.35;g.strokeStyle='#d8dbd5';g.lineWidth=.8;g.beginPath();g.arc(px,py,r*1.6,.25,3.0);g.stroke();g.restore();}
 function rasterCommand(s,kind,args){if(kind==='clear')s.g.clearRect(0,0,s.canvas.width,s.canvas.height);else ({splat:rasterSplat,patch:rasterPatch,drip:rasterDrip,skin:rasterSkin,bullet:rasterBullet})[kind](s,...args);}
 
-// One worker owns persistent pigment canvases. Gameplay sends contact events,
+// Workers own disjoint persistent pigment canvases. Gameplay sends contact events,
 // not expanded bristle paths; cropped images or RGBA buffers update WebGL.
+const blankPigment=new T.DataTexture(new Uint8Array(4),1,1,T.RGBAFormat);blankPigment.minFilter=blankPigment.magFilter=T.LinearFilter;blankPigment.needsUpdate=true;
+const eagerPaintTextures=new URLSearchParams(location.search).has('paintTextures');
 const paintEngine=(()=>{
- const records=new Map();let serial=0,queue=[],queuedAt=0,removed=[],worker=null,busy=null,completed=null,waiters=[],enabled=false,contextLost=false,reason='',jobs=0,workerMS=0,bitmapMS=0,latencyMS=0,maxQueued=0,rasterTotal=0,bitmapTotal=0,maxLatencyMS=0,recovery=null,recoveryTimer=0,restarts=0,recoveryMS=0,maxRecoveryMS=0,maxRecoveryPending=0,asyncRecovery=false;
+ const records=new Map();let serial=0,order=0,queue=[],queuedAt=0,workers=[],waiters=[],enabled=false,contextLost=false,reason='',jobs=0,workerMS=0,bitmapMS=0,latencyMS=0,maxQueued=0,rasterTotal=0,bitmapTotal=0,maxLatencyMS=0,recovery=null,recoveryTimer=0,restarts=0,recoveryMS=0,maxRecoveryMS=0,maxRecoveryPending=0,asyncRecovery=false;
  const LIMIT=4096,BATCH_LIMIT=1024;
  // Gecko's accelerated 2D worker can wait behind unrelated driver work. Keep
- // raster memory local to its worker on Gecko; GPU presentation still uses
- // cropped bitmaps. Chromium retains its accelerated OffscreenCanvas backend.
+ // raster memory local to its workers on Gecko; GPU presentation uses cropped
+ // RGBA. Chromium retains its accelerated OffscreenCanvas/ImageBitmap backend.
  const rasterOptions={willReadFrequently:/Firefox\//.test(navigator.userAgent)};
  const pixelTransport=rasterOptions.willReadFrequently&&!new URLSearchParams(location.search).has('paintBitmap');
+ const WORKERS=pixelTransport&&!new URLSearchParams(location.search).has('paintSingle')?4:1;
  const code=`const PI=Math.PI,TAU=PI*2,clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),rasterOptions=${JSON.stringify(rasterOptions)};
  const document={createElement:()=>new OffscreenCanvas(160,160)},brushes=[],bristleCache=new Map();
  ${hash.toString()}\n${patchBristles.toString()}\n${createBrushes.toString()}\n${rasterSplat.toString()}\n${rasterPatch.toString()}\n${rasterDrip.toString()}\n${rasterSkin.toString()}\n${rasterBullet.toString()}\n${rasterCommand.toString()}
@@ -408,7 +412,7 @@ const paintEngine=(()=>{
  onmessage=async e=>{try{const job=e.data,t=performance.now();
   for(const id of job.removed)records.delete(id);
   const descriptors=new Map(job.records.map(d=>[d.id,d])),painted=new Set();
-  for(const [id,epoch,kind,args] of job.ops){let s=records.get(id);if(!s){const d=descriptors.get(id);if(!d)continue;const canvas=new OffscreenCanvas(d.width,d.height);s={...d,canvas,g:canvas.getContext('2d',rasterOptions)};if(d.seed)s.g.putImageData(new ImageData(d.seed,d.width,d.height),0,0);records.set(id,s);}s.epoch=epoch;if(kind==='present'){painted.add(id);continue;}if(kind==='clear'){rasterCommand(s,kind,args);painted.delete(id);continue;}
+   for(const [id,epoch,kind,args] of job.ops){let s=records.get(id);if(kind==='clear'&&!s)continue;if(!s){const d=descriptors.get(id);if(!d)continue;const canvas=new OffscreenCanvas(d.width,d.height);s={...d,canvas,g:canvas.getContext('2d',rasterOptions)};if(d.seed)s.g.putImageData(new ImageData(d.seed,d.width,d.height),0,0);records.set(id,s);}s.epoch=epoch;if(kind==='present'){painted.add(id);continue;}if(kind==='clear'){rasterCommand(s,kind,args);painted.delete(id);continue;}
    rasterCommand(s,kind,args);painted.add(id);}
   const rasterMS=performance.now()-t,bt=performance.now(),patches=[];
   for(const d of job.records){if(!painted.has(d.id)||!d.rect)continue;const s=records.get(d.id),r=d.rect;
@@ -419,45 +423,56 @@ const paintEngine=(()=>{
  try{if(typeof Worker==='function'&&typeof OffscreenCanvas==='function'&&typeof createImageBitmap==='function'&&renderer.capabilities.isWebGL2&&!new URLSearchParams(location.search).has('paintSync')){
   startWorker();
  }else reason='Synchronous canvas fallback';}catch(e){reason=String(e);}
- function startWorker(){const url=URL.createObjectURL(new Blob([code],{type:'text/javascript'}));worker=new Worker(url);URL.revokeObjectURL(url);enabled=true;worker.onmessage=e=>{if(!enabled||!busy){for(const p of e.data.patches||[])p.bitmap?.close();return;}if(e.data.error){fallback(e.data.error);return;}completed=e.data;workerMS=e.data.rasterMS;bitmapMS=e.data.bitmapMS;latencyMS=performance.now()-busy.queuedAt;rasterTotal+=workerMS;bitmapTotal+=bitmapMS;maxLatencyMS=Math.max(maxLatencyMS,latencyMS);jobs++;};worker.onerror=e=>{e.preventDefault();fallback(e.message||'Paint worker failed');};}
- function register(s){s.paintId=++serial;s.paintEpoch=0;s.uploadedEpoch=-1;s.canvasCurrent=true;records.set(s.paintId,s);}
- function remove(s){if(!s)return;records.delete(s.paintId);s.paintPixels=null;queue=queue.filter(o=>o[0]!==s.paintId);if(s.workerKnown)removed.push(s.paintId);}
+ function startWorker(){
+  const url=URL.createObjectURL(new Blob([code],{type:'text/javascript'}));
+  try{for(let i=0;i<WORKERS;i++){const slot={worker:new Worker(url),busy:null,completed:null,removed:[]};workers.push(slot);
+   slot.worker.onmessage=e=>{if(!enabled||!workers.includes(slot)||!slot.busy){for(const p of e.data.patches||[])p.bitmap?.close();return;}if(e.data.error){fallback(e.data.error);return;}slot.completed=e.data;workerMS=e.data.rasterMS;bitmapMS=e.data.bitmapMS;latencyMS=performance.now()-slot.busy.queuedAt;rasterTotal+=workerMS;bitmapTotal+=bitmapMS;maxLatencyMS=Math.max(maxLatencyMS,latencyMS);jobs++;};
+   slot.worker.onerror=e=>{e.preventDefault();if(workers.includes(slot))fallback(e.message||'Paint worker failed');};
+  }enabled=true;}catch(e){for(const slot of workers)slot.worker.terminate();workers=[];throw e;}finally{URL.revokeObjectURL(url);}
+ }
+ function register(s){s.paintId=++serial;s.paintSlot=(serial-1)%WORKERS;s.paintEpoch=0;s.uploadedEpoch=-1;s.canvasCurrent=true;s.paintVisible=eagerPaintTextures;records.set(s.paintId,s);}
+ function showPigment(s){s.paintVisible=true;if(s.paintUniform)s.paintUniform.value=s.tex;}
+ function remove(s){if(!s)return;records.delete(s.paintId);s.paintPixels=null;queue=queue.filter(o=>o[0]!==s.paintId);if(s.workerKnown)workers[s.paintSlot]?.removed.push(s.paintId);}
  function draw(s,kind,args){
-  if(kind==='clear'){s.paintEpoch++;s.paintPixels=null;s.canvasCurrent=true;queue=queue.filter(o=>o[0]!==s.paintId);s.g.clearRect(0,0,s.canvas.width,s.canvas.height);s.uploadedEpoch=-1;s.textureReady=false;s.tex.needsUpdate=true;}
-  if(!enabled){if(asyncRecovery&&!recovery)recovery={ops:[],head:0,retry:false,queuedAt:performance.now()};if(recovery){enqueueRecovery([s.paintId,s.paintEpoch,kind,args]);scheduleRecovery();return;}if(kind!=='clear')rasterCommand(s,kind,args);return;}
-  if(!queue.length)queuedAt=performance.now();queue.push([s.paintId,s.paintEpoch,kind,args]);maxQueued=Math.max(maxQueued,queue.length);
+  if(kind==='clear'){s.paintEpoch++;s.paintPixels=null;s.canvasCurrent=true;queue=queue.filter(o=>o[0]!==s.paintId);s.g.clearRect(0,0,s.canvas.width,s.canvas.height);s.uploadedEpoch=-1;s.textureReady=false;if(!eagerPaintTextures){s.paintVisible=false;if(s.paintUniform)s.paintUniform.value=blankPigment;s.tex.dispose();}s.tex.needsUpdate=true;}
+  if(kind==='clear'&&enabled&&!s.workerKnown)return;
+  const op=[s.paintId,s.paintEpoch,kind,args,++order];
+  if(!enabled){if(asyncRecovery&&!recovery)recovery={ops:[],head:0,retry:false,queuedAt:performance.now()};if(recovery){enqueueRecovery(op);scheduleRecovery();return;}if(kind!=='clear'){rasterCommand(s,kind,args);showPigment(s);}return;}
+  if(!queue.length)queuedAt=performance.now();queue.push(op);maxQueued=Math.max(maxQueued,queue.length);
   // A stalled worker cannot grow the event log forever. Reconstruct outstanding
-  // ordered events on the retained canvas and switch to the synchronous backend.
+  // ordered events from canonical pixels through bounded recovery tasks on Gecko.
   if(queue.length>=LIMIT)fallback('Paint worker queue limit');
  }
  function fallback(error){
-  if(!enabled)return;enabled=false;reason=error;worker.terminate();
-  if(completed)for(const p of completed.patches)p.bitmap?.close();completed=null;
-  const pending=[...(busy?.ops||[]),...queue];busy=null;queue=[];
+  if(!enabled)return;enabled=false;reason=error;
+  const pending=[...workers.flatMap(s=>s.busy?.ops||[]),...queue].sort((a,b)=>a[4]-b[4]);
+  for(const slot of workers){slot.worker.terminate();if(slot.completed)for(const p of slot.completed.patches)p.bitmap?.close();slot.busy=slot.completed=null;}workers=[];queue=[];
   if(pixelTransport){asyncRecovery=true;if(pending.length){recovery={ops:pending,head:0,retry:error==='Paint worker queue limit'&&restarts<1,queuedAt:performance.now()};maxRecoveryPending=Math.max(maxRecoveryPending,pending.length);scheduleRecovery();}else settle();return;}
   for(const s of records.values())snapshotCanvas(s);
-  for(const [id,epoch,kind,args]of pending){const s=records.get(id);if(!s||epoch!==s.paintEpoch)continue;rasterCommand(s,kind,args);s.textureReady=false;s.tex.needsUpdate=true;s.dirtyRect=null;}
+   for(const [id,epoch,kind,args]of pending){const s=records.get(id);if(!s||epoch!==s.paintEpoch)continue;rasterCommand(s,kind,args);if(kind!=='clear')showPigment(s);s.textureReady=false;s.tex.needsUpdate=true;s.dirtyRect=null;}
   settle();
  }
- function apply(){
-  if(!completed)return;for(const p of completed.patches){const s=records.get(p.id);try{if(!s||s.paintEpoch!==p.epoch)continue;
+ function apply(slot){
+  if(!slot.completed)return;for(const p of slot.completed.patches){const s=records.get(p.id);try{if(!s||s.paintEpoch!==p.epoch)continue;
    const r=p.rect;
    if(!s.textureReady){renderer.initTexture(s.tex);s.textureReady=true;}
    const gl=renderer.getContext();renderer.state.activeTexture(gl.TEXTURE0);renderer.state.bindTexture(gl.TEXTURE_2D,renderer.properties.get(s.tex).__webglTexture);
    gl.pixelStorei(gl.UNPACK_SKIP_PIXELS,0);gl.pixelStorei(gl.UNPACK_SKIP_ROWS,0);gl.pixelStorei(gl.UNPACK_ALIGNMENT,4);
    if(p.pixels){const w=r.x1-r.x0,h=r.y1-r.y0,y0=s.canvas.height-r.y1,fullW=s.canvas.width;gl.pixelStorei(gl.UNPACK_ROW_LENGTH,0);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false);gl.texSubImage2D(gl.TEXTURE_2D,0,r.x0,y0,w,h,gl.RGBA,gl.UNSIGNED_BYTE,p.pixels);if(!s.paintPixels)s.paintPixels=new Uint8ClampedArray(fullW*s.canvas.height*4);for(let y=0;y<h;y++)s.paintPixels.set(p.pixels.subarray(y*w*4,(y+1)*w*4),((y0+y)*fullW+r.x0)*4);}
    else gl.texSubImage2D(gl.TEXTURE_2D,0,r.x0,s.canvas.height-r.y1,gl.RGBA,gl.UNSIGNED_BYTE,p.bitmap);renderer.state.unbindTexture();s.uploadedEpoch=s.paintEpoch;s.canvasCurrent=false;
-  }finally{p.bitmap?.close();}}
-  completed=null;busy=null;
+   showPigment(s);}finally{p.bitmap?.close();}}
+  slot.completed=null;slot.busy=null;
  }
  function pump(){
-  if(contextLost)return;if(!enabled){drainRecovery();settle();return;}apply();if(busy)return;
-  if(!queue.length&&!removed.length){settle();return;}
-  const ops=queue.splice(0,BATCH_LIMIT),tailIds=new Set(queue.map(o=>o[0])),ids=new Set(ops.map(o=>o[0])),list=[];
-  const transfers=[];for(const id of ids){const s=records.get(id);if(!s)continue;let seed=null;if(restarts&&!s.workerKnown){const w=s.canvas.width,h=s.canvas.height;if(s.paintPixels){seed=new Uint8ClampedArray(s.paintPixels.length);for(let y=0;y<h;y++)seed.set(s.paintPixels.subarray(y*w*4,(y+1)*w*4),(h-1-y)*w*4);}else if(s.cpuRaster){seed=s.g.getImageData(0,0,w,h).data;s.paintPixels=new Uint8ClampedArray(seed.length);for(let y=0;y<h;y++)s.paintPixels.set(seed.subarray(y*w*4,(y+1)*w*4),(h-1-y)*w*4);}if(seed)transfers.push(seed.buffer);}s.workerKnown=true;list.push({id,epoch:s.paintEpoch,width:s.canvas.width,height:s.canvas.height,w:s.w,h:s.h,res:s.res,rect:s.dirtyRect,seed});if(!tailIds.has(id))s.dirtyRect=null;}
-  busy={ops,queuedAt:queuedAt||performance.now()};if(!queue.length)queuedAt=0;worker.postMessage({ops:busy.ops,records:list,removed},transfers);removed=[];
+  if(contextLost)return;if(!enabled){drainRecovery();settle();return;}for(const slot of workers)apply(slot);
+  const groups=workers.map(()=>[]),tail=[];for(const op of queue){const s=records.get(op[0]);if(!s)continue;const slot=workers[s.paintSlot],ops=groups[s.paintSlot];if(!slot.busy&&ops.length<BATCH_LIMIT)ops.push(op);else tail.push(op);}queue=tail;
+  const tailIds=new Set(queue.map(o=>o[0])),jobTime=queuedAt||performance.now();if(!queue.length)queuedAt=0;
+  for(let i=0;i<workers.length;i++){const slot=workers[i],ops=groups[i];if(slot.busy||(!ops.length&&!slot.removed.length))continue;const ids=new Set(ops.map(o=>o[0])),list=[],transfers=[];
+   for(const id of ids){const s=records.get(id);if(!s)continue;let seed=null;if(restarts&&!s.workerKnown){const w=s.canvas.width,h=s.canvas.height;if(s.paintPixels){seed=new Uint8ClampedArray(s.paintPixels.length);for(let y=0;y<h;y++)seed.set(s.paintPixels.subarray(y*w*4,(y+1)*w*4),(h-1-y)*w*4);}else if(s.cpuRaster){seed=s.g.getImageData(0,0,w,h).data;s.paintPixels=new Uint8ClampedArray(seed.length);for(let y=0;y<h;y++)s.paintPixels.set(seed.subarray(y*w*4,(y+1)*w*4),(h-1-y)*w*4);}if(seed)transfers.push(seed.buffer);}s.workerKnown=true;list.push({id,epoch:s.paintEpoch,width:s.canvas.width,height:s.canvas.height,w:s.w,h:s.h,res:s.res,rect:s.dirtyRect,seed});if(!tailIds.has(id))s.dirtyRect=null;}
+   slot.busy={ops,queuedAt:jobTime};slot.worker.postMessage({ops,records:list,removed:slot.removed},transfers);slot.removed=[];
+  }settle();
  }
- function enqueueRecovery(op){if(recovery.ops.length-recovery.head>=LIMIT*2)drainRecovery(0,true);if(!recovery){const s=records.get(op[0]);if(s&&s.paintEpoch===op[1]){if(enabled){if(!queue.length)queuedAt=performance.now();queue.push(op);}else{prepareCPU(s);rasterCommand(s,op[2],op[3]);s.tex.needsUpdate=true;}}return;}if(recovery.head>=LIMIT){recovery.ops=recovery.ops.slice(recovery.head);recovery.head=0;}recovery.ops.push(op);maxRecoveryPending=Math.max(maxRecoveryPending,recovery.ops.length-recovery.head);}
+ function enqueueRecovery(op){if(recovery.ops.length-recovery.head>=LIMIT*2)drainRecovery(0,true);if(!recovery){const s=records.get(op[0]);if(s&&s.paintEpoch===op[1]){if(enabled){if(!queue.length)queuedAt=performance.now();queue.push(op);}else{prepareCPU(s);rasterCommand(s,op[2],op[3]);if(op[2]!=='clear')showPigment(s);s.tex.needsUpdate=true;}}return;}if(recovery.head>=LIMIT){recovery.ops=recovery.ops.slice(recovery.head);recovery.head=0;}recovery.ops.push(op);maxRecoveryPending=Math.max(maxRecoveryPending,recovery.ops.length-recovery.head);}
  function scheduleRecovery(){if(recoveryTimer||!recovery)return;recoveryTimer=setTimeout(()=>{recoveryTimer=0;if(!contextLost)drainRecovery();scheduleRecovery();},8);}
  function prepareCPU(s){if(s.cpuRaster){if(s.paintPixels&&!s.canvasCurrent)snapshotCanvas(s);return;}const w=s.canvas.width,h=s.canvas.height;let image=null;if(s.paintPixels){image=new ImageData(w,h);for(let y=0;y<h;y++)image.data.set(s.paintPixels.subarray(y*w*4,(y+1)*w*4),(h-1-y)*w*4);}const c=document.createElement('canvas');c.width=w;c.height=h;s.canvas=c;s.g=c.getContext('2d',{willReadFrequently:true});if(image)s.g.putImageData(image,0,0);s.tex.image=c;if(s.skinOwner){s.skinOwner.skinCanvas=c;s.skinOwner.skinCtx=s.g;}s.canvasCurrent=true;s.cpuRaster=true;}
  function commandRect(s,kind,a){
@@ -476,15 +491,15 @@ const paintEngine=(()=>{
   if(!s.textureReady){renderer.initTexture(s.tex);s.textureReady=true;}const gl=renderer.getContext(),fullW=s.canvas.width,y0=s.canvas.height-r.y1;
   renderer.state.activeTexture(gl.TEXTURE0);renderer.state.bindTexture(gl.TEXTURE_2D,renderer.properties.get(s.tex).__webglTexture);gl.pixelStorei(gl.UNPACK_SKIP_PIXELS,0);gl.pixelStorei(gl.UNPACK_SKIP_ROWS,0);gl.pixelStorei(gl.UNPACK_ROW_LENGTH,0);gl.pixelStorei(gl.UNPACK_ALIGNMENT,4);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false);
   gl.texSubImage2D(gl.TEXTURE_2D,0,r.x0,y0,w,h,gl.RGBA,gl.UNSIGNED_BYTE,pixels);renderer.state.unbindTexture();if(!s.paintPixels)s.paintPixels=new Uint8ClampedArray(fullW*s.canvas.height*4);
-  for(let y=0;y<h;y++)s.paintPixels.set(pixels.subarray(y*w*4,(y+1)*w*4),((y0+y)*fullW+r.x0)*4);s.uploadedEpoch=s.paintEpoch;s.canvasCurrent=true;s.dirtyRect=null;
+   for(let y=0;y<h;y++)s.paintPixels.set(pixels.subarray(y*w*4,(y+1)*w*4),((y0+y)*fullW+r.x0)*4);s.uploadedEpoch=s.paintEpoch;s.canvasCurrent=true;s.dirtyRect=null;showPigment(s);
  }
  function drainRecovery(budget=2,one=false){
   if(!recovery||contextLost)return;const t=performance.now(),painted=new Map();
-  do{const op=recovery.ops[recovery.head++],s=records.get(op[0]);if(s&&s.paintEpoch===op[1]){prepareCPU(s);if(op[2]!=='present'&&op[2]!=='restore')rasterCommand(s,op[2],op[3]);const r=commandRect(s,op[2],op[3]),old=painted.get(s);if(old){old.x0=Math.min(old.x0,r.x0);old.y0=Math.min(old.y0,r.y0);old.x1=Math.max(old.x1,r.x1);old.y1=Math.max(old.y1,r.y1);}else painted.set(s,r);}if(one)break;}while(recovery.head<recovery.ops.length&&performance.now()-t<budget);
+   do{const op=recovery.ops[recovery.head++],s=records.get(op[0]);if(s&&s.paintEpoch===op[1]){prepareCPU(s);if(op[2]!=='present'&&op[2]!=='restore')rasterCommand(s,op[2],op[3]);if(op[2]==='clear'&&!eagerPaintTextures)painted.delete(s);else{const r=commandRect(s,op[2],op[3]),old=painted.get(s);if(old){old.x0=Math.min(old.x0,r.x0);old.y0=Math.min(old.y0,r.y0);old.x1=Math.max(old.x1,r.x1);old.y1=Math.max(old.y1,r.y1);}else painted.set(s,r);}}if(one)break;}while(recovery.head<recovery.ops.length&&performance.now()-t<budget);
   for(const [s,r]of painted)uploadRecovery(s,r);recoveryMS=performance.now()-t;maxRecoveryMS=Math.max(maxRecoveryMS,recoveryMS);
-  if(recovery.head>=recovery.ops.length){const retry=recovery.retry;recovery=null;clearTimeout(recoveryTimer);recoveryTimer=0;if(retry){restarts++;for(const s of records.values())s.workerKnown=false;removed=[];try{startWorker();}catch(e){enabled=false;reason=String(e);}}settle();}
+   if(recovery.head>=recovery.ops.length){const retry=recovery.retry;recovery=null;clearTimeout(recoveryTimer);recoveryTimer=0;if(retry){restarts++;for(const s of records.values())s.workerKnown=false;try{startWorker();}catch(e){enabled=false;reason=String(e);}}settle();}
  }
- function settle(){if(!busy&&!queue.length&&!recovery){for(const resolve of waiters)resolve();waiters=[];}}
+ function settle(){if(!workers.some(s=>s.busy)&&!queue.length&&!recovery){for(const resolve of waiters)resolve();waiters=[];}}
  // Readbacks are restricted to inspection and worker failure. Normal gameplay
  // never copies persistent pigment back to a main-thread canvas.
  function snapshotCanvas(s){
@@ -495,10 +510,10 @@ const paintEngine=(()=>{
    for(let y=0;y<h;y++)image.data.set(pixels.subarray(y*w*4,(y+1)*w*4),(h-1-y)*w*4);s.g.putImageData(image,0,0);s.canvasCurrent=true;
   }finally{gl.bindFramebuffer(gl.FRAMEBUFFER,old);gl.deleteFramebuffer(fb);}
  }
- async function flush(inspect=true){pump();if(busy||queue.length||recovery)await new Promise(resolve=>{waiters.push(resolve);const poll=()=>{if(!waiters.includes(resolve))return;pump();setTimeout(poll,4);};setTimeout(poll,4);});if(inspect)for(const s of records.values())snapshotCanvas(s);}
- function status(){let mirrorBytes=0;for(const s of records.values())mirrorBytes+=s.paintPixels?.byteLength||0;const oldest=busy?.queuedAt||(queue.length?queuedAt:0)||recovery?.queuedAt||0;return{backend:enabled?'OffscreenCanvas worker':'Canvas2D fallback',raster:rasterOptions.willReadFrequently?'CPU worker raster':'Browser accelerated worker raster',mirrorBytes,maxRecoveryPending,batchLimit:BATCH_LIMIT,transport:pixelTransport?'RGBA buffers':'ImageBitmap',recoveryPending:recovery?recovery.ops.length-recovery.head:0,recoveryMS,maxRecoveryMS,restarts,reason,queued:queue.length,inFlight:busy?busy.ops.length:0,oldestPendingMS:oldest?performance.now()-oldest:0,maxQueued,jobs,workerMS,bitmapMS,latencyMS,meanWorkerMS:jobs?rasterTotal/jobs:0,meanBitmapMS:jobs?bitmapTotal/jobs:0,maxLatencyMS,canvases:records.size,readyBitmaps:completed?.patches.length||0};}
+ async function flush(inspect=true){pump();if(workers.some(s=>s.busy)||queue.length||recovery)await new Promise(resolve=>{waiters.push(resolve);const poll=()=>{if(!waiters.includes(resolve))return;pump();setTimeout(poll,4);};setTimeout(poll,4);});if(inspect)for(const s of records.values())snapshotCanvas(s);}
+ function status(){let mirrorBytes=0,inFlight=0,readyBitmaps=0,activeWorkers=0,oldest=queue.length?queuedAt:0;for(const s of records.values())mirrorBytes+=s.paintPixels?.byteLength||0;for(const slot of workers){if(slot.busy){inFlight+=slot.busy.ops.length;activeWorkers++;if(!oldest||slot.busy.queuedAt<oldest)oldest=slot.busy.queuedAt;}readyBitmaps+=slot.completed?.patches.length||0;}if(recovery&&(!oldest||recovery.queuedAt<oldest))oldest=recovery.queuedAt;return{backend:enabled?'OffscreenCanvas worker':'Canvas2D fallback',raster:rasterOptions.willReadFrequently?'CPU worker raster':'Browser accelerated worker raster',workerCount:workers.length,activeWorkers,mirrorBytes,maxRecoveryPending,batchLimit:BATCH_LIMIT,transport:pixelTransport?'RGBA buffers':'ImageBitmap',recoveryPending:recovery?recovery.ops.length-recovery.head:0,recoveryMS,maxRecoveryMS,restarts,reason,queued:queue.length,inFlight,oldestPendingMS:oldest?performance.now()-oldest:0,maxQueued,jobs,workerMS,bitmapMS,latencyMS,meanWorkerMS:jobs?rasterTotal/jobs:0,meanBitmapMS:jobs?bitmapTotal/jobs:0,maxLatencyMS,canvases:records.size,readyBitmaps};}
  canvas.addEventListener('webglcontextlost',()=>{contextLost=true;});
- canvas.addEventListener('webglcontextrestored',()=>{contextLost=false;for(const s of records.values()){s.textureReady=false;if(enabled){s.g.clearRect(0,0,s.canvas.width,s.canvas.height);s.dirtyRect={x0:0,y0:0,x1:s.canvas.width,y1:s.canvas.height};draw(s,'present',[]);}else if(pixelTransport&&asyncRecovery){if(!recovery)recovery={ops:[],head:0,retry:false,queuedAt:performance.now()};enqueueRecovery([s.paintId,s.paintEpoch,'restore',[]]);}s.tex.needsUpdate=true;}scheduleRecovery();});
+  canvas.addEventListener('webglcontextrestored',()=>{contextLost=false;blankPigment.needsUpdate=true;for(const s of records.values()){s.textureReady=false;if(!s.paintVisible)continue;if(enabled){s.g.clearRect(0,0,s.canvas.width,s.canvas.height);s.dirtyRect={x0:0,y0:0,x1:s.canvas.width,y1:s.canvas.height};draw(s,'present',[]);}else if(pixelTransport&&asyncRecovery){if(!recovery)recovery={ops:[],head:0,retry:false,queuedAt:performance.now()};enqueueRecovery([s.paintId,s.paintEpoch,'restore',[],++order]);}s.tex.needsUpdate=true;}scheduleRecovery();});
  paintTelemetry=status;return{register,remove,draw,pump,flush,status,snapshotCanvas,get enabled(){return enabled||!!recovery;}};
 })();
 
@@ -519,7 +534,7 @@ class PaintSurface {
   this.wetTex=new T.DataTexture(this.wetData,WET_RES,WET_RES,T.RGBAFormat);this.wetTex.flipY=true;this.wetTex.magFilter=this.wetTex.minFilter=T.LinearFilter;this.wetTex.needsUpdate=true;
   const mat=new T.MeshStandardMaterial({map:concreteTexture(w,h,grid),roughness:.90,metalness:0,envMapIntensity:.45});
   mat.onBeforeCompile=sh=>{
-   sh.uniforms.uPaint={value:this.tex};sh.uniforms.uWet={value:this.wetTex};
+   this.paintUniform=sh.uniforms.uPaint={value:this.paintVisible?this.tex:blankPigment};sh.uniforms.uWet={value:this.wetTex};
    sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nuniform sampler2D uPaint;\nuniform sampler2D uWet;');
    sh.fragmentShader=sh.fragmentShader.replace('#include <map_fragment>',`#include <map_fragment>
     vec4 stain=texture2D(uPaint,vUv); float fresh=texture2D(uWet,vUv).r;
@@ -1103,7 +1118,7 @@ function ensureSkin(b){
  b.mesh.geometry.computeBoundingBox();b.skinMin=b.mesh.geometry.boundingBox.min.clone();b.skinSize=b.mesh.geometry.boundingBox.getSize(new V());
  const mat=cleanSkin.clone();mat.emissive.setHex(0);b.skinA=new V();b.skinB=new V();
  mat.onBeforeCompile=sh=>{
-  sh.uniforms.uSkin={value:t};sh.uniforms.uSkinMin={value:b.skinMin};sh.uniforms.uSkinSize={value:b.skinSize};sh.uniforms.uCoatA={value:b.skinA};sh.uniforms.uCoatB={value:b.skinB};
+   b.skinPaint.paintUniform=sh.uniforms.uSkin={value:b.skinPaint.paintVisible?t:blankPigment};sh.uniforms.uSkinMin={value:b.skinMin};sh.uniforms.uSkinSize={value:b.skinSize};sh.uniforms.uCoatA={value:b.skinA};sh.uniforms.uCoatB={value:b.skinB};
   sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nvarying vec3 vSkinP; varying vec3 vSkinN;');
   sh.vertexShader=sh.vertexShader.replace('#include <begin_vertex>','#include <begin_vertex>\nvSkinP=position;vSkinN=normal;');
   sh.fragmentShader=sh.fragmentShader.replace('#include <common>',`#include <common>
@@ -1527,13 +1542,17 @@ function drawUI(){
  const hudKey=[W,H,DPR,showHUD,panel,tool,paused,slow,stickyLook,player.fly,soundOn,over,runtimeProfiler.visible,hint,!!demo,panel==='tune'?tunePage:'',panel==='tune'?Object.values(tune).join(','):''].join('|');
  if(hudKey!==lastHUDKey){lastHUDKey=hudKey;drawStaticUI();}drawHUDLive();
 }
+function layoutStaticHUD(){const width=Math.round(W*DPR),topHeight=Math.round((panel||H<232?H:116)*DPR);if(hud.width!==width)hud.width=width;if(hud.height!==topHeight)hud.height=topHeight;hud.style.width=W+'px';hud.style.height=topHeight/DPR+'px';hud.style.bottom='auto';
+ const physicalTop=Math.max(0,Math.floor((H-116)*DPR)),height=Math.round(H*DPR)-physicalTop;footerTop=physicalTop/DPR;if(footerHUD.width!==width)footerHUD.width=width;if(footerHUD.height!==height)footerHUD.height=height;footerHUD.style.width=W+'px';footerHUD.style.height=height/DPR+'px';footerHUD.style.top=footerTop+'px';footerHUD.style.bottom='auto';footerHUD.style.display=panel||!showHUD||H<232?'none':'block';footerContext.setTransform(DPR,0,0,DPR,0,-physicalTop);
+}
 function drawStaticUI(){
- ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);buttons=[];if(!showHUD&&!panel)return;
+  layoutStaticHUD();ctx=hudContext;ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,hud.height/DPR);buttons=[];if(!showHUD&&!panel)return;
  if(!panel){
-  rect(18,18,148,42,'rgba(27,35,33,.95)');text('SMEAR',31,39,20,'#efe8d8','left',800);text('08.7',150,40,12,'#bdad8d','right',700);
+  rect(18,18,148,42,'rgba(27,35,33,.95)');text('SMEAR',31,39,20,'#efe8d8','left',800);text('08.8',150,40,12,'#bdad8d','right',700);
   const top=[['Add dummy',106,addDummy],['Chaos',68,chaosScene],['Clean',64,cleanSurfaces],['Reset',64,()=>openPanel('reset')],['Tune',62,()=>openPanel('tune')],['Perf',62,()=>runtimeProfiler.show()],['Controls',82,()=>openPanel('controls')],['About',64,()=>openPanel('about')]];
   let x=W-top.reduce((a,t)=>a+t[1]+6,0)-12;for(const [label,w,action]of top){button(label,x,20,w,38,action);x+=w+6;}
   if(!runtimeProfiler.visible&&!paused&&!slow)buttons.push({label:runtimeProfiler.badge(),x:18,y:70,w:177,h:27,action:()=>runtimeProfiler.show(true),fps:true});
+  ctx=H<232?hudContext:footerContext;if(ctx===footerContext)ctx.clearRect(0,footerTop,W,H-footerTop);
   const bw=105,gap=6,start=(W-(bw*3+gap*2))/2;
   for(let i=0;i<3;i++)button((i+1)+'  '+['Grab','Pistol','Spill'][i],start+i*(bw+gap),H-68,bw,42,()=>setTool(i),tool===i);
   button(stickyLook?'Mouse: FPS':'Mouse: Free',18,H-65,121,36,toggleLook,stickyLook);button(player.fly?'Fly':'Walk',145,H-65,70,36,toggleFly,player.fly);
@@ -1541,13 +1560,13 @@ function drawStaticUI(){
   let hint='';if(grab)hint='Wheel: push / pull     Q / E: twist     Press + drag to scrape';else if(performance.now()/1000<toastUntil)hint=toast;
   if(hint){ctx.font='14px Arial';const tw=Math.min(W-40,ctx.measureText(hint).width+28);rect((W-tw)/2,H-109,tw,28,'rgba(27,35,33,.86)',3);text(hint,W/2,H-95,14,'#e3e1d6','center');}
   text(stickyLook?'Mouse look · Right mouse aim · Esc frees cursor':'Right-drag look · WASD move · L locks mouse · Tab controls',W/2,H-12,13,'#29332e','center');
-  if(paused||slow){const label=paused?'Paused · P':'Slow motion · T';rect(18,70,159,29,'rgba(27,35,33,.92)');text(label,97,85,14,'#ecd7a5','center');}
+  ctx=hudContext;if(paused||slow){const label=paused?'Paused · P':'Slow motion · T';rect(18,70,159,29,'rgba(27,35,33,.92)');text(label,97,85,14,'#ecd7a5','center');}
   if(demo)buttons.push({label:'Stop demo',x:W/2-59,y:78,w:118,h:35,action:releaseGrab});
   return;
  }
  ctx.fillStyle='rgba(10,17,15,.60)';ctx.fillRect(0,0,W,H);
  const pw=Math.min(panel==='controls'?670:574,W-32),ph=panel==='reset'?222:Math.min(panel==='tune'?552:586,H-30),x=(W-pw)/2,y=(H-ph)/2;
- rect(x,y,pw,ph,'#202b27',6,'#667064');const title={reset:'Reset the room?',controls:'Controls',tune:'Tune',about:'SMEAR 08.7'}[panel];text(title,x+26,y+36,25,'#ede6d6','left',700);button('Close',x+pw-96,y+18,71,34,()=>openPanel(null));
+ rect(x,y,pw,ph,'#202b27',6,'#667064');const title={reset:'Reset the room?',controls:'Controls',tune:'Tune',about:'SMEAR 08.8'}[panel];text(title,x+26,y+36,25,'#ede6d6','left',700);button('Close',x+pw-96,y+18,71,34,()=>openPanel(null));
  if(panel==='reset'){text('Clears dummies and stains. Your tuning is kept.',x+26,y+92,15,'#cdd0c4');button('Keep playing',x+pw-259,y+ph-66,124,39,()=>openPanel(null));button('Reset room',x+pw-126,y+ph-66,101,39,()=>{panel=null;resetWorld(true);},true);return;}
  if(panel==='tune'){
   for(const [i,label]of ['Handling','Blood','Camera'].entries())button(label,x+26+i*111,y+69,104,34,()=>tunePage=label.toLowerCase(),tunePage===label.toLowerCase());
@@ -1616,7 +1635,7 @@ document.addEventListener('pointerlockchange',()=>{canvas.style.cursor=document.
 canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();running=false;cancelAnimationFrame(frameRequest);frameRequest=0;keys.clear();mouse.left=mouse.right=false;updateScrape(0,0);$('failure').style.display='block';$('failure').textContent='The graphics context was lost. Waiting for the browser to restore it.';});
 canvas.addEventListener('webglcontextrestored',()=>{const previousEnvironment=scene.environment;environment();previousEnvironment.dispose();running=true;last=performance.now();accumulator=0;runtimeProfiler.breakInterval();$('failure').style.display='none';lastHUDKey='';frameRequest=requestAnimationFrame(frame);});
 
-function resize(){W=innerWidth;H=innerHeight;DPR=Math.min(devicePixelRatio||1,1.25);renderer.setPixelRatio(DPR);renderer.setSize(W,H);hud.width=Math.round(W*DPR);hud.height=Math.round(H*DPR);hud.style.width=W+'px';hud.style.height=H+'px';lastHUDKey='';camera.aspect=W/H;camera.updateProjectionMatrix();}
+function resize(){W=innerWidth;H=innerHeight;DPR=Math.min(devicePixelRatio||1,1.25);renderer.setPixelRatio(DPR);renderer.setSize(W,H);layoutStaticHUD();lastHUDKey='';camera.aspect=W/H;camera.updateProjectionMatrix();}
 window.addEventListener('resize',resize);resize();
 // ---------------- Reset, a real-physics demonstration, diagnostics ----------------
 const sharedGeometry=new Set([baseSphere,unitBox,torsoGeo,pelvisGeo,headGeo,handGeo,footGeo,spineGeo]);
@@ -1630,7 +1649,7 @@ function updateDemo(dt){if(!demo)return;const t=simTime-demo.start;if(t<6.5){gra
  else if(t<14){if(grab){grab=null;selected=null;}}
  else{const old=demo.oldBlood;demo=null;bloodScale=old;notify('Your turn. The marks are all persistent surface paint.',5);}}
 function jointError(){let m=0;for(const j of joints){j.a.world(j.pa,scratch[0]);j.b.world(j.pb,scratch[1]);m=Math.max(m,scratch[0].distanceTo(scratch[1]));}return m;}
-function state(){return{name:'SMEAR',version:'0.8.7',tune:{...tune},modes:dolls.map(d=>({id:d.id,mode:d.mode,faceUp:d.recovery?.faceUp||false,settled:d.settled,health:d.health,walkDistance:d.walkDistance,footfalls:d.footfalls,root:d.root.toArray(),goal:d.walk?.goal?.toArray()||null,feet:d.walk?d.walk.feet.map(f=>({p:f.p.toArray(),swing:f.swing})):null})),wetSupply:surfaces.reduce((a,s)=>a+s.supply.reduce((a,b)=>a+b,0),0),engine:'Three.js '+T.REVISION+' + custom rigid-body XPBD',simTime,seed,tool,player:{mode:player.fly?'fly':'walk',p:player.feet.toArray(),grounded:player.grounded,locked:document.pointerLockElement===canvas,sticky:stickyLook},paused,slow,dolls:dolls.length,bodies:bodies.length,activeBodies:bodies.filter(b=>b.active).length,particles:dropList.length,grab:grab?grab.body.name:null,stats:{...stats,maxJoint:jointError()},paintTextures:surfaces.length,paintBytes:surfaces.reduce((s,p)=>s+p.res*p.res*4,0),renderer:{calls:renderer.info.render.calls,triangles:renderer.info.render.triangles,geometries:renderer.info.memory.geometries,textures:renderer.info.memory.textures},parts:bodies.map(b=>({id:b.id,name:b.name,doll:b.doll.id,p:b.p.toArray(),q:b.q.toArray(),speed:b.v.length(),wet:b.wet,coat:Array.from(b.coat),contacts:b.contacts.length,wounds:b.wounds.length,damage:b.damage,wear:Array.from(b.wear),pressure:b.pressure,reserve:b.bloodReserve}))};}
+function state(){return{name:'SMEAR',version:'0.8.8',tune:{...tune},modes:dolls.map(d=>({id:d.id,mode:d.mode,faceUp:d.recovery?.faceUp||false,settled:d.settled,health:d.health,walkDistance:d.walkDistance,footfalls:d.footfalls,root:d.root.toArray(),goal:d.walk?.goal?.toArray()||null,feet:d.walk?d.walk.feet.map(f=>({p:f.p.toArray(),swing:f.swing})):null})),wetSupply:surfaces.reduce((a,s)=>a+s.supply.reduce((a,b)=>a+b,0),0),engine:'Three.js '+T.REVISION+' + custom rigid-body XPBD',simTime,seed,tool,player:{mode:player.fly?'fly':'walk',p:player.feet.toArray(),grounded:player.grounded,locked:document.pointerLockElement===canvas,sticky:stickyLook},paused,slow,dolls:dolls.length,bodies:bodies.length,activeBodies:bodies.filter(b=>b.active).length,particles:dropList.length,grab:grab?grab.body.name:null,stats:{...stats,maxJoint:jointError()},paintTextures:surfaces.length,paintBytes:surfaces.reduce((s,p)=>s+p.res*p.res*4,0),renderer:{calls:renderer.info.render.calls,triangles:renderer.info.render.triangles,geometries:renderer.info.memory.geometries,textures:renderer.info.memory.textures},parts:bodies.map(b=>({id:b.id,name:b.name,doll:b.doll.id,p:b.p.toArray(),q:b.q.toArray(),speed:b.v.length(),wet:b.wet,coat:Array.from(b.coat),contacts:b.contacts.length,wounds:b.wounds.length,damage:b.damage,wear:Array.from(b.wear),pressure:b.pressure,reserve:b.bloodReserve}))};}
 let manual=false;
 const MAX_WET_UPLOADS=10,MAX_PAINT_UPLOADS=6;
 function flushPaint(){let wetBudget=dirtyWet.size>18?12:MAX_WET_UPLOADS;for(const s of Array.from(dirtyWet)){s.wetTex.needsUpdate=true;dirtyWet.delete(s);if(--wetBudget<=0)break;}let paintBudget=dirtyPaint.size>10?8:MAX_PAINT_UPLOADS;for(const s of Array.from(dirtyPaint)){uploadPaintRegion(s);stats.paintUploads++;dirtyPaint.delete(s);if(--paintBudget<=0)break;}}

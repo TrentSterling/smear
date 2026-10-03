@@ -1,0 +1,11 @@
+{
+  "checks": [
+    "180-body room",
+    "out-of-grid body collisions",
+    "equal-distance collision ordering",
+    "fast segments across multiple cells"
+  ],
+  "errors": [],
+  "result": "COMPLETE particle collision checks passed",
+  "testedSourceSha256": "9fed255eb070b9a03f4e4517340b7d6d715c827ff65721a7b4d0adadba384098"
+}

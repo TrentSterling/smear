@@ -1,0 +1,80 @@
+{
+  "baselineSha256": "4f2e17ebb3353eb9996c0dc397b9df90f2f32d22dd3c2ee1d1a47fd7ec350608",
+  "candidateSha256": "9fed255eb070b9a03f4e4517340b7d6d715c827ff65721a7b4d0adadba384098",
+  "browser": "Firefox",
+  "checks": [
+    {
+      "which": "room",
+      "mismatches": 0,
+      "maxDelta": 0,
+      "baselineTextures": 153,
+      "candidateTextures": 102,
+      "blankAliases": 71,
+      "records": 84,
+      "pixelSha256": "3cc8be82dee3d3213c4ced17da885140946d0008eaf501757ea948407656c358"
+    },
+    {
+      "which": "paint",
+      "mismatches": 0,
+      "maxDelta": 0,
+      "baselineTextures": 159,
+      "candidateTextures": 109,
+      "blankAliases": 70,
+      "records": 90,
+      "pixelSha256": "3f09c63bab7441c863ccdca0aca0ac89d717eb0707fc9f8274261ffdc3b6d536"
+    },
+    {
+      "which": "smearing",
+      "mismatches": 0,
+      "maxDelta": 0,
+      "baselineTextures": 202,
+      "candidateTextures": 132,
+      "blankAliases": 71,
+      "records": 87,
+      "pixelSha256": "413c56cb21deede94cca87a43b57f786c1968fbe8dc5a66e68b4c34ebbf3af87"
+    },
+    {
+      "which": "clean",
+      "mismatches": 0,
+      "maxDelta": 0,
+      "baselineTextures": 159,
+      "candidateTextures": 104,
+      "blankAliases": 75,
+      "records": 90,
+      "pixelSha256": "0734f5caa4ba3855bd3f08e774408835a2fed863b6726c8f4bcb2b2828cd5120"
+    },
+    {
+      "which": "wash",
+      "mismatches": 0,
+      "maxDelta": 0,
+      "baselineTextures": 159,
+      "candidateTextures": 94,
+      "blankAliases": 85,
+      "records": 90,
+      "pixelSha256": "034cf55eafefbf4cd2632b34e9b3be54cca6eaf85eea1abcb04c30d241a4ed2f"
+    },
+    {
+      "which": "clean-repaint",
+      "mismatches": 0,
+      "maxDelta": 0,
+      "baselineTextures": 159,
+      "candidateTextures": 105,
+      "blankAliases": 74,
+      "records": 90,
+      "pixelSha256": "e5fe676552983179c438c0bcb0e75d0e10beec1d1a43f7137ce16c7f3a71b9eb"
+    },
+    {
+      "which": "reset",
+      "mismatches": 0,
+      "maxDelta": 0,
+      "baselineTextures": 153,
+      "candidateTextures": 102,
+      "blankAliases": 71,
+      "records": 84,
+      "pixelSha256": "3cc8be82dee3d3213c4ced17da885140946d0008eaf501757ea948407656c358"
+    }
+  ],
+  "errors": [],
+  "result": "COMPLETE pigment presentation preservation checks passed",
+  "testedSourceSha256": "9fed255eb070b9a03f4e4517340b7d6d715c827ff65721a7b4d0adadba384098"
+}

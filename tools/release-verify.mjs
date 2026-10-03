@@ -8,6 +8,8 @@ const checks=[
  ['paint',['tools/paint-verify.mjs']],
  ['paint compatibility',['tools/paint-verify.mjs','fallback']],
  ['paint Firefox',['tools/paint-verify.mjs','firefox']],
+ ['pigment presentation',['tools/pigment-view-verify.mjs']],
+ ['pigment presentation Firefox',['tools/pigment-view-verify.mjs','firefox']],
  ['worker',['tools/worker-verify.mjs']],
  ['worker Firefox',['tools/worker-verify.mjs','firefox']],
  ['particles',['tools/particles-verify.mjs']],

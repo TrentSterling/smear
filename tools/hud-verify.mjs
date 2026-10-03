@@ -33,16 +33,18 @@ const scenarios=[
  ['close panel and change modes','openPanel(null);player.fly=true;soundOn=false;stickyLook=true;'],
  ['profiler panel open','runtimeProfiler.show(true);'],
  ['toast expired','toastUntil=0;'],
- ['resize','W=1100;H=700;hud.width=W*DPR;hud.height=H*DPR;lastHUDKey="";']
+ ['resize','W=1100;H=700;hud.width=W*DPR;hud.height=H*DPR;lastHUDKey="";'],
+ ['fractional pixel ratio','DPR=1.25;H=701;lastHUDKey="";'],
+ ['short viewport with overlapping HUD bands','DPR=1;W=900;H=180;paused=true;lastHUDKey="";']
 ];
 const baseline=JSON.parse(await readFile('tools/fixtures/hud-v8.5.json','utf8'));
 // Version typography intentionally follows the release; all drawing stays frozen.
 const release=JSON.parse(await readFile('package.json','utf8'));baseline.draw=baseline.draw.replaceAll('08.5',release.version.replace(/^0\.(\d+)\.(\d+)$/,'0$1.$2'));
-const reference=`function originalHUD(){const c=document.createElement('canvas');c.id='hud-reference';c.width=hud.width;c.height=hud.height;const ctx=c.getContext('2d');let buttons=[],lastHUDKey='';${baseline.helpers}\n${baseline.slider}\n${baseline.draw}\ndrawUI();return{pixels:ctx.getImageData(0,0,c.width,c.height).data,buttons:buttons.map(({label,x,y,w,h})=>({label,x,y,w,h}))};}`;
+const reference=`function originalHUD(){const c=document.createElement('canvas');c.id='hud-reference';c.width=Math.round(W*DPR);c.height=Math.round(H*DPR);const ctx=c.getContext('2d');let buttons=[],lastHUDKey='';${baseline.helpers}\n${baseline.slider}\n${baseline.draw}\ndrawUI();return{pixels:ctx.getImageData(0,0,c.width,c.height).data,buttons:buttons.map(({label,x,y,w,h})=>({label,x,y,w,h}))};}`;
 const fixture=`const hudChecks={${scenarios.map(([name,code])=>JSON.stringify(name)+':()=>{'+code+'}').join(',')}};
  ${reference}
- function hudPixels(){const c=document.createElement('canvas');c.id='hud-composite';c.width=hud.width;c.height=hud.height;const g=c.getContext('2d');g.drawImage(hud,0,0);for(const l of [badgeLayer,aimLayer,demoLayer])if(l.c.style.display!=='none')g.drawImage(l.c,l.left,l.top);return g.getImageData(0,0,c.width,c.height).data;}
- function hudAudit(name){hudChecks[name]();renderNow();renderNow();const a=hudPixels();lastHUDKey='';drawUI();const b=hudPixels(),ref=originalHUD();let different=0,maxDelta=0,referenceDifferent=0,referenceMax=0;const samples=[];for(let i=0;i<a.length;i++){if(a[i]!==b[i]){different++;maxDelta=Math.max(maxDelta,Math.abs(a[i]-b[i]));}if(a[i]!==ref.pixels[i]){referenceDifferent++;referenceMax=Math.max(referenceMax,Math.abs(a[i]-ref.pixels[i]));if(samples.length<10)samples.push({x:Math.floor(i/4)%hud.width,y:Math.floor(i/4/hud.width),channel:i%4,a:a[i],b:ref.pixels[i]});}}return{different,maxDelta,referenceDifferent,referenceMax,samples,width:hud.width,height:hud.height,buttons:buttons.map(({label,x,y,w,h})=>({label,x,y,w,h})),referenceButtons:ref.buttons};}`;
+ function hudPixels(){const c=document.createElement('canvas');c.id='hud-composite';c.width=Math.round(W*DPR);c.height=Math.round(H*DPR);const g=c.getContext('2d');g.drawImage(hud,0,0);if(footerHUD.style.display!=='none')g.drawImage(footerHUD,0,Math.round(footerTop*DPR));for(const l of [badgeLayer,aimLayer,demoLayer])if(l.c.style.display!=='none')g.drawImage(l.c,l.left,l.top);return g.getImageData(0,0,c.width,c.height).data;}
+ function hudAudit(name){hudChecks[name]();renderNow();renderNow();const a=hudPixels();lastHUDKey='';drawUI();const b=hudPixels(),ref=originalHUD();let different=0,maxDelta=0,referenceDifferent=0,referenceMax=0;const samples=[];for(let i=0;i<a.length;i++){if(a[i]!==b[i]){different++;maxDelta=Math.max(maxDelta,Math.abs(a[i]-b[i]));}if(a[i]!==ref.pixels[i]){referenceDifferent++;referenceMax=Math.max(referenceMax,Math.abs(a[i]-ref.pixels[i]));if(samples.length<10)samples.push({x:Math.floor(i/4)%Math.round(W*DPR),y:Math.floor(i/4/Math.round(W*DPR)),channel:i%4,a:a[i],b:ref.pixels[i]});}}return{different,maxDelta,referenceDifferent,referenceMax,samples,width:Math.round(W*DPR),height:Math.round(H*DPR),buttons:buttons.map(({label,x,y,w,h})=>({label,x,y,w,h})),referenceButtons:ref.buttons};}`;
 // Keep the pixel comparison on one raster backend, including after canvas resize.
 // Production native-input checks separately exercise the default accelerated HUD.
 const init=`window.requestAnimationFrame=()=>0;const getContext=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,options){return getContext.call(this,type,this.id.startsWith('hud')&&type==='2d'?{...options,willReadFrequently:true}:options);};`;

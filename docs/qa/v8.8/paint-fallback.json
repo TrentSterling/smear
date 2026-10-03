@@ -1,0 +1,122 @@
+{
+  "path": "WebGL 1-compatible region copies",
+  "checks": [
+    "GPU paint matches retained canvas after smear demo",
+    "GPU paint matches retained canvas after tile seams and borders",
+    "GPU paint matches retained canvas after small edge brushes and tall faces",
+    "GPU paint matches retained canvas after tiny bullet marks at face edges",
+    "GPU paint matches retained canvas after Spill across floor seams",
+    "GPU paint matches retained canvas after wall drips and rotated faces",
+    "GPU paint matches retained canvas after body atlas edges and washing",
+    "GPU paint matches retained canvas after clean and repaint",
+    "GPU paint matches retained canvas after complete clear",
+    "region copy canvases are reused within a bounded set",
+    "no WebGL errors after cropped uploads and wet-map updates",
+    "no painting browser exceptions or errors"
+  ],
+  "audits": [
+    {
+      "name": "smear demo",
+      "pixels": 12899938,
+      "mismatches": 0,
+      "maxDelta": 0.9960784313725526,
+      "failures": [],
+      "copyCanvases": 27
+    },
+    {
+      "name": "tile seams and borders",
+      "pixels": 12899938,
+      "mismatches": 0,
+      "maxDelta": 0.9960784313725526,
+      "failures": [],
+      "copyCanvases": 30
+    },
+    {
+      "name": "small edge brushes and tall faces",
+      "pixels": 12899938,
+      "mismatches": 0,
+      "maxDelta": 0.9921568627451052,
+      "failures": [],
+      "copyCanvases": 30
+    },
+    {
+      "name": "tiny bullet marks at face edges",
+      "pixels": 12899938,
+      "mismatches": 0,
+      "maxDelta": 0.9921568627451052,
+      "failures": [],
+      "copyCanvases": 30
+    },
+    {
+      "name": "Spill across floor seams",
+      "pixels": 12899938,
+      "mismatches": 0,
+      "maxDelta": 0.9921568627451052,
+      "failures": [],
+      "copyCanvases": 30
+    },
+    {
+      "name": "wall drips and rotated faces",
+      "pixels": 12523618,
+      "mismatches": 0,
+      "maxDelta": 0.9960784313725526,
+      "failures": [],
+      "copyCanvases": 31
+    },
+    {
+      "name": "body atlas edges and washing",
+      "pixels": 12899938,
+      "mismatches": 0,
+      "maxDelta": 0.9960784313725526,
+      "failures": [],
+      "copyCanvases": 31
+    },
+    {
+      "name": "clean and repaint",
+      "pixels": 12899938,
+      "mismatches": 0,
+      "maxDelta": 0.9058823529411768,
+      "failures": [],
+      "copyCanvases": 31
+    },
+    {
+      "name": "complete clear",
+      "pixels": 12899938,
+      "mismatches": 0,
+      "maxDelta": 0.8941176470588204,
+      "failures": [],
+      "copyCanvases": 31
+    }
+  ],
+  "paintBackend": {
+    "backend": "Canvas2D fallback",
+    "raster": "Browser accelerated worker raster",
+    "workerCount": 0,
+    "activeWorkers": 0,
+    "mirrorBytes": 0,
+    "maxRecoveryPending": 0,
+    "batchLimit": 1024,
+    "transport": "ImageBitmap",
+    "recoveryPending": 0,
+    "recoveryMS": 0,
+    "maxRecoveryMS": 0,
+    "restarts": 0,
+    "reason": "Synchronous canvas fallback",
+    "queued": 0,
+    "inFlight": 0,
+    "oldestPendingMS": 0,
+    "maxQueued": 0,
+    "jobs": 0,
+    "workerMS": 0,
+    "bitmapMS": 0,
+    "latencyMS": 0,
+    "meanWorkerMS": 0,
+    "meanBitmapMS": 0,
+    "maxLatencyMS": 0,
+    "canvases": 90,
+    "readyBitmaps": 0
+  },
+  "errors": [],
+  "result": "COMPLETE painting checks passed",
+  "testedSourceSha256": "9fed255eb070b9a03f4e4517340b7d6d715c827ff65721a7b4d0adadba384098"
+}

@@ -1,0 +1,33 @@
+// Native input immediately after reset, with GL/Canvas call audits and host load.
+import {readFile,writeFile,mkdir} from 'node:fs/promises';
+import {resolve} from 'node:path';
+import {pathToFileURL} from 'node:url';
+import {createHash} from 'node:crypto';
+import {cpus} from 'node:os';
+import {launchFirefox} from './bidi.mjs';
+import {launch,sleep,until} from './cdp.mjs';
+const input=process.argv[2]||'index.html',label=process.argv[3]||'current',browser=process.argv[4]||'firefox';
+const source=await readFile(input,'utf8'),out=resolve('tools/out',`cold-${label}-${browser}`);await mkdir(out,{recursive:true});
+const hook=`(()=>{
+ const calls={},slow=[];window.__coldAudit={calls,slow,reset:()=>{for(const k in calls)delete calls[k];slow.length=0;}};
+ function audit(proto,names,prefix){for(const name of names){const original=proto[name];if(!original)continue;proto[name]=function(...args){const t=performance.now();try{return original.apply(this,args);}finally{const ms=performance.now()-t,key=prefix+name,c=calls[key]||(calls[key]={count:0,total:0,max:0});c.count++;c.total+=ms;c.max=Math.max(c.max,ms);if(ms>=2){slow.push({name:key,ms,time:t,rect:name==='clearRect'?args.slice(0,4):null,canvas:this.canvas?{id:this.canvas.id,width:this.canvas.width,height:this.canvas.height}:null});if(slow.length>512)slow.shift();}}};}}
+ audit(WebGL2RenderingContext.prototype,['getProgramParameter','getShaderParameter','compileShader','linkProgram','getUniformLocation','getActiveUniform','getActiveAttrib','drawElements','drawArrays','drawElementsInstanced','texImage2D','texSubImage2D','bufferData','bufferSubData'],'gl.');
+ audit(CanvasRenderingContext2D.prototype,['clearRect','fillRect','fillText','stroke','drawImage','getImageData','putImageData'],'canvas.');
+})();`;
+const file=resolve(out,'runtime.html');await writeFile(file,source.replace('</head>','<script>'+hook+'</script></head>'));
+const page=browser==='firefox'?await launchFirefox({port:9595,width:3000,height:1800}):await launch({port:9597,width:3000,height:1800});
+const receipt={input,label,browser,sourceSha256:createHash('sha256').update(source).digest('hex'),startedAt:new Date().toISOString(),muted:true,reports:[]};
+const host=()=>cpus().map(c=>({idle:c.times.idle,total:Object.values(c.times).reduce((a,b)=>a+b,0)}));
+let before;
+async function start(){before=host();await page.eval(`__coldAudit.reset();__smear.perf.clear();__smear.preset('default');__smear.tune({walking:false,recover:false});__smear.reset();__smear.perf.show(true)`);}
+async function capture(stage){const after=host(),r=await page.eval(`({stage:'${stage}',telemetry:__smear.perf.report(),audit:__coldAudit,paint:__smear.paintStatus()})`);r.hostCPU={logicalCPUs:after.length,meanBusyFraction:after.reduce((n,c,i)=>n+1-(c.idle-before[i].idle)/(c.total-before[i].total),0)/after.length};receipt.reports.push(r);console.log(JSON.stringify({stage,summary:r.telemetry.summary,slowCalls:r.audit.slow.slice(-24),links:r.audit.calls['gl.linkProgram'],paint:r.paint,hostCPU:r.hostCPU}));}
+try{
+ await page.goto(pathToFileURL(file).href);await until(()=>page.eval('!!window.__smear&&!document.getElementById("loading")'),{label:'cold-path boot'});await sleep(800);
+ if(browser==='chrome'){await page.call('Profiler.enable');await page.call('Profiler.setSamplingInterval',{interval:500});await page.call('Profiler.start');}
+ await start();await page.eval(`__smear.clean();__smear.tool(2);__smear.view([-1,3,5],[-1,0,3])`);await page.mouse('mousePressed',1500,900);await sleep(1500);await page.mouse('mouseReleased',1500,900);await capture('cold-Spill');
+ await start();await page.eval(`__smear.tool(1);__smear.view([3.4,3.3,4.8],[0,.3,1])`);let p=await page.eval(`__smear.project(0,'Torso')`);await page.mouse('mousePressed',p.x,p.y);for(let i=0;i<35;i++){await sleep(150);p=await page.eval(`__smear.project(0,'Torso')`);await page.mouse('mouseMoved',p.x,p.y);}await page.mouse('mouseReleased',p.x,p.y);await capture('cold-pistol');
+ await start();await page.eval(`(()=>{const a=__smear;a.tool(0);a.view([3.4,3.3,4.8],[0,.1,1]);for(const b of a.state().parts.filter(b=>b.doll===1))for(const n of [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]])a.bodyPaint(0,b.name,n,.85);})()`);p=await page.eval(`__smear.project(0,'Torso')`);await page.mouse('mousePressed',p.x,p.y);for(let i=1;i<=160;i++){await page.mouse('mouseMoved',p.x+Math.sin(i/40*Math.PI*2)*360,Math.min(1660,p.y+230));await sleep(20);}await page.mouse('mouseReleased',p.x,p.y);await capture('cold-drag');
+ await start();await page.eval('__smear.chaos()');await sleep(6000);await capture('cold-Chaos');
+ if(browser==='chrome'){const {profile}=await page.call('Profiler.stop');await writeFile(resolve(out,'runtime.cpuprofile'),JSON.stringify(profile));}
+ receipt.errors=page.logs.filter(s=>/^EXCEPTION:|^error:/i.test(s));console.log('COMPLETE cold-path native profiling');
+}finally{await writeFile(resolve(out,'summary.json'),JSON.stringify(receipt,null,2)+'\n');page.kill();}

@@ -1,5 +1,7 @@
 # Performance
 
+V8.8 removes blank pigment uploads during reset/clean, uses four Gecko painting workers, and limits static gameplay HUD backing canvases to two 116 px strips. The room allocates 51 fewer GPU textures with exact rendered pixel preservation against V8.7. Cold Firefox traces show no slow HUD clears after this change, but heavy host load still produces driver and scheduling stalls; this is not an 8 ms guarantee. See [V8.8 evidence and remaining costs](docs/qa/performance-v8.8.md).
+
 V8.7 removes synchronous GPU pigment readback from Firefox/Zen worker recovery. Worker transport uses cropped RGBA buffers with canonical CPU mirrors; overload replay runs in bounded tasks, uploads cropped pixel regions and restarts the worker once. Native Firefox pistol and dragging average 60 FPS at 3000 x 1800 in the recorded capture. Chaos averages 58.6 FPS but still reaches 35 ms of main-thread work, so this does not establish an 8 ms bound. The forced worker-stall comparison reduces the worst main-thread frame from 453 ms to 21 ms with exact pigment and simulation preservation. See [V8.7 measurements, host load and remaining work](docs/qa/performance-v8.7.md).
 
 V8.6 adds dynamic body and static box grids, retains pistol tracer programs, GPU-instances ragdoll details, and limits animated HUD canvas sizes. It also resumes the actual animation loop after graphics-context restoration. See [V8.6](docs/qa/performance-v8.6.md).

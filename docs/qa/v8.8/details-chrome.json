@@ -1,0 +1,43 @@
+{
+  "checks": [
+    {
+      "which": "room",
+      "mean": 0.00009098508230452674,
+      "ratio": 0.000003375771604938272,
+      "max": 44,
+      "drawsBefore": 236,
+      "drawsAfter": 155,
+      "instances": 84
+    },
+    {
+      "which": "drag",
+      "mean": 0.00010014789094650206,
+      "ratio": 0.000004340277777777778,
+      "max": 44,
+      "drawsBefore": 260,
+      "drawsAfter": 179,
+      "instances": 84
+    },
+    {
+      "which": "chaos",
+      "mean": 0.00014210390946502058,
+      "ratio": 0.00000626929012345679,
+      "max": 44,
+      "drawsBefore": 486,
+      "drawsAfter": 256,
+      "instances": 280
+    },
+    {
+      "which": "twelve",
+      "mean": 0.0003854809670781893,
+      "ratio": 0.000016878858024691356,
+      "max": 44,
+      "drawsBefore": 558,
+      "drawsAfter": 281,
+      "instances": 336
+    }
+  ],
+  "errors": [],
+  "result": "COMPLETE instanced detail checks passed",
+  "testedSourceSha256": "9fed255eb070b9a03f4e4517340b7d6d715c827ff65721a7b4d0adadba384098"
+}

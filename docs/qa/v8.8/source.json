@@ -1,0 +1,7 @@
+{
+  "version": "0.8.8",
+  "sourceSha256": "9fed255eb070b9a03f4e4517340b7d6d715c827ff65721a7b4d0adadba384098",
+  "audioOutput": "muted in owned test browsers; native sound settings enabled",
+  "goalStatus": "active; busy-host tail frames, Chaos main-thread costs and Chromium synchronous overload recovery remain unresolved",
+  "originalV7Sha256": "4dfe17e606b18ce7471f176b4c2afa0229b2f32e60b5b88c2971ebc6a75bc41f"
+}

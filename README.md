@@ -2,7 +2,7 @@
 
 A blood-and-contact ragdoll playground by Trent Sterling / Tront. Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V8.7 / 0.8.7** continues the DRAGMARK prototype under the name SMEAR.
+**V8.8 / 0.8.8** continues the DRAGMARK prototype under the name SMEAR.
 
 **Play:** https://tront.xyz/smear/ · **Source:** https://github.com/TrentSterling/smear
 
@@ -20,6 +20,8 @@ Open `index.html` in desktop Firefox, Zen, Chrome, or Edge with hardware acceler
 - Controls or About: run the built-in smear demo.
 
 Stains last for the session. Tuning saves in browser storage; V8 migrates available settings from `dragmark.tune.v7` into `smear.tune.v8` on the same browser origin.
+
+V8.8 distributes Firefox/Zen pigment canvases across four workers, keeps unpainted surfaces on one transparent GPU texture, and renders the static gameplay HUD in physically small top/footer canvases. Actual scene pixels match V8.7 through paint, smear, clear, wash, repaint and reset; the room uses 51 fewer GPU textures. See [V8.8 verification and performance limits](docs/qa/performance-v8.8.md).
 
 V8.7 transfers cropped RGBA buffers from the paint worker on Firefox/Zen. If that worker stalls, recovery replays bounded chunks from retained CPU pigment without GPU readback, uploads only changed pixels, and restarts the worker once. A forced-stall comparison reduced the worst main-thread frame from 453 ms to 21 ms while preserving exact simulation and every surface and skin PNG. Native Firefox pistol and drag captures average 60 FPS; ten-dummy Chaos still has slower tail frames. See [V8.7 measurements and limits](docs/qa/performance-v8.7.md).
 

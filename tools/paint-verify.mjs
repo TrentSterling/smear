@@ -14,7 +14,7 @@ const audit=`()=>{
  const quad=new T.Mesh(geo,mat);quad.frustumCulled=false;sc.add(quad);
  const previous=renderer.getRenderTarget(),rt=new T.WebGLRenderTarget(1,1,{depthBuffer:false,stencilBuffer:false});
  let pixels=0,mismatches=0,maxDelta=0;const failures=[];
- const textures=[...surfaces.map(s=>({id:s.id,canvas:s.canvas,g:s.g,tex:s.tex})),...bodies.filter(b=>b.skinCanvas).map(b=>({id:'body-'+b.id,canvas:b.skinCanvas,g:b.skinCtx,tex:b.skinTexture}))];
+ const textures=[...surfaces.map(s=>({id:s.id,canvas:s.canvas,g:s.g,tex:s.paintUniform?.value||s.tex})),...bodies.filter(b=>b.skinCanvas).map(b=>({id:'body-'+b.id,canvas:b.skinCanvas,g:b.skinCtx,tex:b.skinPaint.paintUniform?.value||b.skinTexture}))];
  try{for(const s of textures){const width=s.canvas.width,height=s.canvas.height;
   // Rendering this pass uses the existing texture. It does not mark it dirty.
   rt.setSize(width,height);mat.uniforms.uSource.value=s.tex;renderer.setRenderTarget(rt);renderer.render(sc,cam);
