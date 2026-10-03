@@ -1,0 +1,414 @@
+{
+  "prototype": true,
+  "browser": "Firefox",
+  "sourceSha256": "cff878b51eec0db9e3874f99c9fdcdbd6b9179d2f03e6374ef4726d89f1e5c44",
+  "runtimeSha256": "78c9aad07f30ed5f4c590fe52c4a65568e856ece10f15b2f37fb9ae3fafef0fc",
+  "muted": true,
+  "reports": [
+    {
+      "stage": "Spill",
+      "runtime": {
+        "ready": true,
+        "busy": false,
+        "error": null,
+        "jobs": 189,
+        "workerMS": 3,
+        "maxWorkerMS": 69,
+        "rasterTotal": 46,
+        "transferTotal": 318,
+        "workerTotal": 550,
+        "paintCommands": 893,
+        "patches": 419,
+        "steps": 227,
+        "started": 1301,
+        "generation": 1,
+        "inputCommands": 0,
+        "mirrorMS": 0,
+        "pendingPatches": 0,
+        "elapsed": 1.761
+      },
+      "audio": {
+        "enabled": true,
+        "unlocked": true,
+        "state": "running"
+      },
+      "at": 3063,
+      "simulationTicksPerSecond": 119.81566820276498,
+      "summary": {
+        "frames": 90,
+        "seconds": 1.5,
+        "fps": 60,
+        "latestFPS": 58.8235294117647,
+        "intervalMs": {
+          "p50": 17,
+          "p95": 17,
+          "p99": 18,
+          "max": 18
+        },
+        "workMs": 1.8666666666666667,
+        "workPercentileMs": {
+          "p50": 2,
+          "p95": 3,
+          "p99": 5,
+          "max": 5
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0.23333333333333334,
+          "render": 1.211111111111111,
+          "hud": 0.044444444444444446,
+          "profiler": 0.07777777777777778,
+          "input": 0.12222222222222222,
+          "other": 0.17777777777777778
+        },
+        "overBudget": 0,
+        "spikeFrames": 0,
+        "uploadCPU": 0.16666666666666666,
+        "uploadMiB": 17.235897064208984,
+        "uploadMiBPerSecond": 11.49059804280599,
+        "uploadCalls": 399,
+        "steps": 0,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "environment": {
+        "url": "null/C:/trontstack/smear/tools/out/simulation-runtime-firefox/runtime.html",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:157.0) Gecko/20100101 Firefox/157.0",
+        "viewport": [
+          3000,
+          1800
+        ],
+        "pixelRatio": 1,
+        "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 980 Direct3D11 vs_5_0 ps_5_0), or similar",
+        "engine": "Three.js 140",
+        "tune": {
+          "grab": 1.25,
+          "pose": 1,
+          "impact": 1,
+          "bleeding": 1.35,
+          "transfer": 1,
+          "drying": 100,
+          "coverage": 1.12,
+          "damage": 1,
+          "look": 1,
+          "fov": 70,
+          "recover": false,
+          "walking": false
+        }
+      }
+    },
+    {
+      "stage": "pistol",
+      "runtime": {
+        "ready": true,
+        "busy": false,
+        "error": null,
+        "jobs": 842,
+        "workerMS": 5,
+        "maxWorkerMS": 69,
+        "rasterTotal": 265,
+        "transferTotal": 1366,
+        "workerTotal": 2580,
+        "paintCommands": 4466,
+        "patches": 2164,
+        "steps": 717,
+        "started": 1301,
+        "generation": 2,
+        "inputCommands": 0,
+        "mirrorMS": 0,
+        "pendingPatches": 0,
+        "elapsed": 7.487
+      },
+      "audio": {
+        "enabled": true,
+        "unlocked": true,
+        "state": "running"
+      },
+      "at": 8789,
+      "simulationTicksPerSecond": 119.8501872659176,
+      "summary": {
+        "frames": 335,
+        "seconds": 5.584,
+        "fps": 59.99283667621776,
+        "latestFPS": 58.8235294117647,
+        "intervalMs": {
+          "p50": 17,
+          "p95": 18,
+          "p99": 18,
+          "max": 19
+        },
+        "workMs": 2.994029850746269,
+        "workPercentileMs": {
+          "p50": 3,
+          "p95": 4,
+          "p99": 5,
+          "max": 9
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0.46567164179104475,
+          "render": 1.982089552238806,
+          "hud": 0.14925373134328357,
+          "profiler": 0.0955223880597015,
+          "input": 0.050746268656716415,
+          "other": 0.2507462686567164
+        },
+        "overBudget": 2,
+        "spikeFrames": 0,
+        "uploadCPU": 0.33134328358208953,
+        "uploadMiB": 149.0643768310547,
+        "uploadMiBPerSecond": 26.694909890948193,
+        "uploadCalls": 2854,
+        "steps": 0,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "environment": {
+        "url": "null/C:/trontstack/smear/tools/out/simulation-runtime-firefox/runtime.html",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:157.0) Gecko/20100101 Firefox/157.0",
+        "viewport": [
+          3000,
+          1800
+        ],
+        "pixelRatio": 1,
+        "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 980 Direct3D11 vs_5_0 ps_5_0), or similar",
+        "engine": "Three.js 140",
+        "tune": {
+          "grab": 1.25,
+          "pose": 1,
+          "impact": 1,
+          "bleeding": 1.35,
+          "transfer": 1,
+          "drying": 100,
+          "coverage": 1.12,
+          "damage": 1,
+          "look": 1,
+          "fov": 70,
+          "recover": false,
+          "walking": false
+        }
+      }
+    },
+    {
+      "stage": "soaked drag",
+      "runtime": {
+        "ready": true,
+        "busy": false,
+        "error": null,
+        "jobs": 1282,
+        "workerMS": 11,
+        "maxWorkerMS": 69,
+        "rasterTotal": 1948,
+        "transferTotal": 3544,
+        "workerTotal": 7161,
+        "paintCommands": 23608,
+        "patches": 4655,
+        "steps": 659,
+        "started": 1301,
+        "generation": 3,
+        "inputCommands": 1,
+        "mirrorMS": 0,
+        "pendingPatches": 0,
+        "elapsed": 12.758
+      },
+      "audio": {
+        "enabled": true,
+        "unlocked": true,
+        "state": "running"
+      },
+      "at": 14059,
+      "simulationTicksPerSecond": 119.89845733255223,
+      "summary": {
+        "frames": 306,
+        "seconds": 5.1,
+        "fps": 60,
+        "latestFPS": 62.5,
+        "intervalMs": {
+          "p50": 17,
+          "p95": 17,
+          "p99": 18,
+          "max": 18
+        },
+        "workMs": 3.1862745098039214,
+        "workPercentileMs": {
+          "p50": 3,
+          "p95": 4,
+          "p99": 5,
+          "max": 8
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0.8496732026143791,
+          "render": 1.9150326797385622,
+          "hud": 0.10457516339869281,
+          "profiler": 0.11764705882352941,
+          "input": 0.06209150326797386,
+          "other": 0.13725490196078433
+        },
+        "overBudget": 0,
+        "spikeFrames": 0,
+        "uploadCPU": 0.6666666666666666,
+        "uploadMiB": 305.72379302978516,
+        "uploadMiBPerSecond": 59.94584177054611,
+        "uploadCalls": 4089,
+        "steps": 0,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "environment": {
+        "url": "null/C:/trontstack/smear/tools/out/simulation-runtime-firefox/runtime.html",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:157.0) Gecko/20100101 Firefox/157.0",
+        "viewport": [
+          3000,
+          1800
+        ],
+        "pixelRatio": 1,
+        "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 980 Direct3D11 vs_5_0 ps_5_0), or similar",
+        "engine": "Three.js 140",
+        "tune": {
+          "grab": 1.25,
+          "pose": 1,
+          "impact": 1,
+          "bleeding": 1.35,
+          "transfer": 1,
+          "drying": 100,
+          "coverage": 1.12,
+          "damage": 1,
+          "look": 1,
+          "fov": 70,
+          "recover": false,
+          "walking": false
+        }
+      }
+    },
+    {
+      "stage": "Chaos",
+      "runtime": {
+        "ready": true,
+        "busy": false,
+        "error": null,
+        "jobs": 1402,
+        "workerMS": 24,
+        "maxWorkerMS": 129,
+        "rasterTotal": 2698,
+        "transferTotal": 6543,
+        "workerTotal": 13151,
+        "paintCommands": 64535,
+        "patches": 9852,
+        "steps": 728,
+        "started": 1301,
+        "generation": 5,
+        "inputCommands": 0,
+        "mirrorMS": 0,
+        "pendingPatches": 0,
+        "elapsed": 19.049
+      },
+      "audio": {
+        "enabled": true,
+        "unlocked": true,
+        "state": "running"
+      },
+      "at": 20351,
+      "simulationTicksPerSecond": 113.39863855221651,
+      "summary": {
+        "frames": 360,
+        "seconds": 5.998,
+        "fps": 60.02000666888963,
+        "latestFPS": 62.5,
+        "intervalMs": {
+          "p50": 17,
+          "p95": 18,
+          "p99": 18,
+          "max": 26
+        },
+        "workMs": 5.25,
+        "workPercentileMs": {
+          "p50": 5,
+          "p95": 7,
+          "p99": 8,
+          "max": 20
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 1.8333333333333333,
+          "render": 3.0527777777777776,
+          "hud": 0.025,
+          "profiler": 0.09444444444444444,
+          "input": 0.022222222222222223,
+          "other": 0.2222222222222222
+        },
+        "overBudget": 3,
+        "spikeFrames": 1,
+        "uploadCPU": 1.3277777777777777,
+        "uploadMiB": 672.5891647338867,
+        "uploadMiBPerSecond": 112.13557264652997,
+        "uploadCalls": 7962,
+        "steps": 0,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "environment": {
+        "url": "null/C:/trontstack/smear/tools/out/simulation-runtime-firefox/runtime.html",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:157.0) Gecko/20100101 Firefox/157.0",
+        "viewport": [
+          3000,
+          1800
+        ],
+        "pixelRatio": 1,
+        "gpu": "ANGLE (NVIDIA, NVIDIA GeForce GTX 980 Direct3D11 vs_5_0 ps_5_0), or similar",
+        "engine": "Three.js 140",
+        "tune": {
+          "grab": 1.25,
+          "pose": 1,
+          "impact": 1,
+          "bleeding": 1.35,
+          "transfer": 1,
+          "drying": 100,
+          "coverage": 1.12,
+          "damage": 1,
+          "look": 1,
+          "fov": 70,
+          "recover": false,
+          "walking": false
+        }
+      }
+    }
+  ],
+  "startedAt": "2026-10-03T05:49:17.703Z",
+  "boot": {
+    "ready": true,
+    "busy": true,
+    "error": null,
+    "jobs": 1,
+    "workerMS": 63,
+    "maxWorkerMS": 63,
+    "rasterTotal": 0,
+    "transferTotal": 60,
+    "workerTotal": 63,
+    "paintCommands": 157,
+    "patches": 84,
+    "steps": 45,
+    "started": 1301,
+    "generation": 0,
+    "inputCommands": 0,
+    "mirrorMS": 0,
+    "pendingPatches": 0,
+    "elapsed": 0.027
+  },
+  "errors": [],
+  "result": "COMPLETE worker runtime architecture profile",
+  "browserLogs": [],
+  "fullCaptureSha256": "d9486dcb1f30afa128dd399f08743c63850b4edd9903276ea8186564b0c43fb2"
+}

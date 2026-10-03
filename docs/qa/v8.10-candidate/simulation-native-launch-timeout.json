@@ -1,0 +1,12 @@
+{
+  "result": "FAIL timed out before native input completed",
+  "prototype": true,
+  "muted": true,
+  "runtimeSha256": "996ededb3ed12719beac566a6bb243ab521f6fd06909fb330a1c80daec61a749",
+  "harnessProcessID": 565420,
+  "browserProcessID": 115452,
+  "browserChildProcessID": 664492,
+  "profile": "smear-firefox-OWflaz",
+  "scriptCompilation": "all four inline scripts compile",
+  "note": "Owned harness timed out without a native report; this run is not a performance pass."
+}

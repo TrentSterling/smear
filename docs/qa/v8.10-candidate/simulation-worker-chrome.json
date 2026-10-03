@@ -1,0 +1,86 @@
+{
+  "sourceSha256": "cff878b51eec0db9e3874f99c9fdcdbd6b9179d2f03e6374ef4726d89f1e5c44",
+  "kernelSha256": "28dfd8aebc37f6fe43ede07e6961d13dab3d6cbfcecb0379e4ed410ef08ab821",
+  "browser": "Chrome",
+  "checks": [
+    "room: exact coupled simulation, contact forces and droplets",
+    "room: every ordered paint command",
+    "room: every ordered audio recipe",
+    "chaos: exact coupled simulation, contact forces and droplets",
+    "chaos: every ordered paint command",
+    "chaos: every ordered audio recipe",
+    "pile: exact coupled simulation, contact forces and droplets",
+    "pile: every ordered paint command",
+    "pile: every ordered audio recipe",
+    "boundary: exact coupled simulation, contact forces and droplets",
+    "boundary: every ordered paint command",
+    "boundary: every ordered audio recipe",
+    "overflow: exact coupled simulation, contact forces and droplets",
+    "overflow: every ordered paint command",
+    "overflow: every ordered audio recipe",
+    "recovery: exact coupled simulation, contact forces and droplets",
+    "recovery: every ordered paint command",
+    "recovery: every ordered audio recipe"
+  ],
+  "cases": [
+    {
+      "which": "room",
+      "ticks": 600,
+      "paintCommands": 220,
+      "paintSha256": "4b684d67653930e466bd198728e832aba21dc9cc9c78b8a5b5ebf8cc7477bf38",
+      "audioCommands": 600,
+      "audioSha256": "fd2d3853e76040005129b4afe95c354c42cf3b0731c8cc811f99ccbef4963292",
+      "snapshotSha256": "5a8628f07db1cabdd0616eeebeed4c44107094c92b0a417eec6c09b3051a783d"
+    },
+    {
+      "which": "chaos",
+      "ticks": 600,
+      "paintCommands": 37681,
+      "paintSha256": "60685f3683102ea575d2ef874fbe724939272c2f8ecbc800a207a62bbc1abefd",
+      "audioCommands": 706,
+      "audioSha256": "4e3ab0b14a5939e055ceb60df089bc1e2ddce82e685944f62663b7ac718482d0",
+      "snapshotSha256": "b9621d0df1758b98c99c844361f1c86bab60cf93759a549bb12035419ffb4b16"
+    },
+    {
+      "which": "pile",
+      "ticks": 600,
+      "paintCommands": 43881,
+      "paintSha256": "508a0d5dc7d6e5de44b77ee718b47e0328f89c9dd57362818089f7b16c644a1b",
+      "audioCommands": 1267,
+      "audioSha256": "b846493674e8b7619c2c8ae0e396cc8a20f482194c613930fdaacf1588977b18",
+      "snapshotSha256": "60658a84af614f405bab2491a95682f0d84d39dbc6617e09cd4c6d7dbb3b3f8b"
+    },
+    {
+      "which": "boundary",
+      "ticks": 600,
+      "paintCommands": 214216,
+      "paintSha256": "fcf7fdf5179b07d69d645ebdeef6b4f4bb93ed1c1a072b2cef7b950a35523179",
+      "audioCommands": 1540,
+      "audioSha256": "2cba18174f4c88a22695bfce48409d1aee0d9810fb4d413e834aeba185bd68f7",
+      "snapshotSha256": "610c4d0b9dd0f8df46531d9143d229f8cedaed925e9a04ec21f774d227bc56a6"
+    },
+    {
+      "which": "overflow",
+      "ticks": 600,
+      "paintCommands": 69047,
+      "paintSha256": "2cebcb31c87e8107249ca756e1d6097cb5876a3e552f2aa7f1514bb3a1f8bcff",
+      "audioCommands": 1159,
+      "audioSha256": "40e5313326d0f6d99f31144b9f28d81d881960c12c1270b2669e5e11afd57d29",
+      "snapshotSha256": "df3d0d71f384119e9574ed157aebc739f1397b647e9fd224dd0f8889a1222668"
+    },
+    {
+      "which": "recovery",
+      "ticks": 600,
+      "paintCommands": 1345,
+      "paintSha256": "12c3b31c498e8d51ce0fc0a242748df151aba60503748990922677c969802d3c",
+      "audioCommands": 609,
+      "audioSha256": "1d792d044f2ceb03d7d2e0d6012ec908f3b8c1d113b6939f880b54a9f1b3636d",
+      "snapshotSha256": "cf71e9412e48c8deb10d9e68ed03b3ecac1eed2945b3fa076f01a332d5bcb2a2"
+    }
+  ],
+  "prototype": true,
+  "muted": true,
+  "errors": [],
+  "result": "COMPLETE coupled simulation worker checks passed",
+  "browserLogs": []
+}

@@ -1,0 +1,367 @@
+{
+  "prototype": true,
+  "pool": true,
+  "browser": "Chrome",
+  "sourceSha256": "cff878b51eec0db9e3874f99c9fdcdbd6b9179d2f03e6374ef4726d89f1e5c44",
+  "runtimeSha256": "8f8adca4aaa073bb82d50ac3867addbf43f6f12c4d4a96a23b218a8533e28aff",
+  "muted": true,
+  "reports": [
+    {
+      "stage": "Spill",
+      "runtime": {
+        "ready": true,
+        "busy": false,
+        "error": null,
+        "jobs": 203,
+        "workerMS": 0.3999999761581421,
+        "maxWorkerMS": 170.10000002384186,
+        "rasterTotal": 0,
+        "transferTotal": 5.4000004529953,
+        "workerTotal": 359.49999940395355,
+        "paintCommands": 755,
+        "patches": 282,
+        "steps": 230,
+        "ticksSinceFrame": 0,
+        "discardedSimMS": 0,
+        "started": 1443.5,
+        "generation": 1,
+        "inputCommands": 0,
+        "mirrorMS": 0,
+        "paintPool": {
+          "jobs": 203,
+          "totalRaster": 25.299999833106995,
+          "totalTransfer": 1080.4999996423721,
+          "pending": 0,
+          "maxPending": 157,
+          "error": null
+        },
+        "pendingPatches": 0,
+        "elapsed": 1.7343999999761581
+      },
+      "audio": {
+        "enabled": true,
+        "unlocked": true,
+        "state": "running"
+      },
+      "at": 3179.8000000715256,
+      "simulationTicksPerSecond": 120.20011694960314,
+      "summary": {
+        "frames": 90,
+        "seconds": 1.5166999999284745,
+        "fps": 59.33935518180542,
+        "latestFPS": 59.88023977742326,
+        "intervalMs": {
+          "p50": 16.699999928474426,
+          "p95": 16.800000071525574,
+          "p99": 42.800000071525574,
+          "max": 42.800000071525574
+        },
+        "workMs": 1.5922222190433077,
+        "workPercentileMs": {
+          "p50": 1.5,
+          "p95": 2.299999952316284,
+          "p99": 3.0999999046325684,
+          "max": 3.0999999046325684
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0.168888873524136,
+          "render": 1.0766666769981383,
+          "hud": 0.027777775128682455,
+          "profiler": 0.06888888279596965,
+          "input": 0.03888888226615058,
+          "other": 0.2111111283302307
+        },
+        "overBudget": 1,
+        "spikeFrames": 1,
+        "uploadCPU": 0.06444443729188708,
+        "uploadMiB": 25.59197235107422,
+        "uploadMiBPerSecond": 16.87345707937041,
+        "uploadCalls": 374,
+        "steps": 2.011111111111111,
+        "droppedSimMs": 0,
+        "gpuMs": 1.0321716363636364,
+        "gpuSamples": 22
+      }
+    },
+    {
+      "stage": "pistol",
+      "runtime": {
+        "ready": true,
+        "busy": false,
+        "error": null,
+        "jobs": 913,
+        "workerMS": 0.3999999761581421,
+        "maxWorkerMS": 170.10000002384186,
+        "rasterTotal": 0,
+        "transferTotal": 33.20000171661377,
+        "workerTotal": 1143.5999974012375,
+        "paintCommands": 4448,
+        "patches": 1828,
+        "steps": 750,
+        "ticksSinceFrame": 1,
+        "discardedSimMS": 0,
+        "started": 1443.5,
+        "generation": 2,
+        "inputCommands": 0,
+        "mirrorMS": 0,
+        "paintPool": {
+          "jobs": 1534,
+          "totalRaster": 134.70000326633453,
+          "totalTransfer": 3719.3999977111816,
+          "pending": 0,
+          "maxPending": 157,
+          "error": null
+        },
+        "pendingPatches": 0,
+        "elapsed": 7.686100000023842
+      },
+      "audio": {
+        "enabled": true,
+        "unlocked": true,
+        "state": "running"
+      },
+      "at": 9131.100000023842,
+      "simulationTicksPerSecond": 119.72082123291919,
+      "summary": {
+        "frames": 352,
+        "seconds": 5.864299999952316,
+        "fps": 60.0242143142169,
+        "latestFPS": 59.171597716613064,
+        "intervalMs": {
+          "p50": 16.699999928474426,
+          "p95": 16.800000071525574,
+          "p99": 17,
+          "max": 18.299999952316284
+        },
+        "workMs": 1.9170454557646404,
+        "workPercentileMs": {
+          "p50": 1.8000000715255737,
+          "p95": 2.8000000715255737,
+          "p99": 3.299999952316284,
+          "max": 4.200000047683716
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0.1488636156374758,
+          "render": 1.3965909179638734,
+          "hud": 0.06988636302677068,
+          "profiler": 0.08494318242777478,
+          "input": 0.025284093889323147,
+          "other": 0.1914772828194228
+        },
+        "overBudget": 0,
+        "spikeFrames": 0,
+        "uploadCPU": 0.08352271806110036,
+        "uploadMiB": 152.70183944702148,
+        "uploadMiBPerSecond": 26.039227094156697,
+        "uploadCalls": 2705,
+        "steps": 1.9943181818181819,
+        "droppedSimMs": 0,
+        "gpuMs": 0.6466327272727274,
+        "gpuSamples": 88
+      }
+    },
+    {
+      "stage": "soaked drag",
+      "runtime": {
+        "ready": true,
+        "busy": false,
+        "error": null,
+        "jobs": 1636,
+        "workerMS": 11.100000023841858,
+        "maxWorkerMS": 170.10000002384186,
+        "rasterTotal": 0,
+        "transferTotal": 57.70000195503235,
+        "workerTotal": 1889.199997663498,
+        "paintCommands": 28039,
+        "patches": 3055,
+        "steps": 766,
+        "ticksSinceFrame": 0,
+        "discardedSimMS": 0,
+        "started": 1443.5,
+        "generation": 3,
+        "inputCommands": 1,
+        "mirrorMS": 0.09999990463256836,
+        "paintPool": {
+          "jobs": 2612,
+          "totalRaster": 1043.7000029087067,
+          "totalTransfer": 11169.699996829033,
+          "pending": 0,
+          "maxPending": 1133,
+          "error": null
+        },
+        "pendingPatches": 0,
+        "elapsed": 13.796
+      },
+      "audio": {
+        "enabled": true,
+        "unlocked": true,
+        "state": "running"
+      },
+      "at": 15241.300000071526,
+      "simulationTicksPerSecond": 119.55890887986071,
+      "summary": {
+        "frames": 347,
+        "seconds": 5.9828999999761585,
+        "fps": 57.99862942743198,
+        "latestFPS": 60.60606060606061,
+        "intervalMs": {
+          "p50": 16.699999928474426,
+          "p95": 20.5,
+          "p99": 41.800000071525574,
+          "max": 65.89999997615814
+        },
+        "workMs": 1.851873194106374,
+        "workPercentileMs": {
+          "p50": 1.7999999523162842,
+          "p95": 2.700000047683716,
+          "p99": 3.899999976158142,
+          "max": 15.200000047683716
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0.18299711849916223,
+          "render": 1.388472626119938,
+          "hud": 0.046397692531948476,
+          "profiler": 0.10345821215714776,
+          "input": 0.042651294287755784,
+          "other": 0.08789625051042188
+        },
+        "overBudget": 19,
+        "spikeFrames": 14,
+        "uploadCPU": 0.10403457876584715,
+        "uploadMiB": 172.4011993408203,
+        "uploadMiBPerSecond": 28.815657848452645,
+        "uploadCalls": 2265,
+        "steps": 2.0662824207492796,
+        "droppedSimMs": 0,
+        "gpuMs": 1.581248367816092,
+        "gpuSamples": 87
+      }
+    },
+    {
+      "stage": "Chaos",
+      "runtime": {
+        "ready": true,
+        "busy": false,
+        "error": null,
+        "jobs": 2362,
+        "workerMS": 1.899999976158142,
+        "maxWorkerMS": 170.10000002384186,
+        "rasterTotal": 0,
+        "transferTotal": 132.10000371932983,
+        "workerTotal": 4420.999999046326,
+        "paintCommands": 69743,
+        "patches": 7776,
+        "steps": 767,
+        "ticksSinceFrame": 2,
+        "discardedSimMS": 0,
+        "started": 1443.5,
+        "generation": 5,
+        "inputCommands": 0,
+        "mirrorMS": 0.20000004768371582,
+        "paintPool": {
+          "jobs": 4612,
+          "totalRaster": 1477.9000064134598,
+          "totalTransfer": 23555.099991440773,
+          "pending": 0,
+          "maxPending": 1805,
+          "error": null
+        },
+        "pendingPatches": 0,
+        "elapsed": 20.015
+      },
+      "audio": {
+        "enabled": true,
+        "unlocked": true,
+        "state": "running"
+      },
+      "at": 21460.399999976158,
+      "simulationTicksPerSecond": 119.81811543790258,
+      "summary": {
+        "frames": 360,
+        "seconds": 5.999899999976158,
+        "fps": 60.00100001690537,
+        "latestFPS": 60.24096376890021,
+        "intervalMs": {
+          "p50": 16.699999928474426,
+          "p95": 16.800000071525574,
+          "p99": 20.40000009536743,
+          "max": 22.800000071525574
+        },
+        "workMs": 3.603611116276847,
+        "workPercentileMs": {
+          "p50": 3.5,
+          "p95": 4.799999952316284,
+          "p99": 7.899999976158142,
+          "max": 9
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0.5208333373069763,
+          "render": 2.6397222220897674,
+          "hud": 0.02194444669617547,
+          "profiler": 0.14444444643126594,
+          "input": 0.01805555820465088,
+          "other": 0.2586111055480109
+        },
+        "overBudget": 10,
+        "spikeFrames": 0,
+        "uploadCPU": 0.34583332339922584,
+        "uploadMiB": 671.6302146911621,
+        "uploadMiBPerSecond": 111.94023478621827,
+        "uploadCalls": 9796,
+        "steps": 1.9944444444444445,
+        "droppedSimMs": 0,
+        "gpuMs": 1.095849955555556,
+        "gpuSamples": 90
+      }
+    }
+  ],
+  "startedAt": "2026-10-03T06:09:07.376Z",
+  "browserProcessID": 34800,
+  "browserProfile": "C:\\Users\\trent\\AppData\\Local\\Temp\\smear-chrome-WabYxy",
+  "boot": {
+    "ready": true,
+    "busy": true,
+    "error": null,
+    "jobs": 14,
+    "workerMS": 0.7000000476837158,
+    "maxWorkerMS": 170.10000002384186,
+    "rasterTotal": 0,
+    "transferTotal": 1.4000002145767212,
+    "workerTotal": 180.700000166893,
+    "paintCommands": 11,
+    "patches": 104,
+    "steps": 58,
+    "ticksSinceFrame": 0,
+    "discardedSimMS": 0,
+    "started": 1443.5,
+    "generation": 0,
+    "inputCommands": 0,
+    "mirrorMS": 0,
+    "paintPool": {
+      "jobs": 13,
+      "totalRaster": 8.399999380111694,
+      "totalTransfer": 618.2000002861023,
+      "pending": 0,
+      "maxPending": 157,
+      "error": null
+    },
+    "pendingPatches": 0,
+    "elapsed": 0.11870000004768372
+  },
+  "errors": [],
+  "result": "COMPLETE worker runtime architecture profile",
+  "browserLogs": [],
+  "fullCaptureSha256": "54fb54e8675d57ffdb42d5759cebb8a960acdc0949edc81c28b10daede45405b"
+}
