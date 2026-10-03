@@ -1,4 +1,4 @@
-// Force worker starvation with identical ticks. Chromium tests opt-in RGBA recovery.
+// Force worker starvation with identical ticks, including the default bitmap path.
 import assert from 'node:assert/strict';
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {execFileSync} from 'node:child_process';
@@ -9,7 +9,7 @@ import {pathToFileURL} from 'node:url';
 import {launchFirefox} from './bidi.mjs';
 import {launch,until} from './cdp.mjs';
 
-const browser=process.argv[2]||'firefox',baselineLabel=browser==='chrome'?'v8.8':'v8.6';
+const browser=process.argv[2]||'firefox',baselineLabel=browser==='chrome'?'v8.8':'v8.6',bitmap=process.argv.includes('--bitmap'),diagnostic=!!process.argv[5]&&process.argv[5]!=='--bitmap';
 const out=resolve('tools/out',process.argv[4]?'recovery-'+process.argv[4]:browser==='chrome'?'recovery-profile-chrome':'recovery-profile');await mkdir(out,{recursive:true});
 const baseline=execFileSync('git',['show',(browser==='chrome'?'4c5289a':'fe1f200')+':index.html'],{encoding:'utf8',maxBuffer:2000000});
 const candidate=await readFile(process.argv[3]||'index.html','utf8'),reports=[];
@@ -28,13 +28,13 @@ try{
   assert(source.includes('const CAP=8192,WINDOW_MS=15000'));
   const measuredSource=source.replace('const CAP=8192,WINDOW_MS=15000','const CAP=8192,WINDOW_MS=120000');
   const file=resolve(out,label+'.html');await writeFile(file,measuredSource.replace('</head>',hook+'</head>').replace('window.__smear={state,',fixture+'\nwindow.__smear={recoveryBench,state,'));
-  await page.goto(pathToFileURL(file).href+(browser==='chrome'&&label==='candidate'?'?paintRGBA=1':''));await until(()=>page.eval('!!window.__smear&&!document.getElementById("loading")'));
+  await page.goto(pathToFileURL(file).href+(browser==='chrome'&&label==='candidate'&&!bitmap?'?paintRGBA=1':''));await until(()=>page.eval('!!window.__smear&&!document.getElementById("loading")'));
   await page.eval(`(async()=>{const a=__smear,b=a.recoveryBench;b.setup();for(let i=0;i<100;i++){await new Promise(r=>nativeRAF(r));b.tick(i,performance.now());}await a.paintReady(false);a.render();a.perf.clear();window.paintDelay=3000;window.captureDone=false;let i=100;window.captureStart=()=>nativeRAF(function frame(now){b.tick(i++,now);if(i<520)nativeRAF(frame);else{window.paintDelay=0;window.captureDone=true;}});})()`);
   const start=host();await page.eval('window.captureStart()');await until(()=>page.eval('window.captureDone'),{timeout:120000,every:250});
   const finish=host();await page.eval('(async()=>{await __smear.paintReady();__smear.render();})()');
   const data=await page.eval('__smear.recoveryBench.result()');
   const frames=data.telemetry.frames,r={label,sourceSha256:createHash('sha256').update(source).digest('hex'),captureWindowMs:120000,capturedAt:new Date().toISOString(),cpuMeanBusyFraction:finish.reduce((n,c,i)=>n+1-(c.idle-start[i].idle)/(c.total-start[i].total),0)/finish.length,work:summary(frames.map(f=>f.work)),intervals:summary(frames.map(f=>f.interval)),...data};
-  await writeFile(resolve(out,label+'-capture.json'),JSON.stringify(r,null,2)+'\n');if(!process.argv[5])assert.equal(frames.length,419);assert.equal(r.status.maxQueued,4096,'worker must actually reach its queue limit');reports.push(r);
+  await writeFile(resolve(out,label+'-capture.json'),JSON.stringify(r,null,2)+'\n');if(!diagnostic)assert.equal(frames.length,419);assert.equal(r.status.maxQueued,4096,'worker must actually reach its queue limit');reports.push(r);
   console.log(JSON.stringify({label,work:r.work,intervals:r.intervals,cpuMeanBusyFraction:r.cpuMeanBusyFraction,status:r.status}));
  }
  const state=s=>{s=structuredClone(s);delete s.version;delete s.renderer;for(const k of ['physicsMS','frameMS','paintUploads'])delete s.stats[k];return s;};
@@ -42,8 +42,8 @@ try{
  const imageHashes=images=>images.map(p=>createHash('sha256').update(p).digest('hex'));
  assert.deepEqual(imageHashes(reports[1].paint),imageHashes(reports[0].paint),'exact persistent surface pigment');
  assert.deepEqual(imageHashes(reports[1].skin),imageHashes(reports[0].skin),'exact skin pigment');
- if(baseline!==candidate&&!process.argv[5])assert(reports[1].work.max<reports[0].work.max/3,'recovery must remove the old long main-thread hitch');
+ if(baseline!==candidate&&!diagnostic)assert(reports[1].work.max<reports[0].work.max/3,'recovery must remove the old long main-thread hitch');
  const errors=page.logs.filter(s=>/^EXCEPTION:|^error:/i.test(s));assert.deepEqual(errors,[]);
- const receipt={browser,experimental:browser==='chrome',reports,checks:['both workers reached 4096-event queue cap','exact simulation and wet transfer','exact persistent surface pigment','exact skin pigment','main-thread worst frame reduced by at least 3x','no browser errors'],result:'COMPLETE forced worker-starvation checks passed'};
+ const receipt={browser,experimental:browser==='chrome'&&!bitmap,reports,checks:['both workers reached 4096-event queue cap','exact simulation and wet transfer','exact persistent surface pigment','exact skin pigment','main-thread worst frame reduced by at least 3x','no browser errors'],result:'COMPLETE forced worker-starvation checks passed'};
  await writeFile(resolve(out,'summary.json'),JSON.stringify(receipt,null,2)+'\n');console.log(receipt.result);
 }finally{page.kill();}

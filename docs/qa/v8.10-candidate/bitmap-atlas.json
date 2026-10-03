@@ -1,0 +1,101 @@
+{
+  "source": "C:\\trontstack\\smear\\index.html",
+  "sourceSha256": "92bb0b18644b68870eb1b67769476d9c2653fdf120606c57838bef730099b8dd",
+  "browser": "chrome",
+  "label": "bitmap-atlas",
+  "reports": [
+    {
+      "scenario": "chaos",
+      "hide": false,
+      "work": {
+        "mean": 7.190717299276264,
+        "p50": 6.899999976158142,
+        "p95": 9.600000023841858,
+        "p99": 10.600000023841858,
+        "max": 12.5
+      },
+      "intervals": {
+        "mean": 16.666949152542376,
+        "p50": 16.699999999999818,
+        "p95": 16.800000000000182,
+        "p99": 16.800000000000182,
+        "max": 16.90000000000009
+      },
+      "updateMs": 70.5999995470047,
+      "buildMs": 9.000000357627869,
+      "seen": 61085,
+      "updates": 480,
+      "telemetry": {
+        "summary": {
+          "frames": 239,
+          "seconds": 3.975600000023842,
+          "fps": 60.11671194249087,
+          "latestFPS": 60.24096376890021,
+          "intervalMs": {
+            "p50": 16.699999928474426,
+            "p95": 16.800000071525574,
+            "p99": 16.899999976158142,
+            "max": 18.100000023841858
+          },
+          "workMs": 7.185355650331186,
+          "workPercentileMs": {
+            "p50": 6.899999976158142,
+            "p95": 9.600000023841858,
+            "p99": 10.600000023841858,
+            "max": 12.5
+          },
+          "phases": {
+            "physics": 2.8100418426002918,
+            "paint": 0.8698744788828255,
+            "drops": 0.30125522763160484,
+            "uploadPrep": 1.0012552324199278,
+            "render": 2.0251046010141094,
+            "hud": 0.046861924386922285,
+            "profiler": 0.04058577326052359,
+            "input": 0,
+            "other": 0.0903765701349809
+          },
+          "overBudget": 0,
+          "spikeFrames": 0,
+          "uploadCPU": 0.6000000003990269,
+          "uploadMiB": 367.9269714355469,
+          "uploadMiBPerSecond": 92.54627513666878,
+          "uploadCalls": 5752,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      },
+      "paintWorker": {
+        "backend": "OffscreenCanvas worker",
+        "raster": "Browser accelerated worker raster",
+        "workerCount": 1,
+        "activeWorkers": 0,
+        "mirrorBytes": 0,
+        "maxRecoveryPending": 0,
+        "batchLimit": 1024,
+        "transport": "ImageBitmap",
+        "recoveryPending": 0,
+        "recoveryMS": 0,
+        "maxRecoveryMS": 0,
+        "restarts": 0,
+        "reason": "",
+        "queued": 0,
+        "inFlight": 0,
+        "oldestPendingMS": 0,
+        "maxQueued": 1201,
+        "jobs": 192,
+        "workerMS": 1,
+        "bitmapMS": 5.900000095367432,
+        "latencyMS": 10.099999904632568,
+        "meanWorkerMS": 1.4427083351959784,
+        "meanBitmapMS": 10.236458327621222,
+        "maxLatencyMS": 806.6999999284744,
+        "canvases": 203,
+        "readyBitmaps": 0
+      }
+    }
+  ],
+  "errors": []
+}

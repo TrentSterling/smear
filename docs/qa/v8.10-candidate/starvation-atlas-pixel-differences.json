@@ -1,0 +1,177 @@
+{
+  "sourceSha256": "c967413f22e310ed1e7783cb98625baf64011c2c03fe3b488e4c7516f8752054",
+  "paint": [
+    {
+      "record": 5,
+      "width": 640,
+      "height": 640,
+      "pixels": 409600,
+      "changed": 24,
+      "overTwo": 0,
+      "maxDelta": 0.9960784313725526,
+      "meanDelta": 0.00005678423713235294
+    },
+    {
+      "record": 6,
+      "width": 640,
+      "height": 640,
+      "pixels": 409600,
+      "changed": 4,
+      "overTwo": 1,
+      "maxDelta": 4,
+      "meanDelta": 0.000019435508578431372
+    },
+    {
+      "record": 9,
+      "width": 640,
+      "height": 640,
+      "pixels": 409600,
+      "changed": 639,
+      "overTwo": 2,
+      "maxDelta": 9,
+      "meanDelta": 0.0015765835631127495
+    },
+    {
+      "record": 10,
+      "width": 640,
+      "height": 640,
+      "pixels": 409600,
+      "changed": 1875,
+      "overTwo": 8,
+      "maxDelta": 10,
+      "meanDelta": 0.00464755667892159
+    }
+  ],
+  "skin": [
+    {
+      "record": 0,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 3,
+      "overTwo": 0,
+      "maxDelta": 0.9725490196078397,
+      "meanDelta": 0.00003834867280245418
+    },
+    {
+      "record": 1,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 5,
+      "overTwo": 0,
+      "maxDelta": 1.9450980392156794,
+      "meanDelta": 0.00007669734560490835
+    },
+    {
+      "record": 2,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 5,
+      "overTwo": 0,
+      "maxDelta": 0.9764705882353013,
+      "meanDelta": 0.0000643486561291187
+    },
+    {
+      "record": 3,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 1,
+      "overTwo": 0,
+      "maxDelta": 0.9411764705882355,
+      "meanDelta": 0.000012505002000800323
+    },
+    {
+      "record": 4,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 13,
+      "overTwo": 0,
+      "maxDelta": 0.9803921568627345,
+      "meanDelta": 0.00016418025543550718
+    },
+    {
+      "record": 6,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 2,
+      "overTwo": 0,
+      "maxDelta": 0.992156862745091,
+      "meanDelta": 0.0000256873582766439
+    },
+    {
+      "record": 7,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 2,
+      "overTwo": 0,
+      "maxDelta": 0.9372549019607845,
+      "meanDelta": 0.000024905795651593977
+    },
+    {
+      "record": 8,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 5,
+      "overTwo": 0,
+      "maxDelta": 0.9921568627451052,
+      "meanDelta": 0.0000651302187541682
+    },
+    {
+      "record": 9,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 2,
+      "overTwo": 0,
+      "maxDelta": 1.9686274509803923,
+      "meanDelta": 0.000038609193677470995
+    },
+    {
+      "record": 12,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 2,
+      "overTwo": 0,
+      "maxDelta": 0.9764705882353013,
+      "meanDelta": 0.000025947879151660855
+    },
+    {
+      "record": 13,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 1,
+      "overTwo": 0,
+      "maxDelta": 0.9607843137254832,
+      "meanDelta": 0.0000127655228758169
+    },
+    {
+      "record": 14,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 6,
+      "overTwo": 0,
+      "maxDelta": 0.9725490196078397,
+      "meanDelta": 0.00007753101240496172
+    },
+    {
+      "record": 16,
+      "width": 336,
+      "height": 224,
+      "pixels": 75264,
+      "changed": 1,
+      "overTwo": 0,
+      "maxDelta": 0.941176470588232,
+      "meanDelta": 0.000012505002000800275
+    }
+  ]
+}

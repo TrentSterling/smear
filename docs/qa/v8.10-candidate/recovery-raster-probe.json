@@ -1,0 +1,417 @@
+{
+  "results": [
+    {
+      "options": null,
+      "events": 4134,
+      "records": 23,
+      "changed": 1268,
+      "overTwo": 0,
+      "maxDelta": 0.9803921568627345,
+      "images": [
+        {
+          "id": 87,
+          "changed": 87,
+          "overTwo": 0,
+          "maxDelta": 0.9333333333333371
+        },
+        {
+          "id": 11,
+          "changed": 489,
+          "overTwo": 0,
+          "maxDelta": 0.95686274509805
+        },
+        {
+          "id": 7,
+          "changed": 58,
+          "overTwo": 0,
+          "maxDelta": 0.7058823529411882
+        },
+        {
+          "id": 90,
+          "changed": 20,
+          "overTwo": 0,
+          "maxDelta": 0.9803921568627345
+        },
+        {
+          "id": 96,
+          "changed": 45,
+          "overTwo": 0,
+          "maxDelta": 0.9333333333333371
+        },
+        {
+          "id": 24,
+          "changed": 1,
+          "overTwo": 0,
+          "maxDelta": 0.35294117647058787
+        },
+        {
+          "id": 94,
+          "changed": 8,
+          "overTwo": 0,
+          "maxDelta": 0.7058823529411757
+        },
+        {
+          "id": 85,
+          "changed": 6,
+          "overTwo": 0,
+          "maxDelta": 0.7058823529411757
+        },
+        {
+          "id": 86,
+          "changed": 8,
+          "overTwo": 0,
+          "maxDelta": 0.7058823529411757
+        },
+        {
+          "id": 99,
+          "changed": 2,
+          "overTwo": 0,
+          "maxDelta": 0.6666666666666714
+        },
+        {
+          "id": 91,
+          "changed": 19,
+          "overTwo": 0,
+          "maxDelta": 0.9333333333333371
+        },
+        {
+          "id": 98,
+          "changed": 12,
+          "overTwo": 0,
+          "maxDelta": 0.6666666666666572
+        },
+        {
+          "id": 92,
+          "changed": 17,
+          "overTwo": 0,
+          "maxDelta": 0.7058823529411757
+        },
+        {
+          "id": 88,
+          "changed": 42,
+          "overTwo": 0,
+          "maxDelta": 0.9803921568627345
+        },
+        {
+          "id": 97,
+          "changed": 9,
+          "overTwo": 0,
+          "maxDelta": 0.7058823529411757
+        },
+        {
+          "id": 6,
+          "changed": 16,
+          "overTwo": 0,
+          "maxDelta": 0.6666666666666714
+        },
+        {
+          "id": 89,
+          "changed": 77,
+          "overTwo": 0,
+          "maxDelta": 0.9803921568627345
+        },
+        {
+          "id": 93,
+          "changed": 35,
+          "overTwo": 0,
+          "maxDelta": 0.6666666666666714
+        },
+        {
+          "id": 10,
+          "changed": 261,
+          "overTwo": 0,
+          "maxDelta": 0.95686274509805
+        },
+        {
+          "id": 95,
+          "changed": 56,
+          "overTwo": 0,
+          "maxDelta": 0.9019607843137294
+        }
+      ]
+    },
+    {
+      "options": {
+        "willReadFrequently": false
+      },
+      "events": 4134,
+      "records": 23,
+      "changed": 1268,
+      "overTwo": 0,
+      "maxDelta": 0.9803921568627345,
+      "images": [
+        {
+          "id": 87,
+          "changed": 87,
+          "overTwo": 0,
+          "maxDelta": 0.9333333333333371
+        },
+        {
+          "id": 11,
+          "changed": 489,
+          "overTwo": 0,
+          "maxDelta": 0.95686274509805
+        },
+        {
+          "id": 7,
+          "changed": 58,
+          "overTwo": 0,
+          "maxDelta": 0.7058823529411882
+        },
+        {
+          "id": 90,
+          "changed": 20,
+          "overTwo": 0,
+          "maxDelta": 0.9803921568627345
+        },
+        {
+          "id": 96,
+          "changed": 45,
+          "overTwo": 0,
+          "maxDelta": 0.9333333333333371
+        },
+        {
+          "id": 24,
+          "changed": 1,
+          "overTwo": 0,
+          "maxDelta": 0.35294117647058787
+        },
+        {
+          "id": 94,
+          "changed": 8,
+          "overTwo": 0,
+          "maxDelta": 0.7058823529411757
+        },
+        {
+          "id": 85,
+          "changed": 6,
+          "overTwo": 0,
+          "maxDelta": 0.7058823529411757
+        },
+        {
+          "id": 86,
+          "changed": 8,
+          "overTwo": 0,
+          "maxDelta": 0.7058823529411757
+        },
+        {
+          "id": 99,
+          "changed": 2,
+          "overTwo": 0,
+          "maxDelta": 0.6666666666666714
+        },
+        {
+          "id": 91,
+          "changed": 19,
+          "overTwo": 0,
+          "maxDelta": 0.9333333333333371
+        },
+        {
+          "id": 98,
+          "changed": 12,
+          "overTwo": 0,
+          "maxDelta": 0.6666666666666572
+        },
+        {
+          "id": 92,
+          "changed": 17,
+          "overTwo": 0,
+          "maxDelta": 0.7058823529411757
+        },
+        {
+          "id": 88,
+          "changed": 42,
+          "overTwo": 0,
+          "maxDelta": 0.9803921568627345
+        },
+        {
+          "id": 97,
+          "changed": 9,
+          "overTwo": 0,
+          "maxDelta": 0.7058823529411757
+        },
+        {
+          "id": 6,
+          "changed": 16,
+          "overTwo": 0,
+          "maxDelta": 0.6666666666666714
+        },
+        {
+          "id": 89,
+          "changed": 77,
+          "overTwo": 0,
+          "maxDelta": 0.9803921568627345
+        },
+        {
+          "id": 93,
+          "changed": 35,
+          "overTwo": 0,
+          "maxDelta": 0.6666666666666714
+        },
+        {
+          "id": 10,
+          "changed": 261,
+          "overTwo": 0,
+          "maxDelta": 0.95686274509805
+        },
+        {
+          "id": 95,
+          "changed": 56,
+          "overTwo": 0,
+          "maxDelta": 0.9019607843137294
+        }
+      ]
+    },
+    {
+      "options": {
+        "willReadFrequently": true
+      },
+      "events": 4134,
+      "records": 23,
+      "changed": 235423,
+      "overTwo": 115845,
+      "maxDelta": 53,
+      "images": [
+        {
+          "id": 87,
+          "changed": 5310,
+          "overTwo": 600,
+          "maxDelta": 8
+        },
+        {
+          "id": 11,
+          "changed": 73499,
+          "overTwo": 66992,
+          "maxDelta": 52
+        },
+        {
+          "id": 7,
+          "changed": 7717,
+          "overTwo": 6647,
+          "maxDelta": 34
+        },
+        {
+          "id": 90,
+          "changed": 15315,
+          "overTwo": 4278,
+          "maxDelta": 6.396078431372549
+        },
+        {
+          "id": 96,
+          "changed": 13188,
+          "overTwo": 2205,
+          "maxDelta": 15
+        },
+        {
+          "id": 24,
+          "changed": 14,
+          "overTwo": 14,
+          "maxDelta": 52
+        },
+        {
+          "id": 70,
+          "changed": 11,
+          "overTwo": 11,
+          "maxDelta": 22
+        },
+        {
+          "id": 94,
+          "changed": 2831,
+          "overTwo": 675,
+          "maxDelta": 7
+        },
+        {
+          "id": 85,
+          "changed": 796,
+          "overTwo": 421,
+          "maxDelta": 6.972549019607843
+        },
+        {
+          "id": 86,
+          "changed": 7835,
+          "overTwo": 195,
+          "maxDelta": 18
+        },
+        {
+          "id": 99,
+          "changed": 9299,
+          "overTwo": 3102,
+          "maxDelta": 5.6000000000000005
+        },
+        {
+          "id": 91,
+          "changed": 12165,
+          "overTwo": 2433,
+          "maxDelta": 13
+        },
+        {
+          "id": 98,
+          "changed": 8937,
+          "overTwo": 2218,
+          "maxDelta": 5.811764705882352
+        },
+        {
+          "id": 92,
+          "changed": 10983,
+          "overTwo": 4538,
+          "maxDelta": 13
+        },
+        {
+          "id": 88,
+          "changed": 8192,
+          "overTwo": 1065,
+          "maxDelta": 5
+        },
+        {
+          "id": 97,
+          "changed": 8663,
+          "overTwo": 1206,
+          "maxDelta": 13
+        },
+        {
+          "id": 6,
+          "changed": 94,
+          "overTwo": 24,
+          "maxDelta": 8
+        },
+        {
+          "id": 89,
+          "changed": 18464,
+          "overTwo": 4161,
+          "maxDelta": 11
+        },
+        {
+          "id": 93,
+          "changed": 8755,
+          "overTwo": 2245,
+          "maxDelta": 5.882352941176478
+        },
+        {
+          "id": 105,
+          "changed": 3819,
+          "overTwo": 0,
+          "maxDelta": 1.0470588235294116
+        },
+        {
+          "id": 10,
+          "changed": 14941,
+          "overTwo": 12815,
+          "maxDelta": 53
+        },
+        {
+          "id": 103,
+          "changed": 3810,
+          "overTwo": 0,
+          "maxDelta": 1.0705882352941174
+        },
+        {
+          "id": 95,
+          "changed": 785,
+          "overTwo": 0,
+          "maxDelta": 1.827450980392157
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

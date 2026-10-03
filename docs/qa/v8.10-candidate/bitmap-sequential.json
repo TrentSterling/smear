@@ -1,0 +1,101 @@
+{
+  "source": "C:\\trontstack\\smear\\tools\\out\\v89-regions-audio-reference.html",
+  "sourceSha256": "c3661d1e95f926880053f1e85aa0736b892c308fc4c12d29e029788a9ce27c58",
+  "browser": "chrome",
+  "label": "bitmap-sequential",
+  "reports": [
+    {
+      "scenario": "chaos",
+      "hide": false,
+      "work": {
+        "mean": 7.048101265219193,
+        "p50": 6.700000047683716,
+        "p95": 9.299999952316284,
+        "p99": 11.100000023841858,
+        "max": 11.900000095367432
+      },
+      "intervals": {
+        "mean": 16.666525423728814,
+        "p50": 16.699999999999818,
+        "p95": 16.799999999999272,
+        "p99": 16.800000000000182,
+        "max": 16.800000000000182
+      },
+      "updateMs": 70.59999871253967,
+      "buildMs": 8.899999856948853,
+      "seen": 61085,
+      "updates": 480,
+      "telemetry": {
+        "summary": {
+          "frames": 239,
+          "seconds": 3.9786999999284745,
+          "fps": 60.06987206984606,
+          "latestFPS": 59.52380969275693,
+          "intervalMs": {
+            "p50": 16.699999928474426,
+            "p95": 16.800000071525574,
+            "p99": 16.899999976158142,
+            "max": 17
+          },
+          "workMs": 7.025941422793656,
+          "workPercentileMs": {
+            "p50": 6.700000047683716,
+            "p95": 9.299999952316284,
+            "p99": 11.100000023841858,
+            "max": 11.900000095367432
+          },
+          "phases": {
+            "physics": 2.7263598352296583,
+            "paint": 0.8368200836820083,
+            "drops": 0.2999999952116771,
+            "uploadPrep": 0.8774058574413156,
+            "render": 2.1205020918506956,
+            "hud": 0.03765690177055582,
+            "profiler": 0.03723849811314539,
+            "input": 0,
+            "other": 0.08995815949459954
+          },
+          "overBudget": 0,
+          "spikeFrames": 0,
+          "uploadCPU": 0.5276150588709939,
+          "uploadMiB": 307.3245849609375,
+          "uploadMiBPerSecond": 77.24246235364876,
+          "uploadCalls": 4919,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      },
+      "paintWorker": {
+        "backend": "OffscreenCanvas worker",
+        "raster": "Browser accelerated worker raster",
+        "workerCount": 1,
+        "activeWorkers": 0,
+        "mirrorBytes": 0,
+        "maxRecoveryPending": 0,
+        "batchLimit": 1024,
+        "transport": "ImageBitmap",
+        "recoveryPending": 0,
+        "recoveryMS": 0,
+        "maxRecoveryMS": 0,
+        "restarts": 0,
+        "reason": "",
+        "queued": 0,
+        "inFlight": 0,
+        "oldestPendingMS": 0,
+        "maxQueued": 3657,
+        "jobs": 92,
+        "workerMS": 1,
+        "bitmapMS": 17.09999990463257,
+        "latencyMS": 38.60000002384186,
+        "meanWorkerMS": 2.7293478354163794,
+        "meanBitmapMS": 31.747826079959456,
+        "maxLatencyMS": 2394.1999999284744,
+        "canvases": 203,
+        "readyBitmaps": 0
+      }
+    }
+  ],
+  "errors": []
+}

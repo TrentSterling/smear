@@ -1,0 +1,86 @@
+{
+  "browser": "Firefox",
+  "sourceSha256": "c967413f22e310ed1e7783cb98625baf64011c2c03fe3b488e4c7516f8752054",
+  "outputMuted": true,
+  "checks": [
+    "audio graph initialized once while loading",
+    "continuous layers remain silent and locked before input",
+    "pre-input simulation and sound requests cannot create audible layers",
+    "native input unlocks the running original audio graph",
+    "noise and tone processing remains enabled after unlock",
+    "finished noise and tone disconnect their five transient nodes",
+    "no audio browser errors"
+  ],
+  "boot": {
+    "enabled": true,
+    "unlocked": false,
+    "state": "suspended",
+    "master": 0.47999998927116394,
+    "wet": 0,
+    "dry": 0,
+    "audit": {
+      "constructors": 1,
+      "sources": 2,
+      "oscillators": 0,
+      "disconnects": 0
+    }
+  },
+  "locked": {
+    "enabled": true,
+    "unlocked": false,
+    "state": "suspended",
+    "master": 0.47999998927116394,
+    "wet": 0,
+    "dry": 0,
+    "audit": {
+      "constructors": 1,
+      "sources": 2,
+      "oscillators": 0,
+      "disconnects": 0
+    }
+  },
+  "unlocked": {
+    "enabled": true,
+    "unlocked": true,
+    "state": "running",
+    "master": 0.47999998927116394,
+    "wet": 0,
+    "dry": 0,
+    "audit": {
+      "constructors": 1,
+      "sources": 2,
+      "oscillators": 0,
+      "disconnects": 0
+    }
+  },
+  "voices": {
+    "enabled": true,
+    "unlocked": true,
+    "state": "running",
+    "master": 0.47999998927116394,
+    "wet": 0,
+    "dry": 0,
+    "audit": {
+      "constructors": 1,
+      "sources": 3,
+      "oscillators": 1,
+      "disconnects": 0
+    }
+  },
+  "ended": {
+    "enabled": true,
+    "unlocked": true,
+    "state": "running",
+    "master": 0.47999998927116394,
+    "wet": 0,
+    "dry": 0,
+    "audit": {
+      "constructors": 1,
+      "sources": 3,
+      "oscillators": 1,
+      "disconnects": 5
+    }
+  },
+  "errors": [],
+  "result": "COMPLETE audio lifecycle checks passed"
+}

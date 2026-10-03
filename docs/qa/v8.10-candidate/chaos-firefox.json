@@ -1,0 +1,102 @@
+{
+  "source": "C:\\trontstack\\smear\\index.html",
+  "sourceSha256": "7f8feafdb25dd336b3dc81f308138044a4b8777064cfabe8bda112558f09ac28",
+  "browser": "firefox",
+  "label": "atlas-audio-clear",
+  "reports": [
+    {
+      "scenario": "chaos",
+      "hide": false,
+      "work": {
+        "mean": 9.822784810126583,
+        "p50": 10,
+        "p95": 12,
+        "p99": 12,
+        "max": 12
+      },
+      "intervals": {
+        "mean": 16.73720338983051,
+        "p50": 16.66000000000031,
+        "p95": 16.68000000000029,
+        "p99": 16.68000000000029,
+        "max": 33.340000000000146
+      },
+      "updateMs": 73,
+      "buildMs": 3,
+      "seen": 61085,
+      "updates": 480,
+      "telemetry": {
+        "summary": {
+          "frames": 239,
+          "seconds": 3.994,
+          "fps": 59.83975963945919,
+          "latestFPS": 58.8235294117647,
+          "intervalMs": {
+            "p50": 17,
+            "p95": 18,
+            "p99": 19,
+            "max": 32
+          },
+          "workMs": 9.807531380753138,
+          "workPercentileMs": {
+            "p50": 10,
+            "p95": 12,
+            "p99": 12,
+            "max": 12
+          },
+          "phases": {
+            "physics": 3.715481171548117,
+            "paint": 1.104602510460251,
+            "drops": 0.3054393305439331,
+            "uploadPrep": 1.6694560669456067,
+            "render": 2.8577405857740588,
+            "hud": 0.04602510460251046,
+            "profiler": 0.05439330543933055,
+            "input": 0,
+            "other": 0.05439330543933055
+          },
+          "overBudget": 10,
+          "spikeFrames": 1,
+          "uploadCPU": 1.1171548117154813,
+          "uploadMiB": 321.72406005859375,
+          "uploadMiBPerSecond": 80.55184277881666,
+          "uploadCalls": 5042,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      },
+      "paintWorker": {
+        "backend": "OffscreenCanvas worker",
+        "raster": "CPU worker raster",
+        "workerCount": 4,
+        "activeWorkers": 0,
+        "mirrorBytes": 70762680,
+        "maxRecoveryPending": 0,
+        "batchLimit": 1024,
+        "transport": "RGBA buffers",
+        "mirrorStorage": "RGBA bytes",
+        "recoveryPending": 0,
+        "recoveryMS": 0,
+        "maxRecoveryMS": 0,
+        "restarts": 0,
+        "reason": "",
+        "queued": 0,
+        "inFlight": 0,
+        "oldestPendingMS": 0,
+        "maxQueued": 1624,
+        "jobs": 333,
+        "workerMS": 1,
+        "bitmapMS": 2,
+        "latencyMS": 51,
+        "meanWorkerMS": 2.114114114114114,
+        "meanBitmapMS": 23.81981981981982,
+        "maxLatencyMS": 3019,
+        "canvases": 203,
+        "readyBitmaps": 0
+      }
+    }
+  ],
+  "errors": []
+}

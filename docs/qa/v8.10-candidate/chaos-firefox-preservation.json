@@ -1,0 +1,76 @@
+{
+  "before": "998a9f8fff66f3dbe5897a8b428e5c09f57d2118dee0d2c922be088d104ba352",
+  "after": "7f8feafdb25dd336b3dc81f308138044a4b8777064cfabe8bda112558f09ac28",
+  "browser": "firefox",
+  "checks": [
+    "chaos: exact simulation and wet transfer",
+    "chaos: exact droplet motion and lifetime",
+    "chaos: exact particle transforms",
+    "chaos: exact persistent paint and wet supply"
+  ],
+  "comparisons": [
+    {
+      "scenario": "chaos",
+      "hide": false,
+      "paintSha256": "9128a33f5f652778975e90a40a1f0d6ed66e1b40ffa211a8c7b1cea10c4cc1e8",
+      "motionSha256": "595b714eb2d597c2c24a0cf3799054dcb8c86a2252a3632756bd64fd60b79f00",
+      "before": {
+        "work": {
+          "mean": 11.527426160337553,
+          "p50": 12,
+          "p95": 14,
+          "p99": 16,
+          "max": 18
+        },
+        "intervals": {
+          "mean": 16.73728813559322,
+          "p50": 16.66000000000031,
+          "p95": 16.68000000000029,
+          "p99": 16.68000000000029,
+          "max": 33.33999999999969
+        },
+        "dropsMs": 0.36666666666666664,
+        "phases": {
+          "physics": 4.619246861924686,
+          "paint": 1.2468619246861925,
+          "drops": 0.38493723849372385,
+          "uploadPrep": 1.5355648535564854,
+          "render": 3.5439330543933054,
+          "hud": 0.07112970711297072,
+          "profiler": 0.0502092050209205,
+          "input": 0,
+          "other": 0.0502092050209205
+        }
+      },
+      "after": {
+        "work": {
+          "mean": 9.822784810126583,
+          "p50": 10,
+          "p95": 12,
+          "p99": 12,
+          "max": 12
+        },
+        "intervals": {
+          "mean": 16.73720338983051,
+          "p50": 16.66000000000031,
+          "p95": 16.68000000000029,
+          "p99": 16.68000000000029,
+          "max": 33.340000000000146
+        },
+        "dropsMs": 0.30416666666666664,
+        "phases": {
+          "physics": 3.715481171548117,
+          "paint": 1.104602510460251,
+          "drops": 0.3054393305439331,
+          "uploadPrep": 1.6694560669456067,
+          "render": 2.8577405857740588,
+          "hud": 0.04602510460251046,
+          "profiler": 0.05439330543933055,
+          "input": 0,
+          "other": 0.05439330543933055
+        }
+      }
+    }
+  ],
+  "result": "COMPLETE particle and paint preservation checks passed"
+}

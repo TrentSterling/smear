@@ -203,7 +203,7 @@ const runtimeProfiler=(()=>{
   drawHistogram(s);drawHistory(s);
   nodes.stages.replaceChildren();for(let k=0;k<stages.length;k++){const e=document.createElement('span');e.style.borderColor=colors[k];e.textContent=({physics:'Physics',paint:'Paint',drops:'Drops',uploadPrep:'Prep',render:'Render',hud:'HUD',profiler:'Profiler',input:'Input',other:'Other'})[stages[k]]+' '+fmt(a.phases[stages[k]]);nodes.stages.append(e);}
   const gpu=a.gpuMs===null?(ext?'GPU pending':'GPU timer unavailable'):('GPU '+fmt(a.gpuMs)+' ms ('+a.gpuSamples+' samples)');
-  nodes.context.textContent=gpu+' | '+fmt(a.uploadMiBPerSecond)+' MiB/s uploads / '+fmt(a.uploadCPU)+' ms CPU\n'+(last?last.calls+' draws / '+Math.round(last.triangles/1000)+'k tris / '+last.dolls+' dolls / '+last.activeBodies+' active / '+last.particles+' drops\nQueues '+last.paintQueue+' paint + '+last.wetQueue+' wet / '+fmt(a.steps)+' ticks/frame / '+fmt(a.droppedSimMs)+' ms discarded sim':'Collecting workload')+(s.heapBytes?' / heap '+Math.round(s.heapBytes/1048576)+' MiB':'');nodes.context.style.whiteSpace='pre-wrap';if(s.paintWorker){const p=s.paintWorker;nodes.context.textContent+='\n'+p.backend+' ('+(p.workerCount||0)+' workers) | raster '+fmt(p.workerMS)+' ms + transfer '+fmt(p.bitmapMS)+' ms (off-thread)\nPaint lag '+fmt(p.latencyMS)+' ms / '+(p.queued+p.inFlight)+' pending events / oldest '+fmt(p.oldestPendingMS)+' ms'+(p.reason?' / '+p.reason:'')+'\nRecovery '+(p.recoveryPending||0)+' events / '+fmt(p.recoveryMS||0)+' ms last / '+fmt(p.maxRecoveryMS||0)+' ms max / '+(p.restarts||0)+' worker restarts / '+fmt((p.mirrorBytes||0)/1048576)+' MiB CPU pigment';}
+  nodes.context.textContent=gpu+' | '+fmt(a.uploadMiBPerSecond)+' MiB/s uploads / '+fmt(a.uploadCPU)+' ms CPU\n'+(last?last.calls+' draws / '+Math.round(last.triangles/1000)+'k tris / '+last.dolls+' dolls / '+last.activeBodies+' active / '+last.particles+' drops\nQueues '+last.paintQueue+' paint + '+last.wetQueue+' wet / '+fmt(a.steps)+' ticks/frame / '+fmt(a.droppedSimMs)+' ms discarded sim':'Collecting workload')+(s.heapBytes?' / heap '+Math.round(s.heapBytes/1048576)+' MiB':'');nodes.context.style.whiteSpace='pre-wrap';if(s.paintWorker){const p=s.paintWorker;nodes.context.textContent+='\n'+p.backend+' ('+(p.workerCount||0)+' workers) | raster '+fmt(p.workerMS)+' ms + transfer '+fmt(p.bitmapMS)+' ms (off-thread)\nPaint lag '+fmt(p.latencyMS)+' ms / '+(p.queued+p.inFlight)+' pending events / oldest '+fmt(p.oldestPendingMS)+' ms'+(p.reason?' / '+p.reason:'')+'\nRecovery '+(p.recoveryPending||0)+' events / '+fmt(p.recoveryMS||0)+' ms last / '+fmt(p.maxRecoveryMS||0)+' ms max / '+(p.restarts||0)+' worker restarts / '+fmt((p.mirrorBytes||0)/1048576)+' MiB pigment mirror';}
   nodes['spike-count'].textContent='>'+fmt(budget*1.5)+' ms / '+a.spikeFrames+' in window';nodes.spikes.replaceChildren();
   for(const r of spikes.slice(-6).reverse()){const tr=document.createElement('tr'),gap=document.createElement('td'),why=document.createElement('td'),largest=stages.reduce((best,k)=>r[k]>r[best]?k:best,'physics');gap.textContent=fmt(r.interval)+' / '+fmt(r.work)+' ms';why.textContent=fmt(Math.max(0,(s.last?.time-r.time||0)/1000))+'s ago; '+largest+' '+fmt(r[largest])+' ms; '+r.steps+' ticks; '+r.dolls+' dolls, '+r.particles+' drops'+(r.held?', dragging':'')+(r.action?'; '+r.action:'')+(r.interval>r.work+budget?' (outside frame gap)':'');tr.title='Camera '+[r.x,r.y,r.z].map(fmt).join(', ')+' | Uploads '+r.uploadCalls+' / '+fmt(r.uploadBytes/1048576)+' MiB | GPU '+(r.gpu<0?'unsampled':fmt(r.gpu)+' ms');tr.append(gap,why);nodes.spikes.append(tr);}
   if(!spikes.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=2;td.textContent='No spikes recorded yet.';tr.append(td);nodes.spikes.append(tr);}
@@ -395,7 +395,7 @@ function rasterSkin(s,f,x,y,rx,ry,alpha,pat,wound){
  if(wound){g.fillStyle='#26030a';g.beginPath();g.ellipse(x,y,Math.max(1,rx*.1),Math.max(1,ry*.13),0,0,TAU);g.fill();}g.restore();
 }
 function rasterBullet(s,px,py,r,angle){const g=s.g;g.save();g.globalAlpha=.7;g.fillStyle='#474341';g.beginPath();g.ellipse(px,py,r,r*.8,angle,0,TAU);g.fill();g.globalAlpha=.35;g.strokeStyle='#d8dbd5';g.lineWidth=.8;g.beginPath();g.arc(px,py,r*1.6,.25,3.0);g.stroke();g.restore();}
-function rasterCommand(s,kind,args){if(kind==='clear')s.g.clearRect(0,0,s.canvas.width,s.canvas.height);else ({splat:rasterSplat,patch:rasterPatch,drip:rasterDrip,skin:rasterSkin,bullet:rasterBullet})[kind](s,...args);}
+function rasterCommand(s,kind,args){if(kind==='clear'){if(s.paintCanvasDirty!==false)s.g.clearRect(0,0,s.canvas.width,s.canvas.height);s.paintCanvasDirty=false;}else{({splat:rasterSplat,patch:rasterPatch,drip:rasterDrip,skin:rasterSkin,bullet:rasterBullet})[kind](s,...args);s.paintCanvasDirty=true;}}
 
 // Workers own disjoint persistent pigment canvases. Gameplay sends contact events,
 // not expanded bristle paths; cropped images or RGBA buffers update WebGL.
@@ -403,20 +403,20 @@ const blankPigment=new T.DataTexture(new Uint8Array(4),1,1,T.RGBAFormat);blankPi
 const eagerPaintTextures=new URLSearchParams(location.search).has('paintTextures');
 const zeroPaintInit=renderer.capabilities.isWebGL2&&!new URLSearchParams(location.search).has('paintInitCanvas');
 function initializePaintTexture(s,restore=false){
- if(s.textureReady)return;
- if(!zeroPaintInit){renderer.initTexture(s.tex);s.textureReady=true;return;}
+ if(s.textureReady&&!s.paintGPUInvalid)return;
  const gl=renderer.getContext(),upload=gl.texSubImage2D,image=s.tex.image;
  // The pinned r140 renderer allocates zeroed immutable storage before copying
  // its DOM source. Retain its texture/cache setup, but skip that blank copy.
- gl.texSubImage2D=function(...a){if(a[0]===gl.TEXTURE_2D&&a[1]===0&&a[2]===0&&a[3]===0&&a.at(-1)===image)return;return upload.apply(this,a);};
- try{renderer.initTexture(s.tex);}finally{gl.texSubImage2D=upload;}
+ if(zeroPaintInit&&!(s.paintGPUInvalid&&!s.paintPixels&&s.canvasCurrent)&&!renderer.properties.get(s.tex).__webglTexture){gl.texSubImage2D=function(...a){if(a[0]===gl.TEXTURE_2D&&a[1]===0&&a[2]===0&&a[3]===0&&a.at(-1)===image)return;return upload.apply(this,a);};
+  try{renderer.initTexture(s.tex);}finally{gl.texSubImage2D=upload;}
+ }else renderer.initTexture(s.tex);
  s.textureReady=true;
- if(restore&&s.paintPixels){renderer.state.activeTexture(gl.TEXTURE0);renderer.state.bindTexture(gl.TEXTURE_2D,renderer.properties.get(s.tex).__webglTexture);gl.pixelStorei(gl.UNPACK_SKIP_PIXELS,0);gl.pixelStorei(gl.UNPACK_SKIP_ROWS,0);gl.pixelStorei(gl.UNPACK_ROW_LENGTH,0);gl.pixelStorei(gl.UNPACK_ALIGNMENT,4);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false);gl.texSubImage2D(gl.TEXTURE_2D,0,0,0,s.canvas.width,s.canvas.height,gl.RGBA,gl.UNSIGNED_BYTE,s.paintPixels);renderer.state.unbindTexture();}
+ if((restore||s.paintGPUInvalid)&&s.paintPixels){renderer.state.activeTexture(gl.TEXTURE0);renderer.state.bindTexture(gl.TEXTURE_2D,renderer.properties.get(s.tex).__webglTexture);gl.pixelStorei(gl.UNPACK_SKIP_PIXELS,0);gl.pixelStorei(gl.UNPACK_SKIP_ROWS,0);gl.pixelStorei(gl.UNPACK_ROW_LENGTH,0);gl.pixelStorei(gl.UNPACK_ALIGNMENT,4);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false);gl.texSubImage2D(gl.TEXTURE_2D,0,0,0,s.canvas.width,s.canvas.height,gl.RGBA,gl.UNSIGNED_BYTE,s.paintPixels);renderer.state.unbindTexture();}s.paintGPUInvalid=false;
 }
 const paintEngine=(()=>{
  const records=new Map();let serial=0,order=0,queue=[],queuedAt=0,workers=[],waiters=[],enabled=false,contextLost=false,reason='',jobs=0,workerMS=0,bitmapMS=0,latencyMS=0,maxQueued=0,rasterTotal=0,bitmapTotal=0,maxLatencyMS=0,recovery=null,recoveryTimer=0,restarts=0,recoveryMS=0,maxRecoveryMS=0,maxRecoveryPending=0,asyncRecovery=false;
   const LIMIT=4096,BATCH_LIMIT=1024;let applyCursor=0;
-  const boundPresentation=!new URLSearchParams(location.search).has('paintUnbounded');
+  const boundPresentation=!new URLSearchParams(location.search).has('paintUnbounded'),batchBounds=!new URLSearchParams(location.search).has('paintAccumulated');
  // Preserve each browser's rasterizer while four workers return cropped RGBA
  // buffers and canonical CPU pigment. Keep ImageBitmap as a profiling reference.
  const rasterOptions={willReadFrequently:/Firefox\//.test(navigator.userAgent)};
@@ -425,36 +425,40 @@ const paintEngine=(()=>{
   // starvation. Keep its published transport until that preservation gate passes.
   const pixelTransport=(/Firefox\//.test(navigator.userAgent)||paintQuery.has('paintRGBA'))&&!paintQuery.has('paintBitmap');
  const WORKERS=pixelTransport&&!new URLSearchParams(location.search).has('paintSingle')?4:1;
+ const atlasTransport=!pixelTransport&&!paintQuery.has('paintSeparateBitmaps');
  const code=`const PI=Math.PI,TAU=PI*2,clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),rasterOptions=${JSON.stringify(rasterOptions)};
  const document={createElement:()=>new OffscreenCanvas(160,160)},brushes=[],bristleCache=new Map();
  ${hash.toString()}\n${patchBristles.toString()}\n${createBrushes.toString()}\n${rasterSplat.toString()}\n${rasterPatch.toString()}\n${rasterDrip.toString()}\n${rasterSkin.toString()}\n${rasterBullet.toString()}\n${rasterCommand.toString()}
- createBrushes(rasterOptions);const records=new Map();
+ createBrushes(rasterOptions);const records=new Map(),atlasCanvases=[];
  onmessage=async e=>{try{const job=e.data,t=performance.now();
   for(const id of job.removed)records.delete(id);
   const descriptors=new Map(job.records.map(d=>[d.id,d])),painted=new Set();
    for(const [id,epoch,kind,args] of job.ops){let s=records.get(id);if(kind==='clear'&&!s)continue;if(!s){const d=descriptors.get(id);if(!d)continue;const canvas=new OffscreenCanvas(d.width,d.height);s={...d,canvas,g:canvas.getContext('2d',rasterOptions)};if(d.seed)s.g.putImageData(new ImageData(d.seed,d.width,d.height),0,0);records.set(id,s);}s.epoch=epoch;if(kind==='present'){painted.add(id);continue;}if(kind==='clear'){rasterCommand(s,kind,args);painted.delete(id);continue;}
    rasterCommand(s,kind,args);painted.add(id);}
-  const rasterMS=performance.now()-t,bt=performance.now(),patches=[];
-  for(const d of job.records){if(!painted.has(d.id)||!d.rect)continue;const s=records.get(d.id),r=d.rect;
+  const rasterMS=performance.now()-t,bt=performance.now(),patches=[],groups=[];let group=null;
+   for(const d of job.records){if(!painted.has(d.id)||!d.rect)continue;const s=records.get(d.id),r=d.rect;if(r.x1<=r.x0||r.y1<=r.y0)continue;
    if(${pixelTransport}){const w=r.x1-r.x0,h=r.y1-r.y0,pixels=s.g.getImageData(r.x0,r.y0,w,h).data,row=new Uint8ClampedArray(w*4);for(let y=0;y<Math.floor(h/2);y++){const a=y*w*4,b=(h-1-y)*w*4;row.set(pixels.subarray(a,a+w*4));pixels.copyWithin(a,b,b+w*4);pixels.set(row,b);}patches.push({id:d.id,epoch:d.epoch,rect:r,pixels});}
+   else if(${atlasTransport}){const w=r.x1-r.x0,h=r.y1-r.y0;if(!group)groups.push(group={x:0,y:0,row:0,width:0,height:0,patches:[]});if(group.x+w>2048){group.x=0;group.y+=group.row;group.row=0;}if(group.y+h>4096)groups.push(group={x:0,y:0,row:0,width:0,height:0,patches:[]});const p={id:d.id,epoch:d.epoch,rect:r,atlasX:group.x,atlasY:group.y};group.patches.push(p);patches.push(p);group.x+=w;group.row=Math.max(group.row,h);group.width=Math.max(group.width,group.x);group.height=Math.max(group.height,group.y+h);}
    else{const bitmap=await createImageBitmap(s.canvas,r.x0,r.y0,r.x1-r.x0,r.y1-r.y0,{imageOrientation:'flipY',premultiplyAlpha:'none',colorSpaceConversion:'none'});patches.push({id:d.id,epoch:d.epoch,rect:r,bitmap});}}
-  postMessage({patches,rasterMS,bitmapMS:performance.now()-bt},patches.map(p=>p.pixels?p.pixels.buffer:p.bitmap));
+  for(let i=0;i<groups.length;i++){const group=groups[i];let a=atlasCanvases[i];if(!a)atlasCanvases[i]=a=new OffscreenCanvas(group.width,group.height);if(a.width!==group.width)a.width=group.width;if(a.height!==group.height)a.height=group.height;const g=a.getContext('2d',rasterOptions);g.clearRect(0,0,a.width,a.height);g.globalCompositeOperation='source-over';for(const p of group.patches){const r=p.rect;g.drawImage(records.get(p.id).canvas,r.x0,r.y0,r.x1-r.x0,r.y1-r.y0,p.atlasX,p.atlasY,r.x1-r.x0,r.y1-r.y0);}const atlas={bitmap:await createImageBitmap(a,{imageOrientation:'flipY',premultiplyAlpha:'none',colorSpaceConversion:'none'}),width:a.width,height:a.height,remaining:group.patches.length};for(const p of group.patches)p.atlas=atlas;}
+  postMessage({patches,rasterMS,bitmapMS:performance.now()-bt},Array.from(new Set(patches.map(p=>p.pixels?p.pixels.buffer:p.bitmap||p.atlas.bitmap))));
  }catch(error){postMessage({error:String(error)});}};`;
  try{if(typeof Worker==='function'&&typeof OffscreenCanvas==='function'&&typeof createImageBitmap==='function'&&renderer.capabilities.isWebGL2&&!new URLSearchParams(location.search).has('paintSync')){
   startWorker();
  }else reason='Synchronous canvas fallback';}catch(e){reason=String(e);}
+ function releasePatch(p){if(p.released)return;p.released=true;if(p.atlas){if(--p.atlas.remaining===0)p.atlas.bitmap.close();}else p.bitmap?.close();}
  function startWorker(){
   const url=URL.createObjectURL(new Blob([code],{type:'text/javascript'}));
-  try{for(let i=0;i<WORKERS;i++){const slot={worker:new Worker(url),busy:null,completed:null,removed:[]};workers.push(slot);
-   slot.worker.onmessage=e=>{if(!enabled||!workers.includes(slot)||!slot.busy){for(const p of e.data.patches||[])p.bitmap?.close();return;}if(e.data.error){fallback(e.data.error);return;}slot.completed=e.data;workerMS=e.data.rasterMS;bitmapMS=e.data.bitmapMS;latencyMS=performance.now()-slot.busy.queuedAt;rasterTotal+=workerMS;bitmapTotal+=bitmapMS;maxLatencyMS=Math.max(maxLatencyMS,latencyMS);jobs++;};
+   try{for(let i=0;i<WORKERS;i++){const slot={worker:new Worker(url),busy:null,completed:null,removed:[]};workers.push(slot);
+    slot.worker.onmessage=e=>{if(!enabled||!workers.includes(slot)||!slot.busy){for(const p of e.data.patches||[])releasePatch(p);return;}if(e.data.error){fallback(e.data.error);return;}slot.completed=e.data;workerMS=e.data.rasterMS;bitmapMS=e.data.bitmapMS;latencyMS=performance.now()-slot.busy.queuedAt;rasterTotal+=workerMS;bitmapTotal+=bitmapMS;maxLatencyMS=Math.max(maxLatencyMS,latencyMS);jobs++;};
    slot.worker.onerror=e=>{e.preventDefault();if(workers.includes(slot))fallback(e.message||'Paint worker failed');};
   }enabled=true;}catch(e){for(const slot of workers)slot.worker.terminate();workers=[];throw e;}finally{URL.revokeObjectURL(url);}
  }
- function register(s){s.paintId=++serial;s.paintSlot=(serial-1)%WORKERS;s.paintEpoch=0;s.uploadedEpoch=-1;s.canvasCurrent=true;s.paintVisible=eagerPaintTextures;records.set(s.paintId,s);}
+ function register(s){s.paintId=++serial;s.paintSlot=(serial-1)%WORKERS;s.paintEpoch=0;s.uploadedEpoch=-1;s.canvasCurrent=true;s.paintVisible=eagerPaintTextures;s.paintCanvasDirty=false;s.paintMirror=atlasTransport;s.cpuRaster=atlasTransport;records.set(s.paintId,s);}
  function showPigment(s){s.paintVisible=true;if(s.paintUniform)s.paintUniform.value=s.tex;}
  function remove(s){if(!s)return;records.delete(s.paintId);s.paintPixels=null;queue=queue.filter(o=>o[0]!==s.paintId);if(s.workerKnown)workers[s.paintSlot]?.removed.push(s.paintId);}
  function draw(s,kind,args){
-  if(kind==='clear'){s.paintEpoch++;s.paintPixels=null;s.canvasCurrent=true;queue=queue.filter(o=>o[0]!==s.paintId);s.g.clearRect(0,0,s.canvas.width,s.canvas.height);s.uploadedEpoch=-1;s.textureReady=false;if(!eagerPaintTextures){s.paintVisible=false;if(s.paintUniform)s.paintUniform.value=blankPigment;s.tex.dispose();}s.tex.needsUpdate=true;}
+   if(kind==='clear'){s.paintEpoch++;s.paintPixels=null;s.paintGPUInvalid=false;s.canvasCurrent=true;queue=queue.filter(o=>o[0]!==s.paintId);if(s.paintCanvasDirty)s.g.clearRect(0,0,s.canvas.width,s.canvas.height);s.paintCanvasDirty=false;s.uploadedEpoch=-1;s.textureReady=false;if(!eagerPaintTextures){s.paintVisible=false;if(s.paintUniform)s.paintUniform.value=blankPigment;s.tex.dispose();}s.tex.needsUpdate=true;}
   if(kind==='clear'&&enabled&&!s.workerKnown)return;
   const op=[s.paintId,s.paintEpoch,kind,args,++order];
   if(!enabled){if(asyncRecovery&&!recovery)recovery={ops:[],head:0,retry:false,queuedAt:performance.now()};if(recovery){enqueueRecovery(op);scheduleRecovery();return;}if(kind!=='clear'){rasterCommand(s,kind,args);showPigment(s);}return;}
@@ -466,8 +470,8 @@ const paintEngine=(()=>{
  function fallback(error){
   if(!enabled)return;enabled=false;reason=error;
   const pending=[...workers.flatMap(s=>s.busy?.ops||[]),...queue].sort((a,b)=>a[4]-b[4]);
-  for(const slot of workers){slot.worker.terminate();if(slot.completed)for(const p of slot.completed.patches)p.bitmap?.close();slot.busy=slot.completed=null;}workers=[];queue=[];
-  if(pixelTransport){asyncRecovery=true;if(pending.length){recovery={ops:pending,head:0,retry:error==='Paint worker queue limit'&&restarts<1,queuedAt:performance.now()};maxRecoveryPending=Math.max(maxRecoveryPending,pending.length);scheduleRecovery();}else settle();return;}
+  for(const slot of workers){slot.worker.terminate();if(slot.completed)for(const p of slot.completed.patches)releasePatch(p);slot.busy=slot.completed=null;}workers=[];queue=[];
+  if(pixelTransport||atlasTransport){asyncRecovery=true;if(pending.length){recovery={ops:pending,head:0,retry:error==='Paint worker queue limit'&&restarts<1,queuedAt:performance.now()};maxRecoveryPending=Math.max(maxRecoveryPending,pending.length);scheduleRecovery();}else settle();return;}
   for(const s of records.values())snapshotCanvas(s);
    for(const [id,epoch,kind,args]of pending){const s=records.get(id);if(!s||epoch!==s.paintEpoch)continue;rasterCommand(s,kind,args);if(kind!=='clear')showPigment(s);s.textureReady=false;s.tex.needsUpdate=true;s.dirtyRect=null;}
   settle();
@@ -480,8 +484,10 @@ const paintEngine=(()=>{
    const gl=renderer.getContext();renderer.state.activeTexture(gl.TEXTURE0);renderer.state.bindTexture(gl.TEXTURE_2D,renderer.properties.get(s.tex).__webglTexture);
    gl.pixelStorei(gl.UNPACK_SKIP_PIXELS,0);gl.pixelStorei(gl.UNPACK_SKIP_ROWS,0);gl.pixelStorei(gl.UNPACK_ALIGNMENT,4);
    if(p.pixels){const w=r.x1-r.x0,h=r.y1-r.y0,y0=s.canvas.height-r.y1,fullW=s.canvas.width;gl.pixelStorei(gl.UNPACK_ROW_LENGTH,0);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false);gl.texSubImage2D(gl.TEXTURE_2D,0,r.x0,y0,w,h,gl.RGBA,gl.UNSIGNED_BYTE,p.pixels);if(!s.paintPixels)s.paintPixels=new Uint8ClampedArray(fullW*s.canvas.height*4);for(let y=0;y<h;y++)s.paintPixels.set(p.pixels.subarray(y*w*4,(y+1)*w*4),((y0+y)*fullW+r.x0)*4);}
+   else if(p.atlas){const a=p.atlas;gl.pixelStorei(gl.UNPACK_ROW_LENGTH,a.width);gl.pixelStorei(gl.UNPACK_SKIP_PIXELS,p.atlasX);gl.pixelStorei(gl.UNPACK_SKIP_ROWS,a.height-p.atlasY-(r.y1-r.y0));try{gl.texSubImage2D(gl.TEXTURE_2D,0,r.x0,s.canvas.height-r.y1,r.x1-r.x0,r.y1-r.y0,gl.RGBA,gl.UNSIGNED_BYTE,a.bitmap);}finally{gl.pixelStorei(gl.UNPACK_ROW_LENGTH,0);gl.pixelStorei(gl.UNPACK_SKIP_PIXELS,0);gl.pixelStorei(gl.UNPACK_SKIP_ROWS,0);}}
    else gl.texSubImage2D(gl.TEXTURE_2D,0,r.x0,s.canvas.height-r.y1,gl.RGBA,gl.UNSIGNED_BYTE,p.bitmap);renderer.state.unbindTexture();s.uploadedEpoch=s.paintEpoch;s.canvasCurrent=false;
-   showPigment(s);}finally{p.bitmap?.close();
+   if(p.atlas){const a=p.atlas,w=r.x1-r.x0,h=r.y1-r.y0,y=s.canvas.height-r.y1,g=s.g;g.save();g.setTransform(1,0,0,-1,0,s.canvas.height);g.clearRect(r.x0,y,w,h);g.drawImage(a.bitmap,p.atlasX,a.height-p.atlasY-h,w,h,r.x0,y,w,h);g.restore();s.canvasCurrent=true;s.paintCanvasDirty=true;s.paintPixels=null;}
+   showPigment(s);}finally{releasePatch(p);
     // This record's commands are now in the canonical mirror. A failure during
     // partial presentation must replay only records that have not been applied.
     slot.busy.ops=slot.busy.ops.filter(op=>op[0]!==p.id);
@@ -492,19 +498,21 @@ const paintEngine=(()=>{
    if(contextLost)return;if(!enabled){drainRecovery();settle();return;}
    const deadline=boundPresentation?performance.now()+2:Infinity;
    for(let i=0;i<workers.length;i++){const slot=workers[applyCursor];applyCursor=(applyCursor+1)%workers.length;apply(slot,deadline);if(performance.now()>=deadline)break;}
-  const groups=workers.map(()=>[]),tail=[];for(const op of queue){const s=records.get(op[0]);if(!s)continue;const slot=workers[s.paintSlot],ops=groups[s.paintSlot];if(!slot.busy&&ops.length<BATCH_LIMIT)ops.push(op);else tail.push(op);}queue=tail;
+   const groups=workers.map(()=>[]),tail=[];for(const op of queue){const s=records.get(op[0]);if(!s)continue;const slot=workers[s.paintSlot],ops=groups[s.paintSlot];if(!slot.busy&&ops.length<BATCH_LIMIT)ops.push(op);else tail.push(op);}queue=tail;
   const tailIds=new Set(queue.map(o=>o[0])),jobTime=queuedAt||performance.now();if(!queue.length)queuedAt=0;
-  for(let i=0;i<workers.length;i++){const slot=workers[i],ops=groups[i];if(slot.busy||(!ops.length&&!slot.removed.length))continue;const ids=new Set(ops.map(o=>o[0])),list=[],transfers=[];
-   for(const id of ids){const s=records.get(id);if(!s)continue;let seed=null;if(restarts&&!s.workerKnown){const w=s.canvas.width,h=s.canvas.height;if(s.paintPixels){seed=new Uint8ClampedArray(s.paintPixels.length);for(let y=0;y<h;y++)seed.set(s.paintPixels.subarray(y*w*4,(y+1)*w*4),(h-1-y)*w*4);}else if(s.cpuRaster){seed=s.g.getImageData(0,0,w,h).data;s.paintPixels=new Uint8ClampedArray(seed.length);for(let y=0;y<h;y++)s.paintPixels.set(seed.subarray(y*w*4,(y+1)*w*4),(h-1-y)*w*4);}if(seed)transfers.push(seed.buffer);}s.workerKnown=true;list.push({id,epoch:s.paintEpoch,width:s.canvas.width,height:s.canvas.height,w:s.w,h:s.h,res:s.res,rect:s.dirtyRect,seed});if(!tailIds.has(id))s.dirtyRect=null;}
+   for(let i=0;i<workers.length;i++){const slot=workers[i],ops=groups[i];if(slot.busy||(!ops.length&&!slot.removed.length))continue;const ids=new Set(ops.map(o=>o[0])),list=[],transfers=[],regions=new Map();
+    // Queued future strokes must not enlarge this job's pixel readback/upload.
+    if(batchBounds)for(const [id,epoch,kind,args]of ops){const s=records.get(id);if(!s||s.paintEpoch!==epoch)continue;const r=commandRect(s,kind,args),old=regions.get(id);if(old){old.x0=Math.min(old.x0,r.x0);old.y0=Math.min(old.y0,r.y0);old.x1=Math.max(old.x1,r.x1);old.y1=Math.max(old.y1,r.y1);}else regions.set(id,r);}
+    for(const id of ids){const s=records.get(id);if(!s)continue;let seed=null;if(restarts&&!s.workerKnown){const w=s.canvas.width,h=s.canvas.height;if(s.paintPixels){seed=new Uint8ClampedArray(s.paintPixels.length);for(let y=0;y<h;y++)seed.set(s.paintPixels.subarray(y*w*4,(y+1)*w*4),(h-1-y)*w*4);}else if(s.cpuRaster){seed=s.g.getImageData(0,0,w,h).data;if(!s.paintMirror){s.paintPixels=new Uint8ClampedArray(seed.length);for(let y=0;y<h;y++)s.paintPixels.set(seed.subarray(y*w*4,(y+1)*w*4),(h-1-y)*w*4);}}if(seed)transfers.push(seed.buffer);}s.workerKnown=true;list.push({id,epoch:s.paintEpoch,width:s.canvas.width,height:s.canvas.height,w:s.w,h:s.h,res:s.res,rect:batchBounds?regions.get(id):s.dirtyRect,seed});if(!tailIds.has(id))s.dirtyRect=null;}
    slot.busy={ops,queuedAt:jobTime};slot.worker.postMessage({ops,records:list,removed:slot.removed},transfers);slot.removed=[];
   }settle();
  }
- function enqueueRecovery(op){if(recovery.ops.length-recovery.head>=LIMIT*2)drainRecovery(0,true);if(!recovery){const s=records.get(op[0]);if(s&&s.paintEpoch===op[1]){if(enabled){if(!queue.length)queuedAt=performance.now();queue.push(op);}else{prepareCPU(s);rasterCommand(s,op[2],op[3]);if(op[2]!=='clear')showPigment(s);s.tex.needsUpdate=true;}}return;}if(recovery.head>=LIMIT){recovery.ops=recovery.ops.slice(recovery.head);recovery.head=0;}recovery.ops.push(op);maxRecoveryPending=Math.max(maxRecoveryPending,recovery.ops.length-recovery.head);}
+ function enqueueRecovery(op){if(recovery.ops.length-recovery.head>=LIMIT*2)drainRecovery(0,true,false);if(!recovery){const s=records.get(op[0]);if(s&&s.paintEpoch===op[1]){if(enabled){if(!queue.length)queuedAt=performance.now();queue.push(op);}else{prepareCPU(s);rasterCommand(s,op[2],op[3]);if(op[2]!=='clear')showPigment(s);s.tex.needsUpdate=true;}}return;}if(recovery.head>=LIMIT){recovery.ops=recovery.ops.slice(recovery.head);recovery.head=0;}recovery.ops.push(op);maxRecoveryPending=Math.max(maxRecoveryPending,recovery.ops.length-recovery.head);}
  function scheduleRecovery(){if(recoveryTimer||!recovery)return;recoveryTimer=setTimeout(()=>{recoveryTimer=0;if(!contextLost)drainRecovery();scheduleRecovery();},8);}
-  function prepareCPU(s){if(s.cpuRaster){if(s.paintPixels&&!s.canvasCurrent)snapshotCanvas(s);return;}const w=s.canvas.width,h=s.canvas.height;let image=null;if(s.paintPixels){image=new ImageData(w,h);for(let y=0;y<h;y++)image.data.set(s.paintPixels.subarray(y*w*4,(y+1)*w*4),(h-1-y)*w*4);}const c=document.createElement('canvas');c.width=w;c.height=h;s.canvas=c;s.g=c.getContext('2d',rasterOptions);if(image)s.g.putImageData(image,0,0);s.tex.image=c;if(s.skinOwner){s.skinOwner.skinCanvas=c;s.skinOwner.skinCtx=s.g;}s.canvasCurrent=true;s.cpuRaster=true;}
+  function prepareCPU(s){if(s.cpuRaster){if(s.paintPixels&&!s.canvasCurrent)snapshotCanvas(s);return;}const w=s.canvas.width,h=s.canvas.height;let image=null;if(s.paintPixels){image=new ImageData(w,h);for(let y=0;y<h;y++)image.data.set(s.paintPixels.subarray(y*w*4,(y+1)*w*4),(h-1-y)*w*4);}const c=document.createElement('canvas');c.width=w;c.height=h;s.canvas=c;s.g=c.getContext('2d',rasterOptions);if(image){s.g.putImageData(image,0,0);s.paintCanvasDirty=true;}s.tex.image=c;if(s.skinOwner){s.skinOwner.skinCanvas=c;s.skinOwner.skinCtx=s.g;}s.canvasCurrent=true;s.cpuRaster=true;}
  function commandRect(s,kind,a){
   const W=s.canvas.width,H=s.canvas.height,sx=s.res/s.w,sy=s.res/s.h;let x0=0,y0=0,x1=W,y1=H,pixels=false;
-  if(kind==='skin'){const [f,x,y,rx,ry]=a,cx=f%3*112,cy=Math.floor(f/3)*112;return{x0:Math.max(cx,Math.floor(x-rx)-3),y0:Math.max(cy,Math.floor(y-ry)-3),x1:Math.min(cx+112,Math.ceil(x+rx)+3),y1:Math.min(cy+112,Math.ceil(y+ry)+3)};}
+   if(kind==='skin'){const [f,x,y,rx,ry]=a,cx=f%3*112,cy=Math.floor(f/3)*112;return{x0:clamp(Math.floor(x-rx)-3,cx,cx+112),y0:clamp(Math.floor(y-ry)-3,cy,cy+112),x1:clamp(Math.ceil(x+rx)+3,cx,cx+112),y1:clamp(Math.ceil(y+ry)+3,cy,cy+112)};}
   if(kind==='bullet'){const [x,y,r]=a;x0=x-r*1.6;y0=y-r*1.6;x1=x+r*1.6;y1=y+r*1.6;pixels=true;}
   else if(kind==='splat'){const [x,y,r,,,elong]=a,b=r*Math.max(1,Math.abs(elong))*2.1;x0=x-b;y0=y-b;x1=x+b;y1=y+b;}
   else if(kind==='patch'){const [aa,b,,, ,vertical]=a,avg=(aa.rx+aa.ry+b.rx+b.ry)*.25,move=Math.hypot(b.x-aa.x,b.y-aa.y)+Math.abs(b.angle-aa.angle)*avg,radius=Math.max(aa.rx,aa.ry,b.rx,b.ry),width=clamp(avg*.75*(vertical?.95:1.05)*1.04,.010,.12),fringe=.725*avg+move*avg*(1+move*7)*.3,pb=1.4*width*Math.max(sx,sy)+2,bx=radius+fringe+pb/sx,by=radius+fringe+pb/sy;x0=Math.min(aa.x,b.x)-bx;y0=Math.min(aa.y,b.y)-by;x1=Math.max(aa.x,b.x)+bx;y1=Math.max(aa.y,b.y)+by;}
@@ -513,34 +521,35 @@ const paintEngine=(()=>{
   return{x0:clamp(Math.floor(x0*(pixels?1:sx))-3,0,W),y0:clamp(Math.floor(y0*(pixels?1:sy))-3,0,H),x1:clamp(Math.ceil(x1*(pixels?1:sx))+3,0,W),y1:clamp(Math.ceil(y1*(pixels?1:sy))+3,0,H)};
  }
  function uploadRecovery(s,r){
-  const w=r.x1-r.x0,h=r.y1-r.y0;if(w<=0||h<=0)return;const pixels=s.g.getImageData(r.x0,r.y0,w,h).data,row=new Uint8ClampedArray(w*4);
+  const w=r.x1-r.x0,h=r.y1-r.y0;if(w<=0||h<=0)return;
+  if(s.paintMirror){initializePaintTexture(s,true);const gl=renderer.getContext();renderer.state.activeTexture(gl.TEXTURE0);renderer.state.bindTexture(gl.TEXTURE_2D,renderer.properties.get(s.tex).__webglTexture);gl.pixelStorei(gl.UNPACK_ROW_LENGTH,0);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,s.tex.flipY);gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,s.tex.premultiplyAlpha);gl.pixelStorei(gl.UNPACK_ALIGNMENT,4);gl.pixelStorei(gl.UNPACK_COLORSPACE_CONVERSION_WEBGL,gl.NONE);gl.pixelStorei(gl.UNPACK_SKIP_PIXELS,r.x0);gl.pixelStorei(gl.UNPACK_SKIP_ROWS,s.canvas.height-r.y1);try{gl.texSubImage2D(gl.TEXTURE_2D,0,r.x0,s.canvas.height-r.y1,w,h,gl.RGBA,gl.UNSIGNED_BYTE,s.canvas);}finally{gl.pixelStorei(gl.UNPACK_SKIP_PIXELS,0);gl.pixelStorei(gl.UNPACK_SKIP_ROWS,0);renderer.state.unbindTexture();}s.uploadedEpoch=s.paintEpoch;s.canvasCurrent=true;s.dirtyRect=null;showPigment(s);return;}
+  const pixels=s.g.getImageData(r.x0,r.y0,w,h).data,row=new Uint8ClampedArray(w*4);
   for(let y=0;y<Math.floor(h/2);y++){const a=y*w*4,b=(h-1-y)*w*4;row.set(pixels.subarray(a,a+w*4));pixels.copyWithin(a,b,b+w*4);pixels.set(row,b);}
    initializePaintTexture(s,true);const gl=renderer.getContext(),fullW=s.canvas.width,y0=s.canvas.height-r.y1;
   renderer.state.activeTexture(gl.TEXTURE0);renderer.state.bindTexture(gl.TEXTURE_2D,renderer.properties.get(s.tex).__webglTexture);gl.pixelStorei(gl.UNPACK_SKIP_PIXELS,0);gl.pixelStorei(gl.UNPACK_SKIP_ROWS,0);gl.pixelStorei(gl.UNPACK_ROW_LENGTH,0);gl.pixelStorei(gl.UNPACK_ALIGNMENT,4);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false);
-  gl.texSubImage2D(gl.TEXTURE_2D,0,r.x0,y0,w,h,gl.RGBA,gl.UNSIGNED_BYTE,pixels);renderer.state.unbindTexture();if(!s.paintPixels)s.paintPixels=new Uint8ClampedArray(fullW*s.canvas.height*4);
-   for(let y=0;y<h;y++)s.paintPixels.set(pixels.subarray(y*w*4,(y+1)*w*4),((y0+y)*fullW+r.x0)*4);s.uploadedEpoch=s.paintEpoch;s.canvasCurrent=true;s.dirtyRect=null;showPigment(s);
+  gl.texSubImage2D(gl.TEXTURE_2D,0,r.x0,y0,w,h,gl.RGBA,gl.UNSIGNED_BYTE,pixels);renderer.state.unbindTexture();if(!s.paintMirror){if(!s.paintPixels)s.paintPixels=new Uint8ClampedArray(fullW*s.canvas.height*4);for(let y=0;y<h;y++)s.paintPixels.set(pixels.subarray(y*w*4,(y+1)*w*4),((y0+y)*fullW+r.x0)*4);}s.uploadedEpoch=s.paintEpoch;s.canvasCurrent=true;s.dirtyRect=null;showPigment(s);
  }
- function drainRecovery(budget=2,one=false){
-  if(!recovery||contextLost)return;const t=performance.now(),painted=new Map();
+ function drainRecovery(budget=2,one=false,present=true){
+  if(!recovery||contextLost)return;const t=performance.now(),painted=recovery.painted||(recovery.painted=new Map());
    do{const op=recovery.ops[recovery.head++],s=records.get(op[0]);if(s&&s.paintEpoch===op[1]){prepareCPU(s);if(op[2]!=='present'&&op[2]!=='restore')rasterCommand(s,op[2],op[3]);if(op[2]==='clear'&&!eagerPaintTextures)painted.delete(s);else{const r=commandRect(s,op[2],op[3]),old=painted.get(s);if(old){old.x0=Math.min(old.x0,r.x0);old.y0=Math.min(old.y0,r.y0);old.x1=Math.max(old.x1,r.x1);old.y1=Math.max(old.y1,r.y1);}else painted.set(s,r);}}if(one)break;}while(recovery.head<recovery.ops.length&&performance.now()-t<budget);
-  for(const [s,r]of painted)uploadRecovery(s,r);recoveryMS=performance.now()-t;maxRecoveryMS=Math.max(maxRecoveryMS,recoveryMS);
+  if(present){for(const [s,r]of painted)uploadRecovery(s,r);painted.clear();}recoveryMS=performance.now()-t;maxRecoveryMS=Math.max(maxRecoveryMS,recoveryMS);
    if(recovery.head>=recovery.ops.length){const retry=recovery.retry;recovery=null;clearTimeout(recoveryTimer);recoveryTimer=0;if(retry){restarts++;for(const s of records.values())s.workerKnown=false;try{startWorker();}catch(e){enabled=false;reason=String(e);}}settle();}
  }
  function settle(){if(!workers.some(s=>s.busy)&&!queue.length&&!recovery){for(const resolve of waiters)resolve();waiters=[];}}
  // Readbacks are restricted to inspection and worker failure. Normal gameplay
  // never copies persistent pigment back to a main-thread canvas.
  function snapshotCanvas(s){
-  if(s.canvasCurrent)return;if(s.paintPixels){const w=s.canvas.width,h=s.canvas.height,image=s.g.createImageData(w,h);for(let y=0;y<h;y++)image.data.set(s.paintPixels.subarray(y*w*4,(y+1)*w*4),(h-1-y)*w*4);s.g.putImageData(image,0,0);s.canvasCurrent=true;return;}
+  if(s.canvasCurrent)return;if(s.paintPixels){const w=s.canvas.width,h=s.canvas.height,image=s.g.createImageData(w,h);for(let y=0;y<h;y++)image.data.set(s.paintPixels.subarray(y*w*4,(y+1)*w*4),(h-1-y)*w*4);s.g.putImageData(image,0,0);s.paintCanvasDirty=true;s.canvasCurrent=true;return;}
   if(s.uploadedEpoch!==s.paintEpoch)return;const gl=renderer.getContext(),texture=renderer.properties.get(s.tex).__webglTexture;if(!texture)return;
   const old=gl.getParameter(gl.FRAMEBUFFER_BINDING),fb=gl.createFramebuffer(),w=s.canvas.width,h=s.canvas.height,pixels=new Uint8Array(w*h*4),image=s.g.createImageData(w,h);
   try{gl.bindFramebuffer(gl.FRAMEBUFFER,fb);gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,texture,0);gl.readPixels(0,0,w,h,gl.RGBA,gl.UNSIGNED_BYTE,pixels);
-   for(let y=0;y<h;y++)image.data.set(pixels.subarray(y*w*4,(y+1)*w*4),(h-1-y)*w*4);s.g.putImageData(image,0,0);s.canvasCurrent=true;
+   for(let y=0;y<h;y++)image.data.set(pixels.subarray(y*w*4,(y+1)*w*4),(h-1-y)*w*4);s.g.putImageData(image,0,0);s.paintCanvasDirty=true;s.canvasCurrent=true;
   }finally{gl.bindFramebuffer(gl.FRAMEBUFFER,old);gl.deleteFramebuffer(fb);}
  }
  async function flush(inspect=true){pump();if(workers.some(s=>s.busy)||queue.length||recovery)await new Promise(resolve=>{waiters.push(resolve);const poll=()=>{if(!waiters.includes(resolve))return;pump();setTimeout(poll,4);};setTimeout(poll,4);});if(inspect)for(const s of records.values())snapshotCanvas(s);}
- function status(){let mirrorBytes=0,inFlight=0,readyBitmaps=0,activeWorkers=0,oldest=queue.length?queuedAt:0;for(const s of records.values())mirrorBytes+=s.paintPixels?.byteLength||0;for(const slot of workers){if(slot.busy){inFlight+=slot.busy.ops.length;activeWorkers++;if(!oldest||slot.busy.queuedAt<oldest)oldest=slot.busy.queuedAt;}readyBitmaps+=slot.completed?.patches.length||0;}if(recovery&&(!oldest||recovery.queuedAt<oldest))oldest=recovery.queuedAt;return{backend:enabled?'OffscreenCanvas worker':'Canvas2D fallback',raster:rasterOptions.willReadFrequently?'CPU worker raster':'Browser accelerated worker raster',workerCount:workers.length,activeWorkers,mirrorBytes,maxRecoveryPending,batchLimit:BATCH_LIMIT,transport:pixelTransport?'RGBA buffers':'ImageBitmap',recoveryPending:recovery?recovery.ops.length-recovery.head:0,recoveryMS,maxRecoveryMS,restarts,reason,queued:queue.length,inFlight,oldestPendingMS:oldest?performance.now()-oldest:0,maxQueued,jobs,workerMS,bitmapMS,latencyMS,meanWorkerMS:jobs?rasterTotal/jobs:0,meanBitmapMS:jobs?bitmapTotal/jobs:0,maxLatencyMS,canvases:records.size,readyBitmaps};}
- canvas.addEventListener('webglcontextlost',()=>{contextLost=true;});
-  canvas.addEventListener('webglcontextrestored',()=>{contextLost=false;blankPigment.needsUpdate=true;for(const s of records.values()){s.textureReady=false;if(!s.paintVisible)continue;if(enabled){s.g.clearRect(0,0,s.canvas.width,s.canvas.height);s.dirtyRect={x0:0,y0:0,x1:s.canvas.width,y1:s.canvas.height};draw(s,'present',[]);}else if(pixelTransport&&asyncRecovery){if(!recovery)recovery={ops:[],head:0,retry:false,queuedAt:performance.now()};enqueueRecovery([s.paintId,s.paintEpoch,'restore',[],++order]);}s.tex.needsUpdate=true;}scheduleRecovery();});
+ function status(){let mirrorBytes=0,inFlight=0,readyBitmaps=0,activeWorkers=0,oldest=queue.length?queuedAt:0;for(const s of records.values())mirrorBytes+=s.paintPixels?.byteLength||(s.paintMirror&&s.paintVisible?s.canvas.width*s.canvas.height*4:0);for(const slot of workers){if(slot.busy){inFlight+=slot.busy.ops.length;activeWorkers++;if(!oldest||slot.busy.queuedAt<oldest)oldest=slot.busy.queuedAt;}readyBitmaps+=slot.completed?.patches.length||0;}if(recovery&&(!oldest||recovery.queuedAt<oldest))oldest=recovery.queuedAt;return{backend:enabled?'OffscreenCanvas worker':'Canvas2D fallback',raster:rasterOptions.willReadFrequently?'CPU worker raster':'Browser accelerated worker raster',workerCount:workers.length,activeWorkers,mirrorBytes,maxRecoveryPending,batchLimit:BATCH_LIMIT,transport:pixelTransport?'RGBA buffers':atlasTransport?'ImageBitmap atlas':'ImageBitmap',mirrorStorage:pixelTransport?'RGBA bytes':atlasTransport?'Canvas2D':'none',recoveryPending:recovery?recovery.ops.length-recovery.head:0,recoveryMS,maxRecoveryMS,restarts,reason,queued:queue.length,inFlight,oldestPendingMS:oldest?performance.now()-oldest:0,maxQueued,jobs,workerMS,bitmapMS,latencyMS,meanWorkerMS:jobs?rasterTotal/jobs:0,meanBitmapMS:jobs?bitmapTotal/jobs:0,maxLatencyMS,canvases:records.size,readyBitmaps};}
+  canvas.addEventListener('webglcontextlost',()=>{contextLost=true;for(const s of records.values())s.paintGPUInvalid=s.paintVisible;});
+  canvas.addEventListener('webglcontextrestored',()=>{contextLost=false;blankPigment.needsUpdate=true;for(const s of records.values()){s.textureReady=false;if(!s.paintVisible)continue;if(enabled){if(!s.paintMirror){if(s.paintCanvasDirty)s.g.clearRect(0,0,s.canvas.width,s.canvas.height);s.paintCanvasDirty=false;}s.dirtyRect={x0:0,y0:0,x1:s.canvas.width,y1:s.canvas.height};draw(s,'present',[]);}else if((pixelTransport||atlasTransport)&&asyncRecovery){if(!recovery)recovery={ops:[],head:0,retry:false,queuedAt:performance.now()};enqueueRecovery([s.paintId,s.paintEpoch,'restore',[],++order]);}s.tex.needsUpdate=true;}scheduleRecovery();});
  paintTelemetry=status;return{register,remove,draw,pump,flush,status,snapshotCanvas,get enabled(){return enabled||!!recovery;}};
 })();
 
@@ -1475,20 +1484,20 @@ function updateTools(dt){
 }
 
 // -------- Locally synthesized layers, not external sound files --------
-let audio=null,master=null,noiseBuf=null,scrapeGain=null,dryGain=null,wetFilter=null,dryFilter=null;
-function startAudio(){if(!soundOn)return;try{
+let audio=null,master=null,noiseBuf=null,scrapeGain=null,dryGain=null,wetFilter=null,dryFilter=null,audioUnlocked=false;
+function startAudio(unlock=true){if(!soundOn)return;try{
  if(!audio){audio=new(window.AudioContext||window.webkitAudioContext)();master=audio.createGain();master.gain.value=.48;const limiter=audio.createDynamicsCompressor();limiter.threshold.value=-14;limiter.ratio.value=5;master.connect(limiter);limiter.connect(audio.destination);
   noiseBuf=audio.createBuffer(1,audio.sampleRate,audio.sampleRate);const a=noiseBuf.getChannelData(0);for(let i=0;i<a.length;i++)a[i]=Math.random()*2-1;
   for(let k=0;k<2;k++){const src=audio.createBufferSource();src.buffer=noiseBuf;src.loop=true;src.playbackRate.value=k?.72:1.12;const f=audio.createBiquadFilter();f.type=k?'bandpass':'lowpass';f.frequency.value=k?1600:330;f.Q.value=k?.7:1.7;const gain=audio.createGain();gain.gain.value=0;src.connect(f);f.connect(gain);gain.connect(master);src.start();if(k){dryGain=gain;dryFilter=f;}else{scrapeGain=gain;wetFilter=f;}}
- }if(audio.state==='suspended')audio.resume().catch(()=>{});
+  }if(unlock){audioUnlocked=true;if(audio.state==='suspended')audio.resume().catch(()=>{});}
  }catch(_){soundOn=false;}}
-function noiseSound(duration,volume,freq,type='lowpass'){if(!audio||!soundOn)return;const s=audio.createBufferSource();s.buffer=noiseBuf;const f=audio.createBiquadFilter();f.type=type;f.frequency.value=freq;const g=audio.createGain();g.gain.setValueAtTime(Math.max(.0001,volume),audio.currentTime);g.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+duration);s.connect(f);f.connect(g);g.connect(master);s.start();s.stop(audio.currentTime+duration+.01);s.onended=()=>{s.disconnect();f.disconnect();g.disconnect();};}
-function tone(duration,volume,freq){if(!audio||!soundOn)return;const o=audio.createOscillator(),g=audio.createGain();o.frequency.setValueAtTime(freq,audio.currentTime);o.frequency.exponentialRampToValueAtTime(Math.max(25,freq*.35),audio.currentTime+duration);g.gain.setValueAtTime(volume,audio.currentTime);g.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+duration);o.connect(g);g.connect(master);o.start();o.stop(audio.currentTime+duration+.01);o.onended=()=>{o.disconnect();g.disconnect();};}
+function noiseSound(duration,volume,freq,type='lowpass'){if(!audio||!audioUnlocked||!soundOn)return;const s=audio.createBufferSource();s.buffer=noiseBuf;const f=audio.createBiquadFilter();f.type=type;f.frequency.value=freq;const g=audio.createGain();g.gain.setValueAtTime(Math.max(.0001,volume),audio.currentTime);g.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+duration);s.connect(f);f.connect(g);g.connect(master);s.start();s.stop(audio.currentTime+duration+.01);s.onended=()=>{s.disconnect();f.disconnect();g.disconnect();};}
+function tone(duration,volume,freq){if(!audio||!audioUnlocked||!soundOn)return;const o=audio.createOscillator(),g=audio.createGain();o.frequency.setValueAtTime(freq,audio.currentTime);o.frequency.exponentialRampToValueAtTime(Math.max(25,freq*.35),audio.currentTime+duration);g.gain.setValueAtTime(volume,audio.currentTime);g.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+duration);o.connect(g);g.connect(master);o.start();o.stop(audio.currentTime+duration+.01);o.onended=()=>{o.disconnect();g.disconnect();};}
 function playShot(){noiseSound(.075,.38,4400,'highpass');noiseSound(.22,.17,1550,'bandpass');tone(.14,.25,146);}
 function playThud(v){if(v<.04)return;noiseSound(.09,v*.18,720);tone(.14,v*.28,87);if(v>.5)noiseSound(.2,v*.08,1500,'bandpass');}
 function playClick(v){noiseSound(.025,v,2400);}
 function playWhoosh(hard){noiseSound(hard?.19:.12,hard?.15:.08,800,'bandpass');}
-function updateScrape(wet=0,dry=0){if(!audio)return;const on=soundOn&&!paused&&!panel;const v=on?Math.min(1,wet):0,d=on?Math.min(1,dry):0;scrapeGain.gain.setTargetAtTime(v*.065,audio.currentTime,.025);dryGain.gain.setTargetAtTime(d*.041,audio.currentTime,.035);wetFilter.frequency.setTargetAtTime(210+v*440,audio.currentTime,.06);dryFilter.frequency.setTargetAtTime(950+d*1550,audio.currentTime,.06);}
+function updateScrape(wet=0,dry=0){if(!audio||!audioUnlocked)return;const on=soundOn&&!paused&&!panel;const v=on?Math.min(1,wet):0,d=on?Math.min(1,dry):0;scrapeGain.gain.setTargetAtTime(v*.065,audio.currentTime,.025);dryGain.gain.setTargetAtTime(d*.041,audio.currentTime,.035);wetFilter.frequency.setTargetAtTime(210+v*440,audio.currentTime,.06);dryFilter.frequency.setTargetAtTime(950+d*1550,audio.currentTime,.06);}
 
 // -------- Canvas-drawn gameplay HUD; independent DOM performance overlay --------
 let buttons=[],pressedUI=false,activeSlider=null,tunePage='handling',lastHUDKey='';
@@ -1699,7 +1708,10 @@ resetWorld(true);
  // Draw the first-shot variants while the loading screen still covers the game.
  // No shot, simulation tick, audio trigger or random number is consumed here.
  const warmTool=tool,warmFlash=shotFlashUntil;tool=1;shotFlashUntil=simTime+.05;renderNow();tool=warmTool;shotFlashUntil=warmFlash;
- warmTrace.line.frustumCulled=true;releaseTrace(warmTrace);renderNow();$('loading').remove();
+ warmTrace.line.frustumCulled=true;releaseTrace(warmTrace);renderNow();
+ // Audio device/graph creation can block the first gesture. Prepare it while
+ // loading; gameplay automation and audible layers remain locked until input.
+ if(!new URLSearchParams(location.search).has('audioCold'))startAudio(false);$('loading').remove();
 let last=performance.now(),accumulator=0,hoverClock=0;
 function frame(now){
  frameRequest=0;if(!running)return;const wall=performance.now(),elapsed=Math.max(0,(wall-last)/1000),dt=clamp(elapsed,0,.075);last=wall;stats.frameMS=mix(stats.frameMS,dt*1000,.035);

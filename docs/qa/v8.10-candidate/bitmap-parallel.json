@@ -1,0 +1,101 @@
+{
+  "source": "C:\\trontstack\\smear\\index.html",
+  "sourceSha256": "f90ae19faa1c88d4c4c108cd26bebfa3abb24080220125e6a21af6b3e7e3d769",
+  "browser": "chrome",
+  "label": "bitmap-parallel",
+  "reports": [
+    {
+      "scenario": "chaos",
+      "hide": false,
+      "work": {
+        "mean": 7.6970464142063,
+        "p50": 7.200000047683716,
+        "p95": 10.600000023841858,
+        "p99": 16.300000071525574,
+        "max": 17.600000023841858
+      },
+      "intervals": {
+        "mean": 16.666525423728814,
+        "p50": 16.699999999999818,
+        "p95": 16.800000000000182,
+        "p99": 16.800000000000182,
+        "max": 16.900000000000546
+      },
+      "updateMs": 77.69999849796295,
+      "buildMs": 9.800000548362732,
+      "seen": 61085,
+      "updates": 480,
+      "telemetry": {
+        "summary": {
+          "frames": 239,
+          "seconds": 3.980399999976158,
+          "fps": 60.0442166620017,
+          "latestFPS": 59.171597716613064,
+          "intervalMs": {
+            "p50": 16.699999928474426,
+            "p95": 16.899999976158142,
+            "p99": 17.299999952316284,
+            "max": 17.899999976158142
+          },
+          "workMs": 7.680334727634446,
+          "workPercentileMs": {
+            "p50": 7.200000047683716,
+            "p95": 10.600000023841858,
+            "p99": 16.300000071525574,
+            "max": 17.600000023841858
+          },
+          "phases": {
+            "physics": 3.031380754135643,
+            "paint": 0.9619246980635192,
+            "drops": 0.33012551592982464,
+            "uploadPrep": 0.9610878583277619,
+            "render": 2.210878658992975,
+            "hud": 0.04769874516890139,
+            "profiler": 0.04184100418410042,
+            "input": 0,
+            "other": 0.09539749283172097
+          },
+          "overBudget": 0,
+          "spikeFrames": 0,
+          "uploadCPU": 0.6225941355757135,
+          "uploadMiB": 286.8763771057129,
+          "uploadMiBPerSecond": 72.07224829349593,
+          "uploadCalls": 4570,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      },
+      "paintWorker": {
+        "backend": "OffscreenCanvas worker",
+        "raster": "Browser accelerated worker raster",
+        "workerCount": 1,
+        "activeWorkers": 0,
+        "mirrorBytes": 0,
+        "maxRecoveryPending": 0,
+        "batchLimit": 1024,
+        "transport": "ImageBitmap",
+        "recoveryPending": 0,
+        "recoveryMS": 0,
+        "maxRecoveryMS": 0,
+        "restarts": 0,
+        "reason": "",
+        "queued": 0,
+        "inFlight": 0,
+        "oldestPendingMS": 0,
+        "maxQueued": 3635,
+        "jobs": 54,
+        "workerMS": 1.899999976158142,
+        "bitmapMS": 75.80000007152557,
+        "latencyMS": 188.69999992847443,
+        "meanWorkerMS": 5.318518521609129,
+        "meanBitmapMS": 58.796296300711454,
+        "maxLatencyMS": 2681.7999999523163,
+        "canvases": 203,
+        "readyBitmaps": 0
+      }
+    }
+  ],
+  "errors": []
+}

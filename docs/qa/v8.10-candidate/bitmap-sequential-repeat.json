@@ -1,0 +1,101 @@
+{
+  "source": "C:\\trontstack\\smear\\tools\\out\\v89-regions-audio-reference.html",
+  "sourceSha256": "c3661d1e95f926880053f1e85aa0736b892c308fc4c12d29e029788a9ce27c58",
+  "browser": "chrome",
+  "label": "bitmap-sequential-repeat",
+  "reports": [
+    {
+      "scenario": "chaos",
+      "hide": false,
+      "work": {
+        "mean": 9.112658227043314,
+        "p50": 7.899999976158142,
+        "p95": 11.399999976158142,
+        "p99": 12.800000071525574,
+        "max": 233.39999997615814
+      },
+      "intervals": {
+        "mean": 17.86737288135593,
+        "p50": 16.699999999999818,
+        "p95": 16.800000000000182,
+        "p99": 16.800000000000182,
+        "max": 233.29999999999973
+      },
+      "updateMs": 100.2000024318695,
+      "buildMs": 10.999999761581421,
+      "seen": 61085,
+      "updates": 480,
+      "telemetry": {
+        "summary": {
+          "frames": 239,
+          "seconds": 4.266800000071526,
+          "fps": 56.013874565480826,
+          "latestFPS": 59.880239349981295,
+          "intervalMs": {
+            "p50": 16.699999928474426,
+            "p95": 16.799999952316284,
+            "p99": 18.59999990463257,
+            "max": 236.10000002384186
+          },
+          "workMs": 9.093723849272628,
+          "workPercentileMs": {
+            "p50": 7.899999976158142,
+            "p95": 11.399999976158142,
+            "p99": 12.800000071525574,
+            "max": 233.39999997615814
+          },
+          "phases": {
+            "physics": 3.045188275839993,
+            "paint": 2.4225941432569815,
+            "drops": 0.4230125623766847,
+            "uploadPrep": 0.6209205034886444,
+            "render": 2.38493723799494,
+            "hud": 0.04937238922677778,
+            "profiler": 0.043096231117408144,
+            "input": 0,
+            "other": 0.1046025059711983
+          },
+          "overBudget": 3,
+          "spikeFrames": 2,
+          "uploadCPU": 0.44686192598302993,
+          "uploadMiB": 360.3855667114258,
+          "uploadMiBPerSecond": 84.46272773633274,
+          "uploadCalls": 5164,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        }
+      },
+      "paintWorker": {
+        "backend": "Canvas2D fallback",
+        "raster": "Browser accelerated worker raster",
+        "workerCount": 0,
+        "activeWorkers": 0,
+        "mirrorBytes": 0,
+        "maxRecoveryPending": 0,
+        "batchLimit": 1024,
+        "transport": "ImageBitmap",
+        "recoveryPending": 0,
+        "recoveryMS": 0,
+        "maxRecoveryMS": 0,
+        "restarts": 0,
+        "reason": "Paint worker queue limit",
+        "queued": 0,
+        "inFlight": 0,
+        "oldestPendingMS": 0,
+        "maxQueued": 4096,
+        "jobs": 19,
+        "workerMS": 10.899999976158142,
+        "bitmapMS": 107.30000007152557,
+        "latencyMS": 825.1000000238419,
+        "meanWorkerMS": 7.584210527570624,
+        "meanBitmapMS": 73.15263157769253,
+        "maxLatencyMS": 1371.6000000238419,
+        "canvases": 203,
+        "readyBitmaps": 0
+      }
+    }
+  ],
+  "errors": []
+}

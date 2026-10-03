@@ -1,0 +1,808 @@
+{
+  "input": "index.html",
+  "label": "regions-audio-warm",
+  "browser": "chrome",
+  "sourceSha256": "c3661d1e95f926880053f1e85aa0736b892c308fc4c12d29e029788a9ce27c58",
+  "startedAt": "2026-10-03T03:14:33.588Z",
+  "muted": true,
+  "bootAudio": {
+    "enabled": true,
+    "unlocked": false,
+    "state": "running",
+    "masterGain": 0.47999998927116394
+  },
+  "bootAudit": {
+    "calls": {
+      "gl.texImage2D": {
+        "count": 10,
+        "total": 0.19999992847442627,
+        "max": 0.10000002384185791
+      },
+      "canvas.fillRect": {
+        "count": 42,
+        "total": 2.5999999046325684,
+        "max": 0.5
+      },
+      "gl.bufferData": {
+        "count": 452,
+        "total": 1.100000023841858,
+        "max": 0.10000002384185791
+      },
+      "gl.compileShader": {
+        "count": 32,
+        "total": 0,
+        "max": 0
+      },
+      "gl.linkProgram": {
+        "count": 16,
+        "total": 0.20000004768371582,
+        "max": 0.10000002384185791
+      },
+      "gl.getProgramInfoLog": {
+        "count": 16,
+        "total": 678.9999997615814,
+        "max": 135.20000004768372
+      },
+      "gl.getShaderInfoLog": {
+        "count": 32,
+        "total": 21.40000033378601,
+        "max": 11
+      },
+      "gl.getProgramParameter": {
+        "count": 46,
+        "total": 2.2999995946884155,
+        "max": 0.2999999523162842
+      },
+      "gl.getActiveUniform": {
+        "count": 188,
+        "total": 0,
+        "max": 0
+      },
+      "gl.getUniformLocation": {
+        "count": 188,
+        "total": 0.10000002384185791,
+        "max": 0.10000002384185791
+      },
+      "gl.texStorage2D": {
+        "count": 88,
+        "total": 0,
+        "max": 0
+      },
+      "gl.texSubImage2D": {
+        "count": 127,
+        "total": 2.000000238418579,
+        "max": 0.30000007152557373
+      },
+      "gl.getActiveAttrib": {
+        "count": 27,
+        "total": 0,
+        "max": 0
+      },
+      "gl.drawArrays": {
+        "count": 20,
+        "total": 0,
+        "max": 0
+      },
+      "canvas.getImageData": {
+        "count": 31,
+        "total": 120.20000040531158,
+        "max": 24.700000047683716
+      },
+      "canvas.putImageData": {
+        "count": 31,
+        "total": 3.3000000715255737,
+        "max": 0.7999999523162842
+      },
+      "canvas.stroke": {
+        "count": 36,
+        "total": 0.2999999523162842,
+        "max": 0.10000002384185791
+      },
+      "canvas.fillText": {
+        "count": 42,
+        "total": 12.399999976158142,
+        "max": 3.100000023841858
+      },
+      "canvas.clearRect": {
+        "count": 82,
+        "total": 0.9000002145767212,
+        "max": 0.20000004768371582
+      },
+      "gl.drawElements": {
+        "count": 1200,
+        "total": 0,
+        "max": 0
+      },
+      "gl.drawElementsInstanced": {
+        "count": 26,
+        "total": 0,
+        "max": 0
+      },
+      "gl.bufferSubData": {
+        "count": 17,
+        "total": 0.09999990463256836,
+        "max": 0.09999990463256836
+      },
+      "audio.constructor": {
+        "count": 1,
+        "total": 42.300000071525574,
+        "max": 42.300000071525574
+      },
+      "audio.createGain": {
+        "count": 3,
+        "total": 0,
+        "max": 0
+      },
+      "audio.createDynamicsCompressor": {
+        "count": 1,
+        "total": 0,
+        "max": 0
+      },
+      "audio.createBuffer": {
+        "count": 1,
+        "total": 0.10000002384185791,
+        "max": 0.10000002384185791
+      },
+      "audio.createBufferSource": {
+        "count": 2,
+        "total": 0,
+        "max": 0
+      },
+      "audio.createBiquadFilter": {
+        "count": 2,
+        "total": 0.19999992847442627,
+        "max": 0.19999992847442627
+      }
+    },
+    "reset": {}
+  },
+  "errors": [],
+  "reports": [
+    {
+      "stage": "cold-Spill",
+      "telemetry": {
+        "summary": {
+          "frames": 91,
+          "seconds": 1.5378999999761582,
+          "fps": 59.17159763405343,
+          "latestFPS": 59.88023977742326,
+          "intervalMs": {
+            "p50": 16.699999928474426,
+            "p95": 17,
+            "p99": 36.39999997615814,
+            "max": 36.39999997615814
+          },
+          "workMs": 2.174725273153284,
+          "workPercentileMs": {
+            "p50": 2,
+            "p95": 3.5999999046325684,
+            "p99": 4.600000023841858,
+            "max": 4.600000023841858
+          },
+          "phases": {
+            "physics": 0.37472527236728875,
+            "paint": 0.25054945395543027,
+            "drops": 0.05934065776866871,
+            "uploadPrep": 0.27362637598435957,
+            "render": 0.9439560397640689,
+            "hud": 0.025274723440736203,
+            "profiler": 0.11428571533370804,
+            "input": 0.07472527289128565,
+            "other": 0.05824176164773794
+          },
+          "overBudget": 3,
+          "spikeFrames": 2,
+          "uploadCPU": 0.14285714416713505,
+          "uploadMiB": 23.264442443847656,
+          "uploadMiBPerSecond": 15.127409093054373,
+          "uploadCalls": 356,
+          "steps": 2.043956043956044,
+          "droppedSimMs": 0,
+          "gpuMs": 0.4410935652173913,
+          "gpuSamples": 23
+        }
+      },
+      "audit": {
+        "calls": {
+          "canvas.clearRect": {
+            "count": 170,
+            "total": 0.20000004768371582,
+            "max": 0.10000002384185791
+          },
+          "canvas.stroke": {
+            "count": 65,
+            "total": 0.2999999523162842,
+            "max": 0.19999992847442627
+          },
+          "gl.bufferSubData": {
+            "count": 472,
+            "total": 1.100000262260437,
+            "max": 0.10000002384185791
+          },
+          "gl.bufferData": {
+            "count": 164,
+            "total": 0.10000002384185791,
+            "max": 0.10000002384185791
+          },
+          "gl.drawElements": {
+            "count": 15586,
+            "total": 3.4000000953674316,
+            "max": 0.20000004768371582
+          },
+          "gl.drawElementsInstanced": {
+            "count": 569,
+            "total": 0.20000004768371582,
+            "max": 0.10000002384185791
+          },
+          "gl.texSubImage2D": {
+            "count": 412,
+            "total": 13.00000011920929,
+            "max": 1.3000000715255737
+          },
+          "gl.texStorage2D": {
+            "count": 33,
+            "total": 0,
+            "max": 0
+          },
+          "canvas.fillRect": {
+            "count": 2864,
+            "total": 1.0000001192092896,
+            "max": 0.10000002384185791
+          },
+          "canvas.fillText": {
+            "count": 192,
+            "total": 2.299999952316284,
+            "max": 0.5
+          }
+        },
+        "slow": [],
+        "reset": {}
+      },
+      "paint": {
+        "backend": "OffscreenCanvas worker",
+        "raster": "Browser accelerated worker raster",
+        "workerCount": 1,
+        "activeWorkers": 1,
+        "mirrorBytes": 0,
+        "maxRecoveryPending": 0,
+        "batchLimit": 1024,
+        "transport": "ImageBitmap",
+        "recoveryPending": 0,
+        "recoveryMS": 0,
+        "maxRecoveryMS": 0,
+        "restarts": 0,
+        "reason": "",
+        "queued": 0,
+        "inFlight": 8,
+        "oldestPendingMS": 7.900000095367432,
+        "maxQueued": 88,
+        "jobs": 106,
+        "workerMS": 0.09999990463256836,
+        "bitmapMS": 1.4000000953674316,
+        "latencyMS": 4.699999928474426,
+        "meanWorkerMS": 0.17924528076963606,
+        "meanBitmapMS": 4.123584904760684,
+        "maxLatencyMS": 817.3999999761581,
+        "canvases": 84,
+        "readyBitmaps": 0
+      },
+      "audio": {
+        "enabled": true,
+        "unlocked": true,
+        "state": "running",
+        "masterGain": 0.47999998927116394
+      },
+      "hostCPU": {
+        "logicalCPUs": 24,
+        "meanBusyFraction": 0.6208149565008929
+      }
+    },
+    {
+      "stage": "cold-pistol",
+      "telemetry": {
+        "summary": {
+          "frames": 352,
+          "seconds": 5.863299999952316,
+          "fps": 60.03445158918402,
+          "latestFPS": 59.52380969275693,
+          "intervalMs": {
+            "p50": 16.699999928474426,
+            "p95": 16.899999976158142,
+            "p99": 17.399999976158142,
+            "max": 23.09999990463257
+          },
+          "workMs": 2.75426136566834,
+          "workPercentileMs": {
+            "p50": 2.600000023841858,
+            "p95": 4.100000023841858,
+            "p99": 5.200000047683716,
+            "max": 5.799999952316284
+          },
+          "phases": {
+            "physics": 0.4917613630267707,
+            "paint": 0.2181818149983883,
+            "drops": 0.21875000203197653,
+            "uploadPrep": 0.3031249981034886,
+            "render": 1.1693181812085889,
+            "hud": 0.0644886361604387,
+            "profiler": 0.11051136424595659,
+            "input": 0.10397727448831905,
+            "other": 0.07414773140441287
+          },
+          "overBudget": 1,
+          "spikeFrames": 0,
+          "uploadCPU": 0.18551136621020056,
+          "uploadMiB": 142.73037719726562,
+          "uploadMiBPerSecond": 24.3430111368046,
+          "uploadCalls": 2618,
+          "steps": 2,
+          "droppedSimMs": 0,
+          "gpuMs": 0.7299952727272728,
+          "gpuSamples": 88
+        }
+      },
+      "audit": {
+        "calls": {
+          "canvas.clearRect": {
+            "count": 482,
+            "total": 2.299999713897705,
+            "max": 0.10000002384185791
+          },
+          "canvas.fillRect": {
+            "count": 30513,
+            "total": 5.200000047683716,
+            "max": 0.10000002384185791
+          },
+          "canvas.fillText": {
+            "count": 529,
+            "total": 1.2999998331069946,
+            "max": 0.10000002384185791
+          },
+          "canvas.stroke": {
+            "count": 1030,
+            "total": 1.100000023841858,
+            "max": 0.10000002384185791
+          },
+          "gl.bufferSubData": {
+            "count": 1799,
+            "total": 4.399999737739563,
+            "max": 0.20000004768371582
+          },
+          "gl.bufferData": {
+            "count": 144,
+            "total": 0.5,
+            "max": 0.10000002384185791
+          },
+          "gl.drawElements": {
+            "count": 92623,
+            "total": 18.69999897480011,
+            "max": 0.20000004768371582
+          },
+          "gl.drawElementsInstanced": {
+            "count": 2481,
+            "total": 1.1999999284744263,
+            "max": 0.10000002384185791
+          },
+          "gl.texSubImage2D": {
+            "count": 2674,
+            "total": 63.00000059604645,
+            "max": 1.5
+          },
+          "gl.texStorage2D": {
+            "count": 30,
+            "total": 0,
+            "max": 0
+          },
+          "audio.createBufferSource": {
+            "count": 78,
+            "total": 2,
+            "max": 0.19999992847442627
+          },
+          "audio.createBiquadFilter": {
+            "count": 78,
+            "total": 1.7999998331069946,
+            "max": 0.10000002384185791
+          },
+          "audio.createGain": {
+            "count": 104,
+            "total": 0.9000000953674316,
+            "max": 0.10000002384185791
+          },
+          "audio.createOscillator": {
+            "count": 26,
+            "total": 1.1999999284744263,
+            "max": 0.5999999046325684
+          },
+          "gl.drawArrays": {
+            "count": 51,
+            "total": 0,
+            "max": 0
+          }
+        },
+        "slow": [],
+        "reset": {}
+      },
+      "paint": {
+        "backend": "OffscreenCanvas worker",
+        "raster": "Browser accelerated worker raster",
+        "workerCount": 1,
+        "activeWorkers": 1,
+        "mirrorBytes": 0,
+        "maxRecoveryPending": 0,
+        "batchLimit": 1024,
+        "transport": "ImageBitmap",
+        "recoveryPending": 0,
+        "recoveryMS": 0,
+        "maxRecoveryMS": 0,
+        "restarts": 0,
+        "reason": "",
+        "queued": 0,
+        "inFlight": 19,
+        "oldestPendingMS": 5.199999928474426,
+        "maxQueued": 88,
+        "jobs": 444,
+        "workerMS": 0.2999999523162842,
+        "bitmapMS": 5.800000071525574,
+        "latencyMS": 7.299999952316284,
+        "meanWorkerMS": 0.1858108081259169,
+        "meanBitmapMS": 5.093693696163796,
+        "maxLatencyMS": 817.3999999761581,
+        "canvases": 89,
+        "readyBitmaps": 0
+      },
+      "audio": {
+        "enabled": true,
+        "unlocked": true,
+        "state": "running",
+        "masterGain": 0.47999998927116394
+      },
+      "hostCPU": {
+        "logicalCPUs": 24,
+        "meanBusyFraction": 0.5635998971525279
+      }
+    },
+    {
+      "stage": "cold-drag",
+      "telemetry": {
+        "summary": {
+          "frames": 348,
+          "seconds": 6.44,
+          "fps": 54.037267080745345,
+          "latestFPS": 59.880239349981295,
+          "intervalMs": {
+            "p50": 16.699999928474426,
+            "p95": 41.39999997615814,
+            "p99": 60.300000071525574,
+            "max": 73.69999992847443
+          },
+          "workMs": 2.5465517239323976,
+          "workPercentileMs": {
+            "p50": 2.3000000715255737,
+            "p95": 4.200000047683716,
+            "p99": 4.899999976158142,
+            "max": 5.800000071525574
+          },
+          "phases": {
+            "physics": 0.49137931274271557,
+            "paint": 0.2637931039963646,
+            "drops": 0.08505746996265719,
+            "uploadPrep": 0.3367816062494256,
+            "render": 1.096551725576664,
+            "hud": 0.04511494232320237,
+            "profiler": 0.12873563170433044,
+            "input": 0.03563218383953489,
+            "other": 0.0635057475375033
+          },
+          "overBudget": 51,
+          "spikeFrames": 42,
+          "uploadCPU": 0.1729885069118149,
+          "uploadMiB": 144.8848876953125,
+          "uploadMiBPerSecond": 22.497653368837344,
+          "uploadCalls": 2440,
+          "steps": 2.221264367816092,
+          "droppedSimMs": 0,
+          "gpuMs": 2.8260774252873566,
+          "gpuSamples": 87
+        }
+      },
+      "audit": {
+        "calls": {
+          "canvas.clearRect": {
+            "count": 294,
+            "total": 2.100000262260437,
+            "max": 0.10000002384185791
+          },
+          "canvas.fillRect": {
+            "count": 29386,
+            "total": 4.900000214576721,
+            "max": 0.10000002384185791
+          },
+          "canvas.fillText": {
+            "count": 593,
+            "total": 1.9000000953674316,
+            "max": 0.10000002384185791
+          },
+          "canvas.stroke": {
+            "count": 306,
+            "total": 0,
+            "max": 0
+          },
+          "gl.bufferSubData": {
+            "count": 2080,
+            "total": 5.699999809265137,
+            "max": 0.20000004768371582
+          },
+          "gl.bufferData": {
+            "count": 125,
+            "total": 0,
+            "max": 0
+          },
+          "gl.drawElements": {
+            "count": 85836,
+            "total": 16.700000286102295,
+            "max": 0.19999992847442627
+          },
+          "gl.drawElementsInstanced": {
+            "count": 2100,
+            "total": 1.2000001668930054,
+            "max": 0.10000002384185791
+          },
+          "gl.texSubImage2D": {
+            "count": 2478,
+            "total": 58.50000083446503,
+            "max": 1.2000000476837158
+          },
+          "gl.texStorage2D": {
+            "count": 36,
+            "total": 0,
+            "max": 0
+          },
+          "audio.createBufferSource": {
+            "count": 29,
+            "total": 0.3999999761581421,
+            "max": 0.10000002384185791
+          },
+          "audio.createBiquadFilter": {
+            "count": 29,
+            "total": 0.7999998331069946,
+            "max": 0.20000004768371582
+          },
+          "audio.createGain": {
+            "count": 40,
+            "total": 0.10000002384185791,
+            "max": 0.10000002384185791
+          },
+          "gl.getProgramParameter": {
+            "count": 1,
+            "total": 0,
+            "max": 0
+          },
+          "gl.getActiveAttrib": {
+            "count": 1,
+            "total": 0,
+            "max": 0
+          },
+          "gl.drawArrays": {
+            "count": 347,
+            "total": 0.40000009536743164,
+            "max": 0.10000002384185791
+          },
+          "audio.createOscillator": {
+            "count": 11,
+            "total": 0.6000001430511475,
+            "max": 0.10000002384185791
+          }
+        },
+        "slow": [],
+        "reset": {}
+      },
+      "paint": {
+        "backend": "OffscreenCanvas worker",
+        "raster": "Browser accelerated worker raster",
+        "workerCount": 1,
+        "activeWorkers": 1,
+        "mirrorBytes": 0,
+        "maxRecoveryPending": 0,
+        "batchLimit": 1024,
+        "transport": "ImageBitmap",
+        "recoveryPending": 0,
+        "recoveryMS": 0,
+        "maxRecoveryMS": 0,
+        "restarts": 0,
+        "reason": "",
+        "queued": 0,
+        "inFlight": 182,
+        "oldestPendingMS": 41.5,
+        "maxQueued": 946,
+        "jobs": 570,
+        "workerMS": 3.200000047683716,
+        "bitmapMS": 19.799999952316284,
+        "latencyMS": 24.100000023841858,
+        "meanWorkerMS": 1.7545613993678177,
+        "meanBitmapMS": 11.556842108358417,
+        "maxLatencyMS": 817.3999999761581,
+        "canvases": 90,
+        "readyBitmaps": 0
+      },
+      "audio": {
+        "enabled": true,
+        "unlocked": true,
+        "state": "running",
+        "masterGain": 0.47999998927116394
+      },
+      "hostCPU": {
+        "logicalCPUs": 24,
+        "meanBusyFraction": 0.5783646539140982
+      }
+    },
+    {
+      "stage": "cold-Chaos",
+      "telemetry": {
+        "summary": {
+          "frames": 339,
+          "seconds": 6.0224000000953675,
+          "fps": 56.28985122121277,
+          "latestFPS": 60.24096376890021,
+          "intervalMs": {
+            "p50": 16.699999928474426,
+            "p95": 16.899999976158142,
+            "p99": 30.800000071525574,
+            "max": 304
+          },
+          "workMs": 7.987905601484585,
+          "workPercentileMs": {
+            "p50": 6.600000023841858,
+            "p95": 10.400000095367432,
+            "p99": 14.699999928474426,
+            "max": 285.7000000476837
+          },
+          "phases": {
+            "physics": 2.633628324069808,
+            "paint": 2.179351031956068,
+            "drops": 0.46873156475809824,
+            "uploadPrep": 0.5085545743109554,
+            "render": 1.8510324476742814,
+            "hud": 0.02448377531889969,
+            "profiler": 0.12743362459109597,
+            "input": 0.10324483388996405,
+            "other": 0.09144542491541499
+          },
+          "overBudget": 4,
+          "spikeFrames": 4,
+          "uploadCPU": 0.34070796846991797,
+          "uploadMiB": 500.09502029418945,
+          "uploadMiBPerSecond": 83.03915719418674,
+          "uploadCalls": 7288,
+          "steps": 2.0442477876106193,
+          "droppedSimMs": 246.30000007152555,
+          "gpuMs": 1.7968564705882353,
+          "gpuSamples": 85
+        }
+      },
+      "audit": {
+        "calls": {
+          "canvas.clearRect": {
+            "count": 280,
+            "total": 0.9999998807907104,
+            "max": 0.10000002384185791
+          },
+          "canvas.fillRect": {
+            "count": 27714,
+            "total": 5.5000001192092896,
+            "max": 0.10000002384185791
+          },
+          "canvas.fillText": {
+            "count": 562,
+            "total": 1.4000002145767212,
+            "max": 0.20000004768371582
+          },
+          "canvas.stroke": {
+            "count": 109850,
+            "total": 38.10000026226044,
+            "max": 0.30000007152557373
+          },
+          "gl.bufferSubData": {
+            "count": 1709,
+            "total": 6.5000001192092896,
+            "max": 0.10000002384185791
+          },
+          "gl.bufferData": {
+            "count": 520,
+            "total": 0.6000001430511475,
+            "max": 0.10000002384185791
+          },
+          "gl.drawElements": {
+            "count": 160308,
+            "total": 25.200000286102295,
+            "max": 0.10000002384185791
+          },
+          "gl.drawElementsInstanced": {
+            "count": 2051,
+            "total": 1.500000238418579,
+            "max": 0.10000002384185791
+          },
+          "gl.texSubImage2D": {
+            "count": 7343,
+            "total": 113.40000128746033,
+            "max": 1.399999976158142
+          },
+          "gl.texStorage2D": {
+            "count": 177,
+            "total": 0.09999990463256836,
+            "max": 0.09999990463256836
+          },
+          "audio.createBufferSource": {
+            "count": 83,
+            "total": 1.899999976158142,
+            "max": 0.10000002384185791
+          },
+          "audio.createBiquadFilter": {
+            "count": 83,
+            "total": 1.7000000476837158,
+            "max": 0.20000004768371582
+          },
+          "audio.createGain": {
+            "count": 116,
+            "total": 1,
+            "max": 0.10000002384185791
+          },
+          "audio.createOscillator": {
+            "count": 33,
+            "total": 1,
+            "max": 0.10000002384185791
+          },
+          "canvas.putImageData": {
+            "count": 124,
+            "total": 9.200000286102295,
+            "max": 0.6000000238418579
+          },
+          "canvas.drawImage": {
+            "count": 46216,
+            "total": 68.29999887943268,
+            "max": 0.2999999523162842
+          }
+        },
+        "slow": [],
+        "reset": {}
+      },
+      "paint": {
+        "backend": "Canvas2D fallback",
+        "raster": "Browser accelerated worker raster",
+        "workerCount": 0,
+        "activeWorkers": 0,
+        "mirrorBytes": 0,
+        "maxRecoveryPending": 0,
+        "batchLimit": 1024,
+        "transport": "ImageBitmap",
+        "recoveryPending": 0,
+        "recoveryMS": 0,
+        "maxRecoveryMS": 0,
+        "restarts": 0,
+        "reason": "Paint worker queue limit",
+        "queued": 0,
+        "inFlight": 0,
+        "oldestPendingMS": 0,
+        "maxQueued": 4096,
+        "jobs": 586,
+        "workerMS": 13.199999928474426,
+        "bitmapMS": 89.5,
+        "latencyMS": 607.5,
+        "meanWorkerMS": 1.8878839550978495,
+        "meanBitmapMS": 12.738737204172505,
+        "maxLatencyMS": 817.3999999761581,
+        "canvases": 203,
+        "readyBitmaps": 0
+      },
+      "audio": {
+        "enabled": true,
+        "unlocked": true,
+        "state": "running",
+        "masterGain": 0.47999998927116394
+      },
+      "hostCPU": {
+        "logicalCPUs": 24,
+        "meanBusyFraction": 0.5570782438543471
+      }
+    }
+  ]
+}
