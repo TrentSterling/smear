@@ -9,7 +9,7 @@ export function createSimulationPaintPool(html){
  assert(rasterCode.includes('if(e.data.inspect)'),'Paint inspection hook required');
  return String.raw`
  const simulationPaintPool=(()=>{
-  const rasterOptions={willReadFrequently:/Firefox\//.test(navigator.userAgent)},streamRecords=false,pixelTransport=/Firefox\//.test(navigator.userAgent),atlasTransport=false;
+  const rasterOptions={willReadFrequently:/Firefox\//.test(navigator.userAgent)},streamRecords=false,pixelTransport=/Firefox\//.test(navigator.userAgent),atlasTransport=!pixelTransport;
   `+rasterCode+String.raw`
   const descriptors=window.__simulationPaintRecords,slots=[],CAP=8192,BATCH=1024;
   let error=null,totalRaster=0,totalTransfer=0,maxPending=0,jobs=0;
@@ -22,8 +22,12 @@ export function createSimulationPaintPool(html){
     if(e.data.error){error=Error(e.data.error);return;}
     const job=slot.busy;if(!job){error=Error('Unexpected paint worker reply');return;}
     const byID=new Map(job.records.map(d=>[d.id,d])),patches=e.data.patches.map(p=>{const d=byID.get(p.id);return{...p,revision:d.revision,surface:d.surface,body:d.body,generation:job.generation};});
+    for(const p of patches){const s=descriptors.get(p.id);if(!s||s.paintEpoch!==p.epoch)continue;const r=p.rect,w=r.x1-r.x0,h=r.y1-r.y0,y0=s.canvas.height-r.y1;
+     if(p.pixels){if(!s.paintPixels)s.paintPixels=new Uint8ClampedArray(s.canvas.width*s.canvas.height*4);for(let y=0;y<h;y++)s.paintPixels.set(p.pixels.subarray(y*w*4,(y+1)*w*4),((y0+y)*s.canvas.width+r.x0)*4);s.canvasCurrent=false;}
+     else if(p.atlas){const a=p.atlas,g=s.g;g.save();g.setTransform(1,0,0,-1,0,s.canvas.height);g.clearRect(r.x0,y0,w,h);g.drawImage(a.bitmap,p.atlasX,a.height-p.atlasY-h,w,h,r.x0,y0,w,h);g.restore();s.canvasCurrent=true;s.paintCanvasDirty=true;}
+    }
     totalRaster+=e.data.rasterMS;totalTransfer+=e.data.bitmapMS;jobs++;slot.busy=null;
-    if(patches.length)postMessage({paint:true,generation:job.generation,patches},patches.map(p=>p.pixels?p.pixels.buffer:p.bitmap));
+    if(patches.length)postMessage({paint:true,generation:job.generation,patches},Array.from(new Set(patches.map(p=>p.pixels?p.pixels.buffer:p.bitmap||p.atlas.bitmap))));
     dispatch(slot);
    };
   }
@@ -51,7 +55,7 @@ export function createSimulationPaintPool(html){
    if(full){await drain();for(const s of descriptors.values()){s.simulationDirty=true;s.dirtyRect={x0:0,y0:0,x1:s.canvas.width,y1:s.canvas.height};const op=[s.paintId,s.paintEpoch,'present',[]];op.revision=s.simulationRevision||0;slots[(s.paintId-1)%slots.length].queue.push(op);}}
    for(const slot of slots)dispatch(slot);
   }
-  async function snapshot(){await enqueue();await drain();const result=await Promise.all(slots.map(s=>new Promise(resolve=>{s.inspect=resolve;s.worker.postMessage({inspect:true});})));return new Map(result.flat());}
+  async function snapshot(){await enqueue();await drain();const images=[];for(const [id,s]of descriptors){if(s.paintPixels&&!s.canvasCurrent){const w=s.canvas.width,h=s.canvas.height,image=s.g.createImageData(w,h);for(let y=0;y<h;y++)image.data.set(s.paintPixels.subarray(y*w*4,(y+1)*w*4),(h-1-y)*w*4);s.g.putImageData(image,0,0);s.canvasCurrent=true;s.paintCanvasDirty=true;}images.push([id,new FileReaderSync().readAsDataURL(await s.canvas.convertToBlob({type:'image/png'}))]);}return new Map(images);}
   return{enqueue,drain,snapshot,status:()=>({workerCount:slots.length,transport:pixelTransport?'RGBA':'ImageBitmap',jobs,totalRaster,totalTransfer,pending:pending(),maxPending,error:error?.message||null})};
  })();
  `;

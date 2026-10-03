@@ -1,0 +1,132 @@
+{
+  "prototype": true,
+  "browser": "Chrome",
+  "muted": true,
+  "sourceSha256": "cff878b51eec0db9e3874f99c9fdcdbd6b9179d2f03e6374ef4726d89f1e5c44",
+  "runtimeSha256": "6158ec7457601992cffac4072e533144e3875d8d1f79c4192ddaac91208d0e35",
+  "checks": [
+    "reset: authoritative state, camera and quality",
+    "reset: all foreground surface and skin canonical pigment",
+    "floor and wall Spill: authoritative state, camera and quality",
+    "floor and wall Spill: all foreground surface and skin canonical pigment",
+    "skin and wound: authoritative state, camera and quality",
+    "skin and wound: all foreground surface and skin canonical pigment",
+    "grab and drag: authoritative state, camera and quality"
+  ],
+  "stages": [
+    {
+      "name": "reset",
+      "pigmentDifferences": [],
+      "runtime": {
+        "ready": true,
+        "busy": false,
+        "error": null,
+        "jobs": 8,
+        "workerMS": 1.899999976158142,
+        "maxWorkerMS": 122.30000007152557,
+        "rasterTotal": 0,
+        "transferTotal": 1.2000000476837158,
+        "workerTotal": 175.60000014305115,
+        "paintCommands": 157,
+        "patches": 97,
+        "steps": 45,
+        "ticksSinceFrame": 45,
+        "discardedSimMS": 0,
+        "started": 883.7000000476837,
+        "generation": 1,
+        "inputCommands": 0,
+        "mirrorMS": 0,
+        "paintPool": {
+          "workerCount": 1,
+          "transport": "ImageBitmap",
+          "jobs": 3,
+          "totalRaster": 7.200000166893005,
+          "totalTransfer": 115.89999985694885,
+          "pending": 0,
+          "maxPending": 157,
+          "error": null
+        },
+        "pendingPatches": 0,
+        "elapsed": 0.29879999995231626
+      }
+    },
+    {
+      "name": "floor and wall Spill",
+      "pigmentDifferences": [],
+      "runtime": {
+        "ready": true,
+        "busy": false,
+        "error": null,
+        "jobs": 15,
+        "workerMS": 1.8000000715255737,
+        "maxWorkerMS": 122.30000007152557,
+        "rasterTotal": 0,
+        "transferTotal": 1.399999976158142,
+        "workerTotal": 212.30000019073486,
+        "paintCommands": 271,
+        "patches": 115,
+        "steps": 69,
+        "ticksSinceFrame": 69,
+        "discardedSimMS": 0,
+        "started": 883.7000000476837,
+        "generation": 1,
+        "inputCommands": 0,
+        "mirrorMS": 0,
+        "paintPool": {
+          "workerCount": 1,
+          "transport": "ImageBitmap",
+          "jobs": 7,
+          "totalRaster": 8.900000214576721,
+          "totalTransfer": 132.4999998807907,
+          "pending": 0,
+          "maxPending": 157,
+          "error": null
+        },
+        "pendingPatches": 0,
+        "elapsed": 0.4337000000476837
+      }
+    },
+    {
+      "name": "skin and wound",
+      "pigmentDifferences": [],
+      "runtime": {
+        "ready": true,
+        "busy": false,
+        "error": null,
+        "jobs": 24,
+        "workerMS": 2.3000000715255737,
+        "maxWorkerMS": 122.30000007152557,
+        "rasterTotal": 0,
+        "transferTotal": 1.5,
+        "workerTotal": 319.3000000715256,
+        "paintCommands": 615,
+        "patches": 133,
+        "steps": 189,
+        "ticksSinceFrame": 189,
+        "discardedSimMS": 0,
+        "started": 883.7000000476837,
+        "generation": 1,
+        "inputCommands": 0,
+        "mirrorMS": 0.10000002384185791,
+        "paintPool": {
+          "workerCount": 1,
+          "transport": "ImageBitmap",
+          "jobs": 11,
+          "totalRaster": 13.100000262260437,
+          "totalTransfer": 152.19999992847443,
+          "pending": 0,
+          "maxPending": 342,
+          "error": null
+        },
+        "pendingPatches": 0,
+        "elapsed": 0.6667000000476837
+      }
+    }
+  ],
+  "startedAt": "2026-10-03T07:13:26.717Z",
+  "browserProcessID": 655016,
+  "browserProfile": "C:\\Users\\trent\\AppData\\Local\\Temp\\smear-chrome-EiQiJa",
+  "result": "FAIL",
+  "error": "AssertionError [ERR_ASSERTION]: grab and drag: surfaces 10 original pigment tolerance {\"width\":640,\"height\":640,\"pixels\":409600,\"changed\":11,\"overTwo\":1,\"maxDelta\":2.2470588235294215,\"meanDelta\":0.000040153952205882373}\n\n1 !== 0\n\n    at file:///C:/trontstack/smear/tools/simulation-runtime-verify.mjs:65:12\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)",
+  "browserLogs": []
+}

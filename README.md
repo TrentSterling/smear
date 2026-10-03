@@ -61,6 +61,8 @@ Painting performance and preservation receipts are in [V8.2 floor-drag notes](do
 
 Run `npm run verify` with Node 22+ and Chrome installed. `CHROME` can override the executable path. `npm run verify:firefox` uses its own Firefox profile and browser process; `FIREFOX` can override that executable. Browser captures and JSON receipts go in `tools/out/`.
 
+The `perf/v8-10-runtime` branch contains an experimental worker simulation alongside the current entry point. `npm run preview:threaded` generates `tools/out/simulation-preview/index.html`; open that file locally to try it. `npm run verify:threaded` checks the actual Firefox foreground/worker bridge, and `npm run profile:threaded` measures native input with audio running and output muted. The preview retains the solver, blood density, tick rate and screen resolution. Chromium pigment preservation and worker/graphics recovery remain release blockers. This branch is not deployed; see the [checkpoint and measured limits](docs/qa/threaded-checkpoint.md).
+
 `npm run serve` previews the game at `http://127.0.0.1:8198/`. `npm run profile` records the room, smear demo, and 10-dummy Chaos preset. `npm run og` regenerates the social image. See [PERFORMANCE.md](PERFORMANCE.md) for measurements and remaining costs.
 
 GitHub Pages serves the repository root from `main`. `.nojekyll` keeps the HTML and image assets intact; the portfolio's custom domain supplies `tront.xyz/smear/`.

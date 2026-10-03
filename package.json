@@ -23,6 +23,9 @@
     "verify:context": "node tools/context-verify.mjs",
     "profile:recovery": "node tools/recovery-profile.mjs",
     "profile:cold": "node tools/cold-profile.mjs",
-    "verify:pigment": "node tools/pigment-view-verify.mjs"
+    "verify:pigment": "node tools/pigment-view-verify.mjs",
+    "preview:threaded": "node tools/simulation-preview.mjs",
+    "verify:threaded": "node tools/simulation-runtime-verify.mjs firefox",
+    "profile:threaded": "node tools/simulation-runtime-profile.mjs pool firefox"
   }
 }
