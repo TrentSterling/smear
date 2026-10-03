@@ -1,12 +1,12 @@
 {
   "name": "smear",
-  "version": "0.8.9",
+  "version": "0.9.0",
   "private": true,
-  "description": "A self-contained blood-and-contact ragdoll playground by Trent Sterling.",
+  "description": "An offline WebGPU compute ragdoll and persistent paint playground.",
   "type": "module",
   "scripts": {
-    "verify": "node tools/verify.mjs",
-    "profile": "node tools/profile.mjs",
+    "verify": "node tools/compute-verify.mjs",
+    "profile": "node tools/compute-profile.mjs",
     "serve": "node tools/serve.mjs",
     "og": "node tools/og-shot.mjs",
     "profile:paint": "node tools/paint-profile.mjs",
@@ -19,13 +19,16 @@
     "verify:worker": "node tools/worker-verify.mjs",
     "verify:physics": "node tools/physics-verify.mjs",
     "verify:details": "node tools/details-verify.mjs",
-    "verify:release": "node tools/release-verify.mjs",
+    "verify:release": "node tools/compute-verify.mjs && node tools/compute-profile.mjs",
     "verify:context": "node tools/context-verify.mjs",
     "profile:recovery": "node tools/recovery-profile.mjs",
     "profile:cold": "node tools/cold-profile.mjs",
     "verify:pigment": "node tools/pigment-view-verify.mjs",
     "preview:threaded": "node tools/simulation-preview.mjs",
     "verify:threaded": "node tools/simulation-runtime-verify.mjs firefox",
-    "profile:threaded": "node tools/simulation-runtime-profile.mjs pool firefox"
+    "profile:threaded": "node tools/simulation-runtime-profile.mjs pool firefox",
+    "build": "node tools/compute-build.mjs",
+    "verify:compute": "node tools/compute-verify.mjs",
+    "profile:compute": "node tools/compute-profile.mjs"
   }
 }

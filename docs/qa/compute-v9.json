@@ -1,0 +1,304 @@
+{
+  "version": "0.9.0",
+  "entrySHA256": "6b41145a4c9e67f9bb7a68f388f19f1666bfb2e3508124364f71dd072247801e",
+  "gameplay": {
+    "result": "COMPLETE compute game checks passed",
+    "checks": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "adapter": {
+      "vendor": "nvidia",
+      "architecture": "blackwell",
+      "device": "",
+      "description": "",
+      "isFallbackAdapter": false
+    },
+    "maximum": {
+      "bodyCount": 180,
+      "maxJoint": 0.018281642718755414
+    },
+    "paintedFloorPixels": 207963,
+    "audio": {
+      "enabled": true,
+      "state": "running"
+    }
+  },
+  "native": {
+    "result": "COMPLETE native GPU gameplay and 3000x1800 profiles passed",
+    "checks": [
+      "Native pistol hits and spawns GPU particles",
+      "Native Spill paints walls; GPU gravity drips extend paint",
+      "Native grabbing resolves from GPU body poses",
+      "Native drag creates persistent floor smears",
+      "GPU wash clears all 150 body coatings and pigment",
+      "GPU heal restores reserves and clears airborne drops",
+      "Finite long GPU simulation and recovery"
+    ],
+    "viewport": [
+      3000,
+      1800
+    ],
+    "audio": {
+      "enabled": true,
+      "state": "running"
+    },
+    "audioOutputMuted": true,
+    "quality": {
+      "pixelRatio": 1,
+      "canvas": [
+        3000,
+        1800
+      ],
+      "paintResolution": 640,
+      "maxDrops": 900
+    },
+    "wall": {
+      "before": {
+        "hash": "e0aad91f568e2d884750e7302ebaa385574dba72ef74dfa89d833d1c642ccdce",
+        "painted": 21072
+      },
+      "after": {
+        "hash": "5409c7751f44232142ac454b13c89a183b6d3816085d46daa2212e93d4dd7f13",
+        "painted": 22414
+      }
+    },
+    "profiles": [
+      {
+        "label": "idle",
+        "fps": 60.00100001690537,
+        "intervalMs": {
+          "p50": 16.699999928474426,
+          "p95": 16.799999952316284,
+          "p99": 16.800000071525574,
+          "max": 16.899999976158142
+        },
+        "CPUms": {
+          "p50": 0.3999999761581421,
+          "p95": 1.2000000476837158,
+          "p99": 1.5,
+          "max": 1.7999999523162842
+        },
+        "GPUms": {
+          "computeMS": {
+            "p50": 0.524288,
+            "p95": 0.851968,
+            "p99": 1.179648,
+            "max": 1.376256
+          },
+          "renderMS": {
+            "p50": 0.524288,
+            "p95": 0.786432,
+            "p99": 1.114112,
+            "max": 1.245184
+          }
+        },
+        "ticksPerSecond": 119.43018055325493,
+        "particles": 4,
+        "maxJoint": 2.946791175113851e-05,
+        "audit": {
+          "active": false,
+          "reads": {
+            "asynchronous GPU timing": 361,
+            "GPU telemetry snapshot": 24
+          },
+          "writes": {
+            "frame uniforms": 1108992
+          },
+          "canvasReads": 0,
+          "webGLContexts": 0
+        }
+      },
+      {
+        "label": "pistol",
+        "fps": 60,
+        "intervalMs": {
+          "p50": 16.699999928474426,
+          "p95": 16.800000071525574,
+          "p99": 16.899999976158142,
+          "max": 17.399999976158142
+        },
+        "CPUms": {
+          "p50": 0.3999999761581421,
+          "p95": 1,
+          "p99": 1.5999999046325684,
+          "max": 1.6999999284744263
+        },
+        "GPUms": {
+          "computeMS": {
+            "p50": 0.65536,
+            "p95": 1.048576,
+            "p99": 1.179648,
+            "max": 1.31072
+          },
+          "renderMS": {
+            "p50": 0.524288,
+            "p95": 0.524288,
+            "p99": 0.65536,
+            "max": 1.114112
+          }
+        },
+        "ticksPerSecond": 119.61563949635521,
+        "particles": 18,
+        "maxJoint": 0.00010275526650479832,
+        "audit": {
+          "active": false,
+          "reads": {
+            "asynchronous GPU timing": 361,
+            "GPU telemetry snapshot": 24
+          },
+          "writes": {
+            "frame uniforms": 1108992,
+            "GPU scene instances": 1419088
+          },
+          "canvasReads": 0,
+          "webGLContexts": 0
+        }
+      },
+      {
+        "label": "spill",
+        "fps": 60,
+        "intervalMs": {
+          "p50": 16.699999928474426,
+          "p95": 16.799999952316284,
+          "p99": 16.800000071525574,
+          "max": 17
+        },
+        "CPUms": {
+          "p50": 0.30000007152557373,
+          "p95": 1,
+          "p99": 1.600000023841858,
+          "max": 1.899999976158142
+        },
+        "GPUms": {
+          "computeMS": {
+            "p50": 0.589824,
+            "p95": 0.786432,
+            "p99": 1.048576,
+            "max": 1.245184
+          },
+          "renderMS": {
+            "p50": 0.524288,
+            "p95": 0.589824,
+            "p99": 0.98304,
+            "max": 1.179648
+          }
+        },
+        "ticksPerSecond": 119.48955916473318,
+        "particles": 122,
+        "maxJoint": 2.6658210915973832e-05,
+        "audit": {
+          "active": false,
+          "reads": {
+            "asynchronous GPU timing": 361,
+            "GPU telemetry snapshot": 24
+          },
+          "writes": {
+            "frame uniforms": 1108992,
+            "GPU scene instances": 3872
+          },
+          "canvasReads": 0,
+          "webGLContexts": 0
+        }
+      },
+      {
+        "label": "drag",
+        "fps": 60.005348666654626,
+        "intervalMs": {
+          "p50": 16.699999928474426,
+          "p95": 16.800000071525574,
+          "p99": 16.899999976158142,
+          "max": 16.90000009536743
+        },
+        "CPUms": {
+          "p50": 0.30000007152557373,
+          "p95": 1,
+          "p99": 1.5,
+          "max": 1.6999999284744263
+        },
+        "GPUms": {
+          "computeMS": {
+            "p50": 0.786432,
+            "p95": 1.179648,
+            "p99": 1.376256,
+            "max": 1.6384
+          },
+          "renderMS": {
+            "p50": 0.524288,
+            "p95": 0.524288,
+            "p99": 0.98304,
+            "max": 1.245184
+          }
+        },
+        "ticksPerSecond": 119.29649908743986,
+        "particles": 6,
+        "maxJoint": 0.03238859171111272,
+        "audit": {
+          "active": false,
+          "reads": {
+            "asynchronous GPU timing": 360,
+            "GPU telemetry snapshot": 24
+          },
+          "writes": {
+            "frame uniforms": 1105920
+          },
+          "canvasReads": 0,
+          "webGLContexts": 0
+        }
+      },
+      {
+        "label": "chaos",
+        "fps": 60,
+        "intervalMs": {
+          "p50": 16.699999928474426,
+          "p95": 16.799999952316284,
+          "p99": 16.800000071525574,
+          "max": 16.899999976158142
+        },
+        "CPUms": {
+          "p50": 0.30000007152557373,
+          "p95": 1,
+          "p99": 1.600000023841858,
+          "max": 1.7000000476837158
+        },
+        "GPUms": {
+          "computeMS": {
+            "p50": 1.114112,
+            "p95": 1.769472,
+            "p99": 2.031616,
+            "max": 2.62144
+          },
+          "renderMS": {
+            "p50": 0.524288,
+            "p95": 0.917504,
+            "p99": 1.245184,
+            "max": 1.507328
+          }
+        },
+        "ticksPerSecond": 119.45731303772337,
+        "particles": 218,
+        "maxJoint": 0.04247826749599137,
+        "audit": {
+          "active": false,
+          "reads": {
+            "asynchronous GPU timing": 361,
+            "GPU telemetry snapshot": 24
+          },
+          "writes": {
+            "frame uniforms": 1108992
+          },
+          "canvasReads": 0,
+          "webGLContexts": 0
+        }
+      }
+    ]
+  }
+}
