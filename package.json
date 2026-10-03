@@ -1,6 +1,6 @@
 {
   "name": "smear",
-  "version": "0.8.8",
+  "version": "0.8.9",
   "private": true,
   "description": "A self-contained blood-and-contact ragdoll playground by Trent Sterling.",
   "type": "module",

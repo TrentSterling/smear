@@ -1,0 +1,51 @@
+{
+  "candidateSha256": "f0609fe107410ed9c975b605a34338ea49ee11048a478b731b91b1d188b46873",
+  "baselineSha256": "9fed255eb070b9a03f4e4517340b7d6d715c827ff65721a7b4d0adadba384098",
+  "surfaceDifferences": [
+    {
+      "surface": 6,
+      "width": 640,
+      "height": 640,
+      "pixels": 409600,
+      "changed": 4,
+      "overTwo": 1,
+      "maxDelta": 4,
+      "meanDelta": 0.000019435508578431372
+    },
+    {
+      "surface": 9,
+      "width": 640,
+      "height": 640,
+      "pixels": 409600,
+      "changed": 37,
+      "overTwo": 3,
+      "maxDelta": 9,
+      "meanDelta": 0.00013365502450980393
+    },
+    {
+      "surface": 10,
+      "width": 640,
+      "height": 640,
+      "pixels": 409600,
+      "changed": 60,
+      "overTwo": 5,
+      "maxDelta": 10,
+      "meanDelta": 0.00021079388786764713
+    }
+  ],
+  "skinHashMatches": true,
+  "beforeWork": {
+    "mean": 6.580769231399665,
+    "p95": 8.899999976158142,
+    "p99": 14,
+    "max": 323
+  },
+  "afterWork": {
+    "mean": 14.558413460564156,
+    "p95": 20.200000047683716,
+    "p99": 23.5,
+    "max": 29.700000047683716
+  },
+  "beforeHostBusy": 0.6813032669646656,
+  "afterHostBusy": 0.8000409440176087
+}

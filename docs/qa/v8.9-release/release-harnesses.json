@@ -1,0 +1,94 @@
+{
+  "version": "0.8.9",
+  "sourceSha256": "998a9f8fff66f3dbe5897a8b428e5c09f57d2118dee0d2c922be088d104ba352",
+  "checks": [
+    {
+      "name": "gameplay",
+      "exitCode": 0,
+      "seconds": 17.722
+    },
+    {
+      "name": "paint",
+      "exitCode": 0,
+      "seconds": 29.787
+    },
+    {
+      "name": "paint compatibility",
+      "exitCode": 0,
+      "seconds": 18.206
+    },
+    {
+      "name": "paint Firefox",
+      "exitCode": 0,
+      "seconds": 23.186
+    },
+    {
+      "name": "pigment presentation",
+      "exitCode": 0,
+      "seconds": 19.067
+    },
+    {
+      "name": "pigment presentation Firefox",
+      "exitCode": 0,
+      "seconds": 25.572
+    },
+    {
+      "name": "worker",
+      "exitCode": 0,
+      "seconds": 35.328
+    },
+    {
+      "name": "worker Firefox",
+      "exitCode": 0,
+      "seconds": 60.681
+    },
+    {
+      "name": "particles",
+      "exitCode": 0,
+      "seconds": 9.919
+    },
+    {
+      "name": "HUD",
+      "exitCode": 0,
+      "seconds": 2.85
+    },
+    {
+      "name": "HUD Firefox",
+      "exitCode": 0,
+      "seconds": 10.03
+    },
+    {
+      "name": "details",
+      "exitCode": 0,
+      "seconds": 15.354
+    },
+    {
+      "name": "native context",
+      "exitCode": 0,
+      "seconds": 5.213
+    },
+    {
+      "name": "native context Firefox",
+      "exitCode": 0,
+      "seconds": 9.812
+    },
+    {
+      "name": "native input Firefox",
+      "exitCode": 0,
+      "seconds": 13.785
+    },
+    {
+      "name": "runtime profiler",
+      "exitCode": 0,
+      "seconds": 16.015
+    },
+    {
+      "name": "runtime profiler overhead",
+      "exitCode": 0,
+      "seconds": 39.528
+    }
+  ],
+  "startedAt": "2026-10-03T02:21:43.494Z",
+  "result": "COMPLETE release checks passed",
+  "finishedAt": "2026-10-03T02:27:35.556Z"
+}

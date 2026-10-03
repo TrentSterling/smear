@@ -1,0 +1,26 @@
+{
+  "sourceSha256": "998a9f8fff66f3dbe5897a8b428e5c09f57d2118dee0d2c922be088d104ba352",
+  "baselineSha256": "808a1c49a81ba08c106916f4ca56c64d46587f2aab70b7ab0f02f85c243c5b96",
+  "checks": [
+    "exact simulation and wet transfer",
+    "every surface PNG exact",
+    "every skin PNG exact"
+  ],
+  "result": "Preservation passes; performance capture invalid after rolling-window truncation",
+  "beforeWork": {
+    "mean": 15.100961538461538,
+    "p95": 21,
+    "p99": 23,
+    "max": 624
+  },
+  "afterWork": {
+    "mean": 25.863057324840764,
+    "p95": 68,
+    "p99": 90,
+    "max": 388
+  },
+  "beforeBusy": 0.7134673804821197,
+  "afterBusy": 0.9069310460084891,
+  "beforeFrames": 419,
+  "afterFrames": 317
+}

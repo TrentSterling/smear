@@ -1,0 +1,17 @@
+{
+  "checks": [
+    "worker failure after partial pigment presentation: exact simulation and wet transfer",
+    "worker failure after partial pigment presentation: all retained pigment preserved",
+    "worker failure after partial pigment presentation: no GPU errors and bounded resources",
+    "worker failure after partial pigment presentation: reference transport retains its bounded inspection readbacks",
+    "worker failure after partial pigment presentation: exactly one record presented before failure",
+    "worker failure after partial pigment presentation: explicit completed recovery",
+    "no lifecycle browser errors"
+  ],
+  "browser": "Chrome",
+  "transport": "ImageBitmap",
+  "workerCount": 1,
+  "experimental": false,
+  "errors": [],
+  "result": "COMPLETE worker lifecycle checks passed"
+}

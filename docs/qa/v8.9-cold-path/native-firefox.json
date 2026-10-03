@@ -1,0 +1,571 @@
+{
+  "input": "index.html",
+  "label": "v89-budgeted",
+  "browser": "firefox",
+  "sourceSha256": "f0609fe107410ed9c975b605a34338ea49ee11048a478b731b91b1d188b46873",
+  "startedAt": "2026-10-03T02:09:21.732Z",
+  "muted": true,
+  "errors": [],
+  "reports": [
+    {
+      "stage": "cold-Spill",
+      "summary": {
+        "frames": 95,
+        "seconds": 1.587,
+        "fps": 59.86137366099559,
+        "latestFPS": 58.8235294117647,
+        "intervalMs": {
+          "p50": 17,
+          "p95": 17,
+          "p99": 20,
+          "max": 20
+        },
+        "workMs": 2.768421052631579,
+        "workPercentileMs": {
+          "p50": 3,
+          "p95": 5,
+          "p99": 12,
+          "max": 12
+        },
+        "phases": {
+          "physics": 0.6105263157894737,
+          "paint": 0.3684210526315789,
+          "drops": 0.11578947368421053,
+          "uploadPrep": 0.3473684210526316,
+          "render": 1.0105263157894737,
+          "hud": 0.031578947368421054,
+          "profiler": 0.10526315789473684,
+          "input": 0.1368421052631579,
+          "other": 0.042105263157894736
+        },
+        "overBudget": 2,
+        "spikeFrames": 0,
+        "uploadCPU": 0.2,
+        "uploadMiB": 25.321758270263672,
+        "uploadMiBPerSecond": 15.955739300733253,
+        "uploadCalls": 363,
+        "steps": 2.042105263157895,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "paint": {
+        "backend": "OffscreenCanvas worker",
+        "raster": "CPU worker raster",
+        "workerCount": 4,
+        "activeWorkers": 1,
+        "mirrorBytes": 10901504,
+        "maxRecoveryPending": 0,
+        "batchLimit": 1024,
+        "transport": "RGBA buffers",
+        "recoveryPending": 0,
+        "recoveryMS": 0,
+        "maxRecoveryMS": 0,
+        "restarts": 0,
+        "reason": "",
+        "queued": 0,
+        "inFlight": 7,
+        "oldestPendingMS": 9,
+        "maxQueued": 86,
+        "jobs": 157,
+        "workerMS": 0,
+        "bitmapMS": 2,
+        "latencyMS": 4,
+        "meanWorkerMS": 0.445859872611465,
+        "meanBitmapMS": 3.394904458598726,
+        "maxLatencyMS": 547,
+        "canvases": 84,
+        "readyBitmaps": 2
+      },
+      "hostCPU": {
+        "logicalCPUs": 24,
+        "meanBusyFraction": 0.25931766597050737
+      },
+      "glCalls": {
+        "canvas.clearRect": {
+          "count": 170,
+          "total": 29,
+          "max": 1
+        },
+        "canvas.stroke": {
+          "count": 65,
+          "total": 0,
+          "max": 0
+        },
+        "gl.bufferSubData": {
+          "count": 492,
+          "total": 2,
+          "max": 1
+        },
+        "gl.bufferData": {
+          "count": 164,
+          "total": 0,
+          "max": 0
+        },
+        "gl.drawElements": {
+          "count": 16241,
+          "total": 4,
+          "max": 1
+        },
+        "gl.drawElementsInstanced": {
+          "count": 593,
+          "total": 1,
+          "max": 1
+        },
+        "gl.texSubImage2D": {
+          "count": 420,
+          "total": 18,
+          "max": 1
+        },
+        "gl.texStorage2D": {
+          "count": 33,
+          "total": 0,
+          "max": 0
+        },
+        "canvas.fillRect": {
+          "count": 2963,
+          "total": 0,
+          "max": 0
+        },
+        "canvas.fillText": {
+          "count": 192,
+          "total": 1,
+          "max": 1
+        }
+      },
+      "slowCalls": [],
+      "newPrograms": []
+    },
+    {
+      "stage": "cold-pistol",
+      "summary": {
+        "frames": 343,
+        "seconds": 5.713,
+        "fps": 60.0385086644495,
+        "latestFPS": 58.8235294117647,
+        "intervalMs": {
+          "p50": 17,
+          "p95": 18,
+          "p99": 18,
+          "max": 20
+        },
+        "workMs": 4.204081632653061,
+        "workPercentileMs": {
+          "p50": 4,
+          "p95": 5,
+          "p99": 7,
+          "max": 8
+        },
+        "phases": {
+          "physics": 0.749271137026239,
+          "paint": 0.32653061224489793,
+          "drops": 0.2653061224489796,
+          "uploadPrep": 0.5131195335276968,
+          "render": 1.8629737609329446,
+          "hud": 0.13702623906705538,
+          "profiler": 0.08746355685131195,
+          "input": 0.16034985422740525,
+          "other": 0.10204081632653061
+        },
+        "overBudget": 1,
+        "spikeFrames": 0,
+        "uploadCPU": 0.2857142857142857,
+        "uploadMiB": 141.59197998046875,
+        "uploadMiBPerSecond": 24.784172935492517,
+        "uploadCalls": 2546,
+        "steps": 2.011661807580175,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "paint": {
+        "backend": "OffscreenCanvas worker",
+        "raster": "CPU worker raster",
+        "workerCount": 4,
+        "activeWorkers": 3,
+        "mirrorBytes": 10467328,
+        "maxRecoveryPending": 0,
+        "batchLimit": 1024,
+        "transport": "RGBA buffers",
+        "recoveryPending": 0,
+        "recoveryMS": 0,
+        "maxRecoveryMS": 0,
+        "restarts": 0,
+        "reason": "",
+        "queued": 0,
+        "inFlight": 5,
+        "oldestPendingMS": 14,
+        "maxQueued": 87,
+        "jobs": 979,
+        "workerMS": 0,
+        "bitmapMS": 3,
+        "latencyMS": 4,
+        "meanWorkerMS": 0.2808988764044944,
+        "meanBitmapMS": 3.1470888661899896,
+        "maxLatencyMS": 547,
+        "canvases": 88,
+        "readyBitmaps": 4
+      },
+      "hostCPU": {
+        "logicalCPUs": 24,
+        "meanBusyFraction": 0.2644269253694768
+      },
+      "glCalls": {
+        "canvas.clearRect": {
+          "count": 471,
+          "total": 13,
+          "max": 1
+        },
+        "canvas.fillRect": {
+          "count": 30081,
+          "total": 6,
+          "max": 1
+        },
+        "canvas.fillText": {
+          "count": 529,
+          "total": 4,
+          "max": 1
+        },
+        "canvas.stroke": {
+          "count": 1015,
+          "total": 13,
+          "max": 1
+        },
+        "gl.bufferSubData": {
+          "count": 1753,
+          "total": 5,
+          "max": 1
+        },
+        "gl.bufferData": {
+          "count": 144,
+          "total": 1,
+          "max": 1
+        },
+        "gl.drawElements": {
+          "count": 90279,
+          "total": 10,
+          "max": 1
+        },
+        "gl.drawElementsInstanced": {
+          "count": 2416,
+          "total": 0,
+          "max": 0
+        },
+        "gl.texSubImage2D": {
+          "count": 2602,
+          "total": 99,
+          "max": 2
+        },
+        "gl.texStorage2D": {
+          "count": 29,
+          "total": 0,
+          "max": 0
+        },
+        "gl.drawArrays": {
+          "count": 39,
+          "total": 0,
+          "max": 0
+        }
+      },
+      "slowCalls": [
+        {
+          "name": "gl.texSubImage2D",
+          "ms": 2,
+          "time": 3497,
+          "rect": null,
+          "canvas": {
+            "id": "world",
+            "width": 3000,
+            "height": 1800
+          }
+        }
+      ],
+      "newPrograms": []
+    },
+    {
+      "stage": "cold-drag",
+      "summary": {
+        "frames": 300,
+        "seconds": 4.998,
+        "fps": 60.024009603841534,
+        "latestFPS": 58.8235294117647,
+        "intervalMs": {
+          "p50": 17,
+          "p95": 18,
+          "p99": 18,
+          "max": 18
+        },
+        "workMs": 4.09,
+        "workPercentileMs": {
+          "p50": 4,
+          "p95": 5,
+          "p99": 6,
+          "max": 9
+        },
+        "phases": {
+          "physics": 0.8133333333333334,
+          "paint": 0.3233333333333333,
+          "drops": 0.06666666666666667,
+          "uploadPrep": 0.7033333333333334,
+          "render": 1.8133333333333332,
+          "hud": 0.08333333333333333,
+          "profiler": 0.09666666666666666,
+          "input": 0.09666666666666666,
+          "other": 0.09333333333333334
+        },
+        "overBudget": 0,
+        "spikeFrames": 0,
+        "uploadCPU": 0.35333333333333333,
+        "uploadMiB": 168.83014297485352,
+        "uploadMiBPerSecond": 33.77954041113516,
+        "uploadCalls": 2379,
+        "steps": 2.006666666666667,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "paint": {
+        "backend": "OffscreenCanvas worker",
+        "raster": "CPU worker raster",
+        "workerCount": 4,
+        "activeWorkers": 3,
+        "mirrorBytes": 23906576,
+        "maxRecoveryPending": 0,
+        "batchLimit": 1024,
+        "transport": "RGBA buffers",
+        "recoveryPending": 0,
+        "recoveryMS": 0,
+        "maxRecoveryMS": 0,
+        "restarts": 0,
+        "reason": "",
+        "queued": 0,
+        "inFlight": 62,
+        "oldestPendingMS": 10,
+        "maxQueued": 474,
+        "jobs": 1717,
+        "workerMS": 5,
+        "bitmapMS": 1,
+        "latencyMS": 7,
+        "meanWorkerMS": 1.3535235876528828,
+        "meanBitmapMS": 2.7938264414676763,
+        "maxLatencyMS": 547,
+        "canvases": 91,
+        "readyBitmaps": 3
+      },
+      "hostCPU": {
+        "logicalCPUs": 24,
+        "meanBusyFraction": 0.27262744399006195
+      },
+      "glCalls": {
+        "canvas.clearRect": {
+          "count": 285,
+          "total": 7,
+          "max": 1
+        },
+        "canvas.fillRect": {
+          "count": 24225,
+          "total": 5,
+          "max": 1
+        },
+        "canvas.fillText": {
+          "count": 470,
+          "total": 2,
+          "max": 1
+        },
+        "canvas.stroke": {
+          "count": 269,
+          "total": 2,
+          "max": 1
+        },
+        "gl.bufferSubData": {
+          "count": 1805,
+          "total": 8,
+          "max": 1
+        },
+        "gl.bufferData": {
+          "count": 125,
+          "total": 0,
+          "max": 0
+        },
+        "gl.drawElements": {
+          "count": 74148,
+          "total": 5,
+          "max": 1
+        },
+        "gl.drawElementsInstanced": {
+          "count": 1810,
+          "total": 0,
+          "max": 0
+        },
+        "gl.texSubImage2D": {
+          "count": 2422,
+          "total": 102,
+          "max": 1
+        },
+        "gl.texStorage2D": {
+          "count": 37,
+          "total": 0,
+          "max": 0
+        },
+        "gl.getProgramParameter": {
+          "count": 1,
+          "total": 0,
+          "max": 0
+        },
+        "gl.getActiveAttrib": {
+          "count": 1,
+          "total": 0,
+          "max": 0
+        },
+        "gl.drawArrays": {
+          "count": 300,
+          "total": 0,
+          "max": 0
+        }
+      },
+      "slowCalls": [],
+      "newPrograms": []
+    },
+    {
+      "stage": "cold-Chaos",
+      "summary": {
+        "frames": 361,
+        "seconds": 6.068,
+        "fps": 59.49241924851681,
+        "latestFPS": 62.5,
+        "intervalMs": {
+          "p50": 17,
+          "p95": 20,
+          "p99": 22,
+          "max": 56
+        },
+        "workMs": 10.146814404432133,
+        "workPercentileMs": {
+          "p50": 10,
+          "p95": 13,
+          "p99": 16,
+          "max": 20
+        },
+        "phases": {
+          "physics": 4.011080332409972,
+          "paint": 0.9556786703601108,
+          "drops": 0.3850415512465374,
+          "uploadPrep": 1.3988919667590027,
+          "render": 2.955678670360111,
+          "hud": 0.0221606648199446,
+          "profiler": 0.1634349030470914,
+          "input": 0.1772853185595568,
+          "other": 0.07756232686980609
+        },
+        "overBudget": 44,
+        "spikeFrames": 3,
+        "uploadCPU": 0.8587257617728532,
+        "uploadMiB": 481.2590141296387,
+        "uploadMiBPerSecond": 79.31097793830565,
+        "uploadCalls": 7419,
+        "steps": 2.027700831024931,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "paint": {
+        "backend": "OffscreenCanvas worker",
+        "raster": "CPU worker raster",
+        "workerCount": 4,
+        "activeWorkers": 4,
+        "mirrorBytes": 70762680,
+        "maxRecoveryPending": 0,
+        "batchLimit": 1024,
+        "transport": "RGBA buffers",
+        "recoveryPending": 0,
+        "recoveryMS": 0,
+        "maxRecoveryMS": 0,
+        "restarts": 0,
+        "reason": "",
+        "queued": 0,
+        "inFlight": 111,
+        "oldestPendingMS": 12,
+        "maxQueued": 1978,
+        "jobs": 2262,
+        "workerMS": 1,
+        "bitmapMS": 4,
+        "latencyMS": 8,
+        "meanWorkerMS": 1.4190981432360743,
+        "meanBitmapMS": 6.485853227232537,
+        "maxLatencyMS": 2812,
+        "canvases": 203,
+        "readyBitmaps": 0
+      },
+      "hostCPU": {
+        "logicalCPUs": 24,
+        "meanBusyFraction": 0.3090386332690915
+      },
+      "glCalls": {
+        "canvas.clearRect": {
+          "count": 281,
+          "total": 11,
+          "max": 1
+        },
+        "canvas.fillRect": {
+          "count": 31520,
+          "total": 9,
+          "max": 1
+        },
+        "canvas.fillText": {
+          "count": 572,
+          "total": 2,
+          "max": 1
+        },
+        "canvas.stroke": {
+          "count": 151,
+          "total": 1,
+          "max": 1
+        },
+        "gl.bufferSubData": {
+          "count": 1819,
+          "total": 12,
+          "max": 1
+        },
+        "gl.bufferData": {
+          "count": 520,
+          "total": 1,
+          "max": 1
+        },
+        "gl.drawElements": {
+          "count": 170711,
+          "total": 25,
+          "max": 1
+        },
+        "gl.drawElementsInstanced": {
+          "count": 2183,
+          "total": 1,
+          "max": 1
+        },
+        "gl.texSubImage2D": {
+          "count": 7473,
+          "total": 310,
+          "max": 2
+        },
+        "gl.texStorage2D": {
+          "count": 179,
+          "total": 0,
+          "max": 0
+        }
+      },
+      "slowCalls": [
+        {
+          "name": "gl.texSubImage2D",
+          "ms": 2,
+          "time": 16876,
+          "rect": null,
+          "canvas": {
+            "id": "world",
+            "width": 3000,
+            "height": 1800
+          }
+        }
+      ],
+      "newPrograms": []
+    }
+  ]
+}

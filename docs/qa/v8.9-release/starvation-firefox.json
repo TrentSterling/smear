@@ -1,0 +1,99 @@
+{
+  "browser": "firefox",
+  "result": "COMPLETE forced worker-starvation checks passed",
+  "checks": [
+    "both workers reached 4096-event queue cap",
+    "exact simulation and wet transfer",
+    "exact persistent surface pigment",
+    "exact skin pigment",
+    "main-thread worst frame reduced by at least 3x",
+    "no browser errors"
+  ],
+  "captureWindowMs": 120000,
+  "reports": [
+    {
+      "label": "v8.6",
+      "sourceSha256": "808a1c49a81ba08c106916f4ca56c64d46587f2aab70b7ab0f02f85c243c5b96",
+      "captureWindowMs": 120000,
+      "capturedAt": "2026-10-03T02:32:19.989Z",
+      "cpuMeanBusyFraction": 0.70592137536288,
+      "work": {
+        "mean": 14.120192307692308,
+        "p95": 20,
+        "p99": 21,
+        "max": 536
+      },
+      "intervals": {
+        "mean": 19.478365384615383,
+        "p95": 26,
+        "p99": 29,
+        "max": 544
+      },
+      "status": {
+        "backend": "Canvas2D fallback",
+        "raster": "CPU worker raster",
+        "reason": "Paint worker queue limit",
+        "queued": 0,
+        "inFlight": 0,
+        "oldestPendingMS": 0,
+        "maxQueued": 4096,
+        "jobs": 60,
+        "workerMS": 7,
+        "bitmapMS": 0,
+        "latencyMS": 9,
+        "meanWorkerMS": 14.3,
+        "meanBitmapMS": 0.8166666666666667,
+        "maxLatencyMS": 1120,
+        "canvases": 98,
+        "readyBitmaps": 0
+      }
+    },
+    {
+      "label": "candidate",
+      "sourceSha256": "998a9f8fff66f3dbe5897a8b428e5c09f57d2118dee0d2c922be088d104ba352",
+      "captureWindowMs": 120000,
+      "capturedAt": "2026-10-03T02:32:34.669Z",
+      "cpuMeanBusyFraction": 0.6279957149081964,
+      "work": {
+        "mean": 11.701923076923077,
+        "p95": 23,
+        "p99": 27,
+        "max": 30
+      },
+      "intervals": {
+        "mean": 21.379807692307693,
+        "p95": 32,
+        "p99": 37,
+        "max": 41
+      },
+      "status": {
+        "backend": "OffscreenCanvas worker",
+        "raster": "CPU worker raster",
+        "workerCount": 4,
+        "activeWorkers": 0,
+        "mirrorBytes": 22296896,
+        "maxRecoveryPending": 8192,
+        "batchLimit": 1024,
+        "transport": "RGBA buffers",
+        "recoveryPending": 0,
+        "recoveryMS": 1,
+        "maxRecoveryMS": 31,
+        "restarts": 1,
+        "reason": "Paint worker queue limit",
+        "queued": 0,
+        "inFlight": 0,
+        "oldestPendingMS": 0,
+        "maxQueued": 4096,
+        "jobs": 158,
+        "workerMS": 6,
+        "bitmapMS": 1,
+        "latencyMS": 103,
+        "meanWorkerMS": 8.987341772151899,
+        "meanBitmapMS": 13.044303797468354,
+        "maxLatencyMS": 1367,
+        "canvases": 98,
+        "readyBitmaps": 0
+      }
+    }
+  ]
+}

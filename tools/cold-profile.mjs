@@ -3,6 +3,7 @@ import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {createHash} from 'node:crypto';
+import assert from 'node:assert/strict';
 import {cpus} from 'node:os';
 import {launchFirefox} from './bidi.mjs';
 import {launch,sleep,until} from './cdp.mjs';
@@ -11,16 +12,17 @@ const source=await readFile(input,'utf8'),out=resolve('tools/out',`cold-${label}
 const hook=`(()=>{
  const calls={},slow=[];window.__coldAudit={calls,slow,reset:()=>{for(const k in calls)delete calls[k];slow.length=0;}};
  function audit(proto,names,prefix){for(const name of names){const original=proto[name];if(!original)continue;proto[name]=function(...args){const t=performance.now();try{return original.apply(this,args);}finally{const ms=performance.now()-t,key=prefix+name,c=calls[key]||(calls[key]={count:0,total:0,max:0});c.count++;c.total+=ms;c.max=Math.max(c.max,ms);if(ms>=2){slow.push({name:key,ms,time:t,rect:name==='clearRect'?args.slice(0,4):null,canvas:this.canvas?{id:this.canvas.id,width:this.canvas.width,height:this.canvas.height}:null});if(slow.length>512)slow.shift();}}};}}
- audit(WebGL2RenderingContext.prototype,['getProgramParameter','getShaderParameter','compileShader','linkProgram','getUniformLocation','getActiveUniform','getActiveAttrib','drawElements','drawArrays','drawElementsInstanced','texImage2D','texSubImage2D','bufferData','bufferSubData'],'gl.');
+ audit(WebGL2RenderingContext.prototype,['getProgramParameter','getProgramInfoLog','getShaderParameter','getShaderInfoLog','compileShader','linkProgram','getUniformLocation','getActiveUniform','getActiveAttrib','drawElements','drawArrays','drawElementsInstanced','texStorage2D','texImage2D','texSubImage2D','bufferData','bufferSubData'],'gl.');
  audit(CanvasRenderingContext2D.prototype,['clearRect','fillRect','fillText','stroke','drawImage','getImageData','putImageData'],'canvas.');
 })();`;
-const file=resolve(out,'runtime.html');await writeFile(file,source.replace('</head>','<script>'+hook+'</script></head>'));
+const fixture=`const coldPrograms=()=>renderer.info.programs.map(p=>{const refs=[];scene.traverse(o=>{for(const m of Array.isArray(o.material)?o.material:o.material?[o.material]:[]){if(renderer.properties.get(m).currentProgram===p)refs.push({body:o.userData.body?.name||'',object:o.name,type:o.type,material:m.type,key:m.customProgramCacheKey()});}});return{id:p.id,cacheKey:p.cacheKey,usedTimes:p.usedTimes,refs};});const coldAudio=()=>({enabled:soundOn,state:audio?.state||'uninitialized',masterGain:master?.gain.value??null});`;
+const file=resolve(out,'runtime.html');await writeFile(file,source.replace('</head>','<script>'+hook+'</script></head>').replace('window.__smear={state,',fixture+'\nwindow.__smear={coldPrograms,coldAudio,state,'));
 const page=browser==='firefox'?await launchFirefox({port:9595,width:3000,height:1800}):await launch({port:9597,width:3000,height:1800});
 const receipt={input,label,browser,sourceSha256:createHash('sha256').update(source).digest('hex'),startedAt:new Date().toISOString(),muted:true,reports:[]};
 const host=()=>cpus().map(c=>({idle:c.times.idle,total:Object.values(c.times).reduce((a,b)=>a+b,0)}));
 let before;
-async function start(){before=host();await page.eval(`__coldAudit.reset();__smear.perf.clear();__smear.preset('default');__smear.tune({walking:false,recover:false});__smear.reset();__smear.perf.show(true)`);}
-async function capture(stage){const after=host(),r=await page.eval(`({stage:'${stage}',telemetry:__smear.perf.report(),audit:__coldAudit,paint:__smear.paintStatus()})`);r.hostCPU={logicalCPUs:after.length,meanBusyFraction:after.reduce((n,c,i)=>n+1-(c.idle-before[i].idle)/(c.total-before[i].total),0)/after.length};receipt.reports.push(r);console.log(JSON.stringify({stage,summary:r.telemetry.summary,slowCalls:r.audit.slow.slice(-24),links:r.audit.calls['gl.linkProgram'],paint:r.paint,hostCPU:r.hostCPU}));}
+async function start(){before=host();await page.eval(`window.__coldProgramsBefore=__smear.coldPrograms();__coldAudit.reset();__smear.perf.clear();__smear.preset('default');__smear.tune({walking:false,recover:false});__smear.reset();__smear.perf.show(true)`);}
+async function capture(stage){const after=host(),r=await page.eval(`({stage:'${stage}',telemetry:__smear.perf.report(),audit:__coldAudit,paint:__smear.paintStatus(),audio:__smear.coldAudio(),programsBefore:window.__coldProgramsBefore,programs:__smear.coldPrograms()})`);r.hostCPU={logicalCPUs:after.length,meanBusyFraction:after.reduce((n,c,i)=>n+1-(c.idle-before[i].idle)/(c.total-before[i].total),0)/after.length};receipt.reports.push(r);assert.equal(r.audio.enabled,true,'native sound processing must stay enabled');assert.equal(r.audio.state,'running','native AudioContext must run during profiling');console.log(JSON.stringify({stage,summary:r.telemetry.summary,slowCalls:r.audit.slow.slice(-24),links:r.audit.calls['gl.linkProgram'],newPrograms:r.programs.filter(p=>!r.programsBefore.some(b=>b.id===p.id)).map(({id,refs})=>({id,refs})),paint:r.paint,audio:r.audio,hostCPU:r.hostCPU}));}
 try{
  await page.goto(pathToFileURL(file).href);await until(()=>page.eval('!!window.__smear&&!document.getElementById("loading")'),{label:'cold-path boot'});await sleep(800);
  if(browser==='chrome'){await page.call('Profiler.enable');await page.call('Profiler.setSamplingInterval',{interval:500});await page.call('Profiler.start');}

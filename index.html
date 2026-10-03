@@ -44,6 +44,11 @@ catch(e){$('failure').style.display='block';$('failure').textContent='WebGL coul
 renderer.setPixelRatio(DPR);renderer.setSize(W,H);renderer.outputEncoding=T.sRGBEncoding;
 renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=.92;
 renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;
+// Own one extra reference to each pinned r140 program. A reset disposes the
+// last skin/eye materials, but those same programs are needed by the next dolls.
+const retainedPrograms=new Set(),retainPrograms=!new URLSearchParams(location.search).has('shaderCold');
+function retainShaderPrograms(){if(retainPrograms)for(const program of renderer.info.programs)if(!retainedPrograms.has(program)&&retainedPrograms.size<64){program.usedTimes++;retainedPrograms.add(program);}}
+canvas.addEventListener('webglcontextlost',()=>retainedPrograms.clear());
 const scene=new T.Scene();scene.background=new T.Color(0x30383b);
 const camera=new T.PerspectiveCamera(70,W/H,.035,100);camera.rotation.order='YXZ';
 const hemi=new T.HemisphereLight(0xe5efff,0xb0a392,.51);scene.add(hemi);
@@ -171,7 +176,7 @@ const runtimeProfiler=(()=>{
   }
   intervals.sort();work.sort();const q=(p,a=intervals)=>n?a[Math.min(n-1,Math.ceil(n*p)-1)]:0,avg=k=>n?totals[k]/n:0,phases=Object.fromEntries(stages.map(k=>[k,avg(k)]));
   const last=n?row(indices[n-1]):null;
-  return {schema:1,version:'0.8.8',capturing,visible,capacity:CAP,windowMs:WINDOW_MS,budgetMs:budget,totalFrames,excludedGaps:skipped,...(includeFrames?{frames:indices.map(row)}:{indices}),
+  return {schema:1,version:'0.8.9',capturing,visible,capacity:CAP,windowMs:WINDOW_MS,budgetMs:budget,totalFrames,excludedGaps:skipped,...(includeFrames?{frames:indices.map(row)}:{indices}),
    summary:{frames:n,seconds:totals.interval/1000,fps:n?1000*n/totals.interval:0,latestFPS:last?1000/last.interval:0,intervalMs:{p50:q(.5),p95:q(.95),p99:q(.99),max:intervals.at(-1)||0},workMs:avg('work'),workPercentileMs:{p50:q(.5,work),p95:q(.95,work),p99:q(.99,work),max:work.at(-1)||0},phases,overBudget,spikeFrames,uploadCPU:avg('uploadCPU'),uploadMiB:totals.uploadBytes/1048576,uploadMiBPerSecond:totals.interval?totals.uploadBytes/1048576/(totals.interval/1000):0,uploadCalls:totals.uploadCalls,steps:avg('steps'),droppedSimMs:totals.droppedSimMs,gpuMs:gpuCount?gpuTotal/gpuCount:null,gpuSamples:gpuCount},
    histogram,spikes:spikes.slice(),events:events.slice(),paintWorker:paintTelemetry?.()||null,gpu:{supported:!!ext,samples:gpuSamples,pending:gpuPending.length,disjoints:gpuDisjoints},observerTypes:observers.map(o=>o.type),last,heapBytes:performance.memory?.usedJSHeapSize??null};
  }
@@ -396,14 +401,29 @@ function rasterCommand(s,kind,args){if(kind==='clear')s.g.clearRect(0,0,s.canvas
 // not expanded bristle paths; cropped images or RGBA buffers update WebGL.
 const blankPigment=new T.DataTexture(new Uint8Array(4),1,1,T.RGBAFormat);blankPigment.minFilter=blankPigment.magFilter=T.LinearFilter;blankPigment.needsUpdate=true;
 const eagerPaintTextures=new URLSearchParams(location.search).has('paintTextures');
+const zeroPaintInit=renderer.capabilities.isWebGL2&&!new URLSearchParams(location.search).has('paintInitCanvas');
+function initializePaintTexture(s,restore=false){
+ if(s.textureReady)return;
+ if(!zeroPaintInit){renderer.initTexture(s.tex);s.textureReady=true;return;}
+ const gl=renderer.getContext(),upload=gl.texSubImage2D,image=s.tex.image;
+ // The pinned r140 renderer allocates zeroed immutable storage before copying
+ // its DOM source. Retain its texture/cache setup, but skip that blank copy.
+ gl.texSubImage2D=function(...a){if(a[0]===gl.TEXTURE_2D&&a[1]===0&&a[2]===0&&a[3]===0&&a.at(-1)===image)return;return upload.apply(this,a);};
+ try{renderer.initTexture(s.tex);}finally{gl.texSubImage2D=upload;}
+ s.textureReady=true;
+ if(restore&&s.paintPixels){renderer.state.activeTexture(gl.TEXTURE0);renderer.state.bindTexture(gl.TEXTURE_2D,renderer.properties.get(s.tex).__webglTexture);gl.pixelStorei(gl.UNPACK_SKIP_PIXELS,0);gl.pixelStorei(gl.UNPACK_SKIP_ROWS,0);gl.pixelStorei(gl.UNPACK_ROW_LENGTH,0);gl.pixelStorei(gl.UNPACK_ALIGNMENT,4);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false);gl.texSubImage2D(gl.TEXTURE_2D,0,0,0,s.canvas.width,s.canvas.height,gl.RGBA,gl.UNSIGNED_BYTE,s.paintPixels);renderer.state.unbindTexture();}
+}
 const paintEngine=(()=>{
  const records=new Map();let serial=0,order=0,queue=[],queuedAt=0,workers=[],waiters=[],enabled=false,contextLost=false,reason='',jobs=0,workerMS=0,bitmapMS=0,latencyMS=0,maxQueued=0,rasterTotal=0,bitmapTotal=0,maxLatencyMS=0,recovery=null,recoveryTimer=0,restarts=0,recoveryMS=0,maxRecoveryMS=0,maxRecoveryPending=0,asyncRecovery=false;
- const LIMIT=4096,BATCH_LIMIT=1024;
- // Gecko's accelerated 2D worker can wait behind unrelated driver work. Keep
- // raster memory local to its workers on Gecko; GPU presentation uses cropped
- // RGBA. Chromium retains its accelerated OffscreenCanvas/ImageBitmap backend.
+  const LIMIT=4096,BATCH_LIMIT=1024;let applyCursor=0;
+  const boundPresentation=!new URLSearchParams(location.search).has('paintUnbounded');
+ // Preserve each browser's rasterizer while four workers return cropped RGBA
+ // buffers and canonical CPU pigment. Keep ImageBitmap as a profiling reference.
  const rasterOptions={willReadFrequently:/Firefox\//.test(navigator.userAgent)};
- const pixelTransport=rasterOptions.willReadFrequently&&!new URLSearchParams(location.search).has('paintBitmap');
+  const paintQuery=new URLSearchParams(location.search);
+  // Chromium's RGBA recovery still has sparse raster differences under forced
+  // starvation. Keep its published transport until that preservation gate passes.
+  const pixelTransport=(/Firefox\//.test(navigator.userAgent)||paintQuery.has('paintRGBA'))&&!paintQuery.has('paintBitmap');
  const WORKERS=pixelTransport&&!new URLSearchParams(location.search).has('paintSingle')?4:1;
  const code=`const PI=Math.PI,TAU=PI*2,clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),rasterOptions=${JSON.stringify(rasterOptions)};
  const document={createElement:()=>new OffscreenCanvas(160,160)},brushes=[],bristleCache=new Map();
@@ -440,7 +460,7 @@ const paintEngine=(()=>{
   if(!enabled){if(asyncRecovery&&!recovery)recovery={ops:[],head:0,retry:false,queuedAt:performance.now()};if(recovery){enqueueRecovery(op);scheduleRecovery();return;}if(kind!=='clear'){rasterCommand(s,kind,args);showPigment(s);}return;}
   if(!queue.length)queuedAt=performance.now();queue.push(op);maxQueued=Math.max(maxQueued,queue.length);
   // A stalled worker cannot grow the event log forever. Reconstruct outstanding
-  // ordered events from canonical pixels through bounded recovery tasks on Gecko.
+   // ordered events from canonical pixels through bounded recovery tasks.
   if(queue.length>=LIMIT)fallback('Paint worker queue limit');
  }
  function fallback(error){
@@ -452,19 +472,26 @@ const paintEngine=(()=>{
    for(const [id,epoch,kind,args]of pending){const s=records.get(id);if(!s||epoch!==s.paintEpoch)continue;rasterCommand(s,kind,args);if(kind!=='clear')showPigment(s);s.textureReady=false;s.tex.needsUpdate=true;s.dirtyRect=null;}
   settle();
  }
- function apply(slot){
-  if(!slot.completed)return;for(const p of slot.completed.patches){const s=records.get(p.id);try{if(!s||s.paintEpoch!==p.epoch)continue;
+  function apply(slot,deadline){
+   if(!slot.completed)return;const job=slot.completed;job.head=job.head||0;
+   while(job.head<job.patches.length){if(performance.now()>=deadline)return;const p=job.patches[job.head++],s=records.get(p.id);try{if(!s||s.paintEpoch!==p.epoch)continue;
    const r=p.rect;
-   if(!s.textureReady){renderer.initTexture(s.tex);s.textureReady=true;}
+    initializePaintTexture(s);
    const gl=renderer.getContext();renderer.state.activeTexture(gl.TEXTURE0);renderer.state.bindTexture(gl.TEXTURE_2D,renderer.properties.get(s.tex).__webglTexture);
    gl.pixelStorei(gl.UNPACK_SKIP_PIXELS,0);gl.pixelStorei(gl.UNPACK_SKIP_ROWS,0);gl.pixelStorei(gl.UNPACK_ALIGNMENT,4);
    if(p.pixels){const w=r.x1-r.x0,h=r.y1-r.y0,y0=s.canvas.height-r.y1,fullW=s.canvas.width;gl.pixelStorei(gl.UNPACK_ROW_LENGTH,0);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false);gl.texSubImage2D(gl.TEXTURE_2D,0,r.x0,y0,w,h,gl.RGBA,gl.UNSIGNED_BYTE,p.pixels);if(!s.paintPixels)s.paintPixels=new Uint8ClampedArray(fullW*s.canvas.height*4);for(let y=0;y<h;y++)s.paintPixels.set(p.pixels.subarray(y*w*4,(y+1)*w*4),((y0+y)*fullW+r.x0)*4);}
    else gl.texSubImage2D(gl.TEXTURE_2D,0,r.x0,s.canvas.height-r.y1,gl.RGBA,gl.UNSIGNED_BYTE,p.bitmap);renderer.state.unbindTexture();s.uploadedEpoch=s.paintEpoch;s.canvasCurrent=false;
-   showPigment(s);}finally{p.bitmap?.close();}}
+   showPigment(s);}finally{p.bitmap?.close();
+    // This record's commands are now in the canonical mirror. A failure during
+    // partial presentation must replay only records that have not been applied.
+    slot.busy.ops=slot.busy.ops.filter(op=>op[0]!==p.id);
+   }}
   slot.completed=null;slot.busy=null;
  }
  function pump(){
-  if(contextLost)return;if(!enabled){drainRecovery();settle();return;}for(const slot of workers)apply(slot);
+   if(contextLost)return;if(!enabled){drainRecovery();settle();return;}
+   const deadline=boundPresentation?performance.now()+2:Infinity;
+   for(let i=0;i<workers.length;i++){const slot=workers[applyCursor];applyCursor=(applyCursor+1)%workers.length;apply(slot,deadline);if(performance.now()>=deadline)break;}
   const groups=workers.map(()=>[]),tail=[];for(const op of queue){const s=records.get(op[0]);if(!s)continue;const slot=workers[s.paintSlot],ops=groups[s.paintSlot];if(!slot.busy&&ops.length<BATCH_LIMIT)ops.push(op);else tail.push(op);}queue=tail;
   const tailIds=new Set(queue.map(o=>o[0])),jobTime=queuedAt||performance.now();if(!queue.length)queuedAt=0;
   for(let i=0;i<workers.length;i++){const slot=workers[i],ops=groups[i];if(slot.busy||(!ops.length&&!slot.removed.length))continue;const ids=new Set(ops.map(o=>o[0])),list=[],transfers=[];
@@ -474,7 +501,7 @@ const paintEngine=(()=>{
  }
  function enqueueRecovery(op){if(recovery.ops.length-recovery.head>=LIMIT*2)drainRecovery(0,true);if(!recovery){const s=records.get(op[0]);if(s&&s.paintEpoch===op[1]){if(enabled){if(!queue.length)queuedAt=performance.now();queue.push(op);}else{prepareCPU(s);rasterCommand(s,op[2],op[3]);if(op[2]!=='clear')showPigment(s);s.tex.needsUpdate=true;}}return;}if(recovery.head>=LIMIT){recovery.ops=recovery.ops.slice(recovery.head);recovery.head=0;}recovery.ops.push(op);maxRecoveryPending=Math.max(maxRecoveryPending,recovery.ops.length-recovery.head);}
  function scheduleRecovery(){if(recoveryTimer||!recovery)return;recoveryTimer=setTimeout(()=>{recoveryTimer=0;if(!contextLost)drainRecovery();scheduleRecovery();},8);}
- function prepareCPU(s){if(s.cpuRaster){if(s.paintPixels&&!s.canvasCurrent)snapshotCanvas(s);return;}const w=s.canvas.width,h=s.canvas.height;let image=null;if(s.paintPixels){image=new ImageData(w,h);for(let y=0;y<h;y++)image.data.set(s.paintPixels.subarray(y*w*4,(y+1)*w*4),(h-1-y)*w*4);}const c=document.createElement('canvas');c.width=w;c.height=h;s.canvas=c;s.g=c.getContext('2d',{willReadFrequently:true});if(image)s.g.putImageData(image,0,0);s.tex.image=c;if(s.skinOwner){s.skinOwner.skinCanvas=c;s.skinOwner.skinCtx=s.g;}s.canvasCurrent=true;s.cpuRaster=true;}
+  function prepareCPU(s){if(s.cpuRaster){if(s.paintPixels&&!s.canvasCurrent)snapshotCanvas(s);return;}const w=s.canvas.width,h=s.canvas.height;let image=null;if(s.paintPixels){image=new ImageData(w,h);for(let y=0;y<h;y++)image.data.set(s.paintPixels.subarray(y*w*4,(y+1)*w*4),(h-1-y)*w*4);}const c=document.createElement('canvas');c.width=w;c.height=h;s.canvas=c;s.g=c.getContext('2d',rasterOptions);if(image)s.g.putImageData(image,0,0);s.tex.image=c;if(s.skinOwner){s.skinOwner.skinCanvas=c;s.skinOwner.skinCtx=s.g;}s.canvasCurrent=true;s.cpuRaster=true;}
  function commandRect(s,kind,a){
   const W=s.canvas.width,H=s.canvas.height,sx=s.res/s.w,sy=s.res/s.h;let x0=0,y0=0,x1=W,y1=H,pixels=false;
   if(kind==='skin'){const [f,x,y,rx,ry]=a,cx=f%3*112,cy=Math.floor(f/3)*112;return{x0:Math.max(cx,Math.floor(x-rx)-3),y0:Math.max(cy,Math.floor(y-ry)-3),x1:Math.min(cx+112,Math.ceil(x+rx)+3),y1:Math.min(cy+112,Math.ceil(y+ry)+3)};}
@@ -488,7 +515,7 @@ const paintEngine=(()=>{
  function uploadRecovery(s,r){
   const w=r.x1-r.x0,h=r.y1-r.y0;if(w<=0||h<=0)return;const pixels=s.g.getImageData(r.x0,r.y0,w,h).data,row=new Uint8ClampedArray(w*4);
   for(let y=0;y<Math.floor(h/2);y++){const a=y*w*4,b=(h-1-y)*w*4;row.set(pixels.subarray(a,a+w*4));pixels.copyWithin(a,b,b+w*4);pixels.set(row,b);}
-  if(!s.textureReady){renderer.initTexture(s.tex);s.textureReady=true;}const gl=renderer.getContext(),fullW=s.canvas.width,y0=s.canvas.height-r.y1;
+   initializePaintTexture(s,true);const gl=renderer.getContext(),fullW=s.canvas.width,y0=s.canvas.height-r.y1;
   renderer.state.activeTexture(gl.TEXTURE0);renderer.state.bindTexture(gl.TEXTURE_2D,renderer.properties.get(s.tex).__webglTexture);gl.pixelStorei(gl.UNPACK_SKIP_PIXELS,0);gl.pixelStorei(gl.UNPACK_SKIP_ROWS,0);gl.pixelStorei(gl.UNPACK_ROW_LENGTH,0);gl.pixelStorei(gl.UNPACK_ALIGNMENT,4);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false);
   gl.texSubImage2D(gl.TEXTURE_2D,0,r.x0,y0,w,h,gl.RGBA,gl.UNSIGNED_BYTE,pixels);renderer.state.unbindTexture();if(!s.paintPixels)s.paintPixels=new Uint8ClampedArray(fullW*s.canvas.height*4);
    for(let y=0;y<h;y++)s.paintPixels.set(pixels.subarray(y*w*4,(y+1)*w*4),((y0+y)*fullW+r.x0)*4);s.uploadedEpoch=s.paintEpoch;s.canvasCurrent=true;s.dirtyRect=null;showPigment(s);
@@ -1548,7 +1575,7 @@ function layoutStaticHUD(){const width=Math.round(W*DPR),topHeight=Math.round((p
 function drawStaticUI(){
   layoutStaticHUD();ctx=hudContext;ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,hud.height/DPR);buttons=[];if(!showHUD&&!panel)return;
  if(!panel){
-  rect(18,18,148,42,'rgba(27,35,33,.95)');text('SMEAR',31,39,20,'#efe8d8','left',800);text('08.8',150,40,12,'#bdad8d','right',700);
+  rect(18,18,148,42,'rgba(27,35,33,.95)');text('SMEAR',31,39,20,'#efe8d8','left',800);text('08.9',150,40,12,'#bdad8d','right',700);
   const top=[['Add dummy',106,addDummy],['Chaos',68,chaosScene],['Clean',64,cleanSurfaces],['Reset',64,()=>openPanel('reset')],['Tune',62,()=>openPanel('tune')],['Perf',62,()=>runtimeProfiler.show()],['Controls',82,()=>openPanel('controls')],['About',64,()=>openPanel('about')]];
   let x=W-top.reduce((a,t)=>a+t[1]+6,0)-12;for(const [label,w,action]of top){button(label,x,20,w,38,action);x+=w+6;}
   if(!runtimeProfiler.visible&&!paused&&!slow)buttons.push({label:runtimeProfiler.badge(),x:18,y:70,w:177,h:27,action:()=>runtimeProfiler.show(true),fps:true});
@@ -1566,7 +1593,7 @@ function drawStaticUI(){
  }
  ctx.fillStyle='rgba(10,17,15,.60)';ctx.fillRect(0,0,W,H);
  const pw=Math.min(panel==='controls'?670:574,W-32),ph=panel==='reset'?222:Math.min(panel==='tune'?552:586,H-30),x=(W-pw)/2,y=(H-ph)/2;
- rect(x,y,pw,ph,'#202b27',6,'#667064');const title={reset:'Reset the room?',controls:'Controls',tune:'Tune',about:'SMEAR 08.8'}[panel];text(title,x+26,y+36,25,'#ede6d6','left',700);button('Close',x+pw-96,y+18,71,34,()=>openPanel(null));
+ rect(x,y,pw,ph,'#202b27',6,'#667064');const title={reset:'Reset the room?',controls:'Controls',tune:'Tune',about:'SMEAR 08.9'}[panel];text(title,x+26,y+36,25,'#ede6d6','left',700);button('Close',x+pw-96,y+18,71,34,()=>openPanel(null));
  if(panel==='reset'){text('Clears dummies and stains. Your tuning is kept.',x+26,y+92,15,'#cdd0c4');button('Keep playing',x+pw-259,y+ph-66,124,39,()=>openPanel(null));button('Reset room',x+pw-126,y+ph-66,101,39,()=>{panel=null;resetWorld(true);},true);return;}
  if(panel==='tune'){
   for(const [i,label]of ['Handling','Blood','Camera'].entries())button(label,x+26+i*111,y+69,104,34,()=>tunePage=label.toLowerCase(),tunePage===label.toLowerCase());
@@ -1649,7 +1676,7 @@ function updateDemo(dt){if(!demo)return;const t=simTime-demo.start;if(t<6.5){gra
  else if(t<14){if(grab){grab=null;selected=null;}}
  else{const old=demo.oldBlood;demo=null;bloodScale=old;notify('Your turn. The marks are all persistent surface paint.',5);}}
 function jointError(){let m=0;for(const j of joints){j.a.world(j.pa,scratch[0]);j.b.world(j.pb,scratch[1]);m=Math.max(m,scratch[0].distanceTo(scratch[1]));}return m;}
-function state(){return{name:'SMEAR',version:'0.8.8',tune:{...tune},modes:dolls.map(d=>({id:d.id,mode:d.mode,faceUp:d.recovery?.faceUp||false,settled:d.settled,health:d.health,walkDistance:d.walkDistance,footfalls:d.footfalls,root:d.root.toArray(),goal:d.walk?.goal?.toArray()||null,feet:d.walk?d.walk.feet.map(f=>({p:f.p.toArray(),swing:f.swing})):null})),wetSupply:surfaces.reduce((a,s)=>a+s.supply.reduce((a,b)=>a+b,0),0),engine:'Three.js '+T.REVISION+' + custom rigid-body XPBD',simTime,seed,tool,player:{mode:player.fly?'fly':'walk',p:player.feet.toArray(),grounded:player.grounded,locked:document.pointerLockElement===canvas,sticky:stickyLook},paused,slow,dolls:dolls.length,bodies:bodies.length,activeBodies:bodies.filter(b=>b.active).length,particles:dropList.length,grab:grab?grab.body.name:null,stats:{...stats,maxJoint:jointError()},paintTextures:surfaces.length,paintBytes:surfaces.reduce((s,p)=>s+p.res*p.res*4,0),renderer:{calls:renderer.info.render.calls,triangles:renderer.info.render.triangles,geometries:renderer.info.memory.geometries,textures:renderer.info.memory.textures},parts:bodies.map(b=>({id:b.id,name:b.name,doll:b.doll.id,p:b.p.toArray(),q:b.q.toArray(),speed:b.v.length(),wet:b.wet,coat:Array.from(b.coat),contacts:b.contacts.length,wounds:b.wounds.length,damage:b.damage,wear:Array.from(b.wear),pressure:b.pressure,reserve:b.bloodReserve}))};}
+function state(){return{name:'SMEAR',version:'0.8.9',tune:{...tune},modes:dolls.map(d=>({id:d.id,mode:d.mode,faceUp:d.recovery?.faceUp||false,settled:d.settled,health:d.health,walkDistance:d.walkDistance,footfalls:d.footfalls,root:d.root.toArray(),goal:d.walk?.goal?.toArray()||null,feet:d.walk?d.walk.feet.map(f=>({p:f.p.toArray(),swing:f.swing})):null})),wetSupply:surfaces.reduce((a,s)=>a+s.supply.reduce((a,b)=>a+b,0),0),engine:'Three.js '+T.REVISION+' + custom rigid-body XPBD',simTime,seed,tool,player:{mode:player.fly?'fly':'walk',p:player.feet.toArray(),grounded:player.grounded,locked:document.pointerLockElement===canvas,sticky:stickyLook},paused,slow,dolls:dolls.length,bodies:bodies.length,activeBodies:bodies.filter(b=>b.active).length,particles:dropList.length,grab:grab?grab.body.name:null,stats:{...stats,maxJoint:jointError()},paintTextures:surfaces.length,paintBytes:surfaces.reduce((s,p)=>s+p.res*p.res*4,0),renderer:{calls:renderer.info.render.calls,triangles:renderer.info.render.triangles,geometries:renderer.info.memory.geometries,textures:renderer.info.memory.textures},parts:bodies.map(b=>({id:b.id,name:b.name,doll:b.doll.id,p:b.p.toArray(),q:b.q.toArray(),speed:b.v.length(),wet:b.wet,coat:Array.from(b.coat),contacts:b.contacts.length,wounds:b.wounds.length,damage:b.damage,wear:Array.from(b.wear),pressure:b.pressure,reserve:b.bloodReserve}))};}
 let manual=false;
 const MAX_WET_UPLOADS=10,MAX_PAINT_UPLOADS=6;
 function flushPaint(){let wetBudget=dirtyWet.size>18?12:MAX_WET_UPLOADS;for(const s of Array.from(dirtyWet)){s.wetTex.needsUpdate=true;dirtyWet.delete(s);if(--wetBudget<=0)break;}let paintBudget=dirtyPaint.size>10?8:MAX_PAINT_UPLOADS;for(const s of Array.from(dirtyPaint)){uploadPaintRegion(s);stats.paintUploads++;dirtyPaint.delete(s);if(--paintBudget<=0)break;}}
@@ -1659,7 +1686,7 @@ function renderNow(dt=0,alpha=1){
  drawDrops();camera.updateMatrixWorld();updateTools(dt);t=profile?performance.now():0;
  // Keep the original detail transforms as the picking/physics hierarchy. Submit
  // their visible spheres together, with the same materials and shadow flags.
- if(detailBatching){scene.updateMatrixWorld();syncDollDetails();scene.autoUpdate=false;}renderer.render(scene,camera);scene.autoUpdate=true;if(profile)runtimeProfiler.add('render',performance.now()-t);runtimeProfiler.gpuEnd();
+  if(detailBatching){scene.updateMatrixWorld();syncDollDetails();scene.autoUpdate=false;}renderer.render(scene,camera);scene.autoUpdate=true;retainShaderPrograms();if(profile)runtimeProfiler.add('render',performance.now()-t);runtimeProfiler.gpuEnd();
  t=profile?performance.now():0;drawUI();if(profile)runtimeProfiler.add('hud',performance.now()-t);
  t=profile?performance.now():0;runtimeProfiler.refresh();if(profile)runtimeProfiler.add('profiler',performance.now()-t);
 }
@@ -1668,7 +1695,11 @@ window.__smear={state,paintReady:paintEngine.flush,paintStatus:paintEngine.statu
 resetWorld(true);
 // Retain a rendered tracer program before interaction. Disposing the only
 // tracer material used to evict its program after every shot on Firefox.
-const warmTrace=takeTrace();warmTrace.line.material.opacity=0;warmTrace.line.frustumCulled=false;scene.add(warmTrace.line);renderer.compile(scene,camera);renderNow();warmTrace.line.frustumCulled=true;releaseTrace(warmTrace);renderNow();$('loading').remove();
+ const warmTrace=takeTrace();warmTrace.line.material.opacity=0;warmTrace.line.frustumCulled=false;scene.add(warmTrace.line);renderer.compile(scene,camera);retainShaderPrograms();
+ // Draw the first-shot variants while the loading screen still covers the game.
+ // No shot, simulation tick, audio trigger or random number is consumed here.
+ const warmTool=tool,warmFlash=shotFlashUntil;tool=1;shotFlashUntil=simTime+.05;renderNow();tool=warmTool;shotFlashUntil=warmFlash;
+ warmTrace.line.frustumCulled=true;releaseTrace(warmTrace);renderNow();$('loading').remove();
 let last=performance.now(),accumulator=0,hoverClock=0;
 function frame(now){
  frameRequest=0;if(!running)return;const wall=performance.now(),elapsed=Math.max(0,(wall-last)/1000),dt=clamp(elapsed,0,.075);last=wall;stats.frameMS=mix(stats.frameMS,dt*1000,.035);

@@ -1,0 +1,7 @@
+{
+  "version": "0.8.9",
+  "sourceSha256": "f0609fe107410ed9c975b605a34338ea49ee11048a478b731b91b1d188b46873",
+  "published": false,
+  "releaseHarnesses": 17,
+  "workerChecksPerBrowser": 79
+}

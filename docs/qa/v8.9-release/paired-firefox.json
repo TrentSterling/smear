@@ -1,0 +1,406 @@
+{
+  "before": "9fed255eb070b9a03f4e4517340b7d6d715c827ff65721a7b4d0adadba384098",
+  "after": "998a9f8fff66f3dbe5897a8b428e5c09f57d2118dee0d2c922be088d104ba352",
+  "browser": "firefox",
+  "checks": [
+    "air: exact simulation and wet transfer",
+    "air: exact droplet motion and lifetime",
+    "air: exact particle transforms",
+    "air: exact persistent paint and wet supply",
+    "air hidden: exact simulation and wet transfer",
+    "air hidden: exact droplet motion and lifetime",
+    "air hidden: exact particle transforms",
+    "air hidden: exact persistent paint and wet supply",
+    "pistol: exact simulation and wet transfer",
+    "pistol: exact droplet motion and lifetime",
+    "pistol: exact particle transforms",
+    "pistol: exact persistent paint and wet supply",
+    "drag-air: exact simulation and wet transfer",
+    "drag-air: exact droplet motion and lifetime",
+    "drag-air: exact particle transforms",
+    "drag-air: exact persistent paint and wet supply",
+    "drag-floor: exact simulation and wet transfer",
+    "drag-floor: exact droplet motion and lifetime",
+    "drag-floor: exact particle transforms",
+    "drag-floor: exact persistent paint and wet supply",
+    "chaos: exact simulation and wet transfer",
+    "chaos: exact droplet motion and lifetime",
+    "chaos: exact particle transforms",
+    "chaos: exact persistent paint and wet supply"
+  ],
+  "comparisons": [
+    {
+      "scenario": "air",
+      "hide": false,
+      "paintSha256": "3fdb572a8edc0228c290d4fb35e4f44702f97a1259e469fe4d539f295aa51831",
+      "motionSha256": "74dc131c3f407884501a963d4faa08bb72f2ca30132e8bad2682ae1c2d29c8d0",
+      "before": {
+        "work": {
+          "mean": 6.8354430379746836,
+          "p50": 7,
+          "p95": 9,
+          "p99": 10,
+          "max": 10
+        },
+        "intervals": {
+          "mean": 16.666610169491523,
+          "p50": 16.66000000000031,
+          "p95": 16.68000000000029,
+          "p99": 16.68000000000029,
+          "max": 16.68000000000029
+        },
+        "dropsMs": 0.5916666666666667,
+        "phases": {
+          "physics": 2.1171548117154813,
+          "paint": 0.2594142259414226,
+          "drops": 0.5941422594142259,
+          "uploadPrep": 1.1213389121338913,
+          "render": 2.3933054393305437,
+          "hud": 0.04602510460251046,
+          "profiler": 0.05439330543933055,
+          "input": 0,
+          "other": 0.2301255230125523
+        }
+      },
+      "after": {
+        "work": {
+          "mean": 8.624472573839663,
+          "p50": 9,
+          "p95": 10,
+          "p99": 11,
+          "max": 20
+        },
+        "intervals": {
+          "mean": 16.666610169491527,
+          "p50": 16.659999999999854,
+          "p95": 16.68000000000029,
+          "p99": 16.68000000000029,
+          "max": 16.68000000000029
+        },
+        "dropsMs": 0.7416666666666667,
+        "phases": {
+          "physics": 2.3933054393305437,
+          "paint": 0.41422594142259417,
+          "drops": 0.7405857740585774,
+          "uploadPrep": 1.493723849372385,
+          "render": 3.188284518828452,
+          "hud": 0.06694560669456066,
+          "profiler": 0.05439330543933055,
+          "input": 0,
+          "other": 0.24686192468619247
+        }
+      }
+    },
+    {
+      "scenario": "air",
+      "hide": true,
+      "paintSha256": "3fdb572a8edc0228c290d4fb35e4f44702f97a1259e469fe4d539f295aa51831",
+      "motionSha256": "74dc131c3f407884501a963d4faa08bb72f2ca30132e8bad2682ae1c2d29c8d0",
+      "before": {
+        "work": {
+          "mean": 7.09704641350211,
+          "p50": 7,
+          "p95": 9,
+          "p99": 11,
+          "max": 12
+        },
+        "intervals": {
+          "mean": 16.666610169491527,
+          "p50": 16.659999999999854,
+          "p95": 16.68000000000029,
+          "p99": 16.68000000000029,
+          "max": 16.68000000000029
+        },
+        "dropsMs": 0.6625,
+        "phases": {
+          "physics": 2.1715481171548117,
+          "paint": 0.28451882845188287,
+          "drops": 0.6694560669456067,
+          "uploadPrep": 1.0920502092050208,
+          "render": 2.5397489539748954,
+          "hud": 0.029288702928870293,
+          "profiler": 0.0502092050209205,
+          "input": 0,
+          "other": 0.26778242677824265
+        }
+      },
+      "after": {
+        "work": {
+          "mean": 8.594936708860759,
+          "p50": 9,
+          "p95": 10,
+          "p99": 11,
+          "max": 11
+        },
+        "intervals": {
+          "mean": 16.666610169491523,
+          "p50": 16.659999999999854,
+          "p95": 16.68000000000029,
+          "p99": 16.68000000000029,
+          "max": 16.68000000000029
+        },
+        "dropsMs": 0.7291666666666666,
+        "phases": {
+          "physics": 2.3807531380753137,
+          "paint": 0.36401673640167365,
+          "drops": 0.7364016736401674,
+          "uploadPrep": 1.4435146443514644,
+          "render": 3.2552301255230125,
+          "hud": 0.058577405857740586,
+          "profiler": 0.09205020920502092,
+          "input": 0,
+          "other": 0.24686192468619247
+        }
+      }
+    },
+    {
+      "scenario": "pistol",
+      "hide": false,
+      "paintSha256": "5046cd99f545a5bd0e2211e38267a19fb6bcc083aff2962e8b30b2b9612c611a",
+      "motionSha256": "746310bce201649dfeb188a533dfc6cdde6fcf0f50c3c195fcb306da475552a0",
+      "before": {
+        "work": {
+          "mean": 4.810126582278481,
+          "p50": 5,
+          "p95": 6,
+          "p99": 7,
+          "max": 9
+        },
+        "intervals": {
+          "mean": 16.666610169491523,
+          "p50": 16.66000000000031,
+          "p95": 16.68000000000029,
+          "p99": 16.68000000000029,
+          "max": 18.679999999999836
+        },
+        "dropsMs": 0.325,
+        "phases": {
+          "physics": 0.9665271966527197,
+          "paint": 0.36401673640167365,
+          "drops": 0.3305439330543933,
+          "uploadPrep": 0.6443514644351465,
+          "render": 2.217573221757322,
+          "hud": 0.03347280334728033,
+          "profiler": 0.03765690376569038,
+          "input": 0,
+          "other": 0.20920502092050208
+        }
+      },
+      "after": {
+        "work": {
+          "mean": 5.544303797468355,
+          "p50": 6,
+          "p95": 7,
+          "p99": 7,
+          "max": 8
+        },
+        "intervals": {
+          "mean": 16.666610169491523,
+          "p50": 16.66000000000031,
+          "p95": 16.679999999999836,
+          "p99": 16.68000000000029,
+          "max": 16.68000000000029
+        },
+        "dropsMs": 0.35,
+        "phases": {
+          "physics": 1.1255230125523012,
+          "paint": 0.37656903765690375,
+          "drops": 0.35564853556485354,
+          "uploadPrep": 0.8075313807531381,
+          "render": 2.573221757322176,
+          "hud": 0.0794979079497908,
+          "profiler": 0.0502092050209205,
+          "input": 0,
+          "other": 0.16317991631799164
+        }
+      }
+    },
+    {
+      "scenario": "drag-air",
+      "hide": false,
+      "paintSha256": "edd5a50ececd92fd42e4980be3dc5f9f1558f13151eeb48a43fd42b3a0fe8a1d",
+      "motionSha256": "927607078fd32965e0ce531e205deba154c433e7d792b0e825bcc5f2f6eb5b22",
+      "before": {
+        "work": {
+          "mean": 3.8818565400843883,
+          "p50": 4,
+          "p95": 5,
+          "p99": 6,
+          "max": 7
+        },
+        "intervals": {
+          "mean": 16.666610169491527,
+          "p50": 16.659999999999854,
+          "p95": 16.68000000000029,
+          "p99": 16.68000000000029,
+          "max": 16.68000000000029
+        },
+        "dropsMs": 0.11666666666666667,
+        "phases": {
+          "physics": 0.9497907949790795,
+          "paint": 0.24267782426778242,
+          "drops": 0.12552301255230125,
+          "uploadPrep": 0.26778242677824265,
+          "render": 2.0585774058577404,
+          "hud": 0.0502092050209205,
+          "profiler": 0.03765690376569038,
+          "input": 0,
+          "other": 0.12552301255230125
+        }
+      },
+      "after": {
+        "work": {
+          "mean": 4.506329113924051,
+          "p50": 4,
+          "p95": 6,
+          "p99": 7,
+          "max": 8
+        },
+        "intervals": {
+          "mean": 16.666525423728814,
+          "p50": 16.659999999999854,
+          "p95": 16.68000000000029,
+          "p99": 16.68000000000029,
+          "max": 16.68000000000029
+        },
+        "dropsMs": 0.07916666666666666,
+        "phases": {
+          "physics": 1.0167364016736402,
+          "paint": 0.38493723849372385,
+          "drops": 0.08368200836820083,
+          "uploadPrep": 0.24686192468619247,
+          "render": 2.4769874476987446,
+          "hud": 0.09623430962343096,
+          "profiler": 0.07112970711297072,
+          "input": 0,
+          "other": 0.13389121338912133
+        }
+      }
+    },
+    {
+      "scenario": "drag-floor",
+      "hide": false,
+      "paintSha256": "09ba1d7313854a8af00a21e53c3b80d4f15775a07d2c9d8d1c738b565786b7a5",
+      "motionSha256": "989d89149f63d022720e0c4d3497507c81432b6e0f30f1122889ad5d7bec7922",
+      "before": {
+        "work": {
+          "mean": 5.151898734177215,
+          "p50": 5,
+          "p95": 6,
+          "p99": 7,
+          "max": 11
+        },
+        "intervals": {
+          "mean": 16.666610169491523,
+          "p50": 16.66000000000031,
+          "p95": 16.679999999999836,
+          "p99": 16.679999999999836,
+          "max": 16.679999999999836
+        },
+        "dropsMs": 0.1625,
+        "phases": {
+          "physics": 1.1255230125523012,
+          "paint": 0.5188284518828452,
+          "drops": 0.17154811715481172,
+          "uploadPrep": 1.00836820083682,
+          "render": 2.1213389121338913,
+          "hud": 0.07531380753138076,
+          "profiler": 0.03765690376569038,
+          "input": 0,
+          "other": 0.09623430962343096
+        }
+      },
+      "after": {
+        "work": {
+          "mean": 6.7974683544303796,
+          "p50": 6,
+          "p95": 9,
+          "p99": 31,
+          "max": 91
+        },
+        "intervals": {
+          "mean": 17.514067796610167,
+          "p50": 16.659999999999854,
+          "p95": 16.68000000000029,
+          "p99": 63.960000000000036,
+          "max": 100.07999999999993
+        },
+        "dropsMs": 0.1125,
+        "phases": {
+          "physics": 1.5188284518828452,
+          "paint": 0.7238493723849372,
+          "drops": 0.12133891213389121,
+          "uploadPrep": 1.288702928870293,
+          "render": 2.8661087866108788,
+          "hud": 0.07112970711297072,
+          "profiler": 0.09623430962343096,
+          "input": 0,
+          "other": 0.100418410041841
+        }
+      }
+    },
+    {
+      "scenario": "chaos",
+      "hide": false,
+      "paintSha256": "9128a33f5f652778975e90a40a1f0d6ed66e1b40ffa211a8c7b1cea10c4cc1e8",
+      "motionSha256": "595b714eb2d597c2c24a0cf3799054dcb8c86a2252a3632756bd64fd60b79f00",
+      "before": {
+        "work": {
+          "mean": 10.548523206751055,
+          "p50": 10,
+          "p95": 15,
+          "p99": 17,
+          "max": 19
+        },
+        "intervals": {
+          "mean": 16.666694915254237,
+          "p50": 16.659999999999854,
+          "p95": 16.68000000000029,
+          "p99": 16.68000000000029,
+          "max": 18.220000000000255
+        },
+        "dropsMs": 0.325,
+        "phases": {
+          "physics": 4.313807531380753,
+          "paint": 1.0711297071129706,
+          "drops": 0.3305439330543933,
+          "uploadPrep": 1.4895397489539748,
+          "render": 3.100418410041841,
+          "hud": 0.0502092050209205,
+          "profiler": 0.06694560669456066,
+          "input": 0,
+          "other": 0.1297071129707113
+        }
+      },
+      "after": {
+        "work": {
+          "mean": 12.970464135021096,
+          "p50": 13,
+          "p95": 16,
+          "p99": 17,
+          "max": 24
+        },
+        "intervals": {
+          "mean": 17.796525423728813,
+          "p50": 16.660000000000764,
+          "p95": 33.32000000000062,
+          "p99": 33.340000000000146,
+          "max": 33.340000000000146
+        },
+        "dropsMs": 0.45416666666666666,
+        "phases": {
+          "physics": 5.041841004184101,
+          "paint": 1.4895397489539748,
+          "drops": 0.47280334728033474,
+          "uploadPrep": 1.5397489539748954,
+          "render": 4.2133891213389125,
+          "hud": 0.04184100418410042,
+          "profiler": 0.06694560669456066,
+          "input": 0,
+          "other": 0.07112970711297072
+        }
+      }
+    }
+  ],
+  "result": "COMPLETE particle and paint preservation checks passed"
+}
