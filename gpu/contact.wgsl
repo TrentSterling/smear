@@ -64,14 +64,17 @@ fn wallSplat(foot:Footprint,coat:f32,speed:f32,seed:u32)->f32 {
 fn paintContact(index:u32,input:Body,dt:f32)->Body {
  var b=input;let mem=contactMemory(index);let foot=footprint(b);
  let impactClock=max(0,contactFloat(mem+7u)-dt);atomicStore(&work[mem+7u],bitcast<u32>(impactClock));
- if(foot.receiver<0||b.status.x<.5){b.track.w=0;atomicStore(&work[mem+5u],0u);return b;}
+ if(foot.receiver<0||b.status.x<.5){b.track.w=0;atomicStore(&work[mem+5u],0u);atomicStore(&work[mem+8u],0u);return b;}
  let rec=u32(foot.receiver);let r=record(rec);let radius=foot.radius;let seed=index*731u+foot.face*113u;
  var surfaceWet=0.0;var pickup=0.0;
  for(var j=0u;j<9u;j++){
   let angle=(f32(j)-1)*.785398;let v=select(vec2f(cos(angle),sin(angle))*.65,vec2f(0),j==0u);let offset=patchOffset(radius,foot.angle,v);let point=foot.p+r.u.xyz*offset.x+r.v.xyz*offset.y;let cell=planeWetCell(rec,point);
   let filmRec=select(rec,floorRecord(point),rec<16u);let filmR=record(filmRec);let filmCell=vec2u(clamp(uv(filmR,point)*vec2f(filmDimensions(filmR)),vec2f(0),vec2f(filmDimensions(filmR))-1));let filmIndex=filmAddress(filmR,filmCell);
   surfaceWet+=max(f32(atomicLoad(&wet[cell]))/65536.0,filmRead(0u,filmIndex)*3)/9;
-  let wantedCoat=min(dt*2.8*frame.tune.z,max(0,1.3-b.coat.x))/9;
+  // A wet coating deposits onto a drier wall; it must not immediately vacuum
+  // its own print back up at the full pickup rate. Floors keep their pickup.
+  let equilibrium=select(1.3,min(1.3,filmRead(0u,filmIndex)*3),abs(r.n.y)<.65);
+  let wantedCoat=min(dt*2.8*frame.tune.z,max(0,equilibrium-b.coat.x))/9;
   let cellArea=filmR.size.x*filmR.size.y/f32(filmDimensions(filmR).x*filmDimensions(filmR).y);
   // The coarse wet grid controls pigment mobility, not a second blood reserve.
   // One unit of coating corresponds to .02 integrated film units in world area.
@@ -102,11 +105,31 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
    if(b.coat.x>.007){contactSweep(rec,a,p,ra,rb,aa,ab,min(1.4,b.coat.x)*frame.tune.y,1,seed,travelled);atomicAdd(&work[23],1u);}
    a=p;ra=rb;aa=ab;
   }
-  let spent=min(b.coat.x,movement*(.055+sqrt(radius.x*radius.y)*1.2)*frame.tune.z);b.coat.x-=spent;
+  let spent=select(min(b.coat.x,movement*(.055+sqrt(radius.x*radius.y)*1.2)*frame.tune.z),0.0,wall);b.coat.x-=spent;
   for(var j=0u;j<5u;j++){let offset=patchOffset(radius,angle,vec2f(cos(f32(j)*2.399963),sin(f32(j)*2.399963))*.62);let point=foot.p+r.u.xyz*offset.x+r.v.xyz*offset.y;addWet(planeWetCell(rec,point),u32(spent*.055*65536));}
   save=true;
  }
- if(resting>.35&&poolClock>.55&&(b.blood.x>.001||b.coat.x>.30)&&b.coat.x>.08){
+ // Wall transfer follows contact duration, including sliding and face changes.
+ // The broad core spends actual coating; the 54 bristles retain edge detail.
+ // Word 8 is only a deposition cadence, not an additional material reservoir.
+ // Compression routes a finite wound supply into the contact instead of
+ // launching all fresh blood away as tiny drops. Supply stops on release.
+ if(wall&&frame.local.w>.5&&u32(frame.goal.w)/15u==index/15u&&b.blood.x>.001&&b.coat.w>0){
+  let held=localBodies[u32(frame.goal.w)%15u];let heldPoint=held.p.xyz+rotate(held.q,frame.local.xyz);
+  let pressure=clamp(-dot(frame.goal.xyz-heldPoint,r.n.xyz)/.16,0,1);
+  let reserve=min(b.coat.w,dt*b.blood.x*frame.action.z*pressure*.16);
+  let supplied=min(reserve*5,max(0,1.65-b.coat.x));
+  b.coat.w-=supplied*.2;b.coat.x+=supplied;
+ }
+ var wallClock=contactFloat(mem+8u)+dt;
+ if(wall&&wallClock>=.075&&frame.tune.y>.001&&b.coat.x>.008){
+  let spent=min(b.coat.x,(.085+min(1.0,b.coat.x)*.8)*wallClock*frame.tune.z);
+  let size=radius*1.5;let strength=min(.85,spent*1.1/max(.006,size.x*size.y))*frame.tune.y;
+  contactStamp(rec,foot.p,foot.p,size,size,foot.angle,foot.angle,strength,7,seed,spent*.02);
+  b.coat.x=max(0,b.coat.x-spent);wallClock=0;atomicAdd(&work[24],1u);
+ }
+ atomicStore(&work[mem+8u],bitcast<u32>(min(wallClock,.15)));
+ if(!wall&&resting>.35&&poolClock>.55&&(b.blood.x>.001||b.coat.x>.30)&&b.coat.x>.08){
   let spread=1+min(.85,sqrt(resting)*.24);let amount=min(.22,b.coat.x*.18);poolDeposit(rec,foot.p,radius*spread,angle,amount,seed);b.coat.x=max(0,b.coat.x-amount*.80);poolClock=0;atomicAdd(&work[24],1u);
  }
  if(save){b.track=vec4f(foot.p,f32(rec)+1);atomicStore(&work[mem],bitcast<u32>(angle));atomicStore(&work[mem+1u],bitcast<u32>(radius.x));atomicStore(&work[mem+2u],bitcast<u32>(radius.y));atomicStore(&work[mem+3u],bitcast<u32>(travelled));atomicStore(&work[mem+4u],foot.face);}

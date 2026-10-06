@@ -13,7 +13,7 @@ export async function installWallFixture(page){
   async advance(n){for(let i=0;i<n;i+=2)g.submit(Math.min(2,n-i));await d.queue.onSubmittedWorkDone();},
   async hide(){g.bodyCount=0;g.syncCounts();g.clearDrops();__smear.render();await d.queue.onSubmittedWorkDone();},
   async read(wall=true){
-   const ids=wall?[16]:Array.from({length:16},(_,i)=>i);let painted=0,opaque=0,alpha=0,coreAlpha=0,minX=1e9,maxX=-1e9,minY=1e9,maxY=-1e9,mobile=0,residue=0,coreMobile=0,down=0;
+   const ids=typeof wall==='number'?[wall]:wall?[16]:Array.from({length:16},(_,i)=>i);let painted=0,opaque=0,alpha=0,coreAlpha=0,minX=1e9,maxX=-1e9,minY=1e9,maxY=-1e9,mobile=0,residue=0,coreMobile=0,down=0;
    for(const id of ids){const r=g.records[id],s=g.surfaces[id],a=new Uint32Array(await download(g.paintBuffer,r.pixelOffset*4,r.width*r.height*4));
     for(let y=0;y<r.height;y++)for(let x=0;x<r.width;x++){const v=a[x+y*r.width]>>>24;if(!v)continue;const u=((x+.5)/r.width-.5)*s.w,w=((y+.5)/r.height-.5)*s.h,p=s.center.clone().addScaledVector(s.u,u).addScaledVector(s.v,w);painted++;if(v>128)opaque++;alpha+=v;if(Math.abs(p.x)<.8&&p.y>1&&p.y<2.5)coreAlpha+=v;if(v>32){minX=Math.min(minX,p.x);maxX=Math.max(maxX,p.x);minY=Math.min(minY,wall?p.y:p.z);maxY=Math.max(maxY,wall?p.y:p.z);}}
     const count=r.filmWidth*r.filmHeight,base=g.surfaces.length*3136+r.filmOffset,cellArea=s.w*s.h/count,f=new Uint32Array(await download(g.wetBuffer,base*4,count*4)),dry=new Uint32Array(await download(g.wetBuffer,(base+g.filmCells*2)*4,count*4));

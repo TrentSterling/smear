@@ -1,0 +1,2308 @@
+{
+  "version": "0.21.0",
+  "status": "verified release candidate",
+  "verifiedAt": "2026-10-06T08:56:28.890Z",
+  "buildSHA256": "928284b2601801632a72d4f2995c558268f7d0ccf918674d7acbc9537bc740ff",
+  "buildBytes": 959843,
+  "checks": {
+    "chrome-contact": [
+      "Uncoated unwounded real dummy creates no wall paint through eight seconds of dragging",
+      "Default press produces a broad connected wet wall patch in two contact seconds",
+      "Default drag produces a broad connected wet wall patch in two contact seconds",
+      "Default block produces a broad connected wet wall patch in two contact seconds",
+      "Actual grab physics remain finite, connected and within paint event capacity"
+    ],
+    "chrome-wall": [
+      "Actual articulated GPU wall impact leaves paint with finite joints and no lost events",
+      "Wall slam creates a broad opaque print and radial splatter instead of a small contact dab",
+      "The impact silhouette stays on the wall after 3 and 15 seconds of drainage",
+      "Retained splat still contains wet liquid that gradually drains or dries",
+      "Wall-slam liquid moves visibly within three seconds while retaining the broad pigment print",
+      "The matched floor impact retains its existing pool and pigment response",
+      "An uncoated unwounded body does not manufacture a wet wall splat"
+    ],
+    "chrome-rivulets": [
+      "Wall wetting fixtures run on hardware GPU with finite state and no lost events",
+      "Small deposits cling while a heavier bead visibly moves under gravity",
+      "A finite broad patch develops uneven runoff while retaining its attached mass",
+      "Wall breakup retains source residue and conserves finite liquid plus dried mass",
+      "A broad deposit splits into multiple separated rivulets below its source",
+      "Wall pinning and rivulet breakup agree at 30 Hz and 60 Hz submission cadence",
+      "Contact shear releases attached wall liquid without manufacturing supply"
+    ],
+    "chrome-film": [
+      "Finite isolated pools spread and level after deposition stops, conserving mobile plus dried mass",
+      "Adjacent pools merge across a floor-record seam",
+      "30 Hz and 60 Hz submissions produce comparable spreading and supply",
+      "Clean dummy picks up and redistributes existing liquid with fresh deposition disabled",
+      "Drying transfers mobile liquid into persistent residue instead of deleting blood",
+      "Liquid visibly accelerates downhill while retaining supply across receivers and runoff droplets",
+      "Clean clears both mobile pools and settled residue",
+      "A finite wall pool runs down and supplies the floor without continued painting",
+      "Blood detaches from elevated edges, falls ballistically, and lands with finite carried volume",
+      "A full 900-drop pool retains un-emitted runoff on its receiver",
+      "Real wound droplets inherit body momentum and follow a gravity-curved flight",
+      "Fast-moving coated bodies fling finite droplets without creating wounds",
+      "Live GPU ragdoll dragging remains finite with no dropped paint events"
+    ],
+    "chrome-wet": [
+      "Dry pigment remains unchanged under a clean moving contact",
+      "Wet contact redistributes existing colored pigment with fresh deposition disabled",
+      "Pigment crosses a floor-record seam without a gap or duplicated supply",
+      "Rotation around a stationary footprint produces curved material smears",
+      "Resting wet wounds grow a cohesive pool over six seconds",
+      "Lift and recontact break the stroke without bridging airborne travel",
+      "A saturated coating leaves a finite puddle without an active wound and consumes wet supply",
+      "Body contact also smears on a vertical wall without leaking onto the floor",
+      "Ten seconds of closed-supply wall dragging cannot create more liquid than the original coating",
+      "Live articulated dummy drag stays finite, connected and within paint event capacity"
+    ],
+    "chrome-gameplay": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "chrome-native": [
+      "Native pistol hits and spawns GPU particles",
+      "Native Spill paints walls; GPU gravity drips extend paint",
+      "Native grabbing resolves from GPU body poses",
+      "Native drag creates persistent floor smears",
+      "GPU wash clears all 150 body coatings and pigment",
+      "GPU heal restores reserves and clears airborne drops",
+      "Finite long GPU simulation and recovery"
+    ],
+    "firefox-contact": [
+      "Uncoated unwounded real dummy creates no wall paint through eight seconds of dragging",
+      "Default press produces a broad connected wet wall patch in two contact seconds",
+      "Default drag produces a broad connected wet wall patch in two contact seconds",
+      "Default block produces a broad connected wet wall patch in two contact seconds",
+      "Actual grab physics remain finite, connected and within paint event capacity"
+    ],
+    "firefox-wall": [
+      "Actual articulated GPU wall impact leaves paint with finite joints and no lost events",
+      "Wall slam creates a broad opaque print and radial splatter instead of a small contact dab",
+      "The impact silhouette stays on the wall after 3 and 15 seconds of drainage",
+      "Retained splat still contains wet liquid that gradually drains or dries",
+      "Wall-slam liquid moves visibly within three seconds while retaining the broad pigment print",
+      "The matched floor impact retains its existing pool and pigment response",
+      "An uncoated unwounded body does not manufacture a wet wall splat"
+    ],
+    "firefox-rivulets": [
+      "Wall wetting fixtures run on hardware GPU with finite state and no lost events",
+      "Small deposits cling while a heavier bead visibly moves under gravity",
+      "A finite broad patch develops uneven runoff while retaining its attached mass",
+      "Wall breakup retains source residue and conserves finite liquid plus dried mass",
+      "A broad deposit splits into multiple separated rivulets below its source",
+      "Wall pinning and rivulet breakup agree at 30 Hz and 60 Hz submission cadence",
+      "Contact shear releases attached wall liquid without manufacturing supply"
+    ],
+    "firefox-film": [
+      "Finite isolated pools spread and level after deposition stops, conserving mobile plus dried mass",
+      "Adjacent pools merge across a floor-record seam",
+      "30 Hz and 60 Hz submissions produce comparable spreading and supply",
+      "Clean dummy picks up and redistributes existing liquid with fresh deposition disabled",
+      "Drying transfers mobile liquid into persistent residue instead of deleting blood",
+      "Liquid visibly accelerates downhill while retaining supply across receivers and runoff droplets",
+      "Clean clears both mobile pools and settled residue",
+      "A finite wall pool runs down and supplies the floor without continued painting",
+      "Blood detaches from elevated edges, falls ballistically, and lands with finite carried volume",
+      "A full 900-drop pool retains un-emitted runoff on its receiver",
+      "Real wound droplets inherit body momentum and follow a gravity-curved flight",
+      "Fast-moving coated bodies fling finite droplets without creating wounds",
+      "Live GPU ragdoll dragging remains finite with no dropped paint events"
+    ],
+    "firefox-wet": [
+      "Dry pigment remains unchanged under a clean moving contact",
+      "Wet contact redistributes existing colored pigment with fresh deposition disabled",
+      "Pigment crosses a floor-record seam without a gap or duplicated supply",
+      "Rotation around a stationary footprint produces curved material smears",
+      "Resting wet wounds grow a cohesive pool over six seconds",
+      "Lift and recontact break the stroke without bridging airborne travel",
+      "A saturated coating leaves a finite puddle without an active wound and consumes wet supply",
+      "Body contact also smears on a vertical wall without leaking onto the floor",
+      "Ten seconds of closed-supply wall dragging cannot create more liquid than the original coating",
+      "Live articulated dummy drag stays finite, connected and within paint event capacity"
+    ],
+    "firefox-gameplay": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "firefox-native": [
+      "Native pistol hits and spawns GPU particles",
+      "Native Spill paints walls; GPU gravity drips extend paint",
+      "Native grabbing resolves from GPU body poses",
+      "Native drag creates persistent floor smears",
+      "GPU wash clears all 150 body coatings and pigment",
+      "GPU heal restores reserves and clears airborne drops",
+      "Finite long GPU simulation and recovery"
+    ]
+  },
+  "evidence": [
+    {
+      "path": "tools/out/wall-contact-pass/final-v21/verification.json",
+      "sha256": "bc65c3bbe8beaf67bc9d49c4a9fc97975b7b565c81caf159d49e1f32edea3e49",
+      "startedAt": "2026-10-06T08:48:16.505Z"
+    },
+    {
+      "path": "tools/out/wall-pass/final-v21/verification.json",
+      "sha256": "83b0d933857677a73781464d9ab3030b116e93d597a4ae42f3bd27e28bb323f9",
+      "startedAt": "2026-10-06T08:49:30.489Z"
+    },
+    {
+      "path": "tools/out/rivulet-pass/final-v21/verification.json",
+      "sha256": "56e3cc2f5fb38037a53659138f4a667a9f7a6315ab31c5e2ef3d14d3e9bb0701",
+      "startedAt": "2026-10-06T08:51:13.288Z"
+    },
+    {
+      "path": "tools/out/film-pass/final-v21/verification.json",
+      "sha256": "86d96d707eb93ab14cd8d53b45d2307a16ac47b3601bafcd6953487639ec456e",
+      "startedAt": "2026-10-06T08:50:34.050Z"
+    },
+    {
+      "path": "tools/out/wet-pass/final-v21/verification.json",
+      "sha256": "c75f87075a4354cd49674e5b0dd3698ccdf02037c06b45a1c2ed1f02f65494f5",
+      "startedAt": "2026-10-06T08:50:03.145Z"
+    },
+    {
+      "path": "tools/out/compute-chrome/verification.json",
+      "sha256": "bbb9d6c4ce822cd6a5e4437a341b264e32f5c5b47de82953d86783605759894c",
+      "startedAt": "2026-10-06T08:51:39.337Z"
+    },
+    {
+      "path": "tools/out/compute-native-chrome/verification.json",
+      "sha256": "244f485cd81249efac3679ba7ebcbf123641b23ca82bbbee53b26148407a45a0",
+      "startedAt": "2026-10-06T08:51:53.029Z"
+    },
+    {
+      "path": "tools/out/wall-contact-pass/final-v21-firefox/verification.json",
+      "sha256": "8ae72d811c7ba97dd36d3fa0b64f8eeb8a98f63553098f063f3a696cd7cd2c9c",
+      "startedAt": "2026-10-06T08:49:02.237Z"
+    },
+    {
+      "path": "tools/out/wall-pass/final-v21-firefox/verification.json",
+      "sha256": "28e828814d77f4a9d0e9fd0ab07930626c83d75026c11b68adb4a36fc1ccbc08",
+      "startedAt": "2026-10-06T08:49:40.021Z"
+    },
+    {
+      "path": "tools/out/rivulet-pass/final-v21-firefox/verification.json",
+      "sha256": "65ff92aabfa72c7fc510c31d1c74623ea1296c067d4f810fdad91271b4a31256",
+      "startedAt": "2026-10-06T08:51:24.621Z"
+    },
+    {
+      "path": "tools/out/film-pass/final-v21-firefox/verification.json",
+      "sha256": "eb66c4235cf3ecf409a964170ce3ac34900c9aec890267d8e2e040990db023f9",
+      "startedAt": "2026-10-06T08:50:48.737Z"
+    },
+    {
+      "path": "tools/out/wet-pass/final-v21-firefox/verification.json",
+      "sha256": "69d5dd4ecef14d55643c80be77a760f15b721587e68e6a6ae2c97761ec449b1b",
+      "startedAt": "2026-10-06T08:50:14.036Z"
+    },
+    {
+      "path": "tools/out/compute-firefox/verification.json",
+      "sha256": "6e003c88868f2b3af6b805e6227cea0bf8c81e05b73a18cd3a89186050e9e427",
+      "startedAt": "2026-10-06T08:52:37.235Z"
+    },
+    {
+      "path": "tools/out/compute-native-firefox/verification.json",
+      "sha256": "71df9e55335f1ad1ea8c67512e10b05b3488e9419700b6ce426e8f7eef176a3c",
+      "startedAt": "2026-10-06T08:53:05.419Z"
+    }
+  ],
+  "contacts": [
+    {
+      "browser": "chrome",
+      "scenes": {
+        "press": {
+          "twoSecondsAfterContact": {
+            "before": {
+              "opaque": 12705,
+              "alpha": 2994507,
+              "painted": 21896,
+              "largest": 10788,
+              "opaqueM2": 0.4962890625,
+              "connectedM2": 0.42140625
+            },
+            "after": {
+              "opaque": 25588,
+              "alpha": 6448042,
+              "painted": 37899,
+              "largest": 23046,
+              "opaqueM2": 0.99953125,
+              "connectedM2": 0.900234375
+            },
+            "opaqueRatio": 2.0140102321920503,
+            "connectedRatio": 2.136262513904338
+          },
+          "samples": [
+            {
+              "sec": 2,
+              "body": {
+                "name": "Torso",
+                "doll": 0,
+                "p": [
+                  -3.4638330936431885,
+                  1.9996546506881714,
+                  -7.841272354125977
+                ],
+                "q": [
+                  0.14399662613868713,
+                  0.03546401485800743,
+                  -0.29151177406311035,
+                  0.9450016021728516
+                ],
+                "v": [
+                  -0.3199481666088104,
+                  -0.0363922081887722,
+                  0.014648436568677425
+                ],
+                "wet": 0.5874332189559937,
+                "damage": 0.04099273681640625,
+                "reserve": 8.989041328430176,
+                "bleeding": 0.31149303913116455,
+                "mode": 0,
+                "active": 1,
+                "target": [
+                  -3.4611668586730957,
+                  1.9999579191207886,
+                  -7.841394424438477
+                ],
+                "gait": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "wall": {
+                "painted": 10284,
+                "opaque": 7758,
+                "alpha": 1672272,
+                "coreAlpha": 0,
+                "width": 2.5937499999999996,
+                "height": 2.2375,
+                "mobile": 0.011171655654907232,
+                "residue": 0.000010519027709960923,
+                "coreMobile": 0,
+                "centroidY": 1.4128483980731288,
+                "splats": 5,
+                "overflow": 0
+              },
+              "patch": {
+                "opaque": 5125,
+                "alpha": 1065851,
+                "painted": 6816,
+                "largest": 4227,
+                "opaqueM2": 0.2001953125,
+                "connectedM2": 0.1651171875
+              },
+              "maxJoint": 0.003804579625114061,
+              "work": [
+                52,
+                0,
+                51,
+                0,
+                82,
+                0,
+                5
+              ]
+            },
+            {
+              "sec": 4,
+              "body": {
+                "name": "Torso",
+                "doll": 0,
+                "p": [
+                  -3.499976873397827,
+                  2.0014655590057373,
+                  -7.841674327850342
+                ],
+                "q": [
+                  0.10739938169717789,
+                  -0.10041617602109909,
+                  -0.9533039927482605,
+                  0.26380547881126404
+                ],
+                "v": [
+                  -0.02097129635512829,
+                  0.002489089732989669,
+                  -0.00045776364277116954
+                ],
+                "wet": 0.4905884563922882,
+                "damage": 0.04099273681640625,
+                "reserve": 8.839512825012207,
+                "bleeding": 0.31149303913116455,
+                "mode": 0,
+                "active": 1,
+                "target": [
+                  -3.4998021125793457,
+                  2.0014448165893555,
+                  -7.841670513153076
+                ],
+                "gait": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "wall": {
+                "painted": 60779,
+                "opaque": 35623,
+                "alpha": 8874606,
+                "coreAlpha": 0,
+                "width": 11.19375,
+                "height": 4.699999999999999,
+                "mobile": 0.045121822357177724,
+                "residue": 0.0007126617431640628,
+                "coreMobile": 0,
+                "centroidY": 1.8984140098229585,
+                "splats": 11,
+                "overflow": 0
+              },
+              "patch": {
+                "opaque": 25588,
+                "alpha": 6448042,
+                "painted": 37899,
+                "largest": 23046,
+                "opaqueM2": 0.99953125,
+                "connectedM2": 0.900234375
+              },
+              "maxJoint": 0.00354093626988898,
+              "work": [
+                2965,
+                104,
+                2050,
+                0,
+                119,
+                0,
+                11
+              ]
+            },
+            {
+              "sec": 8,
+              "body": {
+                "name": "Torso",
+                "doll": 0,
+                "p": [
+                  -3.4980878829956055,
+                  1.9997665882110596,
+                  -7.8416032791137695
+                ],
+                "q": [
+                  0.0018352343467995524,
+                  0.14736512303352356,
+                  0.8373533487319946,
+                  0.5264214277267456
+                ],
+                "v": [
+                  -0.00028610226581804454,
+                  0.026335714384913445,
+                  -0.00028610226581804454
+                ],
+                "wet": 0.6458383798599243,
+                "damage": 0.04099273681640625,
+                "reserve": 8.54045581817627,
+                "bleeding": 0.31149303913116455,
+                "mode": 0,
+                "active": 1,
+                "target": [
+                  -3.4980854988098145,
+                  1.9995471239089966,
+                  -7.8416008949279785
+                ],
+                "gait": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "wall": {
+                "painted": 81655,
+                "opaque": 56260,
+                "alpha": 13653945,
+                "coreAlpha": 35071,
+                "width": 12.49375,
+                "height": 4.8062499999999995,
+                "mobile": 0.19173833847045926,
+                "residue": 0.006806335449218766,
+                "coreMobile": 0.0006871509552001953,
+                "centroidY": 1.9988169541226624,
+                "splats": 11,
+                "overflow": 0
+              },
+              "patch": {
+                "opaque": 35263,
+                "alpha": 8549633,
+                "painted": 40495,
+                "largest": 33103,
+                "opaqueM2": 1.3774609375,
+                "connectedM2": 1.2930859375
+              },
+              "maxJoint": 0.0037512738966911665,
+              "work": [
+                10259,
+                329,
+                8654,
+                0,
+                293,
+                0,
+                11
+              ]
+            }
+          ]
+        },
+        "drag": {
+          "twoSecondsAfterContact": {
+            "before": {
+              "opaque": 14760,
+              "alpha": 3515798,
+              "painted": 25583,
+              "largest": 12736,
+              "opaqueM2": 0.5765625,
+              "connectedM2": 0.4975
+            },
+            "after": {
+              "opaque": 29999,
+              "alpha": 7341573,
+              "painted": 38737,
+              "largest": 29247,
+              "opaqueM2": 1.1718359375,
+              "connectedM2": 1.1424609375
+            },
+            "opaqueRatio": 2.0324525745257453,
+            "connectedRatio": 2.2964038944723617
+          },
+          "samples": [
+            {
+              "sec": 2,
+              "body": {
+                "name": "Torso",
+                "doll": 0,
+                "p": [
+                  -3.4638330936431885,
+                  1.9996546506881714,
+                  -7.841272354125977
+                ],
+                "q": [
+                  0.14399662613868713,
+                  0.03546401485800743,
+                  -0.29151177406311035,
+                  0.9450016021728516
+                ],
+                "v": [
+                  -0.3199481666088104,
+                  -0.0363922081887722,
+                  0.014648436568677425
+                ],
+                "wet": 0.5874332189559937,
+                "damage": 0.04099273681640625,
+                "reserve": 8.989041328430176,
+                "bleeding": 0.31149303913116455,
+                "mode": 0,
+                "active": 1,
+                "target": [
+                  -3.4611668586730957,
+                  1.9999579191207886,
+                  -7.841394424438477
+                ],
+                "gait": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "wall": {
+                "painted": 10284,
+                "opaque": 7758,
+                "alpha": 1672272,
+                "coreAlpha": 0,
+                "width": 2.5937499999999996,
+                "height": 2.2375,
+                "mobile": 0.011171655654907232,
+                "residue": 0.000010519027709960923,
+                "coreMobile": 0,
+                "centroidY": 1.4128483980731288,
+                "splats": 5,
+                "overflow": 0
+              },
+              "patch": {
+                "opaque": 5125,
+                "alpha": 1065851,
+                "painted": 6816,
+                "largest": 4227,
+                "opaqueM2": 0.2001953125,
+                "connectedM2": 0.1651171875
+              },
+              "maxJoint": 0.003804579625114061,
+              "work": [
+                52,
+                0,
+                51,
+                0,
+                82,
+                0,
+                5
+              ]
+            },
+            {
+              "sec": 4,
+              "body": {
+                "name": "Torso",
+                "doll": 0,
+                "p": [
+                  -3.100590944290161,
+                  2.0014970302581787,
+                  -7.841638088226318
+                ],
+                "q": [
+                  0.09334351122379303,
+                  -0.11379913240671158,
+                  -0.9796671867370605,
+                  0.1363411694765091
+                ],
+                "v": [
+                  -0.20562170445919037,
+                  0.009269713424146175,
+                  0.0034332273062318563
+                ],
+                "wet": 0.3682596683502197,
+                "damage": 0.04099273681640625,
+                "reserve": 8.839512825012207,
+                "bleeding": 0.31149303913116455,
+                "mode": 0,
+                "active": 1,
+                "target": [
+                  -3.098877429962158,
+                  2.00141978263855,
+                  -7.8416666984558105
+                ],
+                "gait": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "wall": {
+                "painted": 75031,
+                "opaque": 40429,
+                "alpha": 10417921,
+                "coreAlpha": 0,
+                "width": 9.993749999999999,
+                "height": 3.6375,
+                "mobile": 0.047406969070434624,
+                "residue": 0.0006626319885253912,
+                "coreMobile": 0,
+                "centroidY": 1.8984842705091836,
+                "splats": 13,
+                "overflow": 0
+              },
+              "patch": {
+                "opaque": 29999,
+                "alpha": 7341573,
+                "painted": 38737,
+                "largest": 29247,
+                "opaqueM2": 1.1718359375,
+                "connectedM2": 1.1424609375
+              },
+              "maxJoint": 0.003926777180534354,
+              "work": [
+                3652,
+                111,
+                2330,
+                0,
+                124,
+                0,
+                13
+              ]
+            },
+            {
+              "sec": 8,
+              "body": {
+                "name": "Torso",
+                "doll": 0,
+                "p": [
+                  -2.892731189727783,
+                  1.999226450920105,
+                  -7.841647624969482
+                ],
+                "q": [
+                  0.023094287142157555,
+                  0.14538325369358063,
+                  0.752074122428894,
+                  0.6424287557601929
+                ],
+                "v": [
+                  0.11730193346738815,
+                  0.020470617339015007,
+                  -0.006351470481604338
+                ],
+                "wet": 0.45219579339027405,
+                "damage": 0.04099273681640625,
+                "reserve": 8.54045581817627,
+                "bleeding": 0.31149303913116455,
+                "mode": 0,
+                "active": 1,
+                "target": [
+                  -2.8937087059020996,
+                  1.9990558624267578,
+                  -7.841594696044922
+                ],
+                "gait": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "wall": {
+                "painted": 167617,
+                "opaque": 116393,
+                "alpha": 28218453,
+                "coreAlpha": 13238,
+                "width": 14.9375,
+                "height": 4.99375,
+                "mobile": 0.2634964179992677,
+                "residue": 0.008329057693481462,
+                "coreMobile": 0.0004240703582763672,
+                "centroidY": 1.9784420365519455,
+                "splats": 16,
+                "overflow": 0
+              },
+              "patch": {
+                "opaque": 64656,
+                "alpha": 15538052,
+                "painted": 66735,
+                "largest": 64594,
+                "opaqueM2": 2.525625,
+                "connectedM2": 2.523203125
+              },
+              "maxJoint": 0.004365983159870208,
+              "work": [
+                12793,
+                355,
+                9489,
+                24,
+                395,
+                0,
+                16
+              ]
+            }
+          ]
+        },
+        "block": {
+          "twoSecondsAfterContact": {
+            "before": {
+              "opaque": 20979,
+              "alpha": 5123344,
+              "painted": 33485,
+              "largest": 18755,
+              "opaqueM2": 0.8194921875,
+              "connectedM2": 0.7326171875
+            },
+            "after": {
+              "opaque": 29341,
+              "alpha": 7524251,
+              "painted": 53971,
+              "largest": 24753,
+              "opaqueM2": 1.1461328125,
+              "connectedM2": 0.9669140625
+            },
+            "opaqueRatio": 1.398589065255732,
+            "connectedRatio": 1.3198080511863504
+          },
+          "samples": [
+            {
+              "sec": 2,
+              "body": {
+                "name": "Torso",
+                "doll": 0,
+                "p": [
+                  0.09750929474830627,
+                  0.8987963199615479,
+                  -3.8416740894317627
+                ],
+                "q": [
+                  0.07702816277742386,
+                  0.1255234330892563,
+                  0.4470038115978241,
+                  0.8823254108428955
+                ],
+                "v": [
+                  0.047633346170186996,
+                  -0.010528563521802425,
+                  -0.007209777366369963
+                ],
+                "wet": 0.6261703372001648,
+                "damage": 0.02118682861328125,
+                "reserve": 8.983865737915039,
+                "bleeding": 0.2817850708961487,
+                "mode": 0,
+                "active": 1,
+                "target": [
+                  0.09711235016584396,
+                  0.8988840579986572,
+                  -3.841614007949829
+                ],
+                "gait": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "wall": {
+                "painted": 6781,
+                "opaque": 5035,
+                "alpha": 1199071,
+                "coreAlpha": 86147,
+                "width": 1.08125,
+                "height": 0.9733333333333334,
+                "mobile": 0.011106632364207293,
+                "residue": 0.000023170865815261293,
+                "coreMobile": 0.0014669280216611665,
+                "centroidY": 0.707080797967904,
+                "splats": 4,
+                "overflow": 0
+              },
+              "patch": {
+                "opaque": 5035,
+                "alpha": 1199071,
+                "painted": 6781,
+                "largest": 2126,
+                "opaqueM2": 0.1966796875,
+                "connectedM2": 0.083046875
+              },
+              "maxJoint": 0.04134176505895606,
+              "work": [
+                290,
+                4,
+                269,
+                0,
+                26,
+                0,
+                4
+              ]
+            },
+            {
+              "sec": 4,
+              "body": {
+                "name": "Torso",
+                "doll": 0,
+                "p": [
+                  0.40938955545425415,
+                  0.900808572769165,
+                  -3.8420236110687256
+                ],
+                "q": [
+                  0.07531458139419556,
+                  -0.12494219094514847,
+                  -0.9892123937606812,
+                  -0.01326465792953968
+                ],
+                "v": [
+                  -0.23750780522823334,
+                  0.04621982201933861,
+                  0.005235671531409025
+                ],
+                "wet": 0.41531145572662354,
+                "damage": 0.02118682861328125,
+                "reserve": 8.850828170776367,
+                "bleeding": 0.2817850708961487,
+                "mode": 0,
+                "active": 1,
+                "target": [
+                  0.41136878728866577,
+                  0.9004234075546265,
+                  -3.842067241668701
+                ],
+                "gait": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "wall": {
+                "painted": 53971,
+                "opaque": 29341,
+                "alpha": 7524251,
+                "coreAlpha": 2193570,
+                "width": 2.1500000000000004,
+                "height": 1.4537606837606836,
+                "mobile": 0.03688776871253694,
+                "residue": 0.0006929173962823266,
+                "coreMobile": 0.007374106440050848,
+                "centroidY": 0.7784394021936489,
+                "splats": 15,
+                "overflow": 0
+              },
+              "patch": {
+                "opaque": 29341,
+                "alpha": 7524251,
+                "painted": 53971,
+                "largest": 24753,
+                "opaqueM2": 1.1461328125,
+                "connectedM2": 0.9669140625
+              },
+              "maxJoint": 0.005968610247605234,
+              "work": [
+                2713,
+                95,
+                1850,
+                0,
+                85,
+                0,
+                15
+              ]
+            },
+            {
+              "sec": 8,
+              "body": {
+                "name": "Torso",
+                "doll": 0,
+                "p": [
+                  0.5634689331054688,
+                  0.9012948274612427,
+                  -3.8416342735290527
+                ],
+                "q": [
+                  -0.14361543953418732,
+                  0.032493218779563904,
+                  0.6896745562553406,
+                  -0.7089906930923462
+                ],
+                "v": [
+                  0.10472773760557175,
+                  -0.009591578505933285,
+                  -0.00020027159189339727
+                ],
+                "wet": 0.37336549162864685,
+                "damage": 0.02118682861328125,
+                "reserve": 8.584753036499023,
+                "bleeding": 0.2817850708961487,
+                "mode": 0,
+                "active": 1,
+                "target": [
+                  0.5625962018966675,
+                  0.9013747572898865,
+                  -3.841632604598999
+                ],
+                "gait": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "wall": {
+                "painted": 82362,
+                "opaque": 58462,
+                "alpha": 15059293,
+                "coreAlpha": 4505711,
+                "width": 2.48125,
+                "height": 1.4537606837606836,
+                "mobile": 0.09740663252205714,
+                "residue": 0.0034280398138638087,
+                "coreMobile": 0.031331264495849595,
+                "centroidY": 0.8525502255869368,
+                "splats": 70,
+                "overflow": 0
+              },
+              "patch": {
+                "opaque": 58462,
+                "alpha": 15059293,
+                "painted": 82362,
+                "largest": 55261,
+                "opaqueM2": 2.283671875,
+                "connectedM2": 2.1586328125
+              },
+              "maxJoint": 0.0032226740116832182,
+              "work": [
+                8499,
+                264,
+                6728,
+                126,
+                214,
+                23,
+                70
+              ]
+            }
+          ]
+        }
+      },
+      "dry": {
+        "sec": 8,
+        "body": {
+          "name": "Torso",
+          "doll": 0,
+          "p": [
+            -2.892731189727783,
+            1.999226450920105,
+            -7.841647624969482
+          ],
+          "q": [
+            0.023094287142157555,
+            0.14538325369358063,
+            0.752074122428894,
+            0.6424287557601929
+          ],
+          "v": [
+            0.11730193346738815,
+            0.020470617339015007,
+            -0.006351470481604338
+          ],
+          "wet": 0,
+          "damage": 0,
+          "reserve": 9,
+          "bleeding": 0,
+          "mode": 0,
+          "active": 1,
+          "target": [
+            -2.8937087059020996,
+            1.9990558624267578,
+            -7.841594696044922
+          ],
+          "gait": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "wall": {
+          "painted": 0,
+          "opaque": 0,
+          "alpha": 0,
+          "coreAlpha": 0,
+          "width": -2000000000,
+          "height": -2000000000,
+          "mobile": 0,
+          "residue": 0,
+          "coreMobile": 0,
+          "centroidY": 0,
+          "splats": 0,
+          "overflow": 0
+        },
+        "patch": {
+          "opaque": 0,
+          "alpha": 0,
+          "painted": 0,
+          "largest": 0,
+          "opaqueM2": 0,
+          "connectedM2": 0
+        },
+        "maxJoint": 0.004365983159870208,
+        "work": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "browser": "firefox",
+      "scenes": {
+        "press": {
+          "twoSecondsAfterContact": {
+            "before": {
+              "opaque": 12705,
+              "alpha": 2994507,
+              "painted": 21896,
+              "largest": 10788,
+              "opaqueM2": 0.4962890625,
+              "connectedM2": 0.42140625
+            },
+            "after": {
+              "opaque": 24576,
+              "alpha": 6339434,
+              "painted": 37902,
+              "largest": 22495,
+              "opaqueM2": 0.96,
+              "connectedM2": 0.8787109375
+            },
+            "opaqueRatio": 1.9343565525383708,
+            "connectedRatio": 2.085187245087134
+          },
+          "samples": [
+            {
+              "sec": 2,
+              "body": {
+                "name": "Torso",
+                "doll": 0,
+                "p": [
+                  -3.4638326168060303,
+                  1.9996799230575562,
+                  -7.841251850128174
+                ],
+                "q": [
+                  0.14428627490997314,
+                  0.03462104871869087,
+                  -0.2969369888305664,
+                  0.9432980418205261
+                ],
+                "v": [
+                  -0.32587048411369324,
+                  -0.03587722405791283,
+                  0.0137901296839118
+                ],
+                "wet": 0.5874205231666565,
+                "damage": 0.04106903076171875,
+                "reserve": 8.989041328430176,
+                "bleeding": 0.31160610914230347,
+                "mode": 0,
+                "active": 1,
+                "target": [
+                  -3.4611170291900635,
+                  1.9999788999557495,
+                  -7.841366767883301
+                ],
+                "gait": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "wall": {
+                "painted": 10348,
+                "opaque": 7806,
+                "alpha": 1678664,
+                "coreAlpha": 0,
+                "width": 2.562500000000001,
+                "height": 2.2624999999999997,
+                "mobile": 0.010968580245971669,
+                "residue": 0.000009994506835937482,
+                "coreMobile": 0,
+                "centroidY": 1.4172743142350628,
+                "splats": 5,
+                "overflow": 0
+              },
+              "patch": {
+                "opaque": 5133,
+                "alpha": 1063043,
+                "painted": 6815,
+                "largest": 4217,
+                "opaqueM2": 0.2005078125,
+                "connectedM2": 0.1647265625
+              },
+              "maxJoint": 0.003741177823149784,
+              "work": [
+                52,
+                0,
+                49,
+                0,
+                82,
+                0,
+                5
+              ]
+            },
+            {
+              "sec": 4,
+              "body": {
+                "name": "Torso",
+                "doll": 0,
+                "p": [
+                  -3.500019073486328,
+                  2.001481056213379,
+                  -7.841672420501709
+                ],
+                "q": [
+                  0.10871493071317673,
+                  -0.09900448471307755,
+                  -0.9497637748718262,
+                  0.2762749493122101
+                ],
+                "v": [
+                  -0.021486280485987663,
+                  0.003175735240802169,
+                  -0.0006866454496048391
+                ],
+                "wet": 0.4901224374771118,
+                "damage": 0.04106903076171875,
+                "reserve": 8.839512825012207,
+                "bleeding": 0.31160610914230347,
+                "mode": 0,
+                "active": 1,
+                "target": [
+                  -3.499840021133423,
+                  2.0014545917510986,
+                  -7.8416666984558105
+                ],
+                "gait": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "wall": {
+                "painted": 58833,
+                "opaque": 34042,
+                "alpha": 8706864,
+                "coreAlpha": 0,
+                "width": 4.462500000000001,
+                "height": 3.84375,
+                "mobile": 0.04330132484436026,
+                "residue": 0.0006823825836181647,
+                "coreMobile": 0,
+                "centroidY": 1.8716087536474773,
+                "splats": 11,
+                "overflow": 0
+              },
+              "patch": {
+                "opaque": 24576,
+                "alpha": 6339434,
+                "painted": 37902,
+                "largest": 22495,
+                "opaqueM2": 0.96,
+                "connectedM2": 0.8787109375
+              },
+              "maxJoint": 0.003531253174222642,
+              "work": [
+                2868,
+                103,
+                1949,
+                0,
+                120,
+                0,
+                11
+              ]
+            },
+            {
+              "sec": 8,
+              "body": {
+                "name": "Torso",
+                "doll": 0,
+                "p": [
+                  -3.4980974197387695,
+                  1.999812126159668,
+                  -7.841603755950928
+                ],
+                "q": [
+                  -0.0000938364610192366,
+                  0.1473725587129593,
+                  0.8441842198371887,
+                  0.5153970718383789
+                ],
+                "v": [
+                  -0.0016880034236237407,
+                  0.02570628933608532,
+                  -0.00017166136240120977
+                ],
+                "wet": 0.6421543955802917,
+                "damage": 0.04106903076171875,
+                "reserve": 8.54045581817627,
+                "bleeding": 0.31160610914230347,
+                "mode": 0,
+                "active": 1,
+                "target": [
+                  -3.4980833530426025,
+                  1.9995979070663452,
+                  -7.841602325439453
+                ],
+                "gait": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "wall": {
+                "painted": 69186,
+                "opaque": 50676,
+                "alpha": 12113786,
+                "coreAlpha": 11994,
+                "width": 8.350000000000001,
+                "height": 4.13125,
+                "mobile": 0.17760011672973572,
+                "residue": 0.006001520156860367,
+                "coreMobile": 0.00025926589965820314,
+                "centroidY": 1.9277469212073346,
+                "splats": 13,
+                "overflow": 0
+              },
+              "patch": {
+                "opaque": 35775,
+                "alpha": 8652078,
+                "painted": 41084,
+                "largest": 33089,
+                "opaqueM2": 1.3974609375,
+                "connectedM2": 1.2925390625
+              },
+              "maxJoint": 0.003723676627812196,
+              "work": [
+                9261,
+                316,
+                8098,
+                7,
+                237,
+                0,
+                13
+              ]
+            }
+          ]
+        },
+        "drag": {
+          "twoSecondsAfterContact": {
+            "before": {
+              "opaque": 14760,
+              "alpha": 3515798,
+              "painted": 25583,
+              "largest": 12736,
+              "opaqueM2": 0.5765625,
+              "connectedM2": 0.4975
+            },
+            "after": {
+              "opaque": 29415,
+              "alpha": 7214335,
+              "painted": 37362,
+              "largest": 28329,
+              "opaqueM2": 1.1490234375,
+              "connectedM2": 1.1066015625
+            },
+            "opaqueRatio": 1.9928861788617886,
+            "connectedRatio": 2.2243247487437188
+          },
+          "samples": [
+            {
+              "sec": 2,
+              "body": {
+                "name": "Torso",
+                "doll": 0,
+                "p": [
+                  -3.4638326168060303,
+                  1.9996799230575562,
+                  -7.841251850128174
+                ],
+                "q": [
+                  0.14428627490997314,
+                  0.03462104871869087,
+                  -0.2969369888305664,
+                  0.9432980418205261
+                ],
+                "v": [
+                  -0.32587048411369324,
+                  -0.03587722405791283,
+                  0.0137901296839118
+                ],
+                "wet": 0.5874205231666565,
+                "damage": 0.04106903076171875,
+                "reserve": 8.989041328430176,
+                "bleeding": 0.31160610914230347,
+                "mode": 0,
+                "active": 1,
+                "target": [
+                  -3.4611170291900635,
+                  1.9999788999557495,
+                  -7.841366767883301
+                ],
+                "gait": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "wall": {
+                "painted": 10348,
+                "opaque": 7806,
+                "alpha": 1678664,
+                "coreAlpha": 0,
+                "width": 2.562500000000001,
+                "height": 2.2624999999999997,
+                "mobile": 0.010968580245971669,
+                "residue": 0.000009994506835937482,
+                "coreMobile": 0,
+                "centroidY": 1.4172743142350628,
+                "splats": 5,
+                "overflow": 0
+              },
+              "patch": {
+                "opaque": 5133,
+                "alpha": 1063043,
+                "painted": 6815,
+                "largest": 4217,
+                "opaqueM2": 0.2005078125,
+                "connectedM2": 0.1647265625
+              },
+              "maxJoint": 0.003741177823149784,
+              "work": [
+                52,
+                0,
+                49,
+                0,
+                82,
+                0,
+                5
+              ]
+            },
+            {
+              "sec": 4,
+              "body": {
+                "name": "Torso",
+                "doll": 0,
+                "p": [
+                  -3.1006715297698975,
+                  2.0015101432800293,
+                  -7.841642379760742
+                ],
+                "q": [
+                  0.09640578925609589,
+                  -0.11122534424066544,
+                  -0.975645899772644,
+                  0.16263411939144135
+                ],
+                "v": [
+                  -0.20585058629512787,
+                  0.008897780440747738,
+                  0.0019454954890534282
+                ],
+                "wet": 0.36724457144737244,
+                "damage": 0.04106903076171875,
+                "reserve": 8.839512825012207,
+                "bleeding": 0.31160610914230347,
+                "mode": 0,
+                "active": 1,
+                "target": [
+                  -3.0989561080932617,
+                  2.0014359951019287,
+                  -7.841658592224121
+                ],
+                "gait": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "wall": {
+                "painted": 72583,
+                "opaque": 41309,
+                "alpha": 10483624,
+                "coreAlpha": 0,
+                "width": 11.875,
+                "height": 3.125,
+                "mobile": 0.04199540138244625,
+                "residue": 0.0006556034088134767,
+                "coreMobile": 0,
+                "centroidY": 1.7999200614188176,
+                "splats": 13,
+                "overflow": 0
+              },
+              "patch": {
+                "opaque": 29415,
+                "alpha": 7214335,
+                "painted": 37362,
+                "largest": 28329,
+                "opaqueM2": 1.1490234375,
+                "connectedM2": 1.1066015625
+              },
+              "maxJoint": 0.0041030849040649105,
+              "work": [
+                3230,
+                108,
+                2200,
+                2,
+                121,
+                0,
+                13
+              ]
+            },
+            {
+              "sec": 8,
+              "body": {
+                "name": "Torso",
+                "doll": 0,
+                "p": [
+                  -2.892711639404297,
+                  1.999310851097107,
+                  -7.841639995574951
+                ],
+                "q": [
+                  0.019366636872291565,
+                  0.14595724642276764,
+                  0.7683389782905579,
+                  0.6228777170181274
+                ],
+                "v": [
+                  0.11838912218809128,
+                  0.019497869536280632,
+                  -0.005493163596838713
+                ],
+                "wet": 0.43750354647636414,
+                "damage": 0.04106903076171875,
+                "reserve": 8.54045581817627,
+                "bleeding": 0.31160610914230347,
+                "mode": 0,
+                "active": 1,
+                "target": [
+                  -2.893698215484619,
+                  1.9991483688354492,
+                  -7.841594219207764
+                ],
+                "gait": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "wall": {
+                "painted": 115722,
+                "opaque": 84104,
+                "alpha": 20674095,
+                "coreAlpha": 5595,
+                "width": 13.90625,
+                "height": 4.59375,
+                "mobile": 0.17839710235595646,
+                "residue": 0.005270357131958013,
+                "coreMobile": 0.00016350746154785155,
+                "centroidY": 1.9743434481831124,
+                "splats": 16,
+                "overflow": 0
+              },
+              "patch": {
+                "opaque": 63343,
+                "alpha": 15371882,
+                "painted": 66222,
+                "largest": 63193,
+                "opaqueM2": 2.4743359375,
+                "connectedM2": 2.4684765625
+              },
+              "maxJoint": 0.00431587150628569,
+              "work": [
+                9861,
+                323,
+                8002,
+                12,
+                258,
+                0,
+                16
+              ]
+            }
+          ]
+        },
+        "block": {
+          "twoSecondsAfterContact": {
+            "before": {
+              "opaque": 20979,
+              "alpha": 5123344,
+              "painted": 33485,
+              "largest": 18755,
+              "opaqueM2": 0.8194921875,
+              "connectedM2": 0.7326171875
+            },
+            "after": {
+              "opaque": 28346,
+              "alpha": 7127078,
+              "painted": 45615,
+              "largest": 23998,
+              "opaqueM2": 1.107265625,
+              "connectedM2": 0.937421875
+            },
+            "opaqueRatio": 1.3511606844940178,
+            "connectedRatio": 1.2795521194348174
+          },
+          "samples": [
+            {
+              "sec": 2,
+              "body": {
+                "name": "Torso",
+                "doll": 0,
+                "p": [
+                  0.0975152775645256,
+                  0.8987981677055359,
+                  -3.8416764736175537
+                ],
+                "q": [
+                  0.0768899917602539,
+                  0.12559674680233002,
+                  0.4479108452796936,
+                  0.8818668723106384
+                ],
+                "v": [
+                  0.047747787088155746,
+                  -0.011994837783277035,
+                  -0.008382796309888363
+                ],
+                "wet": 0.6263319253921509,
+                "damage": 0.0211944580078125,
+                "reserve": 8.983865737915039,
+                "bleeding": 0.2817876636981964,
+                "mode": 0,
+                "active": 1,
+                "target": [
+                  0.09711737930774689,
+                  0.8988981246948242,
+                  -3.841606616973877
+                ],
+                "gait": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "wall": {
+                "painted": 7340,
+                "opaque": 5504,
+                "alpha": 1313924,
+                "coreAlpha": 86174,
+                "width": 1.11875,
+                "height": 0.9608547008547008,
+                "mobile": 0.01188709587886415,
+                "residue": 0.00002480329316237873,
+                "coreMobile": 0.0013301498150003366,
+                "centroidY": 0.688077824267084,
+                "splats": 4,
+                "overflow": 0
+              },
+              "patch": {
+                "opaque": 5504,
+                "alpha": 1313924,
+                "painted": 7340,
+                "largest": 2181,
+                "opaqueM2": 0.215,
+                "connectedM2": 0.0851953125
+              },
+              "maxJoint": 0.04083117104527708,
+              "work": [
+                316,
+                5,
+                289,
+                0,
+                26,
+                0,
+                4
+              ]
+            },
+            {
+              "sec": 4,
+              "body": {
+                "name": "Torso",
+                "doll": 0,
+                "p": [
+                  0.4090349078178406,
+                  0.9007775187492371,
+                  -3.841815710067749
+                ],
+                "q": [
+                  0.07242933660745621,
+                  -0.12742534279823303,
+                  -0.9885951280593872,
+                  -0.03458970785140991
+                ],
+                "v": [
+                  -0.238831028342247,
+                  0.03700732812285423,
+                  0.0014019011287018657
+                ],
+                "wet": 0.41138896346092224,
+                "damage": 0.0211944580078125,
+                "reserve": 8.850828170776367,
+                "bleeding": 0.2817876636981964,
+                "mode": 0,
+                "active": 1,
+                "target": [
+                  0.41102516651153564,
+                  0.9004691243171692,
+                  -3.841827392578125
+                ],
+                "gait": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "wall": {
+                "painted": 45615,
+                "opaque": 28346,
+                "alpha": 7127078,
+                "coreAlpha": 2320214,
+                "width": 2.1312500000000005,
+                "height": 1.4537606837606836,
+                "mobile": 0.03633163912542925,
+                "residue": 0.000661843661604256,
+                "coreMobile": 0.00814792501515355,
+                "centroidY": 0.8089346953346538,
+                "splats": 15,
+                "overflow": 0
+              },
+              "patch": {
+                "opaque": 28346,
+                "alpha": 7127078,
+                "painted": 45615,
+                "largest": 23998,
+                "opaqueM2": 1.107265625,
+                "connectedM2": 0.937421875
+              },
+              "maxJoint": 0.004629215383989531,
+              "work": [
+                2565,
+                90,
+                1876,
+                18,
+                90,
+                17,
+                15
+              ]
+            },
+            {
+              "sec": 8,
+              "body": {
+                "name": "Torso",
+                "doll": 0,
+                "p": [
+                  0.5633534789085388,
+                  0.9015628695487976,
+                  -3.841676950454712
+                ],
+                "q": [
+                  -0.14223530888557434,
+                  0.03733151778578758,
+                  0.7137287855148315,
+                  -0.6848114728927612
+                ],
+                "v": [
+                  0.08369921892881393,
+                  -0.03494739159941673,
+                  0.005693435203284025
+                ],
+                "wet": 0.37711480259895325,
+                "damage": 0.0211944580078125,
+                "reserve": 8.584753036499023,
+                "bleeding": 0.2817876636981964,
+                "mode": 0,
+                "active": 1,
+                "target": [
+                  0.5626559853553772,
+                  0.9018540978431702,
+                  -3.841724395751953
+                ],
+                "gait": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              "wall": {
+                "painted": 79899,
+                "opaque": 56466,
+                "alpha": 14381825,
+                "coreAlpha": 4551215,
+                "width": 2.4937500000000004,
+                "height": 1.4537606837606836,
+                "mobile": 0.10202281057423533,
+                "residue": 0.0035369803329993945,
+                "coreMobile": 0.030640142769649124,
+                "centroidY": 0.8413641070701768,
+                "splats": 69,
+                "overflow": 0
+              },
+              "patch": {
+                "opaque": 56466,
+                "alpha": 14381825,
+                "painted": 79899,
+                "largest": 52665,
+                "opaqueM2": 2.205703125,
+                "connectedM2": 2.0572265625
+              },
+              "maxJoint": 0.0033314608420572656,
+              "work": [
+                8206,
+                257,
+                6716,
+                143,
+                222,
+                74,
+                69
+              ]
+            }
+          ]
+        }
+      },
+      "dry": {
+        "sec": 8,
+        "body": {
+          "name": "Torso",
+          "doll": 0,
+          "p": [
+            -2.892711639404297,
+            1.999310851097107,
+            -7.841639995574951
+          ],
+          "q": [
+            0.019366636872291565,
+            0.14595724642276764,
+            0.7683389782905579,
+            0.6228777170181274
+          ],
+          "v": [
+            0.11838912218809128,
+            0.019497869536280632,
+            -0.005493163596838713
+          ],
+          "wet": 0,
+          "damage": 0,
+          "reserve": 9,
+          "bleeding": 0,
+          "mode": 0,
+          "active": 1,
+          "target": [
+            -2.893698215484619,
+            1.9991483688354492,
+            -7.841594219207764
+          ],
+          "gait": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "wall": {
+          "painted": 0,
+          "opaque": 0,
+          "alpha": 0,
+          "coreAlpha": 0,
+          "width": -2000000000,
+          "height": -2000000000,
+          "mobile": 0,
+          "residue": 0,
+          "coreMobile": 0,
+          "centroidY": 0,
+          "splats": 0,
+          "overflow": 0
+        },
+        "patch": {
+          "opaque": 0,
+          "alpha": 0,
+          "painted": 0,
+          "largest": 0,
+          "opaqueM2": 0,
+          "connectedM2": 0
+        },
+        "maxJoint": 0.00431587150628569,
+        "work": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  ],
+  "walls": [
+    {
+      "browser": "chrome",
+      "impact": {
+        "painted": 26007,
+        "opaque": 23300,
+        "alpha": 5503997,
+        "coreAlpha": 4501076,
+        "width": 1.50625,
+        "height": 2.425,
+        "mobile": 0.08454454421997074,
+        "residue": 0.0001940441131591781,
+        "coreMobile": 0.06277151107788087,
+        "centroidY": 1.3394401136225969,
+        "splats": 15,
+        "overflow": 0
+      },
+      "three": {
+        "painted": 26007,
+        "opaque": 23300,
+        "alpha": 5503997,
+        "coreAlpha": 4501076,
+        "width": 1.50625,
+        "height": 2.425,
+        "mobile": 0.08099262237548835,
+        "residue": 0.003717794418334963,
+        "coreMobile": 0.05647684097290041,
+        "centroidY": 1.2516198986140088,
+        "splats": 15,
+        "overflow": 0
+      },
+      "fifteen": {
+        "painted": 26007,
+        "opaque": 23300,
+        "alpha": 5503997,
+        "coreAlpha": 4501076,
+        "width": 1.50625,
+        "height": 2.425,
+        "mobile": 0.06781642913818357,
+        "residue": 0.015071458816528325,
+        "coreMobile": 0.03558376312255859,
+        "centroidY": 1.0179358923300954,
+        "splats": 15,
+        "overflow": 0
+      },
+      "floor": {
+        "painted": 7688,
+        "opaque": 3430,
+        "alpha": 905234,
+        "coreAlpha": 0,
+        "width": 0.825,
+        "height": 1.175,
+        "mobile": 0.011730518341064467,
+        "residue": 0.000023736953735351566,
+        "coreMobile": 0,
+        "centroidY": 0,
+        "splats": 0,
+        "overflow": 0
+      },
+      "descent3Seconds": 0.08782021500858805,
+      "centralPigmentRetained": 1
+    },
+    {
+      "browser": "firefox",
+      "impact": {
+        "painted": 26037,
+        "opaque": 23301,
+        "alpha": 5504301,
+        "coreAlpha": 4499922,
+        "width": 1.50625,
+        "height": 2.425,
+        "mobile": 0.08570233345031736,
+        "residue": 0.0001973056793212874,
+        "coreMobile": 0.06380970001220704,
+        "centroidY": 1.3441664498609667,
+        "splats": 15,
+        "overflow": 0
+      },
+      "three": {
+        "painted": 26037,
+        "opaque": 23301,
+        "alpha": 5504301,
+        "coreAlpha": 4499922,
+        "width": 1.50625,
+        "height": 2.425,
+        "mobile": 0.08209685325622566,
+        "residue": 0.00377316474914551,
+        "coreMobile": 0.057490396499633695,
+        "centroidY": 1.2561862946404332,
+        "splats": 15,
+        "overflow": 0
+      },
+      "fifteen": {
+        "painted": 26037,
+        "opaque": 23301,
+        "alpha": 5504301,
+        "coreAlpha": 4499922,
+        "width": 1.50625,
+        "height": 2.425,
+        "mobile": 0.06873311996459969,
+        "residue": 0.015243396759033209,
+        "coreMobile": 0.035073833465576146,
+        "centroidY": 1.011842385867444,
+        "splats": 15,
+        "overflow": 0
+      },
+      "floor": {
+        "painted": 7689,
+        "opaque": 3430,
+        "alpha": 905225,
+        "coreAlpha": 0,
+        "width": 0.825,
+        "height": 1.175,
+        "mobile": 0.011701850891113292,
+        "residue": 0.000023660659790039065,
+        "coreMobile": 0,
+        "centroidY": 0,
+        "splats": 0,
+        "overflow": 0
+      },
+      "descent3Seconds": 0.08798015522053348,
+      "centralPigmentRetained": 1
+    }
+  ],
+  "nativeProfiles": [
+    {
+      "browser": "chrome",
+      "workload": "idle",
+      "fps": 60.00033426387995,
+      "cpuP99MS": 1.5999999940395355,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.851968,
+          "p95": 1.376256,
+          "p99": 1.572864,
+          "max": 1.835008
+        },
+        "renderMS": {
+          "p50": 2.162688,
+          "p95": 2.555904,
+          "p99": 2.818048,
+          "max": 3.2768
+        }
+      },
+      "ticksPerSecond": 119.25692486316139
+    },
+    {
+      "browser": "chrome",
+      "workload": "pistol",
+      "fps": 60,
+      "cpuP99MS": 1.7000000178813934,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.917504,
+          "p95": 1.507328,
+          "p99": 1.703936,
+          "max": 1.900544
+        },
+        "renderMS": {
+          "p50": 2.162688,
+          "p95": 2.752512,
+          "p99": 3.014656,
+          "max": 3.211264
+        }
+      },
+      "ticksPerSecond": 119.83402489626555
+    },
+    {
+      "browser": "chrome",
+      "workload": "spill",
+      "fps": 60.00600060000039,
+      "cpuP99MS": 1.4000000059604645,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.917504,
+          "p95": 1.31072,
+          "p99": 1.703936,
+          "max": 1.769472
+        },
+        "renderMS": {
+          "p50": 2.359296,
+          "p95": 2.818048,
+          "p99": 3.145728,
+          "max": 3.60448
+        }
+      },
+      "ticksPerSecond": 119.39554965127864
+    },
+    {
+      "browser": "chrome",
+      "workload": "drag",
+      "fps": 60.00334280461307,
+      "cpuP99MS": 1.199999988079071,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.245184,
+          "p95": 2.359296,
+          "p99": 2.883584,
+          "max": 3.93216
+        },
+        "renderMS": {
+          "p50": 2.228224,
+          "p95": 2.62144,
+          "p99": 2.818048,
+          "max": 3.080192
+        }
+      },
+      "ticksPerSecond": 119.39554965127864
+    },
+    {
+      "browser": "chrome",
+      "workload": "chaos",
+      "fps": 60,
+      "cpuP99MS": 1.2000000178813934,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.245184,
+          "p95": 2.29376,
+          "p99": 2.686976,
+          "max": 2.883584
+        },
+        "renderMS": {
+          "p50": 2.752512,
+          "p95": 3.211264,
+          "p99": 3.342336,
+          "max": 3.473408
+        }
+      },
+      "ticksPerSecond": 119.79425916708146
+    },
+    {
+      "browser": "firefox",
+      "workload": "idle",
+      "fps": 59.833333333333336,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.81808,
+          "p95": 1.408672,
+          "p99": 1.58864,
+          "max": 1.782912
+        },
+        "renderMS": {
+          "p50": 2.258912,
+          "p95": 2.688576,
+          "p99": 2.822336,
+          "max": 3.023136
+        }
+      },
+      "ticksPerSecond": 116.35777598710717
+    },
+    {
+      "browser": "firefox",
+      "workload": "pistol",
+      "fps": 60,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.910528,
+          "p95": 1.247232,
+          "p99": 1.460448,
+          "max": 1.4936
+        },
+        "renderMS": {
+          "p50": 2.011936,
+          "p95": 2.590528,
+          "p99": 2.85936,
+          "max": 3.142304
+        }
+      },
+      "ticksPerSecond": 116.07286796711269
+    },
+    {
+      "browser": "firefox",
+      "workload": "spill",
+      "fps": 59.99331550802139,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.887904,
+          "p95": 1.490336,
+          "p99": 1.749888,
+          "max": 2.457184
+        },
+        "renderMS": {
+          "p50": 2.146368,
+          "p95": 2.583328,
+          "p99": 2.91424,
+          "max": 3.086304
+        }
+      },
+      "ticksPerSecond": 116.0541586073501
+    },
+    {
+      "browser": "firefox",
+      "workload": "drag",
+      "fps": 60.00334280461307,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.294976,
+          "p95": 2.412608,
+          "p99": 2.930176,
+          "max": 3.444288
+        },
+        "renderMS": {
+          "p50": 2.234656,
+          "p95": 2.671776,
+          "p99": 2.918976,
+          "max": 3.31952
+        }
+      },
+      "ticksPerSecond": 116.18525092786832
+    },
+    {
+      "browser": "firefox",
+      "workload": "chaos",
+      "fps": 60.00334280461307,
+      "cpuP99MS": 1,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.266112,
+          "p95": 2.441056,
+          "p99": 2.7072,
+          "max": 2.923072
+        },
+        "renderMS": {
+          "p50": 2.854144,
+          "p95": 3.323072,
+          "p99": 3.457632,
+          "max": 3.545056
+        }
+      },
+      "ticksPerSecond": 115.9047005795235
+    }
+  ],
+  "closedSupply": [
+    {
+      "browser": "chrome",
+      "liquid": 0.007645349502563476,
+      "coat": 0.007726192474365234,
+      "initialCoat": 0.95,
+      "initialVolume": 0.019
+    },
+    {
+      "browser": "firefox",
+      "liquid": 0.007823324203491211,
+      "coat": 0.004141331184655428,
+      "initialCoat": 0.95,
+      "initialVolume": 0.019
+    }
+  ],
+  "resources": {
+    "filmCells": 1061420,
+    "filmBytes": 29719760,
+    "wetBytes": 30660560
+  },
+  "checkCount": 118,
+  "media": {
+    "capture": "tools/out/wall-contact-pass/recordings/capture.json",
+    "builds": [
+      {
+        "label": "before",
+        "version": "0.20.0",
+        "sha256": "c38767fbaf0561b2c0f5baf1ddf5b1fd8602e383b6e4140777edfc0e4f807579"
+      },
+      {
+        "label": "after",
+        "version": "0.21.0",
+        "sha256": "928284b2601801632a72d4f2995c558268f7d0ccf918674d7acbc9537bc740ff"
+      }
+    ],
+    "clips": [
+      {
+        "label": "before",
+        "name": "press",
+        "seconds": 12,
+        "steps": 1444
+      },
+      {
+        "label": "before",
+        "name": "drag",
+        "seconds": 12,
+        "steps": 1440
+      },
+      {
+        "label": "before",
+        "name": "block",
+        "seconds": 12,
+        "steps": 1440
+      },
+      {
+        "label": "after",
+        "name": "press",
+        "seconds": 12,
+        "steps": 1439
+      },
+      {
+        "label": "after",
+        "name": "drag",
+        "seconds": 12,
+        "steps": 1441
+      },
+      {
+        "label": "after",
+        "name": "block",
+        "seconds": 12,
+        "steps": 1441
+      }
+    ],
+    "files": [
+      {
+        "path": "tools/out/wall-contact-pass/recordings/before/wall-before.mp4",
+        "sha256": "9741f8cbffd172fb347687bb60f0d0975ee72e918f280a4a2eba9df007eb2716",
+        "bytes": 9287912,
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 960,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "36.000000"
+        }
+      },
+      {
+        "path": "tools/out/wall-contact-pass/recordings/after/wall-after.mp4",
+        "sha256": "6d3e0eaeaff18760829bc3563be837bf828304a09dd8e238e4e2b65bd82dca24",
+        "bytes": 9310817,
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 960,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "36.000000"
+        }
+      },
+      {
+        "path": "tools/out/wall-contact-pass/recordings/smear-wall-contact-comparison.mp4",
+        "sha256": "d1e4f32018eb2fc6bff41e406659c3848219646c26a1e4105292ed8a423c14a2",
+        "bytes": 11125583,
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1920,
+            "height": 720,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "36.000000"
+        }
+      }
+    ]
+  },
+  "sources": {
+    "gpu/contact.wgsl": "640f8b1c9d0b35d9298249eae407ad5df99831c010c5786a0a50be159d9179cb",
+    "gpu/compute.wgsl": "938d833cc0e22910f7cc43ffc6a4db289212389c408260f0a635f8f6bd03cdbc",
+    "gpu/film.wgsl": "5695ce9dde2be9029f9d9e57e7d388e62325a1595cd34776606ee8dcf2d7ba4b",
+    "gpu/render.wgsl": "d299747d8bd7c8cc62d9867f5a6c1bd2f5744398ba750e3bd8ca3269d846b6e8",
+    "tools/wall-contact-fixture.mjs": "9937040f2e372a5ca3d5eb8c12612200a63db8b9594fe63549184dced2e1347d",
+    "tools/wall-contact-verify.mjs": "da4e495ce38d678147688c1dca50991a03ee40eb8e5e45c1c2c64bb1eb3f9dca",
+    "tools/wet-verify.mjs": "e3174dee144c8f3861041745c773568c6a47d3223775ad99d0568e950a15b146"
+  },
+  "scope": [
+    "Normal reset/grab/target inputs exercise wall pressure, wall dragging and obstacle dragging with the initial coating and wound supply. No body pose or coating uploads are used for these scenarios or the comparison videos.",
+    "The separate dry control heals the dummy and explicitly overrides injury and bleeding to zero because Tune sliders clamp those values above zero.",
+    "Broad wall cores use a 75 ms cadence, coating expenditure and a bounded mobile allocation. Wall bristles add pigment without duplicating liquid.",
+    "Compression transfers finite wound reserve into coating; wall pickup depends on local film wetness. The held pose is read from solved workgroup state.",
+    "An isolated ten-second contact test verifies that wall liquid plus remaining coating cannot exceed the initial supply. No wounds or physics emission are active in that test.",
+    "V20 wall adhesion, rivulets, film resolution and buffers remain unchanged; floor contact behavior and normal-play readback policy are preserved.",
+    "This remains an art-directed gameplay approximation, not calibrated blood rheology. Native GPU profiles are recorded separately from MP4 capture."
+  ]
+}
