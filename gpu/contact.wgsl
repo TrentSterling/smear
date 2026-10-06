@@ -73,6 +73,75 @@ fn wallSplat(foot:Footprint,coat:f32,speed:f32,seed:u32,velocity:vec3f)->f32 {
  }
  atomicAdd(&work[29],1u);return spent;
 }
+// Impact injury spends the internal reserve immediately, without waiting for
+// abrasion or a pre-existing coating. Normal velocity loss rejects glancing
+// travel, free flight and steady pressure; angular contact speed counts too.
+fn impactBlood(index:u32,input:Body,hit:WorldImpact)->Body {
+ var b=input;
+ // Pair corrections use xyz in each of two vec4s; their two padding words
+ // retain the collision episode. Brief solver separation must not turn held
+ // scraping/chatter into a fresh explosion every time the cooldown expires.
+ let episode=header(2).w+header(2).x*128u+index*8u;
+ if(hit.receiver<0){let air=contactFloat(episode+7u)+1.0/120;atomicStore(&work[episode+7u],bitcast<u32>(air));if(air>.055){atomicStore(&work[episode+3u],0u);}return b;}
+ atomicStore(&work[episode+7u],0u);let receiver=u32(hit.receiver)+1u;
+ let sameContact=atomicLoad(&work[episode+3u])==receiver;
+ if(sameContact){return b;}
+ if(hit.receiver<0||hit.closing<3.0||b.status.x<.5||frame.rayD.w<=0||contactFloat(contactMemory(index)+7u)>0){return b;}
+ let outgoing=b.v.xyz+cross(b.w.xyz,hit.point-b.p.xyz);
+ let lost=min(hit.closing,max(0,dot(outgoing-hit.velocity,hit.normal)));
+ // A held limb can rotate rapidly as the positional grab solver presses it
+ // against the wall. Require a real fast approach of the held rig; ordinary
+ // loaded scraping already has its own accepted abrasion response.
+ let held=frame.local.w>.5&&u32(frame.goal.w)/15u==index/15u;
+ if(held&&-dot(bodies[index].v.xyz,hit.normal)<7){return b;}
+ let severity=smoothstep(2.8,13.0,lost)*frame.rayD.w;
+ if(severity<.015){return b;}
+ atomicStore(&work[episode+3u],receiver);
+ let seed=index*731u+atomicLoad(&work[5])*31u;
+ let rec=u32(hit.receiver);let r=record(rec);let n=r.n.xyz;
+ let point=hit.point-n*dot(hit.point-r.center.xyz,n);
+ b.blood.x=min(2.0,b.blood.x+severity*1.4);b.blood.w=max(0,b.blood.w-severity*32);
+ atomicStore(&work[contactMemory(index)+7u],bitcast<u32>(.32));
+ atomicAdd(&work[34],1u);
+ let local=rotate(inverseQ(b.q),point-b.p.xyz);let normal=rotate(inverseQ(b.q),-n);let c=skinPoint(b,local,normal);
+ stamp(header(0).z+index,c,c,vec2f(.045,.07)*(1+min(1.0,severity)),min(.95,.35+severity),0,f32(seed%18u),0);
+ // Reserve units match pressure feeding: one reserve becomes five coating
+ // units, each carrying .02 film volume. Empty parts cannot create fresh fluid.
+ let reserve=min(b.coat.w,(.10+severity*.75)*frame.action.z);
+ b.coat.w-=reserve;
+ let oldCoat=min(b.coat.x,b.coat.x*(.15+min(1.0,severity)*.30));b.coat.x-=oldCoat;
+ let volume=reserve*.10+oldCoat*.02;
+ if(volume<.00001){return b;}
+ let retained=min(max(0,1.65-b.coat.x)*.02,volume*.08);b.coat.x+=retained/.02;
+ var surfaceVolume=volume-retained;
+ let energy=clamp(severity,0,1);let tangent=hit.velocity-n*dot(hit.velocity,n);let slip=smoothstep(.5,10.0,length(tangent));
+ let angle=atan2(dot(tangent,r.v.xyz),dot(tangent,r.u.xyz))+hash(seed)*.4;
+ let radius=(.12+sqrt(energy)*.46+hit.radius*.40)*sqrt(min(1.0,volume/.035));
+ let size=vec2f(radius*(1+slip*.45),radius*(1-slip*.20));
+ let count=6u+u32(energy*18);let portion=surfaceVolume*.20/f32(count);
+ for(var j=0u;j<count;j++){
+  let h=seed+j*197u;let a=f32(j)*2.399963+hash(h)*.6;
+  let radial=r.u.xyz*cos(a)+r.v.xyz*sin(a);
+  let speed=(1.4+energy*6.5)*(.5+hash(h+1u)*.9);
+  let velocity=bounded(tangent*.55+radial*speed+n*(.5+hash(h+2u)*2.2),18);
+  // Eject just beyond the skin silhouette so the owning dummy doesn't swallow
+  // the entire burst. Failed allocations remain in the attached print budget.
+  if(launchDrop(point+radial*hit.radius*.7+n*.035,velocity,clamp(pow(portion,.333333)*.28,.006,.025),index,portion)){
+   surfaceVolume-=portion;atomicAdd(&work[35],1u);
+  }
+ }
+ let strength=min(.98,volume*40)*frame.tune.y;
+ contactSweep(rec,point,point,size,size,angle,angle,strength,8,seed,surfaceVolume);
+ // Broken radial jets and satellite splatter are pigment from the same burst,
+ // not overlapping soft alpha dabs and not additional liquid reservoirs.
+ for(var j=0u;j<10u;j++){
+  let h=seed+j*313u;let a=f32(j)*2.399963+hash(h)*.65;
+  let offset=patchOffset(size,angle,vec2f(cos(a),sin(a)));
+  let end=point+(r.u.xyz*offset.x+r.v.xyz*offset.y)*(1.15+hash(h+1u)*(.5+energy))+tangent*.012;
+  splatKind(rec,end,.018+hash(h+4u)*(.035+energy*.04),strength*.75,h,5);
+ }
+ atomicAdd(&work[29],1u);atomicAdd(&work[36],u32(volume*65536));return b;
+}
 // Squeeze a finite liquid layer out of the contact and fling a small part of
 // the coating from its moving edge. These are transfers, never extra paint.
 fn squeezeContact(index:u32,b:Body,foot:Footprint,duration:f32,pressure:f32)->f32 {

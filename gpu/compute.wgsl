@@ -47,17 +47,33 @@ fn sample(b:Body,i:u32)->vec4f { switch i { case 0u:{return b.s0;}case 1u:{retur
 fn skinPoint(b:Body,p:vec3f,n:vec3f)->vec2f {
  let a=abs(n);var face:u32;var c:vec2f;var half:vec2f;if(a.x>a.y&&a.x>a.z){face=select(1u,0u,n.x>0);c=p.zy;half=b.half.zy;}else if(a.y>a.z){face=select(3u,2u,n.y>0);c=p.xz;half=b.half.xz;}else{face=select(5u,4u,n.z>0);c=p.xy;half=b.half.xy;}return (clamp(c/half*.5+.5,vec2f(.01),vec2f(.99))+vec2f(f32(face%3u),f32(face/3u)))/vec2f(3,2);
 }
-fn worldContact(b:Body)->Body {
+// Remember a real collision while solving. A rebounding part need not still
+// touch the same receiver when the final brush footprint is evaluated.
+struct WorldImpact { point:vec3f, closing:f32, normal:vec3f, radius:f32, velocity:vec3f, receiver:i32 };
+var<workgroup> worldImpacts:array<WorldImpact,15>;
+fn rememberImpact(lane:u32,b:Body,point:vec3f,n:vec3f,radius:f32,receiver:i32) {
+ if(receiver<0){return;}
+ let velocity=b.v.xyz+cross(b.w.xyz,point-b.prevP.xyz);
+ let closing=max(0,-dot(velocity,n));
+ if(worldImpacts[lane].receiver<0||closing>worldImpacts[lane].closing){worldImpacts[lane]=WorldImpact(point,closing,n,radius,velocity,receiver);}
+}
+fn worldContact(b:Body,lane:u32)->Body {
  var out=b;
  for(var si=0u;si<u32(b.half.w);si++){
   let s=sample(out,si);var p=rotate(out.q,s.xyz)+out.p.xyz;var n=vec3f(0,1,0);var point=vec3f(p.x,0,p.z);var depth=s.w-p.y;
-  if(depth>0){let r=point-out.p.xyz;let lambda=min(depth,.08)/(eff(out,r,n)+1e-5);out.p=vec4f(out.p.xyz+n*lambda*out.p.w,out.p.w);out.q=rotateStep(out.q,invWorld(out,cross(r,n)*lambda));}
+  if(depth>0){rememberImpact(lane,b,point,n,s.w,i32(floorRecord(point)));let r=point-out.p.xyz;let lambda=min(depth,.08)/(eff(out,r,n)+1e-5);out.p=vec4f(out.p.xyz+n*lambda*out.p.w,out.p.w);out.q=rotateStep(out.q,invWorld(out,cross(r,n)*lambda));}
   for(var j=0u;j<header(0).x;j++){
    let offset=header(1).x+j*5u;let bp=constants[offset].xyz;let bq=constants[offset+1u];let half=constants[offset+2u].xyz;
    let local=rotate(inverseQ(bq),p-bp);if(any(abs(local)>half+vec3f(s.w+.02))){continue;}
    var closest=clamp(local,-half,half);var d=local-closest;let len=length(d);depth=s.w-len;
    if(len>1e-7){n=d/len;}else{let gaps=half-abs(local);if(gaps.x<gaps.y&&gaps.x<gaps.z){n=vec3f(select(-1.0,1.0,local.x>=0),0,0);depth=s.w+gaps.x;closest.x=n.x*half.x;}else if(gaps.y<gaps.z){n=vec3f(0,select(-1.0,1.0,local.y>=0),0);depth=s.w+gaps.y;closest.y=n.y*half.y;}else{n=vec3f(0,0,select(-1.0,1.0,local.z>=0));depth=s.w+gaps.z;closest.z=n.z*half.z;}}
-   if(depth<=0){continue;}n=rotate(bq,n);point=rotate(bq,closest)+bp;let r=point-out.p.xyz;let lambda=min(depth,.08)/(eff(out,r,n)+1e-5);out.p=vec4f(out.p.xyz+n*lambda*out.p.w,out.p.w);out.q=rotateStep(out.q,invWorld(out,cross(r,n)*lambda));
+   if(depth<=0){continue;}
+   let axis=abs(n);var receiver:i32;
+   if(axis.x>axis.y&&axis.x>axis.z){receiver=i32(select(constants[offset+3u].y,constants[offset+3u].x,n.x>0));}
+   else if(axis.y>axis.z){receiver=i32(select(constants[offset+3u].w,constants[offset+3u].z,n.y>0));}
+   else{receiver=i32(select(constants[offset+4u].y,constants[offset+4u].x,n.z>0));}
+   n=rotate(bq,n);point=rotate(bq,closest)+bp;rememberImpact(lane,b,point,n,s.w,receiver);
+   let r=point-out.p.xyz;let lambda=min(depth,.08)/(eff(out,r,n)+1e-5);out.p=vec4f(out.p.xyz+n*lambda*out.p.w,out.p.w);out.q=rotateStep(out.q,invWorld(out,cross(r,n)*lambda));
   }
  }return out;
 }
@@ -176,7 +192,7 @@ fn joint(base:u32,j:u32,angles:bool) {
 }
 @compute @workgroup_size(16) fn physics(@builtin(workgroup_id) group:vec3u,@builtin(local_invocation_index) lane:u32) {
  let base=group.x*15u;let dt=1.0/120.0;
- if(lane<15u){var b=bodies[base+lane];if(base+lane<u32(frame.settings.x)){
+ if(lane<15u){worldImpacts[lane]=WorldImpact(vec3f(0),0,vec3f(0),0,vec3f(0),-1);var b=bodies[base+lane];if(base+lane<u32(frame.settings.x)){
   if(frame.action.x==1){b.status.x=1;b.motor.w=0;b.blood.x=max(b.blood.x,select(.08,.85,lane<3u));b.v=vec4f((vec3f(hash(base+lane+4u),hash(base+lane+51u),hash(base+lane+97u))-.5)*vec3f(4,5,4),0);b.w=vec4f((vec3f(hash(base+lane+25u),hash(base+lane+71u),hash(base+lane+138u))-.5)*8,0);}
   if(frame.local.w>.5&&u32(frame.goal.w)/15u==group.x){b.status.x=1;b.motor.w=0;b.status.z=0;}
  }localBodies[lane]=b;}
@@ -208,13 +224,14 @@ fn joint(base:u32,j:u32,angles:bool) {
  for(var it=0u;it<9u;it++){
   if(lane==0u){for(var j=group.x*14u;j<(group.x+1u)*14u;j++){joint(base,j,(it&1u)==0u);}
    if(frame.local.w>.5&&u32(frame.goal.w)/15u==group.x){let i=u32(frame.goal.w)%15u;let b=localBodies[i];let r=rotate(b.q,frame.local.xyz);let error=frame.goal.xyz-(b.p.xyz+r);let d=length(error);if(d>1e-7){let n=error/d;correct(i,n,min(d,.15)*.86/(eff(b,r,n)+.00008/max(frame.tune.x,.05)),r);}let flags=u32(frame.settings.w);if((flags&12u)!=0u){localBodies[i].q=rotateStep(localBodies[i].q,vec3f(0,select(-.008,.008,(flags&8u)!=0u),0));}}
-  }workgroupBarrier();if(lane<15u&&localBodies[lane].status.x>.5){localBodies[lane]=worldContact(localBodies[lane]);}workgroupBarrier();
+  }workgroupBarrier();if(lane<15u&&localBodies[lane].status.x>.5){localBodies[lane]=worldContact(localBodies[lane],lane);}workgroupBarrier();
  }
  if(lane<15u){var b=localBodies[lane];let index=base+lane;
   if(b.status.x>.5){b.v=vec4f((b.p.xyz-b.prevP.xyz)/dt,0);var dq=quatMul(b.q,inverseQ(b.prevQ));if(dq.w<0){dq=-dq;}let l=length(dq.xyz);b.w=vec4f(dq.xyz*(2*atan2(l,dq.w)/(max(l,1e-8)*dt)),0);
    for(var si=0u;si<u32(b.half.w);si++){let s=sample(b,si);let p=rotate(b.q,s.xyz)+b.p.xyz;if(p.y<s.w+.015){b.v.y=max(b.v.y,0);let friction=exp(-1.8*dt);b.v.x*=friction;b.v.z*=friction;}}
   }
   b.blood.y+=dt*max(.05,b.blood.x)*frame.action.z;b.blood.z=max(0,b.blood.z-dt);b.coat.y=max(0,b.coat.y-dt);b.coat.x=max(0,b.coat.x-dt*2.3/frame.tune.w);
+  b=impactBlood(index,b,worldImpacts[lane]);
   b=paintContact(index,b,dt);
   let flingSpeed=length(b.v.xyz)+length(b.w.xyz)*b.invI.w*.55;
   b.coat.z=min(1.5,b.coat.z+dt*max(0,flingSpeed-1.8)*1.5);
@@ -273,7 +290,7 @@ fn rayHit(o:vec3f,d:vec3f,limit:f32,includeBodies:bool,ignoreBody:i32)->RayHit {
  atomicStore(&work[20],activeBodies);atomicStore(&work[21],wounds);atomicStore(&work[22],bitcast<u32>(scraping));
 }
 @compute @workgroup_size(64) fn bin(@builtin(global_invocation_id) id:vec3u) {
- let i=id.x;if(i>=min(8192u,atomicLoad(&work[3]))){return;}let s=stamps[i];let r=record(u32(s.info.x));let extent=max(max(s.a.z*r.size.x,s.a.w*r.size.y),max(s.color.y,s.color.z));let pad=select(s.a.zw*2.3,vec2f(extent*2.3+.025)/r.size.xy,s.info.y==1||s.info.y==3||s.info.y==4||s.info.y==6)+vec2f(3)/r.size.zw;let a=vec2u(clamp(floor((min(s.a.xy,s.b.xy)-pad)*r.size.zw/16),vec2f(0),vec2f(r.address.zw)-1));let b=vec2u(clamp(floor((max(s.a.xy,s.b.xy)+pad)*r.size.zw/16),vec2f(0),vec2f(r.address.zw)-1));let h=header(2);
+ let i=id.x;if(i>=min(8192u,atomicLoad(&work[3]))){return;}let s=stamps[i];let r=record(u32(s.info.x));let extent=max(max(s.a.z*r.size.x,s.a.w*r.size.y),max(s.color.y,s.color.z));let pad=select(s.a.zw*2.3,vec2f(extent*2.3+.025)/r.size.xy,s.info.y==1||s.info.y==3||s.info.y==4||s.info.y==6||s.info.y==8)+vec2f(3)/r.size.zw;let a=vec2u(clamp(floor((min(s.a.xy,s.b.xy)-pad)*r.size.zw/16),vec2f(0),vec2f(r.address.zw)-1));let b=vec2u(clamp(floor((max(s.a.xy,s.b.xy)+pad)*r.size.zw/16),vec2f(0),vec2f(r.address.zw)-1));let h=header(2);
  for(var y=a.y;y<=b.y;y++){for(var x=a.x;x<=b.x;x++){let tile=r.address.y+x+y*r.address.z;let n=atomicAdd(&work[h.y+tile],1u);if(n==0u){let activeIndex=atomicAdd(&work[0],1u);atomicStore(&work[h.z+activeIndex],tile);}if(n<128u){atomicStore(&work[h.w+tile*128u+n],i);}else{atomicAdd(&work[18],1u);}}}
 }
 var<workgroup> indices:array<u32,128>;
@@ -299,6 +316,10 @@ fn coverage(s:Stamp,point:vec2f)->vec4f {
   // finite liquid field, never an alpha ellipse behind each brush position.
   let delta=(p-s.b.xy)*r.size.xy;let ca=cos(s.b.z);let sn=sin(s.b.z);let q=vec2f(ca*delta.x+sn*delta.y,-sn*delta.x+ca*delta.y)/size;
   let film=select((1-smoothstep(.35,1.08,length(q)))*min(.14,s.b.w*.09),0.0,abs(r.n.y)<.65);rgb=rgb*(1-film)+vec3f(.40,.035,.065)*film;alpha+=film*(1-alpha);color=rgb/max(alpha,1e-6);
+ }else if(s.info.y==8){
+  let delta=(p-s.b.xy)*r.size.xy;let ca=cos(s.b.z);let sn=sin(s.b.z);let q=vec2f(ca*delta.x+sn*delta.y,-sn*delta.x+ca*delta.y)/(radius*r.size.xy);
+  let t=q*.26+.5;
+  if(all(t>=vec2f(0))&&all(t<=vec2f(1))){let tex=textureSampleLevel(brush,brushSampler,t,i32(u32(s.info.z)%18u),0);alpha=tex.a*min(1.0,s.b.w);color=tex.rgb;}
  }else if(s.info.y==6){
   let delta=(p-s.b.xy)*r.size.xy;let ca=cos(s.b.z);let sn=sin(s.b.z);let q=vec2f(ca*delta.x+sn*delta.y,-sn*delta.x+ca*delta.y)/(radius*r.size.xy);let angle=atan2(q.y,q.x);let seed=s.info.z;
   let edge=.86+.10*sin(angle*5+seed)+.07*sin(angle*9+seed*.71)+.16*pow(max(0,sin(angle*7+seed*.13)),6);
@@ -325,7 +346,7 @@ fn coverage(s:Stamp,point:vec2f)->vec4f {
    liquidPush+=contactDisplacement(s,r,vec2f(pos)+.5)*2.2;
   }
   if(smudging){value=displacedPaint(rec,vec2f(pos)+.5,value,velocities);}
-  for(var j=0u;j<total;j++){let index=select(indices[min(j,127u)],j,count>128u);let s=stamps[index];if(u32(s.info.x)!=rec||s.info.y==3){continue;}{let source=coverage(s,vec2f(pos)+.5);if(source.a>0){value=over(value,source);let footprintArea=max(.002,s.a.z*s.a.w*r.size.x*r.size.y);var supply=select(select(.18,.036,s.info.y==1),.006/footprintArea,s.info.y==4);if(s.info.y==6){supply=s.color.w*.75/(3.2*footprintArea*max(s.b.w,.001));}
+  for(var j=0u;j<total;j++){let index=select(indices[min(j,127u)],j,count>128u);let s=stamps[index];if(u32(s.info.x)!=rec||s.info.y==3){continue;}{let source=coverage(s,vec2f(pos)+.5);if(source.a>0){value=over(value,source);let footprintArea=max(.002,s.a.z*s.a.w*r.size.x*r.size.y);var supply=select(select(.18,.036,s.info.y==1),.006/footprintArea,s.info.y==4);if(s.info.y==6||s.info.y==8){supply=s.color.w*.75/(3.2*footprintArea*max(s.b.w,.001));}
   // Contact deposits finite film along the bristles. Raster strokes add pigment only.
   if(s.info.y==5||s.info.y==2||(s.info.y==1&&abs(r.n.y)<.65)){supply=0;}liquid+=source.a*supply;}}}
   pigment[offset]=pack(value);depositFilm(rec,pos,liquid,liquidPush);

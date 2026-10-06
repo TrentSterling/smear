@@ -2,7 +2,9 @@
 
 Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V27 / 0.27.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+**V28 / 0.28.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+
+V28 makes hard throws **injure and splatter on impact**, even with a clean dummy. The solver retains the collision point and normal velocity loss, including angular motion, before the part rebounds. Stronger hits spend more of the finite blood reserve on a textured attached print, ballistic spray and a coating on the injured part. Sustained scrape contact is gated against repeated bursts. Existing Damage and Bleeding tuning affects the result. `npm run verify:impact` covers clean head/body launches, ordinary grab-and-release throws, angular hits, floor/ceiling impacts, empty supplies and a full droplet pool. `npm run record:impact` records the V27/V28 comparison with subsequent drainage.
 
 V27 adds **Tune > Smudge**: stronger movement of existing wet paint, adjustable scrape damage, and cumulative wear that increases bleeding and transfer on the rubbed body face. Wash keeps injuries; Heal clears wear. Ceiling and ramp undersides now accept paint and dripping liquid, while trim, signs and lights display the paint on their supporting surface. `npm run verify:smudge` checks controls, migration, transfer, wear and native paint hits; `npm run record:smudge` records the V26/V27 comparison.
 

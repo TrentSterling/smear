@@ -36,7 +36,7 @@ try{
   for(const key of ['mobile','alpha','painted'])assert(Math.abs(receipt.floor[key]/baseline.floor[key]-1)<.03,'V26 floor impact '+key);
   receipt.checks.push('The matched floor impact retains liquid, pigment alpha and coverage within 3% of accepted V26');
  }
- await page.eval('__wallTest.setup(true,8,0)');await page.eval('__wallTest.advance(28)');receipt.dry=await page.eval('__wallTest.read()');assert.equal(receipt.dry.splats,0);assert.equal(receipt.dry.painted,0);receipt.checks.push('An uncoated unwounded body does not manufacture a wet wall splat');
+ await page.eval('__wallTest.setup(true,8,0)');await page.eval('__wallTest.advance(28)');receipt.dry=await page.eval('__wallTest.read()');assert.equal(receipt.dry.splats,0);assert.equal(receipt.dry.painted,0);receipt.checks.push('An uncoated body with injury and bleeding explicitly disabled does not manufacture a wall splat; fresh impact injury is covered by impact-verify');
  receipt.errors=page.logs.filter(s=>/^EXCEPTION:|^error:/i.test(s));assert.deepEqual(receipt.errors,[]);receipt.result='COMPLETE wall impact checks';console.log(JSON.stringify({result:receipt.result,checks:receipt.checks,impact:receipt.impact,three:receipt.three,fifteen:receipt.fifteen,floor:receipt.floor},null,2));
 }catch(e){receipt.result='FAIL';receipt.error=e.stack;console.error(e.stack);console.log(JSON.stringify({impact:receipt.impact,three:receipt.three,fifteen:receipt.fifteen,floor:receipt.floor}));process.exitCode=1;}
 finally{await writeFile(resolve(out,'verification.json'),JSON.stringify(receipt,null,2)+'\n');page.kill();}

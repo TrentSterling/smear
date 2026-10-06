@@ -6,6 +6,9 @@ export async function installWallFixture(page){
  window.__wallTest={
   async setup(wall=true,speed=8,coat=1.25){
    __smear.manual(true);__smear.reset();__smear.tune({walking:false,recover:false,bleeding:0,damage:0,coverage:1,transfer:1,drying:100});await __smear.step(0);__smear.clean();g.clearDrops();
+   // This historical gate measures transfer of existing coating. The public
+   // sliders clamp above zero; disable new injury explicitly for that control.
+   Object.assign(g.input().tune,{damage:0,bleeding:0});
    const a=new Float32Array(await download(g.bodyBuffer,0,g.bodyBuffer.size));const rotation=new T.Quaternion().setFromAxisAngle(new T.Vector3(1,0,0),wall?Math.PI/2:0);const offset=new T.Vector3(0,wall?2:.5,wall?-7.6:0);
    for(let i=0;i<15;i++){const o=i*104,p=new T.Vector3(...a.slice(o,o+3)).applyQuaternion(rotation).add(offset),q=rotation.clone().multiply(new T.Quaternion(...a.slice(o+4,o+8)));a.set(p.toArray(),o);a.set(q.toArray(),o+4);a.set(wall?[0,0,-speed]:[0,-speed,0],o+8);a.set([0,0,0],o+12);a.set([coat,0,0,9],o+32);a.set([0,0,0,100],o+36);a[o+44]=1;a[o+75]=0;a[o+55]=0;}
    d.queue.writeBuffer(g.bodyBuffer,0,a);g.bodyCount=15;g.syncCounts();g.action=0;__smear.tool(0);__smear.view(wall?[2.6,2.7,-4.5]:[2.8,3.8,3.8],wall?[0,1.65,-8]:[0,0,.4]);__smear.fly();await d.queue.onSubmittedWorkDone();

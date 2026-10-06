@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';import {readFile,writeFile,stat} from 'node:fs/promises';import {createHash} from 'node:crypto';import {spawnSync} from 'node:child_process';
+const hash=b=>createHash('sha256').update(b).digest('hex'),read=async p=>JSON.parse(await readFile(p,'utf8'));
+const build=await readFile('index.html'),buildSHA256=hash(build),buildTime=(await stat('index.html')).mtimeMs;assert.equal((await read('package.json')).version,'0.28.0');
+const receipt={version:'0.28.0',status:'verified release candidate',verifiedAt:new Date().toISOString(),buildSHA256,buildBytes:build.length,checks:{},evidence:[],impacts:[],drainage:[],nativeProfiles:[]};
+for(const browser of ['chrome','firefox']){
+ const suffix=browser==='firefox'?'-firefox':'';
+ const paths=[['impact','impact-pass'],['smudge','smudge-pass'],['evolution','liquid-evolution'],['joining','liquid-evolution'],['character','liquid-evolution'],['finish','liquid-evolution'],['brush','brush-flow-pass'],['contact','wall-contact-pass'],['wall','wall-pass'],['wet','wet-pass'],['film','film-pass'],['rivulets','rivulet-pass']].map(([name,root])=>[name,root+'/final-v28'+suffix]);
+ for(const entry of paths)if(['joining','character','finish'].includes(entry[0]))entry[1]='liquid-evolution/final-v28-'+entry[0]+suffix;
+ paths.push(['gameplay','compute-'+browser],['native','compute-native-'+browser],['wallNative','compute-native-wall-'+browser],['impactNative','impact-pass/native-'+browser]);
+ for(const [name,dir]of paths){
+  const path='tools/out/'+dir+'/verification.json',bytes=await readFile(path),r=JSON.parse(bytes);assert(r.result.startsWith('COMPLETE'),path);assert(Date.parse(r.startedAt)>buildTime,path+' predates final build');if(r.buildSHA256)assert.equal(r.buildSHA256,buildSHA256,path);receipt.evidence.push({path,sha256:hash(bytes),startedAt:r.startedAt});receipt.checks[browser+'-'+name]=r.checks;
+  if(name==='impact')receipt.impacts.push({browser,baseline:r.baseline,cases:r.cases,fullPool:r.fullPool,release:r.release,grabThrow:r.grabThrow,three:r.three,fifteen:r.fifteen});
+  if(name==='brush')receipt.drainage.push({browser,descent3Seconds:r.samples[0].cy-r.samples[1].cy,descent15Seconds:r.samples[0].cy-r.samples[3].cy,massRetained:r.samples[3].mass/r.samples[0].mass});
+  if(name==='film')receipt.resources=r.resources;
+  if(name==='native'||name==='wallNative'||name==='impactNative'){assert.deepEqual(r.viewport,[3000,1800]);assert(r.audio.enabled&&r.audio.state==='running');for(const p of r.profiles){assert.equal(p.audit.canvasReads,0);assert.equal(p.audit.webGLContexts,0);assert(!Object.keys(p.audit.reads).some(k=>/body inspection|pigment/.test(k)));receipt.nativeProfiles.push({browser,workload:p.label,fps:p.report.summary.fps,cpuP99MS:p.report.summary.workPercentileMs.p99,gpu:p.report.compute.summary,ticksPerSecond:p.ticksPerSecond});}}
+ }
+}
+receipt.checkCount=Object.values(receipt.checks).reduce((n,v)=>n+v.length,0);
+const root='tools/out/impact-pass/recordings',capture=await read(root+'/capture.json');assert(capture.result.startsWith('COMPLETE'));assert.equal(capture.builds.find(b=>b.label==='before').sha256,(await read('docs/qa/smudge-v27.json')).buildSHA256);assert.equal(capture.builds.find(b=>b.label==='after').sha256,buildSHA256);
+receipt.media={capture:root+'/capture.json',builds:capture.builds,files:[]};
+for(const name of ['before/impact-before.mp4','after/impact-after.mp4',capture.comparison]){const path=root+'/'+name,b=await readFile(path),p=spawnSync('ffprobe',['-v','error','-show_entries','format=duration:stream=codec_name,width,height,r_frame_rate','-of','json',path],{encoding:'utf8',windowsHide:true});assert.ifError(p.error);assert.equal(p.status,0,p.stderr);const info=JSON.parse(p.stdout);assert.equal(info.streams[0].codec_name,'h264');assert(Math.abs(Number(info.format.duration)-36)<.1);receipt.media.files.push({path,bytes:b.length,sha256:hash(b),...info});}
+receipt.sources={};for(const path of ['gpu/contact.wgsl','gpu/compute.wgsl','tools/compute-build.mjs','tools/impact-fixture.mjs','tools/impact-verify.mjs','tools/impact-capture.mjs','tools/impact-profile.mjs','tools/wall-fixture.mjs','tools/wall-verify.mjs'])receipt.sources[path]=hash(await readFile(path));
+receipt.scope=[
+ 'Accepted V27 preserved. Real world collisions retain the contact receiver and point during solving, even if the final brush footprint separates. Injury is driven by lost normal contact velocity, including angular motion, rather than existing blood coating.',
+ 'Hard impacts immediately create wounds and debit finite blood reserves. Allocated fluid coats the part, launches finite carried-volume spray and feeds a textured impact print. A full particle pool leaves failed spray allocations in the print budget. Existing Damage and Bleeding tuning scales the response.',
+ 'Collision episodes and cooldown reject repeat contact chatter. Held bodies require fast normal body approach so positional grab rotation during rubbing does not repeatedly explode. Fresh unheld head/body throws, angular strikes, floor and ceiling impacts are verified separately from coating transfer.',
+ 'The existing 54-bristle brush, smudge controls, abrasion, surface film gravity/adhesion, joining and material finish remain. The unchanged integrated contact-to-drain thresholds pass in both browsers. Historical coating-only tests explicitly disable injury after Tune slider clamping.',
+ 'The GPU stores 15 transient impact records in workgroup memory and two episode fields in unused pair-scratch padding. Body/uniform sizes, storage buffer count, 900-drop cap, 77 receivers, texel density and normal-play no-body/no-pigment-readback policy remain.',
+ 'Videos upload identical clean articulated launch poses and velocities once, then show native GPU gameplay and over fifteen seconds of continued drainage. They are controlled throw inspections, not recordings of mouse gestures. An independent verification uses normal grab, target and release to throw without a launch-velocity upload. Native trajectories can differ. Performance is measured separately from recording.',
+ 'This is a stylized impact/partial-wetting response, not a calibrated material-fracture or blood rheology simulation.'
+];
+for(const [path,expected]of [['versions/smear_v8.9_cpu.html','cff878b51eec0db9e3874f99c9fdcdbd6b9179d2f03e6374ef4726d89f1e5c44'],['versions/dragmark_v7.html','4dfe17e606b18ce7471f176b4c2afa0229b2f32e60b5b88c2971ebc6a75bc41f']])assert.equal(hash(await readFile(path)),expected);
+await writeFile('docs/qa/impact-v28.json',JSON.stringify(receipt,null,2)+'\n');console.log(JSON.stringify({result:'COMPLETE V28 release evidence audit',checks:receipt.checkCount,buildSHA256,media:receipt.media.files.map(f=>f.path)},null,2));
