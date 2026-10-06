@@ -31,14 +31,43 @@ var<workgroup> filmRecordID:u32;
 }
 fn filmPush(address:u32)->vec2f {return vec2f(bitcast<f32>(atomicLoad(&wet[filmOffset(3u)+address])),bitcast<f32>(atomicLoad(&wet[filmOffset(4u)+address])));}
 fn filmVelocity(address:u32)->vec2f {return vec2f(bitcast<f32>(atomicLoad(&wet[filmOffset(5u)+address])),bitcast<f32>(atomicLoad(&wet[filmOffset(6u)+address])));}
+// Partial wetting on walls: a thin attached layer survives under moving beads.
+// The fixed, two-dimensional surface variation pins contact lines locally; it
+// does not prescribe vertical channels or animate a noise texture.
+fn wallHold(rec:u32,r:Record,cell:vec2i)->f32 {
+ let p=(vec2f(cell)+.5)*r.size.xy/vec2f(filmDimensions(r))*13.0;
+ let a=vec2u(floor(p));let f=fract(p);let t=f*f*(3-2*f);
+ let seed=rec*491u;let n=mix(mix(hash(seed+a.x*1973u+a.y*9277u),hash(seed+(a.x+1u)*1973u+a.y*9277u),t.x),mix(hash(seed+a.x*1973u+(a.y+1u)*9277u),hash(seed+(a.x+1u)*1973u+(a.y+1u)*9277u),t.x),t.y);
+ return .010+.022*n;
+}
+fn wallPotential(rec:u32,r:Record,cell:vec2i,mass:f32)->f32 {
+ let spacing=r.size.xy/vec2f(filmDimensions(r));var curvature=0.0;
+ for(var k=0u;k<4u;k++){
+  let axis=select(0u,1u,k>=2u);var offset=vec2i(0);offset[axis]=select(-1,1,k==0u||k==2u);
+  let adjacent=filmPosition(rec,cell+offset);var other=mass;if(adjacent>=0){other=filmRead(1u,u32(adjacent));}
+  curvature+=(other-mass)/(spacing[axis]*spacing[axis]);
+ }
+ // A wetting potential gathers excess into rounded heads; curvature opposes
+ // cell-scale spikes. This is a stylized thin-film energy, not calibrated blood.
+ return (.010+wallHold(rec,r,cell)*.15)*mass/(mass*mass+.000625)-.00030*curvature;
+}
 @compute @workgroup_size(256) fn accelerateFilm(@builtin(workgroup_id) group:vec3u,@builtin(local_invocation_index) lane:u32){
  if(lane==0u){filmRecordID=filmRecordForGroup(group.x);}workgroupBarrier();
  let r=record(filmRecordID);let dims=filmDimensions(r);let local=(group.x-u32(r.extra.w))*256u+lane;if(local>=dims.x*dims.y){return;}
  let address=u32(r.extra.z)+local;let mass=filmRead(1u,address);let dt=frame.settings.y;var velocity=filmVelocity(address);
+ if(mass==0){atomicStore(&wet[filmOffset(5u)+address],0u);atomicStore(&wet[filmOffset(6u)+address],0u);return;}
  // Viscous drag permits visible acceleration and leaves thin residue pinned.
- let mobile=smoothstep(.004,.035,mass);let drag=mix(26.0,7.0,smoothstep(.02,.35,mass));let decay=exp(-drag*dt);
+ var mobile=smoothstep(.004,.035,mass);var drag=mix(26.0,7.0,smoothstep(.02,.35,mass));
+ if(abs(r.n.y)<.65){
+  let cell=vec2i(i32(local%dims.x),i32(local/dims.x));let hold=wallHold(filmRecordID,r,cell);
+  // Advancing edges need more supply to unpin than already moving wet tracks.
+  let threshold=hold*select(1.7,.8,length(velocity)>.002);
+  mobile=smoothstep(threshold,threshold+.035,mass);
+  let thickness=max(0,mass-hold);drag=clamp(5.0/max(thickness*thickness,.001),70.0,5000.0);
+ }
+ let decay=exp(-drag*dt);
  velocity=velocity*decay-vec2f(r.u.y,r.v.y)*9.81*(1-decay)/drag*mobile;
- let contact=filmPush(address);if(dot(contact,contact)>1e-6){velocity=mix(velocity,contact,1-exp(-38*dt));}
+ let contact=filmPush(address);if(dot(contact,contact)>1e-6){velocity=mix(velocity,contact,1-exp(-38*dt));if(abs(r.n.y)<.65){mobile=max(mobile,smoothstep(.001,.010,mass));}}
  velocity*=mobile;velocity*=min(1.0,2.5/max(length(velocity),1e-6));
  atomicStore(&wet[filmOffset(5u)+address],bitcast<u32>(velocity.x));atomicStore(&wet[filmOffset(6u)+address],bitcast<u32>(velocity.y));
 }
@@ -47,16 +76,37 @@ fn filmVelocity(address:u32)->vec2f {return vec2f(bitcast<f32>(atomicLoad(&wet[f
  let rec=filmRecordID;let r=record(rec);let dims=filmDimensions(r);let local=(group.x-u32(r.extra.w))*256u+lane;if(local>=dims.x*dims.y){return;}
  let cell=vec2i(i32(local%dims.x),i32(local/dims.x));let address=u32(r.extra.z)+local;let mass=filmRead(1u,address);let dt=frame.settings.y;
  let spacing=r.size.xy/vec2f(dims);let velocityHere=filmVelocity(address);let mobility=clamp(sqrt(mass)*1.5,.06,1.0);var change=0.0;
+ let wall=abs(r.n.y)<.65;var potential=0.0;var held=0.0;var wallReady=false;
  for(var k=0u;k<4u;k++){
   let axis=select(0u,1u,k>=2u);let direction=select(-1.0,1.0,k==0u||k==2u);var offset=vec2i(0);offset[axis]=i32(direction);
   let adjacent=filmPosition(rec,cell+offset);if(adjacent<0){continue;}let other=filmRead(1u,u32(adjacent));if(mass+other<.00001){continue;}
   let delta=mass-other;let edgeMobility=min(mobility,clamp(sqrt(other)*1.5,.06,1.0))+.12;
   // Nonlinear levelling with a pinned thin contact line. The coefficient is
   // measured in world space, so narrow boxes and floor records spread alike.
-  let pressure=sign(delta)*max(0,abs(delta)-.0035)*min(.16,.0016*dt/(spacing[axis]*spacing[axis]))*edgeMobility;
-  let velocity=clamp(dot((velocityHere+filmVelocity(u32(adjacent)))*.5,vec2f(offset))*dt/spacing[axis],-.23,.23);let advected=velocity*select(mass,other,velocity<0);
+  var pressure=sign(delta)*max(0,abs(delta)-.0035)*min(.16,.0016*dt/(spacing[axis]*spacing[axis]))*edgeMobility;
+  var otherHeld=0.0;
+  if(wall){
+   if(!wallReady){potential=wallPotential(rec,r,cell,mass);held=wallHold(rec,r,cell);if(length(filmPush(address))>.01){held=0;}wallReady=true;}
+   otherHeld=wallHold(rec,r,cell+offset);if(length(filmPush(u32(adjacent)))>.01){otherHeld=0;}
+   pressure=(potential-wallPotential(rec,r,cell+offset,other))*min(.035,.0007*dt/(spacing[axis]*spacing[axis]))*edgeMobility;
+  }
+  let available=max(0,mass-held);let otherAvailable=max(0,other-otherHeld);
+  let velocity=clamp(dot((velocityHere+filmVelocity(u32(adjacent)))*.5,vec2f(offset))*dt/spacing[axis],-.23,.23);let advected=velocity*select(available,otherAvailable,velocity<0);
+  var flux=pressure+advected;
+  if(wall){
+   // A dry advancing edge resists invasion until a local head builds up.
+   // Previously wetted tracks need much less pressure to move again. Both
+   // sides evaluate the same donor/receiver gate, preserving shared-edge flux.
+   let incoming=flux<0;let donor=select(mass,other,incoming);let receiver=select(other,mass,incoming);
+   let receiverHold=select(otherHeld,held,incoming);
+   let wetted=smoothstep(.012,.065,receiver);
+   let advancing=.10+max(0,receiverHold-.010)*14.0;
+   let unpin=mix(smoothstep(advancing,advancing+.09,donor),1.0,wetted);
+   let forced=length(filmPush(address))+length(filmPush(u32(adjacent)))>.01;
+   flux*=select(unpin,1.0,forced);
+  }
   // Each shared edge uses equal coefficients and upwind supply in both cells.
-  change-=clamp(pressure+advected,-other*.24,mass*.24);
+  change-=clamp(flux,-otherAvailable*.24,available*.24);
  }
  let moved=max(0,mass+change);let dried=moved*(1-exp(-dt*1.5/max(frame.tune.w,1)));let remaining=moved-dried;
  atomicStore(&wet[filmOffset(0u)+address],u32(round(remaining*FILM_SCALE)));

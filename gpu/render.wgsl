@@ -143,7 +143,8 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
  }
  // Blood is optically dense even in a thin film. A narrow meniscus avoids the
  // airbrush halo produced by mapping thickness directly to broad transparency.
- let mobileAlpha=smoothstep(.006,.027,liquid.x)*.98;let residueAlpha=smoothstep(.003,.022,liquid.y);
+ let wallFilm=object.params.x<0&&object.params.y>=16&&abs(v.normal.y)<.65;
+ let mobileAlpha=smoothstep(select(.006,.018,wallFilm),select(.027,.12,wallFilm),liquid.x)*.98;let residueAlpha=smoothstep(.003,.022,liquid.y);
  let residue=vec4f(.29,.016,.027,residueAlpha*.85);stain=over(stain,residue);
  let liquidColor=mix(vec3f(.43,.021,.037),vec3f(.19,.005,.014),1-exp(-liquid.x*1.4));stain=over(stain,vec4f(liquidColor,mobileAlpha));fresh=max(fresh,smoothstep(.002,.05,liquid.x));
  color=mix(color,pow(stain.rgb,vec3f(2.2))*mix(vec3f(.66,.65,.58),vec3f(1.05,1,1),fresh),stain.a);rough=mix(rough,mix(.85,.21,fresh),smoothstep(.07,.86,stain.a));rough=mix(rough,.12,mobileAlpha);let out=shade(v.world,normalize(mix(v.normal,liquidNormal,mobileAlpha)),color,rough,metal,basic,object.flags.w==7);return vec4f(out.rgb,alpha);

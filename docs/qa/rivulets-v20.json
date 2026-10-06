@@ -1,0 +1,2723 @@
+{
+  "version": "0.20.0",
+  "status": "verified release candidate",
+  "verifiedAt": "2026-10-06T08:24:18.973Z",
+  "buildSHA256": "c38767fbaf0561b2c0f5baf1ddf5b1fd8602e383b6e4140777edfc0e4f807579",
+  "buildBytes": 957408,
+  "checks": {
+    "chrome-rivulets": [
+      "Wall wetting fixtures run on hardware GPU with finite state and no lost events",
+      "Small deposits cling while a heavier bead visibly moves under gravity",
+      "A finite broad patch develops uneven runoff while retaining its attached mass",
+      "Wall breakup retains source residue and conserves finite liquid plus dried mass",
+      "A broad deposit splits into multiple separated rivulets below its source",
+      "Wall pinning and rivulet breakup agree at 30 Hz and 60 Hz submission cadence",
+      "Contact shear releases attached wall liquid without manufacturing supply"
+    ],
+    "chrome-wall": [
+      "Actual articulated GPU wall impact leaves paint with finite joints and no lost events",
+      "Wall slam creates a broad opaque print and radial splatter instead of a small contact dab",
+      "The impact silhouette stays on the wall after 3 and 15 seconds of drainage",
+      "Retained splat still contains wet liquid that gradually drains or dries",
+      "Wall-slam liquid moves visibly within three seconds while retaining the broad pigment print",
+      "The matched floor impact retains its existing pool and pigment response",
+      "An uncoated unwounded body does not manufacture a wet wall splat"
+    ],
+    "chrome-film": [
+      "Finite isolated pools spread and level after deposition stops, conserving mobile plus dried mass",
+      "Adjacent pools merge across a floor-record seam",
+      "30 Hz and 60 Hz submissions produce comparable spreading and supply",
+      "Clean dummy picks up and redistributes existing liquid with fresh deposition disabled",
+      "Drying transfers mobile liquid into persistent residue instead of deleting blood",
+      "Liquid visibly accelerates downhill while retaining supply across receivers and runoff droplets",
+      "Clean clears both mobile pools and settled residue",
+      "A finite wall pool runs down and supplies the floor without continued painting",
+      "Blood detaches from elevated edges, falls ballistically, and lands with finite carried volume",
+      "A full 900-drop pool retains un-emitted runoff on its receiver",
+      "Real wound droplets inherit body momentum and follow a gravity-curved flight",
+      "Fast-moving coated bodies fling finite droplets without creating wounds",
+      "Live GPU ragdoll dragging remains finite with no dropped paint events"
+    ],
+    "chrome-wet": [
+      "Dry pigment remains unchanged under a clean moving contact",
+      "Wet contact redistributes existing colored pigment with fresh deposition disabled",
+      "Pigment crosses a floor-record seam without a gap or duplicated supply",
+      "Rotation around a stationary footprint produces curved material smears",
+      "Resting wet wounds grow a cohesive pool over six seconds",
+      "Lift and recontact break the stroke without bridging airborne travel",
+      "A saturated coating leaves a finite puddle without an active wound and consumes wet supply",
+      "Body contact also smears on a vertical wall without leaking onto the floor",
+      "Live articulated dummy drag stays finite, connected and within paint event capacity"
+    ],
+    "chrome-gameplay": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "chrome-native": [
+      "Native pistol hits and spawns GPU particles",
+      "Native Spill paints walls; GPU gravity drips extend paint",
+      "Native grabbing resolves from GPU body poses",
+      "Native drag creates persistent floor smears",
+      "GPU wash clears all 150 body coatings and pigment",
+      "GPU heal restores reserves and clears airborne drops",
+      "Finite long GPU simulation and recovery"
+    ],
+    "firefox-rivulets": [
+      "Wall wetting fixtures run on hardware GPU with finite state and no lost events",
+      "Small deposits cling while a heavier bead visibly moves under gravity",
+      "A finite broad patch develops uneven runoff while retaining its attached mass",
+      "Wall breakup retains source residue and conserves finite liquid plus dried mass",
+      "A broad deposit splits into multiple separated rivulets below its source",
+      "Wall pinning and rivulet breakup agree at 30 Hz and 60 Hz submission cadence",
+      "Contact shear releases attached wall liquid without manufacturing supply"
+    ],
+    "firefox-wall": [
+      "Actual articulated GPU wall impact leaves paint with finite joints and no lost events",
+      "Wall slam creates a broad opaque print and radial splatter instead of a small contact dab",
+      "The impact silhouette stays on the wall after 3 and 15 seconds of drainage",
+      "Retained splat still contains wet liquid that gradually drains or dries",
+      "Wall-slam liquid moves visibly within three seconds while retaining the broad pigment print",
+      "The matched floor impact retains its existing pool and pigment response",
+      "An uncoated unwounded body does not manufacture a wet wall splat"
+    ],
+    "firefox-film": [
+      "Finite isolated pools spread and level after deposition stops, conserving mobile plus dried mass",
+      "Adjacent pools merge across a floor-record seam",
+      "30 Hz and 60 Hz submissions produce comparable spreading and supply",
+      "Clean dummy picks up and redistributes existing liquid with fresh deposition disabled",
+      "Drying transfers mobile liquid into persistent residue instead of deleting blood",
+      "Liquid visibly accelerates downhill while retaining supply across receivers and runoff droplets",
+      "Clean clears both mobile pools and settled residue",
+      "A finite wall pool runs down and supplies the floor without continued painting",
+      "Blood detaches from elevated edges, falls ballistically, and lands with finite carried volume",
+      "A full 900-drop pool retains un-emitted runoff on its receiver",
+      "Real wound droplets inherit body momentum and follow a gravity-curved flight",
+      "Fast-moving coated bodies fling finite droplets without creating wounds",
+      "Live GPU ragdoll dragging remains finite with no dropped paint events"
+    ],
+    "firefox-wet": [
+      "Dry pigment remains unchanged under a clean moving contact",
+      "Wet contact redistributes existing colored pigment with fresh deposition disabled",
+      "Pigment crosses a floor-record seam without a gap or duplicated supply",
+      "Rotation around a stationary footprint produces curved material smears",
+      "Resting wet wounds grow a cohesive pool over six seconds",
+      "Lift and recontact break the stroke without bridging airborne travel",
+      "A saturated coating leaves a finite puddle without an active wound and consumes wet supply",
+      "Body contact also smears on a vertical wall without leaking onto the floor",
+      "Live articulated dummy drag stays finite, connected and within paint event capacity"
+    ],
+    "firefox-gameplay": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "firefox-native": [
+      "Native pistol hits and spawns GPU particles",
+      "Native Spill paints walls; GPU gravity drips extend paint",
+      "Native grabbing resolves from GPU body poses",
+      "Native drag creates persistent floor smears",
+      "GPU wash clears all 150 body coatings and pigment",
+      "GPU heal restores reserves and clears airborne drops",
+      "Finite long GPU simulation and recovery"
+    ]
+  },
+  "evidence": [
+    {
+      "path": "tools/out/rivulet-pass/final-v20/verification.json",
+      "sha256": "d4fc486c3586bd1f1a3fadd0c7c8e0f5e925d57c47d4b36917e2e2b100dcdc68",
+      "startedAt": "2026-10-06T08:16:50.167Z"
+    },
+    {
+      "path": "tools/out/wall-pass/final-v20/verification.json",
+      "sha256": "dd177cb8d31eff6ead4334cc85d0dceefcdbae166cd705de7f4c1facbf56f12b",
+      "startedAt": "2026-10-06T08:17:00.370Z"
+    },
+    {
+      "path": "tools/out/film-pass/final-v20/verification.json",
+      "sha256": "9c3e6e3ba18550b7b5344a48f75a5ce4436c66d074b14b4576c67678517419b0",
+      "startedAt": "2026-10-06T08:17:08.250Z"
+    },
+    {
+      "path": "tools/out/wet-pass/final-v20/verification.json",
+      "sha256": "723659e13b0b8f9f504ec7f341284e0119ec7f13bc893be9273c3bd570e842ab",
+      "startedAt": "2026-10-06T08:17:21.916Z"
+    },
+    {
+      "path": "tools/out/compute-chrome/verification.json",
+      "sha256": "f72202335fb568e49843b48f368da8a2a718ef5ce1c2bbb9adcc9a7dbdb9b2e4",
+      "startedAt": "2026-10-06T08:17:29.028Z"
+    },
+    {
+      "path": "tools/out/compute-native-chrome/verification.json",
+      "sha256": "09f65d7370cf0b201c209cc1e2ffaffdb11e7ed1b96c1fc800ea700646df742a",
+      "startedAt": "2026-10-06T08:17:42.544Z"
+    },
+    {
+      "path": "tools/out/rivulet-pass/final-v20-firefox/verification.json",
+      "sha256": "e4512b42675f01a6cdaa1c292dc18bacc7d47cbb37476cd4545b9ee103f84c9f",
+      "startedAt": "2026-10-06T08:18:28.295Z"
+    },
+    {
+      "path": "tools/out/wall-pass/final-v20-firefox/verification.json",
+      "sha256": "229f82270163ba8ebb46ea9803e40fd3d4496071780bf835bf4615707575feb9",
+      "startedAt": "2026-10-06T08:18:45.946Z"
+    },
+    {
+      "path": "tools/out/film-pass/final-v20-firefox/verification.json",
+      "sha256": "ba0a3484d9401d5e286f222f71c23292cd71eb460c7a49ba2a8e093bbfa202da",
+      "startedAt": "2026-10-06T08:19:10.929Z"
+    },
+    {
+      "path": "tools/out/wet-pass/final-v20-firefox/verification.json",
+      "sha256": "fa7762358699129fbb96b17234a03cb0749aa7d517a5ce20f5ee07d766d4a63a",
+      "startedAt": "2026-10-06T08:19:37.762Z"
+    },
+    {
+      "path": "tools/out/compute-firefox/verification.json",
+      "sha256": "813f677282e0158d9f1010c43250cdddfe8a99ac01c1e9f9e3228922e0ebdfd6",
+      "startedAt": "2026-10-06T08:19:59.230Z"
+    },
+    {
+      "path": "tools/out/compute-native-firefox/verification.json",
+      "sha256": "bc0841f9a7b1c647ed25d41d91cdbea0be65546fef31f11401559d4f0acaa98f",
+      "startedAt": "2026-10-06T08:20:28.361Z"
+    }
+  ],
+  "walls": [
+    {
+      "browser": "chrome",
+      "impact": {
+        "painted": 25063,
+        "opaque": 21560,
+        "alpha": 5045505,
+        "coreAlpha": 4180612,
+        "width": 1.50625,
+        "height": 2.425,
+        "mobile": 0.05351083755493166,
+        "residue": 0.00015239715576171754,
+        "coreMobile": 0.04180208206176762,
+        "centroidY": 1.423653354881417,
+        "splats": 15,
+        "overflow": 0
+      },
+      "three": {
+        "painted": 25063,
+        "opaque": 21560,
+        "alpha": 5045505,
+        "coreAlpha": 4180612,
+        "width": 1.50625,
+        "height": 2.425,
+        "mobile": 0.05135636329650879,
+        "residue": 0.002240800857543948,
+        "coreMobile": 0.04017571449279787,
+        "centroidY": 1.3724435247780686,
+        "splats": 15,
+        "overflow": 0
+      },
+      "fifteen": {
+        "painted": 25063,
+        "opaque": 21560,
+        "alpha": 5045505,
+        "coreAlpha": 4180612,
+        "width": 1.50625,
+        "height": 2.425,
+        "mobile": 0.04448743820190437,
+        "residue": 0.008885602951049818,
+        "coreMobile": 0.03212898254394535,
+        "centroidY": 1.2437929515786794,
+        "splats": 15,
+        "overflow": 0
+      },
+      "floor": {
+        "painted": 7688,
+        "opaque": 3430,
+        "alpha": 905234,
+        "coreAlpha": 0,
+        "width": 0.825,
+        "height": 1.175,
+        "mobile": 0.011730518341064467,
+        "residue": 0.000023736953735351566,
+        "coreMobile": 0,
+        "centroidY": 0,
+        "splats": 0,
+        "overflow": 0
+      },
+      "dry": {
+        "painted": 0,
+        "opaque": 0,
+        "alpha": 0,
+        "coreAlpha": 0,
+        "width": -2000000000,
+        "height": -2000000000,
+        "mobile": 0,
+        "residue": 0,
+        "coreMobile": 0,
+        "centroidY": 0,
+        "splats": 0,
+        "overflow": 0
+      },
+      "descent3Seconds": 0.05120983010334834,
+      "descent15Seconds": 0.17986040330273756,
+      "centralPigmentRetained": 1,
+      "floorLiquidChange": 0,
+      "floorPigmentChange": 0
+    },
+    {
+      "browser": "firefox",
+      "impact": {
+        "painted": 25102,
+        "opaque": 21569,
+        "alpha": 5050112,
+        "coreAlpha": 4179236,
+        "width": 1.50625,
+        "height": 2.425,
+        "mobile": 0.05457574844360345,
+        "residue": 0.00015517234802245964,
+        "coreMobile": 0.04236886024475096,
+        "centroidY": 1.4210492431695483,
+        "splats": 15,
+        "overflow": 0
+      },
+      "three": {
+        "painted": 25102,
+        "opaque": 21569,
+        "alpha": 5050112,
+        "coreAlpha": 4179236,
+        "width": 1.50625,
+        "height": 2.425,
+        "mobile": 0.0523814296722413,
+        "residue": 0.0022970581054687477,
+        "coreMobile": 0.04072766304016124,
+        "centroidY": 1.3691917598634225,
+        "splats": 15,
+        "overflow": 0
+      },
+      "fifteen": {
+        "painted": 25102,
+        "opaque": 21569,
+        "alpha": 5050112,
+        "coreAlpha": 4179236,
+        "width": 1.50625,
+        "height": 2.425,
+        "mobile": 0.04534807205200196,
+        "residue": 0.009122028350830083,
+        "coreMobile": 0.03318237304687502,
+        "centroidY": 1.2419434858225638,
+        "splats": 15,
+        "overflow": 0
+      },
+      "floor": {
+        "painted": 7689,
+        "opaque": 3430,
+        "alpha": 905225,
+        "coreAlpha": 0,
+        "width": 0.825,
+        "height": 1.175,
+        "mobile": 0.011701850891113292,
+        "residue": 0.000023660659790039065,
+        "coreMobile": 0,
+        "centroidY": 0,
+        "splats": 0,
+        "overflow": 0
+      },
+      "dry": {
+        "painted": 0,
+        "opaque": 0,
+        "alpha": 0,
+        "coreAlpha": 0,
+        "width": -2000000000,
+        "height": -2000000000,
+        "mobile": 0,
+        "residue": 0,
+        "coreMobile": 0,
+        "centroidY": 0,
+        "splats": 0,
+        "overflow": 0
+      },
+      "descent3Seconds": 0.05185748330612583,
+      "descent15Seconds": 0.17910575734698453,
+      "centralPigmentRetained": 1,
+      "floorLiquidChange": 0,
+      "floorPigmentChange": 0
+    }
+  ],
+  "rivulets": [
+    {
+      "browser": "chrome",
+      "band": [
+        {
+          "seconds": 0,
+          "mobile": 0.06735984802246094,
+          "dry": 0,
+          "total": 0.06735984802246094,
+          "core": 0.06735984802246094,
+          "peak": 0.642608642578125,
+          "centroidX": 7.896940187548047e-17,
+          "centroidY": 1.8000000000000003,
+          "halves": [
+            {
+              "mass": 0.03367992401123049,
+              "y": 1.7999999999999996
+            },
+            {
+              "mass": 0.03367992401123047,
+              "y": 1.8000000000000007
+            }
+          ],
+          "rivulets": 0,
+          "frontLow": 1.7125000000000001,
+          "frontHigh": 1.7625000000000002,
+          "frontSpread": 0.050000000000000044,
+          "columnCV": 0
+        },
+        {
+          "seconds": 1,
+          "mobile": 0.06635855674743658,
+          "dry": 0.0009972095489501947,
+          "total": 0.06735576629638677,
+          "core": 0.06230824470520023,
+          "peak": 0.5727081298828125,
+          "centroidX": -0.000001755123703678458,
+          "centroidY": 1.6997091506724633,
+          "halves": [
+            {
+              "mass": 0.033179531097412104,
+              "y": 1.6999019796926016
+            },
+            {
+              "mass": 0.03317902565002442,
+              "y": 1.699516318714784
+            }
+          ],
+          "rivulets": 0,
+          "frontLow": 1.5875,
+          "frontHigh": 1.7125000000000001,
+          "frontSpread": 0.12500000000000022,
+          "columnCV": 0
+        },
+        {
+          "seconds": 3,
+          "mobile": 0.0644194221496582,
+          "dry": 0.0029117679595947283,
+          "total": 0.06733119010925294,
+          "core": 0.029049367904663084,
+          "peak": 0.4981842041015625,
+          "centroidX": -0.000017557713209948543,
+          "centroidY": 1.572548548705482,
+          "halves": [
+            {
+              "mass": 0.03219830513000489,
+              "y": 1.5732273274950772
+            },
+            {
+              "mass": 0.0322211170196533,
+              "y": 1.5718702504773399
+            }
+          ],
+          "rivulets": 1,
+          "frontLow": 1.3375,
+          "frontHigh": 1.7125000000000001,
+          "frontSpread": 0.3750000000000002,
+          "columnCV": 0.7002539166247346
+        },
+        {
+          "seconds": 8,
+          "mobile": 0.05995114326477054,
+          "dry": 0.007444829940795906,
+          "total": 0.06739597320556644,
+          "core": 0.018594942092895514,
+          "peak": 0.361724853515625,
+          "centroidX": -0.00005886778508225487,
+          "centroidY": 1.4596880387182778,
+          "halves": [
+            {
+              "mass": 0.030062179565429687,
+              "y": 1.4598546656227542
+            },
+            {
+              "mass": 0.029888963699340826,
+              "y": 1.4595204461589275
+            }
+          ],
+          "rivulets": 1,
+          "frontLow": 1.0375,
+          "frontHigh": 1.5125,
+          "frontSpread": 0.47499999999999987,
+          "columnCV": 0.6513202397610451
+        },
+        {
+          "seconds": 15,
+          "mobile": 0.05443373680114752,
+          "dry": 0.012997293472290049,
+          "total": 0.06743103027343757,
+          "core": 0.00969402313232422,
+          "peak": 0.32501220703125,
+          "centroidX": 0.0009281546048199573,
+          "centroidY": 1.3398861420293748,
+          "halves": [
+            {
+              "mass": 0.027580318450927746,
+              "y": 1.341973253167523
+            },
+            {
+              "mass": 0.026853418350219718,
+              "y": 1.3377425344974858
+            }
+          ],
+          "rivulets": 6,
+          "frontLow": 0.7874999999999999,
+          "frontHigh": 1.9,
+          "frontSpread": 1.1125,
+          "columnCV": 0.8606934798185719
+        }
+      ],
+      "beads": [
+        {
+          "seconds": 0,
+          "mobile": 0.014380149841308596,
+          "dry": 0,
+          "total": 0.014380149841308596,
+          "core": 0.014380149841308596,
+          "peak": 1.05755615234375,
+          "centroidX": 0.4600177203840122,
+          "centroidY": 1.7999999999999998,
+          "halves": [
+            {
+              "mass": 0.000574951171875,
+              "y": 1.8000000000000003
+            },
+            {
+              "mass": 0.013805198669433595,
+              "y": 1.8000000000000003
+            }
+          ],
+          "rivulets": 0,
+          "frontLow": 1.9,
+          "frontHigh": 1.9,
+          "frontSpread": 0,
+          "columnCV": 0
+        },
+        {
+          "seconds": 1,
+          "mobile": 0.014167852401733395,
+          "dry": 0.00021137237548828126,
+          "total": 0.014379224777221675,
+          "core": 0.013412809371948237,
+          "peak": 0.7628936767578125,
+          "centroidX": 0.45990584151797875,
+          "centroidY": 1.690414667203373,
+          "halves": [
+            {
+              "mass": 0.0005675983428955077,
+              "y": 1.7965238923332836
+            },
+            {
+              "mass": 0.013600254058837885,
+              "y": 1.6859862631390734
+            }
+          ],
+          "rivulets": 0,
+          "frontLow": 1.9,
+          "frontHigh": 1.9,
+          "frontSpread": 0,
+          "columnCV": 0
+        },
+        {
+          "seconds": 3,
+          "mobile": 0.013764228820800787,
+          "dry": 0.0006107807159423831,
+          "total": 0.01437500953674317,
+          "core": 0.004698467254638668,
+          "peak": 0.604400634765625,
+          "centroidX": 0.45969303338774614,
+          "centroidY": 1.531889964137342,
+          "halves": [
+            {
+              "mass": 0.0005549716949462889,
+              "y": 1.7866858986476044
+            },
+            {
+              "mass": 0.013209257125854496,
+              "y": 1.5211850069778807
+            }
+          ],
+          "rivulets": 1,
+          "frontLow": 1.9,
+          "frontHigh": 1.9,
+          "frontSpread": 0,
+          "columnCV": 4.760138944103669
+        },
+        {
+          "seconds": 8,
+          "mobile": 0.012851371765136715,
+          "dry": 0.0015038204193115233,
+          "total": 0.014355192184448237,
+          "core": 0.0026095962524414055,
+          "peak": 0.2457122802734375,
+          "centroidX": 0.45896718077953974,
+          "centroidY": 1.3393626202540296,
+          "halves": [
+            {
+              "mass": 0.0005277729034423827,
+              "y": 1.7726561229468212
+            },
+            {
+              "mass": 0.012323598861694334,
+              "y": 1.3208063062644768
+            }
+          ],
+          "rivulets": 1,
+          "frontLow": 1.9,
+          "frontHigh": 1.9,
+          "frontSpread": 0,
+          "columnCV": 5.362216661220041
+        },
+        {
+          "seconds": 15,
+          "mobile": 0.011771821975708013,
+          "dry": 0.0025752830505371095,
+          "total": 0.014347105026245123,
+          "core": 0.0018881607055664064,
+          "peak": 0.2238616943359375,
+          "centroidX": 0.4577247916945144,
+          "centroidY": 1.1345638141878616,
+          "halves": [
+            {
+              "mass": 0.0004967403411865234,
+              "y": 1.768640687695586
+            },
+            {
+              "mass": 0.01127508163452149,
+              "y": 1.1066286228788826
+            }
+          ],
+          "rivulets": 1,
+          "frontLow": 1.9,
+          "frontHigh": 1.9,
+          "frontSpread": 0,
+          "columnCV": 4.661222798430906
+        }
+      ],
+      "smallBeadDescent3Seconds": 0.013314101352395857,
+      "heavyBeadDescent3Seconds": 0.27881499302211954,
+      "bandMassError8Seconds": 0.0005363014342527617,
+      "bandMassError15Seconds": 0.0010567460151171826,
+      "cadence": {
+        "mobile": 0.05995114326477054,
+        "dry": 0.007444829940795906,
+        "total": 0.06739597320556644,
+        "core": 0.018594942092895514,
+        "peak": 0.361724853515625,
+        "centroidX": -0.00005886778508225487,
+        "centroidY": 1.4596880387182778,
+        "halves": [
+          {
+            "mass": 0.030062179565429687,
+            "y": 1.4598546656227542
+          },
+          {
+            "mass": 0.029888963699340826,
+            "y": 1.4595204461589275
+          }
+        ],
+        "rivulets": 1,
+        "crossSection": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.0024871826171875,
+          0.166412353515625,
+          0.156402587890625,
+          0.1376800537109375,
+          0.13189697265625,
+          0.14801025390625,
+          0.1345367431640625,
+          0.123046875,
+          0.12298583984375,
+          0.127105712890625,
+          0.12725830078125,
+          0.1217041015625,
+          0.113433837890625,
+          0.11151123046875,
+          0.12139892578125,
+          0.135040283203125,
+          0.13836669921875,
+          0.13018798828125,
+          0.119720458984375,
+          0.113494873046875,
+          0.115692138671875,
+          0.1409454345703125,
+          0.1699371337890625,
+          0.1447906494140625,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "frontLow": 1.0375,
+        "frontHigh": 1.5125,
+        "frontSpread": 0.47499999999999987,
+        "columnCV": 0.6513202397610451
+      },
+      "shear": {
+        "pinned": {
+          "mobile": 0.0009038925170898437,
+          "dry": 0,
+          "total": 0.0009038925170898437,
+          "core": 0.0009038925170898437,
+          "peak": 0.0391387939453125,
+          "centroidX": 3.9418012826985967e-16,
+          "centroidY": 1.8000000000000003,
+          "halves": [
+            {
+              "mass": 0.00045194625854492185,
+              "y": 1.8
+            },
+            {
+              "mass": 0.00045194625854492207,
+              "y": 1.7999999999999994
+            }
+          ],
+          "rivulets": 0,
+          "crossSection": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "frontLow": 1.9,
+          "frontHigh": 1.9,
+          "frontSpread": 0,
+          "columnCV": 0
+        },
+        "rested": {
+          "mobile": 0.0008945465087890625,
+          "dry": 0.000008325576782226561,
+          "total": 0.0009028720855712891,
+          "core": 0.0008945465087890625,
+          "peak": 0.05059814453125,
+          "centroidX": 0.00016897654584260946,
+          "centroidY": 1.7995365138592752,
+          "halves": [
+            {
+              "mass": 0.0004469585418701172,
+              "y": 1.799617801438112
+            },
+            {
+              "mass": 0.0004475879669189455,
+              "y": 1.799455340591907
+            }
+          ],
+          "rivulets": 0,
+          "crossSection": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "frontLow": 1.9,
+          "frontHigh": 1.9,
+          "frontSpread": 0,
+          "columnCV": 0
+        },
+        "pushed": {
+          "mobile": 0.000871372222900391,
+          "dry": 0.00001123428344726563,
+          "total": 0.0008826065063476566,
+          "core": 0.0008656597137451175,
+          "peak": 0.022735595703125,
+          "centroidX": 0.2138092371675602,
+          "centroidY": 1.799320072233773,
+          "halves": [
+            {
+              "mass": 0.00008282661437988277,
+              "y": 1.800945595854923
+            },
+            {
+              "mass": 0.0007885456085205082,
+              "y": 1.7991493318014136
+            }
+          ],
+          "rivulets": 0,
+          "crossSection": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "frontLow": 1.9,
+          "frontHigh": 1.9,
+          "frontSpread": 0,
+          "columnCV": 1.8019144108954903
+        }
+      }
+    },
+    {
+      "browser": "firefox",
+      "band": [
+        {
+          "seconds": 0,
+          "mobile": 0.06735984802246094,
+          "dry": 0,
+          "total": 0.06735984802246094,
+          "core": 0.06735984802246094,
+          "peak": 0.642608642578125,
+          "centroidX": 7.896940187548047e-17,
+          "centroidY": 1.8000000000000003,
+          "halves": [
+            {
+              "mass": 0.03367992401123049,
+              "y": 1.7999999999999996
+            },
+            {
+              "mass": 0.03367992401123047,
+              "y": 1.8000000000000007
+            }
+          ],
+          "rivulets": 0,
+          "frontLow": 1.7125000000000001,
+          "frontHigh": 1.7625000000000002,
+          "frontSpread": 0.050000000000000044,
+          "columnCV": 0
+        },
+        {
+          "seconds": 1,
+          "mobile": 0.06635858535766605,
+          "dry": 0.0009972095489501947,
+          "total": 0.06735579490661624,
+          "core": 0.06230829238891604,
+          "peak": 0.5727081298828125,
+          "centroidX": -9.988212471919857e-7,
+          "centroidY": 1.699709123851247,
+          "halves": [
+            {
+              "mass": 0.033179464340209956,
+              "y": 1.6999020190168839
+            },
+            {
+              "mass": 0.03317912101745605,
+              "y": 1.6995162266896195
+            }
+          ],
+          "rivulets": 0,
+          "frontLow": 1.5875,
+          "frontHigh": 1.7125000000000001,
+          "frontSpread": 0.12500000000000022,
+          "columnCV": 0
+        },
+        {
+          "seconds": 3,
+          "mobile": 0.06442032814025879,
+          "dry": 0.002911777496337893,
+          "total": 0.06733210563659668,
+          "core": 0.029049663543701164,
+          "peak": 0.4981842041015625,
+          "centroidX": -0.000018029341694091187,
+          "centroidY": 1.5725477560122125,
+          "halves": [
+            {
+              "mass": 0.0321990203857422,
+              "y": 1.5732269188984895
+            },
+            {
+              "mass": 0.032221307754516586,
+              "y": 1.5718690629005867
+            }
+          ],
+          "rivulets": 1,
+          "frontLow": 1.3375,
+          "frontHigh": 1.7125000000000001,
+          "frontSpread": 0.3750000000000002,
+          "columnCV": 0.7002532517159186
+        },
+        {
+          "seconds": 8,
+          "mobile": 0.05995185852050782,
+          "dry": 0.0074447441101074315,
+          "total": 0.06739660263061525,
+          "core": 0.018594331741333025,
+          "peak": 0.3617706298828125,
+          "centroidX": -0.0000647985304165938,
+          "centroidY": 1.4596782176721588,
+          "halves": [
+            {
+              "mass": 0.030063304901123047,
+              "y": 1.4598435746356848
+            },
+            {
+              "mass": 0.029888553619384764,
+              "y": 1.4595118939056988
+            }
+          ],
+          "rivulets": 1,
+          "frontLow": 1.0375,
+          "frontHigh": 1.5125,
+          "frontSpread": 0.47499999999999987,
+          "columnCV": 0.6513401055226774
+        },
+        {
+          "seconds": 15,
+          "mobile": 0.05443314552307136,
+          "dry": 0.012997169494628914,
+          "total": 0.06743031501770028,
+          "core": 0.009694976806640627,
+          "peak": 0.3250579833984375,
+          "centroidX": 0.0009216034082908047,
+          "centroidY": 1.339859787053657,
+          "halves": [
+            {
+              "mass": 0.027587223052978536,
+              "y": 1.341975365830893
+            },
+            {
+              "mass": 0.02684592247009275,
+              "y": 1.3376857904745276
+            }
+          ],
+          "rivulets": 6,
+          "frontLow": 0.7874999999999999,
+          "frontHigh": 1.9,
+          "frontSpread": 1.1125,
+          "columnCV": 0.8610554011743328
+        }
+      ],
+      "beads": [
+        {
+          "seconds": 0,
+          "mobile": 0.014380149841308596,
+          "dry": 0,
+          "total": 0.014380149841308596,
+          "core": 0.014380149841308596,
+          "peak": 1.05755615234375,
+          "centroidX": 0.4600177203840122,
+          "centroidY": 1.7999999999999998,
+          "halves": [
+            {
+              "mass": 0.000574951171875,
+              "y": 1.8000000000000003
+            },
+            {
+              "mass": 0.013805198669433595,
+              "y": 1.8000000000000003
+            }
+          ],
+          "rivulets": 0,
+          "frontLow": 1.9,
+          "frontHigh": 1.9,
+          "frontSpread": 0,
+          "columnCV": 0
+        },
+        {
+          "seconds": 1,
+          "mobile": 0.014167852401733395,
+          "dry": 0.00021137237548828126,
+          "total": 0.014379224777221675,
+          "core": 0.013412809371948237,
+          "peak": 0.7628936767578125,
+          "centroidX": 0.45990584151797875,
+          "centroidY": 1.690414667203373,
+          "halves": [
+            {
+              "mass": 0.0005675983428955077,
+              "y": 1.7965238923332836
+            },
+            {
+              "mass": 0.013600254058837885,
+              "y": 1.6859862631390734
+            }
+          ],
+          "rivulets": 0,
+          "frontLow": 1.9,
+          "frontHigh": 1.9,
+          "frontSpread": 0,
+          "columnCV": 0
+        },
+        {
+          "seconds": 3,
+          "mobile": 0.013764228820800787,
+          "dry": 0.0006107807159423831,
+          "total": 0.01437500953674317,
+          "core": 0.004698467254638668,
+          "peak": 0.604400634765625,
+          "centroidX": 0.45969303338774614,
+          "centroidY": 1.531889964137342,
+          "halves": [
+            {
+              "mass": 0.0005549716949462889,
+              "y": 1.7866858986476044
+            },
+            {
+              "mass": 0.013209257125854496,
+              "y": 1.5211850069778807
+            }
+          ],
+          "rivulets": 1,
+          "frontLow": 1.9,
+          "frontHigh": 1.9,
+          "frontSpread": 0,
+          "columnCV": 4.760138944103669
+        },
+        {
+          "seconds": 8,
+          "mobile": 0.012851505279541013,
+          "dry": 0.0015038394927978514,
+          "total": 0.014355344772338864,
+          "core": 0.00260955810546875,
+          "peak": 0.2457122802734375,
+          "centroidX": 0.45896736589644516,
+          "centroidY": 1.3393542525924296,
+          "halves": [
+            {
+              "mass": 0.0005277729034423827,
+              "y": 1.7726561229468212
+            },
+            {
+              "mass": 0.012323732376098632,
+              "y": 1.3207977812893457
+            }
+          ],
+          "rivulets": 1,
+          "frontLow": 1.9,
+          "frontHigh": 1.9,
+          "frontSpread": 0,
+          "columnCV": 5.362239499636731
+        },
+        {
+          "seconds": 15,
+          "mobile": 0.011772689819335939,
+          "dry": 0.002575378417968749,
+          "total": 0.014348068237304688,
+          "core": 0.0018880844116210937,
+          "peak": 0.224029541015625,
+          "centroidX": 0.45772735115710855,
+          "centroidY": 1.134502080268556,
+          "halves": [
+            {
+              "mass": 0.0004967403411865234,
+              "y": 1.768640687695586
+            },
+            {
+              "mass": 0.011275949478149416,
+              "y": 1.106566319397752
+            }
+          ],
+          "rivulets": 1,
+          "frontLow": 1.9,
+          "frontHigh": 1.9,
+          "frontSpread": 0,
+          "columnCV": 4.661403386100397
+        }
+      ],
+      "smallBeadDescent3Seconds": 0.013314101352395857,
+      "heavyBeadDescent3Seconds": 0.27881499302211954,
+      "bandMassError8Seconds": 0.0005456456514281172,
+      "bandMassError15Seconds": 0.0010461275865087938,
+      "cadence": {
+        "mobile": 0.05995185852050782,
+        "dry": 0.0074447441101074315,
+        "total": 0.06739660263061525,
+        "core": 0.018594331741333025,
+        "peak": 0.3617706298828125,
+        "centroidX": -0.0000647985304165938,
+        "centroidY": 1.4596782176721588,
+        "halves": [
+          {
+            "mass": 0.030063304901123047,
+            "y": 1.4598435746356848
+          },
+          {
+            "mass": 0.029888553619384764,
+            "y": 1.4595118939056988
+          }
+        ],
+        "rivulets": 1,
+        "crossSection": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.002471923828125,
+          0.16644287109375,
+          0.15643310546875,
+          0.1377105712890625,
+          0.1319122314453125,
+          0.14801025390625,
+          0.1345367431640625,
+          0.123046875,
+          0.1229705810546875,
+          0.1270904541015625,
+          0.127227783203125,
+          0.1216888427734375,
+          0.113433837890625,
+          0.1114959716796875,
+          0.1213836669921875,
+          0.1350555419921875,
+          0.138397216796875,
+          0.1302337646484375,
+          0.1197509765625,
+          0.113494873046875,
+          0.11566162109375,
+          0.14093017578125,
+          0.1699371337890625,
+          0.1447906494140625,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "frontLow": 1.0375,
+        "frontHigh": 1.5125,
+        "frontSpread": 0.47499999999999987,
+        "columnCV": 0.6513401055226774
+      },
+      "shear": {
+        "pinned": {
+          "mobile": 0.0009038925170898437,
+          "dry": 0,
+          "total": 0.0009038925170898437,
+          "core": 0.0009038925170898437,
+          "peak": 0.0391387939453125,
+          "centroidX": 3.9418012826985967e-16,
+          "centroidY": 1.8000000000000003,
+          "halves": [
+            {
+              "mass": 0.00045194625854492185,
+              "y": 1.8
+            },
+            {
+              "mass": 0.00045194625854492207,
+              "y": 1.7999999999999994
+            }
+          ],
+          "rivulets": 0,
+          "crossSection": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "frontLow": 1.9,
+          "frontHigh": 1.9,
+          "frontSpread": 0,
+          "columnCV": 0
+        },
+        "rested": {
+          "mobile": 0.0008945369720458984,
+          "dry": 0.000008325576782226561,
+          "total": 0.000902862548828125,
+          "core": 0.0008945369720458984,
+          "peak": 0.05059814453125,
+          "centroidX": 0.0001685785562749791,
+          "centroidY": 1.7995363756543248,
+          "halves": [
+            {
+              "mass": 0.0004469585418701172,
+              "y": 1.799617801438112
+            },
+            {
+              "mass": 0.00044757843017578146,
+              "y": 1.7994550626438244
+            }
+          ],
+          "rivulets": 0,
+          "crossSection": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "frontLow": 1.9,
+          "frontHigh": 1.9,
+          "frontSpread": 0,
+          "columnCV": 0
+        },
+        "pushed": {
+          "mobile": 0.0008714294433593753,
+          "dry": 0.00001123428344726563,
+          "total": 0.0008826637268066409,
+          "core": 0.0008657169342041019,
+          "peak": 0.02276611328125,
+          "centroidX": 0.21381352871651174,
+          "centroidY": 1.79931956969007,
+          "halves": [
+            {
+              "mass": 0.00008282661437988277,
+              "y": 1.800945595854923
+            },
+            {
+              "mass": 0.0007886028289794925,
+              "y": 1.7991487888645668
+            }
+          ],
+          "rivulets": 0,
+          "crossSection": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "frontLow": 1.9,
+          "frontHigh": 1.9,
+          "frontSpread": 0,
+          "columnCV": 1.8019144108954903
+        }
+      }
+    }
+  ],
+  "film": [
+    {
+      "browser": "chrome",
+      "wallDescent3Seconds": 0.34319116061638777,
+      "wallRunoffWindowSeconds": 30,
+      "floorFraction": 0.03999514971103592,
+      "contactTravel": 0.13194582198827876,
+      "resources": {
+        "filmCells": 1061420,
+        "filmBytes": 29719760,
+        "wetBytes": 30660560
+      }
+    },
+    {
+      "browser": "firefox",
+      "wallDescent3Seconds": 0.3431928983648299,
+      "wallRunoffWindowSeconds": 30,
+      "floorFraction": 0.039987849182021334,
+      "contactTravel": 0.13194560225423396,
+      "resources": {
+        "filmCells": 1061420,
+        "filmBytes": 29719760,
+        "wetBytes": 30660560
+      }
+    }
+  ],
+  "nativeProfiles": [
+    {
+      "browser": "chrome",
+      "workload": "idle",
+      "fps": 60,
+      "cpuP99MS": 1.699999988079071,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.786432,
+          "p95": 1.179648,
+          "p99": 1.376256,
+          "max": 1.572864
+        },
+        "renderMS": {
+          "p50": 2.097152,
+          "p95": 2.752512,
+          "p99": 2.94912,
+          "max": 3.342336
+        }
+      },
+      "ticksPerSecond": 119.41040079496521,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "chrome",
+      "workload": "pistol",
+      "fps": 60.001000016607335,
+      "cpuP99MS": 1.5999999940395355,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.917504,
+          "p95": 1.376256,
+          "p99": 1.507328,
+          "max": 1.6384
+        },
+        "renderMS": {
+          "p50": 1.96608,
+          "p95": 2.555904,
+          "p99": 2.752512,
+          "max": 2.883584
+        }
+      },
+      "ticksPerSecond": 119.54899684961035,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "chrome",
+      "workload": "spill",
+      "fps": 60.007000816642716,
+      "cpuP99MS": 1.600000023841858,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.917504,
+          "p95": 1.31072,
+          "p99": 1.6384,
+          "max": 1.900544
+        },
+        "renderMS": {
+          "p50": 2.490368,
+          "p95": 2.883584,
+          "p99": 3.014656,
+          "max": 3.080192
+        }
+      },
+      "ticksPerSecond": 119.48955916473318,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 25
+      }
+    },
+    {
+      "browser": "chrome",
+      "workload": "drag",
+      "fps": 60.00635164736914,
+      "cpuP99MS": 1.600000023841858,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.179648,
+          "p95": 1.835008,
+          "p99": 2.62144,
+          "max": 3.407872
+        },
+        "renderMS": {
+          "p50": 2.555904,
+          "p95": 3.080192,
+          "p99": 3.342336,
+          "max": 3.407872
+        }
+      },
+      "ticksPerSecond": 119.0594469282994,
+      "reads": {
+        "asynchronous GPU timing": 360,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "chrome",
+      "workload": "chaos",
+      "fps": 59.999000016725994,
+      "cpuP99MS": 1.5999999940395355,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.245184,
+          "p95": 1.96608,
+          "p99": 2.686976,
+          "max": 3.407872
+        },
+        "renderMS": {
+          "p50": 3.342336,
+          "p95": 3.735552,
+          "p99": 3.801088,
+          "max": 4.128768
+        }
+      },
+      "ticksPerSecond": 119.36339522546419,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "idle",
+      "fps": 59.990001666388935,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.869056,
+          "p95": 1.556672,
+          "p99": 1.893888,
+          "max": 2.074816
+        },
+        "renderMS": {
+          "p50": 2.493184,
+          "p95": 3.06464,
+          "p99": 3.358816,
+          "max": 3.78224
+        }
+      },
+      "ticksPerSecond": 116.35777598710717,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "pistol",
+      "fps": 60,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.915744,
+          "p95": 1.480768,
+          "p99": 1.870688,
+          "max": 2.081056
+        },
+        "renderMS": {
+          "p50": 2.243488,
+          "p95": 2.733216,
+          "p99": 2.91616,
+          "max": 3.07328
+        }
+      },
+      "ticksPerSecond": 116.08436644662694,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "spill",
+      "fps": 60,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.897152,
+          "p95": 1.5592,
+          "p99": 1.854688,
+          "max": 2.380832
+        },
+        "renderMS": {
+          "p50": 2.471392,
+          "p95": 3.009088,
+          "p99": 3.126848,
+          "max": 3.309792
+        }
+      },
+      "ticksPerSecond": 116.15917512485903,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "drag",
+      "fps": 60,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.341376,
+          "p95": 2.652864,
+          "p99": 3.253408,
+          "max": 4.03136
+        },
+        "renderMS": {
+          "p50": 2.463424,
+          "p95": 3.132512,
+          "p99": 3.255744,
+          "max": 3.468512
+        }
+      },
+      "ticksPerSecond": 116.39529260035467,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "chaos",
+      "fps": 60,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.352288,
+          "p95": 2.624416,
+          "p99": 3.186432,
+          "max": 3.617664
+        },
+        "renderMS": {
+          "p50": 3.384448,
+          "p95": 3.952864,
+          "p99": 4.245376,
+          "max": 4.362048
+        }
+      },
+      "ticksPerSecond": 116.04699822951875,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    }
+  ],
+  "checkCount": 106,
+  "baseline": {
+    "buildSHA256": "2024db5fd20c6036a4f082d541627915f969cb9d2be8e4b3e0408f0787dfb7d4",
+    "band": [
+      {
+        "seconds": 0,
+        "mobile": 0.06735984802246094,
+        "dry": 0,
+        "total": 0.06735984802246094,
+        "core": 0.06735984802246094,
+        "peak": 0.642608642578125,
+        "centroidY": 1.8000000000000003,
+        "halves": [
+          {
+            "mass": 0.03367992401123049,
+            "y": 1.7999999999999996
+          },
+          {
+            "mass": 0.03367992401123047,
+            "y": 1.8000000000000007
+          }
+        ],
+        "rivulets": 0,
+        "crossSection": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "frontLow": 1.7125000000000001,
+        "frontHigh": 1.7625000000000002,
+        "frontSpread": 0.050000000000000044,
+        "columnCV": 0
+      },
+      {
+        "seconds": 1,
+        "mobile": 0.06636640548706049,
+        "dry": 0.0009787178039550781,
+        "total": 0.06734512329101557,
+        "core": 0.0067142105102538955,
+        "peak": 0.3790130615234375,
+        "centroidY": 1.475051727814629,
+        "halves": [
+          {
+            "mass": 0.03318320274353026,
+            "y": 1.4750517278146271
+          },
+          {
+            "mass": 0.0331832027435303,
+            "y": 1.4750517278146265
+          }
+        ],
+        "rivulets": 1,
+        "crossSection": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.000030517578125,
+          0.001708984375,
+          0.009063720703125,
+          0.023895263671875,
+          0.0464019775390625,
+          0.0748443603515625,
+          0.10382080078125,
+          0.125244140625,
+          0.1473846435546875,
+          0.1648712158203125,
+          0.178253173828125,
+          0.18572998046875,
+          0.1906585693359375,
+          0.1953582763671875,
+          0.198486328125,
+          0.2003936767578125,
+          0.2003936767578125,
+          0.198486328125,
+          0.1953582763671875,
+          0.1906585693359375,
+          0.18572998046875,
+          0.178253173828125,
+          0.1648712158203125,
+          0.1473846435546875,
+          0.125244140625,
+          0.10382080078125,
+          0.0748443603515625,
+          0.0464019775390625,
+          0.023895263671875,
+          0.009063720703125,
+          0.001708984375,
+          0.000030517578125,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "frontLow": 1.3124999999999998,
+        "frontHigh": 1.4124999999999999,
+        "frontSpread": 0.10000000000000009,
+        "columnCV": 0.3930308793788068
+      },
+      {
+        "seconds": 3,
+        "mobile": 0.06463441848754878,
+        "dry": 0.0027245903015136737,
+        "total": 0.06735900878906245,
+        "core": 0.00342264175415039,
+        "peak": 0.2458343505859375,
+        "centroidY": 0.8758230540870342,
+        "halves": [
+          {
+            "mass": 0.032317209243774424,
+            "y": 0.875823054087033
+          },
+          {
+            "mass": 0.03231720924377444,
+            "y": 0.8758230540870307
+          }
+        ],
+        "rivulets": 0,
+        "crossSection": [
+          0,
+          0,
+          0.0042877197265625,
+          0.0091552734375,
+          0.01275634765625,
+          0.0128021240234375,
+          0.0125732421875,
+          0.0123443603515625,
+          0.0121002197265625,
+          0.011993408203125,
+          0.011810302734375,
+          0.01171875,
+          0.01165771484375,
+          0.0116424560546875,
+          0.0115814208984375,
+          0.0115509033203125,
+          0.011505126953125,
+          0.011505126953125,
+          0.011474609375,
+          0.011444091796875,
+          0.0114593505859375,
+          0.01141357421875,
+          0.0114288330078125,
+          0.01141357421875,
+          0.01141357421875,
+          0.0114288330078125,
+          0.01141357421875,
+          0.0114593505859375,
+          0.011444091796875,
+          0.011474609375,
+          0.011505126953125,
+          0.011505126953125,
+          0.0115509033203125,
+          0.0115814208984375,
+          0.0116424560546875,
+          0.01165771484375,
+          0.01171875,
+          0.011810302734375,
+          0.011993408203125,
+          0.0121002197265625,
+          0.0123443603515625,
+          0.0125732421875,
+          0.0128021240234375,
+          0.01275634765625,
+          0.0091552734375,
+          0.0042877197265625,
+          0,
+          0
+        ],
+        "frontLow": 0.5625000000000002,
+        "frontHigh": 1.9,
+        "frontSpread": 1.3374999999999997,
+        "columnCV": 0.40112067050265526
+      },
+      {
+        "seconds": 8,
+        "mobile": 0.03774544715881348,
+        "dry": 0.0052560043334960935,
+        "total": 0.04300145149230957,
+        "core": 0.0034194374084472647,
+        "peak": 1.2256927490234375,
+        "centroidY": 0.580480419904811,
+        "halves": [
+          {
+            "mass": 0.018385953903198256,
+            "y": 0.5954114423050473
+          },
+          {
+            "mass": 0.019359493255615205,
+            "y": 0.5663002403952734
+          }
+        ],
+        "rivulets": 0,
+        "crossSection": [
+          0,
+          0,
+          0.0042877197265625,
+          0.0088043212890625,
+          0.0126800537109375,
+          0.0128021240234375,
+          0.0125732421875,
+          0.0123443603515625,
+          0.0121002197265625,
+          0.011993408203125,
+          0.011810302734375,
+          0.01171875,
+          0.01165771484375,
+          0.0116424560546875,
+          0.0115814208984375,
+          0.0115509033203125,
+          0.011505126953125,
+          0.011505126953125,
+          0.011474609375,
+          0.011444091796875,
+          0.0114593505859375,
+          0.01141357421875,
+          0.0114288330078125,
+          0.01141357421875,
+          0.01141357421875,
+          0.0114288330078125,
+          0.01141357421875,
+          0.0114593505859375,
+          0.011444091796875,
+          0.011474609375,
+          0.011505126953125,
+          0.011505126953125,
+          0.0115509033203125,
+          0.0115814208984375,
+          0.0116424560546875,
+          0.01165771484375,
+          0.01171875,
+          0.011810302734375,
+          0.011993408203125,
+          0.0121002197265625,
+          0.0123443603515625,
+          0.0125732421875,
+          0.0128021240234375,
+          0.0126800537109375,
+          0.0088043212890625,
+          0.0042877197265625,
+          0,
+          0
+        ],
+        "frontLow": 0.012499999999999734,
+        "frontHigh": 1.9,
+        "frontSpread": 1.8875000000000002,
+        "columnCV": 0.2934049466682185
+      },
+      {
+        "seconds": 15,
+        "mobile": 0.027132034301757757,
+        "dry": 0.006175689697265626,
+        "total": 0.03330772399902338,
+        "core": 0.0034194374084472647,
+        "peak": 0.348724365234375,
+        "centroidY": 0.8018707469244273,
+        "halves": [
+          {
+            "mass": 0.013426542282104487,
+            "y": 0.8100868241143555
+          },
+          {
+            "mass": 0.013705492019653353,
+            "y": 0.7938218926676502
+          }
+        ],
+        "rivulets": 0,
+        "crossSection": [
+          0,
+          0,
+          0.0042877197265625,
+          0.0088043212890625,
+          0.0126800537109375,
+          0.0128021240234375,
+          0.0125732421875,
+          0.0123443603515625,
+          0.0121002197265625,
+          0.011993408203125,
+          0.011810302734375,
+          0.01171875,
+          0.01165771484375,
+          0.0116424560546875,
+          0.0115814208984375,
+          0.0115509033203125,
+          0.011505126953125,
+          0.011505126953125,
+          0.011474609375,
+          0.011444091796875,
+          0.0114593505859375,
+          0.01141357421875,
+          0.0114288330078125,
+          0.01141357421875,
+          0.01141357421875,
+          0.0114288330078125,
+          0.01141357421875,
+          0.0114593505859375,
+          0.011444091796875,
+          0.011474609375,
+          0.011505126953125,
+          0.011505126953125,
+          0.0115509033203125,
+          0.0115814208984375,
+          0.0116424560546875,
+          0.01165771484375,
+          0.01171875,
+          0.011810302734375,
+          0.011993408203125,
+          0.0121002197265625,
+          0.0123443603515625,
+          0.0125732421875,
+          0.0128021240234375,
+          0.0126800537109375,
+          0.0088043212890625,
+          0.0042877197265625,
+          0,
+          0
+        ],
+        "frontLow": 0.012499999999999734,
+        "frontHigh": 1.9,
+        "frontSpread": 1.8875000000000002,
+        "columnCV": 0.11345806095675033
+      }
+    ],
+    "beads": [
+      {
+        "seconds": 0,
+        "mobile": 0.014380149841308596,
+        "dry": 0,
+        "total": 0.014380149841308596,
+        "core": 0.014380149841308596,
+        "peak": 1.05755615234375,
+        "centroidY": 1.7999999999999998,
+        "halves": [
+          {
+            "mass": 0.000574951171875,
+            "y": 1.8000000000000003
+          },
+          {
+            "mass": 0.013805198669433595,
+            "y": 1.8000000000000003
+          }
+        ],
+        "rivulets": 0,
+        "crossSection": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "frontLow": 1.9,
+        "frontHigh": 1.9,
+        "frontSpread": 0,
+        "columnCV": 0
+      },
+      {
+        "seconds": 1,
+        "mobile": 0.014167747497558602,
+        "dry": 0.00020448684692382809,
+        "total": 0.01437223434448243,
+        "core": 0.0016723251342773446,
+        "peak": 0.3474273681640625,
+        "centroidY": 1.4846168810362967,
+        "halves": [
+          {
+            "mass": 0.0005668830871582031,
+            "y": 1.6690004542242864
+          },
+          {
+            "mass": 0.013600864410400398,
+            "y": 1.4769317864690619
+          }
+        ],
+        "rivulets": 1,
+        "crossSection": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.00006103515625,
+          0.02490234375,
+          0.106048583984375,
+          0.148956298828125,
+          0.148956298828125,
+          0.106048583984375,
+          0.02490234375,
+          0.00006103515625
+        ],
+        "frontLow": 1.9,
+        "frontHigh": 1.9,
+        "frontSpread": 0,
+        "columnCV": 3.391889703967461
+      },
+      {
+        "seconds": 3,
+        "mobile": 0.013779544830322269,
+        "dry": 0.0005432319641113276,
+        "total": 0.014322776794433596,
+        "core": 0.0010912513732910156,
+        "peak": 0.1727142333984375,
+        "centroidY": 0.9377746575863888,
+        "halves": [
+          {
+            "mass": 0.0005417060852050782,
+            "y": 1.6587694975529028
+          },
+          {
+            "mass": 0.013237838745117185,
+            "y": 0.9082708012748463
+          }
+        ],
+        "rivulets": 0,
+        "crossSection": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.00439453125,
+          0.01043701171875,
+          0.0143890380859375,
+          0.012786865234375,
+          0.0120697021484375,
+          0.011749267578125,
+          0.0117034912109375,
+          0.0117034912109375,
+          0.011749267578125,
+          0.0120697021484375,
+          0.012786865234375
+        ],
+        "frontLow": 1.9,
+        "frontHigh": 1.9,
+        "frontSpread": 0,
+        "columnCV": 2.787639724047374
+      },
+      {
+        "seconds": 8,
+        "mobile": 0.010404462814331047,
+        "dry": 0.0009715843200683593,
+        "total": 0.011376047134399407,
+        "core": 0.0010789680480957032,
+        "peak": 0.6530914306640625,
+        "centroidY": 0.6807071372069525,
+        "halves": [
+          {
+            "mass": 0.0005299377441406252,
+            "y": 1.658467103368845
+          },
+          {
+            "mass": 0.00987452507019042,
+            "y": 0.6282335339606492
+          }
+        ],
+        "rivulets": 0,
+        "crossSection": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.000274658203125,
+          0.0047760009765625,
+          0.0087890625,
+          0.0123138427734375,
+          0.012786865234375,
+          0.0120697021484375,
+          0.011749267578125,
+          0.0117034912109375,
+          0.0117034912109375,
+          0.011749267578125,
+          0.0120697021484375,
+          0.012786865234375
+        ],
+        "frontLow": 0.012499999999999734,
+        "frontHigh": 1.9,
+        "frontSpread": 1.8875000000000002,
+        "columnCV": 2.488604726559604
+      },
+      {
+        "seconds": 15,
+        "mobile": 0.008517551422119138,
+        "dry": 0.0011671447753906208,
+        "total": 0.009684696197509758,
+        "core": 0.0010789680480957032,
+        "peak": 0.231658935546875,
+        "centroidY": 0.8284886018832655,
+        "halves": [
+          {
+            "mass": 0.0005299377441406252,
+            "y": 1.658467103368845
+          },
+          {
+            "mass": 0.007987613677978511,
+            "y": 0.7734237286314336
+          }
+        ],
+        "rivulets": 0,
+        "crossSection": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0.000274658203125,
+          0.0047760009765625,
+          0.0087890625,
+          0.0123138427734375,
+          0.012786865234375,
+          0.0120697021484375,
+          0.011749267578125,
+          0.0117034912109375,
+          0.0117034912109375,
+          0.011749267578125,
+          0.0120697021484375,
+          0.012786865234375
+        ],
+        "frontLow": 0.012499999999999734,
+        "frontHigh": 1.9,
+        "frontSpread": 1.8875000000000002,
+        "columnCV": 2.387328452564613
+      }
+    ]
+  },
+  "media": {
+    "capture": "tools/out/rivulet-pass/recordings/capture.json",
+    "builds": [
+      {
+        "label": "before",
+        "version": "0.19.0",
+        "sha256": "2024db5fd20c6036a4f082d541627915f969cb9d2be8e4b3e0408f0787dfb7d4"
+      },
+      {
+        "label": "after",
+        "version": "0.20.0",
+        "sha256": "c38767fbaf0561b2c0f5baf1ddf5b1fd8602e383b6e4140777edfc0e4f807579"
+      }
+    ],
+    "clips": [
+      {
+        "label": "before",
+        "name": "wall-impact",
+        "seconds": 12,
+        "steps": 1441,
+        "counters": {
+          "splats": 18,
+          "runoff": 988
+        }
+      },
+      {
+        "label": "before",
+        "name": "wall-drips",
+        "seconds": 12,
+        "steps": 1443,
+        "counters": {
+          "splats": 0,
+          "runoff": 654
+        }
+      },
+      {
+        "label": "before",
+        "name": "finite-patch",
+        "seconds": 16,
+        "steps": 0,
+        "counters": {
+          "splats": 0,
+          "runoff": 1459
+        }
+      },
+      {
+        "label": "before",
+        "name": "unequal-beads",
+        "seconds": 16,
+        "steps": 0,
+        "counters": {
+          "splats": 0,
+          "runoff": 287
+        }
+      },
+      {
+        "label": "after",
+        "name": "wall-impact",
+        "seconds": 12,
+        "steps": 1441,
+        "counters": {
+          "splats": 18,
+          "runoff": 9
+        }
+      },
+      {
+        "label": "after",
+        "name": "wall-drips",
+        "seconds": 12,
+        "steps": 1443,
+        "counters": {
+          "splats": 0,
+          "runoff": 90
+        }
+      },
+      {
+        "label": "after",
+        "name": "finite-patch",
+        "seconds": 16,
+        "steps": 0,
+        "counters": {
+          "splats": 0,
+          "runoff": 0
+        }
+      },
+      {
+        "label": "after",
+        "name": "unequal-beads",
+        "seconds": 16,
+        "steps": 0,
+        "counters": {
+          "splats": 0,
+          "runoff": 0
+        }
+      }
+    ],
+    "files": [
+      {
+        "path": "tools/out/rivulet-pass/recordings/before/wall-before.mp4",
+        "sha256": "238bfe6d295eaa6f68097bf4e732eb054f6825c012e4716ca8472bfde23e9b6f",
+        "bytes": 2311084,
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 960,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "56.000000"
+        }
+      },
+      {
+        "path": "tools/out/rivulet-pass/recordings/after/wall-after.mp4",
+        "sha256": "dad1905fc3e54ea462559cd4364d757b5ecdc80b65ad396b5e5fdb02be58cbf1",
+        "bytes": 2297613,
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 960,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "56.000000"
+        }
+      },
+      {
+        "path": "tools/out/rivulet-pass/recordings/smear-rivulet-comparison.mp4",
+        "sha256": "57c7baff1b26e90ba4ae97809dd351d5fdea7e16b569ea665ea9b4674bf3f437",
+        "bytes": 2714138,
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1920,
+            "height": 720,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "56.000000"
+        }
+      }
+    ],
+    "reviewFrames": [
+      {
+        "path": "tools/out/rivulet-pass/recordings/impact-review.png",
+        "seconds": 0.6,
+        "sha256": "4a229470ded892d75a14da90989f2a2ffefc0bcd0579e0f2b61ac3b78ff23a6a"
+      },
+      {
+        "path": "tools/out/rivulet-pass/recordings/retained-review.png",
+        "seconds": 8,
+        "sha256": "cab9d0b0944806b73ae4c6325c2da75396a4688aedf97d0cce0ac71fbc60ba05"
+      },
+      {
+        "path": "tools/out/rivulet-pass/recordings/drip-early-review.png",
+        "seconds": 14,
+        "sha256": "2f206c80f4fb8d6b09fdc2389c54fa260e54d5cad5c887a34a10e7f35e84df1d"
+      },
+      {
+        "path": "tools/out/rivulet-pass/recordings/drip-late-review.png",
+        "seconds": 23,
+        "sha256": "0c7f32cd2f1bf82b1b97139712b1ff445070635298ccc96790436727a4debcf0"
+      },
+      {
+        "path": "tools/out/rivulet-pass/recordings/patch-early-review.png",
+        "seconds": 32,
+        "sha256": "ffaf9430957934b72ae66df74eddc635f77a909397556ac699e3bb852e0170d0"
+      },
+      {
+        "path": "tools/out/rivulet-pass/recordings/patch-late-review.png",
+        "seconds": 39,
+        "sha256": "95731b6fdb77f419fd1a24287adcb1d2a3dcb0eab1dc25a7c209d8e9811e2e36"
+      },
+      {
+        "path": "tools/out/rivulet-pass/recordings/beads-review.png",
+        "seconds": 55,
+        "sha256": "84af367acf6392901353156f21d1799f6983a9c72297d7a1f89681d161b786b6"
+      }
+    ]
+  },
+  "sources": {
+    "gpu/film.wgsl": "5695ce9dde2be9029f9d9e57e7d388e62325a1595cd34776606ee8dcf2d7ba4b",
+    "gpu/render.wgsl": "d299747d8bd7c8cc62d9867f5a6c1bd2f5744398ba750e3bd8ca3269d846b6e8",
+    "tools/rivulet-fixture.mjs": "e79edf8ff90d01c6150bff143b94d30b6926d9db420814538946cb34ff1605b4",
+    "tools/rivulet-verify.mjs": "20292720d5e60fbeeb56069edce9410a506ff612da54689e84482fb15aa672b5",
+    "tools/wall-fixture.mjs": "fd059f0bd73eb0f848458802a9de657466fc3313f3e7c9c3832a2c5d6d315e58"
+  },
+  "scope": [
+    "The wall model combines thickness-dependent mobility, local surface pinning, advancing/receding hysteresis, a wetting potential and curvature regularization. Contact forces can still push the attached liquid.",
+    "The shared-edge flux gate reads only snapshot mass and precomputed contact pushes. It does not read the residue bank while that bank is being written.",
+    "Surface variation is fixed in two dimensions; neither vertical channels nor time-varying noise are painted over the simulation.",
+    "The model is an art-directed partial-wetting approximation on the existing 40 cells/metre film. It is not calibrated blood rheology or a volumetric capillary solver.",
+    "The first two video scenes use actual GPU dummy collisions and a timed Spill pulse. The labelled finite-patch and unequal-bead scenes explicitly upload isolated test fields to reveal the flow mechanism.",
+    "Floor transport, impact coating allocation, coarse pigment rivulets and ballistic droplet parameters retain their V19 settings. No additional GPU buffers, normal-play paint readbacks or CPU simulation were added.",
+    "Native workloads are measured at 3000x1800 with active audio and muted output, separately from recording."
+  ],
+  "research": [
+    {
+      "title": "A Numerical Model For Partially-wetted Flow Of Thin Liquid Films",
+      "url": "https://www.witpress.com/elibrary/wit-transactions-on-engineering-sciences/70/22352",
+      "use": "Conceptual reference for partial wetting, contact-line forces and rivulets; no source code copied."
+    },
+    {
+      "title": "Numerical simulation of static and sliding drop with contact angle hysteresis",
+      "url": "https://doi.org/10.1016/j.jcp.2009.07.034",
+      "use": "Conceptual reference for separate advancing and receding behaviour; no calibrated parameter claim."
+    }
+  ]
+}

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.20.0 / V20 (wall adhesion and rivulets)
+
+- Replaced uniform wall sliding with thickness-dependent mobility, an attached film, advancing/receding pinning, and easier travel along wet tracks. Local heads build up before crossing dry surface defects.
+- Added a partial-wetting energy and curvature response to gather liquid and round the moving heads. Surface variation is fixed in two dimensions; channels emerge from finite liquid transport rather than animated streak textures.
+- Reduced the opacity of very thin mobile wall films while retaining opaque pigment splats and dry residue. Floor transport, ballistic drops, contact smearing and buffer allocations retain their existing settings.
+- Added GPU fixtures for small versus heavy beads, separated runoff paths, finite mass and 30/60 Hz cadence, plus matched V19/V20 impact and Spill recordings.
+
 ## 0.19.0 / V19 (restore lively wall flow)
 
 - Restored V17 surface-film dynamics and rivulet timing while keeping the broad V18 wall-impact prints. Reversed the reduced mobile supply on wall trails and resting contacts.
