@@ -1,0 +1,4696 @@
+{
+  "version": "0.31.0",
+  "at": "2026-10-06T17:51:31.690Z",
+  "buildSHA256": "abfe0ae5470fe80540d1f6b1ce79a30be4456935f8dd897fa4250800b2de4228",
+  "buildBytes": 992603,
+  "checks": {
+    "chrome-momentum": [
+      "Head and torso throws preserve at least 98% of release momentum for 133 ms in free flight, including joint gaps over 3 m; joints close below 6 cm",
+      "The formerly stalled stretched throw reaches the far wall, emits an impact event, and stops at the collision instead of preserving speed through it",
+      "Large flicks retain flight speed with 17, 33 and 67 ms release delays",
+      "A real pointer-picked rapid sweep and mouseup retain at least 98% of horizontal flight speed after 133 ms",
+      "Pistol flash and slide settle within 350 ms after Chaos, repeated Chaos, Add dummy spam, rapid weapon switches, Reset and demo; firing remains available"
+    ],
+    "chrome-handling": [
+      "Quick flicks retain achieved rig momentum across 17-67 ms release delays; long intentional stops receive no boost",
+      "Reversals use the latest direction; cancellation releases without a throw boost",
+      "Stationary grabs, a fresh grab with no history, and wall-blocked motion cannot reuse stale throw energy",
+      "Pointer-picked grab releases with mouseup; scroll up pushes away and scroll down returns it",
+      "Real E-key twisting leaves swept tracks and moves more liquid into outer ridges; stronger Smudge increases displacement and dry/hover/zero/clean controls do not squeeze",
+      "Isolated floor-squeegee transfers conserve mobile liquid within 0.2% fixed-point rounding across floor tile seams",
+      "Clean bloodless wall/head, held wall rams and floor collisions synthesize measurable thuds with under 120 ms GPU event latency; steady floor twisting stays quiet and mute drops events without replay"
+    ],
+    "chrome-carry": [
+      "Old tuning migrates; actual Effects and Carry sliders persist, and both effects presets preserve custom bleeding and smudge settings",
+      "Longer carry advances the existing pigment front and centroid, with no fresh color and under 2% quantization error",
+      "Maximum carry crosses a floor seam under rotation while conserving pigment; dry and hovering contacts leave paint unchanged",
+      "Impact size reduces the print footprint of the same hard throw without changing injury or allocated blood",
+      "Gentler overhead runoff emits fewer full-sized drops and retains more liquid; zero disables it, with finite total supply",
+      "Ceiling tuning leaves wall drainage unchanged"
+    ],
+    "chrome-impact": [
+      "A clean head-first articulated throw wounds the head and immediately leaves a large wet impact print and ballistic spray, exceeding accepted V27 coverage",
+      "When all 900 drop slots are occupied, failed spray allocations remain in the attached splat volume",
+      "A normal grab, accelerated target and release produces an actual thrown-body splat without a launch-velocity upload",
+      "Actual collision velocity loss increases head injury and reserve expenditure from medium through extreme throws; hard throws spread further than medium throws",
+      "Torso-first wall hits, angular strikes, floor impacts and ceiling impacts all generate fresh blood without scraping",
+      "Slow contact, fast tangential glancing travel and disabled damage produce no injury burst; an empty reserve produces no fresh paint",
+      "Impact supply debits the finite reserve, retains bounded coating and never exceeds the volume purchased from blood reserves",
+      "The impact stain remains while finite wet liquid continues draining through 3 and 15 seconds of release"
+    ],
+    "chrome-smudge": [
+      "Existing saved tuning migrates without losing settings; the actual Smudge slider changes and persists across reload",
+      "Smudge strength moves progressively more existing pigment, conserves supply and introduces no fresh paint; zero disables transport",
+      "Default wet pigment carry extends materially beyond the accepted V26 result under matching inputs",
+      "Loaded sliding accumulates face-local wear and increasing bleeding; stronger abrasion accelerates it, while resting, hovering, disabled abrasion and empty reserves add no contact supply",
+      "Wash preserves accumulated abrasion; Heal clears every face and restores blood reserve",
+      "Native Spill paints ceiling, trim and ceiling lights; overhead liquid detaches into drops, with 160 texels/metre retained on every receiver"
+    ],
+    "chrome-brush-flow": [
+      "Normal surface-point grab produces a wet wall smear with connected finite GPU physics",
+      "The same broad wet contact starts draining within three seconds without sheet-speed translation",
+      "Drainage continues over fifteen seconds and carries liquid below the contact patch",
+      "The brushed stain remains while finite liquid drains and dries"
+    ],
+    "chrome-wall-contact": [
+      "Uncoated unwounded real dummy creates no wall paint through eight seconds of dragging",
+      "Default press produces a broad connected wet wall patch in two contact seconds",
+      "Default drag produces a broad connected wet wall patch in two contact seconds",
+      "Default block produces a broad connected wet wall patch in two contact seconds",
+      "Actual grab physics remain finite, connected and within paint event capacity"
+    ],
+    "chrome-wall": [
+      "Actual articulated GPU wall impact leaves paint with finite joints and no lost events",
+      "Wall slam creates a broad opaque print and radial splatter instead of a small contact dab",
+      "The impact silhouette stays on the wall after 3 and 15 seconds of drainage",
+      "Retained splat still contains wet liquid that gradually drains or dries",
+      "Wall-slam liquid moves visibly within three seconds while retaining the broad pigment print",
+      "The matched floor impact retains liquid, pigment alpha and coverage within 3% of accepted V26",
+      "An uncoated body with injury and bleeding explicitly disabled does not manufacture a wall splat; fresh impact injury is covered by impact-verify"
+    ],
+    "chrome-wet": [
+      "Dry pigment remains unchanged under a clean moving contact",
+      "Wet contact redistributes existing colored pigment with fresh deposition disabled",
+      "Pigment crosses a floor-record seam without a gap or duplicated supply",
+      "Rotation around a stationary footprint produces curved material smears",
+      "Resting wet wounds grow a cohesive pool over six seconds",
+      "Lift and recontact break the stroke without bridging airborne travel",
+      "A saturated coating leaves a finite puddle without an active wound and consumes wet supply",
+      "Slow wall brushing leaves bristle strokes without firing impact splats",
+      "Body contact also smears on a vertical wall without leaking onto the floor",
+      "Ten seconds of closed-supply wall dragging cannot create more liquid than the original coating",
+      "Live articulated dummy drag stays finite, connected and within paint event capacity"
+    ],
+    "chrome-film": [
+      "Finite isolated pools spread and level after deposition stops, conserving mobile plus dried mass",
+      "Adjacent pools merge across a floor-record seam",
+      "30 Hz and 60 Hz submissions produce comparable spreading and supply",
+      "Clean dummy picks up and redistributes existing liquid with fresh deposition disabled",
+      "Drying transfers mobile liquid into persistent residue instead of deleting blood",
+      "Liquid visibly accelerates downhill while retaining supply across receivers and runoff droplets",
+      "Clean clears both mobile pools and settled residue",
+      "A finite wall pool runs down and supplies the floor without continued painting",
+      "Blood detaches from elevated edges, falls ballistically, and lands with finite carried volume",
+      "A full 900-drop pool retains un-emitted runoff on its receiver",
+      "Real wound droplets inherit body momentum and follow a gravity-curved flight",
+      "Fast-moving coated bodies fling finite droplets without creating wounds",
+      "Live GPU ragdoll dragging remains finite with no dropped paint events"
+    ],
+    "chrome-rivulet": [
+      "Wall wetting fixtures run on hardware GPU with finite state and no lost events",
+      "Small deposits cling while a heavier bead visibly moves under gravity",
+      "A finite broad patch develops uneven runoff while retaining its attached mass",
+      "Wall breakup retains source residue and conserves finite liquid plus dried mass",
+      "A broad deposit splits into multiple separated rivulets below its source",
+      "Wall pinning and rivulet breakup agree at 30 Hz and 60 Hz submission cadence",
+      "Contact shear releases attached wall liquid without manufacturing supply"
+    ],
+    "chrome-evolution": [
+      "Pressure moves existing liquid out of the contact center into its perimeter",
+      "Spinning wet contact emits tangential ballistic droplets carrying finite liquid",
+      "Squeeze and spray conserve combined film, residue, coating and particle volume within six percent",
+      "Dry contact emits nothing and a full particle pool retains un-emitted coating"
+    ],
+    "chrome-joining": [
+      "Two separate wall heads meet through a connected liquid neck while conserving supply",
+      "Rewetting a retained trail releases liquid sooner without returning to sheet-speed drainage",
+      "An unwounded clean contact picks up a finite pool and deposits it on a separate dry wall patch",
+      "A ballistic drop caught by the dummy becomes coating without losing or multiplying its volume"
+    ],
+    "chrome-character": [
+      "Shared bristle material coordinates produce finger channels, narrow forearm strokes and distinct sole tread",
+      "Opposite tangential impacts produce oppositely directed splat fans with comparable pigment supply"
+    ],
+    "chrome-finish": [
+      "Changing liquid to dry residue preserves the exact brushed pigment and total material",
+      "Hardware rendering distinguishes fresh liquid from the same dried smear without shader errors"
+    ],
+    "chrome-gameplay": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "chrome-native": [
+      "Native pistol hits and spawns GPU particles",
+      "Native Spill paints walls; GPU gravity drips extend paint",
+      "Native grabbing resolves from GPU body poses",
+      "Native drag creates persistent floor smears",
+      "GPU wash clears all 150 body coatings and pigment",
+      "GPU heal restores reserves and clears airborne drops",
+      "Finite long GPU simulation and recovery"
+    ],
+    "chrome-wallNative": [
+      "Sustained native wall contact remains above 55 FPS with GPU simulation and no body or pigment readbacks"
+    ],
+    "chrome-impactNative": [
+      "Native head-first impact at 3000x1800: above 55 FPS, CPU p99 below 5 ms, live 120 Hz simulation, spray and no normal-play pose/paint transfers",
+      "Native body-first impact at 3000x1800: above 55 FPS, CPU p99 below 5 ms, live 120 Hz simulation, spray and no normal-play pose/paint transfers"
+    ],
+    "chrome-squeegeeNative": [
+      "Native E-key floor squeegeeing stays above 55 FPS at 3000x1800, with 120 Hz physics, active audio and no body/pigment transfers"
+    ],
+    "firefox-momentum": [
+      "Head and torso throws preserve at least 98% of release momentum for 133 ms in free flight, including joint gaps over 3 m; joints close below 6 cm",
+      "The formerly stalled stretched throw reaches the far wall, emits an impact event, and stops at the collision instead of preserving speed through it",
+      "Large flicks retain flight speed with 17, 33 and 67 ms release delays",
+      "A real pointer-picked rapid sweep and mouseup retain at least 98% of horizontal flight speed after 133 ms",
+      "Pistol flash and slide settle within 350 ms after Chaos, repeated Chaos, Add dummy spam, rapid weapon switches, Reset and demo; firing remains available"
+    ],
+    "firefox-handling": [
+      "Quick flicks retain achieved rig momentum across 17-67 ms release delays; long intentional stops receive no boost",
+      "Reversals use the latest direction; cancellation releases without a throw boost",
+      "Stationary grabs, a fresh grab with no history, and wall-blocked motion cannot reuse stale throw energy",
+      "Pointer-picked grab releases with mouseup; scroll up pushes away and scroll down returns it",
+      "Real E-key twisting leaves swept tracks and moves more liquid into outer ridges; stronger Smudge increases displacement and dry/hover/zero/clean controls do not squeeze",
+      "Isolated floor-squeegee transfers conserve mobile liquid within 0.2% fixed-point rounding across floor tile seams",
+      "Clean bloodless wall/head, held wall rams and floor collisions synthesize measurable thuds with under 120 ms GPU event latency; steady floor twisting stays quiet and mute drops events without replay"
+    ],
+    "firefox-carry": [
+      "Old tuning migrates; actual Effects and Carry sliders persist, and both effects presets preserve custom bleeding and smudge settings",
+      "Longer carry advances the existing pigment front and centroid, with no fresh color and under 2% quantization error",
+      "Maximum carry crosses a floor seam under rotation while conserving pigment; dry and hovering contacts leave paint unchanged",
+      "Impact size reduces the print footprint of the same hard throw without changing injury or allocated blood",
+      "Gentler overhead runoff emits fewer full-sized drops and retains more liquid; zero disables it, with finite total supply",
+      "Ceiling tuning leaves wall drainage unchanged"
+    ],
+    "firefox-impact": [
+      "A clean head-first articulated throw wounds the head and immediately leaves a large wet impact print and ballistic spray, exceeding accepted V27 coverage",
+      "When all 900 drop slots are occupied, failed spray allocations remain in the attached splat volume",
+      "A normal grab, accelerated target and release produces an actual thrown-body splat without a launch-velocity upload",
+      "Actual collision velocity loss increases head injury and reserve expenditure from medium through extreme throws; hard throws spread further than medium throws",
+      "Torso-first wall hits, angular strikes, floor impacts and ceiling impacts all generate fresh blood without scraping",
+      "Slow contact, fast tangential glancing travel and disabled damage produce no injury burst; an empty reserve produces no fresh paint",
+      "Impact supply debits the finite reserve, retains bounded coating and never exceeds the volume purchased from blood reserves",
+      "The impact stain remains while finite wet liquid continues draining through 3 and 15 seconds of release"
+    ],
+    "firefox-smudge": [
+      "Existing saved tuning migrates without losing settings; the actual Smudge slider changes and persists across reload",
+      "Smudge strength moves progressively more existing pigment, conserves supply and introduces no fresh paint; zero disables transport",
+      "Default wet pigment carry extends materially beyond the accepted V26 result under matching inputs",
+      "Loaded sliding accumulates face-local wear and increasing bleeding; stronger abrasion accelerates it, while resting, hovering, disabled abrasion and empty reserves add no contact supply",
+      "Wash preserves accumulated abrasion; Heal clears every face and restores blood reserve",
+      "Native Spill paints ceiling, trim and ceiling lights; overhead liquid detaches into drops, with 160 texels/metre retained on every receiver"
+    ],
+    "firefox-brush-flow": [
+      "Normal surface-point grab produces a wet wall smear with connected finite GPU physics",
+      "The same broad wet contact starts draining within three seconds without sheet-speed translation",
+      "Drainage continues over fifteen seconds and carries liquid below the contact patch",
+      "The brushed stain remains while finite liquid drains and dries"
+    ],
+    "firefox-wall-contact": [
+      "Uncoated unwounded real dummy creates no wall paint through eight seconds of dragging",
+      "Default press produces a broad connected wet wall patch in two contact seconds",
+      "Default drag produces a broad connected wet wall patch in two contact seconds",
+      "Default block produces a broad connected wet wall patch in two contact seconds",
+      "Actual grab physics remain finite, connected and within paint event capacity"
+    ],
+    "firefox-wall": [
+      "Actual articulated GPU wall impact leaves paint with finite joints and no lost events",
+      "Wall slam creates a broad opaque print and radial splatter instead of a small contact dab",
+      "The impact silhouette stays on the wall after 3 and 15 seconds of drainage",
+      "Retained splat still contains wet liquid that gradually drains or dries",
+      "Wall-slam liquid moves visibly within three seconds while retaining the broad pigment print",
+      "The matched floor impact retains liquid, pigment alpha and coverage within 3% of accepted V26",
+      "An uncoated body with injury and bleeding explicitly disabled does not manufacture a wall splat; fresh impact injury is covered by impact-verify"
+    ],
+    "firefox-wet": [
+      "Dry pigment remains unchanged under a clean moving contact",
+      "Wet contact redistributes existing colored pigment with fresh deposition disabled",
+      "Pigment crosses a floor-record seam without a gap or duplicated supply",
+      "Rotation around a stationary footprint produces curved material smears",
+      "Resting wet wounds grow a cohesive pool over six seconds",
+      "Lift and recontact break the stroke without bridging airborne travel",
+      "A saturated coating leaves a finite puddle without an active wound and consumes wet supply",
+      "Slow wall brushing leaves bristle strokes without firing impact splats",
+      "Body contact also smears on a vertical wall without leaking onto the floor",
+      "Ten seconds of closed-supply wall dragging cannot create more liquid than the original coating",
+      "Live articulated dummy drag stays finite, connected and within paint event capacity"
+    ],
+    "firefox-film": [
+      "Finite isolated pools spread and level after deposition stops, conserving mobile plus dried mass",
+      "Adjacent pools merge across a floor-record seam",
+      "30 Hz and 60 Hz submissions produce comparable spreading and supply",
+      "Clean dummy picks up and redistributes existing liquid with fresh deposition disabled",
+      "Drying transfers mobile liquid into persistent residue instead of deleting blood",
+      "Liquid visibly accelerates downhill while retaining supply across receivers and runoff droplets",
+      "Clean clears both mobile pools and settled residue",
+      "A finite wall pool runs down and supplies the floor without continued painting",
+      "Blood detaches from elevated edges, falls ballistically, and lands with finite carried volume",
+      "A full 900-drop pool retains un-emitted runoff on its receiver",
+      "Real wound droplets inherit body momentum and follow a gravity-curved flight",
+      "Fast-moving coated bodies fling finite droplets without creating wounds",
+      "Live GPU ragdoll dragging remains finite with no dropped paint events"
+    ],
+    "firefox-rivulet": [
+      "Wall wetting fixtures run on hardware GPU with finite state and no lost events",
+      "Small deposits cling while a heavier bead visibly moves under gravity",
+      "A finite broad patch develops uneven runoff while retaining its attached mass",
+      "Wall breakup retains source residue and conserves finite liquid plus dried mass",
+      "A broad deposit splits into multiple separated rivulets below its source",
+      "Wall pinning and rivulet breakup agree at 30 Hz and 60 Hz submission cadence",
+      "Contact shear releases attached wall liquid without manufacturing supply"
+    ],
+    "firefox-evolution": [
+      "Pressure moves existing liquid out of the contact center into its perimeter",
+      "Spinning wet contact emits tangential ballistic droplets carrying finite liquid",
+      "Squeeze and spray conserve combined film, residue, coating and particle volume within six percent",
+      "Dry contact emits nothing and a full particle pool retains un-emitted coating"
+    ],
+    "firefox-joining": [
+      "Two separate wall heads meet through a connected liquid neck while conserving supply",
+      "Rewetting a retained trail releases liquid sooner without returning to sheet-speed drainage",
+      "An unwounded clean contact picks up a finite pool and deposits it on a separate dry wall patch",
+      "A ballistic drop caught by the dummy becomes coating without losing or multiplying its volume"
+    ],
+    "firefox-character": [
+      "Shared bristle material coordinates produce finger channels, narrow forearm strokes and distinct sole tread",
+      "Opposite tangential impacts produce oppositely directed splat fans with comparable pigment supply"
+    ],
+    "firefox-finish": [
+      "Changing liquid to dry residue preserves the exact brushed pigment and total material",
+      "Hardware rendering distinguishes fresh liquid from the same dried smear without shader errors"
+    ],
+    "firefox-gameplay": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "firefox-native": [
+      "Native pistol hits and spawns GPU particles",
+      "Native Spill paints walls; GPU gravity drips extend paint",
+      "Native grabbing resolves from GPU body poses",
+      "Native drag creates persistent floor smears",
+      "GPU wash clears all 150 body coatings and pigment",
+      "GPU heal restores reserves and clears airborne drops",
+      "Finite long GPU simulation and recovery"
+    ],
+    "firefox-wallNative": [
+      "Sustained native wall contact remains above 55 FPS with GPU simulation and no body or pigment readbacks"
+    ],
+    "firefox-impactNative": [
+      "Native head-first impact at 3000x1800: above 55 FPS, CPU p99 below 5 ms, live 120 Hz simulation, spray and no normal-play pose/paint transfers",
+      "Native body-first impact at 3000x1800: above 55 FPS, CPU p99 below 5 ms, live 120 Hz simulation, spray and no normal-play pose/paint transfers"
+    ],
+    "firefox-squeegeeNative": [
+      "Native E-key floor squeegeeing stays above 55 FPS at 3000x1800, with 120 Hz physics, active audio and no body/pigment transfers"
+    ]
+  },
+  "evidence": [
+    {
+      "path": "tools/out/momentum-pass/final-v31-chrome/verification.json",
+      "sha256": "1550877b3be2f13d3dd27b8e8c5e13d8c32c5dbbf16bc2cf7851f829f8a7862f",
+      "startedAt": "2026-10-06T17:29:25.298Z"
+    },
+    {
+      "path": "tools/out/throw-pass/final-v31-chrome/verification.json",
+      "sha256": "f385f09ac7980bb8038953e4851c36032800a9b2b6d88c132189884ba34ff815",
+      "startedAt": "2026-10-06T17:30:56.925Z"
+    },
+    {
+      "path": "tools/out/carry-pass/final-v31/verification.json",
+      "sha256": "12bad7ab0f51744f3694da7dbdee43943a44f461539a411a18d26a7c71cbc61e",
+      "startedAt": "2026-10-06T17:33:15.228Z"
+    },
+    {
+      "path": "tools/out/impact-pass/final-v31/verification.json",
+      "sha256": "8720101d179037f9836d059195461a338c13f42ac722acea35d5d5be6967715c",
+      "startedAt": "2026-10-06T17:34:34.173Z"
+    },
+    {
+      "path": "tools/out/smudge-pass/final-v31/verification.json",
+      "sha256": "ce3e7fa904910ccea8f69efcc44c0a438922048769473e6abdc4ae91b273e8c1",
+      "startedAt": "2026-10-06T17:35:32.290Z"
+    },
+    {
+      "path": "tools/out/brush-flow-pass/final-v31/verification.json",
+      "sha256": "aea6a508fdb34581f41d1a37005b4a3a49a2e93bdb1c1d61ec1258f8e5a6f6d6",
+      "startedAt": "2026-10-06T17:36:33.419Z"
+    },
+    {
+      "path": "tools/out/wall-contact-pass/final-v31/verification.json",
+      "sha256": "63d77b2b8fe727ee6ca44eb7ce4a26d01de0516c48dc8f3f00ff368bd359718b",
+      "startedAt": "2026-10-06T17:36:44.017Z"
+    },
+    {
+      "path": "tools/out/wall-pass/final-v31/verification.json",
+      "sha256": "a9f9c2cc32ef65d63d9beb7e879084482ec5674a967db1c5832dc1b6f107cad5",
+      "startedAt": "2026-10-06T17:37:01.815Z"
+    },
+    {
+      "path": "tools/out/wet-pass/final-v31/verification.json",
+      "sha256": "8c651fee458b3bf10e6a5577c9c718537e0c4e163f032e6ce5e70578a25be24b",
+      "startedAt": "2026-10-06T17:37:11.036Z"
+    },
+    {
+      "path": "tools/out/film-pass/final-v31/verification.json",
+      "sha256": "c9c95fb654dafc77334ccbc26e6b8f2a1b7019d78d5f3b448da7e94bd312ec49",
+      "startedAt": "2026-10-06T17:37:20.497Z"
+    },
+    {
+      "path": "tools/out/rivulet-pass/final-v31/verification.json",
+      "sha256": "441b193853e3ddd54e31aaf205d9bd9dd9218674bad86bd73b58ae9c5c263789",
+      "startedAt": "2026-10-06T17:37:36.041Z"
+    },
+    {
+      "path": "tools/out/liquid-evolution/final-v31/verification.json",
+      "sha256": "5581141dd8c569563dc5ffb8f9710f9d75c777654a69de7b4454c276b1672182",
+      "startedAt": "2026-10-06T17:35:55.791Z"
+    },
+    {
+      "path": "tools/out/liquid-evolution/final-v31-joining/verification.json",
+      "sha256": "8904283fe6c17c91e33076f6fabb9fa5e95da04cac0ddd7d3d41b92a614a2edc",
+      "startedAt": "2026-10-06T17:36:04.383Z"
+    },
+    {
+      "path": "tools/out/liquid-evolution/final-v31-character/verification.json",
+      "sha256": "732640c02d72d4e2c0c8a5c089307a0cf3991223753487c4061ce4c6dbd3fe8d",
+      "startedAt": "2026-10-06T17:36:16.773Z"
+    },
+    {
+      "path": "tools/out/liquid-evolution/final-v31-finish/verification.json",
+      "sha256": "f30d1783a9dae2ec2dae18da4a49f73b5c6ac76f10c5660f60367f404f78726a",
+      "startedAt": "2026-10-06T17:36:24.677Z"
+    },
+    {
+      "path": "tools/out/compute-chrome/verification.json",
+      "sha256": "1c3413ab9a99ad376d525cd23b9a4e98dedf36d2de761a822b277bbb121b1c7a",
+      "startedAt": "2026-10-06T17:37:47.684Z"
+    },
+    {
+      "path": "tools/out/compute-native-chrome/verification.json",
+      "sha256": "0133fa43b645b8cb8bbe3c6e9a68e54993c393df78e6a5d834e55fc950cca398",
+      "startedAt": "2026-10-06T17:38:02.230Z"
+    },
+    {
+      "path": "tools/out/compute-native-wall-chrome/verification.json",
+      "sha256": "f723fb41dc9cc806d7a4c0b05fa50d87d2cd08b15609360e20f814dda100b600",
+      "startedAt": "2026-10-06T17:38:47.837Z"
+    },
+    {
+      "path": "tools/out/impact-pass/native-chrome/verification.json",
+      "sha256": "57976ec5c9ea5662752a6baf40bedee394a677002f486584db4ce6729469ce6a",
+      "startedAt": "2026-10-06T17:45:21.968Z"
+    },
+    {
+      "path": "tools/out/compute-native-squeegee-chrome/verification.json",
+      "sha256": "8018bbdb6d5f0fa3528bcc2f8a558d794bb99560d61fa76de7510ecea1ea68d1",
+      "startedAt": "2026-10-06T17:32:41.452Z"
+    },
+    {
+      "path": "tools/out/momentum-pass/final-v31-firefox/verification.json",
+      "sha256": "8ee453a7e8e0ce25f86cf57127b5759b08c016991fa19d65f48d86e3f0a99072",
+      "startedAt": "2026-10-06T17:29:47.101Z"
+    },
+    {
+      "path": "tools/out/throw-pass/final-v31-firefox/verification.json",
+      "sha256": "8885731b0741342e70b3bffca0fb12073b5f55d566b28240e00079a03083a457",
+      "startedAt": "2026-10-06T17:31:30.651Z"
+    },
+    {
+      "path": "tools/out/carry-pass/final-v31-firefox/verification.json",
+      "sha256": "0444f39cbd5dff7cae3ad09f20cc6a1aa83bc4f0bdcd09fee7c59b6ea6741cd3",
+      "startedAt": "2026-10-06T17:33:45.466Z"
+    },
+    {
+      "path": "tools/out/impact-pass/final-v31-firefox/verification.json",
+      "sha256": "96b35221e7f008206577f138737571727a6ec5de1a1c72349219600a0968eb2e",
+      "startedAt": "2026-10-06T17:34:55.016Z"
+    },
+    {
+      "path": "tools/out/smudge-pass/final-v31-firefox/verification.json",
+      "sha256": "6cec8657d2fb8740adb42e36e17000ed14490900f7339e79bc9e63b481fb9a34",
+      "startedAt": "2026-10-06T17:39:02.983Z"
+    },
+    {
+      "path": "tools/out/brush-flow-pass/final-v31-firefox/verification.json",
+      "sha256": "da8299be5d4a62c5bcaec3703a4322b53d15effacb7f7194c5719d398809d331",
+      "startedAt": "2026-10-06T17:41:00.148Z"
+    },
+    {
+      "path": "tools/out/wall-contact-pass/final-v31-firefox/verification.json",
+      "sha256": "77d02452d78805ccb0ca5a89837893cb69f81b65d383469e52c558de3eafd579",
+      "startedAt": "2026-10-06T17:41:17.948Z"
+    },
+    {
+      "path": "tools/out/wall-pass/final-v31-firefox/verification.json",
+      "sha256": "28c803ec8c6fcd779128671624e402746d51e2314fc222e20cd8822c2e66ceb0",
+      "startedAt": "2026-10-06T17:41:49.981Z"
+    },
+    {
+      "path": "tools/out/wet-pass/final-v31-firefox/verification.json",
+      "sha256": "60dcf84a726048f5e5138d5d586d70aab28b1d7dc47bd075d7488c085336140c",
+      "startedAt": "2026-10-06T17:42:16.094Z"
+    },
+    {
+      "path": "tools/out/film-pass/final-v31-firefox/verification.json",
+      "sha256": "ba9afba399c398528fd3b3c25540efdd3735e83215181c4d46ecc42bd0cc50bb",
+      "startedAt": "2026-10-06T17:42:40.631Z"
+    },
+    {
+      "path": "tools/out/rivulet-pass/final-v31-firefox/verification.json",
+      "sha256": "ef6dd49bbcbf512c2ba025785a93add5fb59e28e0a0cdee28cc4d5f44df4be76",
+      "startedAt": "2026-10-06T17:43:09.030Z"
+    },
+    {
+      "path": "tools/out/liquid-evolution/final-v31-firefox/verification.json",
+      "sha256": "d26f7d7adbc29d911188de3a7896fb7ef7cd8e210ddfc24950e62d4f50520ce7",
+      "startedAt": "2026-10-06T17:39:50.851Z"
+    },
+    {
+      "path": "tools/out/liquid-evolution/final-v31-joining-firefox/verification.json",
+      "sha256": "55eeb5d5c0d12dd1fa7bbbeebb808063d832a7e199e864b758d65a1bf261fd57",
+      "startedAt": "2026-10-06T17:40:09.016Z"
+    },
+    {
+      "path": "tools/out/liquid-evolution/final-v31-character-firefox/verification.json",
+      "sha256": "309bef3b7003c8bf6df20e795f609740940ded94076e58cec8b2e0554c8ce2b3",
+      "startedAt": "2026-10-06T17:40:31.482Z"
+    },
+    {
+      "path": "tools/out/liquid-evolution/final-v31-finish-firefox/verification.json",
+      "sha256": "38ec938e47ca02dcf05ea5fa103b34eba1ea3c2ee9e756223d6c66d438feb326",
+      "startedAt": "2026-10-06T17:40:45.481Z"
+    },
+    {
+      "path": "tools/out/compute-firefox/verification.json",
+      "sha256": "92c89098fb5f6f894cba43df8a1536e8791703644a8b79f8d9004e7f99d2b93b",
+      "startedAt": "2026-10-06T17:43:27.129Z"
+    },
+    {
+      "path": "tools/out/compute-native-firefox/verification.json",
+      "sha256": "8200433d50342feb4785585165957af5190929474886608808225a2541eac2a5",
+      "startedAt": "2026-10-06T17:43:57.731Z"
+    },
+    {
+      "path": "tools/out/compute-native-wall-firefox/verification.json",
+      "sha256": "3209ff094e92bf7448940034260d0d10e76c35dff2f662a69b064bee14c3d08d",
+      "startedAt": "2026-10-06T17:45:05.447Z"
+    },
+    {
+      "path": "tools/out/impact-pass/native-firefox/verification.json",
+      "sha256": "6eb29733c2bb241f86c1810b776ad15df605af23f07700883acbb507486970c4",
+      "startedAt": "2026-10-06T17:45:43.547Z"
+    },
+    {
+      "path": "tools/out/compute-native-squeegee-firefox/verification.json",
+      "sha256": "d256d3dfbf2d609a2c7354454834eaff30cd0f0878f8d64810b4e74fb5e0de4e",
+      "startedAt": "2026-10-06T17:32:58.134Z"
+    }
+  ],
+  "momentum": [
+    {
+      "browser": "chrome",
+      "before": {
+        "held": {
+          "v": [
+            48.70002640513411,
+            0.12184246811647867,
+            -0.06220951421639576
+          ],
+          "p": [
+            2.4492197978357346,
+            2.8170267546413603,
+            -4.290813079128592
+          ],
+          "gap": 3.799672970852538,
+          "thuds": 0
+        },
+        "released": {
+          "v": [
+            20.999069920346862,
+            0.07513109821757817,
+            -0.03583812840629376
+          ],
+          "p": [
+            2.4492197978357346,
+            2.8170267546413603,
+            -4.290813079128592
+          ],
+          "gap": 3.799672970852538,
+          "thuds": 0
+        },
+        "flight": [
+          {
+            "tick": 1,
+            "v": [
+              20.98594717110725,
+              -0.0066053308144450595,
+              -0.035758042514762174
+            ],
+            "p": [
+              2.624102705250465,
+              2.816971714895902,
+              -4.291111069796127
+            ],
+            "gap": 3.0827421751820645,
+            "thuds": 0
+          },
+          {
+            "tick": 2,
+            "v": [
+              10.862799246442927,
+              -0.018364472343550653,
+              -0.07003008158719821
+            ],
+            "p": [
+              2.714625967621265,
+              2.8168186693642228,
+              -4.291694637869288
+            ],
+            "gap": 2.2586935267538637,
+            "thuds": 0
+          },
+          {
+            "tick": 4,
+            "v": [
+              2.7259147549388105,
+              -0.6539979098367026,
+              0.25122575298003136
+            ],
+            "p": [
+              2.7822922590210157,
+              2.803223971029113,
+              -4.285969741896051
+            ],
+            "gap": 0.7274899265448841,
+            "thuds": 0
+          },
+          {
+            "tick": 8,
+            "v": [
+              1.5122250636176835,
+              -0.1982146239359239,
+              -0.010878762836583495
+            ],
+            "p": [
+              2.8345012171171375,
+              2.7986512782876463,
+              -4.2857846067702505
+            ],
+            "gap": 0.018614842078900483,
+            "thuds": 0
+          },
+          {
+            "tick": 16,
+            "v": [
+              1.550608924837116,
+              -0.8421720375781359,
+              0.03308711537245941
+            ],
+            "p": [
+              2.9374979750714485,
+              2.761401482811926,
+              -4.284122424436814
+            ],
+            "gap": 0.003752388038078447,
+            "thuds": 0
+          },
+          {
+            "tick": 24,
+            "v": [
+              1.542939673478169,
+              -1.4901571671462852,
+              0.032822979123309885
+            ],
+            "p": [
+              3.040583500010837,
+              2.680938621756974,
+              -4.281927832856516
+            ],
+            "gap": 0.002615298921388844,
+            "thuds": 0
+          },
+          {
+            "tick": 32,
+            "v": [
+              1.5352755061770773,
+              -2.1348835712708785,
+              0.03272459506892558
+            ],
+            "p": [
+              3.1431570673093194,
+              2.557400990018561,
+              -4.279739952481158
+            ],
+            "gap": 0.0015289079251509974,
+            "thuds": 0
+          },
+          {
+            "tick": 48,
+            "v": [
+              1.5200394209772154,
+              -3.4147014727745093,
+              0.03247199393527835
+            ],
+            "p": [
+              3.3467835438083804,
+              2.1819517176199716,
+              -4.275396956276967
+            ],
+            "gap": 0.025162108981934904,
+            "thuds": 0
+          }
+        ]
+      },
+      "throws": {
+        "Head0.15": {
+          "held": {
+            "v": [
+              6.408631261476242,
+              3.6559067996788803,
+              -2.8715263610555897
+            ],
+            "p": [
+              -3.3875157866647085,
+              2.534598369473335,
+              -4.897502661127956
+            ],
+            "gap": 0.016497533716646695,
+            "thuds": 0
+          },
+          "released": {
+            "v": [
+              6.408631261476242,
+              3.6559067996788803,
+              -2.8715263610555897
+            ],
+            "p": [
+              -3.3875157866647085,
+              2.534598369473335,
+              -4.897502661127956
+            ],
+            "gap": 0.016497533716646695,
+            "thuds": 0
+          },
+          "flight": [
+            {
+              "tick": 1,
+              "v": [
+                6.404639224563976,
+                3.57192379959236,
+                -2.8697191977431693
+              ],
+              "p": [
+                -3.3341437767738515,
+                2.564364399304027,
+                -4.921416985460632
+              ],
+              "gap": 0.013042453065738136,
+              "thuds": 0
+            },
+            {
+              "tick": 2,
+              "v": [
+                6.400646661032442,
+                3.4879590017207454,
+                -2.8679854249218715
+              ],
+              "p": [
+                -3.280805064296125,
+                2.5934307418675027,
+                -4.945316909604519
+              ],
+              "gap": 0.015271799178783133,
+              "thuds": 0
+            },
+            {
+              "tick": 4,
+              "v": [
+                6.392656102441536,
+                3.3202696079470178,
+                -2.8643627717089184
+              ],
+              "p": [
+                -3.174227306466003,
+                2.6494670091070582,
+                -4.993071309151194
+              ],
+              "gap": 0.020581703478026788,
+              "thuds": 0
+            },
+            {
+              "tick": 8,
+              "v": [
+                6.376716851740673,
+                2.985478701549935,
+                -2.8572202903882244
+              ],
+              "p": [
+                -2.9614717092021703,
+                2.753165183059527,
+                -5.088401280377142
+              ],
+              "gap": 0.02873135682190298,
+              "thuds": 0
+            },
+            {
+              "tick": 16,
+              "v": [
+                6.344875624963114,
+                2.3183805934695685,
+                -2.842881116627874
+              ],
+              "p": [
+                -2.537552239877726,
+                2.927161001951897,
+                -5.278343802658738
+              ],
+              "gap": 0.004001673267524614,
+              "thuds": 0
+            },
+            {
+              "tick": 24,
+              "v": [
+                6.313220123545089,
+                1.6546990391086291,
+                -2.8287135290488234
+              ],
+              "p": [
+                -2.115748445923842,
+                3.056812474938867,
+                -5.467335140712601
+              ],
+              "gap": 0.0003771142102420974,
+              "thuds": 0
+            },
+            {
+              "tick": 32,
+              "v": [
+                6.281735491919979,
+                0.994238680241652,
+                -2.814889271687057
+              ],
+              "p": [
+                -1.6960485579630578,
+                3.142339183374768,
+                -5.6553929885255725
+              ],
+              "gap": 0.0007993062209321046,
+              "thuds": 0
+            },
+            {
+              "tick": 48,
+              "v": [
+                6.219248486372715,
+                -0.3167443090727538,
+                -2.7869095807850273
+              ],
+              "p": [
+                -0.8629166288499679,
+                3.181895366901819,
+                -6.028726789107919
+              ],
+              "gap": 0.0008408255513140373,
+              "thuds": 0
+            }
+          ]
+        },
+        "Head0.65": {
+          "held": {
+            "v": [
+              27.63393700429337,
+              1.5297285246116687,
+              0.08618927451462215
+            ],
+            "p": [
+              -0.8016562947101737,
+              2.8643701327694635,
+              -4.779718288566095
+            ],
+            "gap": 1.2885061964419677,
+            "thuds": 0
+          },
+          "released": {
+            "v": [
+              20.967796325683594,
+              1.1607118844985964,
+              0.06539779901504517
+            ],
+            "p": [
+              -0.8016562947101737,
+              2.8643701327694635,
+              -4.779718288566095
+            ],
+            "gap": 1.2885061964419677,
+            "thuds": 0
+          },
+          "flight": [
+            {
+              "tick": 1,
+              "v": [
+                20.954699828973965,
+                1.0782919370692907,
+                0.06534856313167066
+              ],
+              "p": [
+                -0.6270337796715973,
+                2.8733558934851313,
+                -4.779173769425524
+              ],
+              "gap": 0.3967910796670875,
+              "thuds": 0
+            },
+            {
+              "tick": 2,
+              "v": [
+                20.941608551960417,
+                0.9959305065594407,
+                0.06529695792695854
+              ],
+              "p": [
+                -0.45252036604262247,
+                2.881655297958827,
+                -4.778629683263309
+              ],
+              "gap": 0.007717822312680819,
+              "thuds": 0
+            },
+            {
+              "tick": 4,
+              "v": [
+                20.915451708120045,
+                0.8313612089954301,
+                0.06527247749589629
+              ],
+              "p": [
+                -0.1038205387941814,
+                2.896196893947597,
+                -4.777541645078286
+              ],
+              "gap": 0.005342765465583407,
+              "thuds": 0
+            },
+            {
+              "tick": 8,
+              "v": [
+                20.863235362494372,
+                0.5028362589193437,
+                0.06503955947739506
+              ],
+              "p": [
+                0.5922731106782391,
+                2.9170621258798324,
+                -4.775370572582722
+              ],
+              "gap": 0.0026815310862385623,
+              "thuds": 0
+            },
+            {
+              "tick": 16,
+              "v": [
+                20.75916147818358,
+                -0.1518531894818971,
+                0.06476271590399105
+              ],
+              "p": [
+                1.9792494110010095,
+                2.9260151196130177,
+                -4.771045442707711
+              ],
+              "gap": 0.0008412115317565894,
+              "thuds": 0
+            },
+            {
+              "tick": 24,
+              "v": [
+                20.655606540418702,
+                -0.8032310584145487,
+                0.06441039743527761
+              ],
+              "p": [
+                3.3593051260622224,
+                2.891449055417982,
+                -4.766738719697382
+              ],
+              "gap": 0.0009329081071094571,
+              "thuds": 0
+            },
+            {
+              "tick": 32,
+              "v": [
+                20.552441892418972,
+                -1.4514100310888656,
+                0.06414276891641257
+              ],
+              "p": [
+                4.732474189485503,
+                2.813578122954863,
+                -4.7624498491929685
+              ],
+              "gap": 0.002072114969449426,
+              "thuds": 0
+            },
+            {
+              "tick": 48,
+              "v": [
+                15.798267556166993,
+                -2.7381761582628386,
+                0.0632533064272453
+              ],
+              "p": [
+                7.385486290544888,
+                2.5287684531248558,
+                -4.7539597911412725
+              ],
+              "gap": 0.04411190735589647,
+              "thuds": 1
+            }
+          ]
+        },
+        "Head1.1": {
+          "held": {
+            "v": [
+              30.54174194839634,
+              1.7929653367195375,
+              -0.20714186707096272
+            ],
+            "p": [
+              -0.5124053888865162,
+              2.675950071599736,
+              -4.760122059661214
+            ],
+            "gap": 4.244259522857089,
+            "thuds": 0
+          },
+          "released": {
+            "v": [
+              20.963426589965824,
+              1.2306663990020754,
+              -0.14217929542064667
+            ],
+            "p": [
+              -0.5124053888865162,
+              2.675950071599736,
+              -4.760122059661214
+            ],
+            "gap": 4.244259522857089,
+            "thuds": 0
+          },
+          "flight": [
+            {
+              "tick": 1,
+              "v": [
+                20.95033115341187,
+                1.1482147815007764,
+                -0.14208689784247186
+              ],
+              "p": [
+                -0.3378192901857765,
+                2.685518521795261,
+                -4.761306164779586
+              ],
+              "gap": 3.352054602443235,
+              "thuds": 0
+            },
+            {
+              "tick": 2,
+              "v": [
+                20.93724285141273,
+                1.0657905764207982,
+                -0.14203258113793532
+              ],
+              "p": [
+                -0.16334224757918847,
+                2.6944001145687047,
+                -4.762489750342757
+              ],
+              "gap": 2.4559500944130073,
+              "thuds": 0
+            },
+            {
+              "tick": 4,
+              "v": [
+                20.91108581511828,
+                0.9011086280651562,
+                -0.1418664909486994
+              ],
+              "p": [
+                0.18528482659693102,
+                2.710104463910541,
+                -4.764854992464204
+              ],
+              "gap": 0.6582459961172801,
+              "thuds": 0
+            },
+            {
+              "tick": 8,
+              "v": [
+                20.858871386874117,
+                0.5723656846166639,
+                -0.14149951262577895
+              ],
+              "p": [
+                0.8812329152019566,
+                2.733290332786848,
+                -4.769576167409048
+              ],
+              "gap": 0.004672461078255339,
+              "thuds": 0
+            },
+            {
+              "tick": 16,
+              "v": [
+                20.75485987750201,
+                -0.08273608050807521,
+                -0.14069070266647285
+              ],
+              "p": [
+                2.2679215460119013,
+                2.7468633474443758,
+                -4.778977854483866
+              ],
+              "gap": 0.001725817573045858,
+              "thuds": 0
+            },
+            {
+              "tick": 24,
+              "v": [
+                20.651323453020296,
+                -0.7344446726493877,
+                -0.13997908906739506
+              ],
+              "p": [
+                3.6476943862953473,
+                2.716890732209921,
+                -4.78833047889381
+              ],
+              "gap": 0.001315803238101149,
+              "thuds": 0
+            },
+            {
+              "tick": 32,
+              "v": [
+                20.54812828599379,
+                -1.3829335309609092,
+                -0.13938138975455025
+              ],
+              "p": [
+                5.020576673305485,
+                2.6435918243127903,
+                -4.797638809008873
+              ],
+              "gap": 0.0009484647352438414,
+              "thuds": 0
+            },
+            {
+              "tick": 48,
+              "v": [
+                8.160709976836786,
+                -2.6702774044504114,
+                -0.13794939371824871
+              ],
+              "p": [
+                7.503331101718358,
+                2.367867794926455,
+                -4.816118847868278
+              ],
+              "gap": 0.04213573494097883,
+              "thuds": 1
+            }
+          ]
+        },
+        "Torso0.15": {
+          "held": {
+            "v": [
+              5.014698390762992,
+              1.849471072922134,
+              -1.2172990134316024
+            ],
+            "p": [
+              -3.025350618315071,
+              2.781753962077992,
+              -4.398637886718047
+            ],
+            "gap": 0.013509654002558956,
+            "thuds": 0
+          },
+          "released": {
+            "v": [
+              5.014698390762992,
+              1.849471072922134,
+              -1.2172990134316024
+            ],
+            "p": [
+              -3.025350618315071,
+              2.781753962077992,
+              -4.398637886718047
+            ],
+            "gap": 0.013509654002558956,
+            "thuds": 0
+          },
+          "flight": [
+            {
+              "tick": 1,
+              "v": [
+                5.011572287532967,
+                1.7666174343776972,
+                -1.2165646254380251
+              ],
+              "p": [
+                -2.9835875124267885,
+                2.796475775409984,
+                -4.408775926244586
+              ],
+              "gap": 0.005601691505010267,
+              "thuds": 0
+            },
+            {
+              "tick": 2,
+              "v": [
+                5.008439755399735,
+                1.6837988358473432,
+                -1.2158064423513173
+              ],
+              "p": [
+                -2.9418505108327766,
+                2.810507433503059,
+                -4.4189076473170505
+              ],
+              "gap": 0.004377117492595271,
+              "thuds": 0
+            },
+            {
+              "tick": 4,
+              "v": [
+                5.002152312765074,
+                1.5183718216679505,
+                -1.2142555931208392
+              ],
+              "p": [
+                -2.8584552163980157,
+                2.836502814110284,
+                -4.4391519570679705
+              ],
+              "gap": 0.004833414949906841,
+              "thuds": 0
+            },
+            {
+              "tick": 8,
+              "v": [
+                4.989659924260711,
+                1.1881336890423397,
+                -1.2111942055936464
+              ],
+              "p": [
+                -2.691977429358652,
+                2.88023389618273,
+                -4.479563326710577
+              ],
+              "gap": 0.0022832868714537766,
+              "thuds": 0
+            },
+            {
+              "tick": 16,
+              "v": [
+                4.964808817066167,
+                0.5300543790693928,
+                -1.2051119930966656
+              ],
+              "p": [
+                -2.360265062228967,
+                2.9347470832578284,
+                -4.560083141004168
+              ],
+              "gap": 0.00022498557828177793,
+              "thuds": 0
+            },
+            {
+              "tick": 24,
+              "v": [
+                4.940043973305335,
+                -0.12468654557682401,
+                -1.1990535248212535
+              ],
+              "p": [
+                -2.030206695624535,
+                2.945514379295979,
+                -4.640194619819804
+              ],
+              "gap": 0.00027870588625040544,
+              "thuds": 0
+            },
+            {
+              "tick": 32,
+              "v": [
+                4.9154071301793065,
+                -0.7762841673476637,
+                -1.19312305199573
+              ],
+              "p": [
+                -1.701794361499536,
+                2.9127488398712438,
+                -4.71990918521324
+              ],
+              "gap": 0.002450357672720629,
+              "thuds": 0
+            },
+            {
+              "tick": 48,
+              "v": [
+                4.866482785754071,
+                -2.0696242812252166,
+                -1.1811640624386617
+              ],
+              "p": [
+                -1.049877589390563,
+                2.717491754645531,
+                -4.878146552447871
+              ],
+              "gap": 0.0017435905199970193,
+              "thuds": 0
+            }
+          ]
+        },
+        "Torso0.65": {
+          "held": {
+            "v": [
+              28.195699147199317,
+              0.15843175023330286,
+              -0.1178356938032952
+            ],
+            "p": [
+              0.8054875700616192,
+              2.9009346325672367,
+              -4.326324209232943
+            ],
+            "gap": 0.056110812639443536,
+            "thuds": 0
+          },
+          "released": {
+            "v": [
+              20.99948692321777,
+              0.1179962083697319,
+              -0.08776123076677322
+            ],
+            "p": [
+              0.8054875700616192,
+              2.9009346325672367,
+              -4.326324209232943
+            ],
+            "gap": 0.056110812639443536,
+            "thuds": 0
+          },
+          "flight": [
+            {
+              "tick": 1,
+              "v": [
+                20.98635586926417,
+                0.03623350717432792,
+                -0.08771514125880922
+              ],
+              "p": [
+                0.9803738728924547,
+                2.9012365698375375,
+                -4.327055161490449
+              ],
+              "gap": 0.03644247303093473,
+              "thuds": 0
+            },
+            {
+              "tick": 2,
+              "v": [
+                20.97324950649123,
+                -0.04549429656205058,
+                -0.08767472477167673
+              ],
+              "p": [
+                1.1551509725198,
+                2.9008574344002325,
+                -4.327785767073598
+              ],
+              "gap": 0.03275745157752598,
+              "thuds": 0
+            },
+            {
+              "tick": 4,
+              "v": [
+                20.947041979164183,
+                -0.2088045932312301,
+                -0.08754365219607194
+              ],
+              "p": [
+                1.5043775948252072,
+                2.898057642032714,
+                -4.329245191542388
+              ],
+              "gap": 0.003025884993237893,
+              "thuds": 0
+            },
+            {
+              "tick": 8,
+              "v": [
+                20.894742103019187,
+                -0.5347140794590094,
+                -0.08746256147653078
+              ],
+              "p": [
+                2.201522794876779,
+                2.884305454888066,
+                -4.332161014560238
+              ],
+              "gap": 0.002606488489999222,
+              "thuds": 0
+            },
+            {
+              "tick": 16,
+              "v": [
+                20.79049909945004,
+                -1.1841930546456532,
+                -0.08690431102706808
+              ],
+              "p": [
+                3.590594044600276,
+                2.824284820149961,
+                -4.337969848474819
+              ],
+              "gap": 0.000019882872511778844,
+              "thuds": 0
+            },
+            {
+              "tick": 24,
+              "v": [
+                20.68678934315858,
+                -1.8304275787126332,
+                -0.08651526455903562
+              ],
+              "p": [
+                4.972734245541864,
+                2.721087128513603,
+                -4.343746784757142
+              ],
+              "gap": 0.0000818911246639654,
+              "thuds": 0
+            },
+            {
+              "tick": 32,
+              "v": [
+                20.583788655468616,
+                -2.4734175308644972,
+                -0.08615842659049698
+              ],
+              "p": [
+                6.347989067478009,
+                2.574928570595966,
+                -4.34950044012021
+              ],
+              "gap": 0.00013818092528824802,
+              "thuds": 0
+            },
+            {
+              "tick": 48,
+              "v": [
+                1.630183435561271,
+                -3.7499019932201656,
+                -0.08514046883279092
+              ],
+              "p": [
+                7.588676661970586,
+                2.154580737161585,
+                -4.360919307471569
+              ],
+              "gap": 0.022631778189477026,
+              "thuds": 1
+            }
+          ]
+        },
+        "Torso1.1": {
+          "held": {
+            "v": [
+              48.70002640513411,
+              0.12184246811647867,
+              -0.06220951421639576
+            ],
+            "p": [
+              2.4492197978357346,
+              2.8170267546413603,
+              -4.290813079128592
+            ],
+            "gap": 3.799672970852538,
+            "thuds": 0
+          },
+          "released": {
+            "v": [
+              20.999917984008793,
+              0.05253963917493821,
+              -0.026825334876775752
+            ],
+            "p": [
+              2.4492197978357346,
+              2.8170267546413603,
+              -4.290813079128592
+            ],
+            "gap": 3.799672970852538,
+            "thuds": 0
+          },
+          "flight": [
+            {
+              "tick": 1,
+              "v": [
+                20.98680180822356,
+                -0.02915203238807683,
+                -0.026878691399957792
+              ],
+              "p": [
+                2.6241098269094305,
+                2.8167838189308565,
+                -4.2910370704474605
+              ],
+              "gap": 3.0825975512589436,
+              "thuds": 0
+            },
+            {
+              "tick": 2,
+              "v": [
+                20.97366317001747,
+                -0.11082413664994085,
+                -0.026859846621009587
+              ],
+              "p": [
+                2.7988904005837862,
+                2.8158602754565143,
+                -4.291260855079298
+              ],
+              "gap": 2.51758638347606,
+              "thuds": 0
+            },
+            {
+              "tick": 4,
+              "v": [
+                20.94740039895793,
+                -0.2740292488700738,
+                -0.026743887290548034
+              ],
+              "p": [
+                3.1481230879251463,
+                2.811972996435641,
+                -4.291706980440859
+              ],
+              "gap": 1.5595618375075189,
+              "thuds": 0
+            },
+            {
+              "tick": 8,
+              "v": [
+                20.895073388373543,
+                -0.5998918377543614,
+                -0.02668540144920442
+              ],
+              "p": [
+                3.8452788106672227,
+                2.7960481973695774,
+                -4.292597503415803
+              ],
+              "gap": 0.03273653073793515,
+              "thuds": 0
+            },
+            {
+              "tick": 16,
+              "v": [
+                20.790778092177543,
+                -1.2490409820151755,
+                -0.026592545322023542
+              ],
+              "p": [
+                5.234369503714858,
+                2.731696147038325,
+                -4.2943723216889715
+              ],
+              "gap": 0.010242425739209669,
+              "thuds": 0
+            },
+            {
+              "tick": 24,
+              "v": [
+                20.687244517266183,
+                -1.8950638519898098,
+                -0.026537829636794966
+              ],
+              "p": [
+                6.616538159411871,
+                2.6241833180468155,
+                -4.29614452793548
+              ],
+              "gap": 0.00016812562759314993,
+              "thuds": 0
+            },
+            {
+              "tick": 32,
+              "v": [
+                7.937276940547191,
+                -2.537814865445209,
+                -0.026271179421258613
+              ],
+              "p": [
+                7.630118313387221,
+                2.4737262847349095,
+                -4.297899718794174
+              ],
+              "gap": 0.04110639226890535,
+              "thuds": 1
+            },
+            {
+              "tick": 48,
+              "v": [
+                -0.9145332412969965,
+                -3.8136522722592336,
+                -0.026055010246734994
+              ],
+              "p": [
+                7.710505013287037,
+                2.0448369099879984,
+                -4.301389547082906
+              ],
+              "gap": 0.0049794408305552235,
+              "thuds": 1
+            }
+          ]
+        }
+      },
+      "delays": {
+        "2": {
+          "held": {
+            "v": [
+              27.3831223336238,
+              0.036365469920443504,
+              0.024829332429174757
+            ],
+            "p": [
+              2.9069735200159883,
+              2.8174947648910442,
+              -4.289996894747945
+            ],
+            "gap": 2.8699151721540903,
+            "thuds": 0
+          },
+          "released": {
+            "v": [
+              20.999973297119144,
+              0.027888517826795578,
+              0.01904148980975151
+            ],
+            "p": [
+              2.9069735200159883,
+              2.8174947648910442,
+              -4.289996894747945
+            ],
+            "gap": 2.8699151721540903,
+            "thuds": 0
+          },
+          "flight": [
+            {
+              "tick": 1,
+              "v": [
+                20.986777804285172,
+                -0.053804625624113596,
+                0.01905270443201242
+              ],
+              "p": [
+                3.0818633260354047,
+                2.8170463980790417,
+                -4.289838118104612
+              ],
+              "gap": 2.3368660863637087,
+              "thuds": 0
+            },
+            {
+              "tick": 2,
+              "v": [
+                20.973707434808194,
+                -0.13544521512041016,
+                0.01900766025615339
+              ],
+              "p": [
+                3.25664417125831,
+                2.8159176691083467,
+                -4.28967970500102
+              ],
+              "gap": 1.8522361114333803,
+              "thuds": 0
+            },
+            {
+              "tick": 4,
+              "v": [
+                20.947538694331588,
+                -0.2986302497993937,
+                0.01902098555139059
+              ],
+              "p": [
+                3.6058789451632456,
+                2.81162024494615,
+                -4.289362607599663
+              ],
+              "gap": 0.9340357907881259,
+              "thuds": 0
+            },
+            {
+              "tick": 8,
+              "v": [
+                20.895306356449677,
+                -0.6243521696807984,
+                0.018854885135829537
+              ],
+              "p": [
+                4.303041702207686,
+                2.794877606390997,
+                -4.288731177561697
+              ],
+              "gap": 0.02215523721431415,
+              "thuds": 0
+            },
+            {
+              "tick": 16,
+              "v": [
+                20.791068538983197,
+                -1.2733399543327428,
+                0.01871297619924516
+              ],
+              "p": [
+                5.692150000554917,
+                2.7288999300431827,
+                -4.2874799356707305
+              ],
+              "gap": 0.009432526294444892,
+              "thuds": 0
+            },
+            {
+              "tick": 24,
+              "v": [
+                20.613411572186067,
+                -1.9191616284599737,
+                0.018588705172453375
+              ],
+              "p": [
+                7.0737152100505,
+                2.6197753360569354,
+                -4.286236751313617
+              ],
+              "gap": 0.003145519388176767,
+              "thuds": 1
+            },
+            {
+              "tick": 32,
+              "v": [
+                0.21885214579047865,
+                -2.5617493566932503,
+                0.018402433781953463
+              ],
+              "p": [
+                7.563593036320759,
+                2.4677151957475494,
+                -4.2850043194817395
+              ],
+              "gap": 0.04195429691098802,
+              "thuds": 1
+            },
+            {
+              "tick": 48,
+              "v": [
+                -0.3390831709078009,
+                -3.8374005648841027,
+                0.018222915895686916
+              ],
+              "p": [
+                7.519035076007859,
+                2.035648708880516,
+                -4.282568129019399
+              ],
+              "gap": 0.02694585042901368,
+              "thuds": 1
+            }
+          ]
+        },
+        "4": {
+          "held": {
+            "v": [
+              25.29924761280284,
+              1.1722287533187306,
+              -0.33357715274978217
+            ],
+            "p": [
+              3.337206243010216,
+              2.8333588115727406,
+              -4.294257753140401
+            ],
+            "gap": 2.125464079659953,
+            "thuds": 0
+          },
+          "released": {
+            "v": [
+              20.97567367553711,
+              0.9718980789184573,
+              -0.2765697240829469
+            ],
+            "p": [
+              3.337206243010216,
+              2.8333588115727406,
+              -4.294257753140401
+            ],
+            "gap": 2.125464079659953,
+            "thuds": 0
+          },
+          "flight": [
+            {
+              "tick": 1,
+              "v": [
+                20.96253113937382,
+                0.8895871086801278,
+                -0.27634175841870734
+              ],
+              "p": [
+                3.5118940463156814,
+                2.84077205361414,
+                -4.296560623511912
+              ],
+              "gap": 1.6158856330297224,
+              "thuds": 0
+            },
+            {
+              "tick": 2,
+              "v": [
+                20.94940576878745,
+                0.8073407117377704,
+                -0.2761497784282788
+              ],
+              "p": [
+                3.686472439226055,
+                2.847499899554898,
+                -4.2988618554039455
+              ],
+              "gap": 1.134464339515142,
+              "thuds": 0
+            },
+            {
+              "tick": 4,
+              "v": [
+                20.923244600808392,
+                0.6429952451891381,
+                -0.2757478262694216
+              ],
+              "p": [
+                4.035301867113983,
+                2.8589009917480883,
+                -4.303459435535909
+              ],
+              "gap": 0.2485816707727072,
+              "thuds": 0
+            },
+            {
+              "tick": 8,
+              "v": [
+                20.87097826954614,
+                0.3148450432562415,
+                -0.2750151110441752
+              ],
+              "p": [
+                4.731654656968962,
+                2.873495722027865,
+                -4.312636632177595
+              ],
+              "gap": 0.02328881049849215,
+              "thuds": 0
+            },
+            {
+              "tick": 16,
+              "v": [
+                20.76690496206301,
+                -0.3388843214761249,
+                -0.2736685819852514
+              ],
+              "p": [
+                6.1191459467583025,
+                2.869952931044052,
+                -4.3309223381773325
+              ],
+              "gap": 0.006419724812951524,
+              "thuds": 0
+            },
+            {
+              "tick": 24,
+              "v": [
+                14.249311110710698,
+                -0.9893436967566813,
+                -0.272282910129595
+              ],
+              "p": [
+                7.413058414701892,
+                2.822950932182267,
+                -4.349114007208032
+              ],
+              "gap": 0.04240411150003016,
+              "thuds": 1
+            },
+            {
+              "tick": 32,
+              "v": [
+                2.8129719655163408,
+                -1.6366162048493753,
+                -0.2708842196961043
+              ],
+              "p": [
+                7.7347612284501155,
+                2.732704699438019,
+                -4.367213114529871
+              ],
+              "gap": 0.05156642813275584,
+              "thuds": 1
+            },
+            {
+              "tick": 48,
+              "v": [
+                -0.8451902810714451,
+                -2.921319037387206,
+                -0.2682362316414528
+              ],
+              "p": [
+                7.6754398650286655,
+                2.4233422085935845,
+                -4.403138841736836
+              ],
+              "gap": 0.0012353985903563254,
+              "thuds": 2
+            }
+          ]
+        },
+        "8": {
+          "held": {
+            "v": [
+              24.13511888109709,
+              1.5316482225505423,
+              -0.30024590048792643
+            ],
+            "p": [
+              4.150917346372001,
+              2.8818330578288727,
+              -4.305346996761191
+            ],
+            "gap": 0.6383996994422704,
+            "thuds": 0
+          },
+          "released": {
+            "v": [
+              20.95622444152832,
+              1.3299111127853394,
+              -0.26069977879524237
+            ],
+            "p": [
+              4.150917346372001,
+              2.8818330578288727,
+              -4.305346996761191
+            ],
+            "gap": 0.6383996994422704,
+            "thuds": 0
+          },
+          "flight": [
+            {
+              "tick": 1,
+              "v": [
+                20.943130986182013,
+                1.2473826023228896,
+                -0.26052661936947463
+              ],
+              "p": [
+                4.325443459149948,
+                2.892227911308805,
+                -4.307518040442653
+              ],
+              "gap": 0.11647879081200169,
+              "thuds": 0
+            },
+            {
+              "tick": 2,
+              "v": [
+                20.930042880003725,
+                1.1649052888139055,
+                -0.2603853636725103
+              ],
+              "p": [
+                4.49986048867995,
+                2.9019354479285266,
+                -4.3096879219659066
+              ],
+              "gap": 0.05436023159873829,
+              "thuds": 0
+            },
+            {
+              "tick": 4,
+              "v": [
+                20.903908337132755,
+                1.0000981956620962,
+                -0.2600331768310428
+              ],
+              "p": [
+                4.8483678590044885,
+                2.9192903425854437,
+                -4.314023668057942
+              ],
+              "gap": 0.019949722502676622,
+              "thuds": 0
+            },
+            {
+              "tick": 8,
+              "v": [
+                20.85169616025138,
+                0.6711267719975298,
+                -0.2594100702293935
+              ],
+              "p": [
+                5.544076742653104,
+                2.9457714246859563,
+                -4.322679269155834
+              ],
+              "gap": 0.005998504606099261,
+              "thuds": 0
+            },
+            {
+              "tick": 16,
+              "v": [
+                20.7477474737662,
+                0.015658767520896014,
+                -0.2581818490780379
+              ],
+              "p": [
+                6.930288664479032,
+                2.965916021277529,
+                -4.339925256985498
+              ],
+              "gap": 0.00038196420791905685,
+              "thuds": 0
+            },
+            {
+              "tick": 24,
+              "v": [
+                5.786784583941663,
+                -0.6366055378078765,
+                -0.2568841858483089
+              ],
+              "p": [
+                7.691945214569861,
+                2.942481700312253,
+                -4.3570890840915455
+              ],
+              "gap": 0.04833786210461101,
+              "thuds": 1
+            },
+            {
+              "tick": 32,
+              "v": [
+                -0.4891517707681603,
+                -1.2855508053540519,
+                -0.2557180325930037
+              ],
+              "p": [
+                7.776233088749647,
+                2.8756869783344223,
+                -4.374169817702336
+              ],
+              "gap": 0.04626187631714319,
+              "thuds": 1
+            },
+            {
+              "tick": 48,
+              "v": [
+                -0.9840201950481203,
+                -2.573709222898018,
+                -0.2533363222086339
+              ],
+              "p": [
+                7.647008391185856,
+                2.6128952402490886,
+                -4.408093476903839
+              ],
+              "gap": 0.020377943199063785,
+              "thuds": 2
+            }
+          ]
+        }
+      },
+      "pointer": {
+        "held": {
+          "v": [
+            33.25714798303414,
+            0.6483187025933561,
+            2.55069897663664
+          ],
+          "p": [
+            1.140796412093532,
+            2.8735378941683525,
+            -4.888621765725919
+          ],
+          "gap": 1.3926701217634592,
+          "thuds": 0
+        },
+        "released": {
+          "v": [
+            20.934555053710938,
+            0.40810063481330877,
+            1.6056022644042969
+          ],
+          "p": [
+            1.140796412093532,
+            2.8735378941683525,
+            -4.888621765725919
+          ],
+          "gap": 1.3926701217634592,
+          "thuds": 0
+        },
+        "flight": [
+          {
+            "tick": 1,
+            "v": [
+              20.921484663866288,
+              0.3261472256686352,
+              1.6046008762630464
+            ],
+            "p": [
+              1.3151421291379648,
+              2.876255788068431,
+              -4.875250090582718
+            ],
+            "gap": 0.676351244108114,
+            "thuds": 0
+          },
+          {
+            "tick": 8,
+            "v": [
+              20.830105607547356,
+              -0.2461592320745384,
+              1.5975643773189818
+            ],
+            "p": [
+              2.5325136288291,
+              2.8761921320315533,
+              -4.7818821889872
+            ],
+            "gap": 0.012874612672665478,
+            "thuds": 0
+          },
+          {
+            "tick": 16,
+            "v": [
+              20.72630184732081,
+              -0.8971027522960072,
+              1.5896519393807538
+            ],
+            "p": [
+              3.9172892961445633,
+              2.835353711278034,
+              -4.675677631691716
+            ],
+            "gap": 0.00038899817663928777,
+            "thuds": 0
+          }
+        ]
+      },
+      "beforePistol": {
+        "flash": true,
+        "slide": 0.000014249900907772225,
+        "nextShot": 0
+      },
+      "pistol": {
+        "chaos": {
+          "flash": false,
+          "slide": 0,
+          "nextShot": 2
+        },
+        "chaosSpam": {
+          "flash": false,
+          "slide": 0,
+          "nextShot": 2
+        },
+        "addDummy": {
+          "flash": false,
+          "slide": 0.000026809329787302783,
+          "nextShot": 2
+        },
+        "switch": {
+          "flash": false,
+          "slide": 0,
+          "nextShot": 2
+        },
+        "reset": {
+          "flash": false,
+          "slide": 0,
+          "nextShot": 2
+        },
+        "demo": {
+          "flash": false,
+          "slide": 0,
+          "nextShot": 2
+        }
+      }
+    },
+    {
+      "browser": "firefox",
+      "before": {
+        "held": {
+          "v": [
+            48.57898177013744,
+            0.1636982670801691,
+            -0.14060176009778708
+          ],
+          "p": [
+            2.448940690823766,
+            2.8172312334939904,
+            -4.291412104712365
+          ],
+          "gap": 3.800678416783274,
+          "thuds": 0
+        },
+        "released": {
+          "v": [
+            20.997980840358196,
+            0.08724926574160101,
+            -0.055662744484502646
+          ],
+          "p": [
+            2.448940690823766,
+            2.8172312334939904,
+            -4.291412104712365
+          ],
+          "gap": 3.800678416783274,
+          "thuds": 0
+        },
+        "flight": [
+          {
+            "tick": 1,
+            "v": [
+              20.984834776339973,
+              0.005486069652382934,
+              -0.05562349598369129
+            ],
+            "p": [
+              2.6238143291584137,
+              2.8172769550443566,
+              -4.2918756185691205
+            ],
+            "gap": 3.0838821579354696,
+            "thuds": 0
+          },
+          {
+            "tick": 2,
+            "v": [
+              10.85553349661894,
+              -0.015003669735454559,
+              -0.08525366911768191
+            ],
+            "p": [
+              2.714277165898617,
+              2.817151932657731,
+              -4.292586009963136
+            ],
+            "gap": 2.259355682151096,
+            "thuds": 0
+          },
+          {
+            "tick": 4,
+            "v": [
+              2.719172586109437,
+              -0.6402253116637726,
+              0.24665337973304258
+            ],
+            "p": [
+              2.781912142844162,
+              2.8038864837859063,
+              -4.286845188596902
+            ],
+            "gap": 0.7276148934307376,
+            "thuds": 0
+          },
+          {
+            "tick": 8,
+            "v": [
+              1.5224060087574927,
+              -0.19727361441940292,
+              -0.002015141499225364
+            ],
+            "p": [
+              2.8340458663818664,
+              2.7994665960645126,
+              -4.286460944500637
+            ],
+            "gap": 0.020606160583162267,
+            "thuds": 0
+          },
+          {
+            "tick": 16,
+            "v": [
+              1.5747319887951174,
+              -0.8370876755164226,
+              0.022092049593175754
+            ],
+            "p": [
+              2.937962160515691,
+              2.762513252231861,
+              -4.285513564636701
+            ],
+            "gap": 0.0007529226035743154,
+            "thuds": 0
+          },
+          {
+            "tick": 24,
+            "v": [
+              1.5668661723312443,
+              -1.4851093541193467,
+              0.021878615857037317
+            ],
+            "p": [
+              3.042648384137006,
+              2.682388580372163,
+              -4.284049699877234
+            ],
+            "gap": 0.0021768792927876887,
+            "thuds": 0
+          },
+          {
+            "tick": 32,
+            "v": [
+              1.559025770892347,
+              -2.129830318272731,
+              0.021771017391322273
+            ],
+            "p": [
+              3.1468108499272276,
+              2.5591864938283044,
+              -4.282596122951033
+            ],
+            "gap": 0.011683270333106533,
+            "thuds": 0
+          },
+          {
+            "tick": 48,
+            "v": [
+              1.543440419698587,
+              -3.4096934358787134,
+              0.02168475259385076
+            ],
+            "p": [
+              3.3535722807142703,
+              2.1844113829705814,
+              -4.279698186274157
+            ],
+            "gap": 0.0006675633772108799,
+            "thuds": 0
+          }
+        ]
+      },
+      "throws": {
+        "Head0.15": {
+          "held": {
+            "v": [
+              6.405812802834413,
+              3.656693624874026,
+              -2.8664296154758966
+            ],
+            "p": [
+              -3.3875381663802218,
+              2.5345700252705843,
+              -4.8971242484264375
+            ],
+            "gap": 0.0165146753540978,
+            "thuds": 0
+          },
+          "released": {
+            "v": [
+              6.405812802834413,
+              3.656693624874026,
+              -2.8664296154758966
+            ],
+            "p": [
+              -3.3875381663802218,
+              2.5345700252705843,
+              -4.8971242484264375
+            ],
+            "gap": 0.0165146753540978,
+            "thuds": 0
+          },
+          "flight": [
+            {
+              "tick": 1,
+              "v": [
+                6.401810826968497,
+                3.5726900666775183,
+                -2.8646114385317345
+              ],
+              "p": [
+                -3.3341897562716083,
+                2.5643424653432425,
+                -4.920996037349448
+              ],
+              "gap": 0.012857355239914643,
+              "thuds": 0
+            },
+            {
+              "tick": 2,
+              "v": [
+                6.397835640232029,
+                3.4887444666074185,
+                -2.862806754076779
+              ],
+              "p": [
+                -3.2808744675045025,
+                2.5934153616751034,
+                -4.944852746663468
+              ],
+              "gap": 0.01519487813139549,
+              "thuds": 0
+            },
+            {
+              "tick": 4,
+              "v": [
+                6.389849535475379,
+                3.3210513844889955,
+                -2.8591752348588866
+              ],
+              "p": [
+                -3.1743437328019524,
+                2.6494648278696933,
+                -4.992520809431498
+              ],
+              "gap": 0.0206887512825506,
+              "thuds": 0
+            },
+            {
+              "tick": 8,
+              "v": [
+                6.373911623120457,
+                2.9862944222314436,
+                -2.8520686500953776
+              ],
+              "p": [
+                -2.9616806620587117,
+                2.7531901168169624,
+                -5.087678676452026
+              ],
+              "gap": 0.028525016223275353,
+              "thuds": 0
+            },
+            {
+              "tick": 16,
+              "v": [
+                6.342098337410313,
+                2.3193134755638827,
+                -2.8379440528556823
+              ],
+              "p": [
+                -2.537947646392663,
+                2.927247147666976,
+                -5.277286452096981
+              ],
+              "gap": 0.003866639976870094,
+              "thuds": 0
+            },
+            {
+              "tick": 24,
+              "v": [
+                6.310415366600652,
+                1.655641788944967,
+                -2.823852730109284
+              ],
+              "p": [
+                -2.1163293331365356,
+                3.0569615973449307,
+                -5.465955577681024
+              ],
+              "gap": 0.00023945704458671027,
+              "thuds": 0
+            },
+            {
+              "tick": 32,
+              "v": [
+                6.278895786975435,
+                0.9951690832786191,
+                -2.8098450073906247
+              ],
+              "p": [
+                -1.696818303361835,
+                3.1425511020210903,
+                -5.653686379930999
+              ],
+              "gap": 0.0008306340143779072,
+              "thuds": 0
+            },
+            {
+              "tick": 48,
+              "v": [
+                6.216422502359754,
+                -0.31581296280118865,
+                -2.7820719946382484
+              ],
+              "p": [
+                -0.8640653688053964,
+                3.1822320433724824,
+                -6.026367844601131
+              ],
+              "gap": 0.0007526964646097788,
+              "thuds": 0
+            }
+          ]
+        },
+        "Head0.65": {
+          "held": {
+            "v": [
+              27.63843729107185,
+              1.530729200790289,
+              0.086664896735349
+            ],
+            "p": [
+              -0.8016686415563818,
+              2.86430992713822,
+              -4.779697960088536
+            ],
+            "gap": 1.2886574403758955,
+            "thuds": 0
+          },
+          "released": {
+            "v": [
+              20.967763900756836,
+              1.1612801551818845,
+              0.06574788689613342
+            ],
+            "p": [
+              -0.8016686415563818,
+              2.86430992713822,
+              -4.779697960088536
+            ],
+            "gap": 1.2886574403758955,
+            "thuds": 0
+          },
+          "flight": [
+            {
+              "tick": 1,
+              "v": [
+                20.95466576744121,
+                1.0788658286916053,
+                0.06567701136121226
+              ],
+              "p": [
+                -0.6270464151695593,
+                2.8733004911502182,
+                -4.779150630754471
+              ],
+              "gap": 0.39695896906020534,
+              "thuds": 0
+            },
+            {
+              "tick": 2,
+              "v": [
+                20.941575120558603,
+                0.9965005968600271,
+                0.06566494223539811
+              ],
+              "p": [
+                -0.45253326939696914,
+                2.8816046563166506,
+                -4.778603414436483
+              ],
+              "gap": 0.007782719601150293,
+              "thuds": 0
+            },
+            {
+              "tick": 4,
+              "v": [
+                20.915416256893405,
+                0.831923146564234,
+                0.0655950007682707
+              ],
+              "p": [
+                -0.10383400852967609,
+                2.896155682454621,
+                -4.777509715638276
+              ],
+              "gap": 0.00561527912310885,
+              "thuds": 0
+            },
+            {
+              "tick": 8,
+              "v": [
+                20.863199918572626,
+                0.503317372067455,
+                0.06555006738740751
+              ],
+              "p": [
+                0.5922584146936429,
+                2.91703816444595,
+                -4.775323823160012
+              ],
+              "gap": 0.0030781046725286212,
+              "thuds": 0
+            },
+            {
+              "tick": 16,
+              "v": [
+                20.759143392005317,
+                -0.15132045591543025,
+                0.06517014793793821
+              ],
+              "p": [
+                1.9792335456524204,
+                2.926025337053788,
+                -4.770969291005337
+              ],
+              "gap": 0.0017636083797853883,
+              "thuds": 0
+            },
+            {
+              "tick": 24,
+              "v": [
+                20.655643992604983,
+                -0.8027745453438162,
+                0.06483709319649415
+              ],
+              "p": [
+                3.359291000126463,
+                2.8914904559616534,
+                -4.766636449823028
+              ],
+              "gap": 0.0013683450545606346,
+              "thuds": 0
+            },
+            {
+              "tick": 32,
+              "v": [
+                20.552710442404546,
+                -1.4509721453836504,
+                0.06465029280357482
+              ],
+              "p": [
+                4.732472219971003,
+                2.8136480412134266,
+                -4.76232048955582
+              ],
+              "gap": 0.0031110950757644532,
+              "thuds": 0
+            },
+            {
+              "tick": 48,
+              "v": [
+                15.779336930256806,
+                -2.7376281160249367,
+                0.0640456162917364
+              ],
+              "p": [
+                7.385958417098377,
+                2.5289069874409886,
+                -4.7537311151823625
+              ],
+              "gap": 0.044214049434311245,
+              "thuds": 1
+            }
+          ]
+        },
+        "Head1.1": {
+          "held": {
+            "v": [
+              30.541526830614096,
+              1.7947301956382673,
+              -0.20729900050404163
+            ],
+            "p": [
+              -0.5126252090785988,
+              2.675638389405274,
+              -4.76000393093412
+            ],
+            "gap": 4.244698065758004,
+            "thuds": 0
+          },
+          "released": {
+            "v": [
+              20.963354110717773,
+              1.2318822145462034,
+              -0.14228762686252594
+            ],
+            "p": [
+              -0.5126252090785988,
+              2.675638389405274,
+              -4.76000393093412
+            ],
+            "gap": 4.244698065758004,
+            "thuds": 0
+          },
+          "flight": [
+            {
+              "tick": 1,
+              "v": [
+                20.950252804316833,
+                1.1494296412780671,
+                -0.14219690666665388
+              ],
+              "p": [
+                -0.33803975985885776,
+                2.685216953741618,
+                -4.761188854061183
+              ],
+              "gap": 3.3523797275372726,
+              "thuds": 0
+            },
+            {
+              "tick": 2,
+              "v": [
+                20.93716836687005,
+                1.0670180296794078,
+                -0.1421527261089505
+              ],
+              "p": [
+                -0.16356334104652698,
+                2.6941087657847156,
+                -4.762373459486958
+              ],
+              "gap": 2.456256313206139,
+              "thuds": 0
+            },
+            {
+              "tick": 4,
+              "v": [
+                20.911013406345624,
+                0.902328227083156,
+                -0.14196903856806528
+              ],
+              "p": [
+                0.1850625110767764,
+                2.7098335959071367,
+                -4.764740469270807
+              ],
+              "gap": 0.6590810739741397,
+              "thuds": 0
+            },
+            {
+              "tick": 8,
+              "v": [
+                20.85880288175932,
+                0.5735604250100762,
+                -0.14163299777625857
+              ],
+              "p": [
+                0.881008434373833,
+                2.733059870148445,
+                -4.769465881628421
+              ],
+              "gap": 0.004560905203011905,
+              "thuds": 0
+            },
+            {
+              "tick": 16,
+              "v": [
+                20.75471370644618,
+                -0.08143168194969505,
+                -0.14079623601024438
+              ],
+              "p": [
+                2.267689459604413,
+                2.746718695932549,
+                -4.77887573563519
+              ],
+              "gap": 0.0020865502673688653,
+              "thuds": 0
+            },
+            {
+              "tick": 24,
+              "v": [
+                20.651213246602705,
+                -0.7332673748449512,
+                -0.14007738183482998
+              ],
+              "p": [
+                3.647452785085488,
+                2.7168273969771506,
+                -4.788235695802102
+              ],
+              "gap": 0.002110769468559769,
+              "thuds": 0
+            },
+            {
+              "tick": 32,
+              "v": [
+                20.548200294260436,
+                -1.3817876298363125,
+                -0.1393269337585609
+              ],
+              "p": [
+                5.020333108616743,
+                2.643606217378307,
+                -4.797546202764472
+              ],
+              "gap": 0.0019939679673302495,
+              "thuds": 0
+            },
+            {
+              "tick": 48,
+              "v": [
+                8.010361377012652,
+                -2.6691206008307895,
+                -0.13821179665290603
+              ],
+              "p": [
+                7.495896435561372,
+                2.36803965756366,
+                -4.8160422760052715
+              ],
+              "gap": 0.041726395012086026,
+              "thuds": 1
+            }
+          ]
+        },
+        "Torso0.15": {
+          "held": {
+            "v": [
+              5.0150921324643285,
+              1.8498236983888845,
+              -1.2173666336178888
+            ],
+            "p": [
+              -3.0253527015523676,
+              2.7817596418886428,
+              -4.3986628841014825
+            ],
+            "gap": 0.013508713856948967,
+            "thuds": 0
+          },
+          "released": {
+            "v": [
+              5.0150921324643285,
+              1.8498236983888845,
+              -1.2173666336178888
+            ],
+            "p": [
+              -3.0253527015523676,
+              2.7817596418886428,
+              -4.3986628841014825
+            ],
+            "gap": 0.013508713856948967,
+            "thuds": 0
+          },
+          "flight": [
+            {
+              "tick": 1,
+              "v": [
+                5.011932745709797,
+                1.7669592213006766,
+                -1.2166345712982058
+              ],
+              "p": [
+                -2.9835865918459454,
+                2.7964843034449918,
+                -4.40880150651019
+              ],
+              "gap": 0.0056035084016331435,
+              "thuds": 0
+            },
+            {
+              "tick": 2,
+              "v": [
+                5.008790318473153,
+                1.6841579775959876,
+                -1.21585712457588
+              ],
+              "p": [
+                -2.941846668892987,
+                2.810518954385973,
+                -4.418933649934525
+              ],
+              "gap": 0.004378431510844095,
+              "thuds": 0
+            },
+            {
+              "tick": 4,
+              "v": [
+                5.002534184726936,
+                1.5187121605266982,
+                -1.2143373428996043
+              ],
+              "p": [
+                -2.858445240847783,
+                2.836519888463893,
+                -4.439178879717827
+              ],
+              "gap": 0.004834027395183994,
+              "thuds": 0
+            },
+            {
+              "tick": 8,
+              "v": [
+                4.990105842186286,
+                1.1884164563958997,
+                -1.2113344483768065
+              ],
+              "p": [
+                -2.691953658075991,
+                2.8802601050393686,
+                -4.479593650116241
+              ],
+              "gap": 0.002284605527990793,
+              "thuds": 0
+            },
+            {
+              "tick": 16,
+              "v": [
+                4.965240522894343,
+                0.5303577264881593,
+                -1.2053072184336269
+              ],
+              "p": [
+                -2.360211701994511,
+                2.9347930995056837,
+                -4.56012620078925
+              ],
+              "gap": 0.00023159908990891273,
+              "thuds": 0
+            },
+            {
+              "tick": 24,
+              "v": [
+                4.940475265934862,
+                -0.12450648102984099,
+                -1.1992456346233915
+              ],
+              "p": [
+                -2.0301253036548457,
+                2.9455739506644667,
+                -4.640252954849886
+              ],
+              "gap": 0.000280037458154113,
+              "thuds": 0
+            },
+            {
+              "tick": 32,
+              "v": [
+                4.915780675783474,
+                -0.7760737373535835,
+                -1.193239028741328
+              ],
+              "p": [
+                -1.7016866895492986,
+                2.9128226126866203,
+                -4.71997452836027
+              ],
+              "gap": 0.0024432430317739284,
+              "thuds": 0
+            },
+            {
+              "tick": 48,
+              "v": [
+                4.866849078610859,
+                -2.0694339924975624,
+                -1.1813259385151513
+              ],
+              "p": [
+                -1.0497220959568359,
+                2.717590015461656,
+                -4.878224603818063
+              ],
+              "gap": 0.0017537292131528468,
+              "thuds": 0
+            }
+          ]
+        },
+        "Torso0.65": {
+          "held": {
+            "v": [
+              28.19704266174386,
+              0.15971774077281953,
+              -0.11408336850713396
+            ],
+            "p": [
+              0.8055171868512115,
+              2.9008597991184017,
+              -4.32624139314905
+            ],
+            "gap": 0.056094956369371264,
+            "thuds": 0
+          },
+          "released": {
+            "v": [
+              20.999490737915036,
+              0.118948332965374,
+              -0.08496255427598955
+            ],
+            "p": [
+              0.8055171868512115,
+              2.9008597991184017,
+              -4.32624139314905
+            ],
+            "gap": 0.056094956369371264,
+            "thuds": 0
+          },
+          "flight": [
+            {
+              "tick": 1,
+              "v": [
+                20.98636744936135,
+                0.03718225195056813,
+                -0.08488207032702366
+              ],
+              "p": [
+                0.9804036018405762,
+                2.9011696398549884,
+                -4.326948769026901
+              ],
+              "gap": 0.03643848595907942,
+              "thuds": 0
+            },
+            {
+              "tick": 2,
+              "v": [
+                20.973259604911483,
+                -0.04453910102163831,
+                -0.08482300471050039
+              ],
+              "p": [
+                1.1551807800076554,
+                2.9007984727906053,
+                -4.327655627095436
+              ],
+              "gap": 0.0326140886093218,
+              "thuds": 0
+            },
+            {
+              "tick": 4,
+              "v": [
+                20.9470332381002,
+                -0.2078627815110974,
+                -0.08469000115352451
+              ],
+              "p": [
+                1.5044072592886821,
+                2.898014329202083,
+                -4.329067503878605
+              ],
+              "gap": 0.002992670715774517,
+              "thuds": 0
+            },
+            {
+              "tick": 8,
+              "v": [
+                20.894780700506683,
+                -0.5338703628940112,
+                -0.08454423035576566
+              ],
+              "p": [
+                2.201552608625958,
+                2.884291467908664,
+                -4.33188758428461
+              ],
+              "gap": 0.002333598816078905,
+              "thuds": 0
+            },
+            {
+              "tick": 16,
+              "v": [
+                20.79063556849615,
+                -1.183332838960153,
+                -0.08408396579770754
+              ],
+              "p": [
+                3.5906304972288647,
+                2.824326428762393,
+                -4.33750636677724
+              ],
+              "gap": 0.00000847291053666486,
+              "thuds": 0
+            },
+            {
+              "tick": 24,
+              "v": [
+                20.687071101271137,
+                -1.8296034768611906,
+                -0.08363300339933193
+              ],
+              "p": [
+                4.97278467143775,
+                2.7211843637995874,
+                -4.34309604830271
+              ],
+              "gap": 0.0002621441495289065,
+              "thuds": 0
+            },
+            {
+              "tick": 32,
+              "v": [
+                20.58393837649056,
+                -2.4726527776866702,
+                -0.08329771079747852
+              ],
+              "p": [
+                6.3480541367362955,
+                2.5750789993696652,
+                -4.348661295212116
+              ],
+              "gap": 0.00027138073472549685,
+              "thuds": 0
+            },
+            {
+              "tick": 48,
+              "v": [
+                1.4677334181763182,
+                -3.7490770465940924,
+                -0.08247164231512752
+              ],
+              "p": [
+                7.574294738046033,
+                2.1548400114203123,
+                -4.359711101207042
+              ],
+              "gap": 0.030594909582723533,
+              "thuds": 1
+            }
+          ]
+        },
+        "Torso1.1": {
+          "held": {
+            "v": [
+              48.57898177013744,
+              0.1636982670801691,
+              -0.14060176009778708
+            ],
+            "p": [
+              2.448940690823766,
+              2.8172312334939904,
+              -4.291412104712365
+            ],
+            "gap": 3.800678416783274,
+            "thuds": 0
+          },
+          "released": {
+            "v": [
+              20.999794006347663,
+              0.0707637369632721,
+              -0.06077953800559045
+            ],
+            "p": [
+              2.448940690823766,
+              2.8172312334939904,
+              -4.291412104712365
+            ],
+            "gap": 3.800678416783274,
+            "thuds": 0
+          },
+          "flight": [
+            {
+              "tick": 1,
+              "v": [
+                20.98668620172109,
+                -0.011017711147056759,
+                -0.060804404626414926
+              ],
+              "p": [
+                2.623829760909023,
+                2.8171394235433027,
+                -4.291918801580235
+              ],
+              "gap": 3.084151944276587,
+              "thuds": 0
+            },
+            {
+              "tick": 2,
+              "v": [
+                20.973553121764173,
+                -0.09271637670169551,
+                -0.060797064101505954
+              ],
+              "p": [
+                2.7986093550840616,
+                2.816366807983507,
+                -4.292425451936375
+              ],
+              "gap": 2.518035074510102,
+              "thuds": 0
+            },
+            {
+              "tick": 4,
+              "v": [
+                20.94736107057812,
+                -0.2559453948293316,
+                -0.06079042040016257
+              ],
+              "p": [
+                3.14784104166933,
+                2.8127809767092256,
+                -4.293438676005283
+              ],
+              "gap": 1.5600607670172792,
+              "thuds": 0
+            },
+            {
+              "tick": 8,
+              "v": [
+                20.895056360640282,
+                -0.5817841760313928,
+                -0.060548886077096374
+              ],
+              "p": [
+                3.844996166539663,
+                2.7974592506717824,
+                -4.295459726504039
+              ],
+              "gap": 0.03213841627551889,
+              "thuds": 0
+            },
+            {
+              "tick": 16,
+              "v": [
+                20.790779057519224,
+                -1.2309693876363486,
+                -0.06024980250795259
+              ],
+              "p": [
+                5.234086135919629,
+                2.734311615490688,
+                -4.299485940927495
+              ],
+              "gap": 0.009738189114164367,
+              "thuds": 0
+            },
+            {
+              "tick": 24,
+              "v": [
+                20.68690922473771,
+                -1.876998181412091,
+                -0.05992789371298189
+              ],
+              "p": [
+                6.616238348413359,
+                2.628003277891568,
+                -4.303492605368908
+              ],
+              "gap": 0.00015041899612136035,
+              "thuds": 0
+            },
+            {
+              "tick": 32,
+              "v": [
+                8.425501829059328,
+                -2.5197964024945967,
+                -0.05969991225511889
+              ],
+              "p": [
+                7.636025382696561,
+                2.47874668163463,
+                -4.307479066227213
+              ],
+              "gap": 0.04004501538326431,
+              "thuds": 1
+            },
+            {
+              "tick": 48,
+              "v": [
+                -1.002448078819527,
+                -3.7958531479489124,
+                -0.05925787896890545
+              ],
+              "p": [
+                7.732540352518059,
+                2.0522463707926075,
+                -4.31540253462091
+              ],
+              "gap": 0.023050179179353092,
+              "thuds": 2
+            }
+          ]
+        }
+      },
+      "delays": {
+        "2": {
+          "held": {
+            "v": [
+              27.394413887526756,
+              0.02986405642140838,
+              0.047866888626055704
+            ],
+            "p": [
+              2.9067071869943804,
+              2.817786591977998,
+              -4.28987860000361
+            ],
+            "gap": 2.8705417913546794,
+            "thuds": 0
+          },
+          "released": {
+            "v": [
+              20.999952417209855,
+              0.022893143906340896,
+              0.0366937034260608
+            ],
+            "p": [
+              2.9067071869943804,
+              2.817786591977998,
+              -4.28987860000361
+            ],
+            "gap": 2.8705417913546794,
+            "thuds": 0
+          },
+          "flight": [
+            {
+              "tick": 1,
+              "v": [
+                20.986842438786258,
+                -0.058813892715624184,
+                0.03666506551062564
+              ],
+              "p": [
+                3.081597542709746,
+                2.8172964816175545,
+                -4.2895730481998875
+              ],
+              "gap": 2.337871019859525,
+              "thuds": 0
+            },
+            {
+              "tick": 2,
+              "v": [
+                20.973723675468698,
+                -0.1405136181408274,
+                0.03661378957197318
+              ],
+              "p": [
+                3.2563785837467067,
+                2.816125550184097,
+                -4.289267934901442
+              ],
+              "gap": 1.8531067402266972,
+              "thuds": 0
+            },
+            {
+              "tick": 4,
+              "v": [
+                20.947507556486173,
+                -0.3037167813605735,
+                0.036596047235181964
+              ],
+              "p": [
+                3.6056130159244493,
+                2.811743340072932,
+                -4.2886581286061976
+              ],
+              "gap": 0.9351340871097198,
+              "thuds": 0
+            },
+            {
+              "tick": 8,
+              "v": [
+                20.89526984784858,
+                -0.62941313393239,
+                0.036344993903386205
+              ],
+              "p": [
+                4.302774030909827,
+                2.794831798047888,
+                -4.287443502587275
+              ],
+              "gap": 0.02202015432761377,
+              "thuds": 0
+            },
+            {
+              "tick": 16,
+              "v": [
+                20.790981786553864,
+                -1.2783681346762188,
+                0.03625486273907212
+              ],
+              "p": [
+                5.691877700207655,
+                2.72851738634793,
+                -4.285024911397074
+              ],
+              "gap": 0.009551198482324124,
+              "thuds": 0
+            },
+            {
+              "tick": 24,
+              "v": [
+                20.546006573132274,
+                -1.92412030326837,
+                0.03622278418671363
+              ],
+              "p": [
+                7.072870901104976,
+                2.619060251106571,
+                -4.282611120347489
+              ],
+              "gap": 0.008419413553320472,
+              "thuds": 1
+            },
+            {
+              "tick": 32,
+              "v": [
+                1.9462133222853322,
+                -2.5666724061529367,
+                0.03604404987457278
+              ],
+              "p": [
+                7.6210157923511375,
+                2.466671622677171,
+                -4.280202384783882
+              ],
+              "gap": 0.04381313976927422,
+              "thuds": 1
+            },
+            {
+              "tick": 48,
+              "v": [
+                -0.7334566540170357,
+                -3.8422519655452576,
+                0.03565680507246866
+              ],
+              "p": [
+                7.687276070403091,
+                2.033952996434574,
+                -4.275424082125855
+              ],
+              "gap": 0.0033535484828703913,
+              "thuds": 2
+            }
+          ]
+        },
+        "4": {
+          "held": {
+            "v": [
+              25.29220338183376,
+              1.1401858597620518,
+              -0.32162439365036266
+            ],
+            "p": [
+              3.336843078127801,
+              2.8331231554692184,
+              -4.293929009387162
+            ],
+            "gap": 2.1261607448883293,
+            "thuds": 0
+          },
+          "released": {
+            "v": [
+              20.976999449583655,
+              0.9456540258384176,
+              -0.2667507556455628
+            ],
+            "p": [
+              3.336843078127801,
+              2.8331231554692184,
+              -4.293929009387162
+            ],
+            "gap": 2.1261607448883293,
+            "thuds": 0
+          },
+          "flight": [
+            {
+              "tick": 1,
+              "v": [
+                20.96390793035026,
+                0.8633736826639956,
+                -0.2666020756662753
+              ],
+              "p": [
+                3.511542316381063,
+                2.840317906078031,
+                -4.2961507190734025
+              ],
+              "gap": 1.6173415900462056,
+              "thuds": 0
+            },
+            {
+              "tick": 2,
+              "v": [
+                20.950838622073157,
+                0.7811333263390439,
+                -0.2664671015734522
+              ],
+              "p": [
+                3.6861326488678716,
+                2.8468273465269736,
+                -4.298371263096045
+              ],
+              "gap": 1.1355670999029792,
+              "thuds": 0
+            },
+            {
+              "tick": 4,
+              "v": [
+                20.924705674413648,
+                0.6167874256831213,
+                -0.2661400623975865
+              ],
+              "p": [
+                4.034986920923356,
+                2.857791725358383,
+                -4.302808194820781
+              ],
+              "gap": 0.24967088514317917,
+              "thuds": 0
+            },
+            {
+              "tick": 8,
+              "v": [
+                20.872480526060524,
+                0.28879196462136353,
+                -0.2655523636541869
+              ],
+              "p": [
+                4.7313894397037055,
+                2.87151542243013,
+                -4.311666717606955
+              ],
+              "gap": 0.02321221495299335,
+              "thuds": 0
+            },
+            {
+              "tick": 16,
+              "v": [
+                20.768568085218,
+                -0.3648646913201389,
+                -0.26420276382781527
+              ],
+              "p": [
+                6.11898952332795,
+                2.8662379324195104,
+                -4.3293178996177595
+              ],
+              "gap": 0.006476201129870842,
+              "thuds": 0
+            },
+            {
+              "tick": 24,
+              "v": [
+                14.161014501530776,
+                -1.0152172862081732,
+                -0.26290726969290484
+              ],
+              "p": [
+                7.411865356798578,
+                2.817508395140897,
+                -4.346883987189115
+              ],
+              "gap": 0.04233043972780242,
+              "thuds": 1
+            },
+            {
+              "tick": 32,
+              "v": [
+                3.477905515838524,
+                -1.6623279002571878,
+                -0.2618624895553972
+              ],
+              "p": [
+                7.71576461605665,
+                2.7255434697293035,
+                -4.364370009096655
+              ],
+              "gap": 0.04462516779410426,
+              "thuds": 1
+            },
+            {
+              "tick": 48,
+              "v": [
+                -1.0366666931893234,
+                -2.9469665240077734,
+                -0.25907064557713666
+              ],
+              "p": [
+                7.656955412669142,
+                2.412759899382981,
+                -4.399089529521076
+              ],
+              "gap": 0.000252564062551109,
+              "thuds": 2
+            }
+          ]
+        },
+        "8": {
+          "held": {
+            "v": [
+              24.10539447269535,
+              1.504734557331532,
+              -0.27913054136802024
+            ],
+            "p": [
+              4.150034311967562,
+              2.8805874926128436,
+              -4.30444701745115
+            ],
+            "gap": 0.6392641251608387,
+            "thuds": 0
+          },
+          "released": {
+            "v": [
+              20.957805633544922,
+              1.3082523345947263,
+              -0.24268275499343872
+            ],
+            "p": [
+              4.150034311967562,
+              2.8805874926128436,
+              -4.30444701745115
+            ],
+            "gap": 0.6392641251608387,
+            "thuds": 0
+          },
+          "flight": [
+            {
+              "tick": 1,
+              "v": [
+                20.9446570350004,
+                1.225748041600542,
+                -0.24255588478102816
+              ],
+              "p": [
+                4.324573126750589,
+                2.8908020670944583,
+                -4.306468296965339
+              ],
+              "gap": 0.11695619299455694,
+              "thuds": 0
+            },
+            {
+              "tick": 2,
+              "v": [
+                20.931635223659665,
+                1.1432601802997442,
+                -0.2424105974140199
+              ],
+              "p": [
+                4.499003420687012,
+                2.9003292435304155,
+                -4.308488379217993
+              ],
+              "gap": 0.059254797054937906,
+              "thuds": 0
+            },
+            {
+              "tick": 4,
+              "v": [
+                20.90541427986141,
+                0.9784932883142632,
+                -0.2421334856643772
+              ],
+              "p": [
+                4.847536291930455,
+                2.917323860467225,
+                -4.3125249030526
+              ],
+              "gap": 0.021220163710852297,
+              "thuds": 0
+            },
+            {
+              "tick": 8,
+              "v": [
+                20.853148129599003,
+                0.6495373484174092,
+                -0.24170406990134782
+              ],
+              "p": [
+                5.543293101734012,
+                2.943084892310522,
+                -4.320587292033887
+              ],
+              "gap": 0.008415059853004312,
+              "thuds": 0
+            },
+            {
+              "tick": 16,
+              "v": [
+                20.74904643086977,
+                -0.005839755584894733,
+                -0.24046641305535532
+              ],
+              "p": [
+                6.929596547769437,
+                2.9617928078012485,
+                -4.336652028799702
+              ],
+              "gap": 0.0019090981638918247,
+              "thuds": 0
+            },
+            {
+              "tick": 24,
+              "v": [
+                5.944790416771655,
+                -0.6579430367001984,
+                -0.23923210549678542
+              ],
+              "p": [
+                7.697337646401976,
+                2.936932419442707,
+                -4.35263891984557
+              ],
+              "gap": 0.03877023645859835,
+              "thuds": 1
+            },
+            {
+              "tick": 32,
+              "v": [
+                -0.42903725861027053,
+                -1.3067403224469225,
+                -0.23793690906827372
+              ],
+              "p": [
+                7.772496544862872,
+                2.868722179120284,
+                -4.368539982766899
+              ],
+              "gap": 0.04657686954195702,
+              "thuds": 1
+            },
+            {
+              "tick": 48,
+              "v": [
+                -0.9591415790627085,
+                -2.594907323119285,
+                -0.23556187042092036
+              ],
+              "p": [
+                7.647604900293649,
+                2.603104689019245,
+                -4.400094092627577
+              ],
+              "gap": 0.018321565914032452,
+              "thuds": 2
+            }
+          ]
+        }
+      },
+      "pointer": {
+        "held": {
+          "v": [
+            33.28511638660304,
+            0.6496276641869327,
+            2.559983127227793
+          ],
+          "p": [
+            1.1408906110554933,
+            2.8730563935844113,
+            -4.888172939824089
+          ],
+          "gap": 1.3884525923751003,
+          "thuds": 0
+        },
+        "released": {
+          "v": [
+            20.9342041015625,
+            0.40857404470443737,
+            1.6100648641586306
+          ],
+          "p": [
+            1.1408906110554933,
+            2.8730563935844113,
+            -4.888172939824089
+          ],
+          "gap": 1.3884525923751003,
+          "thuds": 0
+        },
+        "flight": [
+          {
+            "tick": 1,
+            "v": [
+              20.921129569393724,
+              0.3265969153426232,
+              1.6089986893983401
+            ],
+            "p": [
+              1.3152333707166475,
+              2.875778034898441,
+              -4.874764616235237
+            ],
+            "gap": 0.6715884341795468,
+            "thuds": 0
+          },
+          {
+            "tick": 8,
+            "v": [
+              20.829752070830914,
+              -0.24576825591082427,
+              1.6019547749572312
+            ],
+            "p": [
+              2.5325850317192318,
+              2.8757383543764914,
+              -4.781138110205213
+            ],
+            "gap": 0.013074087380632187,
+            "thuds": 0
+          },
+          {
+            "tick": 16,
+            "v": [
+              20.725868393571716,
+              -0.8967834762137661,
+              1.5939683102897246
+            ],
+            "p": [
+              3.9173361183350095,
+              2.834923204662995,
+              -4.674644145666163
+            ],
+            "gap": 0.00034600163320747617,
+            "thuds": 0
+          }
+        ]
+      },
+      "beforePistol": {
+        "flash": true,
+        "slide": 0.00002680932978730281,
+        "nextShot": 0
+      },
+      "pistol": {
+        "chaos": {
+          "flash": false,
+          "slide": 0,
+          "nextShot": 2
+        },
+        "chaosSpam": {
+          "flash": false,
+          "slide": 0,
+          "nextShot": 2
+        },
+        "addDummy": {
+          "flash": false,
+          "slide": 0.000019467569009640954,
+          "nextShot": 2
+        },
+        "switch": {
+          "flash": false,
+          "slide": 0,
+          "nextShot": 2
+        },
+        "reset": {
+          "flash": false,
+          "slide": 0,
+          "nextShot": 2
+        },
+        "demo": {
+          "flash": false,
+          "slide": 0,
+          "nextShot": 2
+        }
+      }
+    }
+  ],
+  "nativeProfiles": [
+    {
+      "browser": "chrome",
+      "workload": "idle",
+      "fps": 60,
+      "cpuP99MS": 1.699999988079071,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.917504,
+          "p95": 1.441792,
+          "p99": 1.572864,
+          "max": 1.703936
+        },
+        "renderMS": {
+          "p50": 2.424832,
+          "p95": 2.818048,
+          "p99": 3.014656,
+          "max": 3.407872
+        }
+      },
+      "ticksPerSecond": 119.60849369608495,
+      "reads": {
+        "asynchronous collision sound event": 361,
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "chrome",
+      "workload": "pistol",
+      "fps": 60,
+      "cpuP99MS": 1.7000000178813934,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.048576,
+          "p95": 1.6384,
+          "p99": 1.835008,
+          "max": 2.752512
+        },
+        "renderMS": {
+          "p50": 2.29376,
+          "p95": 2.94912,
+          "p99": 3.2768,
+          "max": 3.473408
+        }
+      },
+      "ticksPerSecond": 119.52917771883288,
+      "reads": {
+        "asynchronous collision sound event": 361,
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "chrome",
+      "workload": "spill",
+      "fps": 60.001000016607335,
+      "cpuP99MS": 1.5999999940395355,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.98304,
+          "p95": 1.507328,
+          "p99": 1.900544,
+          "max": 2.883584
+        },
+        "renderMS": {
+          "p50": 2.555904,
+          "p95": 3.2768,
+          "p99": 3.801088,
+          "max": 4.325376
+        }
+      },
+      "ticksPerSecond": 119.52917771883288,
+      "reads": {
+        "asynchronous collision sound event": 361,
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "chrome",
+      "workload": "drag",
+      "fps": 60.01300281709818,
+      "cpuP99MS": 1.5999999940395355,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.376256,
+          "p95": 2.359296,
+          "p99": 3.145728,
+          "max": 4.784128
+        },
+        "renderMS": {
+          "p50": 2.490368,
+          "p95": 2.883584,
+          "p99": 3.145728,
+          "max": 3.211264
+        }
+      },
+      "ticksPerSecond": 119.31629605044806,
+      "reads": {
+        "asynchronous collision sound event": 361,
+        "asynchronous GPU timing": 362,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "chrome",
+      "workload": "chaos",
+      "fps": 60.001000016607335,
+      "cpuP99MS": 1.5,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.441792,
+          "p95": 2.752512,
+          "p99": 3.473408,
+          "max": 4.653056
+        },
+        "renderMS": {
+          "p50": 3.014656,
+          "p95": 3.538944,
+          "p99": 3.866624,
+          "max": 4.390912
+        }
+      },
+      "ticksPerSecond": 119.35110081112398,
+      "reads": {
+        "asynchronous collision sound event": 361,
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "chrome",
+      "workload": "wall-contact",
+      "fps": 59.83420243330159,
+      "cpuP99MS": 1.7000000178813934,
+      "gpu": {
+        "computeMS": {
+          "p50": 2.752512,
+          "p95": 4.194304,
+          "p99": 4.718592,
+          "max": 4.9152
+        },
+        "renderMS": {
+          "p50": 1.769472,
+          "p95": 2.29376,
+          "p99": 2.490368,
+          "max": 2.94912
+        }
+      },
+      "ticksPerSecond": 119.42278984906287,
+      "reads": {
+        "asynchronous collision sound event": 359,
+        "asynchronous GPU timing": 360,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "chrome",
+      "workload": "head-impact",
+      "fps": 60.001000016607335,
+      "cpuP99MS": 1.699999988079071,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.048576,
+          "p95": 1.769472,
+          "p99": 2.359296,
+          "max": 3.080192
+        },
+        "renderMS": {
+          "p50": 2.162688,
+          "p95": 2.818048,
+          "p99": 3.080192,
+          "max": 3.407872
+        }
+      },
+      "ticksPerSecond": 119.94676426551322,
+      "reads": {
+        "asynchronous collision sound event": 361,
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "chrome",
+      "workload": "body-impact",
+      "fps": 60.001000016607335,
+      "cpuP99MS": 1.9000000059604645,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.98304,
+          "p95": 2.29376,
+          "p99": 2.686976,
+          "max": 3.342336
+        },
+        "renderMS": {
+          "p50": 2.162688,
+          "p95": 2.752512,
+          "p99": 2.94912,
+          "max": 3.2768
+        }
+      },
+      "ticksPerSecond": 119.88693049551047,
+      "reads": {
+        "asynchronous collision sound event": 361,
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "chrome",
+      "workload": "floor-squeegee",
+      "fps": 60.0013370772689,
+      "cpuP99MS": 1.800000011920929,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.114112,
+          "p95": 1.31072,
+          "p99": 1.769472,
+          "max": 2.031616
+        },
+        "renderMS": {
+          "p50": 2.097152,
+          "p95": 2.752512,
+          "p99": 3.080192,
+          "max": 3.538944
+        }
+      },
+      "ticksPerSecond": 119.09889017724035,
+      "reads": {
+        "asynchronous collision sound event": 360,
+        "asynchronous GPU timing": 360,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "idle",
+      "fps": 60.006648936170215,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.896928,
+          "p95": 1.454784,
+          "p99": 1.544384,
+          "max": 2.39024
+        },
+        "renderMS": {
+          "p50": 2.457504,
+          "p95": 2.911648,
+          "p99": 3.232384,
+          "max": 3.560128
+        }
+      },
+      "ticksPerSecond": 116.50016113438608,
+      "reads": {
+        "asynchronous collision sound event": 362,
+        "asynchronous GPU timing": 362,
+        "GPU telemetry snapshot": 25
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "pistol",
+      "fps": 60.01337345369441,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.004224,
+          "p95": 1.590432,
+          "p99": 1.678752,
+          "max": 1.785856
+        },
+        "renderMS": {
+          "p50": 2.270784,
+          "p95": 3.086784,
+          "p99": 3.525568,
+          "max": 3.650816
+        }
+      },
+      "ticksPerSecond": 115.85562359007412,
+      "reads": {
+        "asynchronous collision sound event": 360,
+        "asynchronous GPU timing": 360,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "spill",
+      "fps": 60,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.984128,
+          "p95": 1.624,
+          "p99": 1.808768,
+          "max": 2.53088
+        },
+        "renderMS": {
+          "p50": 2.536224,
+          "p95": 3.12832,
+          "p99": 3.565344,
+          "max": 3.684736
+        }
+      },
+      "ticksPerSecond": 117.52241238793806,
+      "reads": {
+        "asynchronous collision sound event": 361,
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "drag",
+      "fps": 59.99331550802139,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.421536,
+          "p95": 2.538784,
+          "p99": 3.080544,
+          "max": 5.018656
+        },
+        "renderMS": {
+          "p50": 2.466272,
+          "p95": 2.877632,
+          "p99": 3.044128,
+          "max": 3.198944
+        }
+      },
+      "ticksPerSecond": 116.12903225806451,
+      "reads": {
+        "asynchronous collision sound event": 360,
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "chaos",
+      "fps": 59.990001666388935,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.536736,
+          "p95": 2.864256,
+          "p99": 3.2048,
+          "max": 3.674496
+        },
+        "renderMS": {
+          "p50": 3.179296,
+          "p95": 3.728768,
+          "p99": 4.099072,
+          "max": 4.318816
+        }
+      },
+      "ticksPerSecond": 116.24537111576235,
+      "reads": {
+        "asynchronous collision sound event": 361,
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "wall-contact",
+      "fps": 59.833333333333336,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 3.166112,
+          "p95": 4.953856,
+          "p99": 5.255456,
+          "max": 5.951776
+        },
+        "renderMS": {
+          "p50": 2.05728,
+          "p95": 2.52672,
+          "p99": 2.741568,
+          "max": 2.880288
+        }
+      },
+      "ticksPerSecond": 116.69629869080329,
+      "reads": {
+        "asynchronous collision sound event": 360,
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "head-impact",
+      "fps": 60,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.989024,
+          "p95": 1.767328,
+          "p99": 2.676352,
+          "max": 3.625984
+        },
+        "renderMS": {
+          "p50": 2.177632,
+          "p95": 2.811168,
+          "p99": 3.100992,
+          "max": 3.213344
+        }
+      },
+      "ticksPerSecond": 120.0532091785833,
+      "reads": {
+        "asynchronous collision sound event": 361,
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "body-impact",
+      "fps": 59.990001666388935,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.062016,
+          "p95": 1.993568,
+          "p99": 2.748384,
+          "max": 3.610432
+        },
+        "renderMS": {
+          "p50": 2.192192,
+          "p95": 2.7136,
+          "p99": 3.009728,
+          "max": 3.304864
+        }
+      },
+      "ticksPerSecond": 120.04662004662005,
+      "reads": {
+        "asynchronous collision sound event": 361,
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "floor-squeegee",
+      "fps": 59.99331550802139,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.209536,
+          "p95": 1.914464,
+          "p99": 2.4936,
+          "max": 2.51776
+        },
+        "renderMS": {
+          "p50": 2.02656,
+          "p95": 2.66112,
+          "p99": 3.077664,
+          "max": 3.451008
+        }
+      },
+      "ticksPerSecond": 115.99806669888835,
+      "reads": {
+        "asynchronous collision sound event": 360,
+        "asynchronous GPU timing": 360,
+        "GPU telemetry snapshot": 24
+      }
+    }
+  ],
+  "checkCount": 224,
+  "media": {
+    "capture": "tools/out/momentum-pass/recordings/capture.json",
+    "builds": [
+      {
+        "label": "before",
+        "version": "0.30.0",
+        "sha256": "6ee5286fcd17a0a29a25b6c3cb0c253af07f0696d686bc80bd42d918863270c5"
+      },
+      {
+        "label": "after",
+        "version": "0.31.0",
+        "sha256": "abfe0ae5470fe80540d1f6b1ce79a30be4456935f8dd897fa4250800b2de4228"
+      }
+    ],
+    "audio": "before left, after right",
+    "cadence": "The first eight flick frames each advance two shipping 120 Hz physics ticks, presented at native rAF cadence; free flight then uses normal native frame timing.",
+    "clips": [
+      {
+        "label": "before",
+        "name": "torso",
+        "seconds": 5,
+        "steps": 600,
+        "flash": false,
+        "slide": 0,
+        "inputs": [
+          {
+            "tick": 0,
+            "frame": 1
+          },
+          {
+            "tick": 2,
+            "frame": 2
+          },
+          {
+            "tick": 4,
+            "frame": 3
+          },
+          {
+            "tick": 6,
+            "frame": 4
+          },
+          {
+            "tick": 8,
+            "frame": 5
+          },
+          {
+            "tick": 10,
+            "frame": 6
+          },
+          {
+            "tick": 12,
+            "frame": 7
+          },
+          {
+            "tick": 14,
+            "frame": 8
+          }
+        ],
+        "audio": {
+          "enabled": true,
+          "state": "running",
+          "thuds": 2,
+          "lastThud": {
+            "strength": 0.22417582417582418,
+            "body": 14,
+            "latency": 5.5999999940395355,
+            "frameID": 123
+          }
+        }
+      },
+      {
+        "label": "before",
+        "name": "head",
+        "seconds": 5,
+        "steps": 602,
+        "flash": false,
+        "slide": 0,
+        "inputs": [
+          {
+            "tick": 0,
+            "frame": 1
+          },
+          {
+            "tick": 2,
+            "frame": 2
+          },
+          {
+            "tick": 4,
+            "frame": 3
+          },
+          {
+            "tick": 6,
+            "frame": 4
+          },
+          {
+            "tick": 8,
+            "frame": 5
+          },
+          {
+            "tick": 10,
+            "frame": 6
+          },
+          {
+            "tick": 12,
+            "frame": 7
+          },
+          {
+            "tick": 14,
+            "frame": 8
+          }
+        ],
+        "audio": {
+          "enabled": true,
+          "state": "running",
+          "thuds": 6,
+          "lastThud": {
+            "strength": 0.2691086691086691,
+            "body": 8,
+            "latency": 4.9000000059604645,
+            "frameID": 437
+          }
+        }
+      },
+      {
+        "label": "before",
+        "name": "pistol",
+        "seconds": 3,
+        "steps": 302,
+        "flash": true,
+        "slide": 4.060400554365937e-24,
+        "inputs": [
+          {
+            "tick": 0,
+            "frame": 1
+          },
+          {
+            "tick": 2,
+            "frame": 2
+          },
+          {
+            "tick": 4,
+            "frame": 3
+          },
+          {
+            "tick": 6,
+            "frame": 4
+          },
+          {
+            "tick": 8,
+            "frame": 5
+          },
+          {
+            "tick": 10,
+            "frame": 6
+          },
+          {
+            "tick": 12,
+            "frame": 7
+          },
+          {
+            "tick": 14,
+            "frame": 8
+          }
+        ],
+        "audio": {
+          "enabled": true,
+          "state": "running",
+          "thuds": 25,
+          "lastThud": {
+            "strength": 0.13015873015873017,
+            "body": 62,
+            "latency": 5.199999988079071,
+            "frameID": 770
+          }
+        }
+      },
+      {
+        "label": "after",
+        "name": "torso",
+        "seconds": 5,
+        "steps": 601,
+        "flash": false,
+        "slide": 0,
+        "inputs": [
+          {
+            "tick": 0,
+            "frame": 1
+          },
+          {
+            "tick": 2,
+            "frame": 2
+          },
+          {
+            "tick": 4,
+            "frame": 3
+          },
+          {
+            "tick": 6,
+            "frame": 4
+          },
+          {
+            "tick": 8,
+            "frame": 5
+          },
+          {
+            "tick": 10,
+            "frame": 6
+          },
+          {
+            "tick": 12,
+            "frame": 7
+          },
+          {
+            "tick": 14,
+            "frame": 8
+          }
+        ],
+        "audio": {
+          "enabled": true,
+          "state": "running",
+          "thuds": 4,
+          "lastThud": {
+            "strength": 0.11037851037851037,
+            "body": 11,
+            "latency": 4.200000017881393,
+            "frameID": 132
+          }
+        }
+      },
+      {
+        "label": "after",
+        "name": "head",
+        "seconds": 5,
+        "steps": 494,
+        "flash": false,
+        "slide": 0,
+        "inputs": [
+          {
+            "tick": 0,
+            "frame": 1
+          },
+          {
+            "tick": 2,
+            "frame": 2
+          },
+          {
+            "tick": 4,
+            "frame": 3
+          },
+          {
+            "tick": 6,
+            "frame": 4
+          },
+          {
+            "tick": 8,
+            "frame": 5
+          },
+          {
+            "tick": 10,
+            "frame": 6
+          },
+          {
+            "tick": 12,
+            "frame": 7
+          },
+          {
+            "tick": 14,
+            "frame": 8
+          }
+        ],
+        "audio": {
+          "enabled": true,
+          "state": "running",
+          "thuds": 8,
+          "lastThud": {
+            "strength": 0.0735042735042735,
+            "body": 5,
+            "latency": 5.299999982118607,
+            "frameID": 511
+          }
+        }
+      },
+      {
+        "label": "after",
+        "name": "pistol",
+        "seconds": 3,
+        "steps": 299,
+        "flash": false,
+        "slide": 0,
+        "inputs": [
+          {
+            "tick": 0,
+            "frame": 1
+          },
+          {
+            "tick": 2,
+            "frame": 2
+          },
+          {
+            "tick": 4,
+            "frame": 3
+          },
+          {
+            "tick": 6,
+            "frame": 4
+          },
+          {
+            "tick": 8,
+            "frame": 5
+          },
+          {
+            "tick": 10,
+            "frame": 6
+          },
+          {
+            "tick": 12,
+            "frame": 7
+          },
+          {
+            "tick": 14,
+            "frame": 8
+          }
+        ],
+        "audio": {
+          "enabled": true,
+          "state": "running",
+          "thuds": 24,
+          "lastThud": {
+            "strength": 0.0673992673992674,
+            "body": 62,
+            "latency": 6.699999988079071,
+            "frameID": 660
+          }
+        }
+      }
+    ],
+    "files": [
+      {
+        "path": "tools/out/momentum-pass/recordings/before/momentum-before.mp4",
+        "bytes": 1923976,
+        "sha256": "287fcf00e53d51acac3e318105da94196674bd4ef72ad56b91dce99c30642c91",
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 960,
+            "r_frame_rate": "30/1"
+          },
+          {
+            "codec_name": "aac",
+            "channels": 2,
+            "r_frame_rate": "0/0"
+          }
+        ],
+        "format": {
+          "duration": "13.037500"
+        }
+      },
+      {
+        "path": "tools/out/momentum-pass/recordings/after/momentum-after.mp4",
+        "bytes": 1913660,
+        "sha256": "93222b64a8faee3a2b83e1f28798a69706e7deb70bcb89b1e327283b4a241d12",
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 960,
+            "r_frame_rate": "30/1"
+          },
+          {
+            "codec_name": "aac",
+            "channels": 2,
+            "r_frame_rate": "0/0"
+          }
+        ],
+        "format": {
+          "duration": "13.021167"
+        }
+      },
+      {
+        "path": "tools/out/momentum-pass/recordings/smear-v30-v31-momentum-and-pistol.mp4",
+        "bytes": 2283769,
+        "sha256": "3dbb7d73c0ca831644aeb8285161115c649ab3b243e609c37a39c10f9dc5479a",
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1920,
+            "height": 720,
+            "r_frame_rate": "30/1"
+          },
+          {
+            "codec_name": "aac",
+            "channels": 2,
+            "r_frame_rate": "0/0"
+          }
+        ],
+        "format": {
+          "duration": "13.066667"
+        }
+      }
+    ]
+  },
+  "sources": {
+    "gpu/handling.wgsl": "5f91cca469f5b48c4c284232356fa083f8794edf65784ff2f9118ea210d13288",
+    "gpu/compute.wgsl": "bc8c1cff0b15f171fe78cc222547444bc684a4b95a41144c9f502e249f121f79",
+    "gpu/film.wgsl": "a752f37f1d09d63ed27237d39ce1bcd1a22cbf8dcdbde75b977d4ac759a414c3",
+    "gpu/contact.wgsl": "ab1c043e3ab87c79634bd30593d8527195685b4982bd7a7e10b342e5270ec55e",
+    "gpu/runtime.js": "4a4a0eee9b565a8c0763538e67ceacccdc38c01d12686e5e2b7ce30e63181aea",
+    "tools/compute-build.mjs": "75343f544872c630aa4c0284971cbf8e1f8ff124a9a918426e7aea89b3ae787a",
+    "tools/momentum-fixture.mjs": "f3bc4f6bd890aeec2f1f177d63632cdc1d14a79ae21e6750c24fe9df9d871a46",
+    "tools/momentum-verify.mjs": "5b3b6e1ca9f8cdb135aae373dbda877119bb9a64ca0597c64e9f9d60daf30f67",
+    "tools/momentum-capture.mjs": "79b6a9d3f059548d06583cc2f26fba012d6ea77820b461d9d63df19e3b26c613"
+  },
+  "scope": [
+    "Free ragdoll velocities are limited around their mass-weighted mean with one common relative scale. This retains the existing 21 m/s per-part integration ceiling while preserving internal contraction momentum whenever the mean is below that ceiling. Higher rig speeds are still capped at 21 m/s. Held rigs and pose motors retain their previous integration limiter.",
+    "The shared limiter runs before integration and contacts. It does not restore velocities after collisions. The existing short release history, cancellation/obstruction/reversal guards, impact blood, thuds, floor smudging and wall liquid solvers remain.",
+    "Chaos, Reset, demo and tool changes clear pistol flash, recoil, trigger and cooldowns. Simulation-reset paths synchronize simTime and the accumulator. Add dummy does not rewind simulation time.",
+    "Tests reproduce multi-metre stretching, measure the subsequent 133 ms of free flight and later wall impact, exercise actual mouse picking/sweeps/mouseup, and verify pistol recovery after each reported transition in hardware Chrome and Firefox.",
+    "Comparison footage uses identical initialized clean rigs and eight matched flick targets, each advanced by two shipping 120 Hz physics ticks at native rAF cadence. Subsequent flight uses normal native frame timing and game audio. Recording and native 3000x1800 performance runs are separate. Body downloads in inspection fixtures are explicit; normal play still performs no body or pigment downloads.",
+    "This release fixes handling and weapon lifecycle. It does not revise the scene art or accepted paint-brush appearance."
+  ]
+}

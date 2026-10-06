@@ -5,6 +5,23 @@ fn throwVector(address:u32)->vec3f {
 }
 fn storeThrowVector(address:u32,value:vec3f){for(var k=0u;k<3u;k++){atomicStore(&work[address+k],bitcast<u32>(value[k]));}}
 fn clearThrowSamples(){for(var k=964u;k<996u;k++){atomicStore(&work[k],0u);}}
+// Clamp around the rig's centre of mass, using one scale for every relative
+// velocity. Independent part clamps destroy net momentum when stretched joints
+// generate equal-and-opposite contraction velocities. This keeps the same 21 m/s
+// per-part ceiling without letting internal corrections brake the whole rig.
+fn limitRigVelocity(){
+ var center=vec3f(0);var mass=0.0;var peak=0.0;
+ for(var k=0u;k<15u;k++){let b=localBodies[k];let m=1/max(b.p.w,.001);center+=b.v.xyz*m;mass+=m;peak=max(peak,length(b.v.xyz));}
+ if(peak<=21){return;}
+ center/=mass;let limited=bounded(center,21);var scale=1.0;
+ for(var k=0u;k<15u;k++){
+  let relative=localBodies[k].v.xyz-center;let a=dot(relative,relative);
+  if(a<1e-8){continue;}
+  let b=dot(limited,relative);let c=min(0.0,dot(limited,limited)-441);
+  scale=min(scale,max(0.0,(-b+sqrt(max(0.0,b*b-a*c)))/a));
+ }
+ for(var k=0u;k<15u;k++){localBodies[k].v=vec4f(limited+(localBodies[k].v.xyz-center)*scale,0);}
+}
 fn rememberThrow(base:u32){
  if(frame.local.w<.5||u32(frame.goal.w)/15u!=base/15u){return;}
  let serial=u32(frame.local.w);let now=frame.camera.w+1.0/120;
@@ -47,7 +64,9 @@ fn releaseThrow(){
  }
  if(speed<1.2||dot(current,best)<-speed*1.2){return;}
  let axis=safeNorm(best);let gain=max(0,speed-dot(current,axis));let boost=axis*min(gain,12.0);
- for(var k=0u;k<15u;k++){var b=bodies[base+k];b.v=vec4f(bounded(b.v.xyz+boost,21),0);bodies[base+k]=b;}
+ for(var k=0u;k<15u;k++){localBodies[k]=bodies[base+k];localBodies[k].v=vec4f(localBodies[k].v.xyz+boost,0);}
+ limitRigVelocity();
+ for(var k=0u;k<15u;k++){bodies[base+k].v=localBodies[k].v;}
  atomicAdd(&work[52],1u);
 }
 // A strongest-contact event per rig, independent of injuries or blood supply.

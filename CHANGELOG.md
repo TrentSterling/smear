@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.31.0 / V31 (momentum through contraction)
+
+- Preserve mass-weighted throw momentum while overstretched joints pull the dummy back together, using a shared relative-velocity scale within the existing 21 m/s ceiling. Real collisions still remove momentum.
+- Reset weapon flash, recoil, trigger and cooldown state on Chaos, Reset, demo and weapon changes, preventing a reset simulation clock from sticking the pistol in its firing state.
+- Add large-stretch head/torso throws, release-delay and genuine mouseup flight checks, weapon transition tests and matched V30/V31 MP4s.
+
 ## 0.30.0 / V30 (throws, thuds and floor squeegeeing)
 
 - Preserve recently achieved fling momentum across a short mouse-release delay, with stop, reversal, obstruction and cancellation guards.

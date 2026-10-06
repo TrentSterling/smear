@@ -2,7 +2,9 @@
 
 Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V30 / 0.30.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+**V31 / 0.31.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+
+V31 preserves whole-rig momentum as a stretched dummy contracts after release. A shared velocity limit replaces independent part clipping during free flight, retaining the existing 21 m/s ceiling. Real collisions still stop the throw. Chaos, Reset, demo and weapon changes clear transient pistol state so a rewound simulation clock cannot leave the muzzle flash stuck or firing locked out. `npm run verify:momentum` covers large stretches, delayed releases, real mouse throws and weapon lifecycle transitions; `npm run record:momentum` records the V30/V31 comparison. See `docs/qa/momentum-v31.json`.
 
 V30 keeps a short GPU history of achieved throw momentum, so a brief release delay does not kill a flick. Stops, reversals, blocked motion and cancelled grabs cannot reuse an old swing. Scroll up pushes a held dummy away; scroll down pulls it closer. GPU collision events now drive audible thuds independently of bleeding. Held floor contacts sweep finite liquid toward their leading edges, and Q/E rotation pushes gathered ridges outward. Existing Smudge strength and Carry distance affect this response. `npm run verify:handling` covers handling, measured audio and liquid transfer; `npm run record:handling` records the V29/V30 comparison with game audio. See `docs/qa/handling-v30.json`.
 

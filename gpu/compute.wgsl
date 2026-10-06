@@ -220,7 +220,10 @@ fn joint(base:u32,j:u32,angles:bool) {
   localBodies[1]=hip;
   for(var k=0u;k<15u;k++){localBodies[k].motor=hip.motor;localBodies[k].nav=hip.nav;localBodies[k].status.z=hip.status.z;}gaitTargets(base);
  }workgroupBarrier();
- if(lane<15u){var b=localBodies[lane];b.prevP=b.p;b.prevQ=b.q;if(b.status.x>.5){b=poseMotor(b,base+lane);b.v.y-=9.81*dt;b.v=vec4f(bounded(b.v.xyz*exp(-.075*dt),21),0);b.w=vec4f(bounded(b.w.xyz*exp(-.36*dt),26),0);b.p=vec4f(b.p.xyz+b.v.xyz*dt,b.p.w);b.q=rotateStep(b.q,b.w.xyz*dt);}localBodies[lane]=b;}workgroupBarrier();
+ let heldRig=frame.local.w>.5&&u32(frame.goal.w)/15u==group.x;
+ if(lane<15u){var b=localBodies[lane];b.prevP=b.p;b.prevQ=b.q;if(b.status.x>.5){b=poseMotor(b,base+lane);b.v.y-=9.81*dt;b.v=vec4f(b.v.xyz*exp(-.075*dt),0);if(heldRig||b.motor.w>=.5){b.v=vec4f(bounded(b.v.xyz,21),0);}b.w=vec4f(bounded(b.w.xyz*exp(-.36*dt),26),0);}localBodies[lane]=b;}workgroupBarrier();
+ if(lane==0u&&!heldRig&&localBodies[1].motor.w<.5){limitRigVelocity();}workgroupBarrier();
+ if(lane<15u){var b=localBodies[lane];if(b.status.x>.5){b.p=vec4f(b.p.xyz+b.v.xyz*dt,b.p.w);b.q=rotateStep(b.q,b.w.xyz*dt);}localBodies[lane]=b;}workgroupBarrier();
  for(var it=0u;it<9u;it++){
   if(lane==0u){for(var j=group.x*14u;j<(group.x+1u)*14u;j++){joint(base,j,(it&1u)==0u);}
    if(frame.local.w>.5&&u32(frame.goal.w)/15u==group.x){let i=u32(frame.goal.w)%15u;let b=localBodies[i];let r=rotate(b.q,frame.local.xyz);let error=frame.goal.xyz-(b.p.xyz+r);let d=length(error);if(d>1e-7){let n=error/d;correct(i,n,min(d,.15)*.86/(eff(b,r,n)+.00008/max(frame.tune.x,.05)),r);}let flags=u32(frame.settings.w);if((flags&12u)!=0u){localBodies[i].q=rotateStep(localBodies[i].q,vec3f(0,select(-.008,.008,(flags&8u)!=0u),0));}}
