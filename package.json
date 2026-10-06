@@ -1,6 +1,6 @@
 {
   "name": "smear",
-  "version": "0.24.0",
+  "version": "0.25.0",
   "private": true,
   "description": "An offline WebGPU compute ragdoll and persistent paint playground.",
   "type": "module",

@@ -1,0 +1,18 @@
+{
+  "version": "0.25.0",
+  "status": "local cumulative checkpoint",
+  "buildSHA256": "f950cb79f9362af6dd41256804d91e33e762b525a3ee4cebc0a95cafa725e5e2",
+  "checks": 24,
+  "receipts": [
+    "liquid-evolution/round-v25b-character",
+    "wall-pass/round-v25c",
+    "wet-pass/round-v25c",
+    "brush-flow-pass/round-v25c"
+  ],
+  "scope": [
+    "Shared anatomical bristle coordinates for pigment and film",
+    "Finger channels, forearm grooves and sole bands",
+    "Velocity-biased wall impact fans"
+  ],
+  "testChange": "Anatomical pigment tracks deliberately change floor coverage by 4.5% in the matched fixture. Floor liquid remains within its original 3% gate; pigment alpha and painted area must remain within 10%."
+}

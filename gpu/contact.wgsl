@@ -54,16 +54,20 @@ fn poolDeposit(rec:u32,p:vec3f,radius:vec2f,angle:f32,amount:f32,seed:u32){
  contactSweep(rec,p,p,radius,radius,angle,angle,amount,4,seed,0);
  let r=record(rec);for(var j=0u;j<9u;j++){let offset=patchOffset(radius,angle,vec2f(f32(j%3u)-1,f32(j/3u)-1)*.6);let point=p+r.u.xyz*offset.x+r.v.xyz*offset.y;addWet(planeWetCell(rec,point),u32(amount*.08*65536));}
 }
-fn wallSplat(foot:Footprint,coat:f32,speed:f32,seed:u32)->f32 {
+fn wallSplat(foot:Footprint,coat:f32,speed:f32,seed:u32,velocity:vec3f)->f32 {
  let energy=smoothstep(1.2,9.0,speed);let spent=coat*(.18+.22*energy);
- let size=clamp(foot.radius*(1.5+energy),vec2f(.065),vec2f(.52));let rec=u32(foot.receiver);let r=record(rec);
+ let rec=u32(foot.receiver);let r=record(rec);let tangent=vec2f(dot(velocity,r.u.xyz),dot(velocity,r.v.xyz));
+ let slip=smoothstep(.5,8.0,length(tangent));let direction=tangent/max(length(tangent),.0001);
+ let angle=foot.angle+angleDelta(atan2(direction.y,direction.x),foot.angle)*slip;
+ let size=clamp(foot.radius*(1.5+energy)*vec2f(1+slip*.45,1-slip*.18),vec2f(.065),vec2f(.58));
+ let center=foot.p+(r.u.xyz*direction.x+r.v.xyz*direction.y)*slip*.09;
  let strength=min(.96,spent*4.5)*frame.tune.y;
- contactStamp(rec,foot.p,foot.p,size,size,foot.angle,foot.angle,strength,6,seed,spent*.02);
+ contactStamp(rec,center,center,size,size,angle,angle,strength,6,seed,spent*.02);
  // The broad contact print and radial flecks remain in the pigment layer after
  // excess liquid drains. Flecks share the same coating expenditure.
  for(var i=0u;i<8u;i++){
-  let h=seed+i*197u;let angle=f32(i)*.785398+hash(h)*.55;let offset=patchOffset(size,foot.angle,vec2f(cos(angle),sin(angle))*(1.1+hash(h+1u)*(.6+energy)));
-  splatKind(rec,foot.p+r.u.xyz*offset.x+r.v.xyz*offset.y,.018+hash(h+2u)*(.025+energy*.032),strength*(.55+hash(h+3u)*.4),h,5);
+  let h=seed+i*197u;let fan=mix(f32(i)*.785398+hash(h)*.55,(hash(h)-.5)*2.3,slip);let offset=patchOffset(size,angle,vec2f(cos(fan),sin(fan))*(1.1+hash(h+1u)*(.6+energy+slip*.6)));
+  splatKind(rec,center+r.u.xyz*offset.x+r.v.xyz*offset.y,.018+hash(h+2u)*(.025+energy*.032),strength*(.55+hash(h+3u)*.4),h,5);
  }
  atomicAdd(&work[29],1u);return spent;
 }
@@ -140,7 +144,7 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
  var previous=b.track.xyz;var oldAngle=contactFloat(mem);var oldRadius=vec2f(contactFloat(mem+1u),contactFloat(mem+2u));var travelled=contactFloat(mem+3u);
  let wall=abs(r.n.y)<.65;let before=bodies[index];let incoming=max(0,-dot(before.v.xyz+cross(before.w.xyz,foot.p-before.p.xyz),r.n.xyz));
  if(wall&&impactClock<=0&&frame.tune.y>.001&&incoming>1.4&&b.coat.x>.10){
-  b.coat.x-=wallSplat(foot,b.coat.x,incoming,seed+atomicLoad(&work[5])*31u);atomicStore(&work[mem+7u],bitcast<u32>(.28));
+  b.coat.x-=wallSplat(foot,b.coat.x,incoming,seed+atomicLoad(&work[5])*31u,before.v.xyz+cross(before.w.xyz,foot.p-before.p.xyz));atomicStore(&work[mem+7u],bitcast<u32>(.28));
  }
  if(!connected){previous=foot.p;oldAngle=foot.angle;oldRadius=radius;travelled=0;atomicStore(&work[mem+5u],0u);atomicStore(&work[mem+6u],0u);if(!wall&&b.coat.x>.18){let amount=b.coat.x*.055;poolDeposit(rec,foot.p,radius*.7,foot.angle,amount,seed);b.coat.x-=amount*.80;}}
  let da=angleDelta(foot.angle,oldAngle);let angle=oldAngle+da;let movement=distance(foot.p,previous)+abs(da)*max(radius.x,radius.y);
@@ -183,8 +187,7 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
   // wets the hairs; squeezed excess collects at the lower contact edge.
   // Every weight sums to one, independent of coverage, frame rate or footprint.
   for(var j=0u;j<54u;j++){
-   let h=hash(seed*113u+j*977u);let h2=hash(seed*337u+j*199u);
-   let material=vec2f(cos(h*6.283185),sin(h*6.283185))*sqrt(h2)*.98;
+   let material=brushMaterial(seed,j);
    let offset=patchOffset(radius,foot.angle,material);let point=foot.p+r.u.xyz*offset.x+r.v.xyz*offset.y;
    let volume=spent*.02*.85*(.5/54.0);
    returnFilm(rec,point,volume);

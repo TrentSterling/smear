@@ -285,11 +285,11 @@ fn coverage(s:Stamp,point:vec2f)->vec4f {
    let h=hash(seed*113u+j*977u);let h2=hash(seed*337u+j*199u);let h3=hash(seed*41u+j*57u);let h4=hash(seed*617u+j*521u);let h5=hash(seed*181u+j*881u);
    let breakup=.5+.5*sin(travel*(29+h*28)+f32(j)*2.3+f32(seed)*.7);
    if((s.b.w<.24&&breakup>s.b.w*2.8+.08)||h4<.10+max(0,.16-s.b.w*.08)){continue;}
-   let rr=sqrt(h2)*.98;let fringe=1-rr*.68;let material=vec2f(cos(h*6.283185),sin(h*6.283185))*rr;
+   let material=brushMaterial(seed,j);let rr=length(material);let fringe=1-min(.98,rr)*.68;
    let a=s.a.xy+patchOffset(previousSize,s.color.x,material)/r.size.xy;let b=s.b.xy+patchOffset(size,s.b.z,material)/r.size.xy;
    let direction=(b-a)*r.size.xy;let relative=(p-a)*r.size.xy;let t=clamp(dot(relative,direction)/max(dot(direction,direction),1e-8),0,1);let distance=length(relative-direction*t);
-   let core=j==0u||j==7u||j==21u||j==33u;let avgRadius=dot(size+previousSize,vec2f(.25));
-   let width=select(clamp(avgRadius*(.055+h3*.20)*fringe,.0025,.040),clamp(avgRadius*(.33+h3*.42)*1.05*(.62+.42*pow(sin(travel*(15+h5*6)+f32(j)),2)),.010,.12),core)*.5;
+   let part=(seed/731u)%15u;let core=(j==0u||j==7u||j==21u||j==33u)&&part!=5u&&part!=11u;let avgRadius=dot(size+previousSize,vec2f(.25));
+   let width=select(clamp(avgRadius*(.055+h3*.20)*fringe,.0025,.040),clamp(avgRadius*(.33+h3*.42)*1.05*(.62+.42*pow(sin(travel*(15+h5*6)+f32(j)),2)),.010,.12),core)*.5*select(1.0,.55,part==4u||part==10u);
    let aa=.65*r.size.x/r.size.z;let strength=clamp(select(.10+h3*.26,.68+h3*.24,core)*s.b.w*fringe*(.42+breakup*.72),.006,.96);
    let cov=(1-smoothstep(max(0,width-aa),width+aa,distance))*strength;
    let bristleColor=vec3f((76+floor(h*50))/255,(3+floor(h2*6))/255,(9+floor(h3*8))/255);
