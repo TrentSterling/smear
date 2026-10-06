@@ -2,7 +2,9 @@
 
 Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V17 / 0.17.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+**V18 / 0.18.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+
+V18 gives wet wall impacts a broad body-shaped print with irregular edges and scattered flecks. The splat remains while excess liquid drains more slowly; floor pools retain their existing response. Impact strength uses incoming body motion, consumes coating and has a short cooldown. `npm run verify:wall` checks matched wall and floor impacts; `npm run record:wall` creates the V17/V18 comparison.
 
 V17 adds visible surface gravity and momentum: blood runs down walls and ramps, drips off raised edges, and collects on the floor. Wet dummies pick up pools more readily and push a broader trail while dragging. Wound droplets inherit body and rotational motion, and fast-moving coated limbs fling finite droplets. Surface flow, pickup, runoff and flight remain GPU driven. `npm run verify:gravity` checks these cases; `npm run record:gravity` records matched V16/V17 wall flow, edge runoff, pool dragging and flinging.
 

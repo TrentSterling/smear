@@ -36,7 +36,8 @@ fn filmVelocity(address:u32)->vec2f {return vec2f(bitcast<f32>(atomicLoad(&wet[f
  let r=record(filmRecordID);let dims=filmDimensions(r);let local=(group.x-u32(r.extra.w))*256u+lane;if(local>=dims.x*dims.y){return;}
  let address=u32(r.extra.z)+local;let mass=filmRead(1u,address);let dt=frame.settings.y;var velocity=filmVelocity(address);
  // Viscous drag permits visible acceleration and leaves thin residue pinned.
- let mobile=smoothstep(.004,.035,mass);let drag=mix(26.0,7.0,smoothstep(.02,.35,mass));let decay=exp(-drag*dt);
+ let wall=1-smoothstep(.2,.65,abs(r.n.y));
+ let mobile=smoothstep(.004,.035,mass);let drag=mix(26.0,7.0,smoothstep(.02,.35,mass))*(1+wall*5);let decay=exp(-drag*dt);
  velocity=velocity*decay-vec2f(r.u.y,r.v.y)*9.81*(1-decay)/drag*mobile;
  let contact=filmPush(address);if(dot(contact,contact)>1e-6){velocity=mix(velocity,contact,1-exp(-38*dt));}
  velocity*=mobile;velocity*=min(1.0,2.5/max(length(velocity),1e-6));

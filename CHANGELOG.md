@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.18.0 / V18 (wall splats and slower drips)
+
+- Wet wall contact now leaves a broad, persistent impact print and radial splatter, scaled by incoming contact-point speed and debited from coating. A short cooldown prevents repeated splats while pressing against a wall.
+- Reduced the mobile fraction of wall contact deposits and increased near-vertical viscosity. The adhered print stays readable while excess liquid drains. Coarse wetness rivulets add pigment without creating more liquid.
+- Kept floor pooling, pool dragging, airborne gravity and GPU storage unchanged. Added matched wall/floor impact checks and V17/V18 review MP4s.
+
 ## 0.17.0 / V17 (gravity, runoff and pool dragging)
 
 - Added persistent surface velocity with tangential gravity, viscous drag and bounded film substeps. Wall and ramp blood now drains visibly; runoff crosses elevated edges as ballistic droplets and reaches the floor. Carried runoff volume deposits once, and a full particle pool retains pending liquid.
