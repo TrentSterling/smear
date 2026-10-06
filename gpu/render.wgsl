@@ -75,11 +75,18 @@ fn fresnel(f0:vec3f,cosine:f32)->vec3f {return f0+(1-f0)*pow(1-clamp(cosine,0,1)
 fn light(albedo:vec3f,n:vec3f,v:vec3f,l:vec3f,rough:f32,metal:f32,radiance:vec3f)->vec3f {
  let nl=max(dot(n,l),0);let nv=max(dot(n,v),.001);let h=safeNorm(v+l);let nh=max(dot(n,h),0);let vh=max(dot(v,h),0);let a=max(.025,rough*rough);let a2=a*a;let denominator=nh*nh*(a2-1)+1;let d=a2/(3.14159265*denominator*denominator);let k=(rough+1)*(rough+1)/8;let g=nl/(nl*(1-k)+k)*nv/(nv*(1-k)+k);let f=fresnel(mix(vec3f(.04),albedo,metal),vh);return ((1-f)*(1-metal)*albedo/3.14159265+d*g*f/max(4*nl*nv,.001))*radiance*nl;
 }
-fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewTool:bool)->vec4f {
+fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewTool:bool,wetCoat:f32)->vec4f {
  var color=albedo;if(!basic){let view=safeNorm(frame.camera.xyz-world);let sun=safeNorm(vec3f(-5,9,5));let reflected=reflect(-view,n);let sky=mix(vec3f(.08,.17,.19),vec3f(.42,.65,.68),clamp(reflected.y*.5+.5,0,1));let hemi=mix(vec3f(.24,.30,.29),vec3f(.64,.78,.79),n.y*.5+.5);
   var shadowing=1.0;if(!viewTool){shadowing=visibility(world+n*.014);}
   color=albedo*hemi*.48+light(albedo,n,view,sun,rough,metal,vec3f(3.5,2.95,2.15))*shadowing+light(albedo,n,view,safeNorm(vec3f(4,5,-5)),rough,metal,vec3f(.70,1.30,1.45));
   color+=sky*fresnel(mix(vec3f(.04),albedo,metal),max(dot(n,view),0))*(1-rough*.5)*.8;
+  // Broad laboratory lights reflect in the actual liquid normal. Highlights
+  // move with the camera and bead slopes, never with an animated paint mask.
+  if(wetCoat>.001){
+   let ceiling=safeNorm(vec3f(-2.5,5.5,-2)-world);let fill=safeNorm(vec3f(4,4.5,-6)-world);
+   let highlight=pow(max(0,dot(reflected,ceiling)),mix(18.0,130.0,1-rough))+.55*pow(max(0,dot(reflected,fill)),mix(12.0,90.0,1-rough));
+   color+=vec3f(.85,.93,.86)*highlight*wetCoat*.65;
+  }
  }
  color*=.92;color=clamp((color*(2.51*color+.03))/(color*(2.43*color+.59)+.14),vec3f(0),vec3f(1));return vec4f(pow(color,vec3f(1.0/2.2)),1);
 }
@@ -122,7 +129,11 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
  if(object.params.x>=0&&(object.flags.w==0||object.flags.w==5)){let id=u32(object.params.x)+select(0u,u32(v.uv.y+.5),object.flags.w==5);let b=bodies[id];stain=paintAt(header(0).z+id,skinUV(v.local,v.localNormal,b.half.xyz));fresh=min(b.coat.x,1);}
  else if(object.params.x<0&&object.params.y>=0){
   let r=record(u32(object.params.y));let d=v.world-r.center.xyz;let metres=vec2f(dot(d,r.u.xyz),dot(d,r.v.xyz));let surfaceUV=metres/r.size.xy+.5;
-  stain=paintAt(u32(object.params.y),surfaceUV);liquid=filmAt(u32(object.params.y),surfaceUV);liquidNormal=safeNorm(v.normal-(r.u.xyz*liquid.z+r.v.xyz*liquid.w)*.0015);let cell=vec2u(clamp(surfaceUV*56,vec2f(0),vec2f(55)));fresh=1-exp(-f32(wet[u32(r.extra.y)+cell.x+cell.y*56u])/65536.0*3.5);
+  stain=paintAt(u32(object.params.y),surfaceUV);liquid=filmAt(u32(object.params.y),surfaceUV);
+  let relief=.002+.004*smoothstep(.04,.45,liquid.x);let slope=liquid.zw*min(1.0,45.0/max(length(liquid.zw),.001));
+  liquidNormal=safeNorm(v.normal-(r.u.xyz*slope.x+r.v.xyz*slope.y)*relief);
+  // Coarse pigment mobility must not keep an empty, dried patch glossy.
+  fresh=smoothstep(.003,.10,liquid.x);
   let aa=max(abs(vec2f(dot(worldDx,r.u.xyz),dot(worldDx,r.v.xyz)))+abs(vec2f(dot(worldDy,r.u.xyz),dot(worldDy,r.v.xyz))),vec2f(.0005));
   let grain=vec2u(vec2i(floor((metres+r.size.xy*.5)*160)));let finish=(hash(grain.x+grain.y*1973u)-.5)*.026;
   color*=1+finish/(1+max(aa.x,aa.y)*160);
@@ -145,11 +156,11 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
  // airbrush halo produced by mapping thickness directly to broad transparency.
  let wallFilm=object.params.x<0&&object.params.y>=16&&abs(v.normal.y)<.65;
  let mobileAlpha=smoothstep(select(.006,.018,wallFilm),select(.027,.12,wallFilm),liquid.x)*.98;let residueAlpha=smoothstep(.003,.022,liquid.y);
- let residue=vec4f(.29,.016,.027,residueAlpha*.85);stain=over(stain,residue);
+ let residue=vec4f(.24,.012,.025,residueAlpha*.85*mix(.25,1.0,smoothstep(.025,.60,stain.a)));stain=over(stain,residue);
  let liquidColor=mix(vec3f(.43,.021,.037),vec3f(.19,.005,.014),1-exp(-liquid.x*1.4));stain=over(stain,vec4f(liquidColor,mobileAlpha));fresh=max(fresh,smoothstep(.002,.05,liquid.x));
- color=mix(color,pow(stain.rgb,vec3f(2.2))*mix(vec3f(.66,.65,.58),vec3f(1.05,1,1),fresh),stain.a);rough=mix(rough,mix(.85,.21,fresh),smoothstep(.07,.86,stain.a));rough=mix(rough,.12,mobileAlpha);let out=shade(v.world,normalize(mix(v.normal,liquidNormal,mobileAlpha)),color,rough,metal,basic,object.flags.w==7);return vec4f(out.rgb,alpha);
+ color=mix(color,pow(stain.rgb,vec3f(2.2))*mix(vec3f(.66,.65,.58),vec3f(1.05,1,1),fresh),stain.a);rough=mix(rough,mix(.91,.24,fresh),smoothstep(.07,.86,stain.a));rough=mix(rough,mix(.19,.095,smoothstep(.04,.45,liquid.x)),mobileAlpha);let out=shade(v.world,normalize(mix(v.normal,liquidNormal,mobileAlpha)),color,rough,metal,basic,object.flags.w==7,max(mobileAlpha,fresh*stain.a*.6));return vec4f(out.rgb,alpha);
 }
 @vertex fn particleVertex(v:Input,@builtin(instance_index) i:u32)->Output {
  let p=particles[i];if(work[64u+i]==0u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,v.p,v.n,0u);}let up=safeNorm(p.v.xyz);let x=safeNorm(cross(up,select(vec3f(0,1,0),vec3f(1,0,0),abs(up.y)>.95)));let z=cross(x,up);let scale=vec3f(p.p.w,p.p.w*clamp(1+length(p.v.xyz)*.21,1,2.7),p.p.w);let local=v.p*scale;let world=p.p.xyz+x*local.x+up*local.y+z*local.z;let n=safeNorm(x*v.n.x+up*v.n.y+z*v.n.z);return Output(frame.vp*vec4f(world,1),world,n,v.uv,v.p,v.n,0u);
 }
-@fragment fn particleFragment(v:Output)->@location(0) vec4f {return shade(v.world,v.normal,vec3f(.14,.002,.007),.28,0,false,false);}
+@fragment fn particleFragment(v:Output)->@location(0) vec4f {return shade(v.world,v.normal,vec3f(.14,.002,.007),.22,0,false,false,1);}

@@ -1,0 +1,2162 @@
+{
+  "version": "0.26.0",
+  "status": "verified cumulative release candidate",
+  "verifiedAt": "2026-10-06T11:11:23.782Z",
+  "buildSHA256": "48d7a0392f6c2343df9effe81ea77aec178c41961a9d076cf443eda84cbef187",
+  "buildBytes": 968173,
+  "checks": {
+    "chrome-evolution": [
+      "Pressure moves existing liquid out of the contact center into its perimeter",
+      "Spinning wet contact emits tangential ballistic droplets carrying finite liquid",
+      "Squeeze and spray conserve combined film, residue, coating and particle volume within six percent",
+      "Dry contact emits nothing and a full particle pool retains un-emitted coating"
+    ],
+    "chrome-joining": [
+      "Two separate wall heads meet through a connected liquid neck while conserving supply",
+      "Rewetting a retained trail releases liquid sooner without returning to sheet-speed drainage",
+      "An unwounded clean contact picks up a finite pool and deposits it on a separate dry wall patch",
+      "A ballistic drop caught by the dummy becomes coating without losing or multiplying its volume"
+    ],
+    "chrome-character": [
+      "Shared bristle material coordinates produce finger channels, narrow forearm strokes and distinct sole tread",
+      "Opposite tangential impacts produce oppositely directed splat fans with comparable pigment supply"
+    ],
+    "chrome-finish": [
+      "Changing liquid to dry residue preserves the exact brushed pigment and total material",
+      "Hardware rendering distinguishes fresh liquid from the same dried smear without shader errors"
+    ],
+    "chrome-brush": [
+      "Normal surface-point grab produces a wet wall smear with connected finite GPU physics",
+      "The same broad wet contact starts draining within three seconds without sheet-speed translation",
+      "Drainage continues over fifteen seconds and carries liquid below the contact patch",
+      "The brushed stain remains while finite liquid drains and dries"
+    ],
+    "chrome-contact": [
+      "Uncoated unwounded real dummy creates no wall paint through eight seconds of dragging",
+      "Default press produces a broad connected wet wall patch in two contact seconds",
+      "Default drag produces a broad connected wet wall patch in two contact seconds",
+      "Default block produces a broad connected wet wall patch in two contact seconds",
+      "Actual grab physics remain finite, connected and within paint event capacity"
+    ],
+    "chrome-wall": [
+      "Actual articulated GPU wall impact leaves paint with finite joints and no lost events",
+      "Wall slam creates a broad opaque print and radial splatter instead of a small contact dab",
+      "The impact silhouette stays on the wall after 3 and 15 seconds of drainage",
+      "Retained splat still contains wet liquid that gradually drains or dries",
+      "Wall-slam liquid moves visibly within three seconds while retaining the broad pigment print",
+      "The matched floor impact retains liquid within 3% and anatomical brush coverage within 10%",
+      "An uncoated unwounded body does not manufacture a wet wall splat"
+    ],
+    "chrome-wet": [
+      "Dry pigment remains unchanged under a clean moving contact",
+      "Wet contact redistributes existing colored pigment with fresh deposition disabled",
+      "Pigment crosses a floor-record seam without a gap or duplicated supply",
+      "Rotation around a stationary footprint produces curved material smears",
+      "Resting wet wounds grow a cohesive pool over six seconds",
+      "Lift and recontact break the stroke without bridging airborne travel",
+      "A saturated coating leaves a finite puddle without an active wound and consumes wet supply",
+      "Slow wall brushing leaves bristle strokes without firing impact splats",
+      "Body contact also smears on a vertical wall without leaking onto the floor",
+      "Ten seconds of closed-supply wall dragging cannot create more liquid than the original coating",
+      "Live articulated dummy drag stays finite, connected and within paint event capacity"
+    ],
+    "chrome-film": [
+      "Finite isolated pools spread and level after deposition stops, conserving mobile plus dried mass",
+      "Adjacent pools merge across a floor-record seam",
+      "30 Hz and 60 Hz submissions produce comparable spreading and supply",
+      "Clean dummy picks up and redistributes existing liquid with fresh deposition disabled",
+      "Drying transfers mobile liquid into persistent residue instead of deleting blood",
+      "Liquid visibly accelerates downhill while retaining supply across receivers and runoff droplets",
+      "Clean clears both mobile pools and settled residue",
+      "A finite wall pool runs down and supplies the floor without continued painting",
+      "Blood detaches from elevated edges, falls ballistically, and lands with finite carried volume",
+      "A full 900-drop pool retains un-emitted runoff on its receiver",
+      "Real wound droplets inherit body momentum and follow a gravity-curved flight",
+      "Fast-moving coated bodies fling finite droplets without creating wounds",
+      "Live GPU ragdoll dragging remains finite with no dropped paint events"
+    ],
+    "chrome-rivulets": [
+      "Wall wetting fixtures run on hardware GPU with finite state and no lost events",
+      "Small deposits cling while a heavier bead visibly moves under gravity",
+      "A finite broad patch develops uneven runoff while retaining its attached mass",
+      "Wall breakup retains source residue and conserves finite liquid plus dried mass",
+      "A broad deposit splits into multiple separated rivulets below its source",
+      "Wall pinning and rivulet breakup agree at 30 Hz and 60 Hz submission cadence",
+      "Contact shear releases attached wall liquid without manufacturing supply"
+    ],
+    "chrome-gameplay": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "chrome-native": [
+      "Native pistol hits and spawns GPU particles",
+      "Native Spill paints walls; GPU gravity drips extend paint",
+      "Native grabbing resolves from GPU body poses",
+      "Native drag creates persistent floor smears",
+      "GPU wash clears all 150 body coatings and pigment",
+      "GPU heal restores reserves and clears airborne drops",
+      "Finite long GPU simulation and recovery"
+    ],
+    "chrome-wallNative": [
+      "Sustained native wall contact remains above 55 FPS with GPU simulation and no body or pigment readbacks"
+    ],
+    "firefox-evolution": [
+      "Pressure moves existing liquid out of the contact center into its perimeter",
+      "Spinning wet contact emits tangential ballistic droplets carrying finite liquid",
+      "Squeeze and spray conserve combined film, residue, coating and particle volume within six percent",
+      "Dry contact emits nothing and a full particle pool retains un-emitted coating"
+    ],
+    "firefox-joining": [
+      "Two separate wall heads meet through a connected liquid neck while conserving supply",
+      "Rewetting a retained trail releases liquid sooner without returning to sheet-speed drainage",
+      "An unwounded clean contact picks up a finite pool and deposits it on a separate dry wall patch",
+      "A ballistic drop caught by the dummy becomes coating without losing or multiplying its volume"
+    ],
+    "firefox-character": [
+      "Shared bristle material coordinates produce finger channels, narrow forearm strokes and distinct sole tread",
+      "Opposite tangential impacts produce oppositely directed splat fans with comparable pigment supply"
+    ],
+    "firefox-finish": [
+      "Changing liquid to dry residue preserves the exact brushed pigment and total material",
+      "Hardware rendering distinguishes fresh liquid from the same dried smear without shader errors"
+    ],
+    "firefox-brush": [
+      "Normal surface-point grab produces a wet wall smear with connected finite GPU physics",
+      "The same broad wet contact starts draining within three seconds without sheet-speed translation",
+      "Drainage continues over fifteen seconds and carries liquid below the contact patch",
+      "The brushed stain remains while finite liquid drains and dries"
+    ],
+    "firefox-contact": [
+      "Uncoated unwounded real dummy creates no wall paint through eight seconds of dragging",
+      "Default press produces a broad connected wet wall patch in two contact seconds",
+      "Default drag produces a broad connected wet wall patch in two contact seconds",
+      "Default block produces a broad connected wet wall patch in two contact seconds",
+      "Actual grab physics remain finite, connected and within paint event capacity"
+    ],
+    "firefox-wall": [
+      "Actual articulated GPU wall impact leaves paint with finite joints and no lost events",
+      "Wall slam creates a broad opaque print and radial splatter instead of a small contact dab",
+      "The impact silhouette stays on the wall after 3 and 15 seconds of drainage",
+      "Retained splat still contains wet liquid that gradually drains or dries",
+      "Wall-slam liquid moves visibly within three seconds while retaining the broad pigment print",
+      "The matched floor impact retains liquid within 3% and anatomical brush coverage within 10%",
+      "An uncoated unwounded body does not manufacture a wet wall splat"
+    ],
+    "firefox-wet": [
+      "Dry pigment remains unchanged under a clean moving contact",
+      "Wet contact redistributes existing colored pigment with fresh deposition disabled",
+      "Pigment crosses a floor-record seam without a gap or duplicated supply",
+      "Rotation around a stationary footprint produces curved material smears",
+      "Resting wet wounds grow a cohesive pool over six seconds",
+      "Lift and recontact break the stroke without bridging airborne travel",
+      "A saturated coating leaves a finite puddle without an active wound and consumes wet supply",
+      "Slow wall brushing leaves bristle strokes without firing impact splats",
+      "Body contact also smears on a vertical wall without leaking onto the floor",
+      "Ten seconds of closed-supply wall dragging cannot create more liquid than the original coating",
+      "Live articulated dummy drag stays finite, connected and within paint event capacity"
+    ],
+    "firefox-film": [
+      "Finite isolated pools spread and level after deposition stops, conserving mobile plus dried mass",
+      "Adjacent pools merge across a floor-record seam",
+      "30 Hz and 60 Hz submissions produce comparable spreading and supply",
+      "Clean dummy picks up and redistributes existing liquid with fresh deposition disabled",
+      "Drying transfers mobile liquid into persistent residue instead of deleting blood",
+      "Liquid visibly accelerates downhill while retaining supply across receivers and runoff droplets",
+      "Clean clears both mobile pools and settled residue",
+      "A finite wall pool runs down and supplies the floor without continued painting",
+      "Blood detaches from elevated edges, falls ballistically, and lands with finite carried volume",
+      "A full 900-drop pool retains un-emitted runoff on its receiver",
+      "Real wound droplets inherit body momentum and follow a gravity-curved flight",
+      "Fast-moving coated bodies fling finite droplets without creating wounds",
+      "Live GPU ragdoll dragging remains finite with no dropped paint events"
+    ],
+    "firefox-rivulets": [
+      "Wall wetting fixtures run on hardware GPU with finite state and no lost events",
+      "Small deposits cling while a heavier bead visibly moves under gravity",
+      "A finite broad patch develops uneven runoff while retaining its attached mass",
+      "Wall breakup retains source residue and conserves finite liquid plus dried mass",
+      "A broad deposit splits into multiple separated rivulets below its source",
+      "Wall pinning and rivulet breakup agree at 30 Hz and 60 Hz submission cadence",
+      "Contact shear releases attached wall liquid without manufacturing supply"
+    ],
+    "firefox-gameplay": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "firefox-native": [
+      "Native pistol hits and spawns GPU particles",
+      "Native Spill paints walls; GPU gravity drips extend paint",
+      "Native grabbing resolves from GPU body poses",
+      "Native drag creates persistent floor smears",
+      "GPU wash clears all 150 body coatings and pigment",
+      "GPU heal restores reserves and clears airborne drops",
+      "Finite long GPU simulation and recovery"
+    ],
+    "firefox-wallNative": [
+      "Sustained native wall contact remains above 55 FPS with GPU simulation and no body or pigment readbacks"
+    ]
+  },
+  "evidence": [
+    {
+      "path": "tools/out/liquid-evolution/final-v26/verification.json",
+      "sha256": "dd5725e9c09d6710361b2ad76270b07f960f249ea6bc6a33aca301cfb9891a5b",
+      "startedAt": "2026-10-06T11:01:00.748Z"
+    },
+    {
+      "path": "tools/out/liquid-evolution/final-v26-joining/verification.json",
+      "sha256": "da620285e4a0a779dfcda13aee5d109fe2cf223d0e373448bc97e53530d51ae6",
+      "startedAt": "2026-10-06T11:01:08.449Z"
+    },
+    {
+      "path": "tools/out/liquid-evolution/final-v26-character/verification.json",
+      "sha256": "f5dad9cc0b2a462c41c03dd9c2281bfd8aaeb59323bed44aec582c31ec2a5603",
+      "startedAt": "2026-10-06T11:01:19.641Z"
+    },
+    {
+      "path": "tools/out/liquid-evolution/final-v26-finish/verification.json",
+      "sha256": "4c3eca8b8abf982e8db2225df8e521133952b5a6e403a8a56b2d138de4914968",
+      "startedAt": "2026-10-06T11:01:26.513Z"
+    },
+    {
+      "path": "tools/out/brush-flow-pass/final-v26/verification.json",
+      "sha256": "897a1ab498a7760209b1fe04defdc08b54eb84bc49e2c86088b0de85134b8aab",
+      "startedAt": "2026-10-06T11:01:34.687Z"
+    },
+    {
+      "path": "tools/out/wall-contact-pass/final-v26/verification.json",
+      "sha256": "e5469863e873974a9d9e92d50d2cd3788e95e7e5e0896c42077df15385e08f43",
+      "startedAt": "2026-10-06T11:01:44.673Z"
+    },
+    {
+      "path": "tools/out/wall-pass/final-v26/verification.json",
+      "sha256": "c3318b2d7dd5fb9db27161ca75f886fab1d6c3b61931faf9bcbb7631d921b161",
+      "startedAt": "2026-10-06T11:02:01.142Z"
+    },
+    {
+      "path": "tools/out/wet-pass/final-v26/verification.json",
+      "sha256": "650ead527b0c1fc6d28f49348665266807ea371acd10cff98bd061dc70d78df5",
+      "startedAt": "2026-10-06T11:02:09.501Z"
+    },
+    {
+      "path": "tools/out/film-pass/final-v26/verification.json",
+      "sha256": "5e4ad21c2828ade67dba66213bbeae0eb70173f8b752bb2986762b40b8bfe290",
+      "startedAt": "2026-10-06T11:02:17.505Z"
+    },
+    {
+      "path": "tools/out/rivulet-pass/final-v26/verification.json",
+      "sha256": "49745520a46009afc9b39ff77dd00df6b49505705e340fc08bd84e005fa13b2a",
+      "startedAt": "2026-10-06T11:02:32.229Z"
+    },
+    {
+      "path": "tools/out/compute-chrome/verification.json",
+      "sha256": "25a42ed6f0c3b0e9230355893aa9c0b0a32b0393b8daee83cea0f2c8d4bec024",
+      "startedAt": "2026-10-06T11:03:37.606Z"
+    },
+    {
+      "path": "tools/out/compute-native-chrome/verification.json",
+      "sha256": "e010bd81cf5eb033ed4299fe35a036d17031c66847ec877450cff1c3cef2873c",
+      "startedAt": "2026-10-06T11:03:52.077Z"
+    },
+    {
+      "path": "tools/out/compute-native-wall-chrome/verification.json",
+      "sha256": "6b4c241df4af36da59e74ac3417624bb832dc8a8339c03d470d451c89250e3bb",
+      "startedAt": "2026-10-06T11:04:36.361Z"
+    },
+    {
+      "path": "tools/out/liquid-evolution/final-v26-firefox/verification.json",
+      "sha256": "5a5f5eae09b6fee59ec6c4c26b56bb068ab5a110fce8c905fd2d91dc753f2df8",
+      "startedAt": "2026-10-06T10:57:37.334Z"
+    },
+    {
+      "path": "tools/out/liquid-evolution/final-v26-joining-firefox/verification.json",
+      "sha256": "9518fe74d1ba13f377e27e58aa6ad93ad2e36fd0bd1de365f6c97e16324d5532",
+      "startedAt": "2026-10-06T10:57:53.734Z"
+    },
+    {
+      "path": "tools/out/liquid-evolution/final-v26-character-firefox/verification.json",
+      "sha256": "70ba149ad012e3eb2051d25c1b4523826493ece3c3908734902383bd4e2e9462",
+      "startedAt": "2026-10-06T10:58:14.167Z"
+    },
+    {
+      "path": "tools/out/liquid-evolution/final-v26-finish-firefox/verification.json",
+      "sha256": "acd54a193f25a0bca7b21bdb41105bf197a31fb78360420e2edad74a8f0389bf",
+      "startedAt": "2026-10-06T10:58:26.988Z"
+    },
+    {
+      "path": "tools/out/brush-flow-pass/final-v26-firefox/verification.json",
+      "sha256": "b9fec671ff94b2055353fd71d721658997fbaf15c6154c07b0248a24c705e18d",
+      "startedAt": "2026-10-06T10:58:39.934Z"
+    },
+    {
+      "path": "tools/out/wall-contact-pass/final-v26-firefox/verification.json",
+      "sha256": "e522f1536e10b2c80ca671b3cb61c2d6a5b4dce98dae32ecc6320cf035c096fa",
+      "startedAt": "2026-10-06T10:58:56.670Z"
+    },
+    {
+      "path": "tools/out/wall-pass/final-v26-firefox/verification.json",
+      "sha256": "444d3174cc2f0290e5c559abcc50484a15a5f0a44444f484b00c4edbddc526d0",
+      "startedAt": "2026-10-06T10:59:27.435Z"
+    },
+    {
+      "path": "tools/out/wet-pass/final-v26-firefox/verification.json",
+      "sha256": "d25c385c698ac16789169f68e95874749831dfeda7add1ad0a21d90c4424c827",
+      "startedAt": "2026-10-06T10:59:52.484Z"
+    },
+    {
+      "path": "tools/out/film-pass/final-v26-firefox/verification.json",
+      "sha256": "dbe53f97ffb1404f1507d166d87a1209e8d91332db60c8ab95fdef8ff0ca1753",
+      "startedAt": "2026-10-06T11:00:15.833Z"
+    },
+    {
+      "path": "tools/out/rivulet-pass/final-v26-firefox/verification.json",
+      "sha256": "94c863637f00c21fc66ccf3069f7be8dfa64682fe872bdd450e8204008bfa619",
+      "startedAt": "2026-10-06T11:00:44.617Z"
+    },
+    {
+      "path": "tools/out/compute-firefox/verification.json",
+      "sha256": "5229ebce8f65633c838af27b0a4a0c7c0bbba65586b04e4f38e4d6a0bc16030a",
+      "startedAt": "2026-10-06T11:04:49.999Z"
+    },
+    {
+      "path": "tools/out/compute-native-firefox/verification.json",
+      "sha256": "4813da1caaac61796f4bb75b5980b5bcbacf7525dabab2665e86e2b0984a7bf5",
+      "startedAt": "2026-10-06T11:05:19.049Z"
+    },
+    {
+      "path": "tools/out/compute-native-wall-firefox/verification.json",
+      "sha256": "6c1937d9eb35bc20f80538e9c7b94c9e8a1ea0604ef80d36af885d59d8dc9b17",
+      "startedAt": "2026-10-06T11:06:24.681Z"
+    }
+  ],
+  "nativeProfiles": [
+    {
+      "browser": "chrome",
+      "workload": "idle",
+      "fps": 60.00465410071396,
+      "cpuP99MS": 1.5999999940395355,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.786432,
+          "p95": 1.31072,
+          "p99": 1.507328,
+          "max": 1.96608
+        },
+        "renderMS": {
+          "p50": 2.162688,
+          "p95": 2.752512,
+          "p99": 2.818048,
+          "max": 3.014656
+        }
+      },
+      "ticksPerSecond": 119.37086092715232
+    },
+    {
+      "browser": "chrome",
+      "workload": "pistol",
+      "fps": 60.001000016607335,
+      "cpuP99MS": 1.600000023841858,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.917504,
+          "p95": 1.31072,
+          "p99": 1.441792,
+          "max": 1.6384
+        },
+        "renderMS": {
+          "p50": 1.96608,
+          "p95": 2.490368,
+          "p99": 2.752512,
+          "max": 3.211264
+        }
+      },
+      "ticksPerSecond": 119.3906275873489
+    },
+    {
+      "browser": "chrome",
+      "workload": "spill",
+      "fps": 59.999331484010845,
+      "cpuP99MS": 1.5999999940395355,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.917504,
+          "p95": 1.245184,
+          "p99": 1.572864,
+          "max": 2.162688
+        },
+        "renderMS": {
+          "p50": 2.162688,
+          "p95": 2.555904,
+          "p99": 2.883584,
+          "max": 3.211264
+        }
+      },
+      "ticksPerSecond": 119.17785513011768
+    },
+    {
+      "browser": "chrome",
+      "workload": "drag",
+      "fps": 58.83729482170807,
+      "cpuP99MS": 1.5999999940395355,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.31072,
+          "p95": 2.097152,
+          "p99": 3.080192,
+          "max": 33.357824
+        },
+        "renderMS": {
+          "p50": 2.097152,
+          "p95": 2.490368,
+          "p99": 2.752512,
+          "max": 140.050432
+        }
+      },
+      "ticksPerSecond": 118.61313868613139
+    },
+    {
+      "browser": "chrome",
+      "workload": "chaos",
+      "fps": 60.00100001690537,
+      "cpuP99MS": 1.5999999940395355,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.31072,
+          "p95": 1.900544,
+          "p99": 2.424832,
+          "max": 2.686976
+        },
+        "renderMS": {
+          "p50": 2.883584,
+          "p95": 3.342336,
+          "p99": 3.538944,
+          "max": 3.997696
+        }
+      },
+      "ticksPerSecond": 119.48955916473318
+    },
+    {
+      "browser": "chrome",
+      "workload": "wall-contact",
+      "fps": 60,
+      "cpuP99MS": 1.699999988079071,
+      "gpu": {
+        "computeMS": {
+          "p50": 2.490368,
+          "p95": 3.997696,
+          "p99": 4.390912,
+          "max": 4.718592
+        },
+        "renderMS": {
+          "p50": 1.6384,
+          "p95": 2.097152,
+          "p99": 2.29376,
+          "max": 2.424832
+        }
+      },
+      "ticksPerSecond": 119.46975973487986
+    },
+    {
+      "browser": "firefox",
+      "workload": "idle",
+      "fps": 60,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.82528,
+          "p95": 1.412448,
+          "p99": 1.66048,
+          "max": 1.795904
+        },
+        "renderMS": {
+          "p50": 2.226912,
+          "p95": 2.681696,
+          "p99": 2.905696,
+          "max": 3.019872
+        }
+      },
+      "ticksPerSecond": 116.24537111576235
+    },
+    {
+      "browser": "firefox",
+      "workload": "pistol",
+      "fps": 60,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.92768,
+          "p95": 1.429472,
+          "p99": 1.614688,
+          "max": 1.928384
+        },
+        "renderMS": {
+          "p50": 2.071648,
+          "p95": 2.55872,
+          "p99": 2.839712,
+          "max": 3.089184
+        }
+      },
+      "ticksPerSecond": 116.23408028373368
+    },
+    {
+      "browser": "firefox",
+      "workload": "spill",
+      "fps": 60,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.923456,
+          "p95": 1.445984,
+          "p99": 1.616736,
+          "max": 1.688576
+        },
+        "renderMS": {
+          "p50": 2.26624,
+          "p95": 2.614112,
+          "p99": 3.209664,
+          "max": 3.414304
+        }
+      },
+      "ticksPerSecond": 116.20795107033639
+    },
+    {
+      "browser": "firefox",
+      "workload": "drag",
+      "fps": 60,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.289536,
+          "p95": 2.222592,
+          "p99": 2.74432,
+          "max": 2.971232
+        },
+        "renderMS": {
+          "p50": 2.055264,
+          "p95": 2.434688,
+          "p99": 2.554112,
+          "max": 2.805984
+        }
+      },
+      "ticksPerSecond": 116.33902674830809
+    },
+    {
+      "browser": "firefox",
+      "workload": "chaos",
+      "fps": 60,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.323552,
+          "p95": 2.259072,
+          "p99": 2.615136,
+          "max": 3.72688
+        },
+        "renderMS": {
+          "p50": 2.63376,
+          "p95": 3.051712,
+          "p99": 3.242176,
+          "max": 3.306304
+        }
+      },
+      "ticksPerSecond": 116.18925008046347
+    },
+    {
+      "browser": "firefox",
+      "workload": "wall-contact",
+      "fps": 59.84330721786964,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 2.5776,
+          "p95": 4.249024,
+          "p99": 4.594848,
+          "max": 4.787488
+        },
+        "renderMS": {
+          "p50": 1.736768,
+          "p95": 2.120288,
+          "p99": 2.375776,
+          "max": 2.70672
+        }
+      },
+      "ticksPerSecond": 116.19263089851326
+    }
+  ],
+  "features": [
+    {
+      "browser": "chrome",
+      "feature": "evolution",
+      "pressure": {
+        "rest": {
+          "mobile": 0.05504684448242183,
+          "dry": 0,
+          "outer": 0.0029065322875976574,
+          "center": 0.02046089172363281,
+          "moment": 0.024699918400299416,
+          "peak": 0.49786376953125,
+          "coat": 0.10964394360780716,
+          "airborne": 0,
+          "total": 0.05723972335457797,
+          "drops": [],
+          "squeezed": 0,
+          "sprayed": 0,
+          "caught": 0,
+          "errors": []
+        },
+        "squeezed": {
+          "mobile": 0.05504562377929687,
+          "dry": 0,
+          "outer": 0.0030667495727539074,
+          "center": 0.01828962326049804,
+          "moment": 0.02630345050513241,
+          "peak": 0.723876953125,
+          "coat": 0.10964394360780716,
+          "airborne": 0,
+          "total": 0.05723850265145301,
+          "drops": [],
+          "squeezed": 400081,
+          "sprayed": 0,
+          "caught": 0,
+          "errors": []
+        }
+      },
+      "spin": {
+        "mobile": 0.05833407402038575,
+        "dry": 0.0016820144653320306,
+        "outer": 0.030733823776245117,
+        "center": 0.005100297927856443,
+        "moment": 0.07393563874428188,
+        "peak": 0.5091552734375,
+        "coat": 0.4162503778934479,
+        "airborne": 0.0011667510282222793,
+        "total": 0.06950784707180901,
+        "drops": 160,
+        "squeezed": 3228869,
+        "sprayed": 160,
+        "caught": 0,
+        "errors": []
+      },
+      "closedBudget": {
+        "start": 0.07323972344398494,
+        "after": 0.06950784707180901
+      }
+    },
+    {
+      "browser": "chrome",
+      "feature": "joining",
+      "joining": [
+        {
+          "seconds": 0,
+          "heads": 2,
+          "largestFraction": 0.8960352047413598,
+          "total": 0.021034355163574218
+        },
+        {
+          "seconds": 1,
+          "heads": 2,
+          "largestFraction": 0.8286936620382707,
+          "total": 0.021034259796142568
+        },
+        {
+          "seconds": 2,
+          "heads": 1,
+          "largestFraction": 0.9119732126507443,
+          "total": 0.021031761169433585
+        },
+        {
+          "seconds": 3,
+          "heads": 1,
+          "largestFraction": 0.8834289777777777,
+          "total": 0.021027660369873042
+        },
+        {
+          "seconds": 5,
+          "heads": 1,
+          "largestFraction": 0.7933599706358395,
+          "total": 0.021032438278198236
+        },
+        {
+          "seconds": 8,
+          "heads": 1,
+          "largestFraction": 0.7695900490075787,
+          "total": 0.021021528244018546
+        }
+      ],
+      "rewetDescent": 0.2542988664902812,
+      "virginDescent": 0.23385581729614313,
+      "transfer": {
+        "original": {
+          "mobile": 0.07441158294677735,
+          "dry": 0,
+          "outer": 0.0037784576416015634,
+          "center": 0.027677688598632805,
+          "moment": 0.024289993457325864,
+          "peak": 0.647216796875,
+          "coat": 0,
+          "airborne": 0,
+          "total": 0.07441158294677735,
+          "drops": [],
+          "squeezed": 0,
+          "sprayed": 0,
+          "caught": 0,
+          "errors": []
+        },
+        "picked": {
+          "mobile": 0.0715207672119141,
+          "dry": 0,
+          "outer": 0.0037784576416015634,
+          "center": 0.02654775619506835,
+          "moment": 0.024710779897742445,
+          "peak": 0.647216796875,
+          "coat": 0.14454080164432526,
+          "airborne": 0,
+          "total": 0.0744115832448006,
+          "drops": [],
+          "squeezed": 0,
+          "sprayed": 0,
+          "caught": 0,
+          "errors": []
+        },
+        "transferred": {
+          "mobile": 0.07381506919860843,
+          "dry": 0,
+          "outer": 0.006072759628295901,
+          "center": 0.02654775619506835,
+          "moment": 0.05604680964005365,
+          "peak": 0.647216796875,
+          "coat": 0.008788303472101688,
+          "airborne": 0,
+          "total": 0.07399083526805046,
+          "drops": [],
+          "squeezed": 0,
+          "sprayed": 0,
+          "caught": 0,
+          "errors": []
+        },
+        "mark": {
+          "hash": "25320bef864e7806205d703885307eb748c595c690e852083db1969e5c6a7eeb",
+          "painted": 500
+        }
+      },
+      "caught": {
+        "mobile": 0,
+        "dry": 0,
+        "outer": 0,
+        "center": 0,
+        "moment": 0,
+        "peak": 0,
+        "coat": 0.0500030517578125,
+        "airborne": 0,
+        "total": 0.00100006103515625,
+        "drops": [],
+        "squeezed": 0,
+        "sprayed": 0,
+        "caught": 1,
+        "errors": []
+      }
+    },
+    {
+      "browser": "chrome",
+      "feature": "character",
+      "prints": {
+        "torso": {
+          "sum": 807528,
+          "cx": -3.541015714006201,
+          "width": 0.06591368641432703,
+          "rows": [
+            5753,
+            9523,
+            9924,
+            11335,
+            10480,
+            11039,
+            12296,
+            14672,
+            15079,
+            14424,
+            13620,
+            16268,
+            16492,
+            18763,
+            19664,
+            18859,
+            17785,
+            21828,
+            26713,
+            25486,
+            25926,
+            26430,
+            26168,
+            25932,
+            26749,
+            27772,
+            28406,
+            28110,
+            28110,
+            27455,
+            27982,
+            28200,
+            22554,
+            20373,
+            18615,
+            18396,
+            17543,
+            16459,
+            15847,
+            15614,
+            13390,
+            103,
+            3234,
+            4713,
+            2511,
+            933
+          ],
+          "runs": 2,
+          "hash": "d77f520b5cfe461cb453e6c3c2c11b983e4caf0f1177c4c9b87966d3cb7f8ea0"
+        },
+        "hand": {
+          "sum": 382314,
+          "cx": -3.497542301615951,
+          "width": 0.0700883263778476,
+          "rows": [
+            2604,
+            5345,
+            8475,
+            5035,
+            5813,
+            15430,
+            14997,
+            14853,
+            12004,
+            6409,
+            13044,
+            13534,
+            8559,
+            6800,
+            937,
+            4130,
+            6823,
+            13143,
+            17455,
+            19068,
+            15514,
+            11788,
+            2083,
+            5043,
+            15570,
+            16997,
+            18455,
+            19931,
+            16016,
+            8538,
+            5711,
+            3330,
+            4923,
+            4382,
+            310,
+            5192,
+            10104,
+            10466,
+            9958,
+            3545
+          ],
+          "runs": 4,
+          "hash": "341f78c7f927458c180d2d834cf39e4d7a2eb2b435d0e40de7996319dc132073"
+        },
+        "forearm": {
+          "sum": 503265,
+          "cx": -3.481791309002213,
+          "width": 0.047260188436958346,
+          "rows": [
+            6194,
+            19875,
+            21103,
+            22122,
+            23417,
+            23053,
+            21283,
+            23343,
+            23657,
+            25120,
+            26854,
+            20988,
+            17600,
+            20198,
+            16321,
+            11616,
+            6852,
+            10276,
+            11570,
+            20227,
+            24092,
+            24754,
+            23689,
+            21245,
+            23293,
+            12556,
+            1967
+          ],
+          "runs": 1,
+          "hash": "53a2da6e22bd6d5cadbc252e37a4a4cda7b2358c21229c23f2d1084fb4e1d365"
+        },
+        "sole": {
+          "sum": 604538,
+          "cx": -3.5675804085102985,
+          "width": 0.06289396534186278,
+          "rows": [
+            1347,
+            3451,
+            4180,
+            8146,
+            8459,
+            5614,
+            415,
+            3442,
+            4131,
+            8885,
+            8935,
+            11389,
+            12294,
+            16711,
+            17305,
+            14244,
+            13003,
+            11963,
+            17130,
+            18836,
+            20316,
+            21910,
+            20890,
+            22576,
+            20630,
+            21131,
+            23490,
+            25565,
+            24732,
+            22380,
+            19748,
+            19716,
+            18940,
+            20365,
+            18950,
+            18624,
+            14830,
+            15547,
+            16226,
+            14212,
+            7648,
+            2177,
+            3123,
+            932
+          ],
+          "runs": 2,
+          "hash": "679f4a8e92d88c8406c032c1f5b466fc0f6011d88490edb0774261d63b02983c"
+        },
+        "fan-right": {
+          "sum": 1706073,
+          "cx": -3.385628921285906,
+          "width": 0.1085312318301826,
+          "rows": [
+            23,
+            228,
+            1,
+            703,
+            1178,
+            1596,
+            1798,
+            1824,
+            839,
+            228,
+            244,
+            4,
+            240,
+            392,
+            601,
+            1263,
+            1992,
+            1949,
+            1964,
+            1418,
+            1456,
+            1049,
+            684,
+            1084,
+            757,
+            874,
+            1119,
+            253,
+            819,
+            921,
+            1518,
+            1182,
+            1301,
+            1066,
+            1478,
+            2280,
+            3010,
+            4060,
+            5310,
+            6374,
+            7251,
+            8335,
+            9968,
+            11819,
+            13253,
+            14114,
+            15254,
+            19882,
+            24569,
+            27894,
+            30691,
+            30503,
+            29978,
+            29191,
+            28569,
+            27949,
+            28076,
+            29507,
+            32405,
+            34449,
+            35595,
+            36462,
+            37195,
+            37374,
+            37576,
+            37354,
+            37026,
+            36425,
+            35644,
+            34935,
+            34304,
+            34237,
+            34035,
+            33659,
+            32862,
+            31307,
+            30764,
+            31321,
+            32120,
+            32652,
+            32770,
+            32351,
+            31133,
+            30308,
+            29471,
+            28821,
+            28215,
+            27817,
+            27713,
+            27761,
+            27985,
+            27217,
+            24742,
+            21363,
+            19859,
+            17719,
+            14996,
+            12724,
+            11416,
+            10247,
+            8701,
+            5260,
+            1516,
+            66,
+            636,
+            848,
+            867,
+            1046,
+            709,
+            212
+          ],
+          "runs": 1,
+          "hash": "5cbcbc860e4e45324427eb319c69723892b4a7acc6ea88ec96b63c4b8c4a8bc7"
+        },
+        "fan-left": {
+          "sum": 1703443,
+          "cx": -3.6134864378350287,
+          "width": 0.10780132778680077,
+          "rows": [
+            212,
+            212,
+            636,
+            1412,
+            825,
+            485,
+            110,
+            64,
+            1493,
+            5232,
+            8704,
+            10416,
+            11709,
+            12629,
+            15237,
+            17884,
+            19667,
+            21541,
+            24403,
+            27450,
+            27886,
+            27367,
+            27562,
+            28139,
+            28189,
+            28621,
+            29444,
+            30386,
+            31035,
+            32181,
+            32811,
+            32602,
+            32008,
+            31399,
+            30684,
+            31364,
+            32830,
+            33690,
+            34059,
+            34163,
+            34386,
+            34832,
+            35746,
+            36423,
+            36919,
+            37380,
+            37513,
+            37404,
+            37086,
+            36526,
+            35652,
+            34304,
+            32449,
+            29579,
+            28001,
+            27935,
+            28516,
+            29175,
+            29831,
+            30508,
+            30688,
+            27810,
+            24541,
+            19846,
+            15275,
+            14106,
+            13272,
+            11819,
+            9967,
+            8348,
+            7291,
+            6365,
+            5292,
+            4064,
+            3023,
+            3027,
+            1592,
+            897,
+            1113,
+            1265,
+            1799,
+            1270,
+            759,
+            258,
+            253,
+            872,
+            1003,
+            325,
+            515,
+            1083,
+            1429,
+            1464,
+            1746,
+            1830,
+            1591,
+            1078,
+            1083,
+            261,
+            367,
+            7,
+            184,
+            114,
+            919,
+            1612,
+            1589,
+            1792,
+            1274,
+            288,
+            171
+          ],
+          "runs": 1,
+          "hash": "f6a8cad6ece79773551ca22bd7847ddfc602790d3ceee91519d62f72727578e0"
+        }
+      }
+    },
+    {
+      "browser": "chrome",
+      "feature": "finish",
+      "images": {
+        "wet": "5db44f261000802f5a4b8d1b396b77edbfb5c545fed06eb4462bda9e71ac82e4",
+        "dry": "284cb7eea853fc401c145785d44d9a1413658d4e7103bdb7b2841253ffe93d46"
+      },
+      "pigment": {
+        "hash": "810a2c9cf2a475654ab56f6f01e4b36147e22894ef599d01d0b67968b56d390d",
+        "painted": 145585
+      },
+      "dryPigment": {
+        "hash": "810a2c9cf2a475654ab56f6f01e4b36147e22894ef599d01d0b67968b56d390d",
+        "painted": 145585
+      },
+      "totalWet": 0.3282855033874504,
+      "totalDry": 0.32828550338745216
+    },
+    {
+      "browser": "chrome",
+      "feature": "brush",
+      "descent3Seconds": 0.04366567017206546,
+      "descent15Seconds": 0.28065298604657074,
+      "samples": [
+        {
+          "sec": 0,
+          "mass": 0.28083622932434094,
+          "cy": 1.9933983862400961,
+          "peak": 0.3126068115234375,
+          "movingArea": 0,
+          "wetArea": 0.8299999999999851,
+          "below": 0.013854398727416995,
+          "front": 0.11249999999999982,
+          "coarse": 50.67079162597656,
+          "active": 218
+        },
+        {
+          "sec": 3,
+          "mass": 0.2691887950897231,
+          "cy": 1.9497327160680307,
+          "peak": 0.3729095458984375,
+          "movingArea": 0,
+          "wetArea": 0.9793749999999819,
+          "below": 0.01390320777893067,
+          "front": 0.11249999999999982,
+          "coarse": 46.15338134765625,
+          "active": 218
+        },
+        {
+          "sec": 8,
+          "mass": 0.2513067054748534,
+          "cy": 1.8617914442023562,
+          "peak": 0.3717498779296875,
+          "movingArea": 0,
+          "wetArea": 0.9193749999999832,
+          "below": 0.015918703079223637,
+          "front": 0.11249999999999982,
+          "coarse": 40.22004699707031,
+          "active": 199
+        },
+        {
+          "sec": 15,
+          "mass": 0.22982600212097146,
+          "cy": 1.7127454001935254,
+          "peak": 0.3578338623046875,
+          "movingArea": 0,
+          "wetArea": 0.741249999999987,
+          "below": 0.04126955986022951,
+          "front": 0.11249999999999982,
+          "coarse": 32.93412780761719,
+          "active": 90
+        }
+      ]
+    },
+    {
+      "browser": "firefox",
+      "feature": "evolution",
+      "pressure": {
+        "rest": {
+          "mobile": 0.05504684448242183,
+          "dry": 0,
+          "outer": 0.0029065322875976574,
+          "center": 0.02046089172363281,
+          "moment": 0.024699918400299416,
+          "peak": 0.49786376953125,
+          "coat": 0.10964394360780716,
+          "airborne": 0,
+          "total": 0.05723972335457797,
+          "drops": [],
+          "squeezed": 0,
+          "sprayed": 0,
+          "caught": 0,
+          "errors": []
+        },
+        "squeezed": {
+          "mobile": 0.05504559516906738,
+          "dry": 0,
+          "outer": 0.0030667495727539074,
+          "center": 0.01828962326049804,
+          "moment": 0.026303443440421948,
+          "peak": 0.723876953125,
+          "coat": 0.10964394360780716,
+          "airborne": 0,
+          "total": 0.05723847404122352,
+          "drops": [],
+          "squeezed": 400081,
+          "sprayed": 0,
+          "caught": 0,
+          "errors": []
+        }
+      },
+      "spin": {
+        "mobile": 0.05834148406982428,
+        "dry": 0.0016812992095947262,
+        "outer": 0.030496740341186518,
+        "center": 0.005141792297363281,
+        "moment": 0.07354147813797282,
+        "peak": 0.5023956298828125,
+        "coat": 0.4161533713340759,
+        "airborne": 0.0011667508431401075,
+        "total": 0.06951260154924063,
+        "drops": 160,
+        "squeezed": 3231940,
+        "sprayed": 160,
+        "caught": 0,
+        "errors": []
+      },
+      "closedBudget": {
+        "start": 0.07323972344398494,
+        "after": 0.06951260154924063
+      }
+    },
+    {
+      "browser": "firefox",
+      "feature": "joining",
+      "joining": [
+        {
+          "seconds": 0,
+          "heads": 2,
+          "largestFraction": 0.8960352047413598,
+          "total": 0.021034355163574218
+        },
+        {
+          "seconds": 1,
+          "heads": 2,
+          "largestFraction": 0.8286937408762147,
+          "total": 0.02103426933288573
+        },
+        {
+          "seconds": 2,
+          "heads": 1,
+          "largestFraction": 0.9119712618710615,
+          "total": 0.021031732559204094
+        },
+        {
+          "seconds": 3,
+          "heads": 1,
+          "largestFraction": 0.8834292221250903,
+          "total": 0.02102776527404786
+        },
+        {
+          "seconds": 5,
+          "heads": 1,
+          "largestFraction": 0.7933584180703821,
+          "total": 0.02103277206420898
+        },
+        {
+          "seconds": 8,
+          "heads": 1,
+          "largestFraction": 0.7695920032868226,
+          "total": 0.021021718978881842
+        }
+      ],
+      "rewetDescent": 0.2542943255336749,
+      "virginDescent": 0.23385587739490665,
+      "transfer": {
+        "original": {
+          "mobile": 0.07441158294677735,
+          "dry": 0,
+          "outer": 0.0037784576416015634,
+          "center": 0.027677688598632805,
+          "moment": 0.024289993457325864,
+          "peak": 0.647216796875,
+          "coat": 0,
+          "airborne": 0,
+          "total": 0.07441158294677735,
+          "drops": [],
+          "squeezed": 0,
+          "sprayed": 0,
+          "caught": 0,
+          "errors": []
+        },
+        "picked": {
+          "mobile": 0.0715207672119141,
+          "dry": 0,
+          "outer": 0.0037784576416015634,
+          "center": 0.02654775619506835,
+          "moment": 0.024710779897742445,
+          "peak": 0.647216796875,
+          "coat": 0.14454080164432526,
+          "airborne": 0,
+          "total": 0.0744115832448006,
+          "drops": [],
+          "squeezed": 0,
+          "sprayed": 0,
+          "caught": 0,
+          "errors": []
+        },
+        "transferred": {
+          "mobile": 0.07381504058837894,
+          "dry": 0,
+          "outer": 0.006072731018066409,
+          "center": 0.02654775619506835,
+          "moment": 0.056046521167514254,
+          "peak": 0.647216796875,
+          "coat": 0.008788303472101688,
+          "airborne": 0,
+          "total": 0.07399080665782097,
+          "drops": [],
+          "squeezed": 0,
+          "sprayed": 0,
+          "caught": 0,
+          "errors": []
+        },
+        "mark": {
+          "hash": "e4f110eff401af3fe5cf213cf24b10ccdbae0a0c0ed960664f2c31b842f4d7d4",
+          "painted": 500
+        }
+      },
+      "caught": {
+        "mobile": 0,
+        "dry": 0,
+        "outer": 0,
+        "center": 0,
+        "moment": 0,
+        "peak": 0,
+        "coat": 0.0500030517578125,
+        "airborne": 0,
+        "total": 0.00100006103515625,
+        "drops": [],
+        "squeezed": 0,
+        "sprayed": 0,
+        "caught": 1,
+        "errors": []
+      }
+    },
+    {
+      "browser": "firefox",
+      "feature": "character",
+      "prints": {
+        "torso": {
+          "sum": 807526,
+          "cx": -3.541016620517481,
+          "width": 0.06591354989114381,
+          "rows": [
+            5753,
+            9522,
+            9924,
+            11335,
+            10480,
+            11039,
+            12296,
+            14672,
+            15079,
+            14424,
+            13620,
+            16268,
+            16492,
+            18763,
+            19664,
+            18859,
+            17785,
+            21828,
+            26713,
+            25486,
+            25926,
+            26430,
+            26168,
+            25932,
+            26749,
+            27772,
+            28406,
+            28110,
+            28110,
+            27455,
+            27982,
+            28200,
+            22554,
+            20373,
+            18614,
+            18396,
+            17543,
+            16459,
+            15847,
+            15614,
+            13390,
+            103,
+            3234,
+            4713,
+            2511,
+            933
+          ],
+          "runs": 2,
+          "hash": "1927d0ed4f48026639f08b230987c651bf5fdf2287ab1f4e188a977dcaae2a16"
+        },
+        "hand": {
+          "sum": 382313,
+          "cx": -3.497541763881952,
+          "width": 0.07008837704099663,
+          "rows": [
+            2604,
+            5345,
+            8475,
+            5035,
+            5813,
+            15430,
+            14997,
+            14853,
+            12004,
+            6409,
+            13044,
+            13534,
+            8559,
+            6800,
+            937,
+            4130,
+            6823,
+            13143,
+            17455,
+            19068,
+            15514,
+            11788,
+            2083,
+            5043,
+            15570,
+            16997,
+            18454,
+            19931,
+            16016,
+            8538,
+            5711,
+            3330,
+            4923,
+            4382,
+            310,
+            5192,
+            10104,
+            10466,
+            9958,
+            3545
+          ],
+          "runs": 4,
+          "hash": "b481873875d3aab56388c5be5fdf520b63a41dfb98810630af097f8333b29e20"
+        },
+        "forearm": {
+          "sum": 503265,
+          "cx": -3.481791309002213,
+          "width": 0.047260188436958346,
+          "rows": [
+            6194,
+            19875,
+            21103,
+            22122,
+            23417,
+            23053,
+            21283,
+            23343,
+            23657,
+            25120,
+            26854,
+            20988,
+            17600,
+            20198,
+            16321,
+            11616,
+            6852,
+            10276,
+            11570,
+            20227,
+            24092,
+            24754,
+            23689,
+            21245,
+            23293,
+            12556,
+            1967
+          ],
+          "runs": 1,
+          "hash": "53a2da6e22bd6d5cadbc252e37a4a4cda7b2358c21229c23f2d1084fb4e1d365"
+        },
+        "sole": {
+          "sum": 604524,
+          "cx": -3.5675880527489383,
+          "width": 0.06289467742811798,
+          "rows": [
+            1347,
+            3451,
+            4180,
+            8146,
+            8459,
+            5614,
+            415,
+            3442,
+            4131,
+            8885,
+            8935,
+            11389,
+            12294,
+            16711,
+            17305,
+            14244,
+            13003,
+            11963,
+            17130,
+            18836,
+            20302,
+            21910,
+            20890,
+            22576,
+            20630,
+            21131,
+            23490,
+            25565,
+            24732,
+            22380,
+            19748,
+            19716,
+            18940,
+            20365,
+            18950,
+            18624,
+            14830,
+            15547,
+            16226,
+            14212,
+            7648,
+            2177,
+            3123,
+            932
+          ],
+          "runs": 2,
+          "hash": "ad9079c855528787d61dee1a327b63d345f42d1cc1a0b8882b6470dbb2edaabb"
+        },
+        "fan-right": {
+          "sum": 1706027,
+          "cx": -3.3856359779915617,
+          "width": 0.10857231134064402,
+          "rows": [
+            28,
+            229,
+            1,
+            702,
+            1207,
+            1596,
+            1824,
+            1822,
+            839,
+            228,
+            275,
+            5,
+            240,
+            390,
+            616,
+            1262,
+            1965,
+            1946,
+            1966,
+            1418,
+            1427,
+            1062,
+            673,
+            1063,
+            753,
+            902,
+            1121,
+            253,
+            813,
+            907,
+            1518,
+            1200,
+            1307,
+            1064,
+            1474,
+            2280,
+            3010,
+            4060,
+            5310,
+            6374,
+            7251,
+            8335,
+            9968,
+            11818,
+            13253,
+            14114,
+            15254,
+            19883,
+            24569,
+            27894,
+            30691,
+            30503,
+            29978,
+            29191,
+            28569,
+            27949,
+            28076,
+            29507,
+            32404,
+            34449,
+            35595,
+            36462,
+            37195,
+            37374,
+            37577,
+            37355,
+            37026,
+            36425,
+            35644,
+            34935,
+            34304,
+            34237,
+            34035,
+            33659,
+            32862,
+            31307,
+            30764,
+            31321,
+            32120,
+            32652,
+            32770,
+            32351,
+            31133,
+            30308,
+            29471,
+            28774,
+            28184,
+            27823,
+            27710,
+            27762,
+            28006,
+            27216,
+            24747,
+            21369,
+            19856,
+            17701,
+            14982,
+            12724,
+            11390,
+            10251,
+            8703,
+            5260,
+            1516,
+            66,
+            636,
+            848,
+            861,
+            1046,
+            716,
+            212
+          ],
+          "runs": 1,
+          "hash": "e0ed2129ada488132d3f3cd737ffb616791b57dfef8ea31fad91f9972dc8e8dd"
+        },
+        "fan-left": {
+          "sum": 1703357,
+          "cx": -3.6134288954840437,
+          "width": 0.10780946119414384,
+          "rows": [
+            212,
+            212,
+            636,
+            1411,
+            819,
+            482,
+            93,
+            64,
+            1493,
+            5232,
+            8703,
+            10416,
+            11721,
+            12626,
+            15240,
+            17883,
+            19657,
+            21540,
+            24381,
+            27448,
+            27871,
+            27370,
+            27559,
+            28138,
+            28189,
+            28621,
+            29444,
+            30387,
+            31035,
+            32181,
+            32811,
+            32602,
+            32008,
+            31398,
+            30684,
+            31363,
+            32830,
+            33690,
+            34059,
+            34163,
+            34386,
+            34832,
+            35746,
+            36423,
+            36919,
+            37380,
+            37513,
+            37404,
+            37086,
+            36526,
+            35652,
+            34304,
+            32449,
+            29579,
+            28001,
+            27935,
+            28516,
+            29175,
+            29831,
+            30508,
+            30688,
+            27810,
+            24541,
+            19846,
+            15275,
+            14106,
+            13272,
+            11819,
+            9967,
+            8348,
+            7291,
+            6365,
+            5292,
+            4064,
+            3023,
+            3027,
+            1569,
+            889,
+            1098,
+            1265,
+            1797,
+            1268,
+            759,
+            282,
+            256,
+            879,
+            988,
+            306,
+            546,
+            1058,
+            1422,
+            1482,
+            1740,
+            1833,
+            1578,
+            1107,
+            1044,
+            255,
+            372,
+            4,
+            219,
+            99,
+            922,
+            1615,
+            1606,
+            1781,
+            1268,
+            288,
+            183,
+            8
+          ],
+          "runs": 1,
+          "hash": "c4cf500522c6b08c0bcbda53ddd2a1daed6b9de5eb8a73946e6d7f253d7c6058"
+        }
+      }
+    },
+    {
+      "browser": "firefox",
+      "feature": "finish",
+      "images": {
+        "wet": "25ee63bd780ced489d84089a2b2cafc0a95a090a744c70594016d534837f61b8",
+        "dry": "08143eac0bc3f1c0d42a329ab59ad03f402fd1faf4224c735e6fe0278bb30fd1"
+      },
+      "pigment": {
+        "hash": "bfd9af3b5d02631d242f4e0121c02b81c3bd320281d868a81a330c1db434fff7",
+        "painted": 213118
+      },
+      "dryPigment": {
+        "hash": "bfd9af3b5d02631d242f4e0121c02b81c3bd320281d868a81a330c1db434fff7",
+        "painted": 213118
+      },
+      "totalWet": 0.4787161159515388,
+      "totalDry": 0.4787161159515369
+    },
+    {
+      "browser": "firefox",
+      "feature": "brush",
+      "descent3Seconds": 0.04898180224686577,
+      "descent15Seconds": 0.306511674817068,
+      "samples": [
+        {
+          "sec": 0,
+          "mass": 0.37519802093506016,
+          "cy": 1.9729900826498228,
+          "peak": 0.3787384033203125,
+          "movingArea": 0,
+          "wetArea": 1.2631250000000225,
+          "below": 0.03773620605468747,
+          "front": 0.08749999999999991,
+          "coarse": 78.99375915527344,
+          "active": 324
+        },
+        {
+          "sec": 3,
+          "mass": 0.35966283798217874,
+          "cy": 1.924008280402957,
+          "peak": 0.420379638671875,
+          "movingArea": 0.00125,
+          "wetArea": 1.3468750000000356,
+          "below": 0.038138933181762674,
+          "front": 0.08749999999999991,
+          "coarse": 72.06965637207031,
+          "active": 328
+        },
+        {
+          "sec": 8,
+          "mass": 0.3361175537109389,
+          "cy": 1.8319539918023966,
+          "peak": 0.3949127197265625,
+          "movingArea": 0,
+          "wetArea": 1.203125000000013,
+          "below": 0.04886513710021957,
+          "front": 0.08749999999999991,
+          "coarse": 63.00068664550781,
+          "active": 317
+        },
+        {
+          "sec": 15,
+          "mass": 0.30740918159484854,
+          "cy": 1.6664784078327548,
+          "peak": 0.386627197265625,
+          "movingArea": 0,
+          "wetArea": 0.9849999999999818,
+          "below": 0.08338082313537597,
+          "front": 0.08749999999999991,
+          "coarse": 51.74176025390625,
+          "active": 160
+        }
+      ]
+    }
+  ],
+  "checkpoints": [
+    {
+      "version": "0.23.0",
+      "status": "local cumulative checkpoint",
+      "buildSHA256": "fd8b9fdeb5817195d1b2e35a33c868a1b37077b4d98d34575302e9031cd98332",
+      "checks": 13,
+      "receipts": [
+        "liquid-evolution/round-v23c",
+        "brush-flow-pass/round-v23c",
+        "wall-contact-pass/round-v23c"
+      ],
+      "scope": [
+        "Finite pressure redistribution",
+        "Tangential wall spray",
+        "Coating-shed droplets carry volume"
+      ]
+    },
+    {
+      "version": "0.24.0",
+      "status": "local cumulative checkpoint",
+      "buildSHA256": "1a6903a0849168f34eef720d93a1c6717ed4571be491a55d6a96eac3d2b87150",
+      "checks": 32,
+      "receipts": [
+        "liquid-evolution/round-v24b-joining",
+        "rivulet-pass/round-v24",
+        "brush-flow-pass/round-v24b",
+        "film-pass/round-v24b",
+        "liquid-evolution/round-v24b"
+      ],
+      "scope": [
+        "Short-range bead cohesion",
+        "Rewetting affinity from retained residue",
+        "Readable finite coating transfer",
+        "Atomic carried-volume capture on bodies"
+      ]
+    },
+    {
+      "version": "0.25.0",
+      "status": "local cumulative checkpoint",
+      "buildSHA256": "f950cb79f9362af6dd41256804d91e33e762b525a3ee4cebc0a95cafa725e5e2",
+      "checks": 24,
+      "receipts": [
+        "liquid-evolution/round-v25b-character",
+        "wall-pass/round-v25c",
+        "wet-pass/round-v25c",
+        "brush-flow-pass/round-v25c"
+      ],
+      "scope": [
+        "Shared anatomical bristle coordinates for pigment and film",
+        "Finger channels, forearm grooves and sole bands",
+        "Velocity-biased wall impact fans"
+      ],
+      "testChange": "Anatomical pigment tracks deliberately change floor coverage by 4.5% in the matched fixture. Floor liquid remains within its original 3% gate; pigment alpha and painted area must remain within 10%."
+    }
+  ],
+  "resources": {
+    "filmCells": 1061420,
+    "filmBytes": 29719760,
+    "wetBytes": 30660560
+  },
+  "resolvedIssues": [
+    {
+      "receipt": "tools/out/liquid-evolution/firefox-first-failure.json",
+      "diagnostic": "tools/out/liquid-evolution/firefox-startup-diagnostic.json",
+      "cause": "Naga required a return after the atomic retry loop; the function now exits the loop before returning. Both final browser suites use the corrected build."
+    }
+  ],
+  "checkCount": 154,
+  "media": {
+    "capture": "tools/out/liquid-evolution/recordings/capture.json",
+    "builds": [
+      {
+        "label": "before",
+        "version": "0.22.0",
+        "sha256": "da66385c81dfd4547af7b7c8b98c4c262ec6adddcea941c48c8b3d0db84a5c8e"
+      },
+      {
+        "label": "v23",
+        "version": "0.23.0",
+        "sha256": "fd8b9fdeb5817195d1b2e35a33c868a1b37077b4d98d34575302e9031cd98332"
+      },
+      {
+        "label": "v24",
+        "version": "0.24.0",
+        "sha256": "1a6903a0849168f34eef720d93a1c6717ed4571be491a55d6a96eac3d2b87150"
+      },
+      {
+        "label": "v25",
+        "version": "0.25.0",
+        "sha256": "f950cb79f9362af6dd41256804d91e33e762b525a3ee4cebc0a95cafa725e5e2"
+      },
+      {
+        "label": "after",
+        "version": "0.26.0",
+        "sha256": "48d7a0392f6c2343df9effe81ea77aec178c41961a9d076cf443eda84cbef187"
+      }
+    ],
+    "files": [
+      {
+        "path": "tools/out/liquid-evolution/recordings/before/wall-before.mp4",
+        "bytes": 11205632,
+        "sha256": "8877bc27384dc7ab8e1cd84430ff1249f810f89b01b5aa2a43ca253d1927cb33",
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 960,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "46.000000"
+        }
+      },
+      {
+        "path": "tools/out/liquid-evolution/recordings/after/wall-after.mp4",
+        "bytes": 9766974,
+        "sha256": "2adce095523512b97701170dcc3625c1a5d6844ca428627d3d4ff96f1359cb8c",
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 960,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "46.000000"
+        }
+      },
+      {
+        "path": "tools/out/liquid-evolution/recordings/smear-liquid-evolution-comparison.mp4",
+        "bytes": 12364155,
+        "sha256": "053477c8bf1615ba7730573b232b35f7cb0a6fc206578be61532e6250105532b",
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1920,
+            "height": 720,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "46.000000"
+        }
+      },
+      {
+        "path": "tools/out/liquid-evolution/recordings/smear-v22-through-v26.mp4",
+        "bytes": 25005057,
+        "sha256": "fb6ca82f757acd20e59f53d29a06cb6daf282386532af4dc83bf3620e23f1211",
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 960,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "115.000000"
+        }
+      }
+    ]
+  },
+  "sources": {
+    "gpu/common.wgsl": "bffb92e29bfbf62838a28a8473b522cadc71a3f124455adc0cd463df41e674a8",
+    "gpu/contact.wgsl": "60c7efd41aa5ed3cbcd2a930130ddabdc807a5302c324b1a96135dc9a967299d",
+    "gpu/compute.wgsl": "31a531e6cec60a624d9cf0f4fe76c719428ed498876ea047b287026b486f9d87",
+    "gpu/film.wgsl": "291a7d7b1bcdcce16b3c3dd0dce9ca3c3711ed6970d2ebf43bd309108d5fd537",
+    "gpu/render.wgsl": "270b8b6b19098b50ac6f548fabf84a2e5c1576c536ac3002011fe7635fcb30a5",
+    "tools/liquid-evolution-fixture.mjs": "8d4ee77bf78a46c734c4dc4c74650fa3547a3f387baf0eb5789e6615d2c0dffa",
+    "tools/liquid-evolution-verify.mjs": "9f47d555c0e5109c0879fca37ee4f7e854888287653af7f089bcf89dd30969a2",
+    "tools/drip-join-verify.mjs": "e58625e281d85a0c3b29cf5500e13041b6fb4f4bf2e9f6bdc4327d8615466488",
+    "tools/contact-character-verify.mjs": "e05b9e064d07023fadec209a58007fea3d32a4e7d9b07e93b5a65d272fd8de07",
+    "tools/wet-finish-verify.mjs": "71022c2b25818e3d56735585f0bd07e4798061552095d8f5d519c9fc1880af15",
+    "tools/wall-verify.mjs": "6a65e06e0b0649f854ffa4536af24bd9d3c52d8ecc26b00b83da6eb33a5a1691"
+  },
+  "scope": [
+    "Four cumulative checkpoints retain the accepted V22 brush and drainage response. V23 pressure redistribution and edge spray, V24 cohesion and finite transfer, V25 anatomical brush character and directional impacts, V26 wet/dry shading.",
+    "No alpha pool stamps were introduced. Pressure moves existing finite film; spray debits coating only after successful particle allocation. Caught carried-volume droplets accumulate atomic credits and become coating on the next contact update.",
+    "Drip cohesion reads snapshot mass. Drying history is sampled in accelerateFilm before spreadFilm writes residue; shared-edge flux stays symmetric. This remains an art-directed thin-film approximation, not calibrated blood rheology.",
+    "The 54 bristles, seven film banks, 900 particles, original paint resolution, GPU simulation and normal-play no-body/no-pigment-readback policy are retained.",
+    "V25 intentionally changes floor pigment shape. The old 3% alpha identity gate is now a 10% alpha/area retention gate; floor liquid still has its original 3% tolerance. See the V25 checkpoint for the measured change.",
+    "Isolated field/body uploads test individual transfers; real articulated grab paths test integration. Videos retain the actual dummy for fifteen seconds after release. Native performance is measured separately from recording.",
+    "MP4s use the same input path on each build. GPU ragdoll trajectories can diverge; the footage is a gameplay comparison, not a frame-identical physics replay."
+  ]
+}

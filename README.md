@@ -2,7 +2,9 @@
 
 Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V22 / 0.22.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+**V26 / 0.26.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+
+The V23-V26 passes add pressure ridges and tangential spray, joining drip heads, easier rewetting of old trails, finite pickup and transfer, finger/forearm/sole brush character, directional impact fans, and a stronger wet/dry material finish. They build on the accepted V22 brush and drip behavior. `npm run record:liquid:evolution` records the paired comparison and cumulative progression; `docs/qa/liquid-evolution-v26.json` binds the final tests and media to the released build.
 
 V22 restores textured wall brushing by removing the oval pool stamp and soft wall-brush fill. Slow contact no longer fires large impact prints. Finite liquid follows the bristles and collects at the contact edge, with the existing wall gravity and adhesion. `npm run verify:brush:flow` follows a real wall drag into 15 seconds of drainage; `npm run record:brush:flow` records the full before/after sequence.
 

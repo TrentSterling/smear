@@ -4,10 +4,11 @@ struct Footprint { p:vec3f, radius:vec2f, angle:f32, receiver:i32, face:u32 };
 fn contactMemory(index:u32)->u32 { return header(2).w+header(2).x*128u+180u*8u+index*16u; }
 fn contactFloat(address:u32)->f32 { return bitcast<f32>(atomicLoad(&work[address])); }
 fn receiveCoating(address:u32,capacity:f32)->f32 {
- var old=atomicLoad(&work[address]);loop{
-  let amount=min(old,u32(max(0,capacity)*65536));let result=atomicCompareExchangeWeak(&work[address],old,old-amount);
-  if(result.exchanged){return f32(amount)/65536;}old=result.old_value;
+ var old=atomicLoad(&work[address]);var amount=0u;loop{
+  amount=min(old,u32(max(0,capacity)*65536));let result=atomicCompareExchangeWeak(&work[address],old,old-amount);
+  if(result.exchanged){break;}old=result.old_value;
  }
+ return f32(amount)/65536;
 }
 fn footprint(b:Body)->Footprint {
  var rec:i32=-1;var nearest=.022;
