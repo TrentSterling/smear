@@ -188,6 +188,42 @@ fn squeezeContact(index:u32,b:Body,foot:Footprint,duration:f32,pressure:f32)->f3
  }
  return spent;
 }
+// Loaded floor contacts sweep the whole wet footprint toward its leading edge.
+// Bristles still handle the high-resolution stain. These atomic debits move the
+// actual mobile layer, including rotation about a stationary grabbed torso.
+fn squeegeeFloor(b:Body,foot:Footprint,duration:f32,strength:f32,pressure:f32){
+ let rec=u32(foot.receiver);let r=record(rec);let dims=filmDimensions(r);
+ let spacing=r.size.xy/vec2f(dims);let area=spacing.x*spacing.y;
+ let ca=cos(foot.angle);let sn=sin(foot.angle);let radius=foot.radius;
+ let extent=vec2f(abs(ca)*radius.x+abs(sn)*radius.y,abs(sn)*radius.x+abs(ca)*radius.y);
+ let center=uv(r,foot.p)*vec2f(dims);let lo=vec2i(floor(center-extent/spacing));let hi=vec2i(ceil(center+extent/spacing));
+ for(var y=lo.y;y<=hi.y;y++){for(var x=lo.x;x<=hi.x;x++){
+  let delta=(vec2f(f32(x)+.5,f32(y)+.5)-center)*spacing;
+  let local=vec2f(ca*delta.x+sn*delta.y,-sn*delta.x+ca*delta.y)/radius;
+  if(dot(local,local)>.94){continue;}
+  let address=filmPosition(rec,vec2i(x,y));if(address<0){continue;}
+  let mass=filmRead(0u,u32(address));if(mass<.006){continue;}
+  let point=foot.p+r.u.xyz*delta.x+r.v.xyz*delta.y;
+  let velocity=b.v.xyz+cross(b.w.xyz,point-b.p.xyz);
+  let pivot=localBodies[u32(frame.goal.w)%15u];let arm=point-(pivot.p.xyz+rotate(pivot.q,frame.local.xyz));
+  // A rotating loaded rig sheds its gathered ridge away from the grab pivot.
+  // Pure tangential transport only circulates the same ring beneath the limbs.
+  let spin=abs(dot(b.w.xyz,r.n.xyz));let outward=vec2f(dot(arm,r.u.xyz),dot(arm,r.v.xyz))*spin*.85;
+  let motion=vec2f(dot(velocity,r.u.xyz),dot(velocity,r.v.xyz))+outward;let speed=length(motion);
+  if(speed<.12){continue;}
+  let direction=motion/speed;
+  let localDir=vec2f(ca*direction.x+sn*direction.y,-sn*direction.x+ca*direction.y)/radius;
+  let along=dot(local,localDir);let square=dot(localDir,localDir);
+  let edge=(-along+sqrt(max(0,along*along+square*(1-dot(local,local)))))/square;
+  let carry=constants[header(3).z+1u].x;
+  let distance=edge+.025+min(.15,speed*duration*.6*(carry-1));
+  let fraction=min(.65,1-exp(-duration*speed*strength*(4+pressure*3)/max(.06,sqrt(radius.x*radius.y))));
+  let taken=takeWet(filmOffset(0u)+u32(address),u32(max(0,mass-.003)*fraction*FILM_SCALE));
+  if(taken==0u){continue;}
+  let destination=point+(r.u.xyz*direction.x+r.v.xyz*direction.y)*distance;
+  returnFilm(rec,destination,f32(taken)/FILM_SCALE*area);atomicAdd(&work[53],taken);
+ }}
+}
 fn paintContact(index:u32,input:Body,dt:f32)->Body {
  var b=input;let mem=contactMemory(index);b.coat.x+=receiveCoating(mem+9u,1.65-b.coat.x);let foot=footprint(b);
  let impactClock=max(0,contactFloat(mem+7u)-dt);atomicStore(&work[mem+7u],bitcast<u32>(impactClock));
@@ -201,7 +237,11 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
   // A wet coating deposits onto a drier wall; it must not immediately vacuum
   // its own print back up at the full pickup rate. Floors keep their pickup.
   let equilibrium=select(1.3,min(1.3,filmRead(0u,filmIndex)*3),abs(r.n.y)<.65);
-  let wantedCoat=min(dt*2.8*frame.tune.z,max(0,equilibrium-b.coat.x))/9;
+  // A loaded squeegee routes most wet floor supply around the body rather than
+  // immediately soaking it all up. Unheld pickup and wall transfer stay intact.
+  let pushing=rec<16u&&frame.local.w>.5&&u32(frame.goal.w)/15u==index/15u;
+  let pickupRate=select(1.0,1/(1+materialTune().x*2),pushing);
+  let wantedCoat=min(dt*2.8*frame.tune.z*pickupRate,max(0,equilibrium-b.coat.x))/9;
   let cellArea=filmR.size.x*filmR.size.y/f32(filmDimensions(filmR).x*filmDimensions(filmR).y);
   // The coarse wet grid controls pigment mobility, not a second blood reserve.
   // One unit of coating corresponds to .02 integrated film units in world area.
@@ -264,6 +304,7 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
   b.coat.w-=supplied*.2;b.coat.x+=supplied;
  }
  var wallClock=contactFloat(mem+8u)+dt;
+ if(!wall&&rec<16u&&held&&wallClock>=.025&&smudge>0&&surfaceWet>.012&&slip>.12){squeegeeFloor(b,foot,wallClock,smudge,pressure);}
  if(wall&&wallClock>=.025){b.coat.x=max(0,b.coat.x-squeezeContact(index,b,foot,wallClock,pressure));}
  if(wall&&wallClock>=.025&&frame.tune.y>.001&&b.coat.x>.008){
   let spent=min(b.coat.x,(.085+min(1.0,b.coat.x)*.8)*wallClock*frame.tune.z);
@@ -294,7 +335,7 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
   for(var j=0u;j<5u;j++){let offset=patchOffset(radius,angle,vec2f(cos(f32(j)*2.399963),sin(f32(j)*2.399963))*.62);let point=foot.p+r.u.xyz*offset.x+r.v.xyz*offset.y;addWet(planeWetCell(rec,point),u32(spent*.055*65536));}
   b.coat.x=max(0,b.coat.x-spent);wallClock=0;atomicAdd(&work[24],1u);
  }
- if(wall&&wallClock>=.025){wallClock=0;}
+ if(wallClock>=.025){wallClock=0;}
  atomicStore(&work[mem+8u],bitcast<u32>(min(wallClock,.15)));
  if(!wall&&resting>.35&&poolClock>.55&&(b.blood.x>.001||b.coat.x>.30)&&b.coat.x>.08){
   let spread=1+min(.85,sqrt(resting)*.24);let amount=min(.22,b.coat.x*.18);poolDeposit(rec,foot.p,radius*spread,angle,amount,seed);b.coat.x=max(0,b.coat.x-amount*.80);poolClock=0;atomicAdd(&work[24],1u);

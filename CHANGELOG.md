@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.30.0 / V30 (throws, thuds and floor squeegeeing)
+
+- Preserve recently achieved fling momentum across a short mouse-release delay, with stop, reversal, obstruction and cancellation guards.
+- Restore thuds from actual GPU collision velocity loss, independently of damage or blood supply, through asynchronous small event readbacks.
+- Sweep wet floor liquid into leading ridges and push it outward during Q/E rotation. Existing smudge/carry tuning applies; wall drip behavior is unchanged.
+- Reverse grab scroll distance: up pushes away, down pulls closer.
+- Add hardware cross-browser handling/audio/conservation checks, native floor-squeegee profiles and an audible before/after MP4.
+
 ## 0.20.0 / V20 (wall adhesion and rivulets)
 
 - Replaced uniform wall sliding with thickness-dependent mobility, an attached film, advancing/receding pinning, and easier travel along wet tracks. Local heads build up before crossing dry surface defects.

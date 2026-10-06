@@ -239,8 +239,12 @@ fn joint(base:u32,j:u32,angles:bool) {
 
   if(b.blood.x>.001&&b.blood.y>.035&&b.coat.w>0){b.blood.y=0;b.coat.w=max(0,b.coat.w-.002*b.blood.x);let seed=index*199u+atomicLoad(&work[5]);let p=b.p.xyz+rotate(b.q,vec3f(0,0,b.half.z));emit(p,bounded(b.v.xyz+cross(b.w.xyz,p-b.p.xyz),22)+rotate(b.q,vec3f((hash(seed)-.5)*2.4,.5+hash(seed+1u)*2.2,.8+hash(seed+2u)*1.8)),.006+hash(seed+3u)*.010,index);b.coat.x=min(1.65,b.coat.x+.01*b.blood.x);}
   if(b.coat.x>.005&&(b.blood.z<=0||frame.action.x==1)){b.blood.z=.22;let rec=header(0).z+index;for(var face=0u;face<6u;face++){let c=vec2f((f32(face%3u)+.5)/3,(f32(face/3u)+.5)/2);stamp(rec,c,c,vec2f(.10,.18),min(b.coat.x*.42,.5),0,f32((index+face*3u)%18u),hash(index+face)*6.283185);}}
-  bodies[index]=b;
- }if(lane==0u&&group.x==0u){atomicAdd(&work[5],1u);}
+  // Contact lanes still read the solved shared p/q. Publish only velocities
+  // here; rewriting the whole shared body would race those footprint reads.
+  bodies[index]=b;localBodies[lane].v=b.v;localBodies[lane].w=b.w;
+ }
+ workgroupBarrier();
+ if(lane==0u){rememberThrow(base);impactSound(base);if(group.x==0u){atomicAdd(&work[5],1u);}}
 }
 @compute @workgroup_size(64) fn pairs(@builtin(global_invocation_id) id:vec3u) {
  let i=id.x;if(i>=u32(frame.settings.x)){return;}let a=bodies[i];var correction=vec3f(0);var angular=vec3f(0);if(a.status.x>.5){for(var j=0u;j<u32(frame.settings.x);j++){if(j==i){continue;}let b=bodies[j];if(i/15u==j/15u&&(bitcast<u32>(a.status.w)&(1u<<(j%15u)))!=0u){continue;}if(distance(a.p.xyz,b.p.xyz)>a.invI.w+b.invI.w){continue;}for(var si=0u;si<u32(a.half.w);si++){let s=sample(a,si);let p=a.p.xyz+rotate(a.q,s.xyz);for(var sj=0u;sj<u32(b.half.w);sj++){let t=sample(b,sj);let other=b.p.xyz+rotate(b.q,t.xyz);let delta=p-other;let d=length(delta);let pen=s.w+t.w-d;if(pen>0&&d>1e-7){let n=delta/d;let r=p-a.p.xyz;let e=eff(a,r,n)+eff(b,other-b.p.xyz,n)+1e-5;let lambda=min(pen,.05)/e*.45;correction+=n*lambda*a.p.w;angular+=invWorld(a,cross(r,n)*lambda);}}}}}let scratch=header(2).w+header(2).x*128u+i*8u;for(var k=0u;k<3u;k++){atomicStore(&work[scratch+k],bitcast<u32>(correction[k]));atomicStore(&work[scratch+4u+k],bitcast<u32>(angular[k]));}
@@ -254,6 +258,7 @@ fn rayHit(o:vec3f,d:vec3f,limit:f32,includeBodies:bool,ignoreBody:i32)->RayHit {
  if(includeBodies){for(var i=0u;i<u32(frame.settings.x);i++){if(i32(i)==ignoreBody){continue;}let b=bodies[i];for(var j=0u;j<u32(b.half.w);j++){let s=sample(b,j);let center=b.p.xyz+rotate(b.q,s.xyz);let offset=o-center;let projection=dot(offset,d);let disc=projection*projection-dot(offset,offset)+s.w*s.w;if(disc<0){continue;}let t=-projection-sqrt(disc);if(t>0&&t<hit.t){let p=o+d*t;hit=RayHit(t,p,safeNorm(p-center),-1,i32(i));}}}}return hit;
 }
 @compute @workgroup_size(1) fn interaction() {
+ if(frame.action.y==4){releaseThrow();return;}
  if(frame.action.y<.5){return;}let hit=rayHit(frame.rayO.xyz,safeNorm(frame.rayD.xyz),35,true,-1);atomicStore(&work[6],bitcast<u32>(hit.body));atomicStore(&work[7],bitcast<u32>(hit.t));atomicStore(&work[10],bitcast<u32>(hit.p.x));atomicStore(&work[11],bitcast<u32>(hit.p.y));atomicStore(&work[12],bitcast<u32>(hit.p.z));
  if(hit.body>=0){let i=u32(hit.body);var b=bodies[i];let local=rotate(inverseQ(b.q),hit.p-b.p.xyz);for(var k=0u;k<3u;k++){atomicStore(&work[13u+k],bitcast<u32>(local[k]));}
   if(frame.action.y==2){for(var k=i/15u*15u;k<(i/15u+1u)*15u;k++){bodies[k].status.x=1;bodies[k].motor.w=0;bodies[k].status.z=0;}b=bodies[i];b.v=vec4f(b.v.xyz+frame.rayD.xyz*(14*frame.action.w)*b.p.w,b.v.w);b.w=vec4f(b.w.xyz+invWorld(b,cross(hit.p-b.p.xyz,frame.rayD.xyz*(14*frame.action.w))),0);b.blood.x=min(2,b.blood.x+1.3);b.coat.x=min(1.65,b.coat.x+.7);b.blood.w=max(0,b.blood.w-34*frame.rayD.w);bodies[i]=b;atomicAdd(&work[16],1u);for(var k=0u;k<65u;k++){let h=i*971u+k*179u+atomicLoad(&work[5]);emit(hit.p+hit.n*.02,bounded(b.v.xyz+cross(b.w.xyz,hit.p-b.p.xyz),20)*.85+hit.n*(1.2+hash(h)*5.5)+vec3f((hash(h+1u)-.5)*4.2,hash(h+2u)*3,(hash(h+3u)-.5)*4.2),.005+hash(h+4u)*.013,i);}}
