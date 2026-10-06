@@ -53,12 +53,16 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
  if(foot.receiver<0||b.status.x<.5){b.track.w=0;atomicStore(&work[mem+5u],0u);return b;}
  let rec=u32(foot.receiver);let r=record(rec);let radius=foot.radius;let seed=index*731u+foot.face*113u;
  var surfaceWet=0.0;var pickup=0.0;
- for(var j=0u;j<5u;j++){
-  let angle=(f32(j)-1)*1.570796;let v=select(vec2f(cos(angle),sin(angle))*.65,vec2f(0),j==0u);let offset=patchOffset(radius,foot.angle,v);let point=foot.p+r.u.xyz*offset.x+r.v.xyz*offset.y;let cell=planeWetCell(rec,point);
+ for(var j=0u;j<9u;j++){
+  let angle=(f32(j)-1)*.785398;let v=select(vec2f(cos(angle),sin(angle))*.65,vec2f(0),j==0u);let offset=patchOffset(radius,foot.angle,v);let point=foot.p+r.u.xyz*offset.x+r.v.xyz*offset.y;let cell=planeWetCell(rec,point);
   let filmRec=select(rec,floorRecord(point),rec<16u);let filmR=record(filmRec);let filmCell=vec2u(clamp(uv(filmR,point)*vec2f(filmDimensions(filmR)),vec2f(0),vec2f(filmDimensions(filmR))-1));let filmIndex=filmAddress(filmR,filmCell);
-  surfaceWet+=max(f32(atomicLoad(&wet[cell]))/65536.0,filmRead(0u,filmIndex)*2)*.2;
-  let wanted=u32(min(dt*.85*frame.tune.z,max(0,1.3-b.coat.x))*.2*65536);let supplied=takeWet(cell,wanted);let liquidTaken=takeWet(filmOffset(0u)+filmIndex,wanted);
-  pickup+=f32(max(supplied,liquidTaken))/65536.0;
+  surfaceWet+=max(f32(atomicLoad(&wet[cell]))/65536.0,filmRead(0u,filmIndex)*3)/9;
+  let wantedCoat=min(dt*2.8*frame.tune.z,max(0,1.3-b.coat.x))/9;
+  let cellArea=filmR.size.x*filmR.size.y/f32(filmDimensions(filmR).x*filmDimensions(filmR).y);
+  // The coarse wet grid controls pigment mobility, not a second blood reserve.
+  // One unit of coating corresponds to .02 integrated film units in world area.
+  takeWet(cell,u32(wantedCoat*65536));let liquidTaken=takeWet(filmOffset(0u)+filmIndex,u32(wantedCoat*.02/cellArea*65536));
+  pickup+=f32(liquidTaken)/65536.0*cellArea/.02;
  }
  b.coat.x=min(1.65,b.coat.x+pickup);
  let abrasion=length(b.v.xyz)*select(.001,.018,frame.local.w>.5&&u32(frame.goal.w)/15u==index/15u)*frame.rayD.w;
@@ -71,12 +75,12 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
  var resting=contactFloat(mem+5u);var poolClock=contactFloat(mem+6u);
  if(movement<.009){resting+=dt;poolClock+=dt;}else{resting=0;poolClock=0;}
  var save=movement>.7||!connected||b.coat.x<.007;
- if(movement>=.013&&movement<=.7){
+ if(movement>=.009&&movement<=.7){
   let count=min(24u,u32(ceil(movement/.018)));var a=previous;var ra=oldRadius;var aa=oldAngle;
   for(var j=1u;j<=count;j++){
    let t=f32(j)/f32(count);let p=mix(previous,foot.p,t);let rb=mix(oldRadius,radius,t);let ab=oldAngle+da*t;travelled+=movement/f32(count);
    // Wet pigment is displaced from an immutable GPU snapshot before fresh coating.
-   if(surfaceWet>.012){contactSweep(rec,a,p,ra,rb,aa,ab,min(.48,surfaceWet*.62),3,seed,travelled);atomicAdd(&work[25],1u);}
+   if(surfaceWet>.012){contactSweep(rec,a,p,ra,rb,aa,ab,min(.48,surfaceWet*1.4),3,seed,travelled);atomicAdd(&work[25],1u);}
    if(b.coat.x>.007){contactSweep(rec,a,p,ra,rb,aa,ab,min(1.4,b.coat.x)*frame.tune.y,1,seed,travelled);atomicAdd(&work[23],1u);}
    a=p;ra=rb;aa=ab;
   }
@@ -106,6 +110,10 @@ fn snapshotPixel(rec:u32,pos:vec2i)->vec4f {
   let world=r.center.xyz+r.u.xyz*((f32(p.x)+.5)/r.size.z-.5)*r.size.x+r.v.xyz*((f32(p.y)+.5)/r.size.w-.5)*r.size.y;id=floorRecord(world);r=record(id);p=vec2i(floor(uv(r,world)*r.size.zw));
  }
  p=clamp(p,vec2i(0),vec2i(r.size.zw)-1);return premultiplied(unpack(paintBefore[r.address.x+u32(p.x)+u32(p.y)*u32(r.size.z)]));
+}
+fn contactDisplacement(s:Stamp,r:Record,pixel:vec2f)->vec2f {
+ let p=pixel/r.size.zw;let delta=(p-s.b.xy)*r.size.xy;let ca=cos(s.b.z);let sn=sin(s.b.z);let local=vec2f(ca*delta.x+sn*delta.y,-sn*delta.x+ca*delta.y)/(s.a.zw*r.size.xy);
+ let mask=(1-smoothstep(.4,1.2,length(local)))*s.b.w;let previous=s.a.xy+patchOffset(s.color.yz,s.color.x,local)/r.size.xy;return (p-previous)*r.size.xy*mask;
 }
 fn contactVelocity(s:Stamp,r:Record,pixel:vec2f)->vec2f {
  let p=pixel/r.size.zw;let delta=(p-s.b.xy)*r.size.xy;let ca=cos(s.b.z);let sn=sin(s.b.z);

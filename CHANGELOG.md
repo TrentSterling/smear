@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.17.0 / V17 (gravity, runoff and pool dragging)
+
+- Added persistent surface velocity with tangential gravity, viscous drag and bounded film substeps. Wall and ramp blood now drains visibly; runoff crosses elevated edges as ballistic droplets and reaches the floor. Carried runoff volume deposits once, and a full particle pool retains pending liquid.
+- Expanded contact pickup from five to nine samples and increased its rate. World-space contact displacement drives film momentum independently from the bounded high-resolution pigment transport, with more continuous liquid between bristles.
+- Wound and impact droplets inherit substantially more linear and angular body motion. Fast coated bodies fling droplets while consuming coating, without manufacturing a new wound.
+- Added gravity, edge conservation, particle-capacity, inherited velocity and coating-shedding checks; preserved the GPU-only runtime path, 120 Hz rig, 900 particles and existing pigment resolution.
+
 ## 0.16.0 / V16 (liquid film and accumulated art release)
 
 - Added a finite 40-cells/metre mobile layer over the persistent pigment, with conservative leveling and contact transport, in-plane gravity, cross-floor-seam flow and persistent dried residue. Pools can expand and coalesce after deposition stops.

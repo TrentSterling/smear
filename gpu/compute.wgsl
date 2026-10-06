@@ -24,21 +24,25 @@ fn stamp(id:u32,a:vec2f,b:vec2f,radius:vec2f,amount:f32,kind:f32,pattern:f32,ang
  if(amount<.002||id>=header(0).w){return;}let i=atomicAdd(&work[3],1u);if(i>=8192u){atomicAdd(&work[4],1u);return;}
  stamps[i]=Stamp(vec4f(a,radius),vec4f(b,angle,amount),vec4f(.42,.024,.056,amount),vec4f(f32(id),kind,pattern,0));
 }
-fn splat(id:u32,p:vec3f,r:f32,amount:f32,seed:u32) {
+fn splatKind(id:u32,p:vec3f,r:f32,amount:f32,seed:u32,kind:f32) {
  let s=record(id);let c=uv(s,p);let radius=vec2f(r)/s.size.xy;
  // Floor events cross record edges; every affected original-resolution tile receives them.
- if(id<16u){let lo=vec2u(clamp(floor((p.xz-vec2f(r*2)+8)/4),vec2f(0),vec2f(3)));let hi=vec2u(clamp(floor((p.xz+vec2f(r*2)+8)/4),vec2f(0),vec2f(3)));for(var z=lo.y;z<=hi.y;z++){for(var x=lo.x;x<=hi.x;x++){let rec=z*4u+x;let other=record(rec);let point=uv(other,p);stamp(rec,point,point,vec2f(r)/other.size.xy,amount,0,f32(seed%18u),hash(seed)*6.283185);}}}
- else{stamp(id,c,c,radius,amount,0,f32(seed%18u),hash(seed)*6.283185);}
+ if(id<16u){let lo=vec2u(clamp(floor((p.xz-vec2f(r*2)+8)/4),vec2f(0),vec2f(3)));let hi=vec2u(clamp(floor((p.xz+vec2f(r*2)+8)/4),vec2f(0),vec2f(3)));for(var z=lo.y;z<=hi.y;z++){for(var x=lo.x;x<=hi.x;x++){let rec=z*4u+x;let other=record(rec);let point=uv(other,p);stamp(rec,point,point,vec2f(r)/other.size.xy,amount,kind,f32(seed%18u),hash(seed)*6.283185);}}}
+ else{stamp(id,c,c,radius,amount,kind,f32(seed%18u),hash(seed)*6.283185);}
+ if(kind==5){return;}
  let lo=vec2u(clamp(floor((c-radius)*56),vec2f(0),vec2f(55)));let hi=vec2u(clamp(ceil((c+radius)*56),vec2f(0),vec2f(55)));for(var y=lo.y;y<=hi.y;y++){for(var x=lo.x;x<=hi.x;x++){let d=(vec2f(f32(x)+.5,f32(y)+.5)/56-c)/max(radius,vec2f(.001));if(dot(d,d)<1){addWet(u32(s.extra.y)+x+y*56u,u32(amount*(1-dot(d,d))*.55*65536));}}}
 }
+fn splat(id:u32,p:vec3f,r:f32,amount:f32,seed:u32){splatKind(id,p,r,amount,seed,0);}
 @compute @workgroup_size(1) fn bootstrap() {
  splat(floorRecord(vec3f(.06,0,.12)),vec3f(.06,0,.12),.48,.92,17u);splat(floorRecord(vec3f(-.25,0,.57)),vec3f(-.25,0,.57),.35,.85,31u);
  if(frame.action.x==1){for(var i=0u;i<16u;i++){let rec=16u+i%4u;let r=record(rec);let c=vec2f(.15+hash(i+971u)*.7,.38+hash(i+31u)*.24);let p=r.center.xyz+r.u.xyz*((c.x-.5)*r.size.x)+r.v.xyz*((c.y-.5)*r.size.y);splat(rec,p,.15+hash(i+712u)*.18,.7,i*79u);}for(var i=0u;i<8u;i++){let p=vec3f((hash(i+7u)-.5)*12,0,(hash(i+91u)-.5)*12);splat(floorRecord(p),p,.18+hash(i+103u)*.25,.8,i*101u);}}
 }
-fn emit(p:vec3f,v:vec3f,r:f32,owner:u32) {
+fn launchDrop(p:vec3f,v:vec3f,r:f32,owner:u32,volume:f32)->bool {
  let start=atomicAdd(&work[8],1u)%900u;
- for(var n=0u;n<900u;n++){let i=(start+n)%900u;let result=atomicCompareExchangeWeak(&work[64u+i],0u,1u);if(result.exchanged){particles[i]=Particle(vec4f(p,r),vec4f(v,0),vec4f(p,f32(owner)),vec4f(0));atomicAdd(&work[9],1u);return;}}
+ for(var n=0u;n<900u;n++){let i=(start+n)%900u;let result=atomicCompareExchangeWeak(&work[64u+i],0u,1u);if(result.exchanged){particles[i]=Particle(vec4f(p,r),vec4f(v,0),vec4f(p,f32(owner)),vec4f(volume,0,0,0));atomicAdd(&work[9],1u);return true;}}
+ return false;
 }
+fn emit(p:vec3f,v:vec3f,r:f32,owner:u32){launchDrop(p,v,r,owner,0);}
 fn sample(b:Body,i:u32)->vec4f { switch i { case 0u:{return b.s0;}case 1u:{return b.s1;}case 2u:{return b.s2;}default:{return b.s3;} } }
 fn skinPoint(b:Body,p:vec3f,n:vec3f)->vec2f {
  let a=abs(n);var face:u32;var c:vec2f;var half:vec2f;if(a.x>a.y&&a.x>a.z){face=select(1u,0u,n.x>0);c=p.zy;half=b.half.zy;}else if(a.y>a.z){face=select(3u,2u,n.y>0);c=p.xz;half=b.half.xz;}else{face=select(5u,4u,n.z>0);c=p.xy;half=b.half.xy;}return (clamp(c/half*.5+.5,vec2f(.01),vec2f(.99))+vec2f(f32(face%3u),f32(face/3u)))/vec2f(3,2);
@@ -212,7 +216,11 @@ fn joint(base:u32,j:u32,angles:bool) {
   }
   b.blood.y+=dt*max(.05,b.blood.x)*frame.action.z;b.blood.z=max(0,b.blood.z-dt);b.coat.y=max(0,b.coat.y-dt);b.coat.x=max(0,b.coat.x-dt*2.3/frame.tune.w);
   b=paintContact(index,b,dt);
-  if(b.blood.x>.001&&b.blood.y>.035&&b.coat.w>0){b.blood.y=0;b.coat.w=max(0,b.coat.w-.002*b.blood.x);let seed=index*199u+atomicLoad(&work[5]);let p=b.p.xyz+rotate(b.q,vec3f(0,0,b.half.z));emit(p,b.v.xyz*.25+rotate(b.q,vec3f((hash(seed)-.5)*1.6,.4+hash(seed+1u)*1.8,.5+hash(seed+2u))),.006+hash(seed+3u)*.010,index);b.coat.x=min(1.65,b.coat.x+.01*b.blood.x);}
+  let flingSpeed=length(b.v.xyz)+length(b.w.xyz)*b.invI.w*.55;
+  b.coat.z=min(1.5,b.coat.z+dt*max(0,flingSpeed-1.8)*1.5);
+  if(b.coat.x>.22&&b.coat.z>=1){let seed=index*137u+atomicLoad(&work[5]);let arm=rotate(b.q,vec3f((hash(seed)-.5)*b.half.x*1.5,(hash(seed+1u)-.5)*b.half.y*1.5,b.half.z*1.08));let normal=safeNorm(arm);let velocity=bounded(b.v.xyz+cross(b.w.xyz,arm),22)+normal*(.4+hash(seed+2u)*1.3);if(launchDrop(b.p.xyz+arm,velocity,.007+hash(seed+3u)*.007,index,0)){b.coat.x=max(0,b.coat.x-.018);b.coat.z-=1;atomicAdd(&work[27],1u);}}
+
+  if(b.blood.x>.001&&b.blood.y>.035&&b.coat.w>0){b.blood.y=0;b.coat.w=max(0,b.coat.w-.002*b.blood.x);let seed=index*199u+atomicLoad(&work[5]);let p=b.p.xyz+rotate(b.q,vec3f(0,0,b.half.z));emit(p,bounded(b.v.xyz+cross(b.w.xyz,p-b.p.xyz),22)+rotate(b.q,vec3f((hash(seed)-.5)*2.4,.5+hash(seed+1u)*2.2,.8+hash(seed+2u)*1.8)),.006+hash(seed+3u)*.010,index);b.coat.x=min(1.65,b.coat.x+.01*b.blood.x);}
   if(b.coat.x>.005&&(b.blood.z<=0||frame.action.x==1)){b.blood.z=.22;let rec=header(0).z+index;for(var face=0u;face<6u;face++){let c=vec2f((f32(face%3u)+.5)/3,(f32(face/3u)+.5)/2);stamp(rec,c,c,vec2f(.10,.18),min(b.coat.x*.42,.5),0,f32((index+face*3u)%18u),hash(index+face)*6.283185);}}
   bodies[index]=b;
  }if(lane==0u&&group.x==0u){atomicAdd(&work[5],1u);}
@@ -231,13 +239,13 @@ fn rayHit(o:vec3f,d:vec3f,limit:f32,includeBodies:bool,ignoreBody:i32)->RayHit {
 @compute @workgroup_size(1) fn interaction() {
  if(frame.action.y<.5){return;}let hit=rayHit(frame.rayO.xyz,safeNorm(frame.rayD.xyz),35,true,-1);atomicStore(&work[6],bitcast<u32>(hit.body));atomicStore(&work[7],bitcast<u32>(hit.t));atomicStore(&work[10],bitcast<u32>(hit.p.x));atomicStore(&work[11],bitcast<u32>(hit.p.y));atomicStore(&work[12],bitcast<u32>(hit.p.z));
  if(hit.body>=0){let i=u32(hit.body);var b=bodies[i];let local=rotate(inverseQ(b.q),hit.p-b.p.xyz);for(var k=0u;k<3u;k++){atomicStore(&work[13u+k],bitcast<u32>(local[k]));}
-  if(frame.action.y==2){for(var k=i/15u*15u;k<(i/15u+1u)*15u;k++){bodies[k].status.x=1;bodies[k].motor.w=0;bodies[k].status.z=0;}b=bodies[i];b.v=vec4f(b.v.xyz+frame.rayD.xyz*(14*frame.action.w)*b.p.w,b.v.w);b.w=vec4f(b.w.xyz+invWorld(b,cross(hit.p-b.p.xyz,frame.rayD.xyz*(14*frame.action.w))),0);b.blood.x=min(2,b.blood.x+1.3);b.coat.x=min(1.65,b.coat.x+.7);b.blood.w=max(0,b.blood.w-34*frame.rayD.w);bodies[i]=b;atomicAdd(&work[16],1u);for(var k=0u;k<65u;k++){let h=i*971u+k*179u+atomicLoad(&work[5]);emit(hit.p+hit.n*.02,b.v.xyz*.22+hit.n*(.7+hash(h)*3)+vec3f((hash(h+1u)-.5)*3,hash(h+2u)*2,(hash(h+3u)-.5)*3),.005+hash(h+4u)*.013,i);}}
+  if(frame.action.y==2){for(var k=i/15u*15u;k<(i/15u+1u)*15u;k++){bodies[k].status.x=1;bodies[k].motor.w=0;bodies[k].status.z=0;}b=bodies[i];b.v=vec4f(b.v.xyz+frame.rayD.xyz*(14*frame.action.w)*b.p.w,b.v.w);b.w=vec4f(b.w.xyz+invWorld(b,cross(hit.p-b.p.xyz,frame.rayD.xyz*(14*frame.action.w))),0);b.blood.x=min(2,b.blood.x+1.3);b.coat.x=min(1.65,b.coat.x+.7);b.blood.w=max(0,b.blood.w-34*frame.rayD.w);bodies[i]=b;atomicAdd(&work[16],1u);for(var k=0u;k<65u;k++){let h=i*971u+k*179u+atomicLoad(&work[5]);emit(hit.p+hit.n*.02,bounded(b.v.xyz+cross(b.w.xyz,hit.p-b.p.xyz),20)*.85+hit.n*(1.2+hash(h)*5.5)+vec3f((hash(h+1u)-.5)*4.2,hash(h+2u)*3,(hash(h+3u)-.5)*4.2),.005+hash(h+4u)*.013,i);}}
   if(frame.action.y==2||frame.action.y==3){if(frame.action.y==3){b.coat.x=min(1.65,b.coat.x+.12);bodies[i]=b;}let c=skinPoint(b,local,rotate(inverseQ(b.q),hit.n));stamp(header(0).z+i,c,c,vec2f(.07,.12),.75,0,f32(i%18u),0);}
  }else if(hit.surface>=0){if(frame.action.y==3){let r=record(u32(hit.surface));splat(u32(hit.surface),hit.p,.32,1,atomicLoad(&work[5]));let c=uv(r,hit.p);atomicMax(&wet[wetCell(r,c)],50000u);for(var k=0u;k<10u;k++){let h=k*37u+atomicLoad(&work[5]);emit(hit.p+hit.n*.03,hit.n*(.5+hash(h)*1.2)+vec3f((hash(h+1u)-.5)*2,hash(h+2u)*1.8,(hash(h+3u)-.5)*2),.008+hash(h+4u)*.01,999u);}}}
 }
 @compute @workgroup_size(64) fn droplets(@builtin(global_invocation_id) id:vec3u) {
- let i=id.x;if(i>=900u||atomicLoad(&work[64u+i])==0u){return;}var p=particles[i];let dt=1.0/120.0;p.previous=vec4f(p.p.xyz,p.previous.w);p.v.y-=9.81*dt;p.v=vec4f(p.v.xyz*exp(-.08*dt),p.v.w+dt);p.p=vec4f(p.p.xyz+p.v.xyz*dt,p.p.w);let delta=p.p.xyz-p.previous.xyz;let length=length(delta);let h=rayHit(p.previous.xyz,safeNorm(delta),length,true,select(-1,i32(p.previous.w),p.v.w<.22));
- if(h.t<length){if(h.surface>=0){splat(u32(h.surface),h.p,max(.018,p.p.w*3),.7,i+atomicLoad(&work[5]));let r=record(u32(h.surface));atomicMax(&wet[wetCell(r,uv(r,h.p))],12000u);}else if(h.body>=0){let b=bodies[u32(h.body)];let local=rotate(inverseQ(b.q),h.p-b.p.xyz);let n=rotate(inverseQ(b.q),h.n);let a=abs(n);var face:u32;var c:vec2f;var half:vec2f;if(a.x>a.y&&a.x>a.z){face=select(1u,0u,n.x>0);c=local.zy;half=b.half.zy;}else if(a.y>a.z){face=select(3u,2u,n.y>0);c=local.xz;half=b.half.xz;}else{face=select(5u,4u,n.z>0);c=local.xy;half=b.half.xy;}let point=(c/half*.5+.5+vec2f(f32(face%3u),f32(face/3u)))/vec2f(3,2);stamp(header(0).z+u32(h.body),point,point,vec2f(.045,.065),.55,0,f32(i%18u),0);}
+ let i=id.x;if(i>=900u||atomicLoad(&work[64u+i])==0u){return;}var p=particles[i];let dt=1.0/120.0;p.previous=vec4f(p.p.xyz,p.previous.w);p.v.y-=9.81*dt;p.v=vec4f(p.v.xyz*exp(-.08*dt),p.v.w+dt);p.p=vec4f(p.p.xyz+p.v.xyz*dt,p.p.w);let delta=p.p.xyz-p.previous.xyz;let travel=length(delta);let h=rayHit(p.previous.xyz,safeNorm(delta),travel,true,select(-1,i32(p.previous.w),p.v.w<.22));
+ if(h.t<travel){if(h.surface>=0){let radius=max(.018,p.p.w*(3+min(3,length(p.v.xyz)*.22)));if(p.extra.x>0){returnFilm(u32(h.surface),h.p,p.extra.x);splatKind(u32(h.surface),h.p,radius,.65,i+atomicLoad(&work[5]),5);atomicAdd(&work[28],1u);}else{splat(u32(h.surface),h.p,radius,.7,i+atomicLoad(&work[5]));}let r=record(u32(h.surface));if(p.extra.x==0){atomicMax(&wet[wetCell(r,uv(r,h.p))],12000u);}}else if(h.body>=0){let b=bodies[u32(h.body)];let local=rotate(inverseQ(b.q),h.p-b.p.xyz);let n=rotate(inverseQ(b.q),h.n);let a=abs(n);var face:u32;var c:vec2f;var half:vec2f;if(a.x>a.y&&a.x>a.z){face=select(1u,0u,n.x>0);c=local.zy;half=b.half.zy;}else if(a.y>a.z){face=select(3u,2u,n.y>0);c=local.xz;half=b.half.xz;}else{face=select(5u,4u,n.z>0);c=local.xy;half=b.half.xy;}let point=(c/half*.5+.5+vec2f(f32(face%3u),f32(face/3u)))/vec2f(3,2);stamp(header(0).z+u32(h.body),point,point,vec2f(.045,.065),.55,0,f32(i%18u),0);}
   atomicStore(&work[64u+i],0u);atomicSub(&work[9],1u);atomicAdd(&work[17],1u);
  }else if(p.v.w>7||p.p.y<-.15){atomicStore(&work[64u+i],0u);atomicSub(&work[9],1u);}particles[i]=p;
 }
@@ -304,7 +312,7 @@ fn coverage(s:Stamp,point:vec2f)->vec4f {
  var rec=0u;for(var i=0u;i<header(0).w;i++){let r=record(i);if(tile>=r.address.y&&tile<r.address.y+r.address.z*r.address.w){rec=i;break;}}
  let r=record(rec);let t=tile-r.address.y;let origin=vec2u(t%r.address.z,t/r.address.z)*16u;
  for(var y=0u;y<2u;y++){for(var x=0u;x<2u;x++){let pos=origin+local.xy+vec2u(x,y)*8u;if(any(pos>=vec2u(r.size.zw))){continue;}let offset=r.address.x+pos.x+pos.y*u32(r.size.z);var value=unpack(pigment[offset]);var liquid=0.0;var liquidPush=vec2f(0);let total=select(n,min(8192u,atomicLoad(&work[3])),count>128u);
-  for(var j=0u;j<total;j++){let index=select(indices[min(j,127u)],j,count>128u);let s=stamps[index];if(u32(s.info.x)!=rec){continue;}if(s.info.y==3){value=displacedPaint(s,vec2f(pos)+.5,value);liquidPush+=contactVelocity(s,r,vec2f(pos)+.5)*r.size.xy/r.size.zw*4;}else{let source=coverage(s,vec2f(pos)+.5);if(source.a>0){value=over(value,source);let footprintArea=max(.002,s.a.z*s.a.w*r.size.x*r.size.y);liquid+=source.a*select(select(.18,.015,s.info.y==1),.006/footprintArea,s.info.y==4);}}}
+  for(var j=0u;j<total;j++){let index=select(indices[min(j,127u)],j,count>128u);let s=stamps[index];if(u32(s.info.x)!=rec){continue;}if(s.info.y==3){value=displacedPaint(s,vec2f(pos)+.5,value);liquidPush+=contactDisplacement(s,r,vec2f(pos)+.5)*2.2;}else{let source=coverage(s,vec2f(pos)+.5);if(source.a>0){value=over(value,source);let footprintArea=max(.002,s.a.z*s.a.w*r.size.x*r.size.y);liquid+=source.a*select(select(select(.18,.036,s.info.y==1),.006/footprintArea,s.info.y==4),0.0,s.info.y==5);}}}
   pigment[offset]=pack(value);depositFilm(rec,pos,liquid,liquidPush);
  }}
 }
