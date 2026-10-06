@@ -130,8 +130,14 @@ fn wallPotential(rec:u32,r:Record,cell:vec2i,mass:f32)->f32 {
   let direction=select(1.0,-1.0,cell[axis]==0u);let downhill=-select(r.u.y,r.v.y,axis==1u)*direction;
   if(downhill>.05||r.n.y>.5||velocity[axis]*direction>.04){exitDirection[axis]=direction;}
  }
- let hanging=r.n.y<-.3&&mass>.1;if(!hanging&&dot(exitDirection,exitDirection)==0){return;}
+ let overhead=r.n.y<-.3;let dripRate=select(1.0,materialTune().w,overhead);if(dripRate<=0){return;}
+ if(overhead&&mass<=.1/sqrt(dripRate)){return;}
+ let hanging=overhead&&mass>.1;if(!hanging&&dot(exitDirection,exitDirection)==0){return;}
  if((address+atomicLoad(&work[5])/2u)%8u!=0u){return;}
+ // Change detachment frequency, not the visible size of every drop. Suppressed
+ // drops retain their full supply overhead instead of raining tiny substitutes.
+ if(overhead&&hash(address*977u+(atomicLoad(&work[5])/2u)*131u)>=min(1.0,dripRate)){return;}
+ if(overhead&&atomicAdd(&work[37],1u)>=u32(max(1.0,24*dripRate))){return;}
  var point=r.center.xyz+r.u.xyz*((f32(cell.x)+.5)/r.u.w-.5)*r.size.x+r.v.xyz*((f32(cell.y)+.5)/r.v.w-.5)*r.size.y;
  point+=r.n.xyz*.018+(r.u.xyz*exitDirection.x+r.v.xyz*exitDirection.y)*.035;
  if(atomicAdd(&work[30],1u)>=24u){return;}

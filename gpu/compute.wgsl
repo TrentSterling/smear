@@ -338,11 +338,11 @@ fn coverage(s:Stamp,point:vec2f)->vec4f {
  var rec=0u;for(var i=0u;i<header(0).w;i++){let r=record(i);if(tile>=r.address.y&&tile<r.address.y+r.address.z*r.address.w){rec=i;break;}}
  let r=record(rec);let t=tile-r.address.y;let origin=vec2u(t%r.address.z,t/r.address.z)*16u;
  for(var y=0u;y<2u;y++){for(var x=0u;x<2u;x++){let pos=origin+local.xy+vec2u(x,y)*8u;if(any(pos>=vec2u(r.size.zw))){continue;}let offset=r.address.x+pos.x+pos.y*u32(r.size.z);var value=unpack(pigment[offset]);var liquid=0.0;var liquidPush=vec2f(0);let total=select(n,min(8192u,atomicLoad(&work[3])),count>128u);
-  var velocities:array<vec2f,5>;var smudging=false;
+  var velocities:array<vec2f,9>;var smudging=false;
   for(var j=0u;j<total;j++){
    let index=select(indices[min(j,127u)],j,count>128u);let s=stamps[index];if(u32(s.info.x)!=rec||s.info.y!=3){continue;}smudging=true;
    velocities[0]+=contactVelocity(s,r,vec2f(pos)+.5);
-   for(var k=0u;k<4u;k++){let offset=select(vec2f(select(-1.0,1.0,k==0u),0),vec2f(0,select(-1.0,1.0,k==2u)),k>=2u);velocities[k+1u]+=contactVelocity(s,r,vec2f(pos)+.5+offset);}
+   for(var k=0u;k<8u;k++){if(k>=4u&&carryReach()==1){break;}let axis=k%4u;let offset=select(vec2f(select(-1.0,1.0,axis==0u),0),vec2f(0,select(-1.0,1.0,axis==2u)),axis>=2u);velocities[k+1u]+=contactVelocity(s,r,vec2f(pos)+.5+offset*(carryReach()-f32(k/4u)));}
    liquidPush+=contactDisplacement(s,r,vec2f(pos)+.5)*2.2;
   }
   if(smudging){value=displacedPaint(rec,vec2f(pos)+.5,value,velocities);}

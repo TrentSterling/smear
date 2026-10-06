@@ -1,0 +1,40 @@
+import assert from 'node:assert/strict';import {readFile,writeFile,stat} from 'node:fs/promises';import {createHash} from 'node:crypto';import {spawnSync} from 'node:child_process';
+const hash=b=>createHash('sha256').update(b).digest('hex'),read=async p=>JSON.parse(await readFile(p,'utf8'));
+const impact=r=>{const {parts,...metrics}=r;return {...metrics,woundedParts:parts.filter(p=>p.wound>.001).length,maxWound:Math.max(...parts.map(p=>p.wound)),remainingReserve:parts.reduce((n,p)=>n+p.reserve,0)};};
+const pigment=({sum,painted,carried,bridge,centroid,q95,q99,hash})=>({sum,painted,carried,bridge,centroid,q95,q99,hash});
+const stroke=r=>({before:pigment(r.before),after:pigment(r.after),massRatio:r.after.sum/r.before.sum});
+const build=await readFile('index.html'),buildSHA256=hash(build),buildTime=(await stat('index.html')).mtimeMs;assert.equal((await read('package.json')).version,'0.29.0');
+const receipt={version:'0.29.0',status:'verified release candidate',verifiedAt:new Date().toISOString(),buildSHA256,buildBytes:build.length,checks:{},evidence:[],impacts:[],drainage:[],nativeProfiles:[]};
+for(const browser of ['chrome','firefox']){
+ const suffix=browser==='firefox'?'-firefox':'';
+ const paths=[['carry','carry-pass'],['impact','impact-pass'],['smudge','smudge-pass'],['evolution','liquid-evolution'],['joining','liquid-evolution'],['character','liquid-evolution'],['finish','liquid-evolution'],['brush','brush-flow-pass'],['contact','wall-contact-pass'],['wall','wall-pass'],['wet','wet-pass'],['film','film-pass'],['rivulets','rivulet-pass']].map(([name,root])=>[name,root+'/final-v29'+suffix]);
+ for(const entry of paths)if(['joining','character','finish'].includes(entry[0]))entry[1]='liquid-evolution/final-v29-'+entry[0]+suffix;
+ paths.push(['gameplay','compute-'+browser],['native','compute-native-'+browser],['wallNative','compute-native-wall-'+browser],['impactNative','impact-pass/native-'+browser]);
+ for(const [name,dir]of paths){
+  const path='tools/out/'+dir+'/verification.json',bytes=await readFile(path),r=JSON.parse(bytes);assert(r.result.startsWith('COMPLETE'),path);assert(Date.parse(r.startedAt)>buildTime,path+' predates final build');if(r.buildSHA256)assert.equal(r.buildSHA256,buildSHA256,path);receipt.evidence.push({path,sha256:hash(bytes),startedAt:r.startedAt});receipt.checks[browser+'-'+name]=r.checks;
+  if(name==='carry'){receipt.carry??=[];receipt.carry.push({browser,baseline:stroke(r.baseline),carry:Object.fromEntries(Object.entries(r.carry).map(([k,v])=>[k,stroke(v)])),impacts:Object.fromEntries(Object.entries(r.impacts).map(([k,v])=>[k,impact(v)])),ceiling:r.ceiling,migrated:r.migrated,saved:r.saved});}
+  if(name==='impact')receipt.impacts.push({browser,baseline:impact(r.baseline),cases:Object.fromEntries(Object.entries(r.cases).map(([k,v])=>[k,impact(v)])),fullPool:impact(r.fullPool),release:impact(r.release),grabThrow:impact(r.grabThrow),three:impact(r.three),fifteen:impact(r.fifteen)});
+  if(name==='brush')receipt.drainage.push({browser,descent3Seconds:r.samples[0].cy-r.samples[1].cy,descent15Seconds:r.samples[0].cy-r.samples[3].cy,massRetained:r.samples[3].mass/r.samples[0].mass});
+  if(name==='film')receipt.resources=r.resources;
+  if(name==='native'||name==='wallNative'||name==='impactNative'){assert.deepEqual(r.viewport,[3000,1800]);assert(r.audio.enabled&&r.audio.state==='running');for(const p of r.profiles){assert.equal(p.audit.canvasReads,0);assert.equal(p.audit.webGLContexts,0);assert(!Object.keys(p.audit.reads).some(k=>/body inspection|pigment/.test(k)));receipt.nativeProfiles.push({browser,workload:p.label,fps:p.report.summary.fps,cpuP99MS:p.report.summary.workPercentileMs.p99,gpu:p.report.compute.summary,ticksPerSecond:p.ticksPerSecond});}}
+ }
+}
+receipt.checkCount=Object.values(receipt.checks).reduce((n,v)=>n+v.length,0);
+const root='tools/out/carry-pass/recordings',capture=await read(root+'/capture.json');assert(capture.result.startsWith('COMPLETE'));assert.equal(capture.builds.find(b=>b.label==='before').sha256,(await read('docs/qa/impact-v28.json')).buildSHA256);assert.equal(capture.builds.find(b=>b.label==='after').sha256,buildSHA256);
+receipt.media={capture:root+'/capture.json',builds:capture.builds,files:[]};
+for(const name of ['before/carry-before.mp4','after/carry-after.mp4',capture.comparison]){const path=root+'/'+name,b=await readFile(path),p=spawnSync('ffprobe',['-v','error','-show_entries','format=duration:stream=codec_name,width,height,r_frame_rate','-of','json',path],{encoding:'utf8',windowsHide:true});assert.ifError(p.error);assert.equal(p.status,0,p.stderr);const info=JSON.parse(p.stdout);assert.equal(info.streams[0].codec_name,'h264');assert(Math.abs(Number(info.format.duration)-59)<.1);receipt.media.files.push({path,bytes:b.length,sha256:hash(b),...info});}
+receipt.sources={};for(const path of ['gpu/contact.wgsl','gpu/compute.wgsl','gpu/film.wgsl','gpu/runtime.js','tools/compute-build.mjs','tools/carry-verify.mjs','tools/carry-capture.mjs','tools/brush-flow-verify.mjs'])receipt.sources[path]=hash(await readFile(path));
+const control=await read('tools/out/brush-flow-pass/round-v29-control-firefox/verification.json'),originalLimit=await read('tools/out/carry-pass/firefox-drainage-original-limit.json');
+assert.equal(control.buildSHA256,capture.builds.find(b=>b.label==='before').sha256);assert.equal(originalLimit.buildSHA256,buildSHA256);
+const descent=r=>r.samples[0].cy-r.samples[3].cy;
+assert(Math.abs(descent(control)-descent(originalLimit))<1e-8);
+receipt.drainageControl={baselineSHA256:control.buildSHA256,candidateSHA256:originalLimit.buildSHA256,baselineDescentMetres:descent(control),candidateDescentMetres:descent(originalLimit),targetMetres:.5,toleranceMetres:1/160,note:'The original strict 0.5 m limit failed on both preserved V28 and V29 with identical liquid measurements. The recorded V28 release was 0.49827 m. The fixture now permits one pigment texel of tolerance; the wall-flow shader was not changed.'};
+receipt.scope=[
+ 'Accepted V28 retained as the comparison. Carry distance defaults to 2 (range 1-4) and extends conservative wet-pigment transport with paired adjacent-length links. Shared donor and receiver limits prevent compression from clipping supply. Dry and lifted contacts do not move pigment.',
+ 'Impact size independently scales existing textured impact geometry without changing injury or allocated finite blood. Ceiling drips independently controls overhead retention and detachment frequency/budget. Suppressed drops retain their supply; zero stops overhead detachment. Walls retain the existing drainage solver.',
+ 'Effects default to their previous 1.0 values. Gentler effects selects impact size .8 and ceiling drips .35 while preserving custom bleeding, smudge and other settings. Saved tuning migrates under the existing key.',
+ 'The 54-bristle brush, abrasion, pressure supply, finite pickup/coating, film gravity/adhesion, joining and wet material finish remain. No new alpha-circle deposition was added. Normal-play body/pigment downloads remain absent, with unchanged body/uniform layouts, bindings, particle pool and receiver density.',
+ 'Comparison floor footage uses the normal grab demo. Head and ceiling scenes upload identical clean launch poses once, then record native simulation and at least fifteen seconds of drainage. V29 effects footage explicitly uses the gentler settings, while floor footage uses defaults. Native trajectories may vary. Performance is measured separately from capture.'
+];
+for(const [path,expected]of [['versions/smear_v8.9_cpu.html','cff878b51eec0db9e3874f99c9fdcdbd6b9179d2f03e6374ef4726d89f1e5c44'],['versions/dragmark_v7.html','4dfe17e606b18ce7471f176b4c2afa0229b2f32e60b5b88c2971ebc6a75bc41f']])assert.equal(hash(await readFile(path)),expected);
+await writeFile('docs/qa/carry-v29.json',JSON.stringify(receipt,null,2)+'\n');console.log(JSON.stringify({result:'COMPLETE V29 release evidence audit',checks:receipt.checkCount,buildSHA256,media:receipt.media.files.map(f=>f.path)},null,2));

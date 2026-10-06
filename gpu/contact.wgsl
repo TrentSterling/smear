@@ -3,6 +3,7 @@
 struct Footprint { p:vec3f, radius:vec2f, angle:f32, receiver:i32, face:u32 };
 fn contactMemory(index:u32)->u32 { return header(2).w+header(2).x*128u+180u*8u+index*16u; }
 fn materialTune()->vec4f {return constants[header(3).z];}
+fn carryReach()->f32 {return 1+round((constants[header(3).z+1u].x-1)*2);}
 fn contactFloat(address:u32)->f32 { return bitcast<f32>(atomicLoad(&work[address])); }
 fn receiveCoating(address:u32,capacity:f32)->f32 {
  var old=atomicLoad(&work[address]);var amount=0u;loop{
@@ -61,7 +62,7 @@ fn wallSplat(foot:Footprint,coat:f32,speed:f32,seed:u32,velocity:vec3f)->f32 {
  let rec=u32(foot.receiver);let r=record(rec);let tangent=vec2f(dot(velocity,r.u.xyz),dot(velocity,r.v.xyz));
  let slip=smoothstep(.5,8.0,length(tangent));let direction=tangent/max(length(tangent),.0001);
  let angle=foot.angle+angleDelta(atan2(direction.y,direction.x),foot.angle)*slip;
- let size=clamp(foot.radius*(1.5+energy)*vec2f(1+slip*.45,1-slip*.18),vec2f(.065),vec2f(.58));
+ let size=clamp(foot.radius*(1.5+energy)*vec2f(1+slip*.45,1-slip*.18),vec2f(.065),vec2f(.58))*materialTune().z;
  let center=foot.p+(r.u.xyz*direction.x+r.v.xyz*direction.y)*slip*.09;
  let strength=min(.96,spent*4.5)*frame.tune.y;
  contactStamp(rec,center,center,size,size,angle,angle,strength,6,seed,spent*.02);
@@ -116,7 +117,7 @@ fn impactBlood(index:u32,input:Body,hit:WorldImpact)->Body {
  var surfaceVolume=volume-retained;
  let energy=clamp(severity,0,1);let tangent=hit.velocity-n*dot(hit.velocity,n);let slip=smoothstep(.5,10.0,length(tangent));
  let angle=atan2(dot(tangent,r.v.xyz),dot(tangent,r.u.xyz))+hash(seed)*.4;
- let radius=(.12+sqrt(energy)*.46+hit.radius*.40)*sqrt(min(1.0,volume/.035));
+ let radius=(.12+sqrt(energy)*.46+hit.radius*.40)*sqrt(min(1.0,volume/.035))*materialTune().z;
  let size=vec2f(radius*(1+slip*.45),radius*(1-slip*.20));
  let count=6u+u32(energy*18);let portion=surfaceVolume*.20/f32(count);
  for(var j=0u;j<count;j++){
@@ -327,18 +328,31 @@ fn contactVelocity(s:Stamp,r:Record,pixel:vec2f)->vec2f {
  let local=vec2f(ca*delta.x+sn*delta.y,-sn*delta.x+ca*delta.y)/(s.a.zw*r.size.xy);
  let mask=(1-smoothstep(.50,1.15,length(local)))*s.b.w;
  let previous=s.a.xy+patchOffset(s.color.yz,s.color.x,local)/r.size.xy;let shift=(p-previous)*r.size.zw;
- return shift*min(1.0,.8/max(abs(shift.x)+abs(shift.y),1e-6))*mask;
+ let reach=carryReach();return shift*min(1.0,.8*reach/max(abs(shift.x)+abs(shift.y),1e-6))*mask/reach;
 }
 fn boundedPaintVelocity(v:vec2f)->vec2f {return v*min(1.0,.8/max(abs(v.x)+abs(v.y),1e-6));}
-fn displacedPaint(id:u32,pixel:vec2f,dst:vec4f,velocities:array<vec2f,5>)->vec4f {
+fn displacedPaint(id:u32,pixel:vec2f,dst:vec4f,velocities:array<vec2f,9>)->vec4f {
  let r=record(id);let pos=vec2i(floor(pixel));let center=snapshotPixel(id,pos);let velocity=boundedPaintVelocity(velocities[0]);var change=vec4f(0);
  // Sum overlapping contacts first. One conservative edge flux per pixel keeps
  // vigorous rubbing from repeatedly cloning or clipping the snapshot pigment.
- for(var k=0u;k<4u;k++){
-  let offset=select(vec2i(select(-1,1,k==0u),0),vec2i(0,select(-1,1,k==2u)),k>=2u);
+  for(var k=0u;k<8u;k++){
+  let reach=carryReach();if(k>=4u&&reach==1){break;}let axis=k%4u;
+  // Adjacent link lengths share the transfer. A single long stride separates
+  // the grid into independent lattices and leaves comb-like bands in the smear.
+  let blend=select(1.0,select(.65,.35,k>=4u),reach>1);
+  let direction=select(vec2i(select(-1,1,axis==0u),0),vec2i(0,select(-1,1,axis==2u)),axis>=2u);let offset=direction*(i32(reach)-i32(k/4u));
   if(id>=16u&&(any(pos+offset<vec2i(0))||any(pos+offset>=vec2i(r.size.zw)))){continue;}
-  let otherVelocity=boundedPaintVelocity(velocities[k+1u]);let flux=dot((velocity+otherVelocity)*.5,vec2f(offset));
-  if(abs(flux)>.00001){let other=snapshotPixel(id,pos+offset);change-=select(center,other,flux<0)*flux;}
+  let otherVelocity=boundedPaintVelocity(velocities[k+1u]);let flux=dot((velocity+otherVelocity)*.5,vec2f(direction));
+  if(abs(flux)>.00001){
+   let other=snapshotPixel(id,pos+offset);let donor=select(center,other,flux<0);let receiver=select(other,center,flux<0);
+   // Longer links must not pile opaque paint above alpha=1 and then lose it
+   // through clipping. Both endpoints calculate the same bounded transfer.
+   let donorVelocity=select(velocity,otherVelocity,flux<0);let receiverVelocity=select(otherVelocity,velocity,flux<0);let travel=vec2f(direction)*sign(flux);
+   let donorShare=max(0,dot(donorVelocity,travel))/max(abs(donorVelocity.x)+abs(donorVelocity.y),1e-6);
+   let receiverShare=max(0,dot(receiverVelocity,travel))/max(abs(receiverVelocity.x)+abs(receiverVelocity.y),1e-6);
+   let amount=min(min(abs(flux),donorShare*.95),max(0,1-receiver.a)*receiverShare/max(donor.a,1e-6));
+   change-=donor*sign(flux)*amount*blend;
+  }
  }
  let moved=clamp(premultiplied(dst)+change,vec4f(0),vec4f(1));return straight(vec4f(min(moved.rgb,vec3f(moved.a)),moved.a));
 }
