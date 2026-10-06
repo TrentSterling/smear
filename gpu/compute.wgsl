@@ -245,7 +245,7 @@ fn rayHit(o:vec3f,d:vec3f,limit:f32,includeBodies:bool,ignoreBody:i32)->RayHit {
 }
 @compute @workgroup_size(64) fn droplets(@builtin(global_invocation_id) id:vec3u) {
  let i=id.x;if(i>=900u||atomicLoad(&work[64u+i])==0u){return;}var p=particles[i];let dt=1.0/120.0;p.previous=vec4f(p.p.xyz,p.previous.w);p.v.y-=9.81*dt;p.v=vec4f(p.v.xyz*exp(-.08*dt),p.v.w+dt);p.p=vec4f(p.p.xyz+p.v.xyz*dt,p.p.w);let delta=p.p.xyz-p.previous.xyz;let travel=length(delta);let h=rayHit(p.previous.xyz,safeNorm(delta),travel,true,select(-1,i32(p.previous.w),p.v.w<.22));
- if(h.t<travel){if(h.surface>=0){let radius=max(.018,p.p.w*(3+min(3,length(p.v.xyz)*.22)));if(p.extra.x>0){returnFilm(u32(h.surface),h.p,p.extra.x);splatKind(u32(h.surface),h.p,radius,.65,i+atomicLoad(&work[5]),5);atomicAdd(&work[28],1u);}else{splat(u32(h.surface),h.p,radius,.7,i+atomicLoad(&work[5]));}let r=record(u32(h.surface));if(p.extra.x==0){atomicMax(&wet[wetCell(r,uv(r,h.p))],12000u);}}else if(h.body>=0){let b=bodies[u32(h.body)];let local=rotate(inverseQ(b.q),h.p-b.p.xyz);let n=rotate(inverseQ(b.q),h.n);let a=abs(n);var face:u32;var c:vec2f;var half:vec2f;if(a.x>a.y&&a.x>a.z){face=select(1u,0u,n.x>0);c=local.zy;half=b.half.zy;}else if(a.y>a.z){face=select(3u,2u,n.y>0);c=local.xz;half=b.half.xz;}else{face=select(5u,4u,n.z>0);c=local.xy;half=b.half.xy;}let point=(c/half*.5+.5+vec2f(f32(face%3u),f32(face/3u)))/vec2f(3,2);stamp(header(0).z+u32(h.body),point,point,vec2f(.045,.065),.55,0,f32(i%18u),0);}
+ if(h.t<travel){if(h.surface>=0){let radius=max(.018,p.p.w*(3+min(3,length(p.v.xyz)*.22)));if(p.extra.x>0){returnFilm(u32(h.surface),h.p,p.extra.x);splatKind(u32(h.surface),h.p,radius,.65,i+atomicLoad(&work[5]),5);atomicAdd(&work[28],1u);}else{splat(u32(h.surface),h.p,radius,.7,i+atomicLoad(&work[5]));}let r=record(u32(h.surface));if(p.extra.x==0){atomicMax(&wet[wetCell(r,uv(r,h.p))],12000u);}}else if(h.body>=0){if(p.extra.x>0){atomicAdd(&work[contactMemory(u32(h.body))+9u],u32(round(p.extra.x/.02*65536)));atomicAdd(&work[33],1u);}let b=bodies[u32(h.body)];let local=rotate(inverseQ(b.q),h.p-b.p.xyz);let n=rotate(inverseQ(b.q),h.n);let a=abs(n);var face:u32;var c:vec2f;var half:vec2f;if(a.x>a.y&&a.x>a.z){face=select(1u,0u,n.x>0);c=local.zy;half=b.half.zy;}else if(a.y>a.z){face=select(3u,2u,n.y>0);c=local.xz;half=b.half.xz;}else{face=select(5u,4u,n.z>0);c=local.xy;half=b.half.xy;}let point=(c/half*.5+.5+vec2f(f32(face%3u),f32(face/3u)))/vec2f(3,2);stamp(header(0).z+u32(h.body),point,point,vec2f(.045,.065),.55,0,f32(i%18u),0);}
   atomicStore(&work[64u+i],0u);atomicSub(&work[9],1u);atomicAdd(&work[17],1u);
  }else if(p.v.w>7||p.p.y<-.15){atomicStore(&work[64u+i],0u);atomicSub(&work[9],1u);}particles[i]=p;
 }
@@ -263,8 +263,8 @@ fn rayHit(o:vec3f,d:vec3f,limit:f32,includeBodies:bool,ignoreBody:i32)->RayHit {
 }
 @compute @workgroup_size(64) fn control(@builtin(global_invocation_id) id:vec3u) {
  let i=id.x;if(i>=u32(frame.settings.x)){return;}var b=bodies[i];
- if(frame.action.x==2){b.coat.x=0;b.track.w=0;}
- if(frame.action.x==3){b.blood=vec4f(0,0,0,100);b.coat.w=9;b.status.z=9;b.coat.x=0;b.track.w=0;}
+ if(frame.action.x==2){atomicStore(&work[contactMemory(i)+9u],0u);b.coat.x=0;b.track.w=0;}
+ if(frame.action.x==3){atomicStore(&work[contactMemory(i)+9u],0u);b.blood=vec4f(0,0,0,100);b.coat.w=9;b.status.z=9;b.coat.x=0;b.track.w=0;}
  if(frame.action.x==4){b.blood.x=0;}
  bodies[i]=b;
 }

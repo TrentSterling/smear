@@ -1,0 +1,19 @@
+{
+  "version": "0.24.0",
+  "status": "local cumulative checkpoint",
+  "buildSHA256": "1a6903a0849168f34eef720d93a1c6717ed4571be491a55d6a96eac3d2b87150",
+  "checks": 32,
+  "receipts": [
+    "liquid-evolution/round-v24b-joining",
+    "rivulet-pass/round-v24",
+    "brush-flow-pass/round-v24b",
+    "film-pass/round-v24b",
+    "liquid-evolution/round-v24b"
+  ],
+  "scope": [
+    "Short-range bead cohesion",
+    "Rewetting affinity from retained residue",
+    "Readable finite coating transfer",
+    "Atomic carried-volume capture on bodies"
+  ]
+}

@@ -3,6 +3,12 @@
 struct Footprint { p:vec3f, radius:vec2f, angle:f32, receiver:i32, face:u32 };
 fn contactMemory(index:u32)->u32 { return header(2).w+header(2).x*128u+180u*8u+index*16u; }
 fn contactFloat(address:u32)->f32 { return bitcast<f32>(atomicLoad(&work[address])); }
+fn receiveCoating(address:u32,capacity:f32)->f32 {
+ var old=atomicLoad(&work[address]);loop{
+  let amount=min(old,u32(max(0,capacity)*65536));let result=atomicCompareExchangeWeak(&work[address],old,old-amount);
+  if(result.exchanged){return f32(amount)/65536;}old=result.old_value;
+ }
+}
 fn footprint(b:Body)->Footprint {
  var rec:i32=-1;var nearest=.022;
  for(var si=0u;si<u32(b.half.w);si++){
@@ -107,7 +113,7 @@ fn squeezeContact(index:u32,b:Body,foot:Footprint,duration:f32,pressure:f32)->f3
  return spent;
 }
 fn paintContact(index:u32,input:Body,dt:f32)->Body {
- var b=input;let mem=contactMemory(index);let foot=footprint(b);
+ var b=input;let mem=contactMemory(index);b.coat.x+=receiveCoating(mem+9u,1.65-b.coat.x);let foot=footprint(b);
  let impactClock=max(0,contactFloat(mem+7u)-dt);atomicStore(&work[mem+7u],bitcast<u32>(impactClock));
  if(foot.receiver<0||b.status.x<.5){b.track.w=0;atomicStore(&work[mem+5u],0u);atomicStore(&work[mem+8u],0u);return b;}
  let rec=u32(foot.receiver);let r=record(rec);let radius=foot.radius;let seed=index*731u+foot.face*113u;
@@ -147,7 +153,7 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
    let t=f32(j)/f32(count);let p=mix(previous,foot.p,t);let rb=mix(oldRadius,radius,t);let ab=oldAngle+da*t;travelled+=movement/f32(count);
    // Wet pigment is displaced from an immutable GPU snapshot before fresh coating.
    if(surfaceWet>.012){contactSweep(rec,a,p,ra,rb,aa,ab,min(.48,surfaceWet*1.4),3,seed,travelled);atomicAdd(&work[25],1u);}
-   if(b.coat.x>.007){contactSweep(rec,a,p,ra,rb,aa,ab,min(1.4,b.coat.x)*frame.tune.y,1,seed,travelled);atomicAdd(&work[23],1u);}
+   if(b.coat.x>.007){contactSweep(rec,a,p,ra,rb,aa,ab,min(1.4,select(b.coat.x,.4*sqrt(b.coat.x)+.7*b.coat.x,wall))*frame.tune.y,1,seed,travelled);atomicAdd(&work[23],1u);}
    a=p;ra=rb;aa=ab;
   }
   let spent=select(min(b.coat.x,movement*(.055+sqrt(radius.x*radius.y)*1.2)*frame.tune.z),0.0,wall);b.coat.x-=spent;
@@ -197,7 +203,7 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
    returnFilm(rec,point,spent*.02*.85*select(.21,.29,j==1u));
   }
   // A held footprint retains brush grain, without introducing a second shape.
-  if(movement<.009){contactStamp(rec,foot.p,foot.p,radius,radius,foot.angle,foot.angle,min(1.4,b.coat.x)*frame.tune.y,1,seed,travelled);}
+  if(movement<.009){contactStamp(rec,foot.p,foot.p,radius,radius,foot.angle,foot.angle,min(1.4,select(b.coat.x,.4*sqrt(b.coat.x)+.7*b.coat.x,wall))*frame.tune.y,1,seed,travelled);}
   for(var j=0u;j<5u;j++){let offset=patchOffset(radius,angle,vec2f(cos(f32(j)*2.399963),sin(f32(j)*2.399963))*.62);let point=foot.p+r.u.xyz*offset.x+r.v.xyz*offset.y;addWet(planeWetCell(rec,point),u32(spent*.055*65536));}
   b.coat.x=max(0,b.coat.x-spent);wallClock=0;atomicAdd(&work[24],1u);
  }

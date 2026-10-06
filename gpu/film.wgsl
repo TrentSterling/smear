@@ -41,15 +41,18 @@ fn wallHold(rec:u32,r:Record,cell:vec2i)->f32 {
  return .010+.022*n;
 }
 fn wallPotential(rec:u32,r:Record,cell:vec2i,mass:f32)->f32 {
- let spacing=r.size.xy/vec2f(filmDimensions(r));var curvature=0.0;
+ let spacing=r.size.xy/vec2f(filmDimensions(r));var curvature=0.0;var nearbyHeads=0.0;
  for(var k=0u;k<4u;k++){
   let axis=select(0u,1u,k>=2u);var offset=vec2i(0);offset[axis]=select(-1,1,k==0u||k==2u);
   let adjacent=filmPosition(rec,cell+offset);var other=mass;if(adjacent>=0){other=filmRead(1u,u32(adjacent));}
   curvature+=(other-mass)/(spacing[axis]*spacing[axis]);
+  let farther=filmPosition(rec,cell+offset*2);if(farther>=0){nearbyHeads+=max(0,filmRead(1u,u32(farther))-.08);}
  }
  // A wetting potential gathers excess into rounded heads; curvature opposes
  // cell-scale spikes. This is a stylized thin-film energy, not calibrated blood.
- return (.010+wallHold(rec,r,cell)*.15)*mass/(mass*mass+.000625)-.00030*curvature;
+ // Short-range cohesion connects adjacent heads through a finite liquid neck.
+ // Only snapshot mass contributes, so opposite edge fluxes remain symmetric.
+ return (.010+wallHold(rec,r,cell)*.15)*mass/(mass*mass+.000625)-.00030*curvature-.045*nearbyHeads*.25;
 }
 @compute @workgroup_size(256) fn accelerateFilm(@builtin(workgroup_id) group:vec3u,@builtin(local_invocation_index) lane:u32){
  if(lane==0u){filmRecordID=filmRecordForGroup(group.x);}workgroupBarrier();
@@ -61,9 +64,12 @@ fn wallPotential(rec:u32,r:Record,cell:vec2i,mass:f32)->f32 {
  if(abs(r.n.y)<.65){
   let cell=vec2i(i32(local%dims.x),i32(local/dims.x));let hold=wallHold(filmRecordID,r,cell);
   // Advancing edges need more supply to unpin than already moving wet tracks.
-  let threshold=hold*select(1.7,.8,length(velocity)>.002);
+  // Read drying history here, before the spreading dispatch writes residue.
+  // Rewetted paths release their heads more readily than untouched wall.
+  let history=smoothstep(.002,.035,filmRead(2u,address));
+  let threshold=hold*mix(select(1.7,.8,length(velocity)>.002),.50,history);
   mobile=smoothstep(threshold,threshold+.035,mass);
-  let thickness=max(0,mass-hold);drag=clamp(5.0/max(thickness*thickness,.001),70.0,5000.0);
+  let thickness=max(0,mass-hold);drag=clamp(5.0/max(thickness*thickness,.001),70.0,5000.0)*mix(1.0,.85,history);
  }
  let decay=exp(-drag*dt);
  velocity=velocity*decay-vec2f(r.u.y,r.v.y)*9.81*(1-decay)/drag*mobile;
