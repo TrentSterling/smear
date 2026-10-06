@@ -2,7 +2,9 @@
 
 Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V21 / 0.21.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+**V22 / 0.22.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+
+V22 restores textured wall brushing by removing the oval pool stamp and soft wall-brush fill. Slow contact no longer fires large impact prints. Finite liquid follows the bristles and collects at the contact edge, with the existing wall gravity and adhesion. `npm run verify:brush:flow` follows a real wall drag into 15 seconds of drainage; `npm run record:brush:flow` records the full before/after sequence.
 
 V21 adds sustained wall-contact pools while pressing or dragging a dummy. Broad cores consume coating, and compressed wounds feed the contact from the existing finite blood reserve. Wall pickup no longer immediately recaptures a fresh print. Bristles retain their detail, and the V20 wall-flow model and floor response remain intact. `npm run verify:wall:contact` covers real input-driven wall pressure, wall dragging and obstacle dragging. `npm run record:wall:contact` records matched V20/V21 MP4s. See `docs/qa/wall-contact-v21.json`.
 

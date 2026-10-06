@@ -1,6 +1,6 @@
 {
   "name": "smear",
-  "version": "0.21.0",
+  "version": "0.22.0",
   "private": true,
   "description": "An offline WebGPU compute ragdoll and persistent paint playground.",
   "type": "module",
@@ -48,12 +48,14 @@
     "record:film": "node tools/film-capture.mjs",
     "verify:gravity": "node tools/film-verify.mjs final-v17",
     "record:gravity": "node tools/gravity-capture.mjs",
-    "verify:wall": "node tools/wall-verify.mjs final-v21",
+    "verify:wall": "node tools/wall-verify.mjs final-v22",
     "record:wall": "node tools/wall-capture.mjs",
     "record:wall:motion": "node tools/wall-motion-capture.mjs",
-    "verify:rivulets": "node tools/rivulet-verify.mjs final-v21",
+    "verify:rivulets": "node tools/rivulet-verify.mjs final-v22",
     "record:rivulets": "node tools/rivulet-capture.mjs",
-    "verify:wall:contact": "node tools/wall-contact-verify.mjs final-v21",
-    "record:wall:contact": "node tools/wall-contact-capture.mjs"
+    "verify:wall:contact": "node tools/wall-contact-verify.mjs final-v22",
+    "record:wall:contact": "node tools/wall-contact-capture.mjs",
+    "verify:brush:flow": "node tools/brush-flow-verify.mjs final-v22",
+    "record:brush:flow": "node tools/brush-flow-capture.mjs"
   }
 }
