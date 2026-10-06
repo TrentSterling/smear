@@ -1,6 +1,6 @@
 {
   "name": "smear",
-  "version": "0.9.1",
+  "version": "0.16.0",
   "private": true,
   "description": "An offline WebGPU compute ragdoll and persistent paint playground.",
   "type": "module",
@@ -30,6 +30,21 @@
     "profile:threaded": "node tools/simulation-runtime-profile.mjs pool firefox",
     "build": "node tools/compute-build.mjs",
     "verify:compute": "node tools/compute-verify.mjs",
-    "profile:compute": "node tools/compute-profile.mjs"
+    "profile:compute": "node tools/compute-profile.mjs",
+    "verify:art": "node tools/art-gauntlet.mjs after",
+    "record:art": "node tools/art-capture.mjs after",
+    "verify:dummy": "node tools/dummy-inspect.mjs final-v14",
+    "record:dummy": "node tools/dummy-capture.mjs",
+    "record:dummy:refined": "node tools/dummy-capture.mjs --refined",
+    "verify:motion": "node tools/motion-inspect.mjs final --gauntlet",
+    "record:motion": "node tools/motion-capture.mjs",
+    "verify:presentation": "node tools/presentation-inspect.mjs final",
+    "record:presentation": "node tools/presentation-capture.mjs",
+    "record:dummy:finish": "node tools/dummy-capture.mjs --finish",
+    "record:dummy:full": "node tools/dummy-capture.mjs --full",
+    "verify:wet": "node tools/wet-verify.mjs final",
+    "record:wet": "node tools/wet-capture.mjs",
+    "verify:film": "node tools/film-verify.mjs final",
+    "record:film": "node tools/film-capture.mjs"
   }
 }

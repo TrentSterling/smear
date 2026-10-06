@@ -1,0 +1,709 @@
+{
+  "version": "0.11.0",
+  "date": "2026-10-05T20:09:00.955Z",
+  "status": "local candidate; not published",
+  "buildSHA256": "77d61e91fc4c0c17101843bc1339d976e20088e05ecd17a64bd63b046c15eb5d",
+  "source": "gpu/dummy.js",
+  "model": {
+    "method": "SDF union, indexed isosurface, gradient normals, offset shell, GPU skinning",
+    "vertices": 101394,
+    "triangles": 202568,
+    "bones": 15,
+    "stats": [
+      {
+        "name": "rib cage",
+        "bone": 0,
+        "vertices": 5348,
+        "maxFieldError": 0.000022745807789131822
+      },
+      {
+        "name": "pelvis",
+        "bone": 1,
+        "vertices": 3194,
+        "maxFieldError": 0.0000027961826208847823
+      },
+      {
+        "name": "molded head",
+        "bone": 2,
+        "vertices": 23874,
+        "maxFieldError": 0.000038473329241339727
+      },
+      {
+        "name": "neck bellows",
+        "bone": 2,
+        "vertices": 2860,
+        "maxFieldError": 0.000023407611315494348
+      },
+      {
+        "name": "upper arm",
+        "bone": 3,
+        "vertices": 1286,
+        "maxFieldError": 0.000007996648824219743
+      },
+      {
+        "name": "forearm",
+        "bone": 4,
+        "vertices": 1064,
+        "maxFieldError": 0.000011701470583505569
+      },
+      {
+        "name": "molded hand",
+        "bone": 5,
+        "vertices": 9306,
+        "maxFieldError": 0.00010274771214283107
+      },
+      {
+        "name": "thigh",
+        "bone": 6,
+        "vertices": 2426,
+        "maxFieldError": 0.0000028849313625043532
+      },
+      {
+        "name": "calf and tibia",
+        "bone": 7,
+        "vertices": 1460,
+        "maxFieldError": 0.000007816168493542369
+      },
+      {
+        "name": "molded foot",
+        "bone": 8,
+        "vertices": 1436,
+        "maxFieldError": 0.00007507233318997499
+      },
+      {
+        "name": "rubber sole",
+        "bone": 8,
+        "vertices": 768,
+        "maxFieldError": 2.949029909160572e-17
+      },
+      {
+        "name": "joint housing",
+        "bone": 3,
+        "vertices": 1992,
+        "maxFieldError": 2.5214552668018086e-12
+      },
+      {
+        "name": "joint hub",
+        "bone": 3,
+        "vertices": 268,
+        "maxFieldError": 1.5111146708934875e-10
+      },
+      {
+        "name": "joint hub",
+        "bone": 3,
+        "vertices": 224,
+        "maxFieldError": 3.6659032571703665e-9
+      },
+      {
+        "name": "joint housing",
+        "bone": 4,
+        "vertices": 1180,
+        "maxFieldError": 1.9402611895619204e-11
+      },
+      {
+        "name": "joint hub",
+        "bone": 4,
+        "vertices": 136,
+        "maxFieldError": 2.3735353960052663e-15
+      },
+      {
+        "name": "joint hub",
+        "bone": 4,
+        "vertices": 108,
+        "maxFieldError": 4.2446794776968e-11
+      },
+      {
+        "name": "joint housing",
+        "bone": 5,
+        "vertices": 620,
+        "maxFieldError": 3.2806698330167805e-11
+      },
+      {
+        "name": "joint hub",
+        "bone": 5,
+        "vertices": 80,
+        "maxFieldError": 4.6889575555653096e-15
+      },
+      {
+        "name": "joint hub",
+        "bone": 5,
+        "vertices": 60,
+        "maxFieldError": 6.938893903907228e-18
+      },
+      {
+        "name": "joint housing",
+        "bone": 6,
+        "vertices": 2688,
+        "maxFieldError": 1.0024468234670625e-12
+      },
+      {
+        "name": "joint hub",
+        "bone": 6,
+        "vertices": 274,
+        "maxFieldError": 5.822339138594756e-14
+      },
+      {
+        "name": "joint hub",
+        "bone": 6,
+        "vertices": 230,
+        "maxFieldError": 1.4454610786085453e-8
+      },
+      {
+        "name": "joint housing",
+        "bone": 7,
+        "vertices": 1992,
+        "maxFieldError": 2.049246189406162e-12
+      },
+      {
+        "name": "joint hub",
+        "bone": 7,
+        "vertices": 218,
+        "maxFieldError": 7.272358930332512e-12
+      },
+      {
+        "name": "joint hub",
+        "bone": 7,
+        "vertices": 178,
+        "maxFieldError": 3.773752751262682e-11
+      },
+      {
+        "name": "joint housing",
+        "bone": 8,
+        "vertices": 934,
+        "maxFieldError": 2.7689362087912617e-11
+      },
+      {
+        "name": "joint hub",
+        "bone": 8,
+        "vertices": 112,
+        "maxFieldError": 8.715467583741976e-14
+      },
+      {
+        "name": "joint hub",
+        "bone": 8,
+        "vertices": 88,
+        "maxFieldError": 7.147060721024445e-15
+      },
+      {
+        "name": "upper arm",
+        "bone": 9,
+        "vertices": 1286,
+        "maxFieldError": 0.000007996648824219743
+      },
+      {
+        "name": "forearm",
+        "bone": 10,
+        "vertices": 1064,
+        "maxFieldError": 0.000011701470583505569
+      },
+      {
+        "name": "molded hand",
+        "bone": 11,
+        "vertices": 9318,
+        "maxFieldError": 0.00010274771214283107
+      },
+      {
+        "name": "thigh",
+        "bone": 12,
+        "vertices": 2426,
+        "maxFieldError": 0.0000028849313625043532
+      },
+      {
+        "name": "calf and tibia",
+        "bone": 13,
+        "vertices": 1460,
+        "maxFieldError": 0.000007816168493542369
+      },
+      {
+        "name": "molded foot",
+        "bone": 14,
+        "vertices": 1436,
+        "maxFieldError": 0.00007507233318997499
+      },
+      {
+        "name": "rubber sole",
+        "bone": 14,
+        "vertices": 768,
+        "maxFieldError": 2.949029909160572e-17
+      },
+      {
+        "name": "joint housing",
+        "bone": 9,
+        "vertices": 1992,
+        "maxFieldError": 2.5214552668018086e-12
+      },
+      {
+        "name": "joint hub",
+        "bone": 9,
+        "vertices": 268,
+        "maxFieldError": 1.5111146708934875e-10
+      },
+      {
+        "name": "joint hub",
+        "bone": 9,
+        "vertices": 224,
+        "maxFieldError": 3.6659032571703665e-9
+      },
+      {
+        "name": "joint housing",
+        "bone": 10,
+        "vertices": 1180,
+        "maxFieldError": 1.9402611895619204e-11
+      },
+      {
+        "name": "joint hub",
+        "bone": 10,
+        "vertices": 136,
+        "maxFieldError": 2.3735353960052663e-15
+      },
+      {
+        "name": "joint hub",
+        "bone": 10,
+        "vertices": 108,
+        "maxFieldError": 4.2446794776968e-11
+      },
+      {
+        "name": "joint housing",
+        "bone": 11,
+        "vertices": 620,
+        "maxFieldError": 3.2806698330167805e-11
+      },
+      {
+        "name": "joint hub",
+        "bone": 11,
+        "vertices": 80,
+        "maxFieldError": 4.6889575555653096e-15
+      },
+      {
+        "name": "joint hub",
+        "bone": 11,
+        "vertices": 60,
+        "maxFieldError": 6.938893903907228e-18
+      },
+      {
+        "name": "joint housing",
+        "bone": 12,
+        "vertices": 2688,
+        "maxFieldError": 1.0024468234670625e-12
+      },
+      {
+        "name": "joint hub",
+        "bone": 12,
+        "vertices": 274,
+        "maxFieldError": 5.822339138594756e-14
+      },
+      {
+        "name": "joint hub",
+        "bone": 12,
+        "vertices": 230,
+        "maxFieldError": 1.4454610786085453e-8
+      },
+      {
+        "name": "joint housing",
+        "bone": 13,
+        "vertices": 1992,
+        "maxFieldError": 2.049246189406162e-12
+      },
+      {
+        "name": "joint hub",
+        "bone": 13,
+        "vertices": 218,
+        "maxFieldError": 7.272358930332512e-12
+      },
+      {
+        "name": "joint hub",
+        "bone": 13,
+        "vertices": 178,
+        "maxFieldError": 3.773752751262682e-11
+      },
+      {
+        "name": "joint housing",
+        "bone": 14,
+        "vertices": 934,
+        "maxFieldError": 2.7689362087912617e-11
+      },
+      {
+        "name": "joint hub",
+        "bone": 14,
+        "vertices": 112,
+        "maxFieldError": 8.715467583741976e-14
+      },
+      {
+        "name": "joint hub",
+        "bone": 14,
+        "vertices": 88,
+        "maxFieldError": 7.147060721024445e-15
+      },
+      {
+        "name": "waist bellows",
+        "bone": 1,
+        "vertices": 7850,
+        "maxFieldError": 0.0001569911024874443
+      }
+    ],
+    "geometry": {
+      "badWeights": 0,
+      "inverted": 0,
+      "degenerate": 0,
+      "maxEdge": 0.021806997223292268,
+      "bones": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "nonManifoldEdges": 0
+    },
+    "bootMS": 5213
+  },
+  "iterations": [
+    "tools/out/dummy-pass/round-01",
+    "tools/out/dummy-pass/round-02",
+    "tools/out/dummy-pass/round-03",
+    "tools/out/dummy-pass/round-04",
+    "tools/out/dummy-pass/round-05",
+    "tools/out/dummy-pass/round-06"
+  ],
+  "checks": {
+    "chrome": {
+      "result": "COMPLETE compute game checks passed",
+      "checks": [
+        "Hardware GPU compute and no CPU physics/paint readback",
+        "120 GPU ticks; finite bodies and floor collision",
+        "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+        "Compute paints persistent floor pigment",
+        "GPU clear erases every floor tile",
+        "GPU reset restores three dolls",
+        "Repeatable GPU simulation after reset",
+        "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+        "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+        "Audio enabled and running, output separately muted"
+      ],
+      "audio": {
+        "enabled": true,
+        "state": "running"
+      }
+    },
+    "firefox": {
+      "result": "COMPLETE compute game checks passed",
+      "checks": [
+        "Hardware GPU compute and no CPU physics/paint readback",
+        "120 GPU ticks; finite bodies and floor collision",
+        "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+        "Compute paints persistent floor pigment",
+        "GPU clear erases every floor tile",
+        "GPU reset restores three dolls",
+        "Repeatable GPU simulation after reset",
+        "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+        "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+        "Audio enabled and running, output separately muted"
+      ],
+      "audio": {
+        "enabled": true,
+        "state": "running"
+      }
+    },
+    "native": {
+      "result": "COMPLETE native GPU gameplay and 3000x1800 profiles passed",
+      "checks": [
+        "Native pistol hits and spawns GPU particles",
+        "Native Spill paints walls; GPU gravity drips extend paint",
+        "Native grabbing resolves from GPU body poses",
+        "Native drag creates persistent floor smears",
+        "GPU wash clears all 150 body coatings and pigment",
+        "GPU heal restores reserves and clears airborne drops",
+        "Finite long GPU simulation and recovery"
+      ],
+      "viewport": [
+        3000,
+        1800
+      ]
+    },
+    "art": {
+      "result": "COMPLETE art and locomotion gauntlet",
+      "checks": [
+        "All 75 floor/wall/box/ramp receivers have 160 texels/metre and correct corner mapping",
+        "24 seconds of finite articulated walking, turning and recovery",
+        "Native paint hits on wall, every bench face, barrier and tilted ramp"
+      ],
+      "gait": {
+        "maxJoint": 0.03657667784314215,
+        "stanceSamples": 1185,
+        "swingSamples": 735,
+        "stanceSpeedP95": 0.1859660462712288,
+        "footSpeedP95": 1.8301754147928946,
+        "footHeightRange": [
+          0.06421837210655212,
+          0.1558220237493515
+        ],
+        "targetErrorP95": 0.048685790539593675,
+        "groundedFootSpeed": {
+          "samples": 954,
+          "p50": 0.047721673085728306,
+          "p95": 0.18907903325200898,
+          "mean": 0.08062389349259341
+        }
+      }
+    }
+  },
+  "profiles": [
+    {
+      "label": "idle",
+      "fps": 60.01136705571786,
+      "cpuMS": {
+        "p50": 0.4000000059604645,
+        "p95": 1.199999988079071,
+        "p99": 1.600000023841858,
+        "max": 1.899999976158142
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.589824,
+          "p95": 0.917504,
+          "p99": 0.98304,
+          "max": 1.179648
+        },
+        "renderMS": {
+          "p50": 1.572864,
+          "p95": 1.703936,
+          "p99": 1.835008,
+          "max": 2.097152
+        }
+      },
+      "ticksPerSecond": 119.26453536524764,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1105920
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "pistol",
+      "fps": 59.999331483712,
+      "cpuMS": {
+        "p50": 0.4000000059604645,
+        "p95": 1.199999988079071,
+        "p99": 1.600000023841858,
+        "max": 1.7999999821186066
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.65536,
+          "p95": 0.851968,
+          "p99": 1.048576,
+          "max": 1.114112
+        },
+        "renderMS": {
+          "p50": 1.507328,
+          "p95": 1.703936,
+          "p99": 1.769472,
+          "max": 1.96608
+        }
+      },
+      "ticksPerSecond": 119.21737688608854,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1105920,
+          "GPU scene instances": 1415744
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "spill",
+      "fps": 60.001000016607335,
+      "cpuMS": {
+        "p50": 0.3999999761581421,
+        "p95": 1,
+        "p99": 1.5999999940395355,
+        "max": 1.7999999821186066
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.589824,
+          "p95": 0.917504,
+          "p99": 1.114112,
+          "max": 1.245184
+        },
+        "renderMS": {
+          "p50": 1.572864,
+          "p95": 1.769472,
+          "p99": 2.097152,
+          "max": 2.097152
+        }
+      },
+      "ticksPerSecond": 119.56882255389718,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992,
+          "GPU scene instances": 3872
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "drag",
+      "fps": 60.008001066630044,
+      "cpuMS": {
+        "p50": 0.4000000059604645,
+        "p95": 1.0999999940395355,
+        "p99": 1.7000000178813934,
+        "max": 1.800000011920929
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.786432,
+          "p95": 1.179648,
+          "p99": 1.245184,
+          "max": 1.376256
+        },
+        "renderMS": {
+          "p50": 1.441792,
+          "p95": 1.769472,
+          "p99": 1.900544,
+          "max": 1.96608
+        }
+      },
+      "ticksPerSecond": 119.64819117158979,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "chaos",
+      "fps": 60.00200006654967,
+      "cpuMS": {
+        "p50": 0.4000000059604645,
+        "p95": 1.199999988079071,
+        "p99": 1.7000000178813934,
+        "max": 1.800000011920929
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.048576,
+          "p95": 1.6384,
+          "p99": 1.96608,
+          "max": 2.228224
+        },
+        "renderMS": {
+          "p50": 1.769472,
+          "p95": 2.097152,
+          "p99": 2.228224,
+          "max": 2.359296
+        }
+      },
+      "ticksPerSecond": 119.09481334654774,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    }
+  ],
+  "video": {
+    "started": "2026-10-05T20:06:36.212Z",
+    "viewport": [
+      1280,
+      1440
+    ],
+    "audioOutputMuted": true,
+    "clips": [
+      {
+        "label": "before",
+        "name": "orbit",
+        "seconds": 12,
+        "steps": 1,
+        "errors": []
+      },
+      {
+        "label": "before",
+        "name": "walk",
+        "seconds": 12,
+        "steps": 1440,
+        "errors": []
+      },
+      {
+        "label": "before",
+        "name": "drag",
+        "seconds": 10,
+        "steps": 1202,
+        "errors": []
+      },
+      {
+        "label": "after",
+        "name": "orbit",
+        "seconds": 12,
+        "steps": 1,
+        "errors": []
+      },
+      {
+        "label": "after",
+        "name": "walk",
+        "seconds": 12,
+        "steps": 1442,
+        "errors": []
+      },
+      {
+        "label": "after",
+        "name": "drag",
+        "seconds": 10,
+        "steps": 1200,
+        "errors": []
+      }
+    ],
+    "comparison": "smear-dummy-comparison.mp4",
+    "result": "COMPLETE before/after orbit, walk and drag MP4s"
+  },
+  "notes": [
+    "SDF is extracted once at startup into an indexed surface-net mesh; runtime GPU vertex skinning uses resident physics bodies.",
+    "The neck and waist use blended weights; fingers are molded geometry weighted to the hand body.",
+    "Performance profiles use a 60 Hz presentation cadence and run separately from recording.",
+    "CRITTERS and public Humanetics visual reference attribution is retained in THIRD_PARTY_NOTICES.md."
+  ]
+}

@@ -1,5 +1,9 @@
 # Third-party notices
 
+The SDF dummy in `gpu/dummy.js` is original procedural geometry. Its smooth-union, gradient-projection and offset-isosurface shell approach is adapted from Trent Sterling's [CRITTERS](https://github.com/TrentSterling/critters). CRITTERS is a clean-room implementation inspired by the public GOOBERS seamless blend shell demonstration by u/AntiqueFeedback7447 (https://redd.it/1umiurs and https://x.com/Nevsved/status/2073687955265171924), with RujiK as visual prior art. No unreleased GOOBERS code or third-party model assets are included.
+
+The publicly displayed [Humanetics Hybrid III 50M pedestrian dummy](https://www.humaneticsgroup.com/products/anthropomorphic-test-devices/pedestrian/hiii-50m-ped) was used as a visual proportion and construction reference. No Humanetics CAD, FE model, mesh, photograph, or texture is embedded in the game; this stylized game asset is not an engineering model of that product.
+
 `index.html` embeds Three.js r140. Its existing copyright and SPDX header are preserved. Source license: https://github.com/mrdoob/three.js/blob/r140/LICENSE
 
 The MIT License

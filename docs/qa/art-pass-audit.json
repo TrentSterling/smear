@@ -1,0 +1,82 @@
+{
+  "objective": "make smear good",
+  "buildSHA256": "32e044655e47365daaf1c33e415db2ea5aa40984fcf1986a99e34c32f2b59f2b",
+  "version": "0.14.0",
+  "requirements": [
+    {
+      "requirement": "Improve the ragdoll walking and get-up motion",
+      "status": "verified",
+      "evidence": [
+        "tools/out/motion-pass/final-v14/motion.json",
+        "tools/out/review-v14/03-walking-recovery-v12.mp4"
+      ],
+      "finding": "Six cases pass; walking arm/leg correlation -0.943. All recovery cases finish upright, including grab interruption."
+    },
+    {
+      "requirement": "Heavy game art pass with more stylization",
+      "status": "verified",
+      "evidence": [
+        "gpu/art.js",
+        "gpu/render.wgsl",
+        "gpu/tools.js",
+        "tools/out/review-v14/01-smear-whole-art-pass.mp4"
+      ],
+      "finding": "Original and final rendered gameplay were visually reviewed: amber/teal lab, station markings, hazard edges, shell silhouette, remodeled tools and material finish."
+    },
+    {
+      "requirement": "Correct cube mapping and texel density on all surfaces",
+      "status": "verified",
+      "evidence": [
+        "tools/out/art-pass/final-v14/art-gauntlet.json"
+      ],
+      "finding": "All 75 room paint receivers target 160 texels/metre on both axes, to the nearest whole texture pixel. Native paint hits pass on wall, all bench faces, barrier and tilted ramp. Oversized wall bars are removed."
+    },
+    {
+      "requirement": "Fully figured, rigged, SDF-based crash-test dummy using CRITTERS shell techniques",
+      "status": "verified",
+      "evidence": [
+        "gpu/dummy.js",
+        "gpu/render.wgsl",
+        "THIRD_PARTY_NOTICES.md",
+        "tools/out/dummy-pass/final-v14/inspect.json",
+        "tools/out/review-v14/dummy-front.png",
+        "tools/out/review-v14/dummy-head.png",
+        "tools/out/review-v14/dummy-hand.png",
+        "tools/out/review-v14/dummy-crouch.png",
+        "tools/out/review-v14/02-dummy-finish.mp4",
+        "tools/out/review-v14/00-full-dummy-transformation.mp4"
+      ],
+      "finding": "SDF sculpt includes face/ears, chest, pelvis, hands/fingers, limbs, covered joints, bellows, shoes, fasteners and calibration targets. Smooth unions, gradient projection and offset shell follow the CRITTERS approach. Closed geometry with 15-bone normalized skinning passes rest, reach, crouch, neck/waist flex and live rig inspection."
+    },
+    {
+      "requirement": "Gameplay/performance gauntlet and before/after MP4s",
+      "status": "verified",
+      "evidence": [
+        "docs/qa/dummy-v14.json",
+        "tools/out/review-v14/review.json",
+        "tools/out/dummy-pass/finish/capture.json",
+        "tools/out/dummy-pass/full-review/capture.json"
+      ],
+      "finding": "Chrome 10/10, Firefox 10/10, native GPU 7/7, art 3/3, tool input 5/5 and six motion scenarios. All three current H.264 comparisons decode at 30 fps and were visually inspected."
+    },
+    {
+      "requirement": "Preserve gameplay, GPU residency and technical invariants",
+      "status": "verified",
+      "evidence": [
+        "gpu/compute.wgsl",
+        "gpu/runtime.js",
+        "docs/qa/dummy-v14.json"
+      ],
+      "finding": "120 Hz solver, nine iterations, 900-drop pool, 54-bristle smears and original skin/floor resolution retained. Runtime audits show only asynchronous telemetry/timing reads, no normal-play body/pigment reads and no WebGL context. Archived V7/V8.9 hashes and 1200x630 OG image verified."
+    },
+    {
+      "requirement": "Open the comparison folder in Explorer (supersedes VLC request)",
+      "status": "verified",
+      "evidence": [
+        "tools/out/review-v14/explorer.json"
+      ],
+      "finding": "Explorer opened the review folder with the full dummy comparison MP4 selected. Three current comparisons, the earlier gait comparison and close-up renders are collected here."
+    }
+  ],
+  "publication": "No deployment requested; live remains unchanged."
+}

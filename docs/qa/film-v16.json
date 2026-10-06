@@ -1,0 +1,1214 @@
+{
+  "version": "0.16.0",
+  "status": "local; not published",
+  "verifiedAt": "2026-10-06T03:03:55.788Z",
+  "buildSHA256": "a50e8e259c28b2ec6f7de1c390046d4f7b963461667e24e40deb3570474da280",
+  "buildBytes": 946521,
+  "checks": {
+    "chrome-gameplay": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "chrome-native": [
+      "Native pistol hits and spawns GPU particles",
+      "Native Spill paints walls; GPU gravity drips extend paint",
+      "Native grabbing resolves from GPU body poses",
+      "Native drag creates persistent floor smears",
+      "GPU wash clears all 150 body coatings and pigment",
+      "GPU heal restores reserves and clears airborne drops",
+      "Finite long GPU simulation and recovery"
+    ],
+    "chrome-wet": [
+      "Dry pigment remains unchanged under a clean moving contact",
+      "Wet contact redistributes existing colored pigment with fresh deposition disabled",
+      "Pigment crosses a floor-record seam without a gap or duplicated supply",
+      "Rotation around a stationary footprint produces curved material smears",
+      "Resting wet wounds grow a cohesive pool over six seconds",
+      "Lift and recontact break the stroke without bridging airborne travel",
+      "A saturated coating leaves a finite puddle without an active wound and consumes wet supply",
+      "Body contact also smears on a vertical wall without leaking onto the floor",
+      "Live articulated dummy drag stays finite, connected and within paint event capacity"
+    ],
+    "chrome-film": [
+      "Finite isolated pools spread and level after deposition stops, conserving mobile plus dried mass",
+      "Adjacent pools merge across a floor-record seam",
+      "30 Hz and 60 Hz submissions produce comparable spreading and supply",
+      "Clean dummy picks up and redistributes existing liquid with fresh deposition disabled",
+      "Drying transfers mobile liquid into persistent residue instead of deleting blood",
+      "Liquid follows gravity on an inclined receiver without generating supply",
+      "Clean clears both mobile pools and settled residue",
+      "Live GPU ragdoll dragging remains finite with no dropped paint events"
+    ],
+    "firefox-gameplay": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "firefox-native": [
+      "Native pistol hits and spawns GPU particles",
+      "Native Spill paints walls; GPU gravity drips extend paint",
+      "Native grabbing resolves from GPU body poses",
+      "Native drag creates persistent floor smears",
+      "GPU wash clears all 150 body coatings and pigment",
+      "GPU heal restores reserves and clears airborne drops",
+      "Finite long GPU simulation and recovery"
+    ],
+    "firefox-wet": [
+      "Dry pigment remains unchanged under a clean moving contact",
+      "Wet contact redistributes existing colored pigment with fresh deposition disabled",
+      "Pigment crosses a floor-record seam without a gap or duplicated supply",
+      "Rotation around a stationary footprint produces curved material smears",
+      "Resting wet wounds grow a cohesive pool over six seconds",
+      "Lift and recontact break the stroke without bridging airborne travel",
+      "A saturated coating leaves a finite puddle without an active wound and consumes wet supply",
+      "Body contact also smears on a vertical wall without leaking onto the floor",
+      "Live articulated dummy drag stays finite, connected and within paint event capacity"
+    ],
+    "firefox-film": [
+      "Finite isolated pools spread and level after deposition stops, conserving mobile plus dried mass",
+      "Adjacent pools merge across a floor-record seam",
+      "30 Hz and 60 Hz submissions produce comparable spreading and supply",
+      "Clean dummy picks up and redistributes existing liquid with fresh deposition disabled",
+      "Drying transfers mobile liquid into persistent residue instead of deleting blood",
+      "Liquid follows gravity on an inclined receiver without generating supply",
+      "Clean clears both mobile pools and settled residue",
+      "Live GPU ragdoll dragging remains finite with no dropped paint events"
+    ]
+  },
+  "evidence": [
+    {
+      "path": "tools/out/compute-chrome/verification.json",
+      "sha256": "b27ade9ae069580a35c12be9147de5d755d1c24967a859074623c602e729c671",
+      "startedAt": "2026-10-06T02:51:17.801Z"
+    },
+    {
+      "path": "tools/out/compute-native-chrome/verification.json",
+      "sha256": "e95929b66b8b4cf0882c69269a2771755692aba60382ec19c86c108fe24d1a76",
+      "startedAt": "2026-10-06T02:51:31.777Z"
+    },
+    {
+      "path": "tools/out/wet-pass/final-v16/verification.json",
+      "sha256": "1ece673bc0d6b0f6701193771783c34bce63d1b978f6fd5ce85493a2ae60e95e",
+      "startedAt": "2026-10-06T02:54:06.103Z"
+    },
+    {
+      "path": "tools/out/film-pass/final/verification.json",
+      "sha256": "2b9e7892c3639a705ee4fd7bae9e63b6c30f3d4d5dc0b7edd37bd8a98777e10e",
+      "startedAt": "2026-10-06T02:56:28.234Z"
+    },
+    {
+      "path": "tools/out/compute-firefox/verification.json",
+      "sha256": "74d67f50029e17bc9ecad0e2b7618e401faff53020198035446ce9c15db101dd",
+      "startedAt": "2026-10-06T02:52:17.801Z"
+    },
+    {
+      "path": "tools/out/compute-native-firefox/verification.json",
+      "sha256": "c6e9b3ef5c015c39e27732c85cecb0f73f9da5ad877033585ee7bb87aa325369",
+      "startedAt": "2026-10-06T02:54:33.032Z"
+    },
+    {
+      "path": "tools/out/wet-pass/final-v16-firefox/verification.json",
+      "sha256": "6e812a65dc0c7b4b62f3f84d23e0811dd4f41ebbb15fd221a60c3bf0625e2667",
+      "startedAt": "2026-10-06T02:54:14.131Z"
+    },
+    {
+      "path": "tools/out/film-pass/final-firefox/verification.json",
+      "sha256": "27d89068efb18b8511b5b6f5035f25ecaa549f58deba08112c7eded9f034c98c",
+      "startedAt": "2026-10-06T02:53:52.415Z"
+    }
+  ],
+  "nativeProfiles": [
+    {
+      "browser": "chrome",
+      "workload": "idle",
+      "fps": 60.001000016607335,
+      "cpuP99MS": 1.800000011920929,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.786432,
+          "p95": 1.114112,
+          "p99": 1.179648,
+          "max": 1.572864
+        },
+        "renderMS": {
+          "p50": 2.359296,
+          "p95": 2.818048,
+          "p99": 3.080192,
+          "max": 3.211264
+        }
+      },
+      "ticksPerSecond": 119.44996686547383,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "chrome",
+      "workload": "pistol",
+      "fps": 60.00100001690537,
+      "cpuP99MS": 1.699999988079071,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.851968,
+          "p95": 1.179648,
+          "p99": 1.376256,
+          "max": 1.572864
+        },
+        "renderMS": {
+          "p50": 2.228224,
+          "p95": 2.818048,
+          "p99": 3.014656,
+          "max": 3.145728
+        }
+      },
+      "ticksPerSecond": 119.50936515829603,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "chrome",
+      "workload": "spill",
+      "fps": 60.008001066630044,
+      "cpuP99MS": 1.699999988079071,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.851968,
+          "p95": 1.245184,
+          "p99": 1.376256,
+          "max": 1.376256
+        },
+        "renderMS": {
+          "p50": 2.490368,
+          "p95": 2.94912,
+          "p99": 3.145728,
+          "max": 3.342336
+        }
+      },
+      "ticksPerSecond": 119.54899684961035,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "chrome",
+      "workload": "drag",
+      "fps": 60.00635164707022,
+      "cpuP99MS": 1.5999999940395355,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.245184,
+          "p95": 1.900544,
+          "p99": 3.2768,
+          "max": 4.063232
+        },
+        "renderMS": {
+          "p50": 2.62144,
+          "p95": 3.2768,
+          "p99": 3.538944,
+          "max": 3.801088
+        }
+      },
+      "ticksPerSecond": 119.11862160371108,
+      "reads": {
+        "asynchronous GPU timing": 360,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "chrome",
+      "workload": "chaos",
+      "fps": 60,
+      "cpuP99MS": 1.5999999940395355,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.31072,
+          "p95": 2.62144,
+          "p99": 3.735552,
+          "max": 4.25984
+        },
+        "renderMS": {
+          "p50": 3.60448,
+          "p95": 4.25984,
+          "p99": 4.653056,
+          "max": 4.784128
+        }
+      },
+      "ticksPerSecond": 119.57601854918846,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "idle",
+      "fps": 60,
+      "cpuP99MS": 1,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.844832,
+          "p95": 1.053184,
+          "p99": 1.165952,
+          "max": 1.244704
+        },
+        "renderMS": {
+          "p50": 2.18832,
+          "p95": 2.503104,
+          "p99": 2.787264,
+          "max": 3.011424
+        }
+      },
+      "ticksPerSecond": 116.28281526815913,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 25
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "pistol",
+      "fps": 59.99331550802139,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.8736,
+          "p95": 1.069408,
+          "p99": 1.20624,
+          "max": 1.646656
+        },
+        "renderMS": {
+          "p50": 2.037888,
+          "p95": 2.68592,
+          "p99": 3.005024,
+          "max": 3.134464
+        }
+      },
+      "ticksPerSecond": 115.97938144329896,
+      "reads": {
+        "asynchronous GPU timing": 360,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "spill",
+      "fps": 60.00334280461307,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.852832,
+          "p95": 1.262272,
+          "p99": 1.397376,
+          "max": 1.511296
+        },
+        "renderMS": {
+          "p50": 2.050976,
+          "p95": 2.664256,
+          "p99": 3.142112,
+          "max": 3.262112
+        }
+      },
+      "ticksPerSecond": 115.83695827291767,
+      "reads": {
+        "asynchronous GPU timing": 360,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "drag",
+      "fps": 60.01000166694449,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.167456,
+          "p95": 2.041728,
+          "p99": 3.1776,
+          "max": 5.548736
+        },
+        "renderMS": {
+          "p50": 2.038592,
+          "p95": 2.392864,
+          "p99": 2.558656,
+          "max": 2.675456
+        }
+      },
+      "ticksPerSecond": 116.30908211001774,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "chaos",
+      "fps": 59.82620320855615,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.370592,
+          "p95": 1.992544,
+          "p99": 2.316768,
+          "max": 3.269184
+        },
+        "renderMS": {
+          "p50": 2.579008,
+          "p95": 3.043808,
+          "p99": 3.265696,
+          "max": 3.519296
+        }
+      },
+      "ticksPerSecond": 117.359413202934,
+      "reads": {
+        "asynchronous GPU timing": 359,
+        "GPU telemetry snapshot": 24
+      }
+    }
+  ],
+  "contact": [
+    {
+      "browser": "chrome",
+      "transport": {
+        "before": {
+          "hash": "5dcce92b4e3aae70ca6de1a69c3fbe94d4150de0e48045ff23d09816db76101e",
+          "sum": 912560,
+          "tileSum": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            912560,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "painted": 4148,
+          "blue": 4148,
+          "carried": 0,
+          "bridge": 0,
+          "smears": 0,
+          "pools": 0,
+          "smudges": 0
+        },
+        "after": {
+          "hash": "e9812320da6e83651858815a23b7d3d1fe5697fce8ed90cfcc4cab56b6d4e6d2",
+          "sum": 912552,
+          "tileSum": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            912552,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "painted": 4770,
+          "blue": 4770,
+          "carried": 442,
+          "bridge": 0,
+          "smears": 90,
+          "pools": 0,
+          "smudges": 90
+        }
+      },
+      "dryUnchanged": true,
+      "pool": {
+        "early": {
+          "hash": "f367bf45925d63aa96b124bc09887ee7ee245ab91179a453a665da0da3c45b72",
+          "sum": 126337,
+          "tileSum": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            126337,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "painted": 3154,
+          "blue": 0,
+          "carried": 0,
+          "bridge": 0,
+          "smears": 0,
+          "pools": 1,
+          "smudges": 0
+        },
+        "late": {
+          "hash": "74e582ad741d88b11d657ef4c08a8fe0758f83e261c5635019e44264dbfa3624",
+          "sum": 802832,
+          "tileSum": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            802832,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "painted": 5534,
+          "blue": 0,
+          "carried": 0,
+          "bridge": 0,
+          "smears": 0,
+          "pools": 10,
+          "smudges": 0
+        }
+      },
+      "remainingCoat": 0.5276328325271606
+    },
+    {
+      "browser": "firefox",
+      "transport": {
+        "before": {
+          "hash": "5dcce92b4e3aae70ca6de1a69c3fbe94d4150de0e48045ff23d09816db76101e",
+          "sum": 912560,
+          "tileSum": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            912560,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "painted": 4148,
+          "blue": 4148,
+          "carried": 0,
+          "bridge": 0,
+          "smears": 0,
+          "pools": 0,
+          "smudges": 0
+        },
+        "after": {
+          "hash": "e9812320da6e83651858815a23b7d3d1fe5697fce8ed90cfcc4cab56b6d4e6d2",
+          "sum": 912552,
+          "tileSum": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            912552,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "painted": 4770,
+          "blue": 4770,
+          "carried": 442,
+          "bridge": 0,
+          "smears": 90,
+          "pools": 0,
+          "smudges": 90
+        }
+      },
+      "dryUnchanged": true,
+      "pool": {
+        "early": {
+          "hash": "f367bf45925d63aa96b124bc09887ee7ee245ab91179a453a665da0da3c45b72",
+          "sum": 126337,
+          "tileSum": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            126337,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "painted": 3154,
+          "blue": 0,
+          "carried": 0,
+          "bridge": 0,
+          "smears": 0,
+          "pools": 1,
+          "smudges": 0
+        },
+        "late": {
+          "hash": "74e582ad741d88b11d657ef4c08a8fe0758f83e261c5635019e44264dbfa3624",
+          "sum": 802832,
+          "tileSum": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            802832,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "painted": 5534,
+          "blue": 0,
+          "carried": 0,
+          "bridge": 0,
+          "smears": 0,
+          "pools": 10,
+          "smudges": 0
+        }
+      },
+      "remainingCoat": 0.5276328325271606
+    }
+  ],
+  "film": [
+    {
+      "browser": "chrome",
+      "pool": {
+        "start": {
+          "mobile": 0.03460090637207033,
+          "dry": 0,
+          "total": 0.03460090637207033,
+          "area": 0.11000000000000008,
+          "peak": 0.6379852294921875,
+          "centroid": [
+            2.5814244091612672e-17,
+            2
+          ],
+          "moment": 0.045661596293225644,
+          "bridge": 0,
+          "seam": 0
+        },
+        "two": {
+          "mobile": 0.03357341766357426,
+          "dry": 0.0010148620605468749,
+          "total": 0.03458827972412114,
+          "area": 0.25999999999999723,
+          "peak": 0.32635498046875,
+          "centroid": [
+            -2.243636364116053e-17,
+            1.9999999999999962
+          ],
+          "moment": 0.052134720195953395,
+          "bridge": 24,
+          "seam": 12
+        },
+        "eight": {
+          "mobile": 0.030624580383300775,
+          "dry": 0.003817825317382814,
+          "total": 0.03444240570068359,
+          "area": 0.43249999999999356,
+          "peak": 0.1538543701171875,
+          "centroid": [
+            -3.755951128783312e-18,
+            1.9999999999999993
+          ],
+          "moment": 0.06511936000959148,
+          "bridge": 24,
+          "seam": 32
+        }
+      },
+      "cadence": {
+        "sixty": {
+          "mobile": 0.030624580383300775,
+          "dry": 0.003817825317382814,
+          "total": 0.03444240570068359,
+          "area": 0.43249999999999356,
+          "peak": 0.1538543701171875,
+          "centroid": [
+            -3.755951128783312e-18,
+            1.9999999999999993
+          ],
+          "moment": 0.06511936000959148,
+          "bridge": 24,
+          "seam": 32
+        },
+        "thirty": {
+          "mobile": 0.030664443969726587,
+          "dry": 0.003894462585449223,
+          "total": 0.03455890655517581,
+          "area": 0.43249999999999356,
+          "peak": 0.153472900390625,
+          "centroid": [
+            4.582768891689176e-18,
+            1.9999999999999991
+          ],
+          "moment": 0.06522063429122346,
+          "bridge": 24,
+          "seam": 32
+        }
+      },
+      "contact": {
+        "start": {
+          "mobile": 0.09821228027343738,
+          "dry": 0,
+          "total": 0.09821228027343738,
+          "area": 0.19749999999999854,
+          "peak": 0.9949951171875,
+          "centroid": [
+            -0.20000000000000034,
+            2.0000000000000036
+          ],
+          "moment": 0.060851159569575874,
+          "bridge": 24,
+          "seam": 24
+        },
+        "after": {
+          "mobile": 0.09723962783813464,
+          "dry": 0.0007282447814941402,
+          "total": 0.09796787261962878,
+          "area": 0.2906249999999966,
+          "peak": 0.6428985595703125,
+          "centroid": [
+            -0.1418105577172302,
+            1.9999806621294736
+          ],
+          "moment": 0.05353686151927073,
+          "bridge": 24,
+          "seam": 30
+        },
+        "wet": 0.26162490248680115,
+        "smudges": 29
+      },
+      "drying": {
+        "start": {
+          "mobile": 0.02611457824707031,
+          "dry": 0,
+          "total": 0.02611457824707031,
+          "area": 0.07500000000000005,
+          "peak": 0.642059326171875,
+          "centroid": [
+            -2.0336903506685087e-17,
+            2.000000000000001
+          ],
+          "moment": 0.008510331364723962,
+          "bridge": 24,
+          "seam": 24
+        },
+        "after": {
+          "mobile": 0.0035765838623046877,
+          "dry": 0.02252021789550784,
+          "total": 0.026096801757812527,
+          "area": 0.15499999999999944,
+          "peak": 0.030670166015625,
+          "centroid": [
+            -8.368748397232871e-19,
+            2.0000000000000013
+          ],
+          "moment": 0.03108955369141837,
+          "bridge": 24,
+          "seam": 40
+        }
+      },
+      "slope": {
+        "surface": {
+          "id": 30,
+          "n": [
+            0,
+            0.9393727128473788,
+            -0.3428978074554513
+          ],
+          "u": [
+            0.9999999999999999,
+            0,
+            0
+          ],
+          "v": [
+            0,
+            0.34289780745545134,
+            0.9393727128473789
+          ],
+          "w": 1.85,
+          "h": 2.7
+        },
+        "start": {
+          "mobile": 0.04250003814697265,
+          "dry": 0,
+          "total": 0.04250003814697265,
+          "area": 0.07000000000000005,
+          "peak": 1.1833343505859375,
+          "centroid": [
+            1.1390091643725135e-17,
+            -7.732905612887755e-18
+          ],
+          "moment": 4.007535530787722,
+          "bridge": 0,
+          "seam": 24
+        },
+        "after": {
+          "mobile": 0.04002151489257814,
+          "dry": 0.0024465560913085895,
+          "total": 0.042468070983886726,
+          "area": 0.24874999999999745,
+          "peak": 0.41680908203125,
+          "centroid": [
+            5.467122059156558e-18,
+            -0.017858364946527566
+          ],
+          "moment": 4.095030952136993,
+          "bridge": 0,
+          "seam": 46
+        }
+      },
+      "resources": {
+        "filmCells": 1061420,
+        "filmBytes": 21228400,
+        "wetBytes": 22169200
+      }
+    },
+    {
+      "browser": "firefox",
+      "pool": {
+        "start": {
+          "mobile": 0.03460090637207033,
+          "dry": 0,
+          "total": 0.03460090637207033,
+          "area": 0.11000000000000008,
+          "peak": 0.6379852294921875,
+          "centroid": [
+            2.5814244091612672e-17,
+            2
+          ],
+          "moment": 0.045661596293225644,
+          "bridge": 0,
+          "seam": 0
+        },
+        "two": {
+          "mobile": 0.03357341766357426,
+          "dry": 0.0010148620605468749,
+          "total": 0.03458827972412114,
+          "area": 0.25999999999999723,
+          "peak": 0.32635498046875,
+          "centroid": [
+            -2.243636364116053e-17,
+            1.9999999999999962
+          ],
+          "moment": 0.052134720195953395,
+          "bridge": 24,
+          "seam": 12
+        },
+        "eight": {
+          "mobile": 0.030624580383300775,
+          "dry": 0.003817825317382814,
+          "total": 0.03444240570068359,
+          "area": 0.43249999999999356,
+          "peak": 0.1538543701171875,
+          "centroid": [
+            -3.755951128783312e-18,
+            1.9999999999999993
+          ],
+          "moment": 0.06511936000959148,
+          "bridge": 24,
+          "seam": 32
+        }
+      },
+      "cadence": {
+        "sixty": {
+          "mobile": 0.030624580383300775,
+          "dry": 0.003817825317382814,
+          "total": 0.03444240570068359,
+          "area": 0.43249999999999356,
+          "peak": 0.1538543701171875,
+          "centroid": [
+            -3.755951128783312e-18,
+            1.9999999999999993
+          ],
+          "moment": 0.06511936000959148,
+          "bridge": 24,
+          "seam": 32
+        },
+        "thirty": {
+          "mobile": 0.030664443969726587,
+          "dry": 0.003894462585449223,
+          "total": 0.03455890655517581,
+          "area": 0.43249999999999356,
+          "peak": 0.153472900390625,
+          "centroid": [
+            4.582768891689176e-18,
+            1.9999999999999991
+          ],
+          "moment": 0.06522063429122346,
+          "bridge": 24,
+          "seam": 32
+        }
+      },
+      "contact": {
+        "start": {
+          "mobile": 0.09821228027343738,
+          "dry": 0,
+          "total": 0.09821228027343738,
+          "area": 0.19749999999999854,
+          "peak": 0.9949951171875,
+          "centroid": [
+            -0.20000000000000034,
+            2.0000000000000036
+          ],
+          "moment": 0.060851159569575874,
+          "bridge": 24,
+          "seam": 24
+        },
+        "after": {
+          "mobile": 0.09723962783813464,
+          "dry": 0.0007282447814941402,
+          "total": 0.09796787261962878,
+          "area": 0.2906249999999966,
+          "peak": 0.6428985595703125,
+          "centroid": [
+            -0.1418105577172302,
+            1.9999806621294736
+          ],
+          "moment": 0.05353686151927073,
+          "bridge": 24,
+          "seam": 30
+        },
+        "wet": 0.26162484288215637,
+        "smudges": 29
+      },
+      "drying": {
+        "start": {
+          "mobile": 0.02611457824707031,
+          "dry": 0,
+          "total": 0.02611457824707031,
+          "area": 0.07500000000000005,
+          "peak": 0.642059326171875,
+          "centroid": [
+            -2.0336903506685087e-17,
+            2.000000000000001
+          ],
+          "moment": 0.008510331364723962,
+          "bridge": 24,
+          "seam": 24
+        },
+        "after": {
+          "mobile": 0.0035765838623046877,
+          "dry": 0.02252021789550784,
+          "total": 0.026096801757812527,
+          "area": 0.15499999999999944,
+          "peak": 0.030670166015625,
+          "centroid": [
+            -8.368748397232871e-19,
+            2.0000000000000013
+          ],
+          "moment": 0.03108955369141837,
+          "bridge": 24,
+          "seam": 40
+        }
+      },
+      "slope": {
+        "surface": {
+          "id": 30,
+          "n": [
+            0,
+            0.9393727128473788,
+            -0.3428978074554513
+          ],
+          "u": [
+            0.9999999999999999,
+            0,
+            0
+          ],
+          "v": [
+            0,
+            0.34289780745545134,
+            0.9393727128473789
+          ],
+          "w": 1.85,
+          "h": 2.7
+        },
+        "start": {
+          "mobile": 0.04250003814697265,
+          "dry": 0,
+          "total": 0.04250003814697265,
+          "area": 0.07000000000000005,
+          "peak": 1.1833343505859375,
+          "centroid": [
+            1.1390091643725135e-17,
+            -7.732905612887755e-18
+          ],
+          "moment": 4.007535530787722,
+          "bridge": 0,
+          "seam": 24
+        },
+        "after": {
+          "mobile": 0.04002151489257814,
+          "dry": 0.0024465560913085895,
+          "total": 0.042468070983886726,
+          "area": 0.24874999999999745,
+          "peak": 0.41680908203125,
+          "centroid": [
+            5.467122059156558e-18,
+            -0.017858364946527566
+          ],
+          "moment": 4.095030952136993,
+          "bridge": 0,
+          "seam": 46
+        }
+      },
+      "resources": {
+        "filmCells": 1061420,
+        "filmBytes": 21228400,
+        "wetBytes": 22169200
+      }
+    }
+  ],
+  "checkCount": 68,
+  "media": {
+    "capture": "tools/out/film-pass/recordings/capture.json",
+    "builds": [
+      {
+        "label": "before",
+        "version": "0.14.0",
+        "sha256": "32e044655e47365daaf1c33e415db2ea5aa40984fcf1986a99e34c32f2b59f2b"
+      },
+      {
+        "label": "after",
+        "version": "0.16.0",
+        "sha256": "a50e8e259c28b2ec6f7de1c390046d4f7b963461667e24e40deb3570474da280"
+      }
+    ],
+    "clips": [
+      {
+        "label": "before",
+        "name": "settle",
+        "seconds": 8,
+        "steps": 963,
+        "errors": [],
+        "contact": {
+          "smears": 0,
+          "pools": 0,
+          "smudges": 0
+        }
+      },
+      {
+        "label": "before",
+        "name": "pool",
+        "seconds": 10,
+        "steps": 1248,
+        "errors": [],
+        "contact": {
+          "smears": 0,
+          "pools": 0,
+          "smudges": 0
+        }
+      },
+      {
+        "label": "before",
+        "name": "smear",
+        "seconds": 12,
+        "steps": 1681,
+        "errors": [],
+        "contact": {
+          "smears": 0,
+          "pools": 0,
+          "smudges": 0
+        }
+      },
+      {
+        "label": "after",
+        "name": "settle",
+        "seconds": 8,
+        "steps": 963,
+        "errors": [],
+        "contact": {
+          "smears": 96,
+          "pools": 63,
+          "smudges": 82
+        }
+      },
+      {
+        "label": "after",
+        "name": "pool",
+        "seconds": 10,
+        "steps": 1246,
+        "errors": [],
+        "contact": {
+          "smears": 1800,
+          "pools": 58,
+          "smudges": 1291
+        }
+      },
+      {
+        "label": "after",
+        "name": "smear",
+        "seconds": 12,
+        "steps": 1681,
+        "errors": [],
+        "contact": {
+          "smears": 8508,
+          "pools": 17,
+          "smudges": 7370
+        }
+      }
+    ],
+    "files": [
+      {
+        "path": "tools/out/film-pass/recordings/before/film-before.mp4",
+        "sha256": "6f3dc447b1e70d675bc82ea4caf954d99cb6096425e142df8179fd2540271b4f",
+        "bytes": 4095443,
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 960,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "30.000000"
+        }
+      },
+      {
+        "path": "tools/out/film-pass/recordings/after/film-after.mp4",
+        "sha256": "fd0ed6cebecc52a0767f92fc77eb3316e48d5e13b6c5cf194444b4b83456b788",
+        "bytes": 4447752,
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 960,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "30.000000"
+        }
+      },
+      {
+        "path": "tools/out/film-pass/recordings/smear-film-comparison.mp4",
+        "sha256": "2a0ecd2fc84f9392396f1cfda9842bf5211cb61be832d1de7ee64803a7bebfcc",
+        "bytes": 4671372,
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1920,
+            "height": 720,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "30.000000"
+        }
+      }
+    ]
+  },
+  "requirementAudit": [
+    {
+      "requirement": "Improve automatic dummy smearing first",
+      "status": "complete",
+      "evidence": "Wet-contact tests cover footprint rotation, finite coating, airborne stroke breaks, floor seams, walls and live articulated dragging. All three original tools remain."
+    },
+    {
+      "requirement": "Redistribute existing wet blood instead of painting marker strokes",
+      "status": "complete",
+      "evidence": "Colored-pigment and mobile-film probes disable fresh deposition. Pigment moves with <0.001% total alpha change; clean-contact liquid centroid moves 5.82 cm and coating increases from zero."
+    },
+    {
+      "requirement": "Restore cohesive pooling that continues after the source stops",
+      "status": "complete",
+      "evidence": "Isolated finite pools spread, level, merge across a floor seam, move downhill and dry into residue. Eight-second mobile-plus-dry volume error is <0.46%."
+    },
+    {
+      "requirement": "Make the effect visually more liquid",
+      "status": "complete",
+      "evidence": "Dense narrow-edged coverage, thickness-dependent color, gloss and gradient normals; inspected pool, dry residue and live smear screenshots plus decoded comparison video frames."
+    },
+    {
+      "requirement": "Preserve GPU performance and gameplay",
+      "status": "complete",
+      "evidence": "68 Chrome/Firefox checks pass. All ten native 3000x1800 workloads hold approximately 60 FPS. Audits contain no normal-play body or pigment readbacks."
+    },
+    {
+      "requirement": "Record a reviewable before/after comparison",
+      "status": "complete",
+      "evidence": "30-second H.264 MP4s show the same V14/V16 Spill pulse, resting pool reveal and sustained dummy drag; side-by-side output is 1920x720 at 30 FPS."
+    }
+  ],
+  "scope": [
+    "The 40-cells/metre field is a stylized surface-film simulation, not volumetric fluid dynamics.",
+    "Film flows between floor records and within each other receiver; transfer around box corners is not modeled by the new field. Existing wall droplet flow remains.",
+    "Thickness affects shading normals; the world mesh is not displaced.",
+    "Twenty-second drying and eight-second isolated conservation are measured fixtures, not a claim of exact global fluid conservation under every wound/contact interaction.",
+    "The build and all changes remain local."
+  ]
+}

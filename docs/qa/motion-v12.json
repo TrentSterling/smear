@@ -1,0 +1,434 @@
+{
+  "version": "0.12.0",
+  "date": "2026-10-06T00:44:40.249Z",
+  "status": "local candidate; not published",
+  "buildSHA256": "5c3f70c652f72a1d69c86fab81ca2f95f9fee3fd2efe4ff0c845b56950165beb",
+  "motion": {
+    "result": "COMPLETE motion inspection",
+    "before": [
+      {
+        "name": "walk",
+        "maxJoint": 0.03657667784314215,
+        "armLegCorrelation": -0.18359092325974763,
+        "movingSamples": 117
+      },
+      {
+        "name": "recover",
+        "maxJoint": 0.0015179430960333147,
+        "recoveredAt": 2.4,
+        "peakSpeed": 4.438879615769813
+      }
+    ],
+    "after": [
+      {
+        "name": "walk",
+        "maxJoint": 0.03277079317668381,
+        "armLegCorrelation": -0.9433374574682251,
+        "movingSamples": 117
+      },
+      {
+        "name": "recover",
+        "maxJoint": 0.0326556292515416,
+        "recoveredAt": 4.4,
+        "peakSpeed": 4.385279031104231,
+        "supportSamples": 16,
+        "headingError": 0.000010017693386177986
+      },
+      {
+        "name": "prone",
+        "maxJoint": 0.0017015340680016392,
+        "recoveredAt": 3,
+        "peakSpeed": 1.7649564529762791,
+        "supportSamples": 16,
+        "headingError": 0.0000016820188801780491
+      },
+      {
+        "name": "side",
+        "maxJoint": 0.049313200850652675,
+        "recoveredAt": 4.2,
+        "peakSpeed": 5.4692927943701335,
+        "supportSamples": 16,
+        "headingError": 0.000007918721065092171
+      },
+      {
+        "name": "turned",
+        "maxJoint": 0.012140891419641075,
+        "recoveredAt": 4.4,
+        "peakSpeed": 2.892670870289635,
+        "supportSamples": 14,
+        "headingError": 0.0000032004100167792875
+      },
+      {
+        "name": "interrupt",
+        "maxJoint": 0.0326556292515416,
+        "recoveredAt": 13.8,
+        "peakSpeed": 4.385279031104231,
+        "supportSamples": 19,
+        "headingError": 0.06160516094900384
+      }
+    ],
+    "inspection": "tools/out/motion-pass/final/"
+  },
+  "checks": {
+    "chrome": {
+      "result": "COMPLETE compute game checks passed",
+      "checks": [
+        "Hardware GPU compute and no CPU physics/paint readback",
+        "120 GPU ticks; finite bodies and floor collision",
+        "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+        "Compute paints persistent floor pigment",
+        "GPU clear erases every floor tile",
+        "GPU reset restores three dolls",
+        "Repeatable GPU simulation after reset",
+        "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+        "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+        "Audio enabled and running, output separately muted"
+      ],
+      "errors": [],
+      "audio": {
+        "enabled": true,
+        "state": "running"
+      }
+    },
+    "firefox": {
+      "result": "COMPLETE compute game checks passed",
+      "checks": [
+        "Hardware GPU compute and no CPU physics/paint readback",
+        "120 GPU ticks; finite bodies and floor collision",
+        "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+        "Compute paints persistent floor pigment",
+        "GPU clear erases every floor tile",
+        "GPU reset restores three dolls",
+        "Repeatable GPU simulation after reset",
+        "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+        "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+        "Audio enabled and running, output separately muted"
+      ],
+      "errors": [],
+      "audio": {
+        "enabled": true,
+        "state": "running"
+      }
+    },
+    "native": {
+      "result": "COMPLETE native GPU gameplay and 3000x1800 profiles passed",
+      "checks": [
+        "Native pistol hits and spawns GPU particles",
+        "Native Spill paints walls; GPU gravity drips extend paint",
+        "Native grabbing resolves from GPU body poses",
+        "Native drag creates persistent floor smears",
+        "GPU wash clears all 150 body coatings and pigment",
+        "GPU heal restores reserves and clears airborne drops",
+        "Finite long GPU simulation and recovery"
+      ],
+      "errors": [],
+      "audio": {
+        "enabled": true,
+        "state": "running"
+      },
+      "viewport": [
+        3000,
+        1800
+      ]
+    },
+    "art": {
+      "result": "COMPLETE art and locomotion gauntlet",
+      "checks": [
+        "All 75 floor/wall/box/ramp receivers have 160 texels/metre and correct corner mapping",
+        "24 seconds of finite articulated walking, turning and recovery",
+        "Native paint hits on wall, every bench face, barrier and tilted ramp"
+      ],
+      "gait": {
+        "maxJoint": 0.03277079317668381,
+        "stanceSamples": 1185,
+        "swingSamples": 735,
+        "stanceSpeedP95": 0.19363698713159255,
+        "footSpeedP95": 1.7852247389169384,
+        "footHeightRange": [
+          0.0717090368270874,
+          0.1363406926393509
+        ],
+        "targetErrorP95": 0.039357256670260236,
+        "groundedFootSpeed": {
+          "samples": 990,
+          "p50": 0.04675904670731727,
+          "p95": 0.21748937540252786,
+          "mean": 0.07600420785452457
+        }
+      }
+    }
+  },
+  "profiles": [
+    {
+      "label": "idle",
+      "fps": 60.00100001690537,
+      "cpuMS": {
+        "p50": 0.30000001192092896,
+        "p95": 1.0999999940395355,
+        "p99": 1.600000023841858,
+        "max": 1.7999999821186066
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.589824,
+          "p95": 0.917504,
+          "p99": 0.98304,
+          "max": 1.048576
+        },
+        "renderMS": {
+          "p50": 1.900544,
+          "p95": 2.097152,
+          "p99": 2.162688,
+          "max": 2.29376
+        }
+      },
+      "ticksPerSecond": 119.50936515829603,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "pistol",
+      "fps": 60.00033426358109,
+      "cpuMS": {
+        "p50": 0.4000000059604645,
+        "p95": 1.2000000178813934,
+        "p99": 1.5999999940395355,
+        "max": 1.699999988079071
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.65536,
+          "p95": 0.917504,
+          "p99": 0.98304,
+          "max": 1.048576
+        },
+        "renderMS": {
+          "p50": 1.835008,
+          "p95": 2.031616,
+          "p99": 2.097152,
+          "max": 2.097152
+        }
+      },
+      "ticksPerSecond": 119.25692486316139,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1105920,
+          "GPU scene instances": 1415392
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "spill",
+      "fps": 60,
+      "cpuMS": {
+        "p50": 0.30000001192092896,
+        "p95": 1,
+        "p99": 1.5,
+        "max": 1.5999999940395355
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.65536,
+          "p95": 0.98304,
+          "p99": 1.114112,
+          "max": 1.179648
+        },
+        "renderMS": {
+          "p50": 1.96608,
+          "p95": 2.162688,
+          "p99": 2.29376,
+          "max": 2.490368
+        }
+      },
+      "ticksPerSecond": 119.41040079496521,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992,
+          "GPU scene instances": 3872
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "drag",
+      "fps": 60.007354661912494,
+      "cpuMS": {
+        "p50": 0.4000000059604645,
+        "p95": 1.0999999940395355,
+        "p99": 1.5,
+        "max": 1.800000011920929
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.786432,
+          "p95": 1.245184,
+          "p99": 1.376256,
+          "max": 1.441792
+        },
+        "renderMS": {
+          "p50": 1.900544,
+          "p95": 2.162688,
+          "p99": 2.29376,
+          "max": 2.62144
+        }
+      },
+      "ticksPerSecond": 119.2767086927671,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1105920
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "chaos",
+      "fps": 60.001000016607335,
+      "cpuMS": {
+        "p50": 0.30000001192092896,
+        "p95": 0.800000011920929,
+        "p99": 1.4000000059604645,
+        "max": 1.5
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.048576,
+          "p95": 1.572864,
+          "p99": 1.769472,
+          "max": 1.835008
+        },
+        "renderMS": {
+          "p50": 2.228224,
+          "p95": 2.490368,
+          "p99": 2.555904,
+          "max": 2.686976
+        }
+      },
+      "ticksPerSecond": 119.50936515829603,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    }
+  ],
+  "video": {
+    "started": "2026-10-06T00:41:22.714Z",
+    "viewport": [
+      1280,
+      1440
+    ],
+    "audioOutputMuted": true,
+    "builds": [
+      {
+        "label": "before",
+        "version": "0.11.1",
+        "sha256": "e7ea73696030894ac1beb7d2acd9c1b500d9d4d41c23832d5c30400791b25e55"
+      },
+      {
+        "label": "after",
+        "version": "0.12.0",
+        "sha256": "5c3f70c652f72a1d69c86fab81ca2f95f9fee3fd2efe4ff0c845b56950165beb"
+      }
+    ],
+    "clips": [
+      {
+        "label": "before",
+        "name": "walk",
+        "seconds": 18,
+        "steps": 2402,
+        "errors": []
+      },
+      {
+        "label": "before",
+        "name": "recovery",
+        "seconds": 10,
+        "steps": 1202,
+        "errors": []
+      },
+      {
+        "label": "after",
+        "name": "walk",
+        "seconds": 18,
+        "steps": 2399,
+        "errors": []
+      },
+      {
+        "label": "after",
+        "name": "recovery",
+        "seconds": 10,
+        "steps": 1199,
+        "errors": []
+      }
+    ],
+    "comparison": "smear-motion-comparison.mp4",
+    "result": "COMPLETE paired walking and recovery MP4s",
+    "path": "tools/out/motion-pass/recordings/smear-motion-comparison.mp4",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "30/1"
+        }
+      ],
+      "format": {
+        "duration": "28.000000",
+        "size": "12332859"
+      }
+    },
+    "reviewedFramesSeconds": [
+      4,
+      20,
+      22,
+      25
+    ]
+  },
+  "notes": [
+    "All runtime gait and recovery targets are computed on the GPU; pose snapshots reuse two reserved vectors in the existing 104-float Body record.",
+    "Hip ball-joint flexion is 2.1 radians. The staged crouch keeps torso lean within the existing waist joint limit.",
+    "Arm/leg correlation measures same-side hand/foot fore-aft separation in the hip frame during moving samples; negative values indicate opposing motion.",
+    "Joint-gap measurements include every active dummy, including the initially fallen dummy during the walking scenario.",
+    "Special fall fixtures settle for one simulated second before healing. Interrupted recovery uses the actual grab/release API.",
+    "Hand-support checks measure both hand centres below 14 cm while the hip is between 20 and 65 cm; they do not measure contact-force distribution.",
+    "Recordings share a camera path and actions with real-time simulation; they are not frame-identical physics replays. Performance is measured separately."
+  ]
+}

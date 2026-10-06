@@ -1,0 +1,364 @@
+{
+  "version": "0.13.0",
+  "status": "local candidate, not published",
+  "recordedAt": "2026-10-06T01:07:16.309Z",
+  "build": {
+    "sha256": "f4a9a4b4089d68b1a57d3f14a9e7bb9b48629ecf175660ff4f732baa1e14f63a",
+    "bytes": 926172
+  },
+  "startup": {
+    "beforeMS": 6342.5999999940395,
+    "afterMS": 3726.7999999821186,
+    "mesherBeforeMS": 2614.9000000059605,
+    "mesherAfterMS": 1282,
+    "method": "Fresh Chrome profiles with CDP CPU sampling. Ready time sampled after polling. Single retained before/after observations; pipeline time overlaps geometry after optimization."
+  },
+  "geometry": {
+    "byteIdenticalToV12": true,
+    "hashes": {
+      "5:position": "30aac9bd4e0bcba2123de25dad970dbd69fe9af52ed538b10c9f9e0abfb4441f",
+      "5:normal": "1666b833c8da5f99d545a09e255bd017efaf8d27f7737a5d3fc964444bbef171",
+      "5:uv": "a1438fb7933c2ac316fb7f6c60fbfc90dccdeb09cc2e88e7902485d1ab7ce693",
+      "5:skinIndex": "24830a116cd3911e54eed8fda082b16998225385e2f2686b99692c28044c79fc",
+      "5:skinWeight": "e5d8396432a13e08ba1df12f352aa8ac6671678463ed5d7ef3596d3e1503447f",
+      "5:index": "f08dc514c59c64429e1856310d35fe7f83168296abb305a08856c66ea39a23f4",
+      "6:position": "d4365c7e5c7d9178dd1b8eecb7a02365e8391d9b76ac32b2321f8340db81bbcb",
+      "6:normal": "1666b833c8da5f99d545a09e255bd017efaf8d27f7737a5d3fc964444bbef171",
+      "6:uv": "a1438fb7933c2ac316fb7f6c60fbfc90dccdeb09cc2e88e7902485d1ab7ce693",
+      "6:skinIndex": "24830a116cd3911e54eed8fda082b16998225385e2f2686b99692c28044c79fc",
+      "6:skinWeight": "e5d8396432a13e08ba1df12f352aa8ac6671678463ed5d7ef3596d3e1503447f",
+      "6:index": "f08dc514c59c64429e1856310d35fe7f83168296abb305a08856c66ea39a23f4"
+    },
+    "vertices": 133140,
+    "triangles": 266060,
+    "badWeights": 0,
+    "inverted": 0,
+    "degenerate": 0,
+    "maxEdge": 0.022760599019772124,
+    "bones": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
+    "nonManifoldEdges": 0
+  },
+  "checks": {
+    "presentation": [
+      "Live muzzle flash and slide recoil",
+      "FPS right-mouse aiming centers the pistol",
+      "Spill bottle replaces the pistol",
+      "Grab hides both first-person models",
+      "No GPU errors or normal-play pigment readback"
+    ],
+    "chrome": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "firefox": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "native": [
+      "Native pistol hits and spawns GPU particles",
+      "Native Spill paints walls; GPU gravity drips extend paint",
+      "Native grabbing resolves from GPU body poses",
+      "Native drag creates persistent floor smears",
+      "GPU wash clears all 150 body coatings and pigment",
+      "GPU heal restores reserves and clears airborne drops",
+      "Finite long GPU simulation and recovery"
+    ],
+    "art": [
+      "All 75 floor/wall/box/ramp receivers have 160 texels/metre and correct corner mapping",
+      "24 seconds of finite articulated walking, turning and recovery",
+      "Native paint hits on wall, every bench face, barrier and tilted ramp"
+    ]
+  },
+  "profiles": [
+    {
+      "label": "idle",
+      "fps": 60,
+      "cpu": {
+        "p50": 0.30000001192092896,
+        "p95": 1,
+        "p99": 1.4000000059604645,
+        "max": 1.699999988079071
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.589824,
+          "p95": 0.851968,
+          "p99": 0.917504,
+          "max": 1.114112
+        },
+        "renderMS": {
+          "p50": 1.6384,
+          "p95": 1.835008,
+          "p99": 1.900544,
+          "max": 1.96608
+        }
+      },
+      "ticksPerSecond": 119.41040079496521,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "pistol",
+      "fps": 60.00100001690537,
+      "cpu": {
+        "p50": 0.3999999761581421,
+        "p95": 0.9000000059604645,
+        "p99": 1.5999999940395355,
+        "max": 1.9000000059604645
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.589824,
+          "p95": 0.917504,
+          "p99": 1.048576,
+          "max": 1.048576
+        },
+        "renderMS": {
+          "p50": 1.441792,
+          "p95": 1.6384,
+          "p99": 1.769472,
+          "max": 1.835008
+        }
+      },
+      "ticksPerSecond": 119.48955916473318,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992,
+          "GPU scene instances": 784432
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "spill",
+      "fps": 59.998000066783646,
+      "cpu": {
+        "p50": 0.30000001192092896,
+        "p95": 0.9000000059604645,
+        "p99": 1.5,
+        "max": 1.7000000178813934
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.589824,
+          "p95": 0.917504,
+          "p99": 1.114112,
+          "max": 1.179648
+        },
+        "renderMS": {
+          "p50": 1.6384,
+          "p95": 1.835008,
+          "p99": 1.96608,
+          "max": 1.96608
+        }
+      },
+      "ticksPerSecond": 119.71480683137125,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992,
+          "GPU scene instances": 510400
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "drag",
+      "fps": 60.004345718571656,
+      "cpu": {
+        "p50": 0.30000001192092896,
+        "p95": 0.8999999761581421,
+        "p99": 1.300000011920929,
+        "max": 1.5999999940395355
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.786432,
+          "p95": 1.179648,
+          "p99": 1.245184,
+          "max": 1.376256
+        },
+        "renderMS": {
+          "p50": 1.6384,
+          "p95": 1.96608,
+          "p99": 2.097152,
+          "max": 2.490368
+        }
+      },
+      "ticksPerSecond": 119.29649908743986,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1105920,
+          "GPU scene instances": 1408
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "chaos",
+      "fps": 60.0013370772689,
+      "cpu": {
+        "p50": 0.30000001192092896,
+        "p95": 1,
+        "p99": 1.4000000059604645,
+        "max": 1.5999999940395355
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.98304,
+          "p95": 1.6384,
+          "p99": 1.835008,
+          "max": 1.96608
+        },
+        "renderMS": {
+          "p50": 2.097152,
+          "p95": 2.29376,
+          "p99": 2.359296,
+          "max": 2.490368
+        }
+      },
+      "ticksPerSecond": 119.25692486316139,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1105920
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    }
+  ],
+  "video": {
+    "path": "tools/out/presentation-pass/recordings/smear-presentation-comparison.mp4",
+    "seconds": 18,
+    "resolution": [
+      1920,
+      600
+    ],
+    "fps": 30,
+    "codec": "H.264",
+    "builds": [
+      {
+        "label": "before",
+        "version": "0.12.0",
+        "sha256": "5c3f70c652f72a1d69c86fab81ca2f95f9fee3fd2efe4ff0c845b56950165beb"
+      },
+      {
+        "label": "after",
+        "version": "0.13.0",
+        "sha256": "f4a9a4b4089d68b1a57d3f14a9e7bb9b48629ecf175660ff4f732baa1e14f63a"
+      }
+    ],
+    "clips": [
+      {
+        "label": "before",
+        "name": "pistol",
+        "seconds": 6,
+        "steps": 761
+      },
+      {
+        "label": "before",
+        "name": "spill",
+        "seconds": 6,
+        "steps": 759
+      },
+      {
+        "label": "before",
+        "name": "near-wall",
+        "seconds": 6,
+        "steps": 758
+      },
+      {
+        "label": "after",
+        "name": "pistol",
+        "seconds": 6,
+        "steps": 761
+      },
+      {
+        "label": "after",
+        "name": "spill",
+        "seconds": 6,
+        "steps": 760
+      },
+      {
+        "label": "after",
+        "name": "near-wall",
+        "seconds": 6,
+        "steps": 761
+      }
+    ]
+  },
+  "archiveHashes": {
+    "versions/smear_v8.9_cpu.html": "cff878b51eec0db9e3874f99c9fdcdbd6b9179d2f03e6374ef4726d89f1e5c44",
+    "versions/dragmark_v7.html": "4dfe17e606b18ce7471f176b4c2afa0229b2f32e60b5b88c2971ebc6a75bc41f"
+  },
+  "notes": [
+    "Dummy shape, topology, skin weights, shell and physics behavior are unchanged in V13.",
+    "Tool recordings use the same camera, resolution and action schedule. Runtime simulation remains live.",
+    "World paint receivers remain 160 texels/metre; no per-frame CPU pose reads, pigment reads or skinning uploads.",
+    "Native rates are presentation-capped, not maximum uncapped throughput."
+  ]
+}

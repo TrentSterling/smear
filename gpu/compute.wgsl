@@ -8,6 +8,7 @@
 @group(0) @binding(7) var<storage,read_write> wet:array<atomic<u32>>;
 @group(0) @binding(8) var brush:texture_2d_array<f32>;
 @group(0) @binding(9) var brushSampler:sampler;
+@group(0) @binding(10) var<storage,read_write> paintBefore:array<u32>;
 fn header(i:u32)->vec4u { return bitcast<vec4u>(constants[i]); }
 fn record(i:u32)->Record { let b=header(1).z+i*7u;return Record(constants[b],constants[b+1u],constants[b+2u],constants[b+3u],constants[b+4u],bitcast<vec4u>(constants[b+5u]),constants[b+6u]); }
 fn uv(r:Record,p:vec3f)->vec2f { let d=p-r.center.xyz;return vec2f(dot(d,r.u.xyz)/r.size.x+.5,dot(d,r.v.xyz)/r.size.y+.5); }
@@ -61,10 +62,103 @@ fn navFree(p:vec3f)->bool {
  if(abs(p.x)>7.1||abs(p.z)>7.1){return false;}for(var j=0u;j<header(0).x;j++){let k=header(1).x+j*5u;let h=constants[k+2u].xyz;let center=constants[k].xyz;if(h.y>2||center.y-h.y>1.9){continue;}let local=rotate(inverseQ(constants[k+1u]),p-center);if(abs(local.x)<h.x+.48&&abs(local.z)<h.z+.48){return false;}}return true;
 }
 fn bounded(v:vec3f,limit:f32)->vec3f {return v*min(1.0,limit/max(length(v),1e-7));}
+fn yawQ(angle:f32)->vec4f {return vec4f(0,sin(angle*.5),0,cos(angle*.5));}
+fn pitchQ(angle:f32)->vec4f {return vec4f(sin(angle*.5),0,0,cos(angle*.5));}
+fn angleDelta(a:f32,b:f32)->f32 {return atan2(sin(a-b),cos(a-b));}
+fn fromTo(a:vec3f,b:vec3f)->vec4f {return normalize(vec4f(cross(a,b),max(.00001,1+dot(a,b))));}
+fn blendQ(a:vec4f,b:vec4f,t:f32)->vec4f {return normalize(mix(a,select(b,-b,dot(a,b)<0),t));}
+fn recoveryRollTime(angle:f32)->f32 {return select(0.0,max(.65,abs(angle)*1.45/3.141593),abs(angle)>.001);}
+// All targets share the real joint anchors. Stance feet stay fixed in world space.
+fn childTarget(base:u32,j:u32,q:vec4f) {
+ let k=header(1).y+j*4u;let h=constants[k];let a=localBodies[u32(h.x)-base];let i=u32(h.y)-base;
+ localBodies[i].targetQ=q;localBodies[i].targetP=vec4f(a.targetP.xyz+rotate(a.targetQ,constants[k+1u].xyz)-rotate(q,constants[k+2u].xyz),1);
+}
+fn legTarget(base:u32,side:u32,q:vec4f) {
+ let first=header(1).y+(base/15u*14u+5u+side*6u)*4u;
+ let hip=localBodies[1];let thigh=6u+side*6u;let shin=thigh+1u;let foot=thigh+2u;let f=localBodies[foot];
+ let start=hip.targetP.xyz+rotate(hip.targetQ,constants[first+1u].xyz);
+ let end=f.targetP.xyz+rotate(f.targetQ,constants[first+10u].xyz);
+ let la=constants[first+5u].xyz-constants[first+2u].xyz;let lb=constants[first+9u].xyz-constants[first+6u].xyz;
+ let l1=length(la);let l2=length(lb);let direction=safeNorm(end-start);let distance=clamp(length(end-start),.035,l1+l2-.0015);
+ let forward=rotate(q,vec3f(0,0,1));let bend=safeNorm(forward-direction*dot(forward,direction));
+ let along=(l1*l1-l2*l2+distance*distance)/(2*distance);let knee=start+direction*along+bend*sqrt(max(0,l1*l1-along*along));let ankle=start+direction*distance;
+ let qa=quatMul(q,fromTo(safeNorm(la),rotate(inverseQ(q),safeNorm(knee-start))));let qb=quatMul(q,fromTo(safeNorm(lb),rotate(inverseQ(q),safeNorm(ankle-knee))));
+ localBodies[thigh].targetQ=qa;localBodies[thigh].targetP=vec4f(start-rotate(qa,constants[first+2u].xyz),1);
+ localBodies[shin].targetQ=qb;localBodies[shin].targetP=vec4f(knee-rotate(qb,constants[first+6u].xyz),1);
+}
+// Recovery uses the same real joint anchors as walking, including the supporting arms.
+fn recoveryArm(base:u32,side:u32,q:vec4f,p:vec3f,endQ:vec4f) {
+ let first=header(1).y+(base/15u*14u+2u+side*6u)*4u;
+ let upper=3u+side*6u;let lower=upper+1u;let hand=upper+2u;let chest=localBodies[0];
+ let start=chest.targetP.xyz+rotate(chest.targetQ,constants[first+1u].xyz);
+ let end=p+rotate(endQ,constants[first+10u].xyz);let la=constants[first+5u].xyz-constants[first+2u].xyz;let lb=constants[first+9u].xyz-constants[first+6u].xyz;
+ let l1=length(la);let l2=length(lb);let direction=safeNorm(end-start);let distance=clamp(length(end-start),.035,l1+l2-.0015);
+ let hint=rotate(q,vec3f(select(-.25,.25,side==1u),0,-1));let bend=safeNorm(hint-direction*dot(hint,direction));
+ let along=(l1*l1-l2*l2+distance*distance)/(2*distance);let elbow=start+direction*along+bend*sqrt(max(0,l1*l1-along*along));let wrist=start+direction*distance;
+ let qa=quatMul(q,fromTo(safeNorm(la),rotate(inverseQ(q),safeNorm(elbow-start))));let qb=quatMul(q,fromTo(safeNorm(lb),rotate(inverseQ(q),safeNorm(wrist-elbow))));
+ localBodies[upper].targetQ=qa;localBodies[upper].targetP=vec4f(start-rotate(qa,constants[first+2u].xyz),1);
+ localBodies[lower].targetQ=qb;localBodies[lower].targetP=vec4f(elbow-rotate(qb,constants[first+6u].xyz),1);
+ localBodies[hand].targetQ=endQ;localBodies[hand].targetP=vec4f(wrist-rotate(endQ,constants[first+10u].xyz),1);
+}
+fn recoveryTargets(base:u32) {
+ let hip=localBodies[1];let root=vec3f(hip.motor.x,0,hip.motor.z);let q=yawQ(hip.motor.y);
+ let elapsed=frame.camera.w-(hip.nav.w-hip.nav.y);let rollTime=recoveryRollTime(hip.recoveryP.w);let u=max(0,elapsed-rollTime);
+ let rollAngle=hip.recoveryP.w*smoothstep(0.0,max(.001,rollTime),elapsed);let axis=rotate(q,vec3f(0,0,1));let roll=vec4f(axis*sin(rollAngle*.5),cos(rollAngle*.5));let pivot=root+vec3f(0,.19,0);
+ if(elapsed>=rollTime){
+  let rise=smoothstep(1.1,3.8,u);let lean=1.4*(1-rise);let hands=smoothstep(1.65,2.85,u);
+  localBodies[1].targetP=vec4f(root+vec3f(0,mix(.46,.975,rise),0),1);localBodies[1].targetQ=quatMul(q,pitchQ(lean*.67));
+  let joints=base/15u*14u;childTarget(base,joints,quatMul(q,pitchQ(lean)));childTarget(base,joints+1u,quatMul(q,pitchQ(lean*.65)));
+  for(var side=0u;side<2u;side++){
+   let sign=select(-1.0,1.0,side==1u);let i=8u+side*6u;
+   localBodies[i].targetP=vec4f(root+rotate(q,vec3f(sign*.137,.078,.024+sign*.10*sin(rise*3.141593))),1);localBodies[i].targetQ=q;legTarget(base,side,q);
+   let hand=mix(vec3f(sign*.33,.055,.59),vec3f(sign*.38,.773,.01),hands);
+   recoveryArm(base,side,q,root+rotate(q,hand),quatMul(q,pitchQ((1-hands)*1.570796)));
+  }
+ }
+ let gather=smoothstep(0.0,.95,u);
+ for(var k=0u;k<15u;k++){
+  let p=pivot+rotate(roll,localBodies[k].recoveryP.xyz-pivot);let orientation=quatMul(roll,localBodies[k].recoveryQ);
+  localBodies[k].targetP=vec4f(mix(p,localBodies[k].targetP.xyz,gather),1);localBodies[k].targetQ=blendQ(orientation,localBodies[k].targetQ,gather);
+ }
+}
+fn gaitTargets(base:u32) {
+ var hip=localBodies[1];if(hip.motor.w<.5){for(var k=0u;k<15u;k++){localBodies[k].gait=vec4f(0);localBodies[k].targetP=vec4f(localBodies[k].p.xyz,0);}return;}
+ let dt=1.0/120;let root=vec3f(hip.motor.x,0,hip.motor.z);let q=yawQ(hip.motor.y);let blend=hip.gait.y;
+ var previous:array<vec4f,15>;for(var k=0u;k<15u;k++){previous[k]=localBodies[k].targetP;}
+ if(hip.motor.w<1.5){recoveryTargets(base);for(var k=0u;k<15u;k++){localBodies[k].targetV=vec4f(bounded((localBodies[k].targetP.xyz-previous[k].xyz)/dt,2.8),0);}return;}
+ for(var side=0u;side<2u;side++){
+  let i=8u+side*6u;var f=localBodies[i];let sign=select(-1.0,1.0,side==1u);let ideal=root+rotate(q,vec3f(sign*.137,.078,.024));
+  if(f.gait.z<.5){f.targetP=vec4f(ideal,1);f.targetQ=q;f.footFrom=vec4f(ideal,hip.motor.y);f.footTo=f.footFrom;f.gait=vec4f(0,0,1,0);}
+  let other=localBodies[8u+(1u-side)*6u];let error=length(ideal-f.targetP.xyz);let twist=abs(angleDelta(hip.motor.y,f.footTo.w));
+  if(f.gait.y<.5&&other.gait.y<.5&&side==u32(hip.gait.w)&&(error>.105||twist>.24)){
+   f.gait.x=0;f.gait.y=1;f.footFrom=vec4f(f.targetP.xyz,f.footTo.w);f.footTo=vec4f(ideal+rotate(q,vec3f(0,0,min(.22,hip.gait.x*.34))),hip.motor.y);
+  }
+  if(f.gait.y>.5){f.gait.x=min(1,f.gait.x+dt/.38);let t=f.gait.x;let ease=t*t*(3-2*t);f.targetP=vec4f(mix(f.footFrom.xyz,f.footTo.xyz,ease)+vec3f(0,sin(t*3.141593)*(.05+.020*blend),0),1);f.targetQ=quatMul(yawQ(f.footFrom.w+angleDelta(f.footTo.w,f.footFrom.w)*ease),pitchQ(.20*sin(t*6.283185)*blend));
+   if(t>=1){f.gait.y=0;f.targetP=vec4f(f.footTo.xyz,1);hip.gait.w=f32(1u-side);}
+  }
+  localBodies[i]=f;
+ }
+ let forward=rotate(q,vec3f(0,0,1));let stride=clamp(dot(localBodies[8].targetP.xyz-localBodies[14].targetP.xyz,forward)*.82,-.32,.32)*blend;
+ hip.gait.z=mix(hip.gait.z,stride,1-exp(-dt*12));
+ let lift=max(localBodies[8].targetP.y,localBodies[14].targetP.y)-.078;
+ var height=.975-.026*blend+lift*.10;
+ // Keep a small knee bend without pulling a planted foot beyond the leg's reach.
+ for(var side=0u;side<2u;side++){let first=header(1).y+(base/15u*14u+5u+side*6u)*4u;let foot=localBodies[8u+side*6u];let ankle=foot.targetP.xyz+rotate(foot.targetQ,constants[first+10u].xyz);let hipOffset=rotate(q,constants[first+1u].xyz);let horizontal=(root+hipOffset-ankle).xz;let reach=length(constants[first+5u].xyz-constants[first+2u].xyz)+length(constants[first+9u].xyz-constants[first+6u].xyz)-.008;height=min(height,ankle.y-hipOffset.y+sqrt(max(.01,reach*reach-dot(horizontal,horizontal))));}
+ hip.targetP=vec4f(root+vec3f(0,height,0),1);hip.targetQ=quatMul(q,yawQ(hip.gait.z*.10));localBodies[1]=hip;
+ let joints=base/15u*14u;childTarget(base,joints,quatMul(q,quatMul(yawQ(-hip.gait.z*.13),pitchQ(.025*blend))));childTarget(base,joints+1u,q);
+ for(var side=0u;side<2u;side++){
+  legTarget(base,side,q);let sign=select(-1.0,1.0,side==1u);let swing=-sign*hip.gait.z;
+  let armQ=quatMul(q,quatMul(pitchQ(swing),vec4f(0,0,sin(sign*.05),cos(sign*.05))));let foreQ=quatMul(armQ,pitchQ(-.13-max(0,-swing)*.35));
+  childTarget(base,joints+2u+side*6u,armQ);childTarget(base,joints+3u+side*6u,foreQ);childTarget(base,joints+4u+side*6u,foreQ);
+ }
+ for(var k=0u;k<15u;k++){localBodies[k].targetV=vec4f(select(vec3f(0),bounded((localBodies[k].targetP.xyz-previous[k].xyz)/dt,2.8),previous[k].w>.5),0);}
+}
 fn poseMotor(b:Body,index:u32)->Body {
- var out=b;if(b.motor.w<.5){return out;}let offset=header(3).w+index*2u;let rest=constants[offset].xyz;let root=vec3f(b.motor.x,0,b.motor.z);let yaw=b.motor.y;let q=vec4f(0,sin(yaw*.5),0,cos(yaw*.5));var goal=root+rotate(q,rest);var orientation=quatMul(q,constants[offset+1u]);let phase=frame.camera.w*4.2+f32(index/15u)*2;let walk=select(0.0,1.0,b.motor.w>1.5&&distance(b.nav.xz,b.motor.xz)>.2&&(u32(frame.settings.w)&1u)!=0u);let lane=index%15u;
- if(lane>=3u){let side=select(-1.0,1.0,lane>=9u);let member=(lane-3u)%6u;let swing=sin(phase+select(0.0,3.141593,side>0));if(member>=3u){goal+=rotate(q,vec3f(0,max(0,swing)*select(.014,.06,member==5u)*walk,swing*.09*walk));}else{goal+=rotate(q,vec3f(0,0,-swing*.055*walk));}}
- var error=quatMul(orientation,inverseQ(b.q));if(error.w<0){error=-error;}let angle=2*atan2(length(error.xyz),error.w);let axis=safeNorm(error.xyz);let strength=frame.rayO.w*select(.32,1.0,b.motor.w>1.5);let acceleration=bounded((goal-b.p.xyz)*select(48.0,95.0,b.motor.w>1.5)-b.v.xyz*14,40)*strength;out.v=vec4f(b.v.xyz+(acceleration+vec3f(0,9.81,0))/120,0);out.w=vec4f(b.w.xyz+bounded(axis*angle*62-b.w.xyz*12,70)*strength/120,0);return out;
+ var out=b;if(b.motor.w<.5){return out;}
+ var error=quatMul(b.targetQ,inverseQ(b.q));if(error.w<0){error=-error;}let angle=2*atan2(length(error.xyz),error.w);let axis=safeNorm(error.xyz);
+ let strength=frame.rayO.w*select(.55,1.0,b.motor.w>1.5);let foot=index%15u==8u||index%15u==14u;
+ let acceleration=bounded((b.targetP.xyz-b.p.xyz)*select(115.0,210.0,foot)+(b.targetV.xyz-b.v.xyz)*select(19.0,26.0,foot),55)*strength;
+ out.v=vec4f(b.v.xyz+(acceleration+vec3f(0,9.81,0))/120,0);out.w=vec4f(b.w.xyz+bounded(axis*angle*95-b.w.xyz*17,85)*strength/120,0);return out;
 }
 fn correct(i:u32,n:vec3f,lambda:f32,r:vec3f) { var b=localBodies[i];if(b.status.x<.5){return;}b.p=vec4f(b.p.xyz+n*lambda*b.p.w,b.p.w);b.q=rotateStep(b.q,invWorld(b,cross(r,n)*lambda));localBodies[i]=b; }
 fn joint(base:u32,j:u32,angles:bool) {
@@ -84,10 +178,27 @@ fn joint(base:u32,j:u32,angles:bool) {
  }localBodies[lane]=b;}
  workgroupBarrier();
  if(lane==0u){var hip=localBodies[1];var health=100.0;for(var k=0u;k<15u;k++){health=min(health,localBodies[k].blood.w);}let held=frame.local.w>.5&&u32(frame.goal.w)/15u==group.x;
-  if(hip.motor.w<.5){hip.status.z=select(0.0,hip.status.z+dt,length(hip.v.xyz)<.8&&!held);if(hip.status.z>8&&health>25&&(u32(frame.settings.w)&2u)!=0u&&navFree(vec3f(hip.p.x,0,hip.p.z))){hip.motor=vec4f(hip.p.x,0,hip.p.z,1);hip.nav=vec4f(hip.p.x,0,hip.p.z,frame.camera.w+4);}}
-  else if(hip.motor.w<1.5){if(frame.camera.w>hip.nav.w){hip.motor.w=2;}}
-  else if((u32(frame.settings.w)&1u)!=0u&&!held){let delta=hip.nav.xz-hip.motor.xz;let distance=length(delta);if(distance<.2&&frame.camera.w>hip.nav.w){for(var attempt=0u;attempt<12u;attempt++){let seed=base+u32(frame.camera.w*120)+attempt*97u;let goal=vec3f(hip.motor.x,0,hip.motor.z)+vec3f(hash(seed)-.5,0,hash(seed+29u)-.5)*4;var clear=navFree(goal);for(var n=1u;n<8u;n++){clear=clear&&navFree(mix(vec3f(hip.motor.x,0,hip.motor.z),goal,f32(n)/8));}if(clear){hip.nav=vec4f(goal,frame.camera.w+.4);break;}}}else if(distance>.2&&frame.camera.w>hip.nav.w){let direction=delta/max(distance,.001);let next=vec3f(hip.motor.x,0,hip.motor.z)+vec3f(direction.x,0,direction.y)*dt*.35;if(navFree(next)){hip.motor.x=next.x;hip.motor.z=next.z;hip.motor.y=atan2(direction.x,direction.y);}else{hip.nav.x=hip.motor.x;hip.nav.z=hip.motor.z;hip.nav.w=frame.camera.w+1;}}}
-  for(var k=0u;k<15u;k++){localBodies[k].motor=hip.motor;localBodies[k].nav=hip.nav;localBodies[k].status.z=hip.status.z;}
+  if(hip.motor.w<.5){hip.status.z=select(0.0,hip.status.z+dt,length(hip.v.xyz)<.8&&!held);if(hip.status.z>8&&health>25&&(u32(frame.settings.w)&2u)!=0u&&navFree(vec3f(hip.p.x,0,hip.p.z))){
+   var direction=localBodies[2].p.xyz-hip.p.xyz;direction.y=0;if(length(direction)<.02){direction=rotate(localBodies[0].q,vec3f(0,0,1));direction.y=0;}let yaw=atan2(direction.x,direction.z);
+   let axis=rotate(yawQ(yaw),vec3f(0,0,1));let normal=rotate(localBodies[0].q,vec3f(0,0,1));let angle=atan2(-cross(axis,normal).y,-normal.y);let rollAngle=select(angle,0.0,abs(angle)<.35);let duration=4.1+recoveryRollTime(rollAngle);
+   for(var k=0u;k<15u;k++){localBodies[k].recoveryP=vec4f(localBodies[k].p.xyz,rollAngle);localBodies[k].recoveryQ=localBodies[k].q;localBodies[k].targetP=vec4f(localBodies[k].p.xyz,1);localBodies[k].targetQ=localBodies[k].q;localBodies[k].gait=vec4f(0);}
+   hip.recoveryP=vec4f(hip.p.xyz,rollAngle);hip.recoveryQ=hip.q;hip.targetP=vec4f(hip.p.xyz,1);hip.targetQ=hip.q;hip.gait=vec4f(0);hip.motor=vec4f(hip.p.x,yaw,hip.p.z,1);hip.nav=vec4f(hip.p.x,duration,hip.p.z,frame.camera.w+duration);
+  }}
+  else if(hip.motor.w<1.5){if(frame.camera.w>hip.nav.w&&hip.p.y>.82&&rotate(localBodies[0].q,vec3f(0,1,0)).y>.85){hip.motor.w=2;hip.nav=vec4f(hip.motor.x,0,hip.motor.z,frame.camera.w+.8);}else if(frame.camera.w>hip.nav.w+2){hip.motor.w=0;hip.status.z=0;}}
+  else if(!held){
+   let delta=hip.nav.xz-hip.motor.xz;let distance=length(delta);var requested=0.0;
+   if((u32(frame.settings.w)&1u)!=0u){
+    if(distance<.24&&frame.camera.w>hip.nav.w){for(var attempt=0u;attempt<12u;attempt++){let seed=base+u32(frame.camera.w*120)+attempt*97u;let goal=vec3f(hip.motor.x,0,hip.motor.z)+vec3f(hash(seed)-.5,0,hash(seed+29u)-.5)*4;var clear=navFree(goal);for(var n=1u;n<8u;n++){clear=clear&&navFree(mix(vec3f(hip.motor.x,0,hip.motor.z),goal,f32(n)/8));}if(clear){hip.nav=vec4f(goal,frame.camera.w+.7);break;}}}
+    else if(distance>.24&&frame.camera.w>hip.nav.w){let direction=delta/max(distance,.001);let turn=angleDelta(atan2(direction.x,direction.y),hip.motor.y);hip.motor.y+=clamp(turn,-1.7*dt,1.7*dt);requested=.62*clamp(1-abs(turn)/1.1,0,1)*clamp(distance/.65,0,1);
+     if(!navFree(vec3f(hip.motor.x,0,hip.motor.z)+vec3f(direction.x,0,direction.y)*.45)){requested=0;hip.nav=vec4f(hip.motor.x,0,hip.motor.z,frame.camera.w+.8);}
+     let lag=length(hip.p.xz-hip.motor.xz);requested*=clamp((.32-lag)/.18,0,1);
+    }
+   }
+   hip.gait.x=mix(hip.gait.x,requested,1-exp(-dt*6.5));hip.gait.y=mix(hip.gait.y,clamp(hip.gait.x/.55,0,1),1-exp(-dt*7));
+   let next=vec3f(hip.motor.x,0,hip.motor.z)+rotate(yawQ(hip.motor.y),vec3f(0,0,hip.gait.x*dt));if(navFree(next)){hip.motor.x=next.x;hip.motor.z=next.z;}
+  }
+  localBodies[1]=hip;
+  for(var k=0u;k<15u;k++){localBodies[k].motor=hip.motor;localBodies[k].nav=hip.nav;localBodies[k].status.z=hip.status.z;}gaitTargets(base);
  }workgroupBarrier();
  if(lane<15u){var b=localBodies[lane];b.prevP=b.p;b.prevQ=b.q;if(b.status.x>.5){b=poseMotor(b,base+lane);b.v.y-=9.81*dt;b.v=vec4f(bounded(b.v.xyz*exp(-.075*dt),21),0);b.w=vec4f(bounded(b.w.xyz*exp(-.36*dt),26),0);b.p=vec4f(b.p.xyz+b.v.xyz*dt,b.p.w);b.q=rotateStep(b.q,b.w.xyz*dt);}localBodies[lane]=b;}workgroupBarrier();
  for(var it=0u;it<9u;it++){
@@ -100,13 +211,7 @@ fn joint(base:u32,j:u32,angles:bool) {
    for(var si=0u;si<u32(b.half.w);si++){let s=sample(b,si);let p=rotate(b.q,s.xyz)+b.p.xyz;if(p.y<s.w+.015){b.v.y=max(b.v.y,0);let friction=exp(-1.8*dt);b.v.x*=friction;b.v.z*=friction;}}
   }
   b.blood.y+=dt*max(.05,b.blood.x)*frame.action.z;b.blood.z=max(0,b.blood.z-dt);b.coat.y=max(0,b.coat.y-dt);b.coat.x=max(0,b.coat.x-dt*2.3/frame.tune.w);
-  let contact=rotate(b.q,b.s0.xyz)+b.p.xyz;var receiver:i32=-1;var p=vec3f(contact.x,0,contact.z);
-  if(contact.y<b.s0.w+.02){receiver=i32(floorRecord(p));}
-  for(var j=16u;j<header(0).z;j++){let r=record(j);let distance=dot(contact-r.center.xyz,r.n.xyz);let point=contact-r.n.xyz*distance;let c=uv(r,point);if(distance>-.025&&distance<b.s0.w+.02&&all(c>=vec2f(0))&&all(c<=vec2f(1))){receiver=i32(j);p=point;break;}}
-  if(receiver>=0&&b.status.x>.5){let rec=u32(receiver);let r=record(rec);let c=uv(r,p);let cell=wetCell(r,c);let pickup=f32(takeWet(cell,u32(dt*.85*frame.tune.z*65536)))/65536.0;b.coat.x=min(1.65,b.coat.x+pickup);
-   let abrasion=length(b.v.xyz)*select(.001,.018,frame.local.w>.5&&u32(frame.goal.w)/15u==group.x)*frame.rayD.w;if(abrasion>.03&&b.coat.y<=0){b.blood.x=min(2.0,b.blood.x+abrasion*.3);b.blood.w=max(0,b.blood.w-abrasion*.2);b.coat.y=.18;}
-   if(b.coat.x>.004){let previous=select(p,b.track.xyz,b.track.w==f32(rec)+1);let travel=length(p-previous);if(travel>.0007){let a=uv(r,previous);let radius=vec2f(b.half.x*.72,b.half.z*.72)/r.size.xy;if(rec<16u){for(var k=0u;k<16u;k++){let other=record(k);let start=uv(other,previous);let end=uv(other,p);if(all(max(start,end)+radius>=vec2f(0))&&all(min(start,end)-radius<=vec2f(1))){stamp(k,start,end,radius,min(b.coat.x*frame.tune.y,1.65),1,f32(index%256u),atan2(b.v.z,b.v.x));}}}else{stamp(rec,a,c,radius,min(b.coat.x*frame.tune.y,1.65),1,f32(index%256u),atan2(dot(b.v.xyz,r.v.xyz),dot(b.v.xyz,r.u.xyz)));}b.coat.x=max(0,b.coat.x-travel*.035);}b.track=vec4f(p,f32(rec)+1);atomicMax(&wet[cell],u32(b.coat.x*.28*65536));}
-  }else{b.track.w=0;}
+  b=paintContact(index,b,dt);
   if(b.blood.x>.001&&b.blood.y>.035&&b.coat.w>0){b.blood.y=0;b.coat.w=max(0,b.coat.w-.002*b.blood.x);let seed=index*199u+atomicLoad(&work[5]);let p=b.p.xyz+rotate(b.q,vec3f(0,0,b.half.z));emit(p,b.v.xyz*.25+rotate(b.q,vec3f((hash(seed)-.5)*1.6,.4+hash(seed+1u)*1.8,.5+hash(seed+2u))),.006+hash(seed+3u)*.010,index);b.coat.x=min(1.65,b.coat.x+.01*b.blood.x);}
   if(b.coat.x>.005&&(b.blood.z<=0||frame.action.x==1)){b.blood.z=.22;let rec=header(0).z+index;for(var face=0u;face<6u;face++){let c=vec2f((f32(face%3u)+.5)/3,(f32(face/3u)+.5)/2);stamp(rec,c,c,vec2f(.10,.18),min(b.coat.x*.42,.5),0,f32((index+face*3u)%18u),hash(index+face)*6.283185);}}
   bodies[index]=b;
@@ -139,11 +244,13 @@ fn rayHit(o:vec3f,d:vec3f,limit:f32,includeBodies:bool,ignoreBody:i32)->RayHit {
 @compute @workgroup_size(64) fn dry(@builtin(global_invocation_id) id:vec3u) { if(id.x>=header(0).z*3136u){return;}let old=atomicLoad(&wet[id.x]);atomicStore(&wet[id.x],u32(f32(old)*exp(-2.3/(120*frame.tune.w)))); }
 @compute @workgroup_size(64) fn flow(@builtin(global_invocation_id) id:vec3u) {
  if(id.x>=header(0).z*3136u){return;}let rec=id.x/3136u;let r=record(rec);if(abs(r.n.y)>.2||r.v.y>-.8){return;}
- let cell=id.x%3136u;let x=cell%56u;let y=cell/56u;if(y>=55u){return;}let old=atomicLoad(&wet[id.x]);let supply=f32(old)/65536.0;if(supply<.13){return;}
- let col=.35+.65*hash(rec*991u+x*31u);let amount=min(supply*.46,max(0,supply-.12)*(.24+col*.24)/28);if(amount<.0008){return;}
+ let cell=id.x%3136u;let x=cell%56u;let y=cell/56u;if(y>=55u){return;}let old=atomicLoad(&wet[id.x]);let supply=f32(old)/65536.0;let threshold=.13+hash(rec*83u+x*271u)*.18;if(supply<threshold){return;}
+ let col=.35+.65*hash(rec*991u+x*31u);let amount=min(supply*.46,max(0,supply-threshold)*(.10+col*.32)/28);if(amount<.0008){return;}
  let passed=f32(takeWet(id.x,u32(amount*65536)))/65536.0;addWet(id.x+56u,u32(passed*.92*65536));
- let a=vec2f(f32(x)+.5,f32(y)+.22)/56;let b=vec2f(a.x+(hash(cell*17u)-.5)*min(.028,r.size.x*.008)/r.size.x,(f32(y)+1.8)/56);
- stamp(rec,a,b,vec2f(max(.55,(.6+passed*8)*r.size.z/r.size.x)/r.size.z,.002),min(1.0,passed*9),2,f32(cell+rec*131u),0);
+ let a=vec2f(f32(x)+.18+hash(rec*179u+x*37u)*.64,f32(y)+.22)/56;let b=vec2f(a.x+(hash(cell*17u)-.5)*min(.008,r.size.x*.003)/r.size.x,(f32(y)+1.8)/56);
+ // Millimetre-scale rivulets; the old .6 was interpreted as metres, making bars.
+ let width=max(.7/r.size.z,(.0035+passed*.035)/r.size.x);
+ stamp(rec,a,b,vec2f(width,.002),min(1.0,passed*9),2,f32(cell+rec*131u),0);
  if(y>52u&&passed>.038&&hash(cell*97u+rec)>.79){let point=r.center.xyz+r.u.xyz*((b.x-.5)*r.size.x)+r.v.xyz*((b.y-.5)*r.size.y);emit(point+r.n.xyz*.012,r.v.xyz*.25+r.n.xyz*.04,.006,999u);}
 }
 @compute @workgroup_size(64) fn control(@builtin(global_invocation_id) id:vec3u) {
@@ -158,14 +265,34 @@ fn rayHit(o:vec3f,d:vec3f,limit:f32,includeBodies:bool,ignoreBody:i32)->RayHit {
  atomicStore(&work[20],activeBodies);atomicStore(&work[21],wounds);atomicStore(&work[22],bitcast<u32>(scraping));
 }
 @compute @workgroup_size(64) fn bin(@builtin(global_invocation_id) id:vec3u) {
- let i=id.x;if(i>=min(8192u,atomicLoad(&work[3]))){return;}let s=stamps[i];let r=record(u32(s.info.x));let pad=s.a.zw*2.3+vec2f(3)/r.size.zw;let a=vec2u(clamp(floor((min(s.a.xy,s.b.xy)-pad)*r.size.zw/16),vec2f(0),vec2f(r.address.zw)-1));let b=vec2u(clamp(floor((max(s.a.xy,s.b.xy)+pad)*r.size.zw/16),vec2f(0),vec2f(r.address.zw)-1));let h=header(2);
+ let i=id.x;if(i>=min(8192u,atomicLoad(&work[3]))){return;}let s=stamps[i];let r=record(u32(s.info.x));let extent=max(max(s.a.z*r.size.x,s.a.w*r.size.y),max(s.color.y,s.color.z));let pad=select(s.a.zw*2.3,vec2f(extent*2.3+.025)/r.size.xy,s.info.y==1||s.info.y==3||s.info.y==4)+vec2f(3)/r.size.zw;let a=vec2u(clamp(floor((min(s.a.xy,s.b.xy)-pad)*r.size.zw/16),vec2f(0),vec2f(r.address.zw)-1));let b=vec2u(clamp(floor((max(s.a.xy,s.b.xy)+pad)*r.size.zw/16),vec2f(0),vec2f(r.address.zw)-1));let h=header(2);
  for(var y=a.y;y<=b.y;y++){for(var x=a.x;x<=b.x;x++){let tile=r.address.y+x+y*r.address.z;let n=atomicAdd(&work[h.y+tile],1u);if(n==0u){let activeIndex=atomicAdd(&work[0],1u);atomicStore(&work[h.z+activeIndex],tile);}if(n<128u){atomicStore(&work[h.w+tile*128u+n],i);}else{atomicAdd(&work[18],1u);}}}
 }
 var<workgroup> indices:array<u32,128>;
 fn coverage(s:Stamp,point:vec2f)->vec4f {
  let r=record(u32(s.info.x));let p=point/r.size.zw;let radius=max(s.a.zw,vec2f(.0001));var alpha=0.0;var color=vec3f(.42,.025,.06);
- if(s.info.y==1){let seed=u32(s.info.z);let c=cos(s.b.z);let sn=sin(s.b.z);
-  for(var j=0u;j<54u;j++){let h=hash(seed*113u+j*977u);let h2=hash(seed*337u+j*199u);let h3=hash(seed*41u+j*57u);let h4=hash(seed*617u+j*521u);let h5=hash(seed*181u+j*881u);if(h4<.10+max(0,.16-s.b.w*.08)){continue;}let angle=h*6.283185;let rr=sqrt(h2)*.98;let fringe=1-rr*.68;let o=vec2f(cos(angle),sin(angle))*rr*radius;let offset=vec2f(o.x*c-o.y*sn,o.x*sn+o.y*c);let a=s.a.xy+offset;let b=s.b.xy+offset;let direction=(b-a)*r.size.zw;let relative=(p-a)*r.size.zw;let t=clamp(dot(relative,direction)/max(dot(direction,direction),1e-8),0,1);let distance=length(relative-direction*t);let core=j==0u||j==7u||j==21u||j==33u;let avgRadius=dot(radius*r.size.xy,vec2f(.5));let travel=length((s.b.xy-s.a.xy)*r.size.xy);let breakup=.5+.5*sin(travel*(29+h*28)+f32(j)*2.3+f32(seed)*.7);let physicalWidth=select(clamp(avgRadius*(.055+h3*.20)*fringe,.0025,.040),clamp(avgRadius*(.33+h3*.42)*1.05*(.62+.42*pow(sin(travel*(15+h5*6)+f32(j)),2)),.010,.12),core);let width=max(.5,physicalWidth*r.size.z/r.size.x)*.5;let strength=clamp(select(.10+h3*.26,.68+h3*.24,core)*s.b.w*fringe*(.42+breakup*.72),.006,.96);let cov=clamp(width+.65-distance,0,1)*strength;alpha=alpha+cov*(1-alpha);}
+ if(s.info.y==1){
+  let seed=u32(s.info.z);let size=radius*r.size.xy;let previousSize=s.color.yz;let travel=s.color.w;var rgb=vec3f(0);
+  for(var j=0u;j<54u;j++){
+   let h=hash(seed*113u+j*977u);let h2=hash(seed*337u+j*199u);let h3=hash(seed*41u+j*57u);let h4=hash(seed*617u+j*521u);let h5=hash(seed*181u+j*881u);
+   let breakup=.5+.5*sin(travel*(29+h*28)+f32(j)*2.3+f32(seed)*.7);
+   if((s.b.w<.24&&breakup>s.b.w*2.8+.08)||h4<.10+max(0,.16-s.b.w*.08)){continue;}
+   let rr=sqrt(h2)*.98;let fringe=1-rr*.68;let material=vec2f(cos(h*6.283185),sin(h*6.283185))*rr;
+   let a=s.a.xy+patchOffset(previousSize,s.color.x,material)/r.size.xy;let b=s.b.xy+patchOffset(size,s.b.z,material)/r.size.xy;
+   let direction=(b-a)*r.size.xy;let relative=(p-a)*r.size.xy;let t=clamp(dot(relative,direction)/max(dot(direction,direction),1e-8),0,1);let distance=length(relative-direction*t);
+   let core=j==0u||j==7u||j==21u||j==33u;let avgRadius=dot(size+previousSize,vec2f(.25));
+   let width=select(clamp(avgRadius*(.055+h3*.20)*fringe,.0025,.040),clamp(avgRadius*(.33+h3*.42)*1.05*(.62+.42*pow(sin(travel*(15+h5*6)+f32(j)),2)),.010,.12),core)*.5;
+   let aa=.65*r.size.x/r.size.z;let strength=clamp(select(.10+h3*.26,.68+h3*.24,core)*s.b.w*fringe*(.42+breakup*.72),.006,.96);
+   let cov=(1-smoothstep(max(0,width-aa),width+aa,distance))*strength;
+   let bristleColor=vec3f((76+floor(h*50))/255,(3+floor(h2*6))/255,(9+floor(h3*8))/255);
+   rgb=rgb*(1-cov)+bristleColor*cov;alpha=alpha+cov*(1-alpha);
+  }
+  // A thin continuous wet film joins the bristle cores into a contact patch.
+  let delta=(p-s.b.xy)*r.size.xy;let ca=cos(s.b.z);let sn=sin(s.b.z);let q=vec2f(ca*delta.x+sn*delta.y,-sn*delta.x+ca*delta.y)/size;
+  let film=(1-smoothstep(.35,1.08,length(q)))*min(.14,s.b.w*.09);rgb=rgb*(1-film)+vec3f(.40,.035,.065)*film;alpha+=film*(1-alpha);color=rgb/max(alpha,1e-6);
+ }else if(s.info.y==4){
+  let delta=(p-s.b.xy)*r.size.xy;let ca=cos(s.b.z);let sn=sin(s.b.z);let q=vec2f(ca*delta.x+sn*delta.y,-sn*delta.x+ca*delta.y)/(radius*r.size.xy);let angle=atan2(q.y,q.x);let seed=s.info.z;
+  let edge=.93+.045*sin(angle*5+seed)+.025*sin(angle*9+seed*.71);alpha=(1-smoothstep(edge-.13,edge+.035,length(q)))*s.b.w;color=vec3f(.39,.027,.055);
  }else if(s.info.y==2){let direction=(s.b.xy-s.a.xy)*r.size.zw;let relative=(p-s.a.xy)*r.size.zw;let t=clamp(dot(relative,direction)/max(dot(direction,direction),1e-8),0,1);alpha=clamp(s.a.z*r.size.z+.65-length(relative-direction*t),0,1)*s.b.w;}
  else{let q=(p-s.a.xy)/radius;let c=cos(s.b.z);let sn=sin(s.b.z);let t=vec2f(q.x*c+q.y*sn,-q.x*sn+q.y*c)*.5+.5;if(all(t>=vec2f(0))&&all(t<=vec2f(1))){let tex=textureSampleLevel(brush,brushSampler,t,i32(u32(s.info.z)%18u),0);alpha=tex.a*min(s.b.w,1);color=tex.rgb;}}
  return vec4f(color,alpha);
@@ -176,8 +303,8 @@ fn coverage(s:Stamp,point:vec2f)->vec4f {
  if(lane==0u){for(var i=1u;i<n;i++){let value=indices[i];var j=i;loop{if(j==0u||indices[j-1u]<=value){break;}indices[j]=indices[j-1u];j--;}indices[j]=value;}}workgroupBarrier();
  var rec=0u;for(var i=0u;i<header(0).w;i++){let r=record(i);if(tile>=r.address.y&&tile<r.address.y+r.address.z*r.address.w){rec=i;break;}}
  let r=record(rec);let t=tile-r.address.y;let origin=vec2u(t%r.address.z,t/r.address.z)*16u;
- for(var y=0u;y<2u;y++){for(var x=0u;x<2u;x++){let pos=origin+local.xy+vec2u(x,y)*8u;if(any(pos>=vec2u(r.size.zw))){continue;}let offset=r.address.x+pos.x+pos.y*u32(r.size.z);var value=unpack(pigment[offset]);let total=select(n,min(8192u,atomicLoad(&work[3])),count>128u);
-  for(var j=0u;j<total;j++){let index=select(indices[min(j,127u)],j,count>128u);let s=stamps[index];if(u32(s.info.x)!=rec){continue;}let source=coverage(s,vec2f(pos)+.5);if(source.a>0){value=over(value,source);}}
-  pigment[offset]=pack(value);
+ for(var y=0u;y<2u;y++){for(var x=0u;x<2u;x++){let pos=origin+local.xy+vec2u(x,y)*8u;if(any(pos>=vec2u(r.size.zw))){continue;}let offset=r.address.x+pos.x+pos.y*u32(r.size.z);var value=unpack(pigment[offset]);var liquid=0.0;var liquidPush=vec2f(0);let total=select(n,min(8192u,atomicLoad(&work[3])),count>128u);
+  for(var j=0u;j<total;j++){let index=select(indices[min(j,127u)],j,count>128u);let s=stamps[index];if(u32(s.info.x)!=rec){continue;}if(s.info.y==3){value=displacedPaint(s,vec2f(pos)+.5,value);liquidPush+=contactVelocity(s,r,vec2f(pos)+.5)*r.size.xy/r.size.zw*4;}else{let source=coverage(s,vec2f(pos)+.5);if(source.a>0){value=over(value,source);let footprintArea=max(.002,s.a.z*s.a.w*r.size.x*r.size.y);liquid+=source.a*select(select(.18,.015,s.info.y==1),.006/footprintArea,s.info.y==4);}}}
+  pigment[offset]=pack(value);depositFilm(rec,pos,liquid,liquidPush);
  }}
 }

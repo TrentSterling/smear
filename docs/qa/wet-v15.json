@@ -1,0 +1,905 @@
+{
+  "version": "0.15.0",
+  "status": "local; not published",
+  "verifiedAt": "2026-10-06T02:26:31.281Z",
+  "buildSHA256": "0adb374435de084e0e63785ce59241201c9f01ad4d601da41247ec5f8616474f",
+  "baselineSHA256": "32e044655e47365daaf1c33e415db2ea5aa40984fcf1986a99e34c32f2b59f2b",
+  "changes": [
+    "Contact footprints include all contacting collision samples and follow body rotation.",
+    "Bristle variation uses accumulated distance; fresh wet film fills between bristles and thins with consumed supply.",
+    "Resting wounds and saturated coatings deposit finite pools, debited from their wet supply.",
+    "Bounded upwind pigment transport reads immutable GPU snapshots of binned tiles. Dry pigment remains fixed; floor seams share transport taps."
+  ],
+  "checks": {
+    "chrome": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "firefox": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "native": [
+      "Native pistol hits and spawns GPU particles",
+      "Native Spill paints walls; GPU gravity drips extend paint",
+      "Native grabbing resolves from GPU body poses",
+      "Native drag creates persistent floor smears",
+      "GPU wash clears all 150 body coatings and pigment",
+      "GPU heal restores reserves and clears airborne drops",
+      "Finite long GPU simulation and recovery"
+    ],
+    "wetChrome": [
+      "Dry pigment remains unchanged under a clean moving contact",
+      "Wet contact redistributes existing colored pigment with fresh deposition disabled",
+      "Pigment crosses a floor-record seam without a gap or duplicated supply",
+      "Rotation around a stationary footprint produces curved material smears",
+      "Resting wet wounds grow a cohesive pool over six seconds",
+      "Lift and recontact break the stroke without bridging airborne travel",
+      "A saturated coating leaves a finite puddle without an active wound and consumes wet supply",
+      "Body contact also smears on a vertical wall without leaking onto the floor",
+      "Live articulated dummy drag stays finite, connected and within paint event capacity"
+    ],
+    "wetFirefox": [
+      "Dry pigment remains unchanged under a clean moving contact",
+      "Wet contact redistributes existing colored pigment with fresh deposition disabled",
+      "Pigment crosses a floor-record seam without a gap or duplicated supply",
+      "Rotation around a stationary footprint produces curved material smears",
+      "Resting wet wounds grow a cohesive pool over six seconds",
+      "Lift and recontact break the stroke without bridging airborne travel",
+      "A saturated coating leaves a finite puddle without an active wound and consumes wet supply",
+      "Body contact also smears on a vertical wall without leaking onto the floor",
+      "Live articulated dummy drag stays finite, connected and within paint event capacity"
+    ]
+  },
+  "contact": [
+    {
+      "browser": "chrome",
+      "transport": {
+        "before": {
+          "hash": "5dcce92b4e3aae70ca6de1a69c3fbe94d4150de0e48045ff23d09816db76101e",
+          "sum": 912560,
+          "tileSum": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            912560,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "painted": 4148,
+          "blue": 4148,
+          "carried": 0,
+          "bridge": 0,
+          "smears": 0,
+          "pools": 0,
+          "smudges": 0
+        },
+        "after": {
+          "hash": "e9812320da6e83651858815a23b7d3d1fe5697fce8ed90cfcc4cab56b6d4e6d2",
+          "sum": 912552,
+          "tileSum": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            912552,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "painted": 4770,
+          "blue": 4770,
+          "carried": 442,
+          "bridge": 0,
+          "smears": 90,
+          "pools": 0,
+          "smudges": 90
+        }
+      },
+      "seam": {
+        "before": {
+          "hash": "e71aedf6c1b87d6daa8f561afb21bf471353b5f32b1375fc9ba28dbf127216fb",
+          "sum": 897600,
+          "tileSum": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            807840,
+            89760,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "painted": 4080,
+          "blue": 4080,
+          "carried": 4080,
+          "bridge": 0,
+          "smears": 0,
+          "pools": 0,
+          "smudges": 0
+        },
+        "after": {
+          "hash": "c76877e751457b1c41a5cd240ef48a530518050923e1a8e780caae9fa9426de0",
+          "sum": 897622,
+          "tileSum": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            743490,
+            154132,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "painted": 4700,
+          "blue": 4700,
+          "carried": 4700,
+          "bridge": 222,
+          "smears": 64,
+          "pools": 0,
+          "smudges": 64
+        }
+      },
+      "rotation": {
+        "hash": "cbc8293986259c19558effad6d68c06564203c38eaed1fd9e3a34d5a3e0ff2ac",
+        "sum": 530198,
+        "tileSum": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          530198,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "painted": 3866,
+        "blue": 0,
+        "carried": 0,
+        "bridge": 0,
+        "smears": 24,
+        "pools": 0,
+        "smudges": 0
+      },
+      "pool": {
+        "early": {
+          "hash": "1900a6d5aa6bf0e3f6e0335ca5ad0645b57add451f5c52c282355b829fb90db8",
+          "sum": 123853,
+          "tileSum": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            123853,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "painted": 3154,
+          "blue": 0,
+          "carried": 0,
+          "bridge": 0,
+          "smears": 0,
+          "pools": 1,
+          "smudges": 0
+        },
+        "late": {
+          "hash": "a251a32799d78077006a00d88afa60253817e4ca67620380fd2c9bcba5d7e16c",
+          "sum": 696185,
+          "tileSum": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            696185,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "painted": 5490,
+          "blue": 0,
+          "carried": 0,
+          "bridge": 0,
+          "smears": 0,
+          "pools": 10,
+          "smudges": 0
+        }
+      },
+      "coatingPool": {
+        "hash": "0257491dd14122740b7db62755e74733984462ac689b70562ab117758ab36055",
+        "sum": 547929,
+        "tileSum": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          547929,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "painted": 5084,
+        "blue": 0,
+        "carried": 0,
+        "bridge": 0,
+        "smears": 0,
+        "pools": 8,
+        "smudges": 0,
+        "remainingCoat": 0.3513321280479431
+      },
+      "wall": {
+        "hash": "c5b536893c3110cfefcee2b95e06dfa31097155ad95937287bc6cceb0d6e1b7f",
+        "painted": 3727
+      },
+      "lift": {
+        "hash": "0710c7b6a7b1d4cec27fb79f1277a0c861ea299802e03e34fdf0fe296ca32feb",
+        "sum": 286772,
+        "tileSum": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          146365,
+          140407,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "painted": 5552,
+        "blue": 0,
+        "carried": 0,
+        "bridge": 0,
+        "smears": 6,
+        "pools": 0,
+        "smudges": 0
+      },
+      "liveCounters": [
+        1496,
+        16,
+        563
+      ],
+      "liveJointGap": 0.0014858540473530772,
+      "alphaChangeFraction": -0.00000876654685721956
+    },
+    {
+      "browser": "firefox",
+      "transport": {
+        "before": {
+          "hash": "5dcce92b4e3aae70ca6de1a69c3fbe94d4150de0e48045ff23d09816db76101e",
+          "sum": 912560,
+          "tileSum": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            912560,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "painted": 4148,
+          "blue": 4148,
+          "carried": 0,
+          "bridge": 0,
+          "smears": 0,
+          "pools": 0,
+          "smudges": 0
+        },
+        "after": {
+          "hash": "e9812320da6e83651858815a23b7d3d1fe5697fce8ed90cfcc4cab56b6d4e6d2",
+          "sum": 912552,
+          "tileSum": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            912552,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "painted": 4770,
+          "blue": 4770,
+          "carried": 442,
+          "bridge": 0,
+          "smears": 90,
+          "pools": 0,
+          "smudges": 90
+        }
+      },
+      "seam": {
+        "before": {
+          "hash": "e71aedf6c1b87d6daa8f561afb21bf471353b5f32b1375fc9ba28dbf127216fb",
+          "sum": 897600,
+          "tileSum": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            807840,
+            89760,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "painted": 4080,
+          "blue": 4080,
+          "carried": 4080,
+          "bridge": 0,
+          "smears": 0,
+          "pools": 0,
+          "smudges": 0
+        },
+        "after": {
+          "hash": "c76877e751457b1c41a5cd240ef48a530518050923e1a8e780caae9fa9426de0",
+          "sum": 897622,
+          "tileSum": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            743490,
+            154132,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "painted": 4700,
+          "blue": 4700,
+          "carried": 4700,
+          "bridge": 222,
+          "smears": 64,
+          "pools": 0,
+          "smudges": 64
+        }
+      },
+      "rotation": {
+        "hash": "d0e0ebbaefdf7d3aba67240eba75b546ef7614821e9d4defb8d1ab899e9ccc8c",
+        "sum": 530197,
+        "tileSum": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          530197,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "painted": 3866,
+        "blue": 0,
+        "carried": 0,
+        "bridge": 0,
+        "smears": 24,
+        "pools": 0,
+        "smudges": 0
+      },
+      "pool": {
+        "early": {
+          "hash": "1900a6d5aa6bf0e3f6e0335ca5ad0645b57add451f5c52c282355b829fb90db8",
+          "sum": 123853,
+          "tileSum": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            123853,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "painted": 3154,
+          "blue": 0,
+          "carried": 0,
+          "bridge": 0,
+          "smears": 0,
+          "pools": 1,
+          "smudges": 0
+        },
+        "late": {
+          "hash": "a251a32799d78077006a00d88afa60253817e4ca67620380fd2c9bcba5d7e16c",
+          "sum": 696185,
+          "tileSum": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            696185,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "painted": 5490,
+          "blue": 0,
+          "carried": 0,
+          "bridge": 0,
+          "smears": 0,
+          "pools": 10,
+          "smudges": 0
+        }
+      },
+      "coatingPool": {
+        "hash": "0257491dd14122740b7db62755e74733984462ac689b70562ab117758ab36055",
+        "sum": 547929,
+        "tileSum": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          547929,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "painted": 5084,
+        "blue": 0,
+        "carried": 0,
+        "bridge": 0,
+        "smears": 0,
+        "pools": 8,
+        "smudges": 0,
+        "remainingCoat": 0.3513321280479431
+      },
+      "wall": {
+        "hash": "929f61851686caf9b5cfd3bc8a98bad1cf5ab817f6fd08df7b656b80302fdb2d",
+        "painted": 3727
+      },
+      "lift": {
+        "hash": "43ea023c5e6ce443c9b8dccb5128ebefed0b8cec180df0d05963ae43361c2209",
+        "sum": 286772,
+        "tileSum": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          146365,
+          140407,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "painted": 5552,
+        "blue": 0,
+        "carried": 0,
+        "bridge": 0,
+        "smears": 6,
+        "pools": 0,
+        "smudges": 0
+      },
+      "liveCounters": [
+        1459,
+        17,
+        372
+      ],
+      "liveJointGap": 0.0037774652161983602,
+      "alphaChangeFraction": -0.00000876654685721956
+    }
+  ],
+  "performance": [
+    {
+      "label": "idle",
+      "fps": 60.00033426358109,
+      "cpu": {
+        "p50": 0.4000000059604645,
+        "p95": 1.2000000178813934,
+        "p99": 1.699999988079071,
+        "max": 1.9000000059604645
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.65536,
+          "p95": 1.048576,
+          "p99": 1.179648,
+          "max": 1.376256
+        },
+        "renderMS": {
+          "p50": 2.29376,
+          "p95": 2.752512,
+          "p99": 3.080192,
+          "max": 3.211264
+        }
+      },
+      "ticksPerSecond": 119.2767086927671,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1105920
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "pistol",
+      "fps": 60,
+      "cpu": {
+        "p50": 0.5,
+        "p95": 1.2999999821186066,
+        "p99": 1.699999988079071,
+        "max": 2
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.720896,
+          "p95": 1.048576,
+          "p99": 1.245184,
+          "max": 2.490368
+        },
+        "renderMS": {
+          "p50": 2.031616,
+          "p95": 2.490368,
+          "p99": 2.752512,
+          "max": 2.94912
+        }
+      },
+      "ticksPerSecond": 119.44996686547383,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992,
+          "GPU scene instances": 783728
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "spill",
+      "fps": 60.00700081694081,
+      "cpu": {
+        "p50": 0.4000000059604645,
+        "p95": 1.2000000178813934,
+        "p99": 1.600000023841858,
+        "max": 1.899999976158142
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.720896,
+          "p95": 1.114112,
+          "p99": 1.31072,
+          "max": 1.507328
+        },
+        "renderMS": {
+          "p50": 2.29376,
+          "p95": 2.94912,
+          "p99": 3.145728,
+          "max": 3.342336
+        }
+      },
+      "ticksPerSecond": 119.46975973487986,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992,
+          "GPU scene instances": 510400
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "drag",
+      "fps": 60.00900135026215,
+      "cpu": {
+        "p50": 0.4000000059604645,
+        "p95": 1.0999999940395355,
+        "p99": 1.600000023841858,
+        "max": 1.800000011920929
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.048576,
+          "p95": 1.703936,
+          "p99": 2.359296,
+          "max": 3.014656
+        },
+        "renderMS": {
+          "p50": 2.359296,
+          "p95": 3.014656,
+          "p99": 3.2768,
+          "max": 3.473408
+        }
+      },
+      "ticksPerSecond": 119.50936515829603,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992,
+          "GPU scene instances": 1408
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "chaos",
+      "fps": 60.003000150126724,
+      "cpu": {
+        "p50": 0.3999999761581421,
+        "p95": 1.100000023841858,
+        "p99": 1.5999999940395355,
+        "max": 1.699999988079071
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.179648,
+          "p95": 1.835008,
+          "p99": 2.359296,
+          "max": 3.145728
+        },
+        "renderMS": {
+          "p50": 3.211264,
+          "p95": 3.866624,
+          "p99": 3.997696,
+          "max": 4.128768
+        }
+      },
+      "ticksPerSecond": 119.02002979639131,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 25
+        },
+        "writes": {
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    }
+  ],
+  "addedSnapshotBytes": 122095816,
+  "bodyStrideFloats": 104,
+  "archives": {
+    "versions/smear_v8.9_cpu.html": "cff878b51eec0db9e3874f99c9fdcdbd6b9179d2f03e6374ef4726d89f1e5c44",
+    "versions/dragmark_v7.html": "4dfe17e606b18ce7471f176b4c2afa0229b2f32e60b5b88c2971ebc6a75bc41f"
+  },
+  "notes": [
+    "Transport conservation is measured in a controlled isolated-contact fixture with fresh deposition disabled. Pigment is stored as quantized RGBA coverage, not a fluid-volume field.",
+    "GPU snapshots copy active tiles only. The extra snapshot buffer occupies 116.44 MiB.",
+    "Recordings run separately from performance profiling. Native FPS measurements are presentation-capped."
+  ],
+  "video": {
+    "file": "tools/out/wet-pass/recordings/smear-wet-comparison.mp4",
+    "sha256": "53f816cda13e94a2cad6f34902e4c5c4c79f34da3f7093a88b7030d8c321c9ce",
+    "before": "0.14.0",
+    "after": "0.15.0",
+    "codec": "h264",
+    "size": [
+      1920,
+      720
+    ],
+    "seconds": 20,
+    "fps": 30,
+    "visuallyReviewed": [
+      "pooling-comparison.png",
+      "smearing-comparison.png"
+    ],
+    "capture": "tools/out/wet-pass/recordings/capture.json",
+    "clips": [
+      {
+        "label": "before",
+        "name": "pool",
+        "seconds": 8,
+        "steps": 1007,
+        "errors": [],
+        "contact": {
+          "smears": 0,
+          "pools": 0,
+          "smudges": 0
+        }
+      },
+      {
+        "label": "before",
+        "name": "smear",
+        "seconds": 12,
+        "steps": 1681,
+        "errors": [],
+        "contact": {
+          "smears": 0,
+          "pools": 0,
+          "smudges": 0
+        }
+      },
+      {
+        "label": "after",
+        "name": "pool",
+        "seconds": 8,
+        "steps": 1008,
+        "errors": [],
+        "contact": {
+          "smears": 1208,
+          "pools": 54,
+          "smudges": 326
+        }
+      },
+      {
+        "label": "after",
+        "name": "smear",
+        "seconds": 12,
+        "steps": 1681,
+        "errors": [],
+        "contact": {
+          "smears": 7039,
+          "pools": 17,
+          "smudges": 2922
+        }
+      }
+    ]
+  }
+}

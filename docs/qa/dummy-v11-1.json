@@ -1,0 +1,438 @@
+{
+  "version": "0.11.1",
+  "date": "2026-10-06T00:14:32.825Z",
+  "status": "local candidate; not published",
+  "buildSHA256": "e7ea73696030894ac1beb7d2acd9c1b500d9d4d41c23832d5c30400791b25e55",
+  "source": "gpu/dummy.js",
+  "model": {
+    "method": "SDF union, indexed isosurface, gradient normals, offset shell, GPU skinning",
+    "vertices": 133140,
+    "triangles": 266060,
+    "bones": 15,
+    "bootMS": 5996
+  },
+  "iterations": [
+    "round-07c",
+    "round-08",
+    "round-09",
+    "poses-09",
+    "final-v11-1"
+  ],
+  "checks": {
+    "chrome": {
+      "result": "COMPLETE compute game checks passed",
+      "checks": [
+        "Hardware GPU compute and no CPU physics/paint readback",
+        "120 GPU ticks; finite bodies and floor collision",
+        "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+        "Compute paints persistent floor pigment",
+        "GPU clear erases every floor tile",
+        "GPU reset restores three dolls",
+        "Repeatable GPU simulation after reset",
+        "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+        "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+        "Audio enabled and running, output separately muted"
+      ],
+      "errors": [],
+      "audio": {
+        "enabled": true,
+        "state": "running"
+      }
+    },
+    "firefox": {
+      "result": "COMPLETE compute game checks passed",
+      "checks": [
+        "Hardware GPU compute and no CPU physics/paint readback",
+        "120 GPU ticks; finite bodies and floor collision",
+        "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+        "Compute paints persistent floor pigment",
+        "GPU clear erases every floor tile",
+        "GPU reset restores three dolls",
+        "Repeatable GPU simulation after reset",
+        "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+        "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+        "Audio enabled and running, output separately muted"
+      ],
+      "errors": [],
+      "audio": {
+        "enabled": true,
+        "state": "running"
+      }
+    },
+    "native": {
+      "result": "COMPLETE native GPU gameplay and 3000x1800 profiles passed",
+      "checks": [
+        "Native pistol hits and spawns GPU particles",
+        "Native Spill paints walls; GPU gravity drips extend paint",
+        "Native grabbing resolves from GPU body poses",
+        "Native drag creates persistent floor smears",
+        "GPU wash clears all 150 body coatings and pigment",
+        "GPU heal restores reserves and clears airborne drops",
+        "Finite long GPU simulation and recovery"
+      ],
+      "errors": [],
+      "audio": {
+        "enabled": true,
+        "state": "running"
+      },
+      "viewport": [
+        3000,
+        1800
+      ]
+    },
+    "art": {
+      "result": "COMPLETE art and locomotion gauntlet",
+      "checks": [
+        "All 75 floor/wall/box/ramp receivers have 160 texels/metre and correct corner mapping",
+        "24 seconds of finite articulated walking, turning and recovery",
+        "Native paint hits on wall, every bench face, barrier and tilted ramp"
+      ],
+      "gait": {
+        "maxJoint": 0.03657667784314215,
+        "stanceSamples": 1185,
+        "swingSamples": 735,
+        "stanceSpeedP95": 0.1859660462712288,
+        "footSpeedP95": 1.8301754147928946,
+        "footHeightRange": [
+          0.06421837210655212,
+          0.1558220237493515
+        ],
+        "targetErrorP95": 0.048685790539593675,
+        "groundedFootSpeed": {
+          "samples": 954,
+          "p50": 0.047721673085728306,
+          "p95": 0.18907903325200898,
+          "mean": 0.08062389349259341
+        }
+      }
+    },
+    "geometry": {
+      "badWeights": 0,
+      "inverted": 0,
+      "degenerate": 0,
+      "maxEdge": 0.022760599019772124,
+      "bones": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "nonManifoldEdges": 0
+    },
+    "poses": [
+      {
+        "name": "reach",
+        "finite": true,
+        "bones": 15
+      },
+      {
+        "name": "crouch",
+        "finite": true,
+        "bones": 15
+      },
+      {
+        "name": "neck-waist-flex",
+        "finite": true,
+        "bones": 15
+      }
+    ]
+  },
+  "profiles": [
+    {
+      "label": "idle",
+      "fps": 60.00033426387995,
+      "cpuMS": {
+        "p50": 0.4000000059604645,
+        "p95": 1.300000011920929,
+        "p99": 1.7999999821186066,
+        "max": 1.9000000059604645
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.524288,
+          "p95": 0.851968,
+          "p99": 0.98304,
+          "max": 1.441792
+        },
+        "renderMS": {
+          "p50": 1.835008,
+          "p95": 2.424832,
+          "p99": 2.62144,
+          "max": 2.883584
+        }
+      },
+      "ticksPerSecond": 119.29649908743986,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1105920
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "pistol",
+      "fps": 60.005651501565694,
+      "cpuMS": {
+        "p50": 0.5,
+        "p95": 1.300000011920929,
+        "p99": 1.699999988079071,
+        "max": 1.9000000059604645
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.65536,
+          "p95": 0.917504,
+          "p99": 1.048576,
+          "max": 1.179648
+        },
+        "renderMS": {
+          "p50": 1.376256,
+          "p95": 2.228224,
+          "p99": 2.424832,
+          "max": 2.555904
+        }
+      },
+      "ticksPerSecond": 119.25239827985445,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 362,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1112064,
+          "GPU scene instances": 1424016
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "spill",
+      "fps": 60.001000016607335,
+      "cpuMS": {
+        "p50": 0.4000000059604645,
+        "p95": 1.2000000178813934,
+        "p99": 1.699999988079071,
+        "max": 1.7999999821186066
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.589824,
+          "p95": 0.917504,
+          "p99": 1.048576,
+          "max": 1.245184
+        },
+        "renderMS": {
+          "p50": 1.96608,
+          "p95": 2.555904,
+          "p99": 2.818048,
+          "max": 3.080192
+        }
+      },
+      "ticksPerSecond": 119.41040079496521,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992,
+          "GPU scene instances": 4048
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "drag",
+      "fps": 60.00600060000039,
+      "cpuMS": {
+        "p50": 0.4000000059604645,
+        "p95": 1.199999988079071,
+        "p99": 1.7000000178813934,
+        "max": 1.9000000059604645
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.786432,
+          "p95": 1.048576,
+          "p99": 1.245184,
+          "max": 1.441792
+        },
+        "renderMS": {
+          "p50": 1.900544,
+          "p95": 2.490368,
+          "p99": 2.752512,
+          "max": 2.883584
+        }
+      },
+      "ticksPerSecond": 119.71480683137125,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "chaos",
+      "fps": 60,
+      "cpuMS": {
+        "p50": 0.4000000059604645,
+        "p95": 1.199999988079071,
+        "p99": 1.5,
+        "max": 1.699999988079071
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.048576,
+          "p95": 1.572864,
+          "p99": 1.900544,
+          "max": 2.031616
+        },
+        "renderMS": {
+          "p50": 2.555904,
+          "p95": 3.211264,
+          "p99": 3.538944,
+          "max": 3.801088
+        }
+      },
+      "ticksPerSecond": 119.55621791687366,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    }
+  ],
+  "video": {
+    "started": "2026-10-06T00:11:11.804Z",
+    "beforeVersion": "0.11.0",
+    "afterVersion": "0.11.1",
+    "viewport": [
+      1280,
+      1440
+    ],
+    "audioOutputMuted": true,
+    "builds": [
+      {
+        "label": "before",
+        "version": "0.11.0",
+        "sha256": "77d61e91fc4c0c17101843bc1339d976e20088e05ecd17a64bd63b046c15eb5d"
+      },
+      {
+        "label": "after",
+        "version": "0.11.1",
+        "sha256": "e7ea73696030894ac1beb7d2acd9c1b500d9d4d41c23832d5c30400791b25e55"
+      }
+    ],
+    "clips": [
+      {
+        "label": "before",
+        "name": "orbit",
+        "seconds": 12,
+        "steps": 1,
+        "errors": []
+      },
+      {
+        "label": "before",
+        "name": "walk",
+        "seconds": 12,
+        "steps": 1442,
+        "errors": []
+      },
+      {
+        "label": "before",
+        "name": "drag",
+        "seconds": 10,
+        "steps": 1202,
+        "errors": []
+      },
+      {
+        "label": "after",
+        "name": "orbit",
+        "seconds": 12,
+        "steps": 1,
+        "errors": []
+      },
+      {
+        "label": "after",
+        "name": "walk",
+        "seconds": 12,
+        "steps": 1442,
+        "errors": []
+      },
+      {
+        "label": "after",
+        "name": "drag",
+        "seconds": 10,
+        "steps": 1203,
+        "errors": []
+      }
+    ],
+    "comparison": "smear-dummy-comparison.mp4",
+    "result": "COMPLETE before/after orbit, walk and drag MP4s",
+    "path": "tools/out/dummy-pass/refinement/smear-dummy-comparison.mp4",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "30/1"
+        }
+      ],
+      "format": {
+        "duration": "34.000000",
+        "size": "13353402"
+      }
+    },
+    "reviewedFramesSeconds": [
+      2,
+      16,
+      29
+    ]
+  },
+  "notes": [
+    "SDF extraction and offset shell generation run once at startup. Resident GPU physics bodies supply runtime skinning transforms.",
+    "Neck and abdominal boot blend two bones; molded fingers follow the hand body.",
+    "Inspection poses upload explicit test transforms. Normal gameplay profiles have no pose downloads or CPU skinning uploads.",
+    "Before/after recordings use the same cameras and actions with real-time simulation; they are not frame-identical physics replays.",
+    "Performance is measured separately from capture at a 60 Hz presentation cadence.",
+    "Visual reference and CRITTERS attribution are retained in THIRD_PARTY_NOTICES.md."
+  ]
+}

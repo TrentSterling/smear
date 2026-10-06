@@ -2,7 +2,29 @@
 
 Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V9 / 0.9.1** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+**V16 / 0.16.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+
+V16 gives deposited blood a finite GPU liquid layer. Pools spread and merge after the source stops, move downhill on inclined receivers, and dry into lasting residue. A clean dummy can pick up this liquid and push it along its contact footprint. Thickness affects color, gloss and surface normals; dense coverage keeps the edges from reading as an airbrush. `npm run verify:film` isolates these behaviors; `npm run record:film` captures the V14-to-V16 settling, pooling and dragging comparison in `tools/out/film-pass/recordings/`.
+
+V15 restores broad contact footprints, rotation sweeps, distance-varying bristles, a thin wet film and resting wet-contact pools. Dragging a dummy now redistributes existing wet pigment, while dry stains stay fixed. All contact transport and paint snapshots stay on the GPU. `npm run verify:wet` checks these behaviors; `npm run record:wet` creates the matched V14/V15 pooling and dragging MP4 in `tools/out/wet-pass/recordings/`.
+
+V14 adds molded elbow, wrist and knee coverage, smoother limb ends and metal hubs, subtle chest contours, vinyl surface finish, shoe detail and antialiased calibration markings. `npm run record:dummy:finish` compares the V13 checkpoint with this model refinement.
+
+`npm run record:dummy:full` records the original V10 mannequin against the current SDF dummy, including orbit, walking and dragging. The completed local review is collected in `tools/out/review-v14/`: `00-full-dummy-transformation.mp4` shows the model, `01-smear-whole-art-pass.mp4` shows the V9.1-to-V14 scene changes, and `02-dummy-finish.mp4` shows the final V13-to-V14 refinement. `docs/qa/dummy-v14.json` records the final verification results.
+
+V13 reduces startup work without changing the dummy mesh: the skin and shell buffers hash identically to V12. It compiles independent shader pipelines together while generating the scene. The pistol now has beveled surfaces, working slide recoil, sights and a gloved grip; Spill has a pressure bottle. First-person tools stay visible against nearby walls. `npm run verify:presentation` exercises firing, FPS aiming and switching, and `npm run record:presentation` records the paired tool comparison.
+
+V12 ties arm swing and torso counter-rotation to the actual alternating feet, adds toe clearance and foot pitch during swing, and adjusts hip height to the leg reach. Get-up motion follows the fallen heading, rolls face-up dummies onto their front, gathers the limbs, places the hands near the floor, and rises through a crouch. Grabbing interrupts recovery. All targets remain bounded pose motors acting on the GPU rigid-body solver.
+
+`npm run verify:motion` checks walking and five get-up cases: face up, face down, sideways, rotated and interrupted. It records arm/leg timing, joint gaps, hand support, final upright pose and heading. `npm run record:motion` compares the preserved 0.11.1 build with the current build in a walking and recovery MP4 under `tools/out/motion-pass/recordings/`, using the same camera path for both builds.
+
+V11 replaces the primitive mannequin with an SDF-authored crash-test dummy: shaped chest and pelvis, molded face and hands, mechanical joints and fasteners, rubber shoes, flexible ribbed neck, abdominal boot, and calibration targets. The 0.11.1 refinement adds continuous facial relief, tapered chest contours, leg openings in the pelvis, covered kneecaps, rounded shoulder joints and finger creases. One shared indexed mesh uses all 15 GPU physics bodies as its skinning rig. The neck and waist blend between adjacent bones; molded fingers move with the hand body. The SDF is extracted once during startup, not raymarched per pixel or rebuilt each frame. The offset isosurface outline and smooth union approach are adapted from Trent's CRITTERS project. No runtime pose downloads or skinning uploads were added.
+
+`npm run verify:dummy` audits closed topology, triangle winding, finite normalized skin weights and all 15 bones, then captures six model views, reach/crouch/neck-and-waist poses and a live rig view. `npm run record:dummy` records matched model orbits, walking and dragging from the preserved V10 build and current candidate, then produces a side-by-side MP4 in `tools/out/dummy-pass/`. `npm run record:dummy:refined` compares the preserved 0.11.0 checkpoint against the current refinement in `tools/out/dummy-pass/refinement/`. Visual iterations and checks are retained alongside those recordings.
+
+The local V10 art pass adds an amber and teal test lab, world-planted alternating feet with joint-consistent leg targets, and smooth turns. Every floor, wall, obstacle and ramp paint receiver uses 160 texels per metre on both axes. Narrow wall rivulets replace the oversized horizontal paint bands. Skin atlases remain 336x224; the floor remains 640x640 per four-metre tile.
+
+`npm run verify:art` checks 24 seconds of locomotion, all 75 receiver mappings and native Spill on the wall, bench faces and tilted ramp. `npm run record:art` records 1080p MP4 clips of walking, dragging and chaos; recording is separate from performance measurement. Before/after evidence is in `tools/out/art-pass/`, with compact results in `docs/qa/art-v10.json`.
 
 [Play SMEAR](https://tront.xyz/smear/) ? [Source](https://github.com/TrentSterling/smear)
 

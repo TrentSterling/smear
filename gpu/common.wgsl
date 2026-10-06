@@ -6,9 +6,11 @@ struct Frame {
 struct Body {
  p:vec4f, q:vec4f, v:vec4f, w:vec4f, prevP:vec4f, prevQ:vec4f,
  half:vec4f, invI:vec4f, coat:vec4f, blood:vec4f,
- track:vec4f, status:vec4f, correction:vec4f, angular:vec4f,
+ track:vec4f, status:vec4f, recoveryP:vec4f, recoveryQ:vec4f,
  s0:vec4f, s1:vec4f, s2:vec4f, s3:vec4f,
  motor:vec4f, nav:vec4f,
+ targetP:vec4f, targetQ:vec4f, targetV:vec4f,
+ gait:vec4f, footFrom:vec4f, footTo:vec4f,
 };
 struct Particle { p:vec4f, v:vec4f, previous:vec4f, extra:vec4f };
 struct Stamp { a:vec4f, b:vec4f, color:vec4f, info:vec4f };
