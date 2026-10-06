@@ -1,6 +1,6 @@
 {
   "name": "smear",
-  "version": "0.26.0",
+  "version": "0.27.0",
   "private": true,
   "description": "An offline WebGPU compute ragdoll and persistent paint playground.",
   "type": "module",
@@ -48,19 +48,21 @@
     "record:film": "node tools/film-capture.mjs",
     "verify:gravity": "node tools/film-verify.mjs final-v17",
     "record:gravity": "node tools/gravity-capture.mjs",
-    "verify:wall": "node tools/wall-verify.mjs final-v26",
+    "verify:wall": "node tools/wall-verify.mjs final-v27",
     "record:wall": "node tools/wall-capture.mjs",
     "record:wall:motion": "node tools/wall-motion-capture.mjs",
-    "verify:rivulets": "node tools/rivulet-verify.mjs final-v26",
+    "verify:rivulets": "node tools/rivulet-verify.mjs final-v27",
     "record:rivulets": "node tools/rivulet-capture.mjs",
-    "verify:wall:contact": "node tools/wall-contact-verify.mjs final-v26",
+    "verify:wall:contact": "node tools/wall-contact-verify.mjs final-v27",
     "record:wall:contact": "node tools/wall-contact-capture.mjs",
-    "verify:brush:flow": "node tools/brush-flow-verify.mjs final-v26",
+    "verify:brush:flow": "node tools/brush-flow-verify.mjs final-v27",
     "record:brush:flow": "node tools/brush-flow-capture.mjs",
-    "verify:liquid:evolution": "node tools/liquid-evolution-verify.mjs final-v26",
-    "verify:drip:joining": "node tools/drip-join-verify.mjs final-v26",
-    "verify:contact:character": "node tools/contact-character-verify.mjs final-v26",
-    "verify:wet:finish": "node tools/wet-finish-verify.mjs final-v26",
-    "record:liquid:evolution": "node tools/liquid-evolution-capture.mjs"
+    "verify:liquid:evolution": "node tools/liquid-evolution-verify.mjs final-v27",
+    "verify:drip:joining": "node tools/drip-join-verify.mjs final-v27",
+    "verify:contact:character": "node tools/contact-character-verify.mjs final-v27",
+    "verify:wet:finish": "node tools/wet-finish-verify.mjs final-v27",
+    "record:liquid:evolution": "node tools/liquid-evolution-capture.mjs",
+    "verify:smudge": "node tools/smudge-verify.mjs final-v27",
+    "record:smudge": "node tools/smudge-capture.mjs"
   }
 }

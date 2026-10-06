@@ -2,7 +2,9 @@
 
 Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V26 / 0.26.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+**V27 / 0.27.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+
+V27 adds **Tune > Smudge**: stronger movement of existing wet paint, adjustable scrape damage, and cumulative wear that increases bleeding and transfer on the rubbed body face. Wash keeps injuries; Heal clears wear. Ceiling and ramp undersides now accept paint and dripping liquid, while trim, signs and lights display the paint on their supporting surface. `npm run verify:smudge` checks controls, migration, transfer, wear and native paint hits; `npm run record:smudge` records the V26/V27 comparison.
 
 The V23-V26 passes add pressure ridges and tangential spray, joining drip heads, easier rewetting of old trails, finite pickup and transfer, finger/forearm/sole brush character, directional impact fans, and a stronger wet/dry material finish. They build on the accepted V22 brush and drip behavior. `npm run record:liquid:evolution` records the paired comparison and cumulative progression; `docs/qa/liquid-evolution-v26.json` binds the final tests and media to the released build.
 

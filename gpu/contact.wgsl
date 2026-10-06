@@ -2,6 +2,7 @@
 // samples, projected body axes, and continuous distance rather than frame time.
 struct Footprint { p:vec3f, radius:vec2f, angle:f32, receiver:i32, face:u32 };
 fn contactMemory(index:u32)->u32 { return header(2).w+header(2).x*128u+180u*8u+index*16u; }
+fn materialTune()->vec4f {return constants[header(3).z];}
 fn contactFloat(address:u32)->f32 { return bitcast<f32>(atomicLoad(&work[address])); }
 fn receiveCoating(address:u32,capacity:f32)->f32 {
  var old=atomicLoad(&work[address]);var amount=0u;loop{
@@ -138,8 +139,24 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
   pickup+=f32(liquidTaken)/65536.0*cellArea/.02;
  }
  b.coat.x=min(1.65,b.coat.x+pickup);
- let abrasion=length(b.v.xyz)*select(.001,.018,frame.local.w>.5&&u32(frame.goal.w)/15u==index/15u)*frame.rayD.w;
- if(abrasion>.03&&b.coat.y<=0){b.blood.x=min(2.0,b.blood.x+abrasion*.3);b.blood.w=max(0,b.blood.w-abrasion*.2);b.coat.y=.18;}
+ // Wear belongs to the contacting body face, survives washing and clears on Heal.
+ // Tangential travel under load includes rotation; hovering/resting does no work.
+ let held=frame.local.w>.5&&u32(frame.goal.w)/15u==index/15u;var pressure=0.0;
+ if(held){let part=localBodies[u32(frame.goal.w)%15u];let point=part.p.xyz+rotate(part.q,frame.local.xyz);pressure=clamp(-dot(frame.goal.xyz-point,r.n.xyz)/.16,0,1);}
+ let contactMotion=b.v.xyz+cross(b.w.xyz,foot.p-b.p.xyz);
+ let slip=length(contactMotion-r.n.xyz*dot(contactMotion,r.n.xyz))+abs(dot(b.w.xyz,r.n.xyz))*sqrt(radius.x*radius.y)*.6;
+ let load=clamp(max(0,r.n.y)*.35+pressure+.10,0,1);
+ let scrape=max(0,slip-.12)*dt*load*select(.08,1.0,held)*frame.rayD.w*materialTune().y;
+ let wearAddress=mem+10u+foot.face;let wear=min(1.0,contactFloat(wearAddress)+scrape*.035);
+ atomicStore(&work[wearAddress],bitcast<u32>(wear));
+ if(scrape>0){
+  b.blood.x=min(2.0,b.blood.x+scrape*(.035+wear*.16));b.blood.w=max(0,b.blood.w-scrape*(.20+wear*.60));
+  if(b.coat.y<=0&&wear>.015){
+   let local=rotate(inverseQ(b.q),foot.p-b.p.xyz);let normal=rotate(inverseQ(b.q),-r.n.xyz);let c=skinPoint(b,local,normal);
+   stamp(header(0).z+index,c,c,vec2f(.018,.027)*(1+sqrt(wear)*2),min(.7,.15+wear*.55),0,f32(seed%18u),foot.angle);b.coat.y=.18;
+  }
+ }
+ let smudge=materialTune().x*(1+wear*1.25);
  let oldRec=i32(b.track.w)-1;let samePlane=oldRec==i32(rec)||(oldRec>=0&&oldRec<16&&rec<16u);
  let connected=b.track.w>0&&samePlane&&atomicLoad(&work[mem+4u])==foot.face;
  var previous=b.track.xyz;var oldAngle=contactFloat(mem);var oldRadius=vec2f(contactFloat(mem+1u),contactFloat(mem+2u));var travelled=contactFloat(mem+3u);
@@ -157,7 +174,7 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
   for(var j=1u;j<=count;j++){
    let t=f32(j)/f32(count);let p=mix(previous,foot.p,t);let rb=mix(oldRadius,radius,t);let ab=oldAngle+da*t;travelled+=movement/f32(count);
    // Wet pigment is displaced from an immutable GPU snapshot before fresh coating.
-   if(surfaceWet>.012){contactSweep(rec,a,p,ra,rb,aa,ab,min(.48,surfaceWet*1.4),3,seed,travelled);atomicAdd(&work[25],1u);}
+   if(surfaceWet>.012&&smudge>0){contactSweep(rec,a,p,ra,rb,aa,ab,min(.95,surfaceWet*1.8)*smudge,3,seed,travelled);atomicAdd(&work[25],1u);}
    if(b.coat.x>.007){contactSweep(rec,a,p,ra,rb,aa,ab,min(1.4,select(b.coat.x,.4*sqrt(b.coat.x)+.7*b.coat.x,wall))*frame.tune.y,1,seed,travelled);atomicAdd(&work[23],1u);}
    a=p;ra=rb;aa=ab;
   }
@@ -170,13 +187,9 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
  // Word 8 is only a deposition cadence, not an additional material reservoir.
  // Compression routes a finite wound supply into the contact instead of
  // launching all fresh blood away as tiny drops. Supply stops on release.
- var pressure=0.0;
- if(wall&&frame.local.w>.5&&u32(frame.goal.w)/15u==index/15u){
-  let held=localBodies[u32(frame.goal.w)%15u];let heldPoint=held.p.xyz+rotate(held.q,frame.local.xyz);
-  pressure=clamp(-dot(frame.goal.xyz-heldPoint,r.n.xyz)/.16,0,1);
- }
- if(wall&&pressure>0&&b.blood.x>.001&&b.coat.w>0){
-  let reserve=min(b.coat.w,dt*b.blood.x*frame.action.z*pressure*.16);
+ let woundContact=select(0.0,pressure*.16,wall)+wear*smoothstep(.08,.8,slip)*(.020+pressure*.035);
+ if(woundContact>0&&b.blood.x>.001&&b.coat.w>0){
+  let reserve=min(b.coat.w,dt*b.blood.x*frame.action.z*woundContact);
   let supplied=min(reserve*5,max(0,1.65-b.coat.x));
   b.coat.w-=supplied*.2;b.coat.x+=supplied;
  }
@@ -247,13 +260,15 @@ fn contactVelocity(s:Stamp,r:Record,pixel:vec2f)->vec2f {
  let previous=s.a.xy+patchOffset(s.color.yz,s.color.x,local)/r.size.xy;let shift=(p-previous)*r.size.zw;
  return shift*min(1.0,.8/max(abs(shift.x)+abs(shift.y),1e-6))*mask;
 }
-fn displacedPaint(s:Stamp,pixel:vec2f,dst:vec4f)->vec4f {
- let id=u32(s.info.x);let r=record(id);let pos=vec2i(floor(pixel));let center=snapshotPixel(id,pos);let velocity=contactVelocity(s,r,pixel);var change=vec4f(0);
- // Equal and opposite upwind flux across each pixel edge moves pigment rather
- // than repeatedly cloning a sampled colour. The CFL bound keeps flux positive.
+fn boundedPaintVelocity(v:vec2f)->vec2f {return v*min(1.0,.8/max(abs(v.x)+abs(v.y),1e-6));}
+fn displacedPaint(id:u32,pixel:vec2f,dst:vec4f,velocities:array<vec2f,5>)->vec4f {
+ let r=record(id);let pos=vec2i(floor(pixel));let center=snapshotPixel(id,pos);let velocity=boundedPaintVelocity(velocities[0]);var change=vec4f(0);
+ // Sum overlapping contacts first. One conservative edge flux per pixel keeps
+ // vigorous rubbing from repeatedly cloning or clipping the snapshot pigment.
  for(var k=0u;k<4u;k++){
   let offset=select(vec2i(select(-1,1,k==0u),0),vec2i(0,select(-1,1,k==2u)),k>=2u);
-  let otherVelocity=contactVelocity(s,r,pixel+vec2f(offset));let flux=dot((velocity+otherVelocity)*.5,vec2f(offset));
+  if(id>=16u&&(any(pos+offset<vec2i(0))||any(pos+offset>=vec2i(r.size.zw)))){continue;}
+  let otherVelocity=boundedPaintVelocity(velocities[k+1u]);let flux=dot((velocity+otherVelocity)*.5,vec2f(offset));
   if(abs(flux)>.00001){let other=snapshotPixel(id,pos+offset);change-=select(center,other,flux<0)*flux;}
  }
  let moved=clamp(premultiplied(dst)+change,vec4f(0),vec4f(1));return straight(vec4f(min(moved.rgb,vec3f(moved.a)),moved.a));

@@ -26,4 +26,34 @@ SmearCompute.prototype.artDirection=function(){
  sign('SMEAR','MATERIAL RESPONSE LAB  /  09', [0,2.65,-7.955],4.4,1.1);
  sign('01','IMPACT / TRANSFER',[-5.7,2.5,-7.95],2.05,.5125);
  sign('02','SURFACE / FLOW',[5.7,2.5,-7.95],2.05,.5125);
+ this.completePaintReceivers();
+};
+
+// Structural undersides need real collision receivers. Thin decorative trim
+// shares its supporting surface's pigment and liquid instead of hiding it.
+SmearCompute.prototype.completePaintReceivers=function(){
+ const T=this.THREE;
+ for(const box of this.staticBoxes){
+  if(box.faces.yn)continue;
+  const n=new T.Vector3(0,-1,0).applyQuaternion(box.q),u=new T.Vector3(1,0,0).applyQuaternion(box.q),v=new T.Vector3(0,0,-1).applyQuaternion(box.q);
+  const center=box.p.clone().addScaledVector(n,box.half.y+.003);
+  if(center.y<.045)continue;
+  const s={id:this.surfaces.length,center,u,v,n,w:box.half.x*2,h:box.half.z*2,grid:false};
+  const mesh=new T.Mesh(new T.PlaneGeometry(s.w,s.h),box.mesh.material.clone());
+  mesh.position.copy(center);mesh.quaternion.setFromRotationMatrix(new T.Matrix4().makeBasis(u,v.clone().negate(),n));mesh.userData.surface=s;mesh.castShadow=false;s.mesh=mesh;
+  this.scene.add(mesh);this.surfaces.push(s);box.faces.yn=s;
+ }
+ this.scene.updateMatrixWorld(true);const boxes=new Set(this.staticBoxes.map(b=>b.mesh));this.paintOverlays=[];
+ this.scene.traverse(mesh=>{
+  if(!mesh.isMesh||mesh.userData.surface||boxes.has(mesh)||mesh===this.dropMesh)return;
+  for(let p=mesh;p;p=p.parent)if(p.userData.body||p===this.gun||p===this.spillCan||p===this.grip)return;
+  if(!['BoxGeometry','PlaneGeometry'].includes(mesh.geometry?.type))return;
+  const point=mesh.getWorldPosition(new T.Vector3());let receiver=null,best=.23;
+  for(const s of this.surfaces){
+   const delta=point.clone().sub(s.center),distance=delta.dot(s.n);
+   if(distance<-.012||distance>best||Math.abs(delta.dot(s.u))>s.w*.5+.01||Math.abs(delta.dot(s.v))>s.h*.5+.01)continue;
+   best=distance;receiver=s;
+  }
+  if(receiver){mesh.userData.paintReceiver=receiver.id;this.paintOverlays.push({mesh,receiver:receiver.id});}
+ });
 };

@@ -264,7 +264,7 @@ fn rayHit(o:vec3f,d:vec3f,limit:f32,includeBodies:bool,ignoreBody:i32)->RayHit {
 @compute @workgroup_size(64) fn control(@builtin(global_invocation_id) id:vec3u) {
  let i=id.x;if(i>=u32(frame.settings.x)){return;}var b=bodies[i];
  if(frame.action.x==2){atomicStore(&work[contactMemory(i)+9u],0u);b.coat.x=0;b.track.w=0;}
- if(frame.action.x==3){atomicStore(&work[contactMemory(i)+9u],0u);b.blood=vec4f(0,0,0,100);b.coat.w=9;b.status.z=9;b.coat.x=0;b.track.w=0;}
+ if(frame.action.x==3){for(var face=0u;face<6u;face++){atomicStore(&work[contactMemory(i)+10u+face],0u);}atomicStore(&work[contactMemory(i)+9u],0u);b.blood=vec4f(0,0,0,100);b.coat.w=9;b.status.z=9;b.coat.x=0;b.track.w=0;}
  if(frame.action.x==4){b.blood.x=0;}
  bodies[i]=b;
 }
@@ -317,7 +317,15 @@ fn coverage(s:Stamp,point:vec2f)->vec4f {
  var rec=0u;for(var i=0u;i<header(0).w;i++){let r=record(i);if(tile>=r.address.y&&tile<r.address.y+r.address.z*r.address.w){rec=i;break;}}
  let r=record(rec);let t=tile-r.address.y;let origin=vec2u(t%r.address.z,t/r.address.z)*16u;
  for(var y=0u;y<2u;y++){for(var x=0u;x<2u;x++){let pos=origin+local.xy+vec2u(x,y)*8u;if(any(pos>=vec2u(r.size.zw))){continue;}let offset=r.address.x+pos.x+pos.y*u32(r.size.z);var value=unpack(pigment[offset]);var liquid=0.0;var liquidPush=vec2f(0);let total=select(n,min(8192u,atomicLoad(&work[3])),count>128u);
-  for(var j=0u;j<total;j++){let index=select(indices[min(j,127u)],j,count>128u);let s=stamps[index];if(u32(s.info.x)!=rec){continue;}if(s.info.y==3){value=displacedPaint(s,vec2f(pos)+.5,value);liquidPush+=contactDisplacement(s,r,vec2f(pos)+.5)*2.2;}else{let source=coverage(s,vec2f(pos)+.5);if(source.a>0){value=over(value,source);let footprintArea=max(.002,s.a.z*s.a.w*r.size.x*r.size.y);var supply=select(select(.18,.036,s.info.y==1),.006/footprintArea,s.info.y==4);if(s.info.y==6){supply=s.color.w*.75/(3.2*footprintArea*max(s.b.w,.001));}
+  var velocities:array<vec2f,5>;var smudging=false;
+  for(var j=0u;j<total;j++){
+   let index=select(indices[min(j,127u)],j,count>128u);let s=stamps[index];if(u32(s.info.x)!=rec||s.info.y!=3){continue;}smudging=true;
+   velocities[0]+=contactVelocity(s,r,vec2f(pos)+.5);
+   for(var k=0u;k<4u;k++){let offset=select(vec2f(select(-1.0,1.0,k==0u),0),vec2f(0,select(-1.0,1.0,k==2u)),k>=2u);velocities[k+1u]+=contactVelocity(s,r,vec2f(pos)+.5+offset);}
+   liquidPush+=contactDisplacement(s,r,vec2f(pos)+.5)*2.2;
+  }
+  if(smudging){value=displacedPaint(rec,vec2f(pos)+.5,value,velocities);}
+  for(var j=0u;j<total;j++){let index=select(indices[min(j,127u)],j,count>128u);let s=stamps[index];if(u32(s.info.x)!=rec||s.info.y==3){continue;}{let source=coverage(s,vec2f(pos)+.5);if(source.a>0){value=over(value,source);let footprintArea=max(.002,s.a.z*s.a.w*r.size.x*r.size.y);var supply=select(select(.18,.036,s.info.y==1),.006/footprintArea,s.info.y==4);if(s.info.y==6){supply=s.color.w*.75/(3.2*footprintArea*max(s.b.w,.001));}
   // Contact deposits finite film along the bristles. Raster strokes add pigment only.
   if(s.info.y==5||s.info.y==2||(s.info.y==1&&abs(r.n.y)<.65)){supply=0;}liquid+=source.a*supply;}}}
   pigment[offset]=pack(value);depositFilm(rec,pos,liquid,liquidPush);

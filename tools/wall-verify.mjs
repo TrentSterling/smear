@@ -27,8 +27,15 @@ try{
   const descent=receipt.impact.centroidY-receipt.three.centroidY;assert(descent>.02&&descent<.25,'Wall-slam liquid must visibly creep without translating as a sheet');assert(receipt.impact.centroidY-receipt.fifteen.centroidY>.08,'Wall runoff must continue after its first motion');assert(receipt.three.coreMobile>receipt.impact.coreMobile*.5,'Most impact liquid must still cling after three seconds');receipt.checks.push('Wall-slam liquid moves visibly within three seconds while retaining the broad pigment print');
  }
  await page.eval('__wallTest.setup(false)');await page.eval('__wallTest.advance(28)');receipt.floor=await page.eval('__wallTest.read(false)');await page.eval('__wallTest.hide()');await page.shot(resolve(out,'floor-impact.png'));
- if(!before){const baseline=JSON.parse(await readFile('tools/out/wall-pass/before/verification.json'));assert(Math.abs(receipt.floor.mobile/baseline.floor.mobile-1)<.03);// V25 anatomical brush tracks deliberately alter pigment coverage; liquid keeps the original 3% gate.
- assert(Math.abs(receipt.floor.alpha/baseline.floor.alpha-1)<.10);assert(Math.abs(receipt.floor.painted/baseline.floor.painted-1)<.10);receipt.checks.push('The matched floor impact retains liquid within 3% and anatomical brush coverage within 10%');}
+ if(!before){
+  // V27 builds on the explicitly accepted V26. Keep the 3% liquid tolerance;
+  // tighten pigment/area to 3% against that same anatomical-brush baseline.
+  const baseline=JSON.parse(await readFile('tools/out/wall-pass/final-v26/verification.json'));
+  assert.equal(baseline.buildSHA256,JSON.parse(await readFile('docs/qa/liquid-evolution-v26.json')).buildSHA256);
+  receipt.floorBaseline={version:'0.26.0',buildSHA256:baseline.buildSHA256,floor:baseline.floor};
+  for(const key of ['mobile','alpha','painted'])assert(Math.abs(receipt.floor[key]/baseline.floor[key]-1)<.03,'V26 floor impact '+key);
+  receipt.checks.push('The matched floor impact retains liquid, pigment alpha and coverage within 3% of accepted V26');
+ }
  await page.eval('__wallTest.setup(true,8,0)');await page.eval('__wallTest.advance(28)');receipt.dry=await page.eval('__wallTest.read()');assert.equal(receipt.dry.splats,0);assert.equal(receipt.dry.painted,0);receipt.checks.push('An uncoated unwounded body does not manufacture a wet wall splat');
  receipt.errors=page.logs.filter(s=>/^EXCEPTION:|^error:/i.test(s));assert.deepEqual(receipt.errors,[]);receipt.result='COMPLETE wall impact checks';console.log(JSON.stringify({result:receipt.result,checks:receipt.checks,impact:receipt.impact,three:receipt.three,fifteen:receipt.fifteen,floor:receipt.floor},null,2));
 }catch(e){receipt.result='FAIL';receipt.error=e.stack;console.error(e.stack);console.log(JSON.stringify({impact:receipt.impact,three:receipt.three,fifteen:receipt.fifteen,floor:receipt.floor}));process.exitCode=1;}
