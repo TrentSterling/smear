@@ -1,0 +1,2313 @@
+{
+  "version": "0.32.0",
+  "at": "2026-10-06T23:49:52.528Z",
+  "buildSHA256": "34df724cacee1802ee5451cd5e2bdfd9854cfc97e219559e03471a37df976e44",
+  "buildBytes": 1193619,
+  "jobs": [
+    {
+      "args": [
+        "tools/controller-verify.mjs",
+        "final-v32"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/controller-verify.mjs",
+        "final-v32",
+        "firefox"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/ltc-verify.mjs",
+        "final-v32"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/ltc-verify.mjs",
+        "final-v32",
+        "firefox"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/momentum-verify.mjs",
+        "final-v32"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/momentum-verify.mjs",
+        "final-v32",
+        "firefox"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/handling-verify.mjs",
+        "final-v32"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/handling-verify.mjs",
+        "final-v32",
+        "firefox"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs",
+        "floor-squeegee"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs",
+        "floor-squeegee",
+        "firefox"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/carry-verify.mjs",
+        "final-v32"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/carry-verify.mjs",
+        "final-v32",
+        "firefox"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/impact-verify.mjs",
+        "final-v32"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/impact-verify.mjs",
+        "final-v32",
+        "firefox"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/smudge-verify.mjs",
+        "final-v32"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/liquid-evolution-verify.mjs",
+        "final-v32"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/drip-join-verify.mjs",
+        "final-v32"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/contact-character-verify.mjs",
+        "final-v32"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/wet-finish-verify.mjs",
+        "final-v32"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/brush-flow-verify.mjs",
+        "final-v32"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/wall-contact-verify.mjs",
+        "final-v32"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/wall-verify.mjs",
+        "final-v32"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/wet-verify.mjs",
+        "final-v32"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/film-verify.mjs",
+        "final-v32"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/rivulet-verify.mjs",
+        "final-v32"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-verify.mjs"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs",
+        "wall-contact"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/smudge-verify.mjs",
+        "final-v32",
+        "firefox"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/liquid-evolution-verify.mjs",
+        "final-v32",
+        "firefox"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/drip-join-verify.mjs",
+        "final-v32",
+        "firefox"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/contact-character-verify.mjs",
+        "final-v32",
+        "firefox"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/wet-finish-verify.mjs",
+        "final-v32",
+        "firefox"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/brush-flow-verify.mjs",
+        "final-v32",
+        "firefox"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/wall-contact-verify.mjs",
+        "final-v32",
+        "firefox"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/wall-verify.mjs",
+        "final-v32",
+        "firefox"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/wet-verify.mjs",
+        "final-v32",
+        "firefox"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/film-verify.mjs",
+        "final-v32",
+        "firefox"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/rivulet-verify.mjs",
+        "final-v32",
+        "firefox"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-verify.mjs",
+        "firefox"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs",
+        "firefox"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs",
+        "wall-contact",
+        "firefox"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/impact-profile.mjs"
+      ],
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/impact-profile.mjs",
+        "firefox"
+      ],
+      "status": 0
+    }
+  ],
+  "checks": {
+    "brush-flow-pass/final-v32/verification.json": [
+      "Normal surface-point grab produces a wet wall smear with connected finite GPU physics",
+      "The same broad wet contact starts draining within three seconds without sheet-speed translation",
+      "Drainage continues over fifteen seconds and carries liquid below the contact patch",
+      "The brushed stain remains while finite liquid drains and dries"
+    ],
+    "brush-flow-pass/final-v32-firefox/verification.json": [
+      "Normal surface-point grab produces a wet wall smear with connected finite GPU physics",
+      "The same broad wet contact starts draining within three seconds without sheet-speed translation",
+      "Drainage continues over fifteen seconds and carries liquid below the contact patch",
+      "The brushed stain remains while finite liquid drains and dries"
+    ],
+    "carry-pass/final-v32/verification.json": [
+      "Old tuning migrates; actual Effects and Carry sliders persist, and both effects presets preserve custom bleeding and smudge settings",
+      "Longer carry advances the existing pigment front and centroid, with no fresh color and under 2% quantization error",
+      "Maximum carry crosses a floor seam under rotation while conserving pigment; dry and hovering contacts leave paint unchanged",
+      "Impact size reduces the print footprint of the same hard throw without changing injury or allocated blood",
+      "Gentler overhead runoff emits fewer full-sized drops and retains more liquid; zero disables it, with finite total supply",
+      "Ceiling tuning leaves wall drainage unchanged"
+    ],
+    "carry-pass/final-v32-firefox/verification.json": [
+      "Old tuning migrates; actual Effects and Carry sliders persist, and both effects presets preserve custom bleeding and smudge settings",
+      "Longer carry advances the existing pigment front and centroid, with no fresh color and under 2% quantization error",
+      "Maximum carry crosses a floor seam under rotation while conserving pigment; dry and hovering contacts leave paint unchanged",
+      "Impact size reduces the print footprint of the same hard throw without changing injury or allocated blood",
+      "Gentler overhead runoff emits fewer full-sized drops and retains more liquid; zero disables it, with finite total supply",
+      "Ceiling tuning leaves wall drainage unchanged"
+    ],
+    "compute-chrome/verification.json": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "compute-firefox/verification.json": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "compute-native-chrome/verification.json": [
+      "Native spiked-bat swings hit and animate at 3000x1800 without pose or pigment transfers",
+      "Native pistol hits and spawns GPU particles",
+      "Native Spill paints walls; GPU gravity drips extend paint",
+      "Native grabbing resolves from GPU body poses",
+      "Native drag creates persistent floor smears",
+      "GPU wash clears all 150 body coatings and pigment",
+      "GPU heal restores reserves and clears airborne drops",
+      "Finite long GPU simulation and recovery"
+    ],
+    "compute-native-firefox/verification.json": [
+      "Native spiked-bat swings hit and animate at 3000x1800 without pose or pigment transfers",
+      "Native pistol hits and spawns GPU particles",
+      "Native Spill paints walls; GPU gravity drips extend paint",
+      "Native grabbing resolves from GPU body poses",
+      "Native drag creates persistent floor smears",
+      "GPU wash clears all 150 body coatings and pigment",
+      "GPU heal restores reserves and clears airborne drops",
+      "Finite long GPU simulation and recovery"
+    ],
+    "compute-native-squeegee-chrome/verification.json": [
+      "Native E-key floor squeegeeing stays above 55 FPS at 3000x1800, with 120 Hz physics, active audio and no body/pigment transfers"
+    ],
+    "compute-native-squeegee-firefox/verification.json": [
+      "Native E-key floor squeegeeing stays above 55 FPS at 3000x1800, with 120 Hz physics, active audio and no body/pigment transfers"
+    ],
+    "compute-native-wall-chrome/verification.json": [
+      "Sustained native wall contact remains above 55 FPS with GPU simulation and no body or pigment readbacks"
+    ],
+    "compute-native-wall-firefox/verification.json": [
+      "Sustained native wall contact remains above 55 FPS with GPU simulation and no body or pigment readbacks"
+    ],
+    "controller-pass/final-v32-chrome/verification.json": [
+      "Fresh load offers click-to-play and freezes simulation before mouse capture",
+      "A real click captures the mouse without a gameplay action; looking persists without holding right-click",
+      "Right-click aims the pistol and releasing it keeps FPS mouse lock",
+      "Holding C moves the aim point without rotating or crouching; releasing C returns to FPS aim without unlocking",
+      "Escape freezes movement and simulation, clears held inputs, and the resume click cannot fire the pistol",
+      "Controls and focus loss release the cursor and pause; closing a panel waits for an explicit resume click",
+      "Weapon 4 shows the spiked bat and animates a swing; click spam cannot bypass recovery and weapon switching cancels windup",
+      "GPU melee arc hits in reach, knocks the whole rig, wounds the contact part and emits carried blood; distance and walls block it, empty supplies stay dry, and a full 900-drop pool stays bounded",
+      "A real GPU-picked body keeps its aim ray and target when C is released, then releases normally on mouseup",
+      "Free-cursor mode also pauses safely on focus loss and resumes without forcing mouse lock",
+      "Denied mouse capture shows a retry and cursor fallback, and a fresh user gesture recovers",
+      "A real mouse swing connects during native simulation and produces a measured whoosh and GPU-confirmed impact thud"
+    ],
+    "controller-pass/final-v32-firefox/verification.json": [
+      "Fresh load offers click-to-play and freezes simulation before mouse capture",
+      "A real click captures the mouse without a gameplay action; looking persists without holding right-click",
+      "Right-click aims the pistol and releasing it keeps FPS mouse lock",
+      "Holding C moves the aim point without rotating or crouching; releasing C returns to FPS aim without unlocking",
+      "Escape freezes movement and simulation, clears held inputs, and the resume click cannot fire the pistol",
+      "Controls and focus loss release the cursor and pause; closing a panel waits for an explicit resume click",
+      "Weapon 4 shows the spiked bat and animates a swing; click spam cannot bypass recovery and weapon switching cancels windup",
+      "GPU melee arc hits in reach, knocks the whole rig, wounds the contact part and emits carried blood; distance and walls block it, empty supplies stay dry, and a full 900-drop pool stays bounded",
+      "A real GPU-picked body keeps its aim ray and target when C is released, then releases normally on mouseup",
+      "Free-cursor mode also pauses safely on focus loss and resumes without forcing mouse lock",
+      "Denied mouse capture shows a retry and cursor fallback, and a fresh user gesture recovers",
+      "A real mouse swing connects during native simulation and produces a measured whoosh and GPU-confirmed impact thud"
+    ],
+    "controller-pass/final-v32-ltc-chrome/verification.json": [
+      "GPU LTC matches independent 256x256 solid-angle quadrature within 0.2% for normal, grazing, clipped and ceiling-facing cases",
+      "Actual brushed wall liquid and floor film show distinct area-light reflections without simulation changes"
+    ],
+    "controller-pass/final-v32-ltc-firefox/verification.json": [
+      "GPU LTC matches independent 256x256 solid-angle quadrature within 0.2% for normal, grazing, clipped and ceiling-facing cases",
+      "Actual brushed wall liquid and floor film show distinct area-light reflections without simulation changes"
+    ],
+    "film-pass/final-v32/verification.json": [
+      "Finite isolated pools spread and level after deposition stops, conserving mobile plus dried mass",
+      "Adjacent pools merge across a floor-record seam",
+      "30 Hz and 60 Hz submissions produce comparable spreading and supply",
+      "Clean dummy picks up and redistributes existing liquid with fresh deposition disabled",
+      "Drying transfers mobile liquid into persistent residue instead of deleting blood",
+      "Liquid visibly accelerates downhill while retaining supply across receivers and runoff droplets",
+      "Clean clears both mobile pools and settled residue",
+      "A finite wall pool runs down and supplies the floor without continued painting",
+      "Blood detaches from elevated edges, falls ballistically, and lands with finite carried volume",
+      "A full 900-drop pool retains un-emitted runoff on its receiver",
+      "Real wound droplets inherit body momentum and follow a gravity-curved flight",
+      "Fast-moving coated bodies fling finite droplets without creating wounds",
+      "Live GPU ragdoll dragging remains finite with no dropped paint events"
+    ],
+    "film-pass/final-v32-firefox/verification.json": [
+      "Finite isolated pools spread and level after deposition stops, conserving mobile plus dried mass",
+      "Adjacent pools merge across a floor-record seam",
+      "30 Hz and 60 Hz submissions produce comparable spreading and supply",
+      "Clean dummy picks up and redistributes existing liquid with fresh deposition disabled",
+      "Drying transfers mobile liquid into persistent residue instead of deleting blood",
+      "Liquid visibly accelerates downhill while retaining supply across receivers and runoff droplets",
+      "Clean clears both mobile pools and settled residue",
+      "A finite wall pool runs down and supplies the floor without continued painting",
+      "Blood detaches from elevated edges, falls ballistically, and lands with finite carried volume",
+      "A full 900-drop pool retains un-emitted runoff on its receiver",
+      "Real wound droplets inherit body momentum and follow a gravity-curved flight",
+      "Fast-moving coated bodies fling finite droplets without creating wounds",
+      "Live GPU ragdoll dragging remains finite with no dropped paint events"
+    ],
+    "impact-pass/final-v32/verification.json": [
+      "A clean head-first articulated throw wounds the head and immediately leaves a large wet impact print and ballistic spray, exceeding accepted V27 coverage",
+      "When all 900 drop slots are occupied, failed spray allocations remain in the attached splat volume",
+      "A normal grab, accelerated target and release produces an actual thrown-body splat without a launch-velocity upload",
+      "Actual collision velocity loss increases head injury and reserve expenditure from medium through extreme throws; hard throws spread further than medium throws",
+      "Torso-first wall hits, angular strikes, floor impacts and ceiling impacts all generate fresh blood without scraping",
+      "Slow contact, fast tangential glancing travel and disabled damage produce no injury burst; an empty reserve produces no fresh paint",
+      "Impact supply debits the finite reserve, retains bounded coating and never exceeds the volume purchased from blood reserves",
+      "The impact stain remains while finite wet liquid continues draining through 3 and 15 seconds of release"
+    ],
+    "impact-pass/final-v32-firefox/verification.json": [
+      "A clean head-first articulated throw wounds the head and immediately leaves a large wet impact print and ballistic spray, exceeding accepted V27 coverage",
+      "When all 900 drop slots are occupied, failed spray allocations remain in the attached splat volume",
+      "A normal grab, accelerated target and release produces an actual thrown-body splat without a launch-velocity upload",
+      "Actual collision velocity loss increases head injury and reserve expenditure from medium through extreme throws; hard throws spread further than medium throws",
+      "Torso-first wall hits, angular strikes, floor impacts and ceiling impacts all generate fresh blood without scraping",
+      "Slow contact, fast tangential glancing travel and disabled damage produce no injury burst; an empty reserve produces no fresh paint",
+      "Impact supply debits the finite reserve, retains bounded coating and never exceeds the volume purchased from blood reserves",
+      "The impact stain remains while finite wet liquid continues draining through 3 and 15 seconds of release"
+    ],
+    "impact-pass/native-chrome/verification.json": [
+      "Native head-first impact at 3000x1800: above 55 FPS, CPU p99 below 5 ms, live 120 Hz simulation, spray and no normal-play pose/paint transfers",
+      "Native body-first impact at 3000x1800: above 55 FPS, CPU p99 below 5 ms, live 120 Hz simulation, spray and no normal-play pose/paint transfers"
+    ],
+    "impact-pass/native-firefox/verification.json": [
+      "Native head-first impact at 3000x1800: above 55 FPS, CPU p99 below 5 ms, live 120 Hz simulation, spray and no normal-play pose/paint transfers",
+      "Native body-first impact at 3000x1800: above 55 FPS, CPU p99 below 5 ms, live 120 Hz simulation, spray and no normal-play pose/paint transfers"
+    ],
+    "liquid-evolution/final-v32/verification.json": [
+      "Pressure moves existing liquid out of the contact center into its perimeter",
+      "Spinning wet contact emits tangential ballistic droplets carrying finite liquid",
+      "Squeeze and spray conserve combined film, residue, coating and particle volume within six percent",
+      "Dry contact emits nothing and a full particle pool retains un-emitted coating"
+    ],
+    "liquid-evolution/final-v32-character/verification.json": [
+      "Shared bristle material coordinates produce finger channels, narrow forearm strokes and distinct sole tread",
+      "Opposite tangential impacts produce oppositely directed splat fans with comparable pigment supply"
+    ],
+    "liquid-evolution/final-v32-character-firefox/verification.json": [
+      "Shared bristle material coordinates produce finger channels, narrow forearm strokes and distinct sole tread",
+      "Opposite tangential impacts produce oppositely directed splat fans with comparable pigment supply"
+    ],
+    "liquid-evolution/final-v32-finish/verification.json": [
+      "Changing liquid to dry residue preserves the exact brushed pigment and total material",
+      "Hardware rendering distinguishes fresh liquid from the same dried smear without shader errors"
+    ],
+    "liquid-evolution/final-v32-finish-firefox/verification.json": [
+      "Changing liquid to dry residue preserves the exact brushed pigment and total material",
+      "Hardware rendering distinguishes fresh liquid from the same dried smear without shader errors"
+    ],
+    "liquid-evolution/final-v32-firefox/verification.json": [
+      "Pressure moves existing liquid out of the contact center into its perimeter",
+      "Spinning wet contact emits tangential ballistic droplets carrying finite liquid",
+      "Squeeze and spray conserve combined film, residue, coating and particle volume within six percent",
+      "Dry contact emits nothing and a full particle pool retains un-emitted coating"
+    ],
+    "liquid-evolution/final-v32-joining/verification.json": [
+      "Two separate wall heads meet through a connected liquid neck while conserving supply",
+      "Rewetting a retained trail releases liquid sooner without returning to sheet-speed drainage",
+      "An unwounded clean contact picks up a finite pool and deposits it on a separate dry wall patch",
+      "A ballistic drop caught by the dummy becomes coating without losing or multiplying its volume"
+    ],
+    "liquid-evolution/final-v32-joining-firefox/verification.json": [
+      "Two separate wall heads meet through a connected liquid neck while conserving supply",
+      "Rewetting a retained trail releases liquid sooner without returning to sheet-speed drainage",
+      "An unwounded clean contact picks up a finite pool and deposits it on a separate dry wall patch",
+      "A ballistic drop caught by the dummy becomes coating without losing or multiplying its volume"
+    ],
+    "momentum-pass/final-v32-chrome/verification.json": [
+      "Head and torso throws preserve at least 98% of release momentum for 133 ms in free flight, including joint gaps over 3 m; joints close below 6 cm",
+      "The formerly stalled stretched throw reaches the far wall, emits an impact event, and stops at the collision instead of preserving speed through it",
+      "Large flicks retain flight speed with 17, 33 and 67 ms release delays",
+      "A real pointer-picked rapid sweep and mouseup retain at least 98% of horizontal flight speed after 133 ms",
+      "Pistol flash and slide settle within 350 ms after Chaos, repeated Chaos, Add dummy spam, rapid weapon switches, Reset and demo; firing remains available"
+    ],
+    "momentum-pass/final-v32-firefox/verification.json": [
+      "Head and torso throws preserve at least 98% of release momentum for 133 ms in free flight, including joint gaps over 3 m; joints close below 6 cm",
+      "The formerly stalled stretched throw reaches the far wall, emits an impact event, and stops at the collision instead of preserving speed through it",
+      "Large flicks retain flight speed with 17, 33 and 67 ms release delays",
+      "A real pointer-picked rapid sweep and mouseup retain at least 98% of horizontal flight speed after 133 ms",
+      "Pistol flash and slide settle within 350 ms after Chaos, repeated Chaos, Add dummy spam, rapid weapon switches, Reset and demo; firing remains available"
+    ],
+    "rivulet-pass/final-v32/verification.json": [
+      "Wall wetting fixtures run on hardware GPU with finite state and no lost events",
+      "Small deposits cling while a heavier bead visibly moves under gravity",
+      "A finite broad patch develops uneven runoff while retaining its attached mass",
+      "Wall breakup retains source residue and conserves finite liquid plus dried mass",
+      "A broad deposit splits into multiple separated rivulets below its source",
+      "Wall pinning and rivulet breakup agree at 30 Hz and 60 Hz submission cadence",
+      "Contact shear releases attached wall liquid without manufacturing supply"
+    ],
+    "rivulet-pass/final-v32-firefox/verification.json": [
+      "Wall wetting fixtures run on hardware GPU with finite state and no lost events",
+      "Small deposits cling while a heavier bead visibly moves under gravity",
+      "A finite broad patch develops uneven runoff while retaining its attached mass",
+      "Wall breakup retains source residue and conserves finite liquid plus dried mass",
+      "A broad deposit splits into multiple separated rivulets below its source",
+      "Wall pinning and rivulet breakup agree at 30 Hz and 60 Hz submission cadence",
+      "Contact shear releases attached wall liquid without manufacturing supply"
+    ],
+    "smudge-pass/final-v32/verification.json": [
+      "Existing saved tuning migrates without losing settings; the actual Smudge slider changes and persists across reload",
+      "Smudge strength moves progressively more existing pigment, conserves supply and introduces no fresh paint; zero disables transport",
+      "Default wet pigment carry extends materially beyond the accepted V26 result under matching inputs",
+      "Loaded sliding accumulates face-local wear and increasing bleeding; stronger abrasion accelerates it, while resting, hovering, disabled abrasion and empty reserves add no contact supply",
+      "Wash preserves accumulated abrasion; Heal clears every face and restores blood reserve",
+      "Native Spill paints ceiling, trim and ceiling lights; overhead liquid detaches into drops, with 160 texels/metre retained on every receiver"
+    ],
+    "smudge-pass/final-v32-firefox/verification.json": [
+      "Existing saved tuning migrates without losing settings; the actual Smudge slider changes and persists across reload",
+      "Smudge strength moves progressively more existing pigment, conserves supply and introduces no fresh paint; zero disables transport",
+      "Default wet pigment carry extends materially beyond the accepted V26 result under matching inputs",
+      "Loaded sliding accumulates face-local wear and increasing bleeding; stronger abrasion accelerates it, while resting, hovering, disabled abrasion and empty reserves add no contact supply",
+      "Wash preserves accumulated abrasion; Heal clears every face and restores blood reserve",
+      "Native Spill paints ceiling, trim and ceiling lights; overhead liquid detaches into drops, with 160 texels/metre retained on every receiver"
+    ],
+    "throw-pass/final-v32-chrome/verification.json": [
+      "Quick flicks retain achieved rig momentum across 17-67 ms release delays; long intentional stops receive no boost",
+      "Reversals use the latest direction; cancellation releases without a throw boost",
+      "Stationary grabs, a fresh grab with no history, and wall-blocked motion cannot reuse stale throw energy",
+      "Pointer-picked grab releases with mouseup; scroll up pushes away and scroll down returns it",
+      "Real E-key twisting leaves swept tracks and moves more liquid into outer ridges; stronger Smudge increases displacement and dry/hover/zero/clean controls do not squeeze",
+      "Isolated floor-squeegee transfers conserve mobile liquid within 0.2% fixed-point rounding across floor tile seams",
+      "Clean bloodless wall/head, held wall rams and floor collisions synthesize measurable thuds with under 120 ms GPU event latency; steady floor twisting stays quiet and mute drops events without replay"
+    ],
+    "throw-pass/final-v32-firefox/verification.json": [
+      "Quick flicks retain achieved rig momentum across 17-67 ms release delays; long intentional stops receive no boost",
+      "Reversals use the latest direction; cancellation releases without a throw boost",
+      "Stationary grabs, a fresh grab with no history, and wall-blocked motion cannot reuse stale throw energy",
+      "Pointer-picked grab releases with mouseup; scroll up pushes away and scroll down returns it",
+      "Real E-key twisting leaves swept tracks and moves more liquid into outer ridges; stronger Smudge increases displacement and dry/hover/zero/clean controls do not squeeze",
+      "Isolated floor-squeegee transfers conserve mobile liquid within 0.2% fixed-point rounding across floor tile seams",
+      "Clean bloodless wall/head, held wall rams and floor collisions synthesize measurable thuds with under 120 ms GPU event latency; steady floor twisting stays quiet and mute drops events without replay"
+    ],
+    "wall-contact-pass/final-v32/verification.json": [
+      "Uncoated unwounded real dummy creates no wall paint through eight seconds of dragging",
+      "Default press produces a broad connected wet wall patch in two contact seconds",
+      "Default drag produces a broad connected wet wall patch in two contact seconds",
+      "Default block produces a broad connected wet wall patch in two contact seconds",
+      "Actual grab physics remain finite, connected and within paint event capacity"
+    ],
+    "wall-contact-pass/final-v32-firefox/verification.json": [
+      "Uncoated unwounded real dummy creates no wall paint through eight seconds of dragging",
+      "Default press produces a broad connected wet wall patch in two contact seconds",
+      "Default drag produces a broad connected wet wall patch in two contact seconds",
+      "Default block produces a broad connected wet wall patch in two contact seconds",
+      "Actual grab physics remain finite, connected and within paint event capacity"
+    ],
+    "wall-pass/final-v32/verification.json": [
+      "Actual articulated GPU wall impact leaves paint with finite joints and no lost events",
+      "Wall slam creates a broad opaque print and radial splatter instead of a small contact dab",
+      "The impact silhouette stays on the wall after 3 and 15 seconds of drainage",
+      "Retained splat still contains wet liquid that gradually drains or dries",
+      "Wall-slam liquid moves visibly within three seconds while retaining the broad pigment print",
+      "The matched floor impact retains liquid, pigment alpha and coverage within 3% of accepted V26",
+      "An uncoated body with injury and bleeding explicitly disabled does not manufacture a wall splat; fresh impact injury is covered by impact-verify"
+    ],
+    "wall-pass/final-v32-firefox/verification.json": [
+      "Actual articulated GPU wall impact leaves paint with finite joints and no lost events",
+      "Wall slam creates a broad opaque print and radial splatter instead of a small contact dab",
+      "The impact silhouette stays on the wall after 3 and 15 seconds of drainage",
+      "Retained splat still contains wet liquid that gradually drains or dries",
+      "Wall-slam liquid moves visibly within three seconds while retaining the broad pigment print",
+      "The matched floor impact retains liquid, pigment alpha and coverage within 3% of accepted V26",
+      "An uncoated body with injury and bleeding explicitly disabled does not manufacture a wall splat; fresh impact injury is covered by impact-verify"
+    ],
+    "wet-pass/final-v32/verification.json": [
+      "Dry pigment remains unchanged under a clean moving contact",
+      "Wet contact redistributes existing colored pigment with fresh deposition disabled",
+      "Pigment crosses a floor-record seam without a gap or duplicated supply",
+      "Rotation around a stationary footprint produces curved material smears",
+      "Resting wet wounds grow a cohesive pool over six seconds",
+      "Lift and recontact break the stroke without bridging airborne travel",
+      "A saturated coating leaves a finite puddle without an active wound and consumes wet supply",
+      "Slow wall brushing leaves bristle strokes without firing impact splats",
+      "Body contact also smears on a vertical wall without leaking onto the floor",
+      "Ten seconds of closed-supply wall dragging cannot create more liquid than the original coating",
+      "Live articulated dummy drag stays finite, connected and within paint event capacity"
+    ],
+    "wet-pass/final-v32-firefox/verification.json": [
+      "Dry pigment remains unchanged under a clean moving contact",
+      "Wet contact redistributes existing colored pigment with fresh deposition disabled",
+      "Pigment crosses a floor-record seam without a gap or duplicated supply",
+      "Rotation around a stationary footprint produces curved material smears",
+      "Resting wet wounds grow a cohesive pool over six seconds",
+      "Lift and recontact break the stroke without bridging airborne travel",
+      "A saturated coating leaves a finite puddle without an active wound and consumes wet supply",
+      "Slow wall brushing leaves bristle strokes without firing impact splats",
+      "Body contact also smears on a vertical wall without leaking onto the floor",
+      "Ten seconds of closed-supply wall dragging cannot create more liquid than the original coating",
+      "Live articulated dummy drag stays finite, connected and within paint event capacity"
+    ]
+  },
+  "profiles": [
+    {
+      "receipt": "compute-native-chrome/verification.json",
+      "label": "idle",
+      "fps": 60.00800106692815,
+      "cpu": {
+        "p50": 0.4000000059604645,
+        "p95": 1.300000011920929,
+        "p99": 1.7000000178813934,
+        "max": 2
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.917504,
+          "p95": 1.507328,
+          "p99": 1.6384,
+          "max": 1.769472
+        },
+        "renderMS": {
+          "p50": 7.798784,
+          "p95": 8.51968,
+          "p99": 8.781824,
+          "max": 9.109504
+        }
+      },
+      "ticksPerSecond": 119.63545981772991,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "receipt": "compute-native-chrome/verification.json",
+      "label": "bat",
+      "fps": 60.001000016607335,
+      "cpu": {
+        "p50": 0.4000000059604645,
+        "p95": 1.0999999940395355,
+        "p99": 1.699999988079071,
+        "max": 1.800000011920929
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.98304,
+          "p95": 1.572864,
+          "p99": 2.490368,
+          "max": 2.94912
+        },
+        "renderMS": {
+          "p50": 4.063232,
+          "p95": 6.488064,
+          "p99": 10.420224,
+          "max": 11.206656
+        }
+      },
+      "ticksPerSecond": 119.48955916473318,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992,
+          "GPU scene instances": 617760
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "receipt": "compute-native-chrome/verification.json",
+      "label": "pistol",
+      "fps": 60,
+      "cpu": {
+        "p50": 0.5,
+        "p95": 1.5,
+        "p99": 3.600000023841858,
+        "max": 5.5999999940395355
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.98304,
+          "p95": 1.572864,
+          "p99": 1.769472,
+          "max": 1.835008
+        },
+        "renderMS": {
+          "p50": 6.946816,
+          "p95": 7.405568,
+          "p99": 7.667712,
+          "max": 7.733248
+        }
+      },
+      "ticksPerSecond": 119.61563949635521,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992,
+          "GPU scene instances": 786544
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "receipt": "compute-native-chrome/verification.json",
+      "label": "spill",
+      "fps": 60.01500375093774,
+      "cpu": {
+        "p50": 0.4000000059604645,
+        "p95": 1.5,
+        "p99": 2,
+        "max": 22.5
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.98304,
+          "p95": 1.245184,
+          "p99": 1.572864,
+          "max": 1.769472
+        },
+        "renderMS": {
+          "p50": 7.798784,
+          "p95": 8.323072,
+          "p99": 8.585216,
+          "max": 8.912896
+        }
+      },
+      "ticksPerSecond": 119.35110081112398,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992,
+          "GPU scene instances": 510400
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "receipt": "compute-native-chrome/verification.json",
+      "label": "drag",
+      "fps": 60.00600060000039,
+      "cpu": {
+        "p50": 0.4000000059604645,
+        "p95": 1.0999999940395355,
+        "p99": 1.600000023841858,
+        "max": 1.800000011920929
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.376256,
+          "p95": 2.883584,
+          "p99": 3.342336,
+          "max": 5.111808
+        },
+        "renderMS": {
+          "p50": 7.733248,
+          "p95": 8.126464,
+          "p99": 8.323072,
+          "max": 8.454144
+        }
+      },
+      "ticksPerSecond": 119.77438619774387,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 362,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1112064,
+          "GPU scene instances": 1408
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "receipt": "compute-native-chrome/verification.json",
+      "label": "chaos",
+      "fps": 60.00200006654967,
+      "cpu": {
+        "p50": 0.3999999761581421,
+        "p95": 1,
+        "p99": 1.5,
+        "max": 1.699999988079071
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.507328,
+          "p95": 2.883584,
+          "p99": 3.473408,
+          "max": 4.849664
+        },
+        "renderMS": {
+          "p50": 9.633792,
+          "p95": 10.027008,
+          "p99": 10.15808,
+          "max": 10.289152
+        }
+      },
+      "ticksPerSecond": 119.41040079496521,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "receipt": "compute-native-firefox/verification.json",
+      "label": "idle",
+      "fps": 60,
+      "cpu": {
+        "p50": 0,
+        "p95": 1,
+        "p99": 2,
+        "max": 2
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.902208,
+          "p95": 1.357152,
+          "p99": 1.488672,
+          "max": 1.5688
+        },
+        "renderMS": {
+          "p50": 6.874208,
+          "p95": 7.186528,
+          "p99": 7.401696,
+          "max": 7.503008
+        }
+      },
+      "ticksPerSecond": 116.2266580811333,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "receipt": "compute-native-firefox/verification.json",
+      "label": "bat",
+      "fps": 60,
+      "cpu": {
+        "p50": 0,
+        "p95": 1,
+        "p99": 2,
+        "max": 2
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.892352,
+          "p95": 1.5544,
+          "p99": 1.8648,
+          "max": 2.482976
+        },
+        "renderMS": {
+          "p50": 3.71344,
+          "p95": 6.007584,
+          "p99": 9.01392,
+          "max": 9.282112
+        }
+      },
+      "ticksPerSecond": 116.26409017713365,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992,
+          "GPU scene instances": 617760
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "receipt": "compute-native-firefox/verification.json",
+      "label": "pistol",
+      "fps": 60.00334280461307,
+      "cpu": {
+        "p50": 1,
+        "p95": 2,
+        "p99": 3,
+        "max": 5
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.000928,
+          "p95": 1.512768,
+          "p99": 1.592544,
+          "max": 1.849472
+        },
+        "renderMS": {
+          "p50": 6.46016,
+          "p95": 6.743264,
+          "p99": 6.837024,
+          "max": 6.995072
+        }
+      },
+      "ticksPerSecond": 115.81829896907216,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 359,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1105920,
+          "GPU scene instances": 783024
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "receipt": "compute-native-firefox/verification.json",
+      "label": "spill",
+      "fps": 60.01000166694449,
+      "cpu": {
+        "p50": 0,
+        "p95": 1,
+        "p99": 2,
+        "max": 2
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.948032,
+          "p95": 1.636832,
+          "p99": 1.729472,
+          "max": 1.817824
+        },
+        "renderMS": {
+          "p50": 7.271104,
+          "p95": 7.66368,
+          "p99": 7.780512,
+          "max": 7.88448
+        }
+      },
+      "ticksPerSecond": 115.89776563253496,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992,
+          "GPU scene instances": 510400
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "receipt": "compute-native-firefox/verification.json",
+      "label": "drag",
+      "fps": 60,
+      "cpu": {
+        "p50": 0,
+        "p95": 1,
+        "p99": 2,
+        "max": 2
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.317568,
+          "p95": 1.932192,
+          "p99": 3.280896,
+          "max": 3.847904
+        },
+        "renderMS": {
+          "p50": 7.041088,
+          "p95": 7.484096,
+          "p99": 7.649824,
+          "max": 11.458912
+        }
+      },
+      "ticksPerSecond": 116.52679147837316,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 362,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1112064,
+          "GPU scene instances": 1408
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "receipt": "compute-native-firefox/verification.json",
+      "label": "chaos",
+      "fps": 60,
+      "cpu": {
+        "p50": 0,
+        "p95": 1,
+        "p99": 2,
+        "max": 2
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.554592,
+          "p95": 3.014176,
+          "p99": 3.343264,
+          "max": 3.59472
+        },
+        "renderMS": {
+          "p50": 8.696,
+          "p95": 9.057504,
+          "p99": 9.202368,
+          "max": 9.290016
+        }
+      },
+      "ticksPerSecond": 116.13318320733474,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "receipt": "compute-native-squeegee-chrome/verification.json",
+      "label": "floor-squeegee",
+      "fps": 59.833333333333336,
+      "cpu": {
+        "p50": 0.4000000059604645,
+        "p95": 1.5,
+        "p99": 1.9000000059604645,
+        "max": 35.69999998807907
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.048576,
+          "p95": 1.703936,
+          "p99": 1.769472,
+          "max": 2.62144
+        },
+        "renderMS": {
+          "p50": 5.439488,
+          "p95": 5.89824,
+          "p99": 6.094848,
+          "max": 6.422528
+        }
+      },
+      "ticksPerSecond": 119.58865483496434,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 359,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1105920
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "receipt": "compute-native-squeegee-firefox/verification.json",
+      "label": "floor-squeegee",
+      "fps": 59.666666666666664,
+      "cpu": {
+        "p50": 0,
+        "p95": 1,
+        "p99": 2,
+        "max": 2
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.18976,
+          "p95": 2.05776,
+          "p99": 2.569728,
+          "max": 2.675296
+        },
+        "renderMS": {
+          "p50": 5.270752,
+          "p95": 5.771456,
+          "p99": 6.152576,
+          "max": 6.286752
+        }
+      },
+      "ticksPerSecond": 116.08436644662694,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 359,
+          "asynchronous GPU timing": 359,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1102848
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "receipt": "compute-native-wall-chrome/verification.json",
+      "label": "wall-contact",
+      "fps": 58.80324193826522,
+      "cpu": {
+        "p50": 0.4000000059604645,
+        "p95": 1.4000000059604645,
+        "p99": 1.699999988079071,
+        "max": 4.9000000059604645
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 2.883584,
+          "p95": 4.521984,
+          "p99": 5.111808,
+          "max": 7.53664
+        },
+        "renderMS": {
+          "p50": 5.046272,
+          "p95": 5.505024,
+          "p99": 5.701632,
+          "max": 6.160384
+        }
+      },
+      "ticksPerSecond": 115.16155758077879,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 339,
+          "asynchronous GPU timing": 341,
+          "GPU telemetry snapshot": 22
+        },
+        "writes": {
+          "frame uniforms": 1053696
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "receipt": "compute-native-wall-firefox/verification.json",
+      "label": "wall-contact",
+      "fps": 57,
+      "cpu": {
+        "p50": 0,
+        "p95": 1,
+        "p99": 2,
+        "max": 2
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 3.268192,
+          "p95": 5.069248,
+          "p99": 5.74512,
+          "max": 6.549504
+        },
+        "renderMS": {
+          "p50": 4.849184,
+          "p95": 5.386816,
+          "p99": 5.576096,
+          "max": 5.935136
+        }
+      },
+      "ticksPerSecond": 111.37936584580717,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 343,
+          "asynchronous GPU timing": 344,
+          "GPU telemetry snapshot": 23
+        },
+        "writes": {
+          "frame uniforms": 1056768
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "receipt": "impact-pass/native-chrome/verification.json",
+      "label": "head-impact",
+      "fps": 60.007000816642716,
+      "cpu": {
+        "p50": 0.4000000059604645,
+        "p95": 1.199999988079071,
+        "p99": 1.7000000178813934,
+        "max": 1.800000011920929
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.048576,
+          "p95": 1.769472,
+          "p99": 2.752512,
+          "max": 3.735552
+        },
+        "renderMS": {
+          "p50": 5.24288,
+          "p95": 5.636096,
+          "p99": 5.89824,
+          "max": 6.291456
+        }
+      },
+      "ticksPerSecond": 119.84021304926765,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "receipt": "impact-pass/native-chrome/verification.json",
+      "label": "body-impact",
+      "fps": 60,
+      "cpu": {
+        "p50": 0.4000000059604645,
+        "p95": 1.100000023841858,
+        "p99": 1.5999999940395355,
+        "max": 1.699999988079071
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.048576,
+          "p95": 1.835008,
+          "p99": 2.818048,
+          "max": 3.473408
+        },
+        "renderMS": {
+          "p50": 5.373952,
+          "p95": 5.832704,
+          "p99": 6.160384,
+          "max": 6.291456
+        }
+      },
+      "ticksPerSecond": 120.02663559180957,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "receipt": "impact-pass/native-firefox/verification.json",
+      "label": "head-impact",
+      "fps": 60.01337345369441,
+      "cpu": {
+        "p50": 0,
+        "p95": 1,
+        "p99": 2,
+        "max": 2
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 0.99792,
+          "p95": 1.60176,
+          "p99": 2.81376,
+          "max": 3.848256
+        },
+        "renderMS": {
+          "p50": 4.981376,
+          "p95": 5.445408,
+          "p99": 5.776832,
+          "max": 5.84816
+        }
+      },
+      "ticksPerSecond": 119.79340219926692,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1105920
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "receipt": "impact-pass/native-firefox/verification.json",
+      "label": "body-impact",
+      "fps": 59.990001666388935,
+      "cpu": {
+        "p50": 0,
+        "p95": 1,
+        "p99": 2,
+        "max": 2
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.11312,
+          "p95": 2.14224,
+          "p99": 2.7064,
+          "max": 2.76752
+        },
+        "renderMS": {
+          "p50": 5.11024,
+          "p95": 5.58656,
+          "p99": 5.760608,
+          "max": 6.049856
+        }
+      },
+      "ticksPerSecond": 120.1531036778166,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    }
+  ],
+  "ltc": [
+    {
+      "receipt": "controller-pass/final-v32-ltc-chrome/verification.json",
+      "maxRelativeError": 0.00007342930674225053,
+      "cases": [
+        {
+          "p": [
+            0,
+            0,
+            1
+          ],
+          "n": [
+            0,
+            1,
+            0
+          ],
+          "v": [
+            0,
+            1,
+            0
+          ],
+          "r": 0.1,
+          "actual": [
+            0.5812723636627197,
+            0.5822968482971191,
+            0.5336668491363525
+          ],
+          "expected": [
+            0.5812395757578772,
+            0.5822625351591901,
+            0.5336354843161967
+          ],
+          "relative": 0.00005801117598446873
+        },
+        {
+          "p": [
+            0.2,
+            0,
+            1
+          ],
+          "n": [
+            0,
+            1,
+            0
+          ],
+          "v": [
+            0,
+            0.24253562503633297,
+            0.9701425001453319
+          ],
+          "r": 0.18,
+          "actual": [
+            0.062486451119184494,
+            0.05059744045138359,
+            0.05385884270071983
+          ],
+          "expected": [
+            0.06248642372097537,
+            0.05059742273936055,
+            0.053858834026267025
+          ],
+          "relative": 3.4883252410259774e-7
+        },
+        {
+          "p": [
+            1,
+            1,
+            -7.9
+          ],
+          "n": [
+            0,
+            0,
+            1
+          ],
+          "v": [
+            -0.42107596053325946,
+            0.3368607684266076,
+            0.8421519210665189
+          ],
+          "r": 0.22,
+          "actual": [
+            0.00865545030683279,
+            0.00043842021841555834,
+            0.0010554440086707473
+          ],
+          "expected": [
+            0.008655425098639717,
+            0.0004383872851744886,
+            0.001055414835090556
+          ],
+          "relative": 0.000005807940157602734
+        },
+        {
+          "p": [
+            1,
+            0.5,
+            2
+          ],
+          "n": [
+            0.7089175569585666,
+            0.25318484177091666,
+            0.6582805886043833
+          ],
+          "v": [
+            0,
+            0.7071067811865475,
+            0.7071067811865475
+          ],
+          "r": 0.65,
+          "actual": [
+            0.008228342980146408,
+            0.0015483947936445475,
+            0.0019512380240485072
+          ],
+          "expected": [
+            0.008228396542492385,
+            0.0015483998673182409,
+            0.0019512465424694817
+          ],
+          "relative": 0.00000633606886924798
+        },
+        {
+          "p": [
+            -4,
+            1,
+            -3
+          ],
+          "n": [
+            0,
+            1,
+            0
+          ],
+          "v": [
+            0.9987523388778446,
+            0.04993761694389223,
+            0
+          ],
+          "r": 0.4,
+          "actual": [
+            0.03389662131667137,
+            0.009189227595925331,
+            0.010551744140684605
+          ],
+          "expected": [
+            0.033895124860552385,
+            0.00918757146824516,
+            0.01055023823526441
+          ],
+          "relative": 0.00007342930674225053
+        },
+        {
+          "p": [
+            0,
+            5,
+            0
+          ],
+          "n": [
+            0,
+            -1,
+            0
+          ],
+          "v": [
+            0,
+            -1,
+            0
+          ],
+          "r": 0.2,
+          "actual": [
+            0.0008114220108836889,
+            0.00005030680404161103,
+            0.00014397766790352762
+          ],
+          "expected": [
+            0.0008114227434127026,
+            0.0000503111306398802,
+            0.0001439818616863295
+          ],
+          "relative": 0.0000012139829575082541
+        }
+      ]
+    },
+    {
+      "receipt": "controller-pass/final-v32-ltc-firefox/verification.json",
+      "maxRelativeError": 0.000056357327121205865,
+      "cases": [
+        {
+          "p": [
+            0,
+            0,
+            1
+          ],
+          "n": [
+            0,
+            1,
+            0
+          ],
+          "v": [
+            0,
+            1,
+            0
+          ],
+          "r": 0.1,
+          "actual": [
+            0.5812687277793884,
+            0.5822931528091431,
+            0.5336633920669556
+          ],
+          "expected": [
+            0.5812395757578772,
+            0.5822625351591901,
+            0.5336354843161967
+          ],
+          "relative": 0.00005165750501971118
+        },
+        {
+          "p": [
+            0.2,
+            0,
+            1
+          ],
+          "n": [
+            0,
+            1,
+            0
+          ],
+          "v": [
+            0,
+            0.24253562503633297,
+            0.9701425001453319
+          ],
+          "r": 0.18,
+          "actual": [
+            0.062486402690410614,
+            0.05059736594557762,
+            0.05385877192020416
+          ],
+          "expected": [
+            0.06248642372097537,
+            0.05059742273936055,
+            0.053858834026267025
+          ],
+          "relative": 8.963733609843145e-7
+        },
+        {
+          "p": [
+            1,
+            1,
+            -7.9
+          ],
+          "n": [
+            0,
+            0,
+            1
+          ],
+          "v": [
+            -0.42107596053325946,
+            0.3368607684266076,
+            0.8421519210665189
+          ],
+          "r": 0.22,
+          "actual": [
+            0.008655451238155365,
+            0.00043842042214237154,
+            0.0010554443579167128
+          ],
+          "expected": [
+            0.008655425098639717,
+            0.0004383872851744886,
+            0.001055414835090556
+          ],
+          "relative": 0.000005899584262620546
+        },
+        {
+          "p": [
+            1,
+            0.5,
+            2
+          ],
+          "n": [
+            0.7089175569585666,
+            0.25318484177091666,
+            0.6582805886043833
+          ],
+          "v": [
+            0,
+            0.7071067811865475,
+            0.7071067811865475
+          ],
+          "r": 0.65,
+          "actual": [
+            0.008228330872952938,
+            0.0015483814058825374,
+            0.0019512258004397154
+          ],
+          "expected": [
+            0.008228396542492385,
+            0.0015483998673182409,
+            0.0019512465424694817
+          ],
+          "relative": 0.000008293303717060582
+        },
+        {
+          "p": [
+            -4,
+            1,
+            -3
+          ],
+          "n": [
+            0,
+            1,
+            0
+          ],
+          "v": [
+            0.9987523388778446,
+            0.04993761694389223,
+            0
+          ],
+          "r": 0.4,
+          "actual": [
+            0.03389625996351242,
+            0.009188850410282612,
+            0.010551398620009422
+          ],
+          "expected": [
+            0.033895124860552385,
+            0.00918757146824516,
+            0.01055023823526441
+          ],
+          "relative": 0.000056357327121205865
+        },
+        {
+          "p": [
+            0,
+            5,
+            0
+          ],
+          "n": [
+            0,
+            -1,
+            0
+          ],
+          "v": [
+            0,
+            -1,
+            0
+          ],
+          "r": 0.2,
+          "actual": [
+            0.0008114209631457925,
+            0.000050305287004448473,
+            0.00014397608174476773
+          ],
+          "expected": [
+            0.0008114227434127026,
+            0.0000503111306398802,
+            0.0001439818616863295
+          ],
+          "relative": 0.0000016819649198211064
+        }
+      ]
+    }
+  ],
+  "audio": [
+    {
+      "receipt": "controller-pass/final-v32-chrome/verification.json",
+      "events": [
+        {
+          "strength": 0.76996336996337,
+          "melee": true,
+          "body": 12,
+          "latency": 7.5,
+          "frameID": 386
+        },
+        {
+          "strength": 0.3677655677655678,
+          "melee": false,
+          "body": 2,
+          "latency": 10,
+          "frameID": 391
+        }
+      ],
+      "peak": 0.09224426001310349,
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 2,
+        "lastThud": {
+          "strength": 0.3677655677655678,
+          "melee": false,
+          "body": 2,
+          "latency": 10,
+          "frameID": 391
+        }
+      }
+    },
+    {
+      "receipt": "controller-pass/final-v32-firefox/verification.json",
+      "events": [
+        {
+          "strength": 0.76996336996337,
+          "melee": true,
+          "body": 6,
+          "latency": 18,
+          "frameID": 276
+        },
+        {
+          "strength": 0.4139194139194139,
+          "melee": false,
+          "body": 2,
+          "latency": 19,
+          "frameID": 281
+        }
+      ],
+      "peak": 0.09160396456718445,
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 2,
+        "lastThud": {
+          "strength": 0.4139194139194139,
+          "melee": false,
+          "body": 2,
+          "latency": 19,
+          "frameID": 281
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "LTC GGX fit and rational edge evaluation are approximations.",
+    "Area emitters have constant emission and are unshadowed; existing directional shadows remain.",
+    "No reflection of non-emissive scene geometry or attenuation from paint on the emitter itself."
+  ],
+  "media": [
+    {
+      "path": "tools/out/controller-pass/recordings/smear-v31-v32-ltc.mp4",
+      "bytes": 3989302,
+      "sha256": "0efb205cf0c9af402c84e6d101ee5e6425d6134b7995df1b8dba48d800a52a3b"
+    },
+    {
+      "path": "tools/out/controller-pass/recordings/before/lighting-before.mp4",
+      "bytes": 3711668,
+      "sha256": "4ac29bf6d5685a66a1a1a492c43ff2612530e69985b3382494b3d90d9e7d0641"
+    },
+    {
+      "path": "tools/out/controller-pass/recordings/after/lighting-after.mp4",
+      "bytes": 3929554,
+      "sha256": "b4033f1fd169408f48583f13c3408bd85efc0839273ada3f144e88b00ccaa595"
+    },
+    {
+      "path": "tools/out/controller-pass/recordings/after/bat.mp4",
+      "bytes": 1541820,
+      "sha256": "6620ca2222fe05a18e883e4dca99afc9f7216186ca0cda922d6ecd4bfd6fac09"
+    }
+  ],
+  "result": "COMPLETE local V32 release gauntlet",
+  "baseline": {
+    "version": "0.31.0",
+    "buildSHA256": "abfe0ae5470fe80540d1f6b1ce79a30be4456935f8dd897fa4250800b2de4228",
+    "result": "COMPLETE native GPU gameplay and 3000x1800 profiles passed",
+    "profiles": [
+      {
+        "label": "idle",
+        "fps": 59.99331550802139,
+        "cpu": {
+          "p50": 1,
+          "p95": 1,
+          "p99": 2,
+          "max": 2
+        },
+        "gpu": {
+          "computeMS": {
+            "p50": 0.895904,
+            "p95": 1.553856,
+            "p99": 1.8952,
+            "max": 2.020832
+          },
+          "renderMS": {
+            "p50": 2.46464,
+            "p95": 3.051552,
+            "p99": 3.283552,
+            "max": 3.374816
+          }
+        }
+      },
+      {
+        "label": "pistol",
+        "fps": 60,
+        "cpu": {
+          "p50": 1,
+          "p95": 1,
+          "p99": 2,
+          "max": 2
+        },
+        "gpu": {
+          "computeMS": {
+            "p50": 1.003456,
+            "p95": 1.338848,
+            "p99": 1.628576,
+            "max": 1.787424
+          },
+          "renderMS": {
+            "p50": 2.22112,
+            "p95": 2.697056,
+            "p99": 2.938528,
+            "max": 3.155744
+          }
+        }
+      },
+      {
+        "label": "spill",
+        "fps": 60.00334280461307,
+        "cpu": {
+          "p50": 0,
+          "p95": 1,
+          "p99": 2,
+          "max": 2
+        },
+        "gpu": {
+          "computeMS": {
+            "p50": 0.992448,
+            "p95": 1.436448,
+            "p99": 1.777984,
+            "max": 1.920896
+          },
+          "renderMS": {
+            "p50": 2.462112,
+            "p95": 3.046272,
+            "p99": 3.452448,
+            "max": 3.793536
+          }
+        }
+      },
+      {
+        "label": "drag",
+        "fps": 60,
+        "cpu": {
+          "p50": 0,
+          "p95": 1,
+          "p99": 2,
+          "max": 2
+        },
+        "gpu": {
+          "computeMS": {
+            "p50": 1.421792,
+            "p95": 2.791712,
+            "p99": 3.168352,
+            "max": 3.635904
+          },
+          "renderMS": {
+            "p50": 2.441472,
+            "p95": 2.993792,
+            "p99": 3.281152,
+            "max": 3.480544
+          }
+        }
+      },
+      {
+        "label": "chaos",
+        "fps": 60.01000166694449,
+        "cpu": {
+          "p50": 0,
+          "p95": 1,
+          "p99": 2,
+          "max": 2
+        },
+        "gpu": {
+          "computeMS": {
+            "p50": 1.597632,
+            "p95": 2.995584,
+            "p99": 3.533568,
+            "max": 3.869472
+          },
+          "renderMS": {
+            "p50": 3.017312,
+            "p95": 3.636192,
+            "p99": 4.040192,
+            "max": 4.079808
+          }
+        }
+      }
+    ]
+  },
+  "optimization": {
+    "method": "Fixed edge clipping and a closing horizon arc replace dynamically indexed polygon arrays; cached pause-menu DOM updates remove redundant frame work.",
+    "earlierCandidate": "The conservative polygon implementation passed lighting and functional checks but failed the Firefox CPU p99 performance gate in repeated native runs. It was not published.",
+    "clampProbe": "On hardware Chrome, clamp(abs(edgeSum),0,1) returned 0 for a measured abs(edgeSum) of 0.63174635. min(1,abs(edgeSum)) agrees with the independent numerical reference in both browsers."
+  },
+  "timingReruns": [
+    {
+      "reason": "AssertionError [ERR_ASSERTION]: idle: CPU p99 5.5999999940395355\n    at profile (file:///C:/trontstack/smear/tools/compute-profile.mjs:38:71)\n    at async file:///C:/trontstack/smear/tools/compute-profile.mjs:47:2",
+      "firstAttempt": {
+        "label": "idle",
+        "summary": {
+          "frames": 359,
+          "seconds": 5.999,
+          "fps": 59.84330721786964,
+          "latestFPS": 60.24096387705205,
+          "intervalMs": {
+            "p50": 16.69999998807907,
+            "p95": 16.900000005960464,
+            "p99": 24.700000017881393,
+            "max": 36.400000005960464
+          },
+          "workMs": 0.6420612809219732,
+          "workPercentileMs": {
+            "p50": 0.4000000059604645,
+            "p95": 1.7999999821186066,
+            "p99": 5.5999999940395355,
+            "max": 6.700000017881393
+          },
+          "phases": {
+            "physics": 0,
+            "paint": 0,
+            "drops": 0,
+            "uploadPrep": 0,
+            "render": 0.3754874661274275,
+            "hud": 0.04958217298420027,
+            "profiler": 0.03788300809089852,
+            "input": 0.07743732469327602,
+            "other": 0.1016713090261709
+          },
+          "overBudget": 9,
+          "spikeFrames": 3,
+          "uploadCPU": 0,
+          "uploadMiB": 0,
+          "uploadMiBPerSecond": 0,
+          "uploadCalls": 0,
+          "steps": 2.002785515320334,
+          "droppedSimMs": 0,
+          "gpuMs": null,
+          "gpuSamples": 0
+        },
+        "gpu": {
+          "computeMS": {
+            "p50": 0.917504,
+            "p95": 1.507328,
+            "p99": 1.6384,
+            "max": 2.752512
+          },
+          "renderMS": {
+            "p50": 7.53664,
+            "p95": 7.995392,
+            "p99": 8.257536,
+            "max": 8.650752
+          }
+        },
+        "audit": {
+          "active": false,
+          "reads": {
+            "asynchronous collision sound event": 359,
+            "asynchronous GPU timing": 360,
+            "GPU telemetry snapshot": 24
+          },
+          "writes": {
+            "frame uniforms": 1105920
+          },
+          "canvasReads": 0,
+          "webGLContexts": 0
+        }
+      }
+    }
+  ],
+  "capture": {
+    "startedAt": "2026-10-06T23:47:47.485Z",
+    "viewport": [
+      1440,
+      1080
+    ],
+    "profiles": [
+      {
+        "profile": "C:\\Users\\trent\\AppData\\Local\\Temp\\smear-chrome-rMLKzA",
+        "pid": 424020,
+        "label": "before"
+      },
+      {
+        "profile": "C:\\Users\\trent\\AppData\\Local\\Temp\\smear-chrome-PsSAj7",
+        "pid": 493716,
+        "label": "after"
+      }
+    ],
+    "clips": [
+      {
+        "label": "before",
+        "name": "pool",
+        "duration": 8,
+        "fixture": null,
+        "sha256": "abfe0ae5470fe80540d1f6b1ce79a30be4456935f8dd897fa4250800b2de4228",
+        "audio": {
+          "enabled": true,
+          "state": "running",
+          "thuds": 0,
+          "lastThud": null
+        },
+        "steps": 965
+      },
+      {
+        "label": "before",
+        "name": "wall",
+        "duration": 15,
+        "fixture": {
+          "mass": 0.46842715263366774,
+          "cy": 1.9493750657470807,
+          "peak": 0.5162811279296875,
+          "movingArea": 0.01,
+          "wetArea": 1.8537500000001148,
+          "below": 0.022136735916137722,
+          "front": 0.08749999999999991,
+          "coarse": 73.72721862792969,
+          "active": 294
+        },
+        "sha256": "abfe0ae5470fe80540d1f6b1ce79a30be4456935f8dd897fa4250800b2de4228",
+        "audio": {
+          "enabled": true,
+          "state": "running",
+          "thuds": 4,
+          "lastThud": {
+            "strength": 0.13772893772893774,
+            "body": 5,
+            "latency": 5.799999982118607,
+            "frameID": 1024
+          }
+        },
+        "steps": 2761
+      },
+      {
+        "label": "after",
+        "name": "pool",
+        "duration": 8,
+        "fixture": null,
+        "sha256": "34df724cacee1802ee5451cd5e2bdfd9854cfc97e219559e03471a37df976e44",
+        "audio": {
+          "enabled": true,
+          "state": "running",
+          "thuds": 0,
+          "lastThud": null
+        },
+        "steps": 962
+      },
+      {
+        "label": "after",
+        "name": "wall",
+        "duration": 15,
+        "fixture": {
+          "mass": 0.4682683277130143,
+          "cy": 1.9495595116119813,
+          "peak": 0.51611328125,
+          "movingArea": 0.01,
+          "wetArea": 1.8593750000001157,
+          "below": 0.021267004013061554,
+          "front": 0.08749999999999991,
+          "coarse": 73.72453308105469,
+          "active": 294
+        },
+        "sha256": "34df724cacee1802ee5451cd5e2bdfd9854cfc97e219559e03471a37df976e44",
+        "audio": {
+          "enabled": true,
+          "state": "running",
+          "thuds": 4,
+          "lastThud": {
+            "strength": 0.13772893772893774,
+            "melee": false,
+            "body": 5,
+            "latency": 5.9000000059604645,
+            "frameID": 1031
+          }
+        },
+        "steps": 2759
+      },
+      {
+        "label": "after",
+        "name": "bat",
+        "duration": 8,
+        "fixture": null,
+        "sha256": "34df724cacee1802ee5451cd5e2bdfd9854cfc97e219559e03471a37df976e44",
+        "audio": {
+          "enabled": true,
+          "state": "running",
+          "thuds": 8,
+          "lastThud": {
+            "strength": 0.20097680097680098,
+            "melee": false,
+            "body": 11,
+            "latency": 5.299999982118607,
+            "frameID": 1964
+          }
+        },
+        "steps": 963
+      }
+    ],
+    "comparison": "smear-v31-v32-ltc.mp4",
+    "result": "COMPLETE V31/V32 native lighting comparison and spiked bat showcase"
+  },
+  "mediaVerification": {
+    "result": "COMPLETE MP4 container, codec, duration and audio checks",
+    "files": [
+      {
+        "file": "smear-v31-v32-ltc.mp4",
+        "width": 1920,
+        "height": 720,
+        "fps": "30/1",
+        "duration": 23.066667,
+        "video": "h264",
+        "audio": "aac",
+        "channels": 2,
+        "audioPeakDB": -17.4
+      },
+      {
+        "file": "before/lighting-before.mp4",
+        "width": 1440,
+        "height": 1080,
+        "fps": "12800/427",
+        "duration": 23.021333,
+        "video": "h264",
+        "audio": "aac",
+        "channels": 2,
+        "audioPeakDB": -18.3
+      },
+      {
+        "file": "after/lighting-after.mp4",
+        "width": 1440,
+        "height": 1080,
+        "fps": "76800/2561",
+        "duration": 23.024833,
+        "video": "h264",
+        "audio": "aac",
+        "channels": 2,
+        "audioPeakDB": -17.5
+      },
+      {
+        "file": "after/bat.mp4",
+        "width": 1440,
+        "height": 1080,
+        "fps": "30/1",
+        "duration": 8.000667,
+        "video": "h264",
+        "audio": "aac",
+        "channels": 2,
+        "audioPeakDB": -19.6
+      }
+    ]
+  },
+  "checkCount": 254,
+  "fpsRange": [
+    57,
+    60.01500375093774
+  ]
+}

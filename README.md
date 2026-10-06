@@ -2,7 +2,9 @@
 
 Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V31 / 0.31.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+**V32 / 0.32.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+
+V32 adds click-to-play FPS mouse capture, Esc/menu/focus pausing, held C free aim, and weapon 4: a spiked baseball bat with GPU contact, finite blood spray, knockback and impact audio. Free cursor remains available on the play menu. ARC Light Studies supplies the locally fitted GGX LTC tables and polygon-light integration: the three ceiling strips and five rear panels now illuminate surfaces and reflect in the real liquid normals. The existing directional shadows remain; area emitters are unshadowed, with constant emission (no scene reflections or painted-emitter modulation). The GGX fit and fast edge evaluation are approximations. `verify:controls`, `verify:ltc` and `record:controls` cover input, melee, numerical lighting validation and matched footage. See `docs/qa/controller-ltc-v32.json`.
 
 V31 preserves whole-rig momentum as a stretched dummy contracts after release. A shared velocity limit replaces independent part clipping during free flight, retaining the existing 21 m/s ceiling. Real collisions still stop the throw. Chaos, Reset, demo and weapon changes clear transient pistol state so a rewound simulation clock cannot leave the muzzle flash stuck or firing locked out. `npm run verify:momentum` covers large stretches, delayed releases, real mouse throws and weapon lifecycle transitions; `npm run record:momentum` records the V30/V31 comparison. See `docs/qa/momentum-v31.json`.
 
@@ -54,10 +56,11 @@ The local V10 art pass adds an amber and teal test lab, world-planted alternatin
 
 Open index.html in desktop Chrome or Firefox on Windows with hardware acceleration and WebGPU enabled. It works offline with no runtime downloads, installation or build. A hardware adapter is required. The CPU version remains available as [archived V8.9](versions/smear_v8.9_cpu.html).
 
-- Left mouse: grab, fire or spill. 1 / 2 / 3 select the tool.
-- Right drag: look. WASD: move. Shift: sprint. Space: jump. Ctrl: crouch.
+- Click Enter the room to capture the mouse. Left mouse: grab, fire, spill or swing; 1 / 2 / 3 / 4 select the tool.
+- Mouse: look. Hold C: free aim/drag without rotating the camera. Right mouse: pistol aim.
+- WASD: move. Shift: sprint. Space: jump. Ctrl: crouch.
 - Wheel: push/pull the held body. Q / E: twist.
-- L / Esc: lock/free mouse. F: Walk / Fly. Tab: controls.
+- Esc: pause and free the mouse. L: mouse capture/pause. F: Walk / Fly. Tab: controls.
 - T: slow motion. P: pause. H: hide HUD. F3 / Perf: live profiling.
 - Tune: walking, recovery, blood, transfer and coverage settings. Heal, wash and clean operate on GPU state.
 

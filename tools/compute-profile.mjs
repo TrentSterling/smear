@@ -6,6 +6,7 @@ import {until,sleep} from './cdp.mjs';
 import {launchComputeBrowser} from './compute-browser.mjs';
 import {installWallContactFixture} from './wall-contact-fixture.mjs';
 import {installHandlingFixture} from './handling-fixture.mjs';
+import {installImpactFixture} from './impact-fixture.mjs';
 const browser=process.argv.includes('firefox')?'firefox':'chrome';
 const wallMode=process.argv.includes('wall-contact');
 const floorMode=process.argv.includes('floor-squeegee');
@@ -32,6 +33,7 @@ try{
   await start();await sleep(300);await page.eval('__smear.perf.clear();__smearGPU.gpuSamples.length=0;__gpuAudit.reads={};__gpuAudit.writes={};__gpuAudit.canvasReads=0;__gpuAudit.active=true;__smear.manual(false)');
   const firstTick=await page.eval('__smearGPU.steps'),started=Date.now();await sleep(6000);await stop();await page.eval('__smear.manual(true);__gpuAudit.active=false');
   const report=await page.eval('__smear.perf.report()'),state=await page.eval('__smear.compute.state()'),audit=await page.eval('__gpuAudit');
+  receipt.lastAttempt={label,summary:report.summary,gpu:report.compute?.summary,audit};
   assert.deepEqual(state.errors,[]);assert.equal(state.stampOverflow,0);assert.equal(audit.canvasReads,0);assert.equal(audit.webGLContexts,0);assert(!Object.keys(audit.reads).some(k=>/body inspection|pigment/.test(k)));assert(!Object.keys(audit.writes).some(k=>/pigment|droplet|ragdoll/.test(k)));
   assert(report.summary.fps>55,`${label}: ${report.summary.fps} FPS`);assert(report.summary.workPercentileMs.p99<5,`${label}: CPU p99 ${report.summary.workPercentileMs.p99}`);
   const ticksPerSecond=(state.steps-firstTick)/((Date.now()-started)/1000);assert(ticksPerSecond>110&&ticksPerSecond<125,label+' actual GPU tick rate '+ticksPerSecond);receipt.profiles.push({label,report,state,audit,ticksPerSecond});console.log(JSON.stringify({label,fps:report.summary.fps,main:report.summary.workPercentileMs,gpu:report.compute.summary,particles:state.particles,hits:state.hits,ticksPerSecond,audit}));await page.shot(resolve(out,label+'.png'));return state;
@@ -43,6 +45,10 @@ try{
   receipt.checks.push('Native E-key floor squeegeeing stays above 55 FPS at 3000x1800, with 120 Hz physics, active audio and no body/pigment transfers');
  }else if(!wallMode){
  await profile('idle',()=>page.eval('__smear.reset();__smear.step(120)'));
+ await installImpactFixture(page);
+ const bat=await profile('bat',async()=>{await page.eval('__impactTest.setup({speed:0})');const h=(await page.eval('__smear.state()')).parts[2].p;await page.eval(`__smear.view([${h[0]},${h[1]},${h[2]+1.4}],${JSON.stringify(h)});__smear.tool(3);__smear.pointer(1500,900);__smear.step(0)`);await page.mouse('mousePressed',1500,900);},()=>page.mouse('mouseReleased',1500,900));assert(bat.hits>0);receipt.checks.push('Native spiked-bat swings hit and animate at 3000x1800 without pose or pigment transfers');
+ // The isolated impact fixture disables walking/recovery; later workloads use defaults.
+ await page.eval('__smear.preset("default")');
  const pistol=await profile('pistol',async()=>{await page.eval('__smear.reset();__smear.step(45);__smear.tool(1);__smear.view([2.55,1.5,1],[2.55,1.25,-2.95]);__smear.step(0)');await page.mouse('mouseMoved',width/2,height/2);await page.mouse('mousePressed',width/2,height/2);},()=>page.mouse('mouseReleased',width/2,height/2));assert(pistol.hits>0);receipt.checks.push('Native pistol hits and spawns GPU particles');
  const spill=await profile('spill',async()=>{await page.eval('__smear.reset();__smear.stopBleeding();__smear.tool(2);__smear.view([0,1.6,0],[0,2.5,-8]);__smear.step(0)');await page.mouse('mouseMoved',width/2,height/2);await page.mouse('mousePressed',width/2,height/2);},()=>page.mouse('mouseReleased',width/2,height/2));
  const wallBefore=await page.eval('__smear.compute.paintHash(16)');assert(wallBefore.painted>0);await page.eval('__smear.stopBleeding();__smear.step(480)');const wallAfter=await page.eval('__smear.compute.paintHash(16)');assert(wallAfter.painted>wallBefore.painted);receipt.wall={before:wallBefore,after:wallAfter};receipt.checks.push('Native Spill paints walls; GPU gravity drips extend paint');

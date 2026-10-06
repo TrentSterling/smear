@@ -262,6 +262,7 @@ fn rayHit(o:vec3f,d:vec3f,limit:f32,includeBodies:bool,ignoreBody:i32)->RayHit {
 }
 @compute @workgroup_size(1) fn interaction() {
  if(frame.action.y==4){releaseThrow();return;}
+ if(frame.action.y==5){meleeStrike();return;}
  if(frame.action.y<.5){return;}let hit=rayHit(frame.rayO.xyz,safeNorm(frame.rayD.xyz),35,true,-1);atomicStore(&work[6],bitcast<u32>(hit.body));atomicStore(&work[7],bitcast<u32>(hit.t));atomicStore(&work[10],bitcast<u32>(hit.p.x));atomicStore(&work[11],bitcast<u32>(hit.p.y));atomicStore(&work[12],bitcast<u32>(hit.p.z));
  if(hit.body>=0){let i=u32(hit.body);var b=bodies[i];let local=rotate(inverseQ(b.q),hit.p-b.p.xyz);for(var k=0u;k<3u;k++){atomicStore(&work[13u+k],bitcast<u32>(local[k]));}
   if(frame.action.y==2){for(var k=i/15u*15u;k<(i/15u+1u)*15u;k++){bodies[k].status.x=1;bodies[k].motor.w=0;bodies[k].status.z=0;}b=bodies[i];b.v=vec4f(b.v.xyz+frame.rayD.xyz*(14*frame.action.w)*b.p.w,b.v.w);b.w=vec4f(b.w.xyz+invWorld(b,cross(hit.p-b.p.xyz,frame.rayD.xyz*(14*frame.action.w))),0);b.blood.x=min(2,b.blood.x+1.3);b.coat.x=min(1.65,b.coat.x+.7);b.blood.w=max(0,b.blood.w-34*frame.rayD.w);bodies[i]=b;atomicAdd(&work[16],1u);for(var k=0u;k<65u;k++){let h=i*971u+k*179u+atomicLoad(&work[5]);emit(hit.p+hit.n*.02,bounded(b.v.xyz+cross(b.w.xyz,hit.p-b.p.xyz),20)*.85+hit.n*(1.2+hash(h)*5.5)+vec3f((hash(h+1u)-.5)*4.2,hash(h+2u)*3,(hash(h+3u)-.5)*4.2),.005+hash(h+4u)*.013,i);}}

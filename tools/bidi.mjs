@@ -25,7 +25,7 @@ export async function launchFirefox({port=9595,width=1920,height=1080,headless=t
   goto:url=>call('browsingContext.navigate',{context,url,wait:'complete'}),
   eval:async expr=>{const r=await call('script.evaluate',{expression:`(async()=>JSON.stringify(await (0,eval)(${JSON.stringify(expr)})))()`,target:{context},awaitPromise:true});if(r.type==='exception')throw Error('Firefox eval: '+r.exceptionDetails.text);return r.result.value===undefined?undefined:JSON.parse(r.result.value);},
   shot:async file=>{const {data}=await call('browsingContext.captureScreenshot',{context,origin:'viewport',format:{type:'image/png'}});writeFileSync(file,Buffer.from(data,'base64'));},
-  mouse:async(type,x,y)=>{const actions=[{type:'pointerMove',origin:'viewport',x:Math.round(x),y:Math.round(y),duration:0}];if(type==='mousePressed')actions.push({type:'pointerDown',button:0});if(type==='mouseReleased')actions.push({type:'pointerUp',button:0});return call('input.performActions',{context,actions:[{type:'pointer',id:'mouse',parameters:{pointerType:'mouse'},actions}]});},
+  mouse:async(type,x,y,button='left')=>{const actions=[{type:'pointerMove',origin:'viewport',x:Math.round(x),y:Math.round(y),duration:0}];if(type==='mousePressed')actions.push({type:'pointerDown',button:button==='right'?2:button==='middle'?1:0});if(type==='mouseReleased')actions.push({type:'pointerUp',button:button==='right'?2:button==='middle'?1:0});return call('input.performActions',{context,actions:[{type:'pointer',id:'mouse',parameters:{pointerType:'mouse'},actions}]});},
   kill:()=>{ws.close();proc.kill();}
  };
 }

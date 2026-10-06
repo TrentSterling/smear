@@ -80,13 +80,7 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
   var shadowing=1.0;if(!viewTool){shadowing=visibility(world+n*.014);}
   color=albedo*hemi*.48+light(albedo,n,view,sun,rough,metal,vec3f(3.5,2.95,2.15))*shadowing+light(albedo,n,view,safeNorm(vec3f(4,5,-5)),rough,metal,vec3f(.70,1.30,1.45));
   color+=sky*fresnel(mix(vec3f(.04),albedo,metal),max(dot(n,view),0))*(1-rough*.5)*.8;
-  // Broad laboratory lights reflect in the actual liquid normal. Highlights
-  // move with the camera and bead slopes, never with an animated paint mask.
-  if(wetCoat>.001){
-   let ceiling=safeNorm(vec3f(-2.5,5.5,-2)-world);let fill=safeNorm(vec3f(4,4.5,-6)-world);
-   let highlight=pow(max(0,dot(reflected,ceiling)),mix(18.0,130.0,1-rough))+.55*pow(max(0,dot(reflected,fill)),mix(12.0,90.0,1-rough));
-   color+=vec3f(.85,.93,.86)*highlight*wetCoat*.65;
-  }
+  color+=laboratoryLights(world,n,view,albedo,rough,metal);
  }
  color*=.92;color=clamp((color*(2.51*color+.03))/(color*(2.43*color+.59)+.14),vec3f(0),vec3f(1));return vec4f(pow(color,vec3f(1.0/2.2)),1);
 }

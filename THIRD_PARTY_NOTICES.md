@@ -27,3 +27,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+
+The area-light renderer ports Trent Sterling's ARC Light Studies (C:/trontstack/ltc) to WGSL, using its locally regenerated GGX tables. The reference is Real-Time Polygonal-Light Shading with Linearly Transformed Cosines, Eric Heitz, Jonathan Dupuy, Stephen Hill and David Neubelt, SIGGRAPH 2016: https://eheitzresearch.wordpress.com/415-2/ . The fast edge fit follows Three.js (MIT). Full fitting-reference and MIT notices are retained in vendor/ltc/NOTICE.txt and embedded in index.html, alongside the fitting source.

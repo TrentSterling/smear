@@ -77,6 +77,28 @@ SmearCompute.prototype.buildTools=function(){
  box(this.spillCan,[.029,.016,.064],[0,.095,-.012],amber,.005);
  label(this.spillCan,'PIGMENT',[0,-.065,.015],[.082,.080],[0,0,0],.061);
  const spillHand=makeHand(this.spillCan);spillHand.position.set(.034,-.010,.009);spillHand.rotation.z=-.12;
+ // Turned timber, wrapped grip and staggered steel spikes; a single rigid tool.
+ this.bat=new T.Group();this.bat.userData.viewTool=true;this.bat.visible=false;this.camera.add(this.bat);
+ const timber=mat(0xa57a45,.72,.01),endgrain=mat(0x735035,.8),tape=mat(0x3a4240,.93);
+ const wood=document.createElement('canvas');wood.width=wood.height=512;const wg=wood.getContext('2d');wg.fillStyle='#e2cba5';wg.fillRect(0,0,512,512);
+ for(let i=0;i<150;i++){wg.strokeStyle=`rgba(76,47,22,${.04+(i%7)*.009})`;wg.lineWidth=.5+(i%3)*.4;wg.beginPath();for(let y=0;y<=512;y+=8){const x=i*512/150+Math.sin(y*.007+i*.8)*(2+i%9);if(y===0)wg.moveTo(x,y);else wg.lineTo(x,y);}wg.stroke();}timber.map=new T.CanvasTexture(wood);
+ const shaft=new T.Group();shaft.position.z=.075;this.bat.add(shaft);
+ const profile=[[-.22,0],[-.215,.032],[-.20,.036],[-.184,.031],[-.174,.025],[.075,.025],[.19,.035],[.32,.052],[.45,.067],[.71,.071],[.78,.060],[.818,.033],[.826,0]];
+ add(shaft,new T.LatheGeometry(profile.map(([y,r])=>new T.Vector2(r,y)),28),timber);
+ add(shaft,new T.CylinderGeometry(.028,.028,.24,20),tape,[0,-.056,0]);
+ for(let i=0;i<15;i++){const ring=add(shaft,new T.TorusGeometry(.028,.0018,5,20),rubber,[0,-.17+i*.016,0]);ring.rotation.x=Math.PI/2;ring.rotation.z=.14;}
+ add(shaft,new T.CylinderGeometry(.035,.035,.015,20),endgrain,[0,-.209,0]);
+ for(let row=0;row<3;row++){
+  const y=.42+row*.135,r=.066+row*.002;
+  add(shaft,new T.CylinderGeometry(r+.003,r+.003,.035,24),ink,[0,y,0]);
+  for(let i=0;i<4;i++){
+   const a=i*Math.PI/2+row*.52,n=new V(Math.cos(a),0,Math.sin(a));
+   const spike=add(shaft,new T.ConeGeometry(.015,.145,7),steel,[n.x*(r+.063),y,n.z*(r+.063)]);spike.quaternion.setFromUnitVectors(new V(0,1,0),n);
+   const rivet=add(shaft,new T.SphereGeometry(.020,8,6),steel,[n.x*r,y,n.z*r]);rivet.scale.y=.7;
+  }
+ }
+ label(shaft,'SM / IMPACT',[0,.23,0],[.07,.065],[0,0,0],.042);
+ makeHand(this.bat);
  // Keep moving subassemblies independent and pack the rest by material.
  const merge=(root,exclude=[])=>{
   root.updateWorldMatrix(true,true);const inverse=root.matrixWorld.clone().invert(),groups=new Map();
@@ -84,11 +106,18 @@ SmearCompute.prototype.buildTools=function(){
   for(const child of [...root.children])if(!exclude.includes(child))root.remove(child);
   for(const [material,data]of groups){const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(data.positions,3));g.setAttribute('normal',new T.Float32BufferAttribute(data.normals,3));g.setAttribute('uv',new T.Float32BufferAttribute(data.uvs,2));g.setIndex(data.indices);add(root,g,material);}
  };
- merge(this.gun,[this.slide,this.flash]);merge(this.slide);merge(this.spillCan);
- this.toolPresentation={pistol:'beveled receiver, articulated slide, sights, gloved grip',spill:'pressure bottle and pump',meshes:0};
- for(const root of [this.gun,this.spillCan])root.traverse(o=>{if(o.isMesh)this.toolPresentation.meshes++;});
+ merge(this.gun,[this.slide,this.flash]);merge(this.slide);merge(this.spillCan);merge(this.bat);
+ this.toolPresentation={pistol:'beveled receiver, articulated slide, sights, gloved grip',spill:'pressure bottle and pump',bat:'turned wooden bat, wrapped grip, twelve steel spikes and gloved hand',meshes:0};
+ for(const root of [this.gun,this.spillCan,this.bat])root.traverse(o=>{if(o.isMesh)this.toolPresentation.meshes++;});
 };
-SmearCompute.prototype.updateToolPresentation=function(dt,{tool,panel,time,left}){
+SmearCompute.prototype.updateToolPresentation=function(dt,{tool,panel,time,left,batAge=10}){
  this.spillCan.visible=tool===2&&!panel;
  if(this.spillCan.visible){this.spillCan.position.set(.255,-.13,-.54);this.spillCan.rotation.set(-.1,0,-.14);if(left)this.spillCan.position.y+=Math.sin(time*38)*.003;}
+ this.bat.visible=tool===3&&!panel;
+ if(this.bat.visible){
+  const t=batAge,ease=x=>x*x*(3-2*x);let sweep=0,wind=0;
+  if(t<.10)wind=ease(t/.10);else if(t<.23){const p=ease((t-.10)/.13);wind=1-p;sweep=p;}else if(t<.64)sweep=1-ease((t-.23)/.41);
+  this.bat.position.set(.29+wind*.10-sweep*.47,-.40+wind*.025+sweep*.10,-.85-wind*.03-sweep*.11);
+  this.bat.rotation.set(.17+wind*.12-sweep*.56,-.15+wind*.28-sweep*.58,-.23-wind*.48+sweep*1.65);
+ }
 };
