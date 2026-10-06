@@ -61,6 +61,51 @@ fn wallSplat(foot:Footprint,coat:f32,speed:f32,seed:u32)->f32 {
  }
  atomicAdd(&work[29],1u);return spent;
 }
+// Squeeze a finite liquid layer out of the contact and fling a small part of
+// the coating from its moving edge. These are transfers, never extra paint.
+fn squeezeContact(index:u32,b:Body,foot:Footprint,duration:f32,pressure:f32)->f32 {
+ let rec=u32(foot.receiver);let r=record(rec);let dims=filmDimensions(r);
+ let area=r.size.x*r.size.y/f32(dims.x*dims.y);let seed=index*731u+foot.face*113u;
+ let centerMotion=b.v.xyz+cross(b.w.xyz,foot.p-b.p.xyz);
+ let sliding=centerMotion-r.n.xyz*dot(centerMotion,r.n.xyz);
+ let spin=abs(dot(b.w.xyz,r.n.xyz));let activity=length(sliding)+spin*max(foot.radius.x,foot.radius.y);
+ if(activity<.06&&pressure<.05){return 0;}
+ for(var j=0u;j<18u;j++){
+  let h=hash(seed+j*977u);let a=h*6.283185;
+  let material=vec2f(cos(a),sin(a))*sqrt(hash(seed+j*199u))*.90;
+  let offset=patchOffset(foot.radius,foot.angle,material);
+  let radial=r.u.xyz*offset.x+r.v.xyz*offset.y;
+  let point=foot.p+radial;let cell=vec2u(clamp(uv(r,point)*vec2f(dims),vec2f(0),vec2f(dims)-1));
+  let address=filmAddress(r,cell);let mass=filmRead(0u,address);
+  let motion=sliding+cross(r.n.xyz*dot(b.w.xyz,r.n.xyz),radial);
+  let outward=safeNorm(radial);let push=motion*.30+outward*(pressure*.42+spin*length(radial)*.16);
+  let fraction=min(.30,duration*(pressure*4.0+length(motion)*2.0));
+  let taken=takeWet(filmOffset(0u)+address,u32(max(0,mass-.012)*fraction*FILM_SCALE));
+  if(taken==0u){continue;}
+  let edgeOffset=patchOffset(foot.radius,foot.angle,vec2f(cos(a),sin(a))*(1.06+hash(seed+j*71u)*.09));
+  let edge=foot.p+r.u.xyz*edgeOffset.x+r.v.xyz*edgeOffset.y+bounded(motion*duration*.3,.035);
+  let destination=mix(point+bounded(push*duration,.055),edge,pressure*.80);
+  returnFilm(rec,destination,f32(taken)/FILM_SCALE*area);
+  atomicAdd(&work[31],taken);
+ }
+ let fast=smoothstep(1.4,6.5,activity);if(fast<=0||b.coat.x<.12){return 0;}
+ var spent=0.0;
+ for(var j=0u;j<2u;j++){
+  let h=seed+atomicLoad(&work[5])*31u+j*173u;let a=hash(h)*6.283185;
+  let offset=patchOffset(foot.radius,foot.angle,vec2f(cos(a),sin(a))*(1.03+hash(h+1u)*.22));
+  let radial=r.u.xyz*offset.x+r.v.xyz*offset.y;
+  let edgeMotion=sliding+cross(r.n.xyz*dot(b.w.xyz,r.n.xyz),radial);
+  let spray=bounded(edgeMotion*.90+safeNorm(radial)*(.6+pressure*1.8),13.0);
+  // Alternate outward drops and shallow wall-bound jets to spread beyond the
+  // rubbed ring. Both travel through the normal ballistic collision path.
+  let velocity=spray+r.n.xyz*select(-.35-hash(h+2u)*.55,.35+hash(h+2u)*.8,j==0u);
+  let coat=min(max(0,b.coat.x-spent)*.03,duration*fast*(.035+hash(h+3u)*.08));
+  if(coat>.0001&&launchDrop(foot.p+radial+r.n.xyz*.022,velocity,clamp(pow(coat*.02,.333333)*.35,.004,.013),index,coat*.02)){
+   spent+=coat;atomicAdd(&work[32],1u);
+  }
+ }
+ return spent;
+}
 fn paintContact(index:u32,input:Body,dt:f32)->Body {
  var b=input;let mem=contactMemory(index);let foot=footprint(b);
  let impactClock=max(0,contactFloat(mem+7u)-dt);atomicStore(&work[mem+7u],bitcast<u32>(impactClock));
@@ -114,14 +159,18 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
  // Word 8 is only a deposition cadence, not an additional material reservoir.
  // Compression routes a finite wound supply into the contact instead of
  // launching all fresh blood away as tiny drops. Supply stops on release.
- if(wall&&frame.local.w>.5&&u32(frame.goal.w)/15u==index/15u&&b.blood.x>.001&&b.coat.w>0){
+ var pressure=0.0;
+ if(wall&&frame.local.w>.5&&u32(frame.goal.w)/15u==index/15u){
   let held=localBodies[u32(frame.goal.w)%15u];let heldPoint=held.p.xyz+rotate(held.q,frame.local.xyz);
-  let pressure=clamp(-dot(frame.goal.xyz-heldPoint,r.n.xyz)/.16,0,1);
+  pressure=clamp(-dot(frame.goal.xyz-heldPoint,r.n.xyz)/.16,0,1);
+ }
+ if(wall&&pressure>0&&b.blood.x>.001&&b.coat.w>0){
   let reserve=min(b.coat.w,dt*b.blood.x*frame.action.z*pressure*.16);
   let supplied=min(reserve*5,max(0,1.65-b.coat.x));
   b.coat.w-=supplied*.2;b.coat.x+=supplied;
  }
  var wallClock=contactFloat(mem+8u)+dt;
+ if(wall&&wallClock>=.025){b.coat.x=max(0,b.coat.x-squeezeContact(index,b,foot,wallClock,pressure));}
  if(wall&&wallClock>=.025&&frame.tune.y>.001&&b.coat.x>.008){
   let spent=min(b.coat.x,(.085+min(1.0,b.coat.x)*.8)*wallClock*frame.tune.z);
   // Match the existing brush's stable material coordinates. Half the liquid
@@ -134,7 +183,9 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
    let volume=spent*.02*.85*(.5/54.0);
    returnFilm(rec,point,volume);
   }
-  let down=normalize(-vec2f(r.u.y,r.v.y));let across=vec2f(down.y,-down.x);
+  let contactMotion=b.v.xyz+cross(b.w.xyz,foot.p-b.p.xyz);
+  let tangent=vec2f(dot(contactMotion,r.u.xyz),dot(contactMotion,r.v.xyz));
+  let down=normalize(-vec2f(r.u.y,r.v.y)+tangent*min(.65,pressure+.15));let across=vec2f(down.y,-down.x);
   let ca=cos(foot.angle);let sn=sin(foot.angle);
   let localDown=vec2f(ca*down.x+sn*down.y,-sn*down.x+ca*down.y);
   let localAcross=vec2f(ca*across.x+sn*across.y,-sn*across.x+ca*across.y);
@@ -150,6 +201,7 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
   for(var j=0u;j<5u;j++){let offset=patchOffset(radius,angle,vec2f(cos(f32(j)*2.399963),sin(f32(j)*2.399963))*.62);let point=foot.p+r.u.xyz*offset.x+r.v.xyz*offset.y;addWet(planeWetCell(rec,point),u32(spent*.055*65536));}
   b.coat.x=max(0,b.coat.x-spent);wallClock=0;atomicAdd(&work[24],1u);
  }
+ if(wall&&wallClock>=.025){wallClock=0;}
  atomicStore(&work[mem+8u],bitcast<u32>(min(wallClock,.15)));
  if(!wall&&resting>.35&&poolClock>.55&&(b.blood.x>.001||b.coat.x>.30)&&b.coat.x>.08){
   let spread=1+min(.85,sqrt(resting)*.24);let amount=min(.22,b.coat.x*.18);poolDeposit(rec,foot.p,radius*spread,angle,amount,seed);b.coat.x=max(0,b.coat.x-amount*.80);poolClock=0;atomicAdd(&work[24],1u);

@@ -218,7 +218,7 @@ fn joint(base:u32,j:u32,angles:bool) {
   b=paintContact(index,b,dt);
   let flingSpeed=length(b.v.xyz)+length(b.w.xyz)*b.invI.w*.55;
   b.coat.z=min(1.5,b.coat.z+dt*max(0,flingSpeed-1.8)*1.5);
-  if(b.coat.x>.22&&b.coat.z>=1){let seed=index*137u+atomicLoad(&work[5]);let arm=rotate(b.q,vec3f((hash(seed)-.5)*b.half.x*1.5,(hash(seed+1u)-.5)*b.half.y*1.5,b.half.z*1.08));let normal=safeNorm(arm);let velocity=bounded(b.v.xyz+cross(b.w.xyz,arm),22)+normal*(.4+hash(seed+2u)*1.3);if(launchDrop(b.p.xyz+arm,velocity,.007+hash(seed+3u)*.007,index,0)){b.coat.x=max(0,b.coat.x-.018);b.coat.z-=1;atomicAdd(&work[27],1u);}}
+  if(b.coat.x>.22&&b.coat.z>=1){let seed=index*137u+atomicLoad(&work[5]);let arm=rotate(b.q,vec3f((hash(seed)-.5)*b.half.x*1.5,(hash(seed+1u)-.5)*b.half.y*1.5,b.half.z*1.08));let normal=safeNorm(arm);let velocity=bounded(b.v.xyz+cross(b.w.xyz,arm),22)+normal*(.4+hash(seed+2u)*1.3);if(launchDrop(b.p.xyz+arm,velocity,.007+hash(seed+3u)*.007,index,min(b.coat.x,.018)*.02)){b.coat.x=max(0,b.coat.x-.018);b.coat.z-=1;atomicAdd(&work[27],1u);}}
 
   if(b.blood.x>.001&&b.blood.y>.035&&b.coat.w>0){b.blood.y=0;b.coat.w=max(0,b.coat.w-.002*b.blood.x);let seed=index*199u+atomicLoad(&work[5]);let p=b.p.xyz+rotate(b.q,vec3f(0,0,b.half.z));emit(p,bounded(b.v.xyz+cross(b.w.xyz,p-b.p.xyz),22)+rotate(b.q,vec3f((hash(seed)-.5)*2.4,.5+hash(seed+1u)*2.2,.8+hash(seed+2u)*1.8)),.006+hash(seed+3u)*.010,index);b.coat.x=min(1.65,b.coat.x+.01*b.blood.x);}
   if(b.coat.x>.005&&(b.blood.z<=0||frame.action.x==1)){b.blood.z=.22;let rec=header(0).z+index;for(var face=0u;face<6u;face++){let c=vec2f((f32(face%3u)+.5)/3,(f32(face/3u)+.5)/2);stamp(rec,c,c,vec2f(.10,.18),min(b.coat.x*.42,.5),0,f32((index+face*3u)%18u),hash(index+face)*6.283185);}}

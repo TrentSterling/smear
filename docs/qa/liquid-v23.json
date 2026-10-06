@@ -1,0 +1,16 @@
+{
+  "version": "0.23.0",
+  "status": "local cumulative checkpoint",
+  "buildSHA256": "fd8b9fdeb5817195d1b2e35a33c868a1b37077b4d98d34575302e9031cd98332",
+  "checks": 13,
+  "receipts": [
+    "liquid-evolution/round-v23c",
+    "brush-flow-pass/round-v23c",
+    "wall-contact-pass/round-v23c"
+  ],
+  "scope": [
+    "Finite pressure redistribution",
+    "Tangential wall spray",
+    "Coating-shed droplets carry volume"
+  ]
+}
