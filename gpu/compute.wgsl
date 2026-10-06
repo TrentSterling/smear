@@ -253,7 +253,7 @@ fn rayHit(o:vec3f,d:vec3f,limit:f32,includeBodies:bool,ignoreBody:i32)->RayHit {
 @compute @workgroup_size(64) fn flow(@builtin(global_invocation_id) id:vec3u) {
  if(id.x>=header(0).z*3136u){return;}let rec=id.x/3136u;let r=record(rec);if(abs(r.n.y)>.2||r.v.y>-.8){return;}
  let cell=id.x%3136u;let x=cell%56u;let y=cell/56u;if(y>=55u){return;}let old=atomicLoad(&wet[id.x]);let supply=f32(old)/65536.0;let threshold=.13+hash(rec*83u+x*271u)*.18;if(supply<threshold){return;}
- let col=.35+.65*hash(rec*991u+x*31u);let amount=min(supply*.46,max(0,supply-threshold)*(.10+col*.32)/70);if(amount<.0008){return;}
+ let col=.35+.65*hash(rec*991u+x*31u);let amount=min(supply*.46,max(0,supply-threshold)*(.10+col*.32)/28);if(amount<.0008){return;}
  let passed=f32(takeWet(id.x,u32(amount*65536)))/65536.0;addWet(id.x+56u,u32(passed*.92*65536));
  let a=vec2f(f32(x)+.18+hash(rec*179u+x*37u)*.64,f32(y)+.22)/56;let b=vec2f(a.x+(hash(cell*17u)-.5)*min(.008,r.size.x*.003)/r.size.x,(f32(y)+1.8)/56);
  // Millimetre-scale rivulets; the old .6 was interpreted as metres, making bars.
@@ -316,7 +316,7 @@ fn coverage(s:Stamp,point:vec2f)->vec4f {
  var rec=0u;for(var i=0u;i<header(0).w;i++){let r=record(i);if(tile>=r.address.y&&tile<r.address.y+r.address.z*r.address.w){rec=i;break;}}
  let r=record(rec);let t=tile-r.address.y;let origin=vec2u(t%r.address.z,t/r.address.z)*16u;
  for(var y=0u;y<2u;y++){for(var x=0u;x<2u;x++){let pos=origin+local.xy+vec2u(x,y)*8u;if(any(pos>=vec2u(r.size.zw))){continue;}let offset=r.address.x+pos.x+pos.y*u32(r.size.z);var value=unpack(pigment[offset]);var liquid=0.0;var liquidPush=vec2f(0);let total=select(n,min(8192u,atomicLoad(&work[3])),count>128u);
-  for(var j=0u;j<total;j++){let index=select(indices[min(j,127u)],j,count>128u);let s=stamps[index];if(u32(s.info.x)!=rec){continue;}if(s.info.y==3){value=displacedPaint(s,vec2f(pos)+.5,value);liquidPush+=contactDisplacement(s,r,vec2f(pos)+.5)*2.2;}else{let source=coverage(s,vec2f(pos)+.5);if(source.a>0){value=over(value,source);let footprintArea=max(.002,s.a.z*s.a.w*r.size.x*r.size.y);var supply=select(select(.18,.036,s.info.y==1),.006/footprintArea,s.info.y==4);if(s.info.y==6){supply=s.color.w*.28/(3.2*footprintArea*max(s.b.w,.001));}if(s.info.y==1||s.info.y==4){supply*=mix(.45,1.0,smoothstep(.2,.65,abs(r.n.y)));}if(s.info.y==5||s.info.y==2){supply=0;}liquid+=source.a*supply;}}}
+  for(var j=0u;j<total;j++){let index=select(indices[min(j,127u)],j,count>128u);let s=stamps[index];if(u32(s.info.x)!=rec){continue;}if(s.info.y==3){value=displacedPaint(s,vec2f(pos)+.5,value);liquidPush+=contactDisplacement(s,r,vec2f(pos)+.5)*2.2;}else{let source=coverage(s,vec2f(pos)+.5);if(source.a>0){value=over(value,source);let footprintArea=max(.002,s.a.z*s.a.w*r.size.x*r.size.y);var supply=select(select(.18,.036,s.info.y==1),.006/footprintArea,s.info.y==4);if(s.info.y==6){supply=s.color.w*.75/(3.2*footprintArea*max(s.b.w,.001));}if(s.info.y==5||s.info.y==2){supply=0;}liquid+=source.a*supply;}}}
   pigment[offset]=pack(value);depositFilm(rec,pos,liquid,liquidPush);
  }}
 }

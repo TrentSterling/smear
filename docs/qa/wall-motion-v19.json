@@ -1,0 +1,886 @@
+{
+  "version": "0.19.0",
+  "status": "verified release candidate",
+  "verifiedAt": "2026-10-06T07:38:01.928Z",
+  "buildSHA256": "2024db5fd20c6036a4f082d541627915f969cb9d2be8e4b3e0408f0787dfb7d4",
+  "buildBytes": 954064,
+  "checks": {
+    "chrome-wall": [
+      "Actual articulated GPU wall impact leaves paint with finite joints and no lost events",
+      "Wall slam creates a broad opaque print and radial splatter instead of a small contact dab",
+      "The impact silhouette stays on the wall after 3 and 15 seconds of drainage",
+      "Retained splat still contains wet liquid that gradually drains or dries",
+      "Wall-slam liquid moves visibly within three seconds while retaining the broad pigment print",
+      "The matched floor impact retains its existing pool and pigment response",
+      "An uncoated unwounded body does not manufacture a wet wall splat"
+    ],
+    "chrome-film": [
+      "Finite isolated pools spread and level after deposition stops, conserving mobile plus dried mass",
+      "Adjacent pools merge across a floor-record seam",
+      "30 Hz and 60 Hz submissions produce comparable spreading and supply",
+      "Clean dummy picks up and redistributes existing liquid with fresh deposition disabled",
+      "Drying transfers mobile liquid into persistent residue instead of deleting blood",
+      "Liquid visibly accelerates downhill while retaining supply across receivers and runoff droplets",
+      "Clean clears both mobile pools and settled residue",
+      "A finite wall pool runs down and supplies the floor without continued painting",
+      "Blood detaches from elevated edges, falls ballistically, and lands with finite carried volume",
+      "A full 900-drop pool retains un-emitted runoff on its receiver",
+      "Real wound droplets inherit body momentum and follow a gravity-curved flight",
+      "Fast-moving coated bodies fling finite droplets without creating wounds",
+      "Live GPU ragdoll dragging remains finite with no dropped paint events"
+    ],
+    "chrome-wet": [
+      "Dry pigment remains unchanged under a clean moving contact",
+      "Wet contact redistributes existing colored pigment with fresh deposition disabled",
+      "Pigment crosses a floor-record seam without a gap or duplicated supply",
+      "Rotation around a stationary footprint produces curved material smears",
+      "Resting wet wounds grow a cohesive pool over six seconds",
+      "Lift and recontact break the stroke without bridging airborne travel",
+      "A saturated coating leaves a finite puddle without an active wound and consumes wet supply",
+      "Body contact also smears on a vertical wall without leaking onto the floor",
+      "Live articulated dummy drag stays finite, connected and within paint event capacity"
+    ],
+    "chrome-gameplay": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "chrome-native": [
+      "Native pistol hits and spawns GPU particles",
+      "Native Spill paints walls; GPU gravity drips extend paint",
+      "Native grabbing resolves from GPU body poses",
+      "Native drag creates persistent floor smears",
+      "GPU wash clears all 150 body coatings and pigment",
+      "GPU heal restores reserves and clears airborne drops",
+      "Finite long GPU simulation and recovery"
+    ],
+    "firefox-wall": [
+      "Actual articulated GPU wall impact leaves paint with finite joints and no lost events",
+      "Wall slam creates a broad opaque print and radial splatter instead of a small contact dab",
+      "The impact silhouette stays on the wall after 3 and 15 seconds of drainage",
+      "Retained splat still contains wet liquid that gradually drains or dries",
+      "Wall-slam liquid moves visibly within three seconds while retaining the broad pigment print",
+      "The matched floor impact retains its existing pool and pigment response",
+      "An uncoated unwounded body does not manufacture a wet wall splat"
+    ],
+    "firefox-film": [
+      "Finite isolated pools spread and level after deposition stops, conserving mobile plus dried mass",
+      "Adjacent pools merge across a floor-record seam",
+      "30 Hz and 60 Hz submissions produce comparable spreading and supply",
+      "Clean dummy picks up and redistributes existing liquid with fresh deposition disabled",
+      "Drying transfers mobile liquid into persistent residue instead of deleting blood",
+      "Liquid visibly accelerates downhill while retaining supply across receivers and runoff droplets",
+      "Clean clears both mobile pools and settled residue",
+      "A finite wall pool runs down and supplies the floor without continued painting",
+      "Blood detaches from elevated edges, falls ballistically, and lands with finite carried volume",
+      "A full 900-drop pool retains un-emitted runoff on its receiver",
+      "Real wound droplets inherit body momentum and follow a gravity-curved flight",
+      "Fast-moving coated bodies fling finite droplets without creating wounds",
+      "Live GPU ragdoll dragging remains finite with no dropped paint events"
+    ],
+    "firefox-wet": [
+      "Dry pigment remains unchanged under a clean moving contact",
+      "Wet contact redistributes existing colored pigment with fresh deposition disabled",
+      "Pigment crosses a floor-record seam without a gap or duplicated supply",
+      "Rotation around a stationary footprint produces curved material smears",
+      "Resting wet wounds grow a cohesive pool over six seconds",
+      "Lift and recontact break the stroke without bridging airborne travel",
+      "A saturated coating leaves a finite puddle without an active wound and consumes wet supply",
+      "Body contact also smears on a vertical wall without leaking onto the floor",
+      "Live articulated dummy drag stays finite, connected and within paint event capacity"
+    ],
+    "firefox-gameplay": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "firefox-native": [
+      "Native pistol hits and spawns GPU particles",
+      "Native Spill paints walls; GPU gravity drips extend paint",
+      "Native grabbing resolves from GPU body poses",
+      "Native drag creates persistent floor smears",
+      "GPU wash clears all 150 body coatings and pigment",
+      "GPU heal restores reserves and clears airborne drops",
+      "Finite long GPU simulation and recovery"
+    ]
+  },
+  "evidence": [
+    {
+      "path": "tools/out/wall-pass/final-v19/verification.json",
+      "sha256": "d36cb450eece323f20464e7220ca5f1b06cb36bb126cd89201b5719eb7207a25",
+      "startedAt": "2026-10-06T07:28:58.460Z"
+    },
+    {
+      "path": "tools/out/film-pass/final-v19/verification.json",
+      "sha256": "ce45fb8142f0b5c1f2e613c36557d8474e36ba97c73bc276701e719b69f5a361",
+      "startedAt": "2026-10-06T07:29:31.264Z"
+    },
+    {
+      "path": "tools/out/wet-pass/final-v19/verification.json",
+      "sha256": "ca13bad8fcd44ca38b84819d2f648fff01cd5e14e5b65c4ab199177dc8a8e583",
+      "startedAt": "2026-10-06T07:30:08.173Z"
+    },
+    {
+      "path": "tools/out/compute-chrome/verification.json",
+      "sha256": "a2b37a8efa4d66c2f2362b13ab215dbfed8e9044a9a2d9ba9c3abfb9d633ac20",
+      "startedAt": "2026-10-06T07:30:36.573Z"
+    },
+    {
+      "path": "tools/out/compute-native-chrome/verification.json",
+      "sha256": "5d87545df49a6d025944e7fd149169ca9912dffcc8f8a08ac9e618bf93d62a40",
+      "startedAt": "2026-10-06T07:30:50.956Z"
+    },
+    {
+      "path": "tools/out/wall-pass/final-v19-firefox/verification.json",
+      "sha256": "594717ab6d22f475b4aaa7582c5572034f231b24ae706469b7c630b01fb56fbd",
+      "startedAt": "2026-10-06T07:29:08.576Z"
+    },
+    {
+      "path": "tools/out/film-pass/final-v19-firefox/verification.json",
+      "sha256": "0ebd7df948fdbcf70f783582eb6e0e83f0a87ff36ba4fb21e6eeebba7cc9bcef",
+      "startedAt": "2026-10-06T07:29:45.443Z"
+    },
+    {
+      "path": "tools/out/wet-pass/final-v19-firefox/verification.json",
+      "sha256": "5780cf3244371a7475a69410d498be0cb5f0909e604d13da4a6ddaec6481f82f",
+      "startedAt": "2026-10-06T07:30:17.210Z"
+    },
+    {
+      "path": "tools/out/compute-firefox/verification.json",
+      "sha256": "a7865876e69c382c66510a7f66e05512a780ef58a201585f66f241a785434399",
+      "startedAt": "2026-10-06T07:31:36.942Z"
+    },
+    {
+      "path": "tools/out/compute-native-firefox/verification.json",
+      "sha256": "92abcc98789027b94753f0fc35a18ee9a437983a52fc10f9ea0e43f833daa4f9",
+      "startedAt": "2026-10-06T07:32:06.143Z"
+    }
+  ],
+  "nativeProfiles": [
+    {
+      "browser": "chrome",
+      "workload": "idle",
+      "fps": 60,
+      "cpuP99MS": 1.699999988079071,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.851968,
+          "p95": 1.31072,
+          "p99": 1.703936,
+          "max": 2.097152
+        },
+        "renderMS": {
+          "p50": 2.424832,
+          "p95": 2.883584,
+          "p99": 3.014656,
+          "max": 3.145728
+        }
+      },
+      "ticksPerSecond": 119.6949602122016,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 25
+      }
+    },
+    {
+      "browser": "chrome",
+      "workload": "pistol",
+      "fps": 60.00100001690537,
+      "cpuP99MS": 1.600000023841858,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.917504,
+          "p95": 1.376256,
+          "p99": 1.572864,
+          "max": 1.900544
+        },
+        "renderMS": {
+          "p50": 2.162688,
+          "p95": 2.62144,
+          "p99": 2.818048,
+          "max": 2.818048
+        }
+      },
+      "ticksPerSecond": 119.43018055325493,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "chrome",
+      "workload": "spill",
+      "fps": 60,
+      "cpuP99MS": 1.5999999940395355,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.917504,
+          "p95": 1.31072,
+          "p99": 1.507328,
+          "max": 1.6384
+        },
+        "renderMS": {
+          "p50": 2.424832,
+          "p95": 2.94912,
+          "p99": 3.080192,
+          "max": 3.342336
+        }
+      },
+      "ticksPerSecond": 119.37086092715232,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "chrome",
+      "workload": "drag",
+      "fps": 60.00600060000039,
+      "cpuP99MS": 1.699999988079071,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.245184,
+          "p95": 2.097152,
+          "p99": 2.818048,
+          "max": 4.653056
+        },
+        "renderMS": {
+          "p50": 2.490368,
+          "p95": 3.080192,
+          "p99": 3.407872,
+          "max": 3.473408
+        }
+      },
+      "ticksPerSecond": 119.31160019857687,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "chrome",
+      "workload": "chaos",
+      "fps": 60.001000016607335,
+      "cpuP99MS": 1.5999999940395355,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.245184,
+          "p95": 1.900544,
+          "p99": 2.752512,
+          "max": 3.2768
+        },
+        "renderMS": {
+          "p50": 3.2768,
+          "p95": 3.735552,
+          "p99": 3.93216,
+          "max": 4.390912
+        }
+      },
+      "ticksPerSecond": 119.29185969556586,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "idle",
+      "fps": 60,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.870336,
+          "p95": 1.133408,
+          "p99": 1.253536,
+          "max": 1.369504
+        },
+        "renderMS": {
+          "p50": 2.37568,
+          "p95": 2.688672,
+          "p99": 2.801856,
+          "max": 3.115328
+        }
+      },
+      "ticksPerSecond": 116.2266580811333,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "pistol",
+      "fps": 59,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.914912,
+          "p95": 1.46048,
+          "p99": 1.606496,
+          "max": 3.945344
+        },
+        "renderMS": {
+          "p50": 2.033248,
+          "p95": 2.547488,
+          "p99": 2.714656,
+          "max": 3.169632
+        }
+      },
+      "ticksPerSecond": 115.2296535052377,
+      "reads": {
+        "asynchronous GPU timing": 355,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "spill",
+      "fps": 60,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 0.939584,
+          "p95": 1.301216,
+          "p99": 1.510528,
+          "max": 1.814368
+        },
+        "renderMS": {
+          "p50": 2.237408,
+          "p95": 2.724672,
+          "p99": 3.02048,
+          "max": 3.517792
+        }
+      },
+      "ticksPerSecond": 116.26409017713365,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "drag",
+      "fps": 60,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.265632,
+          "p95": 2.301088,
+          "p99": 2.625536,
+          "max": 3.919296
+        },
+        "renderMS": {
+          "p50": 2.196032,
+          "p95": 2.544448,
+          "p99": 2.79472,
+          "max": 2.971328
+        }
+      },
+      "ticksPerSecond": 116.26409017713365,
+      "reads": {
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "browser": "firefox",
+      "workload": "chaos",
+      "fps": 59.666666666666664,
+      "cpuP99MS": 2,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.274912,
+          "p95": 2.160896,
+          "p99": 2.686912,
+          "max": 2.89808
+        },
+        "renderMS": {
+          "p50": 2.600864,
+          "p95": 3.13216,
+          "p99": 3.285504,
+          "max": 3.50144
+        }
+      },
+      "ticksPerSecond": 116.07286796711269,
+      "reads": {
+        "asynchronous GPU timing": 359,
+        "GPU telemetry snapshot": 24
+      }
+    }
+  ],
+  "walls": [
+    {
+      "browser": "chrome",
+      "impact": {
+        "painted": 25063,
+        "opaque": 21562,
+        "alpha": 5051315,
+        "coreAlpha": 4184406,
+        "width": 1.50625,
+        "height": 2.425,
+        "mobile": 0.05422513008117683,
+        "residue": 0.0001495647430419913,
+        "coreMobile": 0.04176164627075197,
+        "centroidY": 1.3837086150747537,
+        "splats": 15,
+        "overflow": 0
+      },
+      "three": {
+        "painted": 25063,
+        "opaque": 21562,
+        "alpha": 5051315,
+        "coreAlpha": 4184406,
+        "width": 1.50625,
+        "height": 2.425,
+        "mobile": 0.04909324645996098,
+        "residue": 0.0020437526702880822,
+        "coreMobile": 0.013541593551635762,
+        "centroidY": 0.6956416333190881,
+        "splats": 15,
+        "overflow": 0
+      },
+      "fifteen": {
+        "painted": 25063,
+        "opaque": 21562,
+        "alpha": 5051315,
+        "coreAlpha": 4184406,
+        "width": 1.50625,
+        "height": 2.425,
+        "mobile": 0.028785390853881793,
+        "residue": 0.0037599945068359304,
+        "coreMobile": 0.012278366088867173,
+        "centroidY": 0.8906534766978321,
+        "splats": 15,
+        "overflow": 0
+      },
+      "floor": {
+        "painted": 7688,
+        "opaque": 3430,
+        "alpha": 905234,
+        "coreAlpha": 0,
+        "width": 0.825,
+        "height": 1.175,
+        "mobile": 0.011730518341064467,
+        "residue": 0.000023736953735351566,
+        "coreMobile": 0,
+        "centroidY": 0,
+        "splats": 0,
+        "overflow": 0
+      },
+      "dry": {
+        "painted": 0,
+        "opaque": 0,
+        "alpha": 0,
+        "coreAlpha": 0,
+        "width": -2000000000,
+        "height": -2000000000,
+        "mobile": 0,
+        "residue": 0,
+        "coreMobile": 0,
+        "centroidY": 0,
+        "splats": 0,
+        "overflow": 0
+      },
+      "motion": {
+        "descent3Seconds": 0.6880669817556656,
+        "coreLiquidRemainingFraction": 0.32425909323214835,
+        "pigmentRemainingFraction": 1,
+        "v18Descent3Seconds": 0.07322293302909655
+      },
+      "opaqueImpactRatio": 2.2730339447607,
+      "impactWidthRatio": 1.798507462686566,
+      "floorPigmentChange": 0,
+      "floorLiquidChange": 0
+    },
+    {
+      "browser": "firefox",
+      "impact": {
+        "painted": 25102,
+        "opaque": 21567,
+        "alpha": 5056830,
+        "coreAlpha": 4183326,
+        "width": 1.50625,
+        "height": 2.425,
+        "mobile": 0.05535195350646975,
+        "residue": 0.00015295028686523358,
+        "coreMobile": 0.0424444580078125,
+        "centroidY": 1.3821452818563762,
+        "splats": 15,
+        "overflow": 0
+      },
+      "three": {
+        "painted": 25102,
+        "opaque": 21567,
+        "alpha": 5056830,
+        "coreAlpha": 4183326,
+        "width": 1.50625,
+        "height": 2.425,
+        "mobile": 0.05006841659545893,
+        "residue": 0.002097625732421867,
+        "coreMobile": 0.013770189285278293,
+        "centroidY": 0.6909422788794205,
+        "splats": 15,
+        "overflow": 0
+      },
+      "fifteen": {
+        "painted": 25102,
+        "opaque": 21567,
+        "alpha": 5056830,
+        "coreAlpha": 4183326,
+        "width": 1.50625,
+        "height": 2.425,
+        "mobile": 0.028850116729736284,
+        "residue": 0.0038591957092285177,
+        "coreMobile": 0.01236927986145019,
+        "centroidY": 0.8937798455880293,
+        "splats": 15,
+        "overflow": 0
+      },
+      "floor": {
+        "painted": 7689,
+        "opaque": 3430,
+        "alpha": 905225,
+        "coreAlpha": 0,
+        "width": 0.825,
+        "height": 1.175,
+        "mobile": 0.011701850891113292,
+        "residue": 0.000023660659790039065,
+        "coreMobile": 0,
+        "centroidY": 0,
+        "splats": 0,
+        "overflow": 0
+      },
+      "dry": {
+        "painted": 0,
+        "opaque": 0,
+        "alpha": 0,
+        "coreAlpha": 0,
+        "width": -2000000000,
+        "height": -2000000000,
+        "mobile": 0,
+        "residue": 0,
+        "coreMobile": 0,
+        "centroidY": 0,
+        "splats": 0,
+        "overflow": 0
+      },
+      "motion": {
+        "descent3Seconds": 0.6912030029769557,
+        "coreLiquidRemainingFraction": 0.32442843969744406,
+        "pigmentRemainingFraction": 1,
+        "v18Descent3Seconds": 0.07381778396289773
+      },
+      "opaqueImpactRatio": 2.273561037318153,
+      "impactWidthRatio": 1.798507462686566,
+      "floorPigmentChange": -0.000009942180695832192,
+      "floorLiquidChange": -0.0024438348858651926
+    }
+  ],
+  "film": [
+    {
+      "browser": "chrome",
+      "wallDescent3Seconds": 0.9875762539438091,
+      "v17Descent3Seconds": 0.9875762539438091,
+      "wallRunoffWindowSeconds": 15,
+      "floorFraction": 0.5762466109575467,
+      "contactTravel": 0.13194582198827876,
+      "resources": {
+        "filmCells": 1061420,
+        "filmBytes": 29719760,
+        "wetBytes": 30660560
+      }
+    },
+    {
+      "browser": "firefox",
+      "wallDescent3Seconds": 0.9875762539438091,
+      "v17Descent3Seconds": 0.9875762539438091,
+      "wallRunoffWindowSeconds": 15,
+      "floorFraction": 0.5762484360898005,
+      "contactTravel": 0.13194560225423396,
+      "resources": {
+        "filmCells": 1061420,
+        "filmBytes": 29719760,
+        "wetBytes": 30660560
+      }
+    }
+  ],
+  "baseline": {
+    "buildSHA256": "f83cb9136a1512779806eb8e147d6fbe4268857624fd43d2e15506e2f3b6cc88",
+    "impact": {
+      "painted": 14310,
+      "opaque": 9486,
+      "alpha": 2332593,
+      "coreAlpha": 1831154,
+      "width": 0.8375000000000006,
+      "height": 2,
+      "mobile": 0.02110701560974121,
+      "residue": 0.00003677368164062506,
+      "coreMobile": 0.018292045593261717,
+      "centroidY": 1.4730467978715296,
+      "splats": 0,
+      "overflow": 0
+    },
+    "three": {
+      "painted": 14310,
+      "opaque": 9486,
+      "alpha": 2332593,
+      "coreAlpha": 1831154,
+      "width": 0.8375000000000006,
+      "height": 2,
+      "mobile": 0.019979009628295904,
+      "residue": 0.0005002975463867183,
+      "coreMobile": 0.009455356597900385,
+      "centroidY": 1.0081333942894124,
+      "splats": 0,
+      "overflow": 0
+    },
+    "fifteen": {
+      "painted": 14310,
+      "opaque": 9486,
+      "alpha": 2332593,
+      "coreAlpha": 1831154,
+      "width": 0.8375000000000006,
+      "height": 2,
+      "mobile": 0.01749037742614746,
+      "residue": 0.000784521102905272,
+      "coreMobile": 0.009067020416259765,
+      "centroidY": 1.0222697299725898,
+      "splats": 0,
+      "overflow": 0
+    },
+    "floor": {
+      "painted": 7688,
+      "opaque": 3430,
+      "alpha": 905234,
+      "coreAlpha": 0,
+      "width": 0.825,
+      "height": 1.175,
+      "mobile": 0.011730518341064467,
+      "residue": 0.000023736953735351566,
+      "coreMobile": 0,
+      "centroidY": 0,
+      "splats": 0,
+      "overflow": 0
+    }
+  },
+  "checkCount": 92,
+  "media": {
+    "capture": "tools/out/wall-motion-pass/recordings/capture.json",
+    "builds": [
+      {
+        "label": "preferred",
+        "version": "0.17.0",
+        "sha256": "f83cb9136a1512779806eb8e147d6fbe4268857624fd43d2e15506e2f3b6cc88"
+      },
+      {
+        "label": "before",
+        "version": "0.18.0",
+        "sha256": "084347ba138f6260e981499974d99eae04b4bd0e0538fc171f698b929043462e"
+      },
+      {
+        "label": "after",
+        "version": "0.19.0",
+        "sha256": "2024db5fd20c6036a4f082d541627915f969cb9d2be8e4b3e0408f0787dfb7d4"
+      }
+    ],
+    "clips": [
+      {
+        "label": "preferred",
+        "name": "wall-impact",
+        "seconds": 12,
+        "steps": 1442,
+        "counters": {
+          "splats": 0,
+          "runoff": 458
+        }
+      },
+      {
+        "label": "preferred",
+        "name": "wall-drips",
+        "seconds": 12,
+        "steps": 1444,
+        "counters": {
+          "splats": 0,
+          "runoff": 1922
+        }
+      },
+      {
+        "label": "before",
+        "name": "wall-impact",
+        "seconds": 12,
+        "steps": 1441,
+        "counters": {
+          "splats": 18,
+          "runoff": 0
+        }
+      },
+      {
+        "label": "before",
+        "name": "wall-drips",
+        "seconds": 12,
+        "steps": 1441,
+        "counters": {
+          "splats": 0,
+          "runoff": 939
+        }
+      },
+      {
+        "label": "after",
+        "name": "wall-impact",
+        "seconds": 12,
+        "steps": 1439,
+        "counters": {
+          "splats": 18,
+          "runoff": 1025
+        }
+      },
+      {
+        "label": "after",
+        "name": "wall-drips",
+        "seconds": 12,
+        "steps": 1443,
+        "counters": {
+          "splats": 0,
+          "runoff": 757
+        }
+      }
+    ],
+    "files": [
+      {
+        "path": "tools/out/wall-motion-pass/recordings/preferred/wall-preferred.mp4",
+        "sha256": "853d0ad9006ce2a917aac638195412e9930f6aa586a4f42430e88e1fc16e98fd",
+        "bytes": 1679777,
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 960,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "24.000000"
+        }
+      },
+      {
+        "path": "tools/out/wall-motion-pass/recordings/before/wall-before.mp4",
+        "sha256": "66c857c0943f3bf5f4a74a107a1c6ad475325ebb8ed877b5696a91ab12a86207",
+        "bytes": 1651167,
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 960,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "24.000000"
+        }
+      },
+      {
+        "path": "tools/out/wall-motion-pass/recordings/after/wall-after.mp4",
+        "sha256": "6c95a57e41a98440886cdbcd31eeb6e866ef07e0e757fb1bdb6c3b37f9887b1e",
+        "bytes": 1656917,
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 960,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "24.000000"
+        }
+      },
+      {
+        "path": "tools/out/wall-motion-pass/recordings/smear-preferred-drips-comparison.mp4",
+        "sha256": "c8923e0736846b60f83ec7c196f4a64bf3403d0a5e2ed5050422c1c8342be6d6",
+        "bytes": 1860353,
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1920,
+            "height": 720,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "24.000000"
+        }
+      },
+      {
+        "path": "tools/out/wall-motion-pass/recordings/smear-restored-motion-comparison.mp4",
+        "sha256": "6fa804e27213cb1304fb8e607b033cc54d6893ef302d3be655bdc60670a6f22e",
+        "bytes": 1839064,
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1920,
+            "height": 720,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "24.000000"
+        }
+      }
+    ],
+    "reviewFrames": [
+      {
+        "path": "tools/out/wall-motion-pass/recordings/impact-review.png",
+        "seconds": 0.6,
+        "sha256": "52a06f5eacd94a80f67e33a186ff46f5d02074b98389223427839f94f0d6a977"
+      },
+      {
+        "path": "tools/out/wall-motion-pass/recordings/retained-review.png",
+        "seconds": 8,
+        "sha256": "af694ad1c5d6a23064b1ccfb787c92f2803f60ae8631bcab7428f5529b0f0462"
+      },
+      {
+        "path": "tools/out/wall-motion-pass/recordings/drip-early-review.png",
+        "seconds": 14,
+        "sha256": "93b514d9b00da4202e0ca6edf1fe5306eddcce04fbb9296e675455b46449ada8"
+      },
+      {
+        "path": "tools/out/wall-motion-pass/recordings/drip-late-review.png",
+        "seconds": 21,
+        "sha256": "82b749961e49294c3791bc565ce9da3d4133b2ac7527f32843edfe573313d793"
+      }
+    ]
+  },
+  "restoredFilmSourceSHA256": "e74241aae2a59255942b27ea75b11bc1e404e37e5692a789b58307c6c6094f99",
+  "scope": [
+    "Wall slams are actual 15-body GPU collisions from an explicitly uploaded matching pose, velocity and coating. Normal gameplay does not upload poses or download body/paint buffers.",
+    "The wall impact effect requires and consumes coating. Its broad pigment mark stays in place while the mobile fraction flows. It does not manufacture wounds on an uncoated body.",
+    "The wall effect has a per-body 0.28-second cooldown. Existing floor contact, airborne flight and pool transport code paths retain their parameters.",
+    "Surface-film source matches V17 verbatim. Impact liquid is 75% mobile instead of 28%, and wall trails/resting contacts use their original mobile supply. Pigment remains after liquid drains.",
+    "The finite film is a stylized surface simulation, not a globally conservative volumetric fluid solver. No new GPU buffers were added.",
+    "Native profiles are presentation-capped at 60 Hz with active audio and muted browser output, recorded separately from the comparison video."
+  ]
+}

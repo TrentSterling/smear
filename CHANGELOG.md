@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.19.0 / V19 (restore lively wall flow)
+
+- Restored V17 surface-film dynamics and rivulet timing while keeping the broad V18 wall-impact prints. Reversed the reduced mobile supply on wall trails and resting contacts.
+- Raised the mobile fraction of impact liquid from 28% to 75%, allowing visible runoff beneath the persistent splat. Pigment-only rivulets still avoid duplicating liquid supply.
+- Added a wall-slam motion gate that requires liquid to descend and leave the impact footprint within three seconds while its stain remains. Recorded matched comparisons with both V17 and V18.
+
 ## 0.18.0 / V18 (wall splats and slower drips)
 
 - Wet wall contact now leaves a broad, persistent impact print and radial splatter, scaled by incoming contact-point speed and debited from coating. A short cooldown prevents repeated splats while pressing against a wall.
