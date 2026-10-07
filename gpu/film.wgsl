@@ -131,19 +131,22 @@ fn wallPotential(rec:u32,r:Record,cell:vec2i,mass:f32)->f32 {
   if(downhill>.05||r.n.y>.5||velocity[axis]*direction>.04){exitDirection[axis]=direction;}
  }
  let overhead=r.n.y<-.3;let dripRate=select(1.0,materialTune().w,overhead);if(dripRate<=0){return;}
- if(overhead&&mass<=.1/sqrt(dripRate)){return;}
- let hanging=overhead&&mass>.1;if(!hanging&&dot(exitDirection,exitDirection)==0){return;}
- if((address+atomicLoad(&work[5])/2u)%8u!=0u){return;}
+ let site=hash(address*1973u+rec*73u);let tick=atomicLoad(&work[5])/2u;
+ if(overhead&&(site<.62||mass<(.08+.12*hash(address*397u))/sqrt(dripRate))){return;}
+ let hanging=overhead;if(!hanging&&dot(exitDirection,exitDirection)==0){return;}
+ if(!overhead&&(address+tick)%8u!=0u){return;}
  // Change detachment frequency, not the visible size of every drop. Suppressed
  // drops retain their full supply overhead instead of raining tiny substitutes.
- if(overhead&&hash(address*977u+(atomicLoad(&work[5])/2u)*131u)>=min(1.0,dripRate)){return;}
+ if(overhead&&hash(address*977u+tick*131u)>=frame.settings.y*(.7+min(mass,2.0)*2.4)*dripRate){return;}
  if(overhead&&atomicAdd(&work[37],1u)>=u32(max(1.0,24*dripRate))){return;}
  var point=r.center.xyz+r.u.xyz*((f32(cell.x)+.5)/r.u.w-.5)*r.size.x+r.v.xyz*((f32(cell.y)+.5)/r.v.w-.5)*r.size.y;
+ if(overhead){point+=r.u.xyz*((hash(address*433u)-.5)*.020)+r.v.xyz*((hash(address*719u)-.5)*.020);}
  point+=r.n.xyz*.018+(r.u.xyz*exitDirection.x+r.v.xyz*exitDirection.y)*.035;
  if(atomicAdd(&work[30],1u)>=24u){return;}
- let amount=min(mass,max(.025,mass*.22));let volume=amount*r.size.x*r.size.y/f32(dims.x*dims.y);
+ let amount=min(mass,max(.025,mass*select(.22,.30+hash(address+tick*331u)*.45,overhead)));let volume=amount*r.size.x*r.size.y/f32(dims.x*dims.y);
  if(point.y<.025){returnFilm(floorRecord(point),point,volume);takeWet(filmOffset(0u)+address,u32(round(amount*FILM_SCALE)));atomicAdd(&work[26],1u);return;}
- let motion=r.u.xyz*velocity.x+r.v.xyz*velocity.y+r.n.xyz*.10+vec3f(0,-.35,0);
+ var motion=r.u.xyz*velocity.x+r.v.xyz*velocity.y+r.n.xyz*.10+vec3f(0,-.35,0);
+ if(overhead){motion=r.u.xyz*(velocity.x+(hash(address+tick*83u)-.5)*.18)+r.v.xyz*(velocity.y+(hash(address+tick*163u)-.5)*.18)+r.n.xyz*(.03+hash(address+tick*277u)*.12);}
  if(launchDrop(point,motion,clamp(pow(volume,.333333)*.45,.005,.022),999u,volume)){takeWet(filmOffset(0u)+address,u32(round(amount*FILM_SCALE)));atomicAdd(&work[26],1u);}
 }
 fn returnFilm(rec:u32,point:vec3f,volume:f32){

@@ -13,10 +13,10 @@ fn meleeStrike(){
  }}
  if(best.body<0){if(wall){atomicAdd(&work[57],1u);atomicAdd(&work[39],1u);atomicMax(&work[38],0x80000000u|(u32(.45*4095)<<8u)|255u);}return;}
  let index=u32(best.body);let base=index/15u*15u;let direction=safeNorm(forward-right*.45+up*.16);let strength=clamp(frame.action.w,.4,2.4);
- for(var k=base;k<base+15u;k++){bodies[k].status.x=1;bodies[k].status.z=0;bodies[k].motor.w=0;bodies[k].v=vec4f(bodies[k].v.xyz+direction*(4.5+strength*2.5),0);}
+ for(var k=base;k<base+15u;k++){bodies[k].status.x=1;bodies[k].status.z=0;bodies[k].motor.w=0;if(component(k)==component(index)){bodies[k].v=vec4f(bodies[k].v.xyz+direction*(4.5+strength*2.5),0);}}
  var b=bodies[index];let arm=best.p-b.p.xyz;
  b.v=vec4f(b.v.xyz+direction*(3*strength*b.p.w),0);b.w=vec4f(b.w.xyz+invWorld(b,cross(arm,direction*(14*strength))),0);
- let damage=frame.rayD.w;b.blood.x=min(2,b.blood.x+damage*.95);b.blood.w=max(0,b.blood.w-damage*select(26.0,42.0,index%15u==2u));
+ let damage=frame.rayD.w;damagePart(index,damage*select(.48,.68,index%15u==2u));b.blood.x=min(2,b.blood.x+damage*.95);b.blood.w=max(0,b.blood.w-damage*select(26.0,42.0,index%15u==2u));
  let reserve=min(b.coat.w,.48*damage*frame.action.z);b.coat.w-=reserve;
  let coating=min(b.coat.x,.18);b.coat.x-=coating;let volume=reserve*.10+coating*.02;
  let retained=min(volume*.15,max(0,1.65-b.coat.x)*.02);b.coat.x+=retained/.02;

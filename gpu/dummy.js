@@ -75,7 +75,7 @@ SmearCompute.prototype.buildDummy=function(){
    const n=grad(f,p);errorMax=Math.max(errorMax,Math.abs(f(p)));const wp=new V(...p).applyQuaternion(rotation).add(origin),wn=new V(...n).applyQuaternion(rotation);
    const index=vertices.length/3;vertices.push(...wp.toArray());normals.push(...wn.toArray());uvs.push(spec.material,spec.bone);
    let blend=0;if(spec.blendBone>=0){const fraction=(p[1]-spec.bounds[0][1])/(spec.bounds[1][1]-spec.bounds[0][1]);blend=spec.bone===2?1-fraction:fraction;blend=Math.max(0,Math.min(1,blend));}
-   bones.push(spec.bone,Math.max(0,spec.blendBone),0,0);weights.push(1-blend,blend,0,0);
+   bones.push(spec.bone,Math.max(0,spec.blendBone),spec.blendBone>=0?(spec.bone===2?3:1):0,0);weights.push(1-blend,blend,0,0);
    // A second isosurface supplies the inverted silhouette shell, including concavities.
    const thickness=spec.name==='joint hub'?.0007:/joint/.test(spec.name)?.0012:spec.name==='molded head'&&p[2]>.075?.0012:.002;
    let op=p.map((v,i)=>v+n[i]*thickness);for(let iteration=0;iteration<2;iteration++){const g=grad(f,op),distance=Math.max(-.004,Math.min(.004,f(op)-thickness));op=op.map((v,i)=>v-g[i]*distance);}
@@ -105,6 +105,11 @@ SmearCompute.prototype.buildDummy=function(){
  const shell=geometry.clone();shell.setAttribute('position',new T.Float32BufferAttribute(outlines,3));shell.setAttribute('normal',new T.Float32BufferAttribute(outlineNormals,3));
  // Remove the former primitive mannequin only from rendering; physics and picking keep the same rig.
  for(const b of this.sourceBodies)b.mesh.visible=false;for(const j of this.joints)j.cover.visible=false;for(const d of this.sourceDolls)d.spine.visible=false;
+ const capGeo=new T.CylinderGeometry(1,1,.20,16,1),capMat=new T.MeshStandardMaterial({color:0x411019,roughness:.35,metalness:.15});
+ for(const joint of this.joints){for(const [body,anchor]of [[joint.a,joint.pa],[joint.b,joint.pb]]){
+  const cap=new T.Mesh(capGeo,capMat),radius=Math.min(body.half.x,body.half.z)*.83;
+  cap.position.copy(anchor);cap.scale.set(radius,radius,radius);cap.quaternion.setFromUnitVectors(new V(0,1,0),anchor.clone().normalize());cap.userData.severCap={body:body.id-1,child:joint.b.id-1};cap.castShadow=true;this.scene.add(cap);
+ }}
  for(let doll=0;doll<12;doll++)for(const [geo,role]of [[geometry,5],[shell,6]]){const mesh=new T.Mesh(geo,new T.MeshStandardMaterial({color:0xffffff,roughness:.54}));mesh.userData.dummyRole=role;mesh.userData.dummyBase=doll*15;mesh.castShadow=role===5;mesh.frustumCulled=false;this.scene.add(mesh);}
  this.dummy={method:'SDF union, indexed isosurface, gradient normals, offset shell, GPU skinning',vertices:vertices.length/3,triangles:indices.length/3,bones:15,stats};
 };

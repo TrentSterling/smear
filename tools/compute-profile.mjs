@@ -10,7 +10,8 @@ import {installImpactFixture} from './impact-fixture.mjs';
 const browser=process.argv.includes('firefox')?'firefox':'chrome';
 const wallMode=process.argv.includes('wall-contact');
 const floorMode=process.argv.includes('floor-squeegee');
-const width=3000,height=1800,out=resolve('tools/out/compute-native-'+(floorMode?'squeegee-':wallMode?'wall-':'')+browser);await mkdir(out,{recursive:true});
+const blastMode=process.argv.includes('destruction');
+const width=3000,height=1800,out=resolve('tools/out/compute-native-'+(blastMode?'destruction-':floorMode?'squeegee-':wallMode?'wall-':'')+browser);await mkdir(out,{recursive:true});
 const page=await launchComputeBrowser({port:9598,width,height});
 const receipt={startedAt:new Date().toISOString(),viewport:[width,height],audioOutputMuted:true,browserProfile:page.dir,checks:[],profiles:[]};
 const watchdog=setTimeout(()=>{page.kill();process.exit(1);},180000);
@@ -38,7 +39,10 @@ try{
   assert(report.summary.fps>55,`${label}: ${report.summary.fps} FPS`);assert(report.summary.workPercentileMs.p99<5,`${label}: CPU p99 ${report.summary.workPercentileMs.p99}`);
   const ticksPerSecond=(state.steps-firstTick)/((Date.now()-started)/1000);assert(ticksPerSecond>110&&ticksPerSecond<125,label+' actual GPU tick rate '+ticksPerSecond);receipt.profiles.push({label,report,state,audit,ticksPerSecond});console.log(JSON.stringify({label,fps:report.summary.fps,main:report.summary.workPercentileMs,gpu:report.compute.summary,particles:state.particles,hits:state.hits,ticksPerSecond,audit}));await page.shot(resolve(out,label+'.png'));return state;
  }
- if(floorMode){
+ if(blastMode){
+  const result=await profile('destruction',()=>page.eval(`(async()=>{__smear.preset('default');__smear.chaos();__smear.tool(4);__smear.view([4,3,6],[0,1,0]);await __smear.step(120);window.__blastIndex=0;window.__blastTimer=setInterval(()=>{const p=[[-.12,.35,.3],[-2.4,.35,-2.95],[2.55,.35,-2.95],[0,.35,2.5]][__blastIndex++%4];__smear.blast(p);},750);})()`),()=>page.eval('clearInterval(__blastTimer)'));
+  assert(result.parts.some(p=>p.severed));receipt.checks.push('Repeated blasts in the ten-dummy scene retain 120 Hz simulation and native frame budget without body, fracture or pigment readbacks');
+ }else if(floorMode){
   await installHandlingFixture(page);
   await profile('floor-squeegee',async()=>{await page.eval('__handling.poolSetup();');await page.eval('__handling.twist(true)');},()=>page.eval('__handling.twist(false)'));
   const pool=await page.eval('__handling.poolRead()');assert(pool.squeezed>0);const {field,...stats}=pool;receipt.pool=stats;

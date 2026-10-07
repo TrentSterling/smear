@@ -39,3 +39,10 @@ fn brushMaterial(seed:u32,j:u32)->vec2f {
 fn pack(c:vec4f)->u32 { let p=vec4u(round(clamp(c,vec4f(0),vec4f(1))*255.0));return p.x|(p.y<<8u)|(p.z<<16u)|(p.w<<24u); }
 fn unpack(p:u32)->vec4f { return vec4f(f32(p&255u),f32((p>>8u)&255u),f32((p>>16u)&255u),f32(p>>24u))/255.0; }
 fn over(dst:vec4f,src:vec4f)->vec4f { let a=src.a+dst.a*(1-src.a);return vec4f((src.rgb*src.a+dst.rgb*dst.a*(1-src.a))/max(a,1e-8),a); }
+
+// GPU-only destruction scratch follows the established contact history.
+fn destructionBase()->u32{return header(2).w+header(2).x*128u+180u*24u;}
+fn fractureState(i:u32)->u32{return destructionBase()+i*8u;}
+fn ordnanceState(i:u32)->u32{return destructionBase()+1440u+i*24u;}
+fn blastState(i:u32)->u32{return destructionBase()+4512u+i*12u;}
+fn destructionMeta()->u32{return destructionBase()+4704u;}

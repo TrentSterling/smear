@@ -23,12 +23,13 @@ fn transformed(v:Input,index:u32)->Output {
  let object=objects[index];var p=(object.model*vec4f(v.p,1)).xyz;var n=(object.normal*vec4f(v.n,0)).xyz;var local=p;var localNormal=n;
  if(object.flags.w==5||object.flags.w==6){
   let base=u32(object.params.x);if(base>=u32(frame.settings.x)){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}
+  if(v.rig.z>0&&work[fractureState(base+u32(v.rig.z)-1u)]!=0u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}
   p=vec3f(0);n=vec3f(0);
   for(var k=0u;k<4u;k++){if(v.weights[k]<=0){continue;}let id=base+u32(v.rig[k]);let bind=header(3).w+id*2u;let rest=constants[bind];let q=constants[bind+1u];let inverse=vec4f(-q.xyz,q.w);let lp=rotate(inverse,v.p-rest.xyz);let ln=rotate(inverse,v.n);let body=bodies[id];p+=(rotate(body.q,lp)+body.p.xyz)*v.weights[k];n+=rotate(body.q,ln)*v.weights[k];}
   let bind=header(3).w+(base+u32(v.rig.x))*2u;let q=constants[bind+1u];local=rotate(vec4f(-q.xyz,q.w),v.p-constants[bind].xyz);localNormal=rotate(vec4f(-q.xyz,q.w),v.n);
  }
  else if(object.flags.w==3||object.flags.w==4){if(frame.local.w<.5){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}let b=bodies[u32(frame.goal.w)];let point=b.p.xyz+rotate(b.q,frame.local.xyz);if(object.flags.w==3){p+=point;}else{let start=frame.camera.xyz+vec3f(.1,-.12,-.06);let delta=point-start;let direction=safeNorm(delta);let orientation=normalize(vec4f(cross(vec3f(0,1,0),direction),1+direction.y));p.y*=length(delta);p=rotate(orientation,p)+(point+start)*.5;n=rotate(orientation,n);}}
- else if(object.params.x>=0){let id=u32(object.params.x);if(id>=u32(frame.settings.x)){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}let b=bodies[id];
+ else if(object.params.x>=0){if(object.flags.w==8&&work[fractureState(u32(object.params.y))]==0u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}let id=u32(object.params.x);if(id>=u32(frame.settings.x)){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}let b=bodies[id];
   if(object.flags.w==1){let second=bodies[u32(object.flags.z)];let k=header(1).y+u32(object.params.y)*4u;let pa=constants[k+1u].xyz;let pb=constants[k+2u].xyz;p=rotate(b.q,p)+(b.p.xyz+rotate(b.q,pa)+second.p.xyz+rotate(second.q,pb))*.5;n=rotate(b.q,n);}
   else if(object.flags.w==2){let second=bodies[u32(object.flags.z)];let q=normalize(b.q+select(second.q,-second.q,dot(b.q,second.q)<0));p=rotate(q,p)+(b.p.xyz+second.p.xyz)*.5;n=rotate(q,n);}
   else{p=rotate(b.q,p)+b.p.xyz;n=rotate(b.q,n);}
@@ -39,7 +40,7 @@ fn transformed(v:Input,index:u32)->Output {
 }
 @vertex fn vertex(v:Input,@builtin(instance_index) index:u32)->Output {return transformed(v,index);}
 @vertex fn shadowVertex(v:Input,@builtin(instance_index) index:u32)->@builtin(position) vec4f {
- if(objects[index].flags.y<.5||(objects[index].params.x>=0&&objects[index].params.x>=frame.settings.x)){return vec4f(0,0,2,1);}let out=transformed(v,index);return frame.lightVP*vec4f(out.world,1);
+ if(objects[index].flags.y<.5||(objects[index].params.x>=0&&objects[index].params.x>=frame.settings.x)){return vec4f(0,0,2,1);}let out=transformed(v,index);if(all(out.position==vec4f(0,0,2,1))){return vec4f(0,0,2,1);}return frame.lightVP*vec4f(out.world,1);
 }
 fn paintAt(id:u32,p:vec2f)->vec4f {
  let r=record(id);let pos=clamp(p*r.size.zw-vec2f(.5),vec2f(0),r.size.zw-1);let a=vec2u(floor(pos));let b=min(a+1u,vec2u(r.size.zw)-1u);let weight=fract(pos);let width=u32(r.size.z);
@@ -117,6 +118,8 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
   if(bone==0u&&v.localNormal.z>.65){marker=v.local.xy-vec2f(.085,.075);radius=.044;}
   if(radius>0){let distance=length(marker);let quadrants=smoothstep(vec2f(-localAA),vec2f(localAA),marker);let yellow=quadrants.x*quadrants.y+(1-quadrants.x)*(1-quadrants.y);var markerColor=mix(vec3f(.015,.023,.023),vec3f(.92,.67,.15),yellow);markerColor=mix(markerColor,vec3f(.014,.020,.021),smoothstep(radius-.004-localAA,radius-.004+localAA,distance));color=mix(color,markerColor,1-smoothstep(radius-localAA,radius+localAA,distance));}
  }
+ if(object.flags.w==8){let radius=max(.001,length(v.local));let grain=hash(u32(abs(v.local.x)*2000)+u32(abs(v.local.z)*3000));color=mix(vec3f(.012,.020,.019),vec3f(.14,.004,.010),grain);rough=.3;metal=.18;}
+ if(object.flags.w==5){let id=u32(object.params.x)+u32(v.uv.y+.5);let charred=clamp(f32(work[fractureState(id)+7u])/65536,0,.88);color=mix(color,vec3f(.019,.025,.022),charred);rough=mix(rough,.92,charred);}
  if(object.params.z>=0){let tex=textureSampleLevel(maps,linearSampler,vec2f(v.uv.x,1-v.uv.y),i32(object.params.z),0);color*=pow(tex.rgb,vec3f(2.2));alpha*=tex.a;}
  if(alpha<.02){discard;}
  var stain=vec4f(0);var fresh=0.0;var liquid=vec4f(0);var liquidNormal=normalize(v.normal);

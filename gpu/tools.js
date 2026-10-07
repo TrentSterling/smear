@@ -99,6 +99,13 @@ SmearCompute.prototype.buildTools=function(){
  }
  label(shaft,'SM / IMPACT',[0,.23,0],[.07,.065],[0,0,0],.042);
  makeHand(this.bat);
+ // A segmented grenade, safety lever, pin ring and the same gloved grip.
+ this.grenadeTool=new T.Group();this.grenadeTool.userData.viewTool=true;this.grenadeTool.visible=false;this.camera.add(this.grenadeTool);
+ const olive=mat(0x637138,.55,.35);add(this.grenadeTool,new T.SphereGeometry(.066,16,12),olive,[0,-.045,0]).scale.y=1.25;
+ for(let j=0;j<5;j++){const y=-.10+j*.028,r=Math.sqrt(Math.max(.0001,.066**2-((y+.045)/1.25)**2));const ring=add(this.grenadeTool,new T.TorusGeometry(r,.003,5,24),ink,[0,y,0]);ring.rotation.x=Math.PI/2;}
+ add(this.grenadeTool,new T.CylinderGeometry(.023,.026,.030,12),steel,[0,.043,0]);box(this.grenadeTool,[.023,.010,.089],[0,.063,.013],steel,.002);box(this.grenadeTool,[.023,.12,.008],[0,.01,.058],steel,.002);
+ add(this.grenadeTool,new T.TorusGeometry(.025,.003,6,18),steel,[.035,.045,0],[0,Math.PI/2,0]);
+ label(this.grenadeTool,'SM / FRAG',[0,-.047,0],[.065,.033],[0,0,0],.065);makeHand(this.grenadeTool).position.set(.025,-.028,.015);
  // Keep moving subassemblies independent and pack the rest by material.
  const merge=(root,exclude=[])=>{
   root.updateWorldMatrix(true,true);const inverse=root.matrixWorld.clone().invert(),groups=new Map();
@@ -106,11 +113,12 @@ SmearCompute.prototype.buildTools=function(){
   for(const child of [...root.children])if(!exclude.includes(child))root.remove(child);
   for(const [material,data]of groups){const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(data.positions,3));g.setAttribute('normal',new T.Float32BufferAttribute(data.normals,3));g.setAttribute('uv',new T.Float32BufferAttribute(data.uvs,2));g.setIndex(data.indices);add(root,g,material);}
  };
- merge(this.gun,[this.slide,this.flash]);merge(this.slide);merge(this.spillCan);merge(this.bat);
+ merge(this.gun,[this.slide,this.flash]);merge(this.slide);merge(this.spillCan);merge(this.bat);merge(this.grenadeTool);
  this.toolPresentation={pistol:'beveled receiver, articulated slide, sights, gloved grip',spill:'pressure bottle and pump',bat:'turned wooden bat, wrapped grip, twelve steel spikes and gloved hand',meshes:0};
- for(const root of [this.gun,this.spillCan,this.bat])root.traverse(o=>{if(o.isMesh)this.toolPresentation.meshes++;});
+ for(const root of [this.gun,this.spillCan,this.bat,this.grenadeTool])root.traverse(o=>{if(o.isMesh)this.toolPresentation.meshes++;});
 };
 SmearCompute.prototype.updateToolPresentation=function(dt,{tool,panel,time,left,batAge=10}){
+ this.grenadeTool.visible=tool===4&&!panel;if(this.grenadeTool.visible){this.grenadeTool.position.set(.25,-.15,-.52);this.grenadeTool.rotation.set(-.14,-.1,-.18);}
  this.spillCan.visible=tool===2&&!panel;
  if(this.spillCan.visible){this.spillCan.position.set(.255,-.13,-.54);this.spillCan.rotation.set(-.1,0,-.14);if(left)this.spillCan.position.y+=Math.sin(time*38)*.003;}
  this.bat.visible=tool===3&&!panel;

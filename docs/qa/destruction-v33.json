@@ -1,0 +1,1686 @@
+{
+  "version": "0.33.0",
+  "at": "2026-10-07T02:24:36.755Z",
+  "buildSHA256": "e01a18d283256a3c51a3abcbdc81327106c67390249e2f5de2f6feb80bf846cb",
+  "buildBytes": 1222005,
+  "beforeSHA256": "34df724cacee1802ee5451cd5e2bdfd9854cfc97e219559e03471a37df976e44",
+  "jobs": [
+    {
+      "args": [
+        "tools/fragment-verify.mjs",
+        "final-v33"
+      ],
+      "startedAt": "2026-10-07T02:05:10.922Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/fragment-verify.mjs",
+        "final-v33",
+        "firefox"
+      ],
+      "startedAt": "2026-10-07T02:05:18.013Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/destruction-verify.mjs",
+        "final-v33"
+      ],
+      "startedAt": "2026-10-07T02:05:34.508Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/destruction-verify.mjs",
+        "final-v33",
+        "firefox"
+      ],
+      "startedAt": "2026-10-07T02:05:52.831Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/bleeding-verify.mjs",
+        "final-v33"
+      ],
+      "startedAt": "2026-10-07T02:06:42.057Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/bleeding-verify.mjs",
+        "final-v33",
+        "firefox"
+      ],
+      "startedAt": "2026-10-07T02:06:52.245Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/controller-verify.mjs",
+        "final-v33"
+      ],
+      "startedAt": "2026-10-07T02:07:17.313Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/controller-verify.mjs",
+        "final-v33",
+        "firefox"
+      ],
+      "startedAt": "2026-10-07T02:07:30.535Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/ltc-verify.mjs",
+        "final-v33"
+      ],
+      "startedAt": "2026-10-07T02:07:56.479Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/ltc-verify.mjs",
+        "final-v33",
+        "firefox"
+      ],
+      "startedAt": "2026-10-07T02:08:08.365Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/momentum-verify.mjs",
+        "final-v33"
+      ],
+      "startedAt": "2026-10-07T02:08:27.753Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/handling-verify.mjs",
+        "final-v33"
+      ],
+      "startedAt": "2026-10-07T02:13:42.678Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/carry-verify.mjs",
+        "final-v33"
+      ],
+      "startedAt": "2026-10-07T02:14:14.350Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/impact-verify.mjs",
+        "final-v33"
+      ],
+      "startedAt": "2026-10-07T02:14:40.778Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/smudge-verify.mjs",
+        "final-v33"
+      ],
+      "startedAt": "2026-10-07T02:14:58.320Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/liquid-evolution-verify.mjs",
+        "final-v33"
+      ],
+      "startedAt": "2026-10-07T02:15:18.502Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/drip-join-verify.mjs",
+        "final-v33"
+      ],
+      "startedAt": "2026-10-07T02:15:26.658Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/contact-character-verify.mjs",
+        "final-v33"
+      ],
+      "startedAt": "2026-10-07T02:15:39.560Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/wet-finish-verify.mjs",
+        "final-v33"
+      ],
+      "startedAt": "2026-10-07T02:15:46.822Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/brush-flow-verify.mjs",
+        "final-v33"
+      ],
+      "startedAt": "2026-10-07T02:15:56.949Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/wall-contact-verify.mjs",
+        "final-v33"
+      ],
+      "startedAt": "2026-10-07T02:16:09.166Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/wall-verify.mjs",
+        "final-v33"
+      ],
+      "startedAt": "2026-10-07T02:16:31.023Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/wet-verify.mjs",
+        "final-v33"
+      ],
+      "startedAt": "2026-10-07T02:16:41.181Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/film-verify.mjs",
+        "final-v33"
+      ],
+      "startedAt": "2026-10-07T02:16:51.522Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/rivulet-verify.mjs",
+        "final-v33"
+      ],
+      "startedAt": "2026-10-07T02:17:11.350Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-verify.mjs"
+      ],
+      "startedAt": "2026-10-07T02:17:25.196Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs"
+      ],
+      "startedAt": "2026-10-07T02:17:42.037Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs",
+        "wall-contact"
+      ],
+      "startedAt": "2026-10-07T02:18:37.062Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs",
+        "floor-squeegee"
+      ],
+      "startedAt": "2026-10-07T02:18:51.033Z",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs",
+        "destruction"
+      ],
+      "startedAt": "2026-10-07T02:19:05.000Z",
+      "status": 0
+    }
+  ],
+  "coverage": {
+    "chrome": "Complete final gameplay, controls, momentum, liquid regressions and native profiles, run headlessly",
+    "firefox": "Final fragment, destruction, bleeding, controller and LTC suites passed before user stopped desktop interference. Remaining Firefox regressions, final profiles and live boot were not run. Headless Firefox has no hardware adapter on this host.",
+    "desktop": "No headed browsers or desktop interaction after user stop; subsequent verification and captures used headless Chrome."
+  },
+  "profiles": [
+    {
+      "browser": "Chrome",
+      "label": "idle",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      },
+      "summary": {
+        "frames": 359,
+        "seconds": 5.983199999988079,
+        "fps": 60.0013370772689,
+        "latestFPS": 60.24096387705205,
+        "intervalMs": {
+          "p50": 16.69999998807907,
+          "p95": 16.80000001192093,
+          "p99": 16.899999976158142,
+          "max": 17.19999998807907
+        },
+        "workMs": 0.4757660175764461,
+        "workPercentileMs": {
+          "p50": 0.4000000059604645,
+          "p95": 1.2999999821186066,
+          "p99": 1.7000000178813934,
+          "max": 1.800000011920929
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 0.2899721436679861,
+          "hud": 0.030083565492815958,
+          "profiler": 0.01754874688337108,
+          "input": 0.05905292608611763,
+          "other": 0.0791086354461553
+        },
+        "overBudget": 0,
+        "spikeFrames": 0,
+        "uploadCPU": 0,
+        "uploadMiB": 0,
+        "uploadMiBPerSecond": 0,
+        "uploadCalls": 0,
+        "steps": 1.9972144846796658,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.114112,
+          "p95": 1.6384,
+          "p99": 1.835008,
+          "max": 2.162688
+        },
+        "renderMS": {
+          "p50": 7.798784,
+          "p95": 8.323072,
+          "p99": 8.650752,
+          "max": 8.84736
+        }
+      },
+      "ticksPerSecond": 119.03973509933775,
+      "tileOverflow": 0,
+      "stampOverflow": 0,
+      "adapter": {
+        "vendor": "nvidia",
+        "architecture": "blackwell",
+        "device": "",
+        "description": "",
+        "isFallbackAdapter": false
+      },
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1105920
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "browser": "Chrome",
+      "label": "bat",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      },
+      "summary": {
+        "frames": 359,
+        "seconds": 5.98340000000596,
+        "fps": 59.999331483712,
+        "latestFPS": 59.88023956370228,
+        "intervalMs": {
+          "p50": 16.69999998807907,
+          "p95": 16.80000001192093,
+          "p99": 16.80000001192093,
+          "max": 16.900000005960464
+        },
+        "workMs": 0.43454038939104106,
+        "workPercentileMs": {
+          "p50": 0.4000000059604645,
+          "p95": 1.199999988079071,
+          "p99": 1.5999999940395355,
+          "max": 1.7000000178813934
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 0.286350975461657,
+          "hud": 0.02729804992343722,
+          "profiler": 0.015598885445209598,
+          "input": 0.03342618351195184,
+          "other": 0.0718662950487854
+        },
+        "overBudget": 0,
+        "spikeFrames": 0,
+        "uploadCPU": 0,
+        "uploadMiB": 0,
+        "uploadMiBPerSecond": 0,
+        "uploadCalls": 0,
+        "steps": 1.9972144846796658,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.114112,
+          "p95": 1.703936,
+          "p99": 1.900544,
+          "max": 3.538944
+        },
+        "renderMS": {
+          "p50": 4.128768,
+          "p95": 6.488064,
+          "p99": 9.764864,
+          "max": 10.15808
+        }
+      },
+      "ticksPerSecond": 119.28429423459245,
+      "tileOverflow": 0,
+      "stampOverflow": 0,
+      "adapter": {
+        "vendor": "nvidia",
+        "architecture": "blackwell",
+        "device": "",
+        "description": "",
+        "isFallbackAdapter": false
+      },
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1105920,
+          "GPU scene instances": 617760
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "browser": "Chrome",
+      "label": "pistol",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      },
+      "summary": {
+        "frames": 360,
+        "seconds": 5.999899999976158,
+        "fps": 60.00100001690537,
+        "latestFPS": 60.24096387705205,
+        "intervalMs": {
+          "p50": 16.69999998807907,
+          "p95": 16.80000001192093,
+          "p99": 16.80000001192093,
+          "max": 16.900000005960464
+        },
+        "workMs": 0.44750000056293276,
+        "workPercentileMs": {
+          "p50": 0.4000000059604645,
+          "p95": 1,
+          "p99": 1.5999999940395355,
+          "max": 1.7000000178813934
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 0.2608333348400063,
+          "hud": 0.06194444406363699,
+          "profiler": 0.012222222321563296,
+          "input": 0.05333333247237736,
+          "other": 0.05916666686534881
+        },
+        "overBudget": 0,
+        "spikeFrames": 0,
+        "uploadCPU": 0,
+        "uploadMiB": 0,
+        "uploadMiBPerSecond": 0,
+        "uploadCalls": 0,
+        "steps": 1.9972222222222222,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.245184,
+          "p95": 2.29376,
+          "p99": 2.883584,
+          "max": 3.735552
+        },
+        "renderMS": {
+          "p50": 7.012352,
+          "p95": 8.060928,
+          "p99": 8.454144,
+          "max": 8.585216
+        }
+      },
+      "ticksPerSecond": 119.48955916473318,
+      "tileOverflow": 0,
+      "stampOverflow": 0,
+      "adapter": {
+        "vendor": "nvidia",
+        "architecture": "blackwell",
+        "device": "",
+        "description": "",
+        "isFallbackAdapter": false
+      },
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992,
+          "GPU scene instances": 786192
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "browser": "Chrome",
+      "label": "spill",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      },
+      "summary": {
+        "frames": 360,
+        "seconds": 6,
+        "fps": 60,
+        "latestFPS": 60.24096387705205,
+        "intervalMs": {
+          "p50": 16.69999998807907,
+          "p95": 16.80000001192093,
+          "p99": 16.899999976158142,
+          "max": 21
+        },
+        "workMs": 0.38694444472591083,
+        "workPercentileMs": {
+          "p50": 0.30000001192092896,
+          "p95": 0.9000000059604645,
+          "p99": 1.5,
+          "max": 1.9000000059604645
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 0.242499999784761,
+          "hud": 0.028611110978656346,
+          "profiler": 0.012222222321563296,
+          "input": 0.03555555567145348,
+          "other": 0.0680555559694767
+        },
+        "overBudget": 2,
+        "spikeFrames": 0,
+        "uploadCPU": 0,
+        "uploadMiB": 0,
+        "uploadMiBPerSecond": 0,
+        "uploadCalls": 0,
+        "steps": 2,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.179648,
+          "p95": 1.96608,
+          "p99": 3.014656,
+          "max": 4.194304
+        },
+        "renderMS": {
+          "p50": 7.995392,
+          "p95": 9.043968,
+          "p99": 9.240576,
+          "max": 9.437184
+        }
+      },
+      "ticksPerSecond": 119.63545981772991,
+      "tileOverflow": 0,
+      "stampOverflow": 0,
+      "adapter": {
+        "vendor": "nvidia",
+        "architecture": "blackwell",
+        "device": "",
+        "description": "",
+        "isFallbackAdapter": false
+      },
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992,
+          "GPU scene instances": 510400
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "browser": "Chrome",
+      "label": "drag",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      },
+      "summary": {
+        "frames": 359,
+        "seconds": 5.983,
+        "fps": 60.00334280461307,
+        "latestFPS": 60.24096376890021,
+        "intervalMs": {
+          "p50": 16.69999998807907,
+          "p95": 16.80000001192093,
+          "p99": 16.900000005960464,
+          "max": 17
+        },
+        "workMs": 0.3910863516556519,
+        "workPercentileMs": {
+          "p50": 0.30000001192092896,
+          "p95": 0.9000000059604645,
+          "p99": 1.5,
+          "max": 1.7000000178813934
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 0.21504178327770287,
+          "hud": 0.04846796584328569,
+          "profiler": 0.014484679964591534,
+          "input": 0.052924791833484405,
+          "other": 0.060167130736587436
+        },
+        "overBudget": 0,
+        "spikeFrames": 0,
+        "uploadCPU": 0,
+        "uploadMiB": 0,
+        "uploadMiBPerSecond": 0,
+        "uploadCalls": 0,
+        "steps": 2,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.703936,
+          "p95": 3.997696,
+          "p99": 5.177344,
+          "max": 5.701632
+        },
+        "renderMS": {
+          "p50": 7.798784,
+          "p95": 8.51968,
+          "p99": 9.568256,
+          "max": 10.354688
+        }
+      },
+      "ticksPerSecond": 119.29649908743986,
+      "tileOverflow": 0,
+      "stampOverflow": 0,
+      "adapter": {
+        "vendor": "nvidia",
+        "architecture": "blackwell",
+        "device": "",
+        "description": "",
+        "isFallbackAdapter": false
+      },
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992,
+          "GPU scene instances": 1408
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "browser": "Chrome",
+      "label": "chaos",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      },
+      "summary": {
+        "frames": 359,
+        "seconds": 5.983199999988079,
+        "fps": 60.0013370772689,
+        "latestFPS": 60.24096387705205,
+        "intervalMs": {
+          "p50": 16.69999998807907,
+          "p95": 16.80000001192093,
+          "p99": 16.899999976158142,
+          "max": 16.900000005960464
+        },
+        "workMs": 0.38245125268495184,
+        "workPercentileMs": {
+          "p50": 0.30000001192092896,
+          "p95": 1,
+          "p99": 1.5,
+          "max": 1.5999999940395355
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 0.24206128068953173,
+          "hud": 0.023398328541381113,
+          "profiler": 0.013091922138394751,
+          "input": 0.03621169908133058,
+          "other": 0.06768802223431367
+        },
+        "overBudget": 0,
+        "spikeFrames": 0,
+        "uploadCPU": 0,
+        "uploadMiB": 0,
+        "uploadMiBPerSecond": 0,
+        "uploadCalls": 0,
+        "steps": 1.9972144846796658,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.6384,
+          "p95": 3.145728,
+          "p99": 4.128768,
+          "max": 4.653056
+        },
+        "renderMS": {
+          "p50": 9.764864,
+          "p95": 10.551296,
+          "p99": 11.14112,
+          "max": 11.927552
+        }
+      },
+      "ticksPerSecond": 119.15810407689759,
+      "tileOverflow": 0,
+      "stampOverflow": 0,
+      "adapter": {
+        "vendor": "nvidia",
+        "architecture": "blackwell",
+        "device": "",
+        "description": "",
+        "isFallbackAdapter": false
+      },
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1105920
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "browser": "Chrome",
+      "label": "wall-contact",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      },
+      "summary": {
+        "frames": 338,
+        "seconds": 5.759699999988079,
+        "fps": 58.683611993801684,
+        "latestFPS": 60.24096387705205,
+        "intervalMs": {
+          "p50": 16.69999998807907,
+          "p95": 16.80000001192093,
+          "p99": 17.19999998807907,
+          "max": 161.40000000596046
+        },
+        "workMs": 0.44970414192366176,
+        "workPercentileMs": {
+          "p50": 0.4000000059604645,
+          "p95": 1.2999999821186066,
+          "p99": 1.600000023841858,
+          "max": 1.800000011920929
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 0.27218934981780646,
+          "hud": 0.03520710052117793,
+          "profiler": 0.015384615173001262,
+          "input": 0.04585798807750792,
+          "other": 0.0810650883341682
+        },
+        "overBudget": 1,
+        "spikeFrames": 1,
+        "uploadCPU": 0,
+        "uploadMiB": 0,
+        "uploadMiBPerSecond": 0,
+        "uploadCalls": 0,
+        "steps": 2.032544378698225,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 3.080192,
+          "p95": 3.60448,
+          "p99": 3.93216,
+          "max": 9.437184
+        },
+        "renderMS": {
+          "p50": 4.784128,
+          "p95": 5.439488,
+          "p99": 5.832704,
+          "max": 6.22592
+        }
+      },
+      "ticksPerSecond": 114.26202321724709,
+      "tileOverflow": 0,
+      "stampOverflow": 0,
+      "adapter": {
+        "vendor": "nvidia",
+        "architecture": "blackwell",
+        "device": "",
+        "description": "",
+        "isFallbackAdapter": false
+      },
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 336,
+          "asynchronous GPU timing": 338,
+          "GPU telemetry snapshot": 23
+        },
+        "writes": {
+          "frame uniforms": 1044480
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "browser": "Chrome",
+      "label": "floor-squeegee",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      },
+      "summary": {
+        "frames": 359,
+        "seconds": 5.983299999982119,
+        "fps": 60.00033426387995,
+        "latestFPS": 59.88023956370228,
+        "intervalMs": {
+          "p50": 16.69999998807907,
+          "p95": 16.80000001192093,
+          "p99": 16.900000005960464,
+          "max": 17.100000023841858
+        },
+        "workMs": 0.44735376184033154,
+        "workPercentileMs": {
+          "p50": 0.4000000059604645,
+          "p95": 1.199999988079071,
+          "p99": 1.699999988079071,
+          "max": 1.7000000178813934
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 0.27047353750483905,
+          "hud": 0.03704735404269609,
+          "profiler": 0.015320334344853265,
+          "input": 0.04930362221590324,
+          "other": 0.07520891373203989
+        },
+        "overBudget": 0,
+        "spikeFrames": 0,
+        "uploadCPU": 0,
+        "uploadMiB": 0,
+        "uploadMiBPerSecond": 0,
+        "uploadCalls": 0,
+        "steps": 1.9972144846796658,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.376256,
+          "p95": 2.490368,
+          "p99": 2.752512,
+          "max": 3.342336
+        },
+        "renderMS": {
+          "p50": 5.701632,
+          "p95": 6.094848,
+          "p99": 6.356992,
+          "max": 6.488064
+        }
+      },
+      "ticksPerSecond": 119.13835956917978,
+      "tileOverflow": 0,
+      "stampOverflow": 0,
+      "adapter": {
+        "vendor": "nvidia",
+        "architecture": "blackwell",
+        "device": "",
+        "description": "",
+        "isFallbackAdapter": false
+      },
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1105920
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "browser": "Chrome",
+      "label": "destruction",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      },
+      "summary": {
+        "frames": 359,
+        "seconds": 5.983200000017882,
+        "fps": 60.00133707697003,
+        "latestFPS": 59.88023945684179,
+        "intervalMs": {
+          "p50": 16.69999998807907,
+          "p95": 16.80000001192093,
+          "p99": 16.899999976158142,
+          "max": 17.19999998807907
+        },
+        "workMs": 0.45292479032261457,
+        "workPercentileMs": {
+          "p50": 0.4000000059604645,
+          "p95": 1.2000000178813934,
+          "p99": 1.600000023841858,
+          "max": 1.7000000178813934
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 0.2682451246342619,
+          "hud": 0.027576600774749077,
+          "profiler": 0.014484679383487754,
+          "input": 0.06713092011661582,
+          "other": 0.0754874654135
+        },
+        "overBudget": 0,
+        "spikeFrames": 0,
+        "uploadCPU": 0,
+        "uploadMiB": 0,
+        "uploadMiBPerSecond": 0,
+        "uploadCalls": 0,
+        "steps": 1.9972144846796658,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 3.93216,
+          "p95": 9.50272,
+          "p99": 17.563648,
+          "max": 29.097984
+        },
+        "renderMS": {
+          "p50": 8.323072,
+          "p95": 9.240576,
+          "p99": 9.699328,
+          "max": 9.764864
+        }
+      },
+      "ticksPerSecond": 119.1976127320955,
+      "tileOverflow": 0,
+      "stampOverflow": 0,
+      "adapter": {
+        "vendor": "nvidia",
+        "architecture": "blackwell",
+        "device": "",
+        "description": "",
+        "isFallbackAdapter": false
+      },
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1105920,
+          "GPU scene instances": 39424
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    }
+  ],
+  "destruction": {
+    "chrome": {
+      "checks": [
+        "Reference URL ignores saved tuning and controls without overwriting the saved session",
+        "Repeated pistol hits sever the struck joint; remaining joints hold and both sockets bleed from finite reserves",
+        "Releasing a severed head does not boost the old torso or limbs",
+        "Heal closes wounds without silently reconnecting severed joints; Reset restores the full rig",
+        "An actual blast breaks multiple joints, launches fragments and pays its airborne blood from the bodies",
+        "Blast pressure redistributes finite wet pools; dry surfaces, occluded pools and a saturated drop pool do not invent liquid; paused renders do not move paint",
+        "Pistol misses leave dark bullet pits and colliding fragments leave dry scuffs",
+        "Weapon 5 throws a visible grenade that bounces, burns down its fuse and detonates once",
+        "Open sockets exhaust a finite reserve exactly; empty, stopped and saturated-pool wounds create no extra liquid",
+        "Ceiling releases varied droplets, conserves retained and airborne supply, and respects lower and zero drip settings",
+        "A fragment impact always leaves a black scuff; its wet push is conditional on actual liquid and conserves the pool"
+      ],
+      "adapter": {
+        "vendor": "nvidia",
+        "architecture": "blackwell",
+        "device": "",
+        "description": "",
+        "isFallbackAdapter": false
+      },
+      "blastCounts": {
+        "cuts": 14,
+        "fragments": 42,
+        "grenades": 0
+      },
+      "pools": [
+        {
+          "scenario": "wet",
+          "before": {
+            "mobile": 1.0568326568603381,
+            "residue": 0,
+            "coat": 0,
+            "airborne": 0,
+            "total": 1.0568326568603381,
+            "outer": 0.18959743499755904,
+            "peak": 0.3199462890625,
+            "thin": 0,
+            "squeezed": 0,
+            "thudEvents": 0
+          },
+          "after": {
+            "mobile": 1.052530088424688,
+            "residue": 0.0013013458251952329,
+            "coat": 0,
+            "airborne": 0.002980147421808965,
+            "total": 1.056811581671692,
+            "outer": 0.3594633293151872,
+            "peak": 0.244781494140625,
+            "thin": 546,
+            "squeezed": 0,
+            "thudEvents": 1
+          }
+        },
+        {
+          "scenario": "dry",
+          "before": {
+            "mobile": 0,
+            "residue": 0,
+            "coat": 0,
+            "airborne": 0,
+            "total": 0,
+            "outer": 0,
+            "peak": 0,
+            "thin": 5024,
+            "squeezed": 0,
+            "thudEvents": 0
+          },
+          "after": {
+            "mobile": 0,
+            "residue": 0,
+            "coat": 0,
+            "airborne": 0,
+            "total": 0,
+            "outer": 0,
+            "peak": 0,
+            "thin": 5024,
+            "squeezed": 0,
+            "thudEvents": 1
+          }
+        },
+        {
+          "scenario": "full",
+          "before": {
+            "mobile": 1.0568326568603381,
+            "residue": 0,
+            "coat": 0,
+            "airborne": 0,
+            "total": 1.0568326568603381,
+            "outer": 0.18959743499755904,
+            "peak": 0.3199462890625,
+            "thin": 0,
+            "squeezed": 0,
+            "thudEvents": 0
+          },
+          "after": {
+            "mobile": 1.0555084705352848,
+            "residue": 0.001303701400756755,
+            "coat": 0,
+            "airborne": 0,
+            "total": 1.0568121719360417,
+            "outer": 0.361049747467043,
+            "peak": 0.2447967529296875,
+            "thin": 546,
+            "squeezed": 0,
+            "thudEvents": 1
+          }
+        },
+        {
+          "scenario": "occluded",
+          "before": {
+            "mobile": 1.0568326568603381,
+            "residue": 0,
+            "coat": 0,
+            "airborne": 0,
+            "total": 1.0568326568603381,
+            "outer": 0.18959743499755904,
+            "peak": 0.3199462890625,
+            "thin": 0,
+            "squeezed": 0,
+            "thudEvents": 0
+          },
+          "after": {
+            "mobile": 1.0555487060546807,
+            "residue": 0.0013096618652342863,
+            "coat": 0,
+            "airborne": 0,
+            "total": 1.0568583679199148,
+            "outer": 0.189600791931152,
+            "peak": 0.319580078125,
+            "thin": 0,
+            "squeezed": 0,
+            "thudEvents": 1
+          }
+        }
+      ],
+      "wounds": [
+        {
+          "scenario": "finite",
+          "reserve": 0,
+          "coat": 0.06000000238418579,
+          "airborne": 0.00679999974090606,
+          "emitted": 4,
+          "particles": 4
+        },
+        {
+          "scenario": "empty",
+          "reserve": 0,
+          "coat": 0,
+          "airborne": 0,
+          "emitted": 0,
+          "particles": 0
+        },
+        {
+          "scenario": "full",
+          "reserve": 0.07999999821186066,
+          "coat": 0,
+          "airborne": 0,
+          "emitted": 0,
+          "particles": 900
+        },
+        {
+          "scenario": "stopped",
+          "reserve": 0.07999999821186066,
+          "coat": 0,
+          "airborne": 0,
+          "emitted": 0,
+          "particles": 0
+        }
+      ],
+      "fragmentCases": [
+        {
+          "wet": false,
+          "stamps": {
+            "contacts": 1,
+            "kinds": [
+              11,
+              11
+            ]
+          },
+          "delta": 0,
+          "before": {
+            "mobile": 0,
+            "residue": 0,
+            "coat": 0,
+            "airborne": 0,
+            "total": 0,
+            "outer": 0,
+            "peak": 0,
+            "thin": 5024,
+            "squeezed": 0,
+            "thudEvents": 0
+          },
+          "after": {
+            "mobile": 0,
+            "residue": 0,
+            "coat": 0,
+            "airborne": 0,
+            "total": 0,
+            "outer": 0,
+            "peak": 0,
+            "thin": 5024,
+            "squeezed": 0,
+            "thudEvents": 0
+          }
+        },
+        {
+          "wet": true,
+          "stamps": {
+            "contacts": 1,
+            "kinds": [
+              11,
+              11,
+              3,
+              3
+            ]
+          },
+          "delta": 1.3065338134765625,
+          "before": {
+            "mobile": 1.0568326568603381,
+            "residue": 0,
+            "coat": 0,
+            "airborne": 0,
+            "total": 1.0568326568603381,
+            "outer": 0.18959743499755904,
+            "peak": 0.3199462890625,
+            "thin": 0,
+            "squeezed": 0,
+            "thudEvents": 0
+          },
+          "after": {
+            "mobile": 1.0567768192291178,
+            "residue": 0.000054626464843747304,
+            "coat": 0,
+            "airborne": 0,
+            "total": 1.0568314456939616,
+            "outer": 0.18959972381591747,
+            "peak": 0.34930419921875,
+            "thin": 0,
+            "squeezed": 0,
+            "thudEvents": 0
+          }
+        }
+      ],
+      "ceiling": {
+        "0": {
+          "initialVolume": 0.4454128646850595,
+          "oneSecondDrops": 0,
+          "sixSecondDrops": 0,
+          "retainedAtSixSeconds": 0.4071526336669928,
+          "totalRatioAtSixSeconds": 1.0000202976457035,
+          "uniqueRadiiAtOneSecond": 0
+        },
+        "1": {
+          "initialVolume": 0.4454128646850595,
+          "oneSecondDrops": 241,
+          "sixSecondDrops": 829,
+          "retainedAtSixSeconds": 0.3305289459228512,
+          "totalRatioAtSixSeconds": 0.9996538081950738,
+          "uniqueRadiiAtOneSecond": 132
+        },
+        "0.35": {
+          "initialVolume": 0.4454128646850595,
+          "oneSecondDrops": 9,
+          "sixSecondDrops": 20,
+          "retainedAtSixSeconds": 0.40308431625366176,
+          "totalRatioAtSixSeconds": 0.9999000584699316,
+          "uniqueRadiiAtOneSecond": 1
+        }
+      }
+    },
+    "firefox": {
+      "checks": [
+        "Reference URL ignores saved tuning and controls without overwriting the saved session",
+        "Repeated pistol hits sever the struck joint; remaining joints hold and both sockets bleed from finite reserves",
+        "Releasing a severed head does not boost the old torso or limbs",
+        "Heal closes wounds without silently reconnecting severed joints; Reset restores the full rig",
+        "An actual blast breaks multiple joints, launches fragments and pays its airborne blood from the bodies",
+        "Blast pressure redistributes finite wet pools; dry surfaces, occluded pools and a saturated drop pool do not invent liquid; paused renders do not move paint",
+        "Pistol misses leave dark bullet pits and colliding fragments leave dry scuffs",
+        "Weapon 5 throws a visible grenade that bounces, burns down its fuse and detonates once",
+        "Open sockets exhaust a finite reserve exactly; empty, stopped and saturated-pool wounds create no extra liquid",
+        "Ceiling releases varied droplets, conserves retained and airborne supply, and respects lower and zero drip settings",
+        "A fragment impact always leaves a black scuff; its wet push is conditional on actual liquid and conserves the pool"
+      ],
+      "adapter": {
+        "vendor": "",
+        "architecture": "",
+        "device": "",
+        "description": "",
+        "isFallbackAdapter": false
+      },
+      "blastCounts": {
+        "cuts": 14,
+        "fragments": 42,
+        "grenades": 0
+      },
+      "pools": [
+        {
+          "scenario": "wet",
+          "before": {
+            "mobile": 1.0568326568603381,
+            "residue": 0,
+            "coat": 0,
+            "airborne": 0,
+            "total": 1.0568326568603381,
+            "outer": 0.18959743499755904,
+            "peak": 0.3199462890625,
+            "thin": 0,
+            "squeezed": 0,
+            "thudEvents": 0
+          },
+          "after": {
+            "mobile": 1.0514159202575708,
+            "residue": 0.0012997817993163254,
+            "coat": 0,
+            "airborne": 0.004095746124274768,
+            "total": 1.056811448181162,
+            "outer": 0.3593069076538089,
+            "peak": 0.2447357177734375,
+            "thin": 546,
+            "squeezed": 0,
+            "thudEvents": 1
+          }
+        },
+        {
+          "scenario": "dry",
+          "before": {
+            "mobile": 0,
+            "residue": 0,
+            "coat": 0,
+            "airborne": 0,
+            "total": 0,
+            "outer": 0,
+            "peak": 0,
+            "thin": 5024,
+            "squeezed": 0,
+            "thudEvents": 0
+          },
+          "after": {
+            "mobile": 0,
+            "residue": 0,
+            "coat": 0,
+            "airborne": 0,
+            "total": 0,
+            "outer": 0,
+            "peak": 0,
+            "thin": 5024,
+            "squeezed": 0,
+            "thudEvents": 1
+          }
+        },
+        {
+          "scenario": "full",
+          "before": {
+            "mobile": 1.0568326568603381,
+            "residue": 0,
+            "coat": 0,
+            "airborne": 0,
+            "total": 1.0568326568603381,
+            "outer": 0.18959743499755904,
+            "peak": 0.3199462890625,
+            "thin": 0,
+            "squeezed": 0,
+            "thudEvents": 0
+          },
+          "after": {
+            "mobile": 1.0555074119567933,
+            "residue": 0.0013037490844725753,
+            "coat": 0,
+            "airborne": 0,
+            "total": 1.0568111610412658,
+            "outer": 0.3610500049591085,
+            "peak": 0.244781494140625,
+            "thin": 546,
+            "squeezed": 0,
+            "thudEvents": 1
+          }
+        },
+        {
+          "scenario": "occluded",
+          "before": {
+            "mobile": 1.0568326568603381,
+            "residue": 0,
+            "coat": 0,
+            "airborne": 0,
+            "total": 1.0568326568603381,
+            "outer": 0.18959743499755904,
+            "peak": 0.3199462890625,
+            "thin": 0,
+            "squeezed": 0,
+            "thudEvents": 0
+          },
+          "after": {
+            "mobile": 1.0555487060546807,
+            "residue": 0.0013096618652342863,
+            "coat": 0,
+            "airborne": 0,
+            "total": 1.0568583679199148,
+            "outer": 0.189600791931152,
+            "peak": 0.319580078125,
+            "thin": 0,
+            "squeezed": 0,
+            "thudEvents": 1
+          }
+        }
+      ],
+      "wounds": [
+        {
+          "scenario": "finite",
+          "reserve": 0,
+          "coat": 0.05999999865889549,
+          "airborne": 0.006799999857321382,
+          "emitted": 4,
+          "particles": 4
+        },
+        {
+          "scenario": "empty",
+          "reserve": 0,
+          "coat": 0,
+          "airborne": 0,
+          "emitted": 0,
+          "particles": 0
+        },
+        {
+          "scenario": "full",
+          "reserve": 0.07999999821186066,
+          "coat": 0,
+          "airborne": 0,
+          "emitted": 0,
+          "particles": 900
+        },
+        {
+          "scenario": "stopped",
+          "reserve": 0.07999999821186066,
+          "coat": 0,
+          "airborne": 0,
+          "emitted": 0,
+          "particles": 0
+        }
+      ],
+      "fragmentCases": [
+        {
+          "wet": false,
+          "stamps": {
+            "contacts": 1,
+            "kinds": [
+              11,
+              11
+            ]
+          },
+          "delta": 0,
+          "before": {
+            "mobile": 0,
+            "residue": 0,
+            "coat": 0,
+            "airborne": 0,
+            "total": 0,
+            "outer": 0,
+            "peak": 0,
+            "thin": 5024,
+            "squeezed": 0,
+            "thudEvents": 0
+          },
+          "after": {
+            "mobile": 0,
+            "residue": 0,
+            "coat": 0,
+            "airborne": 0,
+            "total": 0,
+            "outer": 0,
+            "peak": 0,
+            "thin": 5024,
+            "squeezed": 0,
+            "thudEvents": 0
+          }
+        },
+        {
+          "wet": true,
+          "stamps": {
+            "contacts": 1,
+            "kinds": [
+              11,
+              11,
+              3,
+              3
+            ]
+          },
+          "delta": 1.3065338134765625,
+          "before": {
+            "mobile": 1.0568326568603381,
+            "residue": 0,
+            "coat": 0,
+            "airborne": 0,
+            "total": 1.0568326568603381,
+            "outer": 0.18959743499755904,
+            "peak": 0.3199462890625,
+            "thin": 0,
+            "squeezed": 0,
+            "thudEvents": 0
+          },
+          "after": {
+            "mobile": 1.0567768192291178,
+            "residue": 0.000054626464843747304,
+            "coat": 0,
+            "airborne": 0,
+            "total": 1.0568314456939616,
+            "outer": 0.18959972381591747,
+            "peak": 0.34930419921875,
+            "thin": 0,
+            "squeezed": 0,
+            "thudEvents": 0
+          }
+        }
+      ],
+      "ceiling": {
+        "0": {
+          "initialVolume": 0.4454128646850595,
+          "oneSecondDrops": 0,
+          "sixSecondDrops": 0,
+          "retainedAtSixSeconds": 0.4071526336669928,
+          "totalRatioAtSixSeconds": 1.0000202976457035,
+          "uniqueRadiiAtOneSecond": 0
+        },
+        "1": {
+          "initialVolume": 0.4454128646850595,
+          "oneSecondDrops": 241,
+          "sixSecondDrops": 829,
+          "retainedAtSixSeconds": 0.3305289459228512,
+          "totalRatioAtSixSeconds": 0.9996542793109937,
+          "uniqueRadiiAtOneSecond": 132
+        },
+        "0.35": {
+          "initialVolume": 0.4454128646850595,
+          "oneSecondDrops": 9,
+          "sixSecondDrops": 20,
+          "retainedAtSixSeconds": 0.40308431625366176,
+          "totalRatioAtSixSeconds": 0.9999000584699316,
+          "uniqueRadiiAtOneSecond": 1
+        }
+      }
+    }
+  },
+  "media": [
+    {
+      "path": "tools/out/destruction-pass/recordings/smear-v32-v33-ceiling.mp4",
+      "sha256": "d9b8ecd6573d754ab03ea4e02713ce1bf988f0c616592e7ffa14ce3049dd5dc4",
+      "bytes": 4598844,
+      "duration": 12.01,
+      "width": 1920,
+      "height": 720,
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "audioCodec": "aac",
+      "audioChannels": 2,
+      "audioPeakDb": -91
+    },
+    {
+      "path": "tools/out/destruction-pass/recordings/smear-v32-v33-dummy.mp4",
+      "sha256": "802c09701c9dcaf025ff1d68bc528c69b3b841287288920fca90007f679135ab",
+      "bytes": 1509837,
+      "duration": 7.013,
+      "width": 1920,
+      "height": 720,
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "audioCodec": "aac",
+      "audioChannels": 2,
+      "audioPeakDb": -20.1
+    },
+    {
+      "path": "tools/out/destruction-pass/recordings/smear-v33-destruction.mp4",
+      "sha256": "11b065470595f1d66c530be8656896be3c6602f800baf52a4a8e1ea5234f96b9",
+      "bytes": 6538481,
+      "duration": 34.0345,
+      "width": 1440,
+      "height": 1080,
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "audioCodec": "aac",
+      "audioChannels": 2,
+      "audioPeakDb": -8.9
+    }
+  ],
+  "staticChecks": [
+    "Generated HTML rebuild has identical SHA-256",
+    "Twelve modified JS/tool syntax checks passed",
+    "Git whitespace check passed",
+    "V8.9 and V7 archive hashes unchanged"
+  ],
+  "limitations": [
+    "Stylized partial-wetting film and component dismemberment, not a calibrated fluid solver or arbitrary mesh cutting",
+    "The established floor coating pickup/deposition model is not fully mass-calibrated; isolated new wound, blast and fragment transfers have separate conservation checks",
+    "Smoke, soot and fragments are procedural effects; the room geometry does not fracture",
+    "Hardware Firefox final regression and live release coverage remains partial as stated above"
+  ],
+  "visualReview": [
+    "Matched ceiling frames show sparse varied falling drops instead of V32 uniform curtain",
+    "Matched three-shot head-hit footage shows detached head with an intact remaining rig",
+    "Native grenade throw, bounce and detonation visibly separates parts and splashes wall and floor",
+    "Audio tracks present in all MP4s; destruction showcase includes gameplay explosion audio"
+  ]
+}

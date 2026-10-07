@@ -39,7 +39,7 @@ try{
     }await d.queue.onSubmittedWorkDone();return this.read();
    },
    async read(){
-    const mem=g.workWords-180*16,b=g.buffer('explicit face wear inspection',104*4+16*4,GPUBufferUsage.COPY_DST|GPUBufferUsage.MAP_READ),e=d.createCommandEncoder();e.copyBufferToBuffer(g.bodyBuffer,0,b,0,104*4);e.copyBufferToBuffer(g.workBuffer,mem*4,b,104*4,16*4);d.queue.submit([e.finish()]);await b.mapAsync(GPUMapMode.READ);const f=new Float32Array(b.getMappedRange().slice(0));b.unmap();b.destroy();return {wear:Array.from(f.slice(114,120)),blood:f[36],health:f[39],coat:f[32],reserve:f[35]};
+    const mem=(g.destructionBase??g.workWords)-180*16,b=g.buffer('explicit face wear inspection',104*4+16*4,GPUBufferUsage.COPY_DST|GPUBufferUsage.MAP_READ),e=d.createCommandEncoder();e.copyBufferToBuffer(g.bodyBuffer,0,b,0,104*4);e.copyBufferToBuffer(g.workBuffer,mem*4,b,104*4,16*4);d.queue.submit([e.finish()]);await b.mapAsync(GPUMapMode.READ);const f=new Float32Array(b.getMappedRange().slice(0));b.unmap();b.destroy();return {wear:Array.from(f.slice(114,120)),blood:f[36],health:f[39],coat:f[32],reserve:f[35]};
    }
   };
  })()`);

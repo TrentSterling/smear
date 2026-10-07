@@ -2,7 +2,11 @@
 
 Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V32 / 0.32.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+**V33 / 0.33.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+
+V33 adds breakable joints, bleeding severed sockets and **weapon 5: Grenade**. Repeated pistol or bat hits damage joints; close explosions can separate the whole dummy. Detached groups retain independent grab/throw momentum and their closed shell geometry. Wounds, pistol spray and explosion spray spend finite per-part reserves. Heal closes wounds without reconnecting joints; Reset restores the full dummy. Grenades bounce for a 1.45-second fuse, launch physical fragments, scorch nearby surfaces, and push existing wet liquid outward into ridges and airborne spray. Pistol misses leave bullet pits; fragments leave dry black scuffs and push wet paint. These effects run on the GPU with the existing 900-drop limit. Fragment geometry, soot and blast smoke are stylized effects, not structural destruction of the room.
+
+**Tune > Effects** now includes Blast power (0.4-1.8, default 1) and Joint fragility (0.25-2, default 1). Ceiling runoff uses uneven release sites, varying thresholds, irregular timing and drop sizes. Wall drainage retains its existing solver. Open [reference defaults](https://tront.xyz/smear/?v=33&defaults=1), choose **Restart with reference defaults** on the play menu, or run `__smear.defaults()` in the console. This restarts with default tuning and controls, ignores saved preferences for that session and leaves those saved preferences intact. Remove `defaults=1` to use them again. `verify:destruction`, `verify:bleeding` and `record:destruction` cover the new mechanics and matched footage; see `docs/qa/destruction-v33.json`.
 
 V32 adds click-to-play FPS mouse capture, Esc/menu/focus pausing, held C free aim, and weapon 4: a spiked baseball bat with GPU contact, finite blood spray, knockback and impact audio. Free cursor remains available on the play menu. ARC Light Studies supplies the locally fitted GGX LTC tables and polygon-light integration: the three ceiling strips and five rear panels now illuminate surfaces and reflect in the real liquid normals. The existing directional shadows remain; area emitters are unshadowed, with constant emission (no scene reflections or painted-emitter modulation). The GGX fit and fast edge evaluation are approximations. `verify:controls`, `verify:ltc` and `record:controls` cover input, melee, numerical lighting validation and matched footage. See `docs/qa/controller-ltc-v32.json`.
 
@@ -56,7 +60,7 @@ The local V10 art pass adds an amber and teal test lab, world-planted alternatin
 
 Open index.html in desktop Chrome or Firefox on Windows with hardware acceleration and WebGPU enabled. It works offline with no runtime downloads, installation or build. A hardware adapter is required. The CPU version remains available as [archived V8.9](versions/smear_v8.9_cpu.html).
 
-- Click Enter the room to capture the mouse. Left mouse: grab, fire, spill or swing; 1 / 2 / 3 / 4 select the tool.
+- Click Enter the room to capture the mouse. Left mouse: grab, fire, spill, swing or throw a grenade; 1 / 2 / 3 / 4 / 5 select the tool.
 - Mouse: look. Hold C: free aim/drag without rotating the camera. Right mouse: pistol aim.
 - WASD: move. Shift: sprint. Space: jump. Ctrl: crouch.
 - Wheel: push/pull the held body. Q / E: twist.

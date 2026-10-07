@@ -9,19 +9,20 @@ fn clearThrowSamples(){for(var k=964u;k<996u;k++){atomicStore(&work[k],0u);}}
 // velocity. Independent part clamps destroy net momentum when stretched joints
 // generate equal-and-opposite contraction velocities. This keeps the same 21 m/s
 // per-part ceiling without letting internal corrections brake the whole rig.
-fn limitRigVelocity(){
+fn limitComponentVelocity(base:u32,root:u32){
  var center=vec3f(0);var mass=0.0;var peak=0.0;
- for(var k=0u;k<15u;k++){let b=localBodies[k];let m=1/max(b.p.w,.001);center+=b.v.xyz*m;mass+=m;peak=max(peak,length(b.v.xyz));}
+ for(var k=0u;k<15u;k++){if(root!=999u&&component(base+k)!=root){continue;}let b=localBodies[k];let m=1/max(b.p.w,.001);center+=b.v.xyz*m;mass+=m;peak=max(peak,length(b.v.xyz));}
  if(peak<=21){return;}
  center/=mass;let limited=bounded(center,21);var scale=1.0;
  for(var k=0u;k<15u;k++){
-  let relative=localBodies[k].v.xyz-center;let a=dot(relative,relative);
+  if(root!=999u&&component(base+k)!=root){continue;}let relative=localBodies[k].v.xyz-center;let a=dot(relative,relative);
   if(a<1e-8){continue;}
   let b=dot(limited,relative);let c=min(0.0,dot(limited,limited)-441);
   scale=min(scale,max(0.0,(-b+sqrt(max(0.0,b*b-a*c)))/a));
  }
- for(var k=0u;k<15u;k++){localBodies[k].v=vec4f(limited+(localBodies[k].v.xyz-center)*scale,0);}
+ for(var k=0u;k<15u;k++){if(root!=999u&&component(base+k)!=root){continue;}localBodies[k].v=vec4f(limited+(localBodies[k].v.xyz-center)*scale,0);}
 }
+fn limitRigVelocity(base:u32){if(!rigBroken(base)){if(!heldComponent(base)){limitComponentVelocity(base,999u);}return;}for(var k=0u;k<15u;k++){if(component(base+k)==base+k&&!heldComponent(base+k)){limitComponentVelocity(base,base+k);}}}
 fn rememberThrow(base:u32){
  if(frame.local.w<.5||u32(frame.goal.w)/15u!=base/15u){return;}
  let serial=u32(frame.local.w);let now=frame.camera.w+1.0/120;
@@ -37,7 +38,7 @@ fn rememberThrow(base:u32){
  }
  var velocity=vec3f(0);var mass=0.0;var blocked=false;
  for(var k=0u;k<15u;k++){
-  let b=localBodies[k];let m=1/max(b.p.w,.001);velocity+=b.v.xyz*m;mass+=m;
+  if(component(base+k)!=component(u32(frame.goal.w))){continue;}let b=localBodies[k];let m=1/max(b.p.w,.001);velocity+=b.v.xyz*m;mass+=m;
   let hit=worldImpacts[k];blocked=blocked||(hit.closing>2&&dot(hit.normal,throwVector(1001u))<-.4);
  }
  if(blocked){clearThrowSamples();atomicStore(&work[1005],bitcast<u32>(now));return;}
@@ -50,7 +51,7 @@ fn releaseThrow(){
  let now=frame.camera.w;let movedAt=contactFloat(1004u);let blockedAt=contactFloat(1005u);
  if(movedAt<=0||now-movedAt>.115||(blockedAt>0&&now-blockedAt<.10)){return;}
  let base=u32(frame.goal.w)/15u*15u;var current=vec3f(0);var mass=0.0;
- for(var k=0u;k<15u;k++){let b=bodies[base+k];let m=1/max(b.p.w,.001);current+=b.v.xyz*m;mass+=m;}current/=mass;
+ for(var k=0u;k<15u;k++){if(component(base+k)!=component(u32(frame.goal.w))){continue;}let b=bodies[base+k];let m=1/max(b.p.w,.001);current+=b.v.xyz*m;mass+=m;}current/=mass;
  var direction=throwVector(1001u);let finalMove=frame.goal.xyz-throwVector(998u);
  // A last input event can arrive between animation frames. Respect its direction,
  // including a deliberate reversal, without inventing unachieved spring energy.
@@ -64,8 +65,8 @@ fn releaseThrow(){
  }
  if(speed<1.2||dot(current,best)<-speed*1.2){return;}
  let axis=safeNorm(best);let gain=max(0,speed-dot(current,axis));let boost=axis*min(gain,12.0);
- for(var k=0u;k<15u;k++){localBodies[k]=bodies[base+k];localBodies[k].v=vec4f(localBodies[k].v.xyz+boost,0);}
- limitRigVelocity();
+ for(var k=0u;k<15u;k++){localBodies[k]=bodies[base+k];localBodies[k].v=vec4f(localBodies[k].v.xyz+select(vec3f(0),boost,component(base+k)==component(u32(frame.goal.w))),0);}
+ limitRigVelocity(base);
  for(var k=0u;k<15u;k++){bodies[base+k].v=localBodies[k].v;}
  atomicAdd(&work[52],1u);
 }

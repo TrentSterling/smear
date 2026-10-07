@@ -93,7 +93,7 @@ fn impactBlood(index:u32,input:Body,hit:WorldImpact)->Body {
  // A held limb can rotate rapidly as the positional grab solver presses it
  // against the wall. Require a real fast approach of the held rig; ordinary
  // loaded scraping already has its own accepted abrasion response.
- let held=frame.local.w>.5&&u32(frame.goal.w)/15u==index/15u;
+ let held=heldComponent(index);
  if(held&&-dot(bodies[index].v.xyz,hit.normal)<7){return b;}
  let severity=smoothstep(2.8,13.0,lost)*frame.rayD.w;
  if(severity<.015){return b;}
@@ -101,7 +101,7 @@ fn impactBlood(index:u32,input:Body,hit:WorldImpact)->Body {
  let seed=index*731u+atomicLoad(&work[5])*31u;
  let rec=u32(hit.receiver);let r=record(rec);let n=r.n.xyz;
  let point=hit.point-n*dot(hit.point-r.center.xyz,n);
- b.blood.x=min(2.0,b.blood.x+severity*1.4);b.blood.w=max(0,b.blood.w-severity*32);
+ atomicStore(&work[fractureState(index)+6u],0u);b.blood.x=min(2.0,b.blood.x+severity*1.4);b.blood.w=max(0,b.blood.w-severity*32);
  atomicStore(&work[contactMemory(index)+7u],bitcast<u32>(.32));
  atomicAdd(&work[34],1u);
  let local=rotate(inverseQ(b.q),point-b.p.xyz);let normal=rotate(inverseQ(b.q),-n);let c=skinPoint(b,local,normal);
@@ -239,7 +239,7 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
   let equilibrium=select(1.3,min(1.3,filmRead(0u,filmIndex)*3),abs(r.n.y)<.65);
   // A loaded squeegee routes most wet floor supply around the body rather than
   // immediately soaking it all up. Unheld pickup and wall transfer stay intact.
-  let pushing=rec<16u&&frame.local.w>.5&&u32(frame.goal.w)/15u==index/15u;
+  let pushing=rec<16u&&heldComponent(index);
   let pickupRate=select(1.0,1/(1+materialTune().x*2),pushing);
   let wantedCoat=min(dt*2.8*frame.tune.z*pickupRate,max(0,equilibrium-b.coat.x))/9;
   let cellArea=filmR.size.x*filmR.size.y/f32(filmDimensions(filmR).x*filmDimensions(filmR).y);
@@ -251,7 +251,7 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
  b.coat.x=min(1.65,b.coat.x+pickup);
  // Wear belongs to the contacting body face, survives washing and clears on Heal.
  // Tangential travel under load includes rotation; hovering/resting does no work.
- let held=frame.local.w>.5&&u32(frame.goal.w)/15u==index/15u;var pressure=0.0;
+ let held=heldComponent(index);var pressure=0.0;
  if(held){let part=localBodies[u32(frame.goal.w)%15u];let point=part.p.xyz+rotate(part.q,frame.local.xyz);pressure=clamp(-dot(frame.goal.xyz-point,r.n.xyz)/.16,0,1);}
  let contactMotion=b.v.xyz+cross(b.w.xyz,foot.p-b.p.xyz);
  let slip=length(contactMotion-r.n.xyz*dot(contactMotion,r.n.xyz))+abs(dot(b.w.xyz,r.n.xyz))*sqrt(radius.x*radius.y)*.6;
@@ -260,6 +260,7 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
  let wearAddress=mem+10u+foot.face;let wear=min(1.0,contactFloat(wearAddress)+scrape*.035);
  atomicStore(&work[wearAddress],bitcast<u32>(wear));
  if(scrape>0){
+  atomicStore(&work[fractureState(index)+6u],0u);
   b.blood.x=min(2.0,b.blood.x+scrape*(.035+wear*.16));b.blood.w=max(0,b.blood.w-scrape*(.20+wear*.60));
   if(b.coat.y<=0&&wear>.015){
    let local=rotate(inverseQ(b.q),foot.p-b.p.xyz);let normal=rotate(inverseQ(b.q),-r.n.xyz);let c=skinPoint(b,local,normal);
