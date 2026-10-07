@@ -2,7 +2,9 @@
 SmearCompute.prototype.artDirection=function(){
  const T=this.THREE,ink=0x183b44,cream=0xf0dfb5,amber=0xe5a636;
  const material=(color,roughness=.6)=>{const m=new T.MeshStandardMaterial({color,roughness,metalness:.06});m.color.convertSRGBToLinear();return m;};
- for(const s of this.surfaces){s.mesh.material=s.mesh.material.clone();s.mesh.material.map=null;s.mesh.material.color.setHex(s.grid?0x829c9d:s.w>15?0xe3dbc3:0xb8c9c1).convertSRGBToLinear();s.mesh.material.roughness=s.grid?.7:.64;}
+ for(const s of this.surfaces){s.mesh.material=s.mesh.material.clone();s.mesh.material.map=null;s.mesh.material.color.setHex(s.grid?0x829c9d:s.w>15?0xe3dbc3:0xb8c9c1).convertSRGBToLinear();s.mesh.material.roughness=s.grid?(s.center.x<0?.26:.86):.64;
+  if(!s.grid&&s.w<15&&s.n.y>.7){s.mesh.material.roughness=s.center.x<0?.18:.88;s.mesh.material.metalness=s.center.x<0?.72:.03;}
+ }
  for(const b of this.staticBoxes){b.mesh.material=material(b.half.y>2?0xe3dbc3:ink);}
  for(const b of this.sourceBodies){
   const color=b.name==='Torso'||/thigh|upper arm/.test(b.name)?amber:b.name==='Hips'||/foot/.test(b.name)?ink:cream;
@@ -26,6 +28,18 @@ SmearCompute.prototype.artDirection=function(){
  sign('SMEAR','MATERIAL RESPONSE LAB  /  09', [0,2.65,-7.955],4.4,1.1);
  sign('01','IMPACT / TRANSFER',[-5.7,2.5,-7.95],2.05,.5125);
  sign('02','SURFACE / FLOW',[5.7,2.5,-7.95],2.05,.5125);
+ // Actual polygon fixtures, using the exact vertices integrated by LTC.
+ for(const light of window.__smearLights.filter(l=>l.build)){
+  const points=light.vertices.map(p=>new T.Vector3(...p));
+  const center=points.reduce((p,v)=>p.add(v),new T.Vector3()).multiplyScalar(.25);
+  const normal=points[1].clone().sub(points[0]).cross(points[2].clone().sub(points[0])).normalize();
+  for(const backing of [true,false]){
+   const positions=points.flatMap(p=>p.clone().sub(center).multiplyScalar(backing?1.065:1).add(center).addScaledVector(normal,backing?-.018:0).toArray());
+   const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(positions,3));geo.setAttribute('uv',new T.Float32BufferAttribute([0,0,1,0,1,1,0,1],2));geo.setIndex([0,1,2,0,2,3]);geo.computeVertexNormals();
+   const level=Math.max(...light.radiance);const face=new T.MeshBasicMaterial({color:new T.Color(...light.radiance.map(c=>c/level*3))});
+   const mesh=add(geo,backing?dark:face,[0,0,0]);mesh.castShadow=false;mesh.name=light.name+(backing?' frame':'');if(!backing)mesh.userData.ltcEmitter=light.name;
+  }
+ }
  this.completePaintReceivers();
 };
 

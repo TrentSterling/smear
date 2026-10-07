@@ -116,7 +116,23 @@ SmearCompute.prototype.buildTools=function(){
  box(this.rocketTool,[.072,.13,.085],[0,-.066,.08],rubber,.008);
  box(this.rocketTool,[.10,.025,.13],[0,.181,-.11],ink,.004);box(this.rocketTool,[.014,.075,.024],[-.035,.216,-.11],steel,.002);box(this.rocketTool,[.014,.075,.024],[.035,.216,-.11],steel,.002);box(this.rocketTool,[.08,.010,.024],[0,.258,-.11],amber,.002);
  label(this.rocketTool,'SM / ROCKET',[.088,.08,-.10],[.30,.067],[0,Math.PI/2,0]);
- makeHand(this.rocketTool).position.set(.018,-.028,.01);const support=makeHand(this.rocketTool);support.position.set(-.08,.025,-.29);support.rotation.z=-.8;
+ // A compact trigger hand and a mirrored support grip. Forearms run back
+ // toward their own shoulders rather than duplicating the pistol wrist pose.
+ const launcherHand=(side,origin,wrist,elbow)=>{
+  const root=new T.Group();root.position.set(...origin);this.rocketTool.add(root);
+  box(root,[.062,.083,.054],[side*.012,-.073,.002],glove,.014);
+  box(root,[.050,.040,.006],[side*.014,-.065,.032],seam,.004);
+  for(let i=0;i<4;i++){const y=-.038-i*.017;segment(root,[side*.038,y,-.023],[-side*.032,y-.004,-.028],.0105,glove);segment(root,[-side*.032,y-.004,-.028],[-side*.035,y-.010,.013],.0105,glove);}
+  segment(root,[side*.044,-.070,.020],[side*.042,-.020,-.004],.013,glove);
+  segment(root,[side*.042,-.020,-.004],[side*.012,-.014,-.022],.012,glove);
+  const joint=[origin[0]+side*.012,origin[1]-.115,origin[2]+.012];
+  segment(this.rocketTool,joint,wrist,.034,glove);segment(this.rocketTool,wrist,elbow,.043,ink);
+  const cuff=new T.Group();cuff.position.set(...wrist);cuff.quaternion.setFromUnitVectors(new V(0,1,0),new V(...elbow).sub(new V(...wrist)).normalize());this.rocketTool.add(cuff);add(cuff,new T.CylinderGeometry(.046,.046,.045,16),rubber);
+ };
+ launcherHand(1,[0,.008,.075],[.055,-.17,.16],[.18,-.32,.50]);
+ // The support hand has a real foregrip to close around, below the tube.
+ box(this.rocketTool,[.050,.104,.055],[0,-.061,-.285],rubber,.008);
+ launcherHand(-1,[0,.002,-.285],[-.065,-.14,-.20],[-.34,-.28,.22]);
  // Cleanup tools share the same grip language, with distinct working ends.
  this.utilityTools=[];
  const makeUtility=()=>{const g=new T.Group();g.userData.viewTool=true;g.visible=false;this.camera.add(g);this.utilityTools.push(g);return g;};
@@ -136,12 +152,12 @@ SmearCompute.prototype.buildTools=function(){
  };
  merge(this.gun,[this.slide,this.flash]);merge(this.slide);merge(this.spillCan);merge(this.bat);merge(this.grenadeTool);merge(this.rocketTool);for(const root of this.utilityTools)merge(root);
  this.toolPresentation={pistol:'beveled receiver, articulated slide, sights, gloved grip',spill:'pressure bottle and pump',bat:'turned wooden bat, wrapped grip, twelve steel spikes and gloved hand',meshes:0};
- this.toolPresentation.rocket='reinforced tube, open muzzle, heat shield, sight and two gloved hands';
+ this.toolPresentation.rocket='shouldered tube, trigger grip, forward support grip and correctly sided gloved forearms';
  for(const root of [this.gun,this.spillCan,this.bat,this.grenadeTool,this.rocketTool])root.traverse(o=>{if(o.isMesh)this.toolPresentation.meshes++;});
 };
 SmearCompute.prototype.updateToolPresentation=function(dt,{tool,panel,time,left,batAge=10,rocketAge=10}){
  for(let i=0;i<this.utilityTools.length;i++){const g=this.utilityTools[i];g.visible=tool===i+6&&!panel;if(g.visible){const active=left?Math.sin(time*35)*.003:0;g.position.set(i===0?.18:.27,-.20+active,-.51);g.rotation.set(i===0?-.18:-.06,-.09,-.09);}}
- this.rocketTool.visible=tool===5&&!panel;if(this.rocketTool.visible){const kick=Math.exp(-rocketAge*13)*Math.sin(Math.min(1,rocketAge*20)*Math.PI/2);const reload=Math.sin(Math.min(1,Math.max(0,rocketAge-.15)/.9)*Math.PI);this.rocketTool.position.set(.29,-.23-reload*.085,-.60+kick*.14);this.rocketTool.rotation.set(-.04+kick*.12+reload*.12,-.10,-.06);}
+ this.rocketTool.visible=tool===5&&!panel;if(this.rocketTool.visible){const kick=Math.exp(-rocketAge*19)*Math.sin(Math.min(1,rocketAge*32)*Math.PI/2);this.rocketTool.position.set(.26,-.235,-.46+kick*.065);this.rocketTool.rotation.set(-.025+kick*.055,.035,-.025-kick*.02);}
  this.grenadeTool.visible=tool===4&&!panel;if(this.grenadeTool.visible){this.grenadeTool.position.set(.25,-.15,-.52);this.grenadeTool.rotation.set(-.14,-.1,-.18);}
  this.spillCan.visible=tool===2&&!panel;
  if(this.spillCan.visible){this.spillCan.position.set(.255,-.13,-.54);this.spillCan.rotation.set(-.1,0,-.14);if(left)this.spillCan.position.y+=Math.sin(time*38)*.003;}

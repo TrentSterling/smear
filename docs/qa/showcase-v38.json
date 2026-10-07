@@ -1,0 +1,709 @@
+{
+  "version": "0.38.0",
+  "at": "2026-10-07T15:16:44.259Z",
+  "buildSHA256": "be2208a3a3c9cfa7fa11f158dc9716bf323a81191f2fbad673e1214b7aa651ee",
+  "previousBuildSHA256": "9832765350deba0d2e056724fc1b6aa8eca24b5332ac26d8de1d928442ad3be1",
+  "features": [
+    "21 shared visible/LTC emitter polygons: amber halo, cyan triangle, violet chevrons and low colored strips",
+    "Polished/matte finish contrasts, directional sun and shadow pass removed, unshadowed area lights; no froxels",
+    "Large boards replace small debris when the 120 nonexplosive slots are full; unchanged collisions and lifetime",
+    "Distinct launcher grips and shoulder pose; 320 ms held-fire cooldown",
+    "GPU-parallel blast body hits and footprint binning preserve 120 Hz, nine solver iterations, 900 particles and finite liquid"
+  ],
+  "before": {
+    "saturatedBoards": 0,
+    "boardsAfterNineSeconds": 0,
+    "chainBoards": 6,
+    "chainCrates": 2,
+    "rocketsIn1550ms": 2,
+    "audio": "running",
+    "errors": []
+  },
+  "after": {
+    "saturatedBoards": 6,
+    "boardsAfterNineSeconds": 6,
+    "chainBoards": 18,
+    "chainCrates": 3,
+    "rocketsIn1550ms": 5,
+    "audio": "running",
+    "errors": []
+  },
+  "showcaseChecks": [
+    "A crate broken with all 120 debris slots occupied still produces six large boards",
+    "Visible wood survives nine seconds after breaking a crate in a saturated scene",
+    "The actual conveyor/barrel chain retains large wood pieces through real-time explosions",
+    "Holding native fire launches four to six rockets in 1.55 seconds with bounded ordnance",
+    "Pausing clears held rocket fire",
+    "Hardware WebGPU boots with expanded LTC emitters and no directional shadow pipeline"
+  ],
+  "compiler": {
+    "validator": "Naga 29.0.4",
+    "modules": [
+      "compute",
+      "render"
+    ],
+    "passed": true
+  },
+  "ltc": {
+    "checks": [
+      "GPU polygon LTC matches independent triangle-area quadrature within 0.2% for rectangles, halo segments, triangle, chevrons, horizon clipping and grazing views",
+      "Actual brushed wall liquid and floor film show distinct area-light reflections without simulation changes"
+    ],
+    "cases": 9,
+    "maxRelativeError": 0.0000627316389761273,
+    "independentReference": "256 x 256 equal-area subtriangles per emitter triangle"
+  },
+  "regressionSuites": [
+    {
+      "command": "node tools/wgsl-verify.mjs ",
+      "status": 0,
+      "seconds": 0.468,
+      "result": [
+        "COMPLETE both embedded WGSL modules passed Naga validation"
+      ]
+    },
+    {
+      "command": "node tools/compute-verify.mjs ",
+      "status": 0,
+      "seconds": 17.768,
+      "result": [
+        "COMPLETE compute game checks passed (10 checks)"
+      ]
+    },
+    {
+      "command": "node tools/showcase-verify.mjs baseline",
+      "status": 0,
+      "seconds": 16.819,
+      "result": [
+        "COMPLETE before showcase checks"
+      ]
+    },
+    {
+      "command": "node tools/showcase-verify.mjs ",
+      "status": 0,
+      "seconds": 17.086,
+      "result": [
+        "COMPLETE after showcase checks"
+      ]
+    },
+    {
+      "command": "node tools/arsenal-verify.mjs final-v38",
+      "status": 0,
+      "seconds": 43.392,
+      "result": [
+        "COMPLETE 6 arsenal checks passed"
+      ]
+    },
+    {
+      "command": "node tools/fragment-verify.mjs final-v38",
+      "status": 0,
+      "seconds": 7.196,
+      "result": [
+        "COMPLETE fragment wetness and conservation checks"
+      ]
+    },
+    {
+      "command": "node tools/props-verify.mjs final-v38",
+      "status": 0,
+      "seconds": 11.267,
+      "result": [
+        "COMPLETE 11 prop checks passed"
+      ]
+    },
+    {
+      "command": "node tools/prop-motion-verify.mjs final-v38",
+      "status": 0,
+      "seconds": 10.486,
+      "result": [
+        "COMPLETE 12 prop motion checks passed"
+      ]
+    },
+    {
+      "command": "node tools/prop-liquid-verify.mjs final-v38",
+      "status": 0,
+      "seconds": 9.709,
+      "result": [
+        "COMPLETE 5 prop liquid/player checks passed"
+      ]
+    },
+    {
+      "command": "node tools/destruction-verify.mjs final-v38",
+      "status": 0,
+      "seconds": 19.269,
+      "result": [
+        "COMPLETE 8 checks passed"
+      ]
+    },
+    {
+      "command": "node tools/bleeding-verify.mjs final-v38",
+      "status": 0,
+      "seconds": 10.996,
+      "result": [
+        "COMPLETE 2 checks passed"
+      ]
+    },
+    {
+      "command": "node tools/buddy-verify.mjs final-v38",
+      "status": 0,
+      "seconds": 11.329,
+      "result": [
+        "COMPLETE 15 buddy checks passed"
+      ]
+    },
+    {
+      "command": "node tools/controller-verify.mjs final-v38",
+      "status": 0,
+      "seconds": 14.653,
+      "result": [
+        "  \"result\": \"COMPLETE FPS controller and spiked bat checks\","
+      ]
+    },
+    {
+      "command": "node tools/momentum-verify.mjs final-v38",
+      "status": 0,
+      "seconds": 21.227,
+      "result": [
+        "  \"result\": \"COMPLETE momentum and weapon lifecycle checks\","
+      ]
+    },
+    {
+      "command": "node tools/handling-verify.mjs final-v38",
+      "status": 0,
+      "seconds": 35.585,
+      "result": [
+        "  \"result\": \"COMPLETE handling, impact audio and floor squeegee checks\","
+      ]
+    },
+    {
+      "command": "node tools/wet-verify.mjs final-v38",
+      "status": 0,
+      "seconds": 10.47,
+      "result": [
+        "  \"result\": \"COMPLETE wet contact checks\","
+      ]
+    },
+    {
+      "command": "node tools/film-verify.mjs final-v38",
+      "status": 0,
+      "seconds": 20.987,
+      "result": [
+        "  \"result\": \"COMPLETE liquid film checks\","
+      ]
+    },
+    {
+      "command": "node tools/brush-flow-verify.mjs final-v38",
+      "status": 0,
+      "seconds": 13.301,
+      "result": [
+        "  \"result\": \"COMPLETE integrated brush and drainage checks\","
+      ]
+    },
+    {
+      "command": "node tools/wall-contact-verify.mjs final-v38",
+      "status": 0,
+      "seconds": 24.103,
+      "result": []
+    },
+    {
+      "command": "node tools/wet-finish-verify.mjs final-v38",
+      "status": 0,
+      "seconds": 10.939,
+      "result": [
+        "COMPLETE wet finish checks"
+      ]
+    },
+    {
+      "command": "node tools/compute-profile.mjs utility",
+      "status": 0,
+      "seconds": 50.738,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (1 checks)"
+      ]
+    },
+    {
+      "command": "node tools/compute-profile.mjs destruction",
+      "status": 0,
+      "seconds": 14.255,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (1 checks)"
+      ]
+    },
+    {
+      "command": "node tools/utility-verify.mjs final-v38",
+      "status": 0,
+      "seconds": 22.239,
+      "result": [
+        "COMPLETE 16 utility checks passed"
+      ]
+    },
+    {
+      "command": "node tools/ltc-verify.mjs final-v38",
+      "status": 0,
+      "seconds": 19.901,
+      "result": [
+        "  \"result\": \"COMPLETE LTC integration checks\","
+      ]
+    },
+    {
+      "command": "node tools/compute-profile.mjs ",
+      "status": 0,
+      "seconds": 57.791,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (8 checks)"
+      ]
+    },
+    {
+      "command": "node tools/compute-profile.mjs rockets",
+      "status": 0,
+      "seconds": 14.233,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (1 checks)"
+      ]
+    },
+    {
+      "command": "node tools/showcase-capture.mjs ",
+      "status": 0,
+      "seconds": 90.023,
+      "result": [
+        "COMPLETE V37.1/V38 matched gameplay footage"
+      ]
+    }
+  ],
+  "profiles": [
+    {
+      "name": "idle",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "fps": 60.0013370772689,
+      "cpuP99Ms": 1.399999976158142,
+      "ticksPerSecond": 119.60409215669966,
+      "gpu": {
+        "computeMS": {
+          "p50": 2.359296,
+          "p95": 2.686976,
+          "p99": 3.145728,
+          "max": 3.407872
+        },
+        "renderMS": {
+          "p50": 9.633792,
+          "p95": 10.092544,
+          "p99": 10.354688,
+          "max": 10.420224
+        }
+      },
+      "readbackAudit": {
+        "asynchronous player contact correction": 360,
+        "asynchronous collision sound event": 360,
+        "asynchronous GPU timing": 360,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "name": "bat",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "fps": 59.99900001642798,
+      "cpuP99Ms": 1.4000000357627869,
+      "ticksPerSecond": 120.15910263475168,
+      "gpu": {
+        "computeMS": {
+          "p50": 2.359296,
+          "p95": 4.128768,
+          "p99": 9.895936,
+          "max": 11.337728
+        },
+        "renderMS": {
+          "p50": 5.177344,
+          "p95": 7.995392,
+          "p99": 11.403264,
+          "max": 11.862016
+        }
+      },
+      "readbackAudit": {
+        "asynchronous collision sound event": 361,
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "name": "pistol",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "fps": 60.001000016309305,
+      "cpuP99Ms": 1.5,
+      "ticksPerSecond": 119.99866853119983,
+      "gpu": {
+        "computeMS": {
+          "p50": 2.359296,
+          "p95": 2.752512,
+          "p99": 3.473408,
+          "max": 3.93216
+        },
+        "renderMS": {
+          "p50": 7.471104,
+          "p95": 7.86432,
+          "p99": 7.995392,
+          "max": 8.192
+        }
+      },
+      "readbackAudit": {
+        "asynchronous player contact correction": 361,
+        "asynchronous collision sound event": 361,
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "name": "spill",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "fps": 60.0013370772689,
+      "cpuP99Ms": 1.300000011920929,
+      "ticksPerSecond": 119.79939017302233,
+      "gpu": {
+        "computeMS": {
+          "p50": 2.359296,
+          "p95": 3.866624,
+          "p99": 7.405568,
+          "max": 8.51968
+        },
+        "renderMS": {
+          "p50": 8.716288,
+          "p95": 9.109504,
+          "p99": 9.371648,
+          "max": 9.633792
+        }
+      },
+      "readbackAudit": {
+        "asynchronous player contact correction": 360,
+        "asynchronous collision sound event": 360,
+        "asynchronous GPU timing": 360,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "name": "drag",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "fps": 60.006000599702304,
+      "cpuP99Ms": 1.300000011920929,
+      "ticksPerSecond": 119.94676426551322,
+      "gpu": {
+        "computeMS": {
+          "p50": 2.752512,
+          "p95": 4.194304,
+          "p99": 4.980736,
+          "max": 5.832704
+        },
+        "renderMS": {
+          "p50": 9.8304,
+          "p95": 10.354688,
+          "p99": 10.616832,
+          "max": 10.682368
+        }
+      },
+      "readbackAudit": {
+        "asynchronous player contact correction": 361,
+        "asynchronous collision sound event": 361,
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "name": "chaos",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "fps": 60,
+      "cpuP99Ms": 1.2000000476837158,
+      "ticksPerSecond": 119.98269320399227,
+      "gpu": {
+        "computeMS": {
+          "p50": 2.818048,
+          "p95": 3.93216,
+          "p99": 4.25984,
+          "max": 5.24288
+        },
+        "renderMS": {
+          "p50": 12.45184,
+          "p95": 12.77952,
+          "p99": 12.976128,
+          "max": 13.1072
+        }
+      },
+      "readbackAudit": {
+        "asynchronous player contact correction": 361,
+        "asynchronous collision sound event": 361,
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "name": "mop",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "fps": 60,
+      "cpuP99Ms": 1.4000000357627869,
+      "ticksPerSecond": 119.86301369886769,
+      "gpu": {
+        "computeMS": {
+          "p50": 3.2768,
+          "p95": 3.735552,
+          "p99": 4.521984,
+          "max": 4.849664
+        },
+        "renderMS": {
+          "p50": 5.57056,
+          "p95": 5.963776,
+          "p99": 6.094848,
+          "max": 6.422528
+        }
+      },
+      "readbackAudit": {
+        "asynchronous player contact correction": 361,
+        "asynchronous collision sound event": 361,
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "name": "blower",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "fps": 60,
+      "cpuP99Ms": 1.600000023841858,
+      "ticksPerSecond": 120.21111869551521,
+      "gpu": {
+        "computeMS": {
+          "p50": 3.2768,
+          "p95": 4.128768,
+          "p99": 4.849664,
+          "max": 5.439488
+        },
+        "renderMS": {
+          "p50": 5.963776,
+          "p95": 6.291456,
+          "p99": 6.619136,
+          "max": 7.012352
+        }
+      },
+      "readbackAudit": {
+        "asynchronous player contact correction": 361,
+        "asynchronous collision sound event": 361,
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "name": "washer",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "fps": 60,
+      "cpuP99Ms": 1.5999999642372131,
+      "ticksPerSecond": 120.07317478795942,
+      "gpu": {
+        "computeMS": {
+          "p50": 3.2768,
+          "p95": 4.9152,
+          "p99": 5.308416,
+          "max": 6.160384
+        },
+        "renderMS": {
+          "p50": 5.636096,
+          "p95": 6.094848,
+          "p99": 6.422528,
+          "max": 6.488064
+        }
+      },
+      "readbackAudit": {
+        "asynchronous player contact correction": 361,
+        "asynchronous collision sound event": 361,
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "name": "vacuum",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "fps": 59.99933148341315,
+      "cpuP99Ms": 1.300000011920929,
+      "ticksPerSecond": 119.9680085305818,
+      "gpu": {
+        "computeMS": {
+          "p50": 3.2768,
+          "p95": 3.670016,
+          "p99": 4.063232,
+          "max": 4.784128
+        },
+        "renderMS": {
+          "p50": 6.094848,
+          "p95": 6.356992,
+          "p99": 6.488064,
+          "max": 6.684672
+        }
+      },
+      "readbackAudit": {
+        "asynchronous player contact correction": 360,
+        "asynchronous collision sound event": 360,
+        "asynchronous GPU timing": 360,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "name": "magnet",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "fps": 59.999000017024,
+      "cpuP99Ms": 1.399999976158142,
+      "ticksPerSecond": 120.0791657660338,
+      "gpu": {
+        "computeMS": {
+          "p50": 2.94912,
+          "p95": 4.390912,
+          "p99": 4.9152,
+          "max": 5.24288
+        },
+        "renderMS": {
+          "p50": 6.094848,
+          "p95": 6.5536,
+          "p99": 6.815744,
+          "max": 7.471104
+        }
+      },
+      "readbackAudit": {
+        "asynchronous player contact correction": 361,
+        "asynchronous collision sound event": 361,
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "name": "accident-line",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "fps": 59.5,
+      "cpuP99Ms": 1.300000011920929,
+      "ticksPerSecond": 120.08260884071676,
+      "gpu": {
+        "computeMS": {
+          "p50": 3.866624,
+          "p95": 9.17504,
+          "p99": 13.631488,
+          "max": 19.398656
+        },
+        "renderMS": {
+          "p50": 7.077888,
+          "p95": 11.206656,
+          "p99": 11.993088,
+          "max": 12.189696
+        }
+      },
+      "readbackAudit": {
+        "asynchronous player contact correction": 307,
+        "asynchronous collision sound event": 322,
+        "asynchronous GPU timing": 323,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "name": "destruction",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "fps": 60,
+      "cpuP99Ms": 1.300000011920929,
+      "ticksPerSecond": 120.01664585934249,
+      "gpu": {
+        "computeMS": {
+          "p50": 4.456448,
+          "p95": 8.454144,
+          "p99": 11.075584,
+          "max": 23.986176
+        },
+        "renderMS": {
+          "p50": 9.8304,
+          "p95": 11.206656,
+          "p99": 11.534336,
+          "max": 11.730944
+        }
+      },
+      "readbackAudit": {
+        "asynchronous player contact correction": 357,
+        "asynchronous collision sound event": 361,
+        "asynchronous GPU timing": 361,
+        "GPU telemetry snapshot": 24
+      }
+    },
+    {
+      "name": "rapid-rockets",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "fps": 56.45282514700982,
+      "cpuP99Ms": 1.399999976158142,
+      "ticksPerSecond": 119.67090501121915,
+      "gpu": {
+        "computeMS": {
+          "p50": 5.24288,
+          "p95": 11.075584,
+          "p99": 17.104896,
+          "max": 22.347776
+        },
+        "renderMS": {
+          "p50": 9.764864,
+          "p95": 13.041664,
+          "p99": 13.43488,
+          "max": 13.565952
+        }
+      },
+      "readbackAudit": {
+        "asynchronous player contact correction": 257,
+        "asynchronous collision sound event": 290,
+        "asynchronous GPU timing": 293,
+        "GPU telemetry snapshot": 23
+      }
+    }
+  ],
+  "media": [
+    {
+      "path": "tools/out/showcase-pass/recordings/compare-machine.mp4",
+      "sha256": "68e82210c5c03fd61e69f8f581404c13a567b438a5c2dfec2c0bfa6e45863623"
+    },
+    {
+      "path": "tools/out/showcase-pass/recordings/compare-lighting.mp4",
+      "sha256": "4fcae9bb27810dadf06a45e279c46553edb1f3182e4f69bbeb351fe6fe846d8e"
+    },
+    {
+      "path": "tools/out/showcase-pass/recordings/compare-rockets.mp4",
+      "sha256": "2abfee5bea86b3bdfb2389126c05d2d7e27ac4fe48a256d3fca0306a59a83e76"
+    }
+  ],
+  "firefox": "Gameplay untested: headless Firefox cannot request a GPU on this host, and the user prohibits headed desktop interference. Both complete modules passed Naga validation.",
+  "liveVerification": "After push, tools/out/release-v38/live-verification.json records the exact live build hash and hardware WebGPU gameplay checks."
+}

@@ -62,8 +62,15 @@ fn ordVector(i:u32)->vec3f{return vec3f(ordFloat(i),ordFloat(i+1u),ordFloat(i+2u
 fn putVector(i:u32,v:vec3f){for(var k=0u;k<3u;k++){atomicStore(&work[i+k],bitcast<u32>(v[k]));}}
 fn spawnOrdnance(kind:u32,p:vec3f,v:vec3f,r:f32,seed:u32)->bool{
  let explosive=kind==1u||kind==4u||kind==6u;let first=select(8u,0u,explosive);let count=select(120u,8u,explosive);
- for(var n=0u;n<count;n++){let i=first+(seed+n)%count;let s=ordnanceState(i);
-  if(atomicLoad(&work[s+23u])!=0u){continue;}
+ var chosen=128u;var oldest=-1.0;
+ for(var n=0u;n<count;n++){let i=first+(seed+n)%count;let s=ordnanceState(i);let resident=atomicLoad(&work[s+23u]);
+  if(resident==0u){chosen=i;break;}
+  // Destruction runs serially. Preserve the six readable crate boards even
+  // when a barrel chain has already filled every slot with metal flecks.
+  let replaceable=(kind==5u&&(resident==2u||resident==3u))||(kind==3u&&resident==2u);
+  if(replaceable&&ordFloat(s+7u)>oldest){oldest=ordFloat(s+7u);chosen=i;}
+ }
+ if(chosen<128u){let s=ordnanceState(chosen);
   putVector(s,p);atomicStore(&work[s+3u],bitcast<u32>(r));putVector(s+4u,v);atomicStore(&work[s+7u],0u);
   putVector(s+8u,p);atomicStore(&work[s+11u],seed);for(var k=12u;k<23u;k++){atomicStore(&work[s+k],0u);}atomicStore(&work[s+19u],kind);atomicStore(&work[s+22u],bitcast<u32>(frame.camera.w));atomicStore(&work[s+23u],kind);return true;
  }return false;
@@ -119,26 +126,13 @@ fn blastVisibility(center:vec3f,p:vec3f)->bool{
  else if(kind!=1u&&kind!=4u&&kind!=6u&&(age>select(select(6.0,14.0,kind==3u),30.0,kind==5u)||p.y<-.2)){atomicStore(&work[s+23u],0u);}
 }
 @compute @workgroup_size(1) fn detonate(){
- let controlAddress=destructionMeta();var mask=atomicLoad(&work[controlAddress]);
+ let controlAddress=destructionMeta();var mask=atomicLoad(&work[controlAddress]);var pending=0u;
  for(var slot=0u;slot<16u;slot++){
   if((mask&(1u<<slot))==0u){continue;}let s=blastState(slot);let age=frame.camera.w-ordFloat(s+4u);
   if(age>.70){mask&=~(1u<<slot);continue;}
   if(atomicExchange(&work[s+7u],0u)==0u){continue;}
   let center=ordVector(s);let radius=ordFloat(s+3u);let power=ordFloat(s+5u);let seed=atomicLoad(&work[s+6u]);
-  for(var i=0u;i<u32(frame.settings.x);i++){
-   var b=bodies[i];let delta=b.p.xyz-center;let distance=length(delta);if(distance>radius||!blastVisibility(center,b.p.xyz)){continue;}
-   let pressure=pow(max(0,1-distance/radius),1.4)*power;let direction=safeNorm(delta+vec3f(0,.08,0));
-   b.v=vec4f(bounded(b.v.xyz+direction*(pressure*22)+vec3f(0,pressure*2,0),21),0);b.w=vec4f(bounded(b.w.xyz+cross(direction,vec3f(hash(seed+i)-.5,hash(seed+i+1u)-.5,hash(seed+i+2u)-.5))*pressure*25,26),0);
-   b.motor.w=0;b.status.x=1;b.status.z=0;b.blood.x=min(2,b.blood.x+pressure*frame.rayD.w);b.blood.w=max(0,b.blood.w-pressure*55*frame.rayD.w);
-   let volume=min(b.coat.w,pressure*.8*frame.rayD.w*frame.action.z)*.10;
-   let retained=min(volume*.15,max(0,1.65-b.coat.x)*.02);let portion=(volume-retained)/18;var spent=retained;
-   if(portion>1e-7){for(var drop=0u;drop<18u;drop++){
-    let h=seed+i*371u+drop*977u;let spray=safeNorm(direction+vec3f(hash(h)-.5,hash(h+1u)-.5,hash(h+2u)-.5)*1.1);
-    if(launchDrop(b.p.xyz+spray*b.invI.w*.8,b.v.xyz+spray*(3+hash(h+3u)*9)*sqrt(pressure),.006+hash(h+4u)*.012,i,portion)){spent+=portion;}
-   }}
-   b.coat.w=max(0,b.coat.w-spent/.10);b.coat.x+=retained/.02;
-   bodies[i]=b;for(var k=i/15u*15u;k<(i/15u+1u)*15u;k++){bodies[k].motor.w=0;bodies[k].status.z=0;}damagePart(i,pressure*2.7*frame.rayD.w);atomicMax(&work[fractureState(i)+7u],u32(pressure*40000));
-  }
+  pending|=1u<<slot;
   for(var j=0u;j<header(0).x;j++){let k=header(1).x+j*5u;let tag=constants[k+2u].w;if(tag<=0||propGone(tag)){continue;}let p=constants[k].xyz;let q=constants[k+1u];let nearest=p+rotate(q,clamp(rotate(inverseQ(q),center-p),-constants[k+2u].xyz,constants[k+2u].xyz));let distance=length(p-center);if(distance<radius&&blastVisibility(center,nearest)){let pressure=pow(max(0,1-distance/radius),1.4)*power;propDamage(tag,pressure*3.2);propImpulse(tag,nearest,safeNorm(p-center+vec3f(0,.15,0))*pressure*85);}}
   for(var debris=8u;debris<128u;debris++){let o=ordnanceState(debris);let kind=atomicLoad(&work[o+23u]);if(kind!=3u&&kind!=5u){continue;}let p=ordVector(o);let distance=length(p-center);if(distance<radius&&blastVisibility(center,p)){atomicStore(&work[o+20u],0u);putVector(o+4u,ordVector(o+4u)+safeNorm(p-center+vec3f(0,.15,0))*(1-distance/radius)*power*13);}}
   for(var k=0u;k<42u;k++){
@@ -157,9 +151,35 @@ fn blastVisibility(center:vec3f,p:vec3f)->bool{
   // in the same frame; preserve the strongest boom when several barrels chain.
   let boom=0x40000000u|(u32(clamp(power*.85,0,1)*4095)<<8u)|255u;let previous=atomicLoad(&work[38]);atomicStore(&work[38],select(boom,max(previous,boom),(previous&0x40000000u)!=0u));atomicAdd(&work[39],1u);
  }
- atomicStore(&work[controlAddress],mask);
+ atomicStore(&work[controlAddress],mask);atomicStore(&work[controlAddress+18u],pending);
  atomicStore(&work[controlAddress+8u],select(0u,header(3).y,mask!=0u));atomicStore(&work[controlAddress+9u],1u);atomicStore(&work[controlAddress+10u],1u);
  atomicStore(&work[controlAddress+12u],select(0u,(filmCellCount()+255u)/256u,mask!=0u));atomicStore(&work[controlAddress+13u],1u);atomicStore(&work[controlAddress+14u],1u);
+}
+// Each lane owns one body. A shared flag wakes its rig without cross-body
+// stores; blast order, occlusion and finite spray debits remain unchanged.
+var<workgroup> blastRigWake:atomic<u32>;
+@compute @workgroup_size(15) fn blastBodies(@builtin(workgroup_id) group:vec3u,@builtin(local_invocation_index) lane:u32){
+ let mask=atomicLoad(&work[destructionMeta()+18u]);
+ let i=group.x*15u+lane;var b=bodies[i];
+ if(lane==0u){atomicStore(&blastRigWake,0u);}workgroupBarrier();
+ for(var slot=0u;slot<16u;slot++){
+  if((mask&(1u<<slot))==0u){continue;}let s=blastState(slot);
+  let center=ordVector(s);let radius=ordFloat(s+3u);let power=ordFloat(s+5u);let seed=atomicLoad(&work[s+6u]);
+   let delta=b.p.xyz-center;let distance=length(delta);if(distance>radius||!blastVisibility(center,b.p.xyz)){continue;}
+   let pressure=pow(max(0,1-distance/radius),1.4)*power;let direction=safeNorm(delta+vec3f(0,.08,0));
+   b.v=vec4f(bounded(b.v.xyz+direction*(pressure*22)+vec3f(0,pressure*2,0),21),0);b.w=vec4f(bounded(b.w.xyz+cross(direction,vec3f(hash(seed+i)-.5,hash(seed+i+1u)-.5,hash(seed+i+2u)-.5))*pressure*25,26),0);
+   b.motor.w=0;b.status.x=1;b.status.z=0;b.blood.x=min(2,b.blood.x+pressure*frame.rayD.w);b.blood.w=max(0,b.blood.w-pressure*55*frame.rayD.w);
+   let volume=min(b.coat.w,pressure*.8*frame.rayD.w*frame.action.z)*.10;
+   let retained=min(volume*.15,max(0,1.65-b.coat.x)*.02);let portion=(volume-retained)/18;var spent=retained;
+   if(portion>1e-7){for(var drop=0u;drop<18u;drop++){
+    let h=seed+i*371u+drop*977u;let spray=safeNorm(direction+vec3f(hash(h)-.5,hash(h+1u)-.5,hash(h+2u)-.5)*1.1);
+    if(launchDrop(b.p.xyz+spray*b.invI.w*.8,b.v.xyz+spray*(3+hash(h+3u)*9)*sqrt(pressure),.006+hash(h+4u)*.012,i,portion)){spent+=portion;}
+   }}
+   b.coat.w=max(0,b.coat.w-spent/.10);b.coat.x+=retained/.02;
+   atomicStore(&blastRigWake,1u);damagePart(i,pressure*2.7*frame.rayD.w);atomicMax(&work[fractureState(i)+7u],u32(pressure*40000));
+
+ }
+ workgroupBarrier();if(atomicLoad(&blastRigWake)!=0u){b.motor.w=0;b.status.z=0;}bodies[i]=b;
 }
 // Pressure moves finite mobile film outwards. It cannot move a dry stain or
 // cross a solid obstacle. Donors read the snapshot; all writes are atomic sums.

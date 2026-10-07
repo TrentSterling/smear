@@ -21,8 +21,15 @@ fn ltcClippedEdge(a:vec3f,b:vec3f)->vec4f {
  var integral=0.0;if(ia||ib){integral=ltcEdge(safeNorm(x),safeNorm(y));}
  return vec4f(crossing,integral);
 }
-fn ltcRectangle(a:mat3x3f,p:vec3f,center:vec3f,u:vec3f,v:vec3f)->f32 {
- var p0=a*(center-u-v-p);var p1=a*(center+u-v-p);var p2=a*(center+u+v-p);var p3=a*(center-u+v-p);
+fn ltcPolygon(a:mat3x3f,p:vec3f,v0:vec3f,v1:vec3f,v2:vec3f,v3:vec3f)->f32 {
+ var p0=a*(v0-p);var p1=a*(v1-p);var p2=a*(v2-p);var p3=a*(v3-p);
+ if(max(max(p0.z,p1.z),max(p2.z,p3.z))<=0){return 0;}
+ // Most room fragments see the whole emitter above their transformed horizon.
+ // Normalize shared vertices once and avoid clipping/closing-arc work there.
+ if(min(min(p0.z,p1.z),min(p2.z,p3.z))>0){
+  let n0=safeNorm(p0);let n1=safeNorm(p1);let n2=safeNorm(p2);let n3=safeNorm(p3);
+  return min(1.0,abs(ltcEdge(n0,n1)+ltcEdge(n1,n2)+ltcEdge(n2,n3)+ltcEdge(n3,n0)));
+ }
  var e0=ltcClippedEdge(p0,p1);var e1=ltcClippedEdge(p1,p2);var e2=ltcClippedEdge(p2,p3);var e3=ltcClippedEdge(p3,p0);
  var entry=select(e0.xyz,vec3f(0),p0.z>0)+select(e1.xyz,vec3f(0),p1.z>0)+select(e2.xyz,vec3f(0),p2.z>0)+select(e3.xyz,vec3f(0),p3.z>0);
  var exit=select(vec3f(0),e0.xyz,p0.z>0)+select(vec3f(0),e1.xyz,p1.z>0)+select(vec3f(0),e2.xyz,p2.z>0)+select(vec3f(0),e3.xyz,p3.z>0);
@@ -30,9 +37,9 @@ fn ltcRectangle(a:mat3x3f,p:vec3f,center:vec3f,u:vec3f,v:vec3f)->f32 {
  // compiler miscompiles clamp(abs(edgeSum),0,1) for this inlined edge path.
  return min(1.0,abs(e0.w+e1.w+e2.w+e3.w+ltcEdge(safeNorm(exit),safeNorm(entry))));
 }
-fn ltcEmitter(basis:mat3x3f,transform:mat3x3f,p:vec3f,center:vec3f,u:vec3f,w:vec3f,emission:vec3f,diffuse:vec3f,specular:vec3f)->vec3f {
- if(dot(cross(u,w),p-center)<=0){return vec3f(0);}
- return emission*(diffuse*ltcRectangle(basis,p,center,u,w)+specular*ltcRectangle(transform,p,center,u,w));
+fn ltcPolygonEmitter(basis:mat3x3f,transform:mat3x3f,p:vec3f,v0:vec3f,v1:vec3f,v2:vec3f,v3:vec3f,emission:vec3f,diffuse:vec3f,specular:vec3f)->vec3f {
+ if(dot(cross(v1-v0,v2-v0),p-v0)<=0){return vec3f(0);}
+ return emission*(diffuse*ltcPolygon(basis,p,v0,v1,v2,v3)+specular*ltcPolygon(transform,p,v0,v1,v2,v3));
 }
 fn laboratoryLights(p:vec3f,n:vec3f,v:vec3f,base:vec3f,rough:f32,metal:f32)->vec3f {
  var tangent=v-n*dot(n,v);
@@ -42,14 +49,7 @@ fn laboratoryLights(p:vec3f,n:vec3f,v:vec3f,base:vec3f,rough:f32,metal:f32)->vec
  let m=ltcLookup(uv,0);let amp=ltcLookup(uv,1).xy;
  let transform=mat3x3f(vec3f(m.x,0,m.y),vec3f(0,1,0),vec3f(m.z,0,m.w))*basis;
  let f0=mix(vec3f(.04),base,metal);let specular=f0*amp.x+(1-f0)*amp.y;
- // Same geometry as the three visible ceiling strips and five wall panels.
- let sum=ltcEmitter(basis,transform,p,vec3f(-5.000000,4.882500,0.000000),vec3f(.08,0,0),vec3f(0,0,5.85),vec3f(22,23,21),base*(1-metal)*(1-f0),specular)+
-  ltcEmitter(basis,transform,p,vec3f(0.000000,4.882500,0.000000),vec3f(.08,0,0),vec3f(0,0,5.85),vec3f(22,23,21),base*(1-metal)*(1-f0),specular)+
-  ltcEmitter(basis,transform,p,vec3f(5.000000,4.882500,0.000000),vec3f(.08,0,0),vec3f(0,0,5.85),vec3f(22,23,21),base*(1-metal)*(1-f0),specular)+
-  ltcEmitter(basis,transform,p,vec3f(-5.800000,3.880000,-7.929000),vec3f(1.155,0,0),vec3f(0,.41,0),vec3f(3.8,5.2,5.4),base*(1-metal)*(1-f0),specular)+
-  ltcEmitter(basis,transform,p,vec3f(-2.900000,3.880000,-7.929000),vec3f(1.155,0,0),vec3f(0,.41,0),vec3f(3.8,5.2,5.4),base*(1-metal)*(1-f0),specular)+
-  ltcEmitter(basis,transform,p,vec3f(0.000000,3.880000,-7.929000),vec3f(1.155,0,0),vec3f(0,.41,0),vec3f(3.8,5.2,5.4),base*(1-metal)*(1-f0),specular)+
-  ltcEmitter(basis,transform,p,vec3f(2.900000,3.880000,-7.929000),vec3f(1.155,0,0),vec3f(0,.41,0),vec3f(3.8,5.2,5.4),base*(1-metal)*(1-f0),specular)+
-  ltcEmitter(basis,transform,p,vec3f(5.800000,3.880000,-7.929000),vec3f(1.155,0,0),vec3f(0,.41,0),vec3f(3.8,5.2,5.4),base*(1-metal)*(1-f0),specular);
+ // Generated from the same vertices used by the visible lamp meshes.
+ /* LABORATORY_EMITTERS */
  return sum*constants[header(3).z+1u].y;
 }

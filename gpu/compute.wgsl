@@ -41,8 +41,11 @@ fn launchDrop(p:vec3f,v:vec3f,r:f32,owner:u32,volume:f32)->bool {
  // No frees occur in an emission dispatch. Reject saturation before probing
  // occupied slots, especially when many severed sockets emit in one blast.
  if(atomicLoad(&work[9])>=900u){return false;}
- let start=atomicAdd(&work[8],1u)%900u;
- for(var n=0u;n<900u;n++){if((n&15u)==0u&&atomicLoad(&work[9])>=900u){return false;}let i=(start+n)%900u;if(atomicLoad(&work[64u+i])!=0u){continue;}let result=atomicCompareExchangeWeak(&work[64u+i],0u,1u);if(result.exchanged){particles[i]=Particle(vec4f(p,r),vec4f(v,0),vec4f(p,f32(owner)),vec4f(volume,0,0,0));atomicAdd(&work[9],1u);return true;}}
+ let cursor=atomicAdd(&work[8],1u);let start=cursor%900u;
+ for(var n=0u;n<900u;n++){if((n&15u)==0u&&atomicLoad(&work[9])>=900u){return false;}let i=(start+n)%900u;if(atomicLoad(&work[64u+i])!=0u){continue;}let result=atomicCompareExchangeWeak(&work[64u+i],0u,1u);if(result.exchanged){particles[i]=Particle(vec4f(p,r),vec4f(v,0),vec4f(p,f32(owner)),vec4f(volume,0,0,0));atomicAdd(&work[9],1u);
+  // Advance past occupied runs so serial explosion sprays do not repeatedly
+  // scan the same holes. Parallel emitters retain atomic slot ownership.
+  atomicMax(&work[8],cursor+n+1u);return true;}}
  return false;
 }
 fn emit(p:vec3f,v:vec3f,r:f32,owner:u32){launchDrop(p,v,r,owner,0);}
@@ -321,9 +324,10 @@ fn rayHit(o:vec3f,d:vec3f,limit:f32,includeBodies:bool,ignoreBody:i32)->RayHit {
  var activeBodies=0u;var wounds=0u;var scraping=0.0;for(var i=0u;i<u32(frame.settings.x);i++){let b=bodies[i];if(b.status.x>.5){activeBodies++;}if(b.blood.x>.001){wounds++;}if(b.track.w>0){scraping=max(scraping,min(1.0,length(b.v.xyz)*b.coat.x*.2));}}
  atomicStore(&work[20],activeBodies);atomicStore(&work[21],wounds);atomicStore(&work[22],bitcast<u32>(scraping));
 }
-@compute @workgroup_size(64) fn bin(@builtin(global_invocation_id) id:vec3u) {
- let i=id.x;if(i>=min(8192u,atomicLoad(&work[3]))){return;}let s=stamps[i];let r=record(u32(s.info.x));let extent=max(max(s.a.z*r.size.x,s.a.w*r.size.y),max(s.color.y,s.color.z));let pad=select(s.a.zw*2.3,vec2f(extent*2.3+.025)/r.size.xy,s.info.y==1||s.info.y==3||s.info.y==4||s.info.y==6||s.info.y==8||s.info.y==13)+vec2f(3)/r.size.zw;let a=vec2u(clamp(floor((min(s.a.xy,s.b.xy)-pad)*r.size.zw/16),vec2f(0),vec2f(r.address.zw)-1));let b=vec2u(clamp(floor((max(s.a.xy,s.b.xy)+pad)*r.size.zw/16),vec2f(0),vec2f(r.address.zw)-1));let h=header(2);
- for(var y=a.y;y<=b.y;y++){for(var x=a.x;x<=b.x;x++){let tile=r.address.y+x+y*r.address.z;let n=atomicAdd(&work[h.y+tile],1u);if(n==0u){let activeIndex=atomicAdd(&work[0],1u);atomicStore(&work[h.z+activeIndex],tile);}if(n<256u){let address=select(secondaryPaintBase()+tile*128u+n-128u,h.w+tile*128u+n,n<128u);atomicStore(&work[address],i);}else{atomicAdd(&work[18],1u);}}}
+// Thirty-two lanes share each footprint, including room-scale blast stamps.
+@compute @workgroup_size(64) fn bin(@builtin(global_invocation_id) id:vec3u,@builtin(num_workgroups) groups:vec3u) {
+ for(var i=id.x/32u;i<min(8192u,atomicLoad(&work[3]));i+=groups.x*2u){let s=stamps[i];let r=record(u32(s.info.x));let extent=max(max(s.a.z*r.size.x,s.a.w*r.size.y),max(s.color.y,s.color.z));let pad=select(s.a.zw*2.3,vec2f(extent*2.3+.025)/r.size.xy,s.info.y==1||s.info.y==3||s.info.y==4||s.info.y==6||s.info.y==8||s.info.y==13)+vec2f(3)/r.size.zw;let a=vec2u(clamp(floor((min(s.a.xy,s.b.xy)-pad)*r.size.zw/16),vec2f(0),vec2f(r.address.zw)-1));let b=vec2u(clamp(floor((max(s.a.xy,s.b.xy)+pad)*r.size.zw/16),vec2f(0),vec2f(r.address.zw)-1));let h=header(2);
+ let columns=b.x-a.x+1u;let tiles=columns*(b.y-a.y+1u);for(var offset=id.x%32u;offset<tiles;offset+=32u){let x=a.x+offset%columns;let y=a.y+offset/columns;let tile=r.address.y+x+y*r.address.z;let n=atomicAdd(&work[h.y+tile],1u);if(n==0u){let activeIndex=atomicAdd(&work[0],1u);atomicStore(&work[h.z+activeIndex],tile);}if(n<256u){let address=select(secondaryPaintBase()+tile*128u+n-128u,h.w+tile*128u+n,n<128u);atomicStore(&work[address],i);}else{atomicAdd(&work[18],1u);}}}
 }
 var<workgroup> indices:array<u32,256>;
 fn coverage(s:Stamp,point:vec2f)->vec4f {

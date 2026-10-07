@@ -8,8 +8,6 @@ struct Object { model:mat4x4f, normal:mat4x4f, color:vec4f, params:vec4f, flags:
 @group(0) @binding(6) var<storage,read> work:array<u32>;
 @group(0) @binding(7) var maps:texture_2d_array<f32>;
 @group(0) @binding(8) var linearSampler:sampler;
-@group(0) @binding(9) var shadow:texture_depth_2d;
-@group(0) @binding(10) var shadowSampler:sampler_comparison;
 @group(0) @binding(11) var<storage,read> wet:array<u32>;
 fn header(i:u32)->vec4u {return bitcast<vec4u>(constants[i]);}
 fn record(i:u32)->Record {let b=header(1).z+i*7u;return Record(constants[b],constants[b+1u],constants[b+2u],constants[b+3u],constants[b+4u],bitcast<vec4u>(constants[b+5u]),constants[b+6u]);}
@@ -50,9 +48,6 @@ fn transformed(v:Input,index:u32)->Output {
  return Output(clip,p,safeNorm(n),v.uv,local,safeNorm(localNormal),index);
 }
 @vertex fn vertex(v:Input,@builtin(instance_index) index:u32)->Output {return transformed(v,index);}
-@vertex fn shadowVertex(v:Input,@builtin(instance_index) index:u32)->@builtin(position) vec4f {
- if(objects[index].flags.y<.5||(objects[index].params.x>=0&&objects[index].params.x>=frame.settings.x)){return vec4f(0,0,2,1);}let out=transformed(v,index);if(all(out.position==vec4f(0,0,2,1))){return vec4f(0,0,2,1);}return frame.lightVP*vec4f(out.world,1);
-}
 fn paintAt(id:u32,p:vec2f)->vec4f {
  let r=record(id);let pos=clamp(p*r.size.zw-vec2f(.5),vec2f(0),r.size.zw-1);let a=vec2u(floor(pos));let b=min(a+1u,vec2u(r.size.zw)-1u);let weight=fract(pos);let width=u32(r.size.z);
  let c0=unpack(pigment[r.address.x+a.x+a.y*width]);let c1=unpack(pigment[r.address.x+b.x+a.y*width]);let c2=unpack(pigment[r.address.x+a.x+b.y*width]);let c3=unpack(pigment[r.address.x+b.x+b.y*width]);return mix(mix(c0,c1,weight.x),mix(c2,c3,weight.x),weight.y);
@@ -79,20 +74,11 @@ fn skinUV(p:vec3f,n:vec3f,half:vec3f)->vec2f {
  if(a.x>a.y&&a.x>a.z){face=select(1u,0u,n.x>0);c=p.zy;h=half.zy;}else if(a.y>a.z){face=select(3u,2u,n.y>0);c=p.xz;h=half.xz;}else{face=select(5u,4u,n.z>0);c=p.xy;h=half.xy;}
  return (clamp(c/h*.5+.5,vec2f(.003),vec2f(.997))+vec2f(f32(face%3u),f32(face/3u)))/vec2f(3,2);
 }
-fn visibility(p:vec3f)->f32 {
- let clip=frame.lightVP*vec4f(p,1);let projected=clip.xyz/clip.w;let uv=projected.xy*vec2f(.5,-.5)+.5;if(any(uv<vec2f(0))||any(uv>vec2f(1))||projected.z>1){return 1;}var value=0.0;
- for(var y=-1;y<=1;y++){for(var x=-1;x<=1;x++){value+=textureSampleCompareLevel(shadow,shadowSampler,uv+vec2f(f32(x),f32(y))/2048.0,projected.z-.0005);}}return value/9;
-}
 fn fresnel(f0:vec3f,cosine:f32)->vec3f {return f0+(1-f0)*pow(1-clamp(cosine,0,1),5);}
-fn light(albedo:vec3f,n:vec3f,v:vec3f,l:vec3f,rough:f32,metal:f32,radiance:vec3f)->vec3f {
- let nl=max(dot(n,l),0);let nv=max(dot(n,v),.001);let h=safeNorm(v+l);let nh=max(dot(n,h),0);let vh=max(dot(v,h),0);let a=max(.025,rough*rough);let a2=a*a;let denominator=nh*nh*(a2-1)+1;let d=a2/(3.14159265*denominator*denominator);let k=(rough+1)*(rough+1)/8;let g=nl/(nl*(1-k)+k)*nv/(nv*(1-k)+k);let f=fresnel(mix(vec3f(.04),albedo,metal),vh);return ((1-f)*(1-metal)*albedo/3.14159265+d*g*f/max(4*nl*nv,.001))*radiance*nl;
-}
 fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewTool:bool,wetCoat:f32)->vec4f {
- var color=albedo;if(!basic){let view=safeNorm(frame.camera.xyz-world);let sun=safeNorm(vec3f(-5,9,5));let reflected=reflect(-view,n);let sky=mix(vec3f(.08,.17,.19),vec3f(.42,.65,.68),clamp(reflected.y*.5+.5,0,1));let hemi=mix(vec3f(.24,.30,.29),vec3f(.64,.78,.79),n.y*.5+.5);
-  var shadowing=1.0;if(!viewTool){shadowing=visibility(world+n*.014);}
-  color=albedo*hemi*.48+light(albedo,n,view,sun,rough,metal,vec3f(3.5,2.95,2.15))*shadowing+light(albedo,n,view,safeNorm(vec3f(4,5,-5)),rough,metal,vec3f(.70,1.30,1.45));
-  color+=sky*fresnel(mix(vec3f(.04),albedo,metal),max(dot(n,view),0))*(1-rough*.5)*.8;
-  color+=laboratoryLights(world,n,view,albedo,rough,metal);
+ var color=albedo;if(!basic){let view=safeNorm(frame.camera.xyz-world);
+  let ambient=mix(vec3f(.14,.17,.18),vec3f(.28,.32,.33),n.y*.5+.5);
+  color=albedo*ambient*(1-metal*.8)+laboratoryLights(world,n,view,albedo,rough,metal);
  }
  color*=.92;color=clamp((color*(2.51*color+.03))/(color*(2.43*color+.59)+.14),vec3f(0),vec3f(1));return vec4f(pow(color,vec3f(1.0/2.2)),1);
 }

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.38.0 / V38 (polygon lights, visible debris and rapid rockets)
+
+- Expanded the room from eight to 21 emitter polygons, with an amber ceiling halo, cyan triangle, violet chevrons and low colored strips. Shared geometry drives the visible fixtures and LTC integrals. Polished/matte finishes contrast with wet blood.
+- Removed the directional sun, its shadow map/pass and artificial sky specular. Area lighting remains unshadowed. A uniform emitter loop and analytical cancellation of the halo's internal edges retain native performance.
+- Fixed crates disappearing without pieces when explosions filled the debris pool. Large boards now replace small fragments, retaining the bounded pool and 30-second board lifetime. Refined the timber grain.
+- Replaced the launcher's duplicated pistol-hand poses with distinct trigger/support grips and correctly sided forearms. Shortened recoil recovery and reduced the firing cooldown from 1.15 seconds to 320 ms.
+- Distributed explosion body hits and large paint-footprint binning across GPU lanes after native rapid fire exposed serial bottlenecks. The 120 Hz simulation, nine solver iterations, 900 particles and finite liquid accounting remain intact.
+- Added a saturated-debris negative control, actual chain-reaction and rapid-fire checks, expanded independent polygon-light integration checks, and matched gameplay footage.
+
 ## 0.31.0 / V31 (momentum through contraction)
 
 - Preserve mass-weighted throw momentum while overstretched joints pull the dummy back together, using a shared relative-velocity scale within the existing 21 m/s ceiling. Real collisions still remove momentum.

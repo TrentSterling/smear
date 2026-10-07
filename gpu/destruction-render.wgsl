@@ -9,8 +9,8 @@ fn debrisOutput(v:Input,i:u32,boards:bool)->Output{
 @vertex fn debrisVertex(v:Input,@builtin(instance_index) i:u32)->Output{return debrisOutput(v,i,false);}
 @vertex fn boardVertex(v:Input,@builtin(instance_index) i:u32)->Output{return debrisOutput(v,i,true);}
 @fragment fn debrisFragment(v:Output)->@location(0) vec4f{
- let kind=work[ordnanceState(v.index)+23u];var color=vec3f(.016,.024,.024);var rough=.85;var metal=.25;
- if(kind==3u||kind==5u){let grain=.80+.12*sin(v.local.x*92+sin(v.local.z*23)*2);color=vec3f(.40,.24,.10)*grain;rough=.87;metal=0;}
+ let grainAA=1.0/(1+fwidth(v.local.z)*65);let kind=work[ordnanceState(v.index)+23u];var color=vec3f(.016,.024,.024);var rough=.85;var metal=.25;
+ if(kind==3u||kind==5u){let phase=v.local.z*34+sin(v.local.x*2.3+f32(v.index))*.9;let grain=.86+(.09*sin(phase)+.04*sin(v.local.z*105+v.local.x*.9))*grainAA;color=vec3f(.49,.30,.13)*grain;rough=.87;metal=0;}
  if(kind==6u){color=mix(vec3f(.09,.12,.16),vec3f(.95,.28,.025),select(.15,.8,fract(frame.camera.w*3)>.65));rough=.4;metal=.5;}
  if(kind==4u){color=select(vec3f(.16,.22,.21),vec3f(.72,.37,.04),v.local.z>.40);rough=.35;metal=.6;}
  if(kind==1u){color=vec3f(.13,.17,.055);rough=.50;metal=.50;let seam=step(.87,fract(v.uv.x*8))+step(.84,fract(v.uv.y*6));color*=1-min(1.0,seam)*.75;if(v.local.y>.70){color=vec3f(.75,.28,.015);}}
