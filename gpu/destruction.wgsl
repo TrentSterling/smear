@@ -231,4 +231,4 @@ fn blastPaintVelocity(s:Stamp,r:Record,pixel:vec2f)->vec2f{
  return delta/max(distance,.03)*force*wetness*2.5;
 }
 
-fn paintPushVelocity(s:Stamp,r:Record,p:vec2f)->vec2f{if(s.info.y==12){return blastPaintVelocity(s,r,p);}return contactVelocity(s,r,p);}
+fn paintPushVelocity(s:Stamp,r:Record,p:vec2f)->vec2f{if(s.info.y==16){return bulletPaintVelocity(s,r,p);}if(s.info.y==12){return blastPaintVelocity(s,r,p);}return contactVelocity(s,r,p);}

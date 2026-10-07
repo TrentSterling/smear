@@ -2,7 +2,11 @@
 
 Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V40 / 0.40.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+**V41 / 0.41.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+
+V41 makes pistol and shotgun surface impacts push existing wet blood, kick up finite spray and bias the splash along the shot. Dry stains remain fixed; a full particle pool retains failed spray on the surface. Box-edge runoff now partly follows the connected side before dripping, keeping unequal outlets.
+
+Walking now covers the full player height, uses rotated bounds, checks step-up headroom and climbs the ramp and its two access steps. Static platforms also receive prop edge/face contacts and swept corner protection; fast ragdoll samples retain the entry face of thin room geometry. See [V41 evidence](docs/qa/bullet-geometry-v41.json).
 
 V40 adds **Z: shotgun** (twelve pellets, 700 ms cadence) and **J: sawblade launcher** (480 ms cadence). Blades cut through limbs, bounce off the room and props for six seconds, shed physical sparks and scrape wet blood. Both weapons have dedicated two-handed models, recoil and procedural sounds. B also exposes them in the toybox.
 

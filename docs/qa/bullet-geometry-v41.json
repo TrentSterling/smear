@@ -1,0 +1,1438 @@
+{
+  "version": "0.41.0",
+  "at": "2026-10-07T20:35:15.395Z",
+  "buildSHA256": "44c86f16f4a4c34a64c946fdb9ee518dd7bfca605ff67d6f12e8a228ce32d04c",
+  "baselineSHA256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+  "browser": "Headless hardware Chrome; native 3000x1800 profiles; audio enabled/running with output independently muted",
+  "firefox": "Gameplay not run under the user prohibition on headed browsers and desktop focus interference. Both exact embedded modules passed pinned Naga 29.0.4.",
+  "checks": [
+    {
+      "command": "tools/wgsl-verify.mjs",
+      "status": 0,
+      "seconds": 0.548,
+      "result": [
+        "COMPLETE both embedded WGSL modules passed Naga validation"
+      ]
+    },
+    {
+      "command": "tools/bullet-liquid-verify.mjs final-v41",
+      "status": 0,
+      "seconds": 8.518,
+      "result": [
+        "COMPLETE 9 bullet liquid checks"
+      ]
+    },
+    {
+      "command": "tools/player-geometry-verify.mjs final-v41",
+      "status": 0,
+      "seconds": 15.734,
+      "result": [
+        "COMPLETE 8 player geometry checks"
+      ]
+    },
+    {
+      "command": "tools/static-geometry-verify.mjs final-v41",
+      "status": 0,
+      "seconds": 9.554,
+      "result": [
+        "COMPLETE static platform collision checks"
+      ]
+    },
+    {
+      "command": "tools/edge-wrap-verify.mjs final-v41",
+      "status": 0,
+      "seconds": 7.389,
+      "result": [
+        "COMPLETE 6 connected edge-wrap checks"
+      ]
+    },
+    {
+      "command": "tools/compute-verify.mjs final-v41",
+      "status": 0,
+      "seconds": 18.233,
+      "result": [
+        "COMPLETE compute game checks passed (10 checks)"
+      ]
+    },
+    {
+      "command": "tools/ricochet-verify.mjs final-v41",
+      "status": 0,
+      "seconds": 15.211,
+      "result": [
+        "COMPLETE 10 new arsenal and dummy checks"
+      ]
+    },
+    {
+      "command": "tools/prop-motion-verify.mjs final-v41",
+      "status": 0,
+      "seconds": 10.799,
+      "result": [
+        "COMPLETE 12 prop motion checks passed"
+      ]
+    },
+    {
+      "command": "tools/prop-liquid-verify.mjs final-v41",
+      "status": 0,
+      "seconds": 9.873,
+      "result": [
+        "COMPLETE 5 prop liquid/player checks passed"
+      ]
+    },
+    {
+      "command": "tools/impact-verify.mjs final-v41",
+      "status": 0,
+      "seconds": 21.066,
+      "result": [
+        "COMPLETE velocity-driven impact checks 8"
+      ]
+    },
+    {
+      "command": "tools/controller-verify.mjs final-v41",
+      "status": 0,
+      "seconds": 14.783,
+      "result": [
+        "  \"result\": \"COMPLETE FPS controller and spiked bat checks\","
+      ]
+    },
+    {
+      "command": "tools/film-verify.mjs final-v41",
+      "status": 0,
+      "seconds": 21.646,
+      "result": [
+        "  \"result\": \"COMPLETE liquid film checks\","
+      ]
+    },
+    {
+      "command": "tools/wet-verify.mjs final-v41",
+      "status": 0,
+      "seconds": 10.806,
+      "result": [
+        "  \"result\": \"COMPLETE wet contact checks\","
+      ]
+    },
+    {
+      "command": "tools/brush-flow-verify.mjs final-v41",
+      "status": 0,
+      "seconds": 13.015,
+      "result": [
+        "  \"result\": \"COMPLETE integrated brush and drainage checks\","
+      ]
+    },
+    {
+      "command": "tools/ceiling-verify.mjs",
+      "status": 0,
+      "seconds": 17.551,
+      "result": [
+        "{\"result\":\"COMPLETE ceiling impacts and held-release checks\",\"failures\":[],\"rig\":4.999999934083586,\"final\":0.2600427669191826,\"held\":[-2.719277858734131,4.448500633239746,5.07573127746582],\"released\":[-1.9268358945846558,0.5514999628067017,5.233949661254883],\"heldRig\":4.9999997011805455,\"releasedRig\":0.2602616985246187}"
+      ]
+    },
+    {
+      "command": "tools/edge-runoff-verify.mjs",
+      "status": 0,
+      "seconds": 7.1,
+      "result": [
+        "{\"result\":\"COMPLETE edge runoff and conservation checks\",\"outlets\":14,\"width\":84,\"dropCount\":65,\"initial\":0.015750160217285175,\"total\":0.01575017086379651}"
+      ]
+    },
+    {
+      "command": "tools/compute-profile.mjs bullet-liquid",
+      "status": 0,
+      "seconds": 21.95,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (1 checks)"
+      ]
+    },
+    {
+      "command": "tools/compute-profile.mjs toybox",
+      "status": 0,
+      "seconds": 14.643,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (1 checks)"
+      ]
+    },
+    {
+      "command": "tools/compute-profile.mjs rockets",
+      "status": 0,
+      "seconds": 14.919,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (1 checks)"
+      ]
+    },
+    {
+      "command": "tools/compute-profile.mjs",
+      "status": 0,
+      "seconds": 58.397,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (8 checks)"
+      ]
+    },
+    {
+      "command": "tools/bullet-geometry-capture.mjs",
+      "status": 0,
+      "seconds": 113.016,
+      "result": [
+        "COMPLETE V40/V41 bullet, edge, ramp and prop comparisons"
+      ]
+    },
+    {
+      "command": "tools/utility-verify.mjs final-v41",
+      "status": 0,
+      "seconds": 22.711,
+      "result": [
+        "COMPLETE 16 utility checks passed"
+      ]
+    }
+  ],
+  "bulletChecks": [
+    "pistol floor: pushes existing blood, preserves finite supply and leaves dry residue unchanged",
+    "shotgun floor: pushes existing blood, preserves finite supply and leaves dry residue unchanged",
+    "floor seam: pushes existing blood, preserves finite supply and leaves dry residue unchanged",
+    "wall: pushes existing blood, preserves finite supply and leaves dry residue unchanged",
+    "crate top: pushes existing blood, preserves finite supply and leaves dry residue unchanged",
+    "full particle pool: pushes existing blood, preserves finite supply and leaves dry residue unchanged",
+    "Dry blood does not turn into new mobile blood or droplets",
+    "A miss outside the puddle leaves its liquid unchanged",
+    "Blood on another receiver is not pushed through room geometry"
+  ],
+  "bulletSamples": [
+    {
+      "test": {
+        "name": "pistol floor",
+        "tool": 1
+      },
+      "before": {
+        "center": 0.030874710083007788,
+        "moment": 0.18297531309127976,
+        "mass": 0.8644918823241946,
+        "centroid": [
+          -3.0000000000000884,
+          5.0000000000001625
+        ],
+        "mobile": 0.8644918823241946,
+        "residue": 0,
+        "airborne": 0,
+        "total": 0.8644918823241946,
+        "drops": 0
+      },
+      "after": {
+        "center": 0.011047468185424797,
+        "moment": 0.18828805519938502,
+        "mass": 0.8639544486999355,
+        "centroid": [
+          -3.0000311588670625,
+          4.991047871510885
+        ],
+        "mobile": 0.8639544486999355,
+        "residue": 0,
+        "airborne": 0.000537252904905472,
+        "total": 0.864491701604841,
+        "drops": 10
+      }
+    },
+    {
+      "test": {
+        "name": "shotgun floor",
+        "tool": 12
+      },
+      "before": {
+        "center": 0.030874710083007788,
+        "moment": 0.18297531309127976,
+        "mass": 0.8644918823241946,
+        "centroid": [
+          -3.0000000000000884,
+          5.0000000000001625
+        ],
+        "mobile": 0.8644918823241946,
+        "residue": 0,
+        "airborne": 0,
+        "total": 0.8644918823241946,
+        "drops": 0
+      },
+      "after": {
+        "center": 0.012278699874877935,
+        "moment": 0.18743305388093046,
+        "mass": 0.8620988655090158,
+        "centroid": [
+          -3.0002383066111995,
+          4.989118612340107
+        ],
+        "mobile": 0.8620988655090158,
+        "residue": 0,
+        "airborne": 0.002392968277035834,
+        "total": 0.8644918337860517,
+        "drops": 36
+      }
+    },
+    {
+      "test": {
+        "name": "floor seam",
+        "tool": 1,
+        "point": [
+          -4,
+          0,
+          4
+        ]
+      },
+      "before": {
+        "center": 0.030874710083007788,
+        "moment": 0.18297531309127893,
+        "mass": 0.8644918823241946,
+        "centroid": [
+          -4.00000000000008,
+          4.000000000000085
+        ],
+        "mobile": 0.8644918823241946,
+        "residue": 0,
+        "airborne": 0,
+        "total": 0.8644918823241946,
+        "drops": 0
+      },
+      "after": {
+        "center": 0.012605409622192384,
+        "moment": 0.1887500395745045,
+        "mass": 0.8639544963836499,
+        "centroid": [
+          -4.003695725801824,
+          3.9899332808141534
+        ],
+        "mobile": 0.8639544963836499,
+        "residue": 0,
+        "airborne": 0.0005372615050873719,
+        "total": 0.8644917578887372,
+        "drops": 10
+      }
+    },
+    {
+      "test": {
+        "name": "wall",
+        "tool": 1,
+        "point": [
+          -3,
+          2,
+          -8
+        ],
+        "eye": [
+          -3,
+          2,
+          -5
+        ]
+      },
+      "before": {
+        "center": 0.030874710083007788,
+        "moment": 0.18298309351821798,
+        "mass": 0.8644918823241946,
+        "centroid": [
+          -3.0000000000000884,
+          -7.997000000000508
+        ],
+        "mobile": 0.8644918823241946,
+        "residue": 0,
+        "airborne": 0,
+        "total": 0.8644918823241946,
+        "drops": 0
+      },
+      "after": {
+        "center": 0.01035839080810546,
+        "moment": 0.18723522895932654,
+        "mass": 0.863969392776475,
+        "centroid": [
+          -3.0000101390817133,
+          -7.997000000000343
+        ],
+        "mobile": 0.863969392776475,
+        "residue": 0,
+        "airborne": 0.000522541452482983,
+        "total": 0.864491934228958,
+        "drops": 10
+      }
+    },
+    {
+      "test": {
+        "name": "crate top",
+        "tool": 1,
+        "point": [
+          -6.45,
+          1.103,
+          -1.8
+        ],
+        "eye": [
+          -6.45,
+          2.8,
+          0
+        ],
+        "prop": true
+      },
+      "before": {
+        "center": 0.028292346554514285,
+        "moment": 0.13096612921405765,
+        "mass": 0.7237100241843119,
+        "centroid": [
+          -6.4500000000000215,
+          -1.7999999999999896
+        ],
+        "mobile": 0.7237100241843119,
+        "residue": 0,
+        "airborne": 0,
+        "total": 0.7237100241843119,
+        "drops": 0
+      },
+      "after": {
+        "center": 0.009941500631675907,
+        "moment": 0.13628399043223943,
+        "mass": 0.7232705837746882,
+        "centroid": [
+          -6.450036584486653,
+          -1.8106682484133478
+        ],
+        "mobile": 0.7232705837746882,
+        "residue": 0,
+        "airborne": 0.00043950923327429336,
+        "total": 0.7237100930079625,
+        "drops": 10
+      }
+    },
+    {
+      "test": {
+        "name": "full particle pool",
+        "tool": 1,
+        "full": true
+      },
+      "before": {
+        "center": 0.030874710083007788,
+        "moment": 0.18297531309127976,
+        "mass": 0.8644918823241946,
+        "centroid": [
+          -3.0000000000000884,
+          5.0000000000001625
+        ],
+        "mobile": 0.8644918823241946,
+        "residue": 0,
+        "airborne": 0,
+        "total": 0.8644918823241946,
+        "drops": 900
+      },
+      "after": {
+        "center": 0.011047468185424797,
+        "moment": 0.18837597637474568,
+        "mass": 0.8644917392730554,
+        "centroid": [
+          -3.0000035696939453,
+          4.990835827435322
+        ],
+        "mobile": 0.8644917392730554,
+        "residue": 0,
+        "airborne": 0,
+        "total": 0.8644917392730554,
+        "drops": 900
+      }
+    }
+  ],
+  "playerChecks": [
+    "Native W walks onto the low ramp lip and up the slope without jumping",
+    "Native W climbs the two access steps and joins the high end of the ramp",
+    "Walking down the ramp returns to the floor without snagging",
+    "Sprinting into a tall bench stops outside its front face instead of clipping or auto-climbing",
+    "Sprinting into the pillar preserves player and camera clearance",
+    "A jump lands on a bench top instead of passing through it",
+    "Crouched movement remains blocked by the divider",
+    "The raised side of the ramp blocks the whole player torso"
+  ],
+  "playerWalks": [
+    {
+      "name": "ramp-up",
+      "result": {
+        "camera": [
+          4.25,
+          2.714803222141955,
+          -1.4645543048565555
+        ],
+        "control": {
+          "mode": "cursor",
+          "phase": "playing",
+          "freeAim": false,
+          "pending": false,
+          "error": "",
+          "inspection": true,
+          "locked": false,
+          "paused": false,
+          "tool": 0,
+          "aim": {
+            "x": 800,
+            "y": 120
+          },
+          "yaw": 3.141592653589793,
+          "pitch": 0,
+          "batAge": 10,
+          "batSwings": 0,
+          "shots": 0,
+          "aimDown": false,
+          "eye": 1.68,
+          "velocity": [
+            -3.7964045889149464e-16,
+            0,
+            3.0999996011569633
+          ],
+          "keys": [],
+          "left": false
+        },
+        "player": [
+          4.25,
+          1.034803222141955,
+          -1.4645543048565555
+        ]
+      }
+    },
+    {
+      "name": "stairs-up",
+      "result": {
+        "camera": [
+          4.25,
+          2.6848160232309226,
+          -1.546704600890193
+        ],
+        "control": {
+          "mode": "cursor",
+          "phase": "playing",
+          "freeAim": false,
+          "pending": false,
+          "error": "",
+          "inspection": true,
+          "locked": false,
+          "paused": false,
+          "tool": 0,
+          "aim": {
+            "x": 800,
+            "y": 120
+          },
+          "yaw": 0,
+          "pitch": 0,
+          "batAge": 10,
+          "batSwings": 0,
+          "shots": 0,
+          "aimDown": false,
+          "eye": 1.68,
+          "velocity": [
+            0,
+            0,
+            -3.0587518734795376
+          ],
+          "keys": [],
+          "left": false
+        },
+        "player": [
+          4.25,
+          1.0048160232309225,
+          -1.546704600890193
+        ]
+      }
+    },
+    {
+      "name": "ramp-down",
+      "result": {
+        "camera": [
+          4.25,
+          1.717254224570017,
+          -4.321609256174835
+        ],
+        "control": {
+          "mode": "cursor",
+          "phase": "playing",
+          "freeAim": false,
+          "pending": false,
+          "error": "",
+          "inspection": true,
+          "locked": false,
+          "paused": false,
+          "tool": 0,
+          "aim": {
+            "x": 800,
+            "y": 120
+          },
+          "yaw": 0,
+          "pitch": 0,
+          "batAge": 10,
+          "batSwings": 0,
+          "shots": 0,
+          "aimDown": false,
+          "eye": 1.68,
+          "velocity": [
+            0,
+            -1.5741199997186661,
+            -3.099999871224839
+          ],
+          "keys": [],
+          "left": false
+        },
+        "player": [
+          4.25,
+          0.037254224570017064,
+          -4.321609256174835
+        ]
+      }
+    },
+    {
+      "name": "bench-block",
+      "result": {
+        "camera": [
+          -3.65,
+          1.68,
+          0.45499999999999996
+        ],
+        "control": {
+          "mode": "cursor",
+          "phase": "playing",
+          "freeAim": false,
+          "pending": false,
+          "error": "",
+          "inspection": true,
+          "locked": false,
+          "paused": false,
+          "tool": 0,
+          "aim": {
+            "x": 800,
+            "y": 120
+          },
+          "yaw": 0,
+          "pitch": 0,
+          "batAge": 10,
+          "batSwings": 0,
+          "shots": 0,
+          "aimDown": false,
+          "eye": 1.68,
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "keys": [],
+          "left": false
+        },
+        "player": [
+          -3.65,
+          0,
+          0.45499999999999996
+        ]
+      }
+    },
+    {
+      "name": "pillar-block",
+      "result": {
+        "camera": [
+          -5.55,
+          1.68,
+          1.74
+        ],
+        "control": {
+          "mode": "cursor",
+          "phase": "playing",
+          "freeAim": false,
+          "pending": false,
+          "error": "",
+          "inspection": true,
+          "locked": false,
+          "paused": false,
+          "tool": 0,
+          "aim": {
+            "x": 800,
+            "y": 120
+          },
+          "yaw": 0,
+          "pitch": 0,
+          "batAge": 10,
+          "batSwings": 0,
+          "shots": 0,
+          "aimDown": false,
+          "eye": 1.68,
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "keys": [],
+          "left": false
+        },
+        "player": [
+          -5.55,
+          0,
+          1.74
+        ]
+      }
+    },
+    {
+      "name": "jump-bench",
+      "result": {
+        "camera": [
+          -3.65,
+          2.4,
+          -0.6590272360394175
+        ],
+        "control": {
+          "mode": "cursor",
+          "phase": "playing",
+          "freeAim": false,
+          "pending": false,
+          "error": "",
+          "inspection": true,
+          "locked": false,
+          "paused": false,
+          "tool": 0,
+          "aim": {
+            "x": 800,
+            "y": 120
+          },
+          "yaw": 0,
+          "pitch": 0,
+          "batAge": 10,
+          "batSwings": 0,
+          "shots": 0,
+          "aimDown": false,
+          "eye": 1.68,
+          "velocity": [
+            0,
+            0,
+            -3.099962922412756
+          ],
+          "keys": [],
+          "left": false
+        },
+        "player": [
+          -3.65,
+          0.72,
+          -0.6590272360394175
+        ]
+      }
+    },
+    {
+      "name": "crouch-divider",
+      "result": {
+        "camera": [
+          0.15,
+          1.181816686706141,
+          6.2
+        ],
+        "control": {
+          "mode": "cursor",
+          "phase": "playing",
+          "freeAim": false,
+          "pending": false,
+          "error": "",
+          "inspection": true,
+          "locked": false,
+          "paused": false,
+          "tool": 0,
+          "aim": {
+            "x": 800,
+            "y": 120
+          },
+          "yaw": 0,
+          "pitch": 0,
+          "batAge": 10,
+          "batSwings": 0,
+          "shots": 0,
+          "aimDown": false,
+          "eye": 1.181816686706141,
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "keys": [],
+          "left": false
+        },
+        "player": [
+          0.15,
+          0,
+          6.2
+        ]
+      }
+    },
+    {
+      "name": "ramp-side",
+      "result": {
+        "camera": [
+          3.0949999999999998,
+          1.68,
+          -1.5687198701253262
+        ],
+        "control": {
+          "mode": "cursor",
+          "phase": "playing",
+          "freeAim": false,
+          "pending": false,
+          "error": "",
+          "inspection": true,
+          "locked": false,
+          "paused": false,
+          "tool": 0,
+          "aim": {
+            "x": 800,
+            "y": 120
+          },
+          "yaw": -1.5707963267948963,
+          "pitch": 0,
+          "batAge": 10,
+          "batSwings": 0,
+          "shots": 0,
+          "aimDown": false,
+          "eye": 1.68,
+          "velocity": [
+            2.8842222475984284e-16,
+            0,
+            0.00012851697330601195
+          ],
+          "keys": [],
+          "left": false
+        },
+        "player": [
+          3.0949999999999998,
+          0,
+          -1.5687198701253262
+        ]
+      }
+    }
+  ],
+  "staticContacts": [
+    {
+      "test": {
+        "name": "crate ramp fall",
+        "p": [
+          4.25,
+          1.8,
+          -2.35
+        ],
+        "v": [
+          0,
+          -21,
+          0
+        ]
+      },
+      "beforePeak": 0.7075439025237386,
+      "afterPeak": 0.0016526693085523458
+    },
+    {
+      "test": {
+        "name": "angled crate ramp",
+        "p": [
+          4.25,
+          1.8,
+          -2.35
+        ],
+        "q": [
+          0,
+          0,
+          0.3894183423086505,
+          0.9210609940028851
+        ],
+        "v": [
+          0,
+          -21,
+          0
+        ]
+      },
+      "beforePeak": 0.7599608807532793,
+      "afterPeak": 0
+    },
+    {
+      "test": {
+        "name": "crate bench corner",
+        "p": [
+          -2.5,
+          1.5,
+          0.12
+        ],
+        "q": [
+          0,
+          0.3801884151231614,
+          0,
+          0.9249090598573131
+        ],
+        "v": [
+          0,
+          -12,
+          0
+        ]
+      },
+      "beforePeak": 0.3729195084538761,
+      "afterPeak": 0.0019676390277771905
+    },
+    {
+      "test": {
+        "name": "crate barrier",
+        "p": [
+          0.1,
+          0.9,
+          -2.8
+        ],
+        "q": [
+          0,
+          0.3801884151231614,
+          0,
+          0.9249090598573131
+        ],
+        "v": [
+          0,
+          0,
+          -21
+        ]
+      },
+      "beforePeak": 0.05964958213324112,
+      "afterPeak": 0
+    },
+    {
+      "test": {
+        "name": "barrel ramp fall",
+        "id": 3,
+        "p": [
+          4.25,
+          1.8,
+          -2.35
+        ],
+        "v": [
+          0,
+          -21,
+          0
+        ]
+      },
+      "beforePeak": 0,
+      "afterPeak": 0
+    }
+  ],
+  "ragdollRampPenetration": 0,
+  "wrap": [
+    {
+      "box": 4,
+      "full": false,
+      "initial": 0.02099967956542966,
+      "sides": 0.008573654700969827,
+      "other": 0,
+      "total": 0.020999637994402923,
+      "airborne": 0.008450897081274888
+    },
+    {
+      "box": 4,
+      "full": true,
+      "initial": 0.02099967956542966,
+      "sides": 0.016748410981276933,
+      "other": 0,
+      "total": 0.02099963359175057,
+      "airborne": 0
+    },
+    {
+      "box": 6,
+      "full": false,
+      "initial": 0.018499717712402327,
+      "sides": 0.006473703656877792,
+      "other": 0,
+      "total": 0.018499718658270596,
+      "airborne": 0.008942938524342026
+    },
+    {
+      "box": 6,
+      "full": true,
+      "initial": 0.018499717712402327,
+      "sides": 0.015173884800502233,
+      "other": 0,
+      "total": 0.01849977629525321,
+      "airborne": 0
+    },
+    {
+      "box": 12,
+      "full": false,
+      "initial": 0.01549976348876952,
+      "sides": 0.0063231754302978515,
+      "other": 0,
+      "total": 0.015499706201298978,
+      "airborne": 0.006179027490361477
+    },
+    {
+      "box": 12,
+      "full": true,
+      "initial": 0.01549976348876952,
+      "sides": 0.012314682006835938,
+      "other": 0,
+      "total": 0.015499677658081058,
+      "airborne": 0
+    }
+  ],
+  "profiles": [
+    {
+      "label": "idle",
+      "fps": 60,
+      "ticksPerSecond": 119.86699916874481,
+      "cpuP99ms": 1.2999999523162842,
+      "gpu": {
+        "computeMS": {
+          "p50": 2.29376,
+          "p95": 2.62144,
+          "p99": 3.538944,
+          "max": 3.670016
+        },
+        "renderMS": {
+          "p50": 10.027008,
+          "p95": 10.48576,
+          "p99": 10.682368,
+          "max": 10.747904
+        }
+      },
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 361,
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5776,
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "bat",
+      "fps": 60.00500041670139,
+      "ticksPerSecond": 120.04522479430402,
+      "cpuP99ms": 1.4000000357627869,
+      "gpu": {
+        "computeMS": {
+          "p50": 2.359296,
+          "p95": 7.733248,
+          "p99": 9.240576,
+          "max": 12.320768
+        },
+        "renderMS": {
+          "p50": 5.177344,
+          "p95": 8.126464,
+          "p99": 11.79648,
+          "max": 12.12416
+        }
+      },
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5776,
+          "frame uniforms": 1108992,
+          "GPU scene instances": 617760
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "pistol",
+      "fps": 60.00200006714576,
+      "ticksPerSecond": 119.88294369895972,
+      "cpuP99ms": 1.399999976158142,
+      "gpu": {
+        "computeMS": {
+          "p50": 2.490368,
+          "p95": 3.60448,
+          "p99": 3.866624,
+          "max": 3.866624
+        },
+        "renderMS": {
+          "p50": 7.471104,
+          "p95": 7.798784,
+          "p99": 7.995392,
+          "max": 8.388608
+        }
+      },
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 361,
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5776,
+          "frame uniforms": 1108992,
+          "GPU scene instances": 785488
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "spill",
+      "fps": 60.001000016309305,
+      "ticksPerSecond": 119.85305118297602,
+      "cpuP99ms": 1.300000011920929,
+      "gpu": {
+        "computeMS": {
+          "p50": 2.359296,
+          "p95": 5.89824,
+          "p99": 6.619136,
+          "max": 9.240576
+        },
+        "renderMS": {
+          "p50": 8.781824,
+          "p95": 9.17504,
+          "p99": 9.371648,
+          "max": 9.437184
+        }
+      },
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 361,
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5776,
+          "frame uniforms": 1108992,
+          "GPU scene instances": 510400
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "drag",
+      "fps": 60.01000166694449,
+      "ticksPerSecond": 120.32731696844118,
+      "cpuP99ms": 1.2000000476837158,
+      "gpu": {
+        "computeMS": {
+          "p50": 2.818048,
+          "p95": 4.390912,
+          "p99": 4.980736,
+          "max": 6.356992
+        },
+        "renderMS": {
+          "p50": 10.223616,
+          "p95": 10.682368,
+          "p99": 10.81344,
+          "max": 11.010048
+        }
+      },
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 361,
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5776,
+          "frame uniforms": 1108992,
+          "GPU scene instances": 1408
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "chaos",
+      "fps": 60.0013370772689,
+      "ticksPerSecond": 119.81336443926011,
+      "cpuP99ms": 1.300000011920929,
+      "gpu": {
+        "computeMS": {
+          "p50": 2.752512,
+          "p95": 4.25984,
+          "p99": 4.849664,
+          "max": 5.046272
+        },
+        "renderMS": {
+          "p50": 11.665408,
+          "p95": 13.43488,
+          "p99": 13.828096,
+          "max": 14.41792
+        }
+      },
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 360,
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5760,
+          "frame uniforms": 1105920
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "wet-pistol",
+      "fps": 60.00033426358109,
+      "ticksPerSecond": 119.6658012121119,
+      "cpuP99ms": 1.5,
+      "gpu": {
+        "computeMS": {
+          "p50": 2.883584,
+          "p95": 4.980736,
+          "p99": 5.701632,
+          "max": 6.160384
+        },
+        "renderMS": {
+          "p50": 8.323072,
+          "p95": 8.912896,
+          "p99": 9.240576,
+          "max": 9.371648
+        }
+      },
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 360,
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5760,
+          "frame uniforms": 1105920,
+          "GPU scene instances": 782496
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "wet-shotgun",
+      "fps": 59.999331484010845,
+      "ticksPerSecond": 119.81536102965498,
+      "cpuP99ms": 1.300000011920929,
+      "gpu": {
+        "computeMS": {
+          "p50": 2.883584,
+          "p95": 4.58752,
+          "p99": 5.505024,
+          "max": 8.060928
+        },
+        "renderMS": {
+          "p50": 8.650752,
+          "p95": 9.17504,
+          "p99": 9.699328,
+          "max": 10.092544
+        }
+      },
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 360,
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5760,
+          "frame uniforms": 1105920,
+          "GPU scene instances": 831424
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "full-toybox",
+      "fps": 60.00334280461307,
+      "ticksPerSecond": 119.8113679154061,
+      "cpuP99ms": 1.600000023841858,
+      "gpu": {
+        "computeMS": {
+          "p50": 3.211264,
+          "p95": 4.980736,
+          "p99": 6.946816,
+          "max": 7.53664
+        },
+        "renderMS": {
+          "p50": 7.077888,
+          "p95": 7.340032,
+          "p99": 7.405568,
+          "max": 7.471104
+        }
+      },
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 360,
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5760,
+          "frame uniforms": 1105920
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "rapid-rockets",
+      "fps": 58.166666666666664,
+      "ticksPerSecond": 120.09060928055038,
+      "cpuP99ms": 1.600000023841858,
+      "gpu": {
+        "computeMS": {
+          "p50": 5.373952,
+          "p95": 9.8304,
+          "p99": 11.206656,
+          "max": 16.449536
+        },
+        "renderMS": {
+          "p50": 10.092544,
+          "p95": 12.189696,
+          "p99": 12.976128,
+          "max": 13.303808
+        }
+      },
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 281,
+          "asynchronous collision sound event": 309,
+          "asynchronous GPU timing": 312,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5680,
+          "frame uniforms": 1090560,
+          "GPU scene instances": 499840
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    }
+  ],
+  "comparisons": [
+    {
+      "name": "before-pistol",
+      "sha256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      }
+    },
+    {
+      "name": "after-pistol",
+      "sha256": "44c86f16f4a4c34a64c946fdb9ee518dd7bfca605ff67d6f12e8a228ce32d04c",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      }
+    },
+    {
+      "name": "before-shotgun",
+      "sha256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      }
+    },
+    {
+      "name": "after-shotgun",
+      "sha256": "44c86f16f4a4c34a64c946fdb9ee518dd7bfca605ff67d6f12e8a228ce32d04c",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      }
+    },
+    {
+      "name": "before-wrap",
+      "sha256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      }
+    },
+    {
+      "name": "after-wrap",
+      "sha256": "44c86f16f4a4c34a64c946fdb9ee518dd7bfca605ff67d6f12e8a228ce32d04c",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      }
+    },
+    {
+      "name": "before-ramp",
+      "sha256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      }
+    },
+    {
+      "name": "after-ramp",
+      "sha256": "44c86f16f4a4c34a64c946fdb9ee518dd7bfca605ff67d6f12e8a228ce32d04c",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      }
+    },
+    {
+      "name": "before-crate",
+      "sha256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 2,
+        "lastThud": {
+          "strength": 0.38583638583638585,
+          "melee": false,
+          "explosion": false,
+          "saw": false,
+          "body": 255,
+          "latency": 4.699999988079071,
+          "frameID": 73
+        }
+      }
+    },
+    {
+      "name": "after-crate",
+      "sha256": "44c86f16f4a4c34a64c946fdb9ee518dd7bfca605ff67d6f12e8a228ce32d04c",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 3,
+        "lastThud": {
+          "strength": 0.3684981684981685,
+          "melee": false,
+          "explosion": false,
+          "saw": false,
+          "body": 255,
+          "latency": 5.100000023841858,
+          "frameID": 42
+        }
+      }
+    }
+  ],
+  "notes": [
+    "Full particle pools keep un-emitted bullet/runoff liquid on connected surfaces. Inter-chart fixed-point quantization is bounded at 1e-7 in the one-dispatch regression; measured change was approximately 2e-9.",
+    "Room collision reproduction reduced crate penetration from 0.71-0.76 m on the ramp and 0.37 m at a bench corner to 0.002 m or less.",
+    "No reduction to nine solver iterations, 120 Hz simulation, 900 droplets, 54 bristles or paint resolution. No normal-play pose or pigment downloads."
+  ]
+}

@@ -15,7 +15,7 @@ fn fireShotgun(){
    let c=skinPoint(b,rotate(inverseQ(b.q),hit.p-b.p.xyz),rotate(inverseQ(b.q),hit.n));stamp(header(0).z+i,c,c,vec2f(.04,.065),.65,0,f32(seed),0);
    atomicAdd(&work[16],1u);atomicAdd(&work[destructionMeta()+20u],1u);
   }else if(hit.surface>=0){
-   hitProp(hit.surface,.115*frame.rayD.w);propSurfaceImpulse(hit.surface,hit.p,ray*2.2*frame.action.w);splatKind(u32(hit.surface),hit.p,.026,.85,seed,9);
+   bulletLiquid(u32(hit.surface),hit.p,ray,0,seed);hitProp(hit.surface,.115*frame.rayD.w);propSurfaceImpulse(hit.surface,hit.p,ray*2.2*frame.action.w);splatKind(u32(hit.surface),hit.p,.026,.85,seed,9);
    let tag=record(u32(hit.surface)).center.w;if(tag>0){let bit=1u<<(u32(tag)-1u);if((chipped&bit)==0u){chipProp(hit.surface,hit.p,hit.n,1.2);chipped|=bit;}}
    else if(pellet%3u==0u){spawnOrdnance(2u,hit.p+hit.n*.03,hit.n*3+up*(hash(seed)-.3)*3,.013,seed);}
   }

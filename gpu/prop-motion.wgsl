@@ -50,7 +50,7 @@ fn propVertex(b:Body,index:u32)->vec3f{
 fn propEdgeContact(a:Body,b:Body)->PropContact{
  var axes:array<vec3f,15>;for(var k=0u;k<3u;k++){var axis=vec3f(0);axis[k]=1;axes[k]=rotate(a.q,axis);axes[k+3u]=rotate(b.q,axis);}for(var i=0u;i<3u;i++){for(var j=0u;j<3u;j++){axes[6u+i*3u+j]=cross(axes[i],axes[j+3u]);}}
  var depth=1e6;var normal=vec3f(0,1,0);let delta=a.p.xyz-b.p.xyz;
- for(var k=0u;k<15u;k++){if(dot(axes[k],axes[k])<1e-8){continue;}let n=safeNorm(axes[k]);let ra=dot(abs(rotate(inverseQ(a.q),n)),a.half.xyz);let rb=dot(abs(rotate(inverseQ(b.q),n)),b.half.xyz);let overlap=ra+rb-abs(dot(delta,n));if(overlap<=0){return PropContact(vec3f(0),-1,normal);}if(overlap<depth){depth=overlap;normal=n*select(-1.0,1.0,dot(delta,n)>=0);}}
+ for(var k=0u;k<15u;k++){if(dot(axes[k],axes[k])<1e-8){continue;}let n=safeNorm(axes[k]);let an=rotate(inverseQ(a.q),n);let bn=rotate(inverseQ(b.q),n);let ra=select(dot(abs(an),a.half.xyz),a.half.x*length(an.xz)+a.half.y*abs(an.y),a.half.w==2);let rb=select(dot(abs(bn),b.half.xyz),b.half.x*length(bn.xz)+b.half.y*abs(bn.y),b.half.w==2);let overlap=ra+rb-abs(dot(delta,n));if(overlap<=0){return PropContact(vec3f(0),-1,normal);}if(overlap<depth){depth=overlap;normal=n*select(-1.0,1.0,dot(delta,n)>=0);}}
  let localA=rotate(inverseQ(a.q),-normal);let localB=rotate(inverseQ(b.q),normal);
  let supportA=a.p.xyz+rotate(a.q,a.half.xyz*sign(localA));let supportB=b.p.xyz+rotate(b.q,b.half.xyz*sign(localB));
  return PropContact((supportA+supportB)*.5,depth,normal);
@@ -107,7 +107,17 @@ fn releaseProp(){
    constants[s+11u]=vec4f(frame.goal.xyz,frame.local.w);
   }
   b.v=vec4f(bounded(b.v.xyz*exp(-.075*dt),21),0);b.w=vec4f(bounded(b.w.xyz*exp(-.36*dt),18),0);
-  b.p=vec4f(b.p.xyz+b.v.xyz*dt,b.p.w);b.q=rotateStep(b.q,b.w.xyz*dt);saveProp(i,b);syncProp(i);
+  var previous=b;b.p=vec4f(b.p.xyz+b.v.xyz*dt,b.p.w);b.q=rotateStep(b.q,b.w.xyz*dt);
+  if(length(b.p.xyz-previous.p.xyz)+length(b.w.xyz)*length(b.half.xyz)*dt>.025){
+   var first=1.0;
+   for(var j=0u;j<header(0).x;j++){
+    let box=header(1).x+j*5u;if(constants[box+2u].w>0||constants[box].w== -1){continue;}
+    let local=rotate(inverseQ(constants[box+1u]),previous.p.xyz-constants[box].xyz);if(length(max(abs(local)-constants[box+2u].xyz,vec3f(0)))>length(b.half.xyz)+length(b.v.xyz)*dt+.03){continue;}
+    for(var vertex=0u;vertex<select(8u,24u,b.half.w==2);vertex++){let sweep=sweepStaticSample(propVertex(previous,vertex),propVertex(b,vertex),0,constants[box].xyz,constants[box+1u],constants[box+2u].xyz);first=min(first,sweep.time);}
+   }
+   if(first<1){b.p=vec4f(mix(previous.p.xyz,b.p.xyz,first),b.p.w);b.q=normalize(mix(previous.q,b.q,first));}
+  }
+  saveProp(i,b);syncProp(i);
  }
  for(var iteration=0u;iteration<9u;iteration++){
   for(var i=0u;i<propCount();i++){
@@ -129,6 +139,16 @@ fn releaseProp(){
      b=solvePropContact(b,point,hit.normal,hit.depth+.002);
     }
    }
+   // Room boxes need the same edge/face fallback as movable boxes. A thin
+   // rotated platform can intersect a crate with none of its corners inside.
+   {for(var candidate=0u;candidate<candidateCount;candidate++){
+    let box=candidates[candidate];if(constants[box+2u].w>0||constants[box].w== -1){continue;}
+    var room:Body;room.p=vec4f(constants[box].xyz,0);room.q=constants[box+1u];room.half=vec4f(constants[box+2u].xyz,0);
+    {let hit=propEdgeContact(b,room);if(hit.depth>.002){
+     propOtherID=-1;propOther=room;let local=rotate(inverseQ(room.q),b.p.xyz-room.p.xyz);let point=room.p.xyz+rotate(room.q,clamp(local,-room.half.xyz,room.half.xyz));
+     if(hit.normal.y>.55){constants[propData(i)+14u].z=1;}impact=max(impact,max(0,-dot(b.v.xyz,hit.normal)));b=solvePropContact(b,point,hit.normal,hit.depth);
+    }}
+   }}
    if(b.half.w!=2){for(var otherID=i+1u;otherID<propCount();otherID++){
     if(propGone(f32(otherID+1u))){continue;}let other=propBody(otherID);if(other.half.w==2||distance(b.p.xyz,other.p.xyz)>length(b.half.xyz)+length(other.half.xyz)){continue;}
     var vertexContact=false;for(var k=0u;k<8u;k++){if(pointBox(propVertex(b,k),other.p.xyz,other.q,other.half.xyz,1).depth>=0||pointBox(propVertex(other,k),b.p.xyz,b.q,b.half.xyz,1).depth>=0){vertexContact=true;break;}}
@@ -154,8 +174,9 @@ fn releaseProp(){
  if(state.w>0){
   for(var iteration=0u;iteration<3u;iteration++){for(var i=0u;i<propCount();i++){
    if(propGone(f32(i+1u))){continue;}let b=propBody(i);
-   for(var sampleID=0u;sampleID<3u;sampleID++){
-    let h=select(select(.23,max(.48,state.w-.16),sampleID==1u),.68,sampleID==2u);
+   let sampleCount=max(2u,u32(ceil((state.w+.12-.46)/.20))+1u);
+   for(var sampleID=0u;sampleID<sampleCount;sampleID++){
+    let h=mix(.23,max(.23,state.w+.12-.23),f32(sampleID)/f32(sampleCount-1u));
     let hit=pointBox(p+vec3f(0,h,0),b.p.xyz,b.q,b.half.xyz,b.half.w);let depth=.23+hit.depth;
     if(depth>0){p+=hit.normal*min(depth,.24);if(hit.normal.y>.55){ground=1;}}
    }

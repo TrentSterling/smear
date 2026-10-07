@@ -157,11 +157,23 @@ fn wallPotential(rec:u32,r:Record,cell:vec2i,mass:f32)->f32 {
  if(overhead&&hash(address*977u+tick*131u)>=frame.settings.y*(.7+min(mass,2.0)*2.4)*dripRate){return;}
  if(overhead&&atomicAdd(&work[37],1u)>=u32(max(1.0,24*dripRate))){return;}
  var point=r.center.xyz+r.u.xyz*((f32(cell.x)+.5)/r.u.w-.5)*r.size.x+r.v.xyz*((f32(cell.y)+.5)/r.v.w-.5)*r.size.y;
+ // Follow the connected face of the same solid before detaching. The source
+ // debit is exact, including when the particle pool is full. Record n.w keeps
+ // the owning box ID, so a nearby unrelated face cannot steal this liquid.
+ if(raisedEdge&&r.n.w>0&&r.n.y>-.1){
+  let box=header(1).x+(u32(r.n.w)-1u)*5u;let outward=r.u.xyz*exitDirection.x+r.v.xyz*exitDirection.y;let localDirection=rotate(inverseQ(constants[box+1u]),outward);let a=abs(localDirection);var neighbor:i32;
+  if(a.x>a.y&&a.x>a.z){neighbor=i32(select(constants[box+3u].y,constants[box+3u].x,localDirection.x>0));}else if(a.y>a.z){neighbor=i32(select(constants[box+3u].w,constants[box+3u].z,localDirection.y>0));}else{neighbor=i32(select(constants[box+4u].y,constants[box+4u].x,localDirection.z>0));}
+  if(neighbor>=0&&neighbor!=i32(rec)){
+   let adjacent=record(u32(neighbor));let edge=point+outward*(r.size[edgeAxis]/f32(dims[edgeAxis])*.5);let wrapped=edge-adjacent.n.xyz*dot(edge-adjacent.center.xyz,adjacent.n.xyz)-r.n.xyz*.018;
+   let fraction=(.22+.20*hash(address*433u))*smoothstep(.025,.12,mass);let taken=takeWet(filmOffset(0u)+address,u32(round(mass*fraction*FILM_SCALE)));
+   if(taken>0u){returnFilm(u32(neighbor),wrapped,f32(taken)/FILM_SCALE*r.size.x*r.size.y/f32(dims.x*dims.y));}
+  }
+ }
  if(overhead){point+=r.u.xyz*((hash(address*433u)-.5)*.020)+r.v.xyz*((hash(address*719u)-.5)*.020);}
  if(raisedEdge){let tangent=select(r.v.xyz,r.u.xyz,edgeAxis==1u);point+=tangent*((hash(address+tick*433u)-.5)*.018);}
  point+=r.n.xyz*.018+(r.u.xyz*exitDirection.x+r.v.xyz*exitDirection.y)*.035;
  if(atomicAdd(&work[30],1u)>=24u){return;}
- let amount=min(mass,max(.025,mass*select(.22,.25+hash(address+tick*331u)*.45,overhead||raisedEdge)));let volume=amount*r.size.x*r.size.y/f32(dims.x*dims.y);
+ let remaining=filmRead(0u,address);let amount=min(remaining,max(.025,remaining*select(.22,.25+hash(address+tick*331u)*.45,overhead||raisedEdge)));let volume=amount*r.size.x*r.size.y/f32(dims.x*dims.y);
  if(point.y<.025){returnFilm(floorRecord(point),point,volume);takeWet(filmOffset(0u)+address,u32(round(amount*FILM_SCALE)));atomicAdd(&work[26],1u);return;}
  var motion=r.u.xyz*velocity.x+r.v.xyz*velocity.y+r.n.xyz*.10+vec3f(0,-.35,0);
  if(overhead){motion=r.u.xyz*(velocity.x+(hash(address+tick*83u)-.5)*.18)+r.v.xyz*(velocity.y+(hash(address+tick*163u)-.5)*.18)+r.n.xyz*(.03+hash(address+tick*277u)*.12);}
