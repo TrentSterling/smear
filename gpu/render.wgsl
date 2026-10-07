@@ -20,7 +20,7 @@ struct Output {
  @location(5) @interpolate(flat) index:u32,
 };
 fn transformed(v:Input,index:u32)->Output {
- let object=objects[index];var p=(object.model*vec4f(v.p,1)).xyz;var n=(object.normal*vec4f(v.n,0)).xyz;var local=p;var localNormal=n;
+ let object=objects[index];if(object.flags.w==9&&(work[19]&(1u<<u32(object.params.y)))!=0u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,vec3f(0),v.n,index);}var p=(object.model*vec4f(v.p,1)).xyz;var n=(object.normal*vec4f(v.n,0)).xyz;var local=p;var localNormal=n;
  if(object.flags.w==5||object.flags.w==6){
   let base=u32(object.params.x);if(base>=u32(frame.settings.x)){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}
   if(v.rig.z>0&&work[fractureState(base+u32(v.rig.z)-1u)]!=0u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}
@@ -122,11 +122,16 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
  if(object.flags.w==5){let id=u32(object.params.x)+u32(v.uv.y+.5);let charred=clamp(f32(work[fractureState(id)+7u])/65536,0,.88);color=mix(color,vec3f(.019,.025,.022),charred);rough=mix(rough,.92,charred);}
  if(object.params.z>=0){let tex=textureSampleLevel(maps,linearSampler,vec2f(v.uv.x,1-v.uv.y),i32(object.params.z),0);color*=pow(tex.rgb,vec3f(2.2));alpha*=tex.a;}
  if(alpha<.02){discard;}
+ var receiverID=object.params.y;
+ if(object.flags.w==9){let k=header(1).x+u32(object.flags.z)*5u;let local=v.world-constants[k].xyz;let a=abs(local/constants[k+2u].xyz);if(a.y>a.x&&a.y>a.z){receiverID=constants[k+3u].z;}else if(a.x>a.z){receiverID=select(constants[k+3u].y,constants[k+3u].x,local.x>0);}else{receiverID=select(constants[k+4u].y,constants[k+4u].x,local.z>0);}
+  if(constants[k].w==1&&color.r>color.b*1.5){let grain=sin(local.y*117+sin(local.x*5)*2+sin(local.z*21))*.06;let seam=step(.965,fract((local.y+.55)*5.5));color*=1+grain-seam*.35;}
+  if(constants[k].w==2&&color.r>color.g*1.8&&abs(local.y)>.30&&abs(local.y)<.42){color=mix(vec3f(.035,.047,.038),vec3f(.75,.49,.10),step(.5,fract(atan2(local.z,local.x)*3+local.y*9)));}
+ }
  var stain=vec4f(0);var fresh=0.0;var liquid=vec4f(0);var liquidNormal=normalize(v.normal);
  if(object.params.x>=0&&(object.flags.w==0||object.flags.w==5)){let id=u32(object.params.x)+select(0u,u32(v.uv.y+.5),object.flags.w==5);let b=bodies[id];stain=paintAt(header(0).z+id,skinUV(v.local,v.localNormal,b.half.xyz));fresh=min(b.coat.x,1);}
- else if(object.params.x<0&&object.params.y>=0){
-  let r=record(u32(object.params.y));let d=v.world-r.center.xyz;let metres=vec2f(dot(d,r.u.xyz),dot(d,r.v.xyz));let surfaceUV=metres/r.size.xy+.5;
-  stain=paintAt(u32(object.params.y),surfaceUV);liquid=filmAt(u32(object.params.y),surfaceUV);
+ else if(object.params.x<0&&receiverID>=0){
+  let r=record(u32(receiverID));let d=v.world-r.center.xyz;let metres=vec2f(dot(d,r.u.xyz),dot(d,r.v.xyz));let surfaceUV=metres/r.size.xy+.5;
+  stain=paintAt(u32(receiverID),surfaceUV);liquid=filmAt(u32(receiverID),surfaceUV);
   let relief=.002+.004*smoothstep(.04,.45,liquid.x);let slope=liquid.zw*min(1.0,45.0/max(length(liquid.zw),.001));
   liquidNormal=safeNorm(v.normal-(r.u.xyz*slope.x+r.v.xyz*slope.y)*relief);
   // Coarse pigment mobility must not keep an empty, dried patch glossy.
@@ -134,12 +139,12 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
   let aa=max(abs(vec2f(dot(worldDx,r.u.xyz),dot(worldDx,r.v.xyz)))+abs(vec2f(dot(worldDy,r.u.xyz),dot(worldDy,r.v.xyz))),vec2f(.0005));
   let grain=vec2u(vec2i(floor((metres+r.size.xy*.5)*160)));let finish=(hash(grain.x+grain.y*1973u)-.5)*.026;
   color*=1+finish/(1+max(aa.x,aa.y)*160);
-  if(object.params.y<16){
+  if(receiverID<16){
    let grid=abs(fract((v.world.xz+8)*.5-.5)-.5)*2;let line=1-smoothstep(vec2f(.006),vec2f(.006)+aa,grid);color*=1-max(line.x,line.y)*.18;
    let edge=max(abs(v.world.x),abs(v.world.z));if(edge>7.45){color*=.60;}
    let ring=min(abs(length(v.world.xz-vec2f(-2.4,-2.95))-.68),abs(length(v.world.xz-vec2f(2.55,-2.95))-.68));
    let marking=1-smoothstep(.014,.014+max(aa.x,aa.y),ring);color=mix(color,vec3f(.85,.62,.20),marking*.8);
-  }else{
+  }else if(object.flags.w!=9){
    let edge=min(r.size.x*.5-abs(metres.x),r.size.y*.5-abs(metres.y));let bevel=1-smoothstep(.009,.028,edge);color=mix(color,vec3f(.12,.22,.23),bevel*.42);
    if(r.size.x>15){color=mix(vec3f(.055,.19,.21),color,smoothstep(1.16,1.18,v.world.y));}
    else if(abs(r.n.y)<.7){
@@ -151,7 +156,7 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
  }
  // Blood is optically dense even in a thin film. A narrow meniscus avoids the
  // airbrush halo produced by mapping thickness directly to broad transparency.
- let wallFilm=object.params.x<0&&object.params.y>=16&&abs(v.normal.y)<.65;
+ let wallFilm=object.params.x<0&&receiverID>=16&&abs(v.normal.y)<.65;
  let mobileAlpha=smoothstep(select(.006,.018,wallFilm),select(.027,.12,wallFilm),liquid.x)*.98;let residueAlpha=smoothstep(.003,.022,liquid.y);
  let residue=vec4f(.24,.012,.025,residueAlpha*.85*mix(.25,1.0,smoothstep(.025,.60,stain.a)));stain=over(stain,residue);
  let liquidColor=mix(vec3f(.43,.021,.037),vec3f(.19,.005,.014),1-exp(-liquid.x*1.4));stain=over(stain,vec4f(liquidColor,mobileAlpha));fresh=max(fresh,smoothstep(.002,.05,liquid.x));

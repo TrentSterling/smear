@@ -18,7 +18,7 @@ fn footprint(b:Body)->Footprint {
   let s=sample(b,si);let center=b.p.xyz+rotate(b.q,s.xyz);
   if(center.y-s.w<nearest){nearest=center.y-s.w;rec=i32(floorRecord(center));}
   for(var j=16u;j<header(0).z;j++){
-   let r=record(j);let distance=dot(center-r.center.xyz,r.n.xyz);let c=uv(r,center);
+   let r=record(j);if(propGone(r.center.w)){continue;}let distance=dot(center-r.center.xyz,r.n.xyz);let c=uv(r,center);
    if(distance>-.025&&distance-s.w<nearest&&all(c>=vec2f(0))&&all(c<=vec2f(1))){nearest=distance-s.w;rec=i32(j);}
   }
  }

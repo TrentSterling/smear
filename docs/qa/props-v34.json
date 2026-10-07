@@ -1,0 +1,1584 @@
+{
+  "version": "0.34.0",
+  "at": "2026-10-07T03:07:15.484Z",
+  "buildSHA256": "be21b310a0b6cbd4fe1bc343652e3eec0fe3dfd76d0081433d237c9702893cff",
+  "buildBytes": 1232677,
+  "beforeSHA256": "e01a18d283256a3c51a3abcbdc81327106c67390249e2f5de2f6feb80bf846cb",
+  "finalJobs": [
+    {
+      "args": [
+        "tools/props-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T03:01:29.347Z",
+      "buildSHA256": "be21b310a0b6cbd4fe1bc343652e3eec0fe3dfd76d0081433d237c9702893cff",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/destruction-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T03:01:39.759Z",
+      "buildSHA256": "be21b310a0b6cbd4fe1bc343652e3eec0fe3dfd76d0081433d237c9702893cff",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/controller-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T03:01:59.267Z",
+      "buildSHA256": "be21b310a0b6cbd4fe1bc343652e3eec0fe3dfd76d0081433d237c9702893cff",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-verify.mjs"
+      ],
+      "start": "2026-10-07T03:02:13.659Z",
+      "buildSHA256": "be21b310a0b6cbd4fe1bc343652e3eec0fe3dfd76d0081433d237c9702893cff",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs"
+      ],
+      "start": "2026-10-07T03:02:30.812Z",
+      "buildSHA256": "be21b310a0b6cbd4fe1bc343652e3eec0fe3dfd76d0081433d237c9702893cff",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs",
+        "wall-contact"
+      ],
+      "start": "2026-10-07T03:03:26.752Z",
+      "buildSHA256": "be21b310a0b6cbd4fe1bc343652e3eec0fe3dfd76d0081433d237c9702893cff",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs",
+        "floor-squeegee"
+      ],
+      "start": "2026-10-07T03:03:41.442Z",
+      "buildSHA256": "be21b310a0b6cbd4fe1bc343652e3eec0fe3dfd76d0081433d237c9702893cff",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs",
+        "destruction"
+      ],
+      "start": "2026-10-07T03:03:56.061Z",
+      "buildSHA256": "be21b310a0b6cbd4fe1bc343652e3eec0fe3dfd76d0081433d237c9702893cff",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs",
+        "props"
+      ],
+      "start": "2026-10-07T03:04:10.839Z",
+      "buildSHA256": "be21b310a0b6cbd4fe1bc343652e3eec0fe3dfd76d0081433d237c9702893cff",
+      "status": 0
+    }
+  ],
+  "earlierCandidateGauntlet": [
+    {
+      "args": [
+        "tools/props-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:45:21.033Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/fragment-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:45:30.916Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/destruction-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:45:37.919Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/bleeding-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:45:56.331Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/controller-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:46:06.566Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/ltc-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:46:20.047Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/momentum-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:46:33.461Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/handling-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:46:54.453Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/carry-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:47:28.773Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/impact-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:47:57.468Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/smudge-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:48:17.271Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/liquid-evolution-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:48:40.700Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/drip-join-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:48:50.080Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/contact-character-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:49:03.932Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/wet-finish-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:49:12.660Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/brush-flow-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:49:23.553Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/wall-contact-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:49:36.559Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/wall-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:50:00.006Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/wet-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:50:10.616Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/film-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:50:20.905Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/rivulet-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:50:41.028Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-verify.mjs"
+      ],
+      "start": "2026-10-07T02:50:55.083Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs"
+      ],
+      "start": "2026-10-07T02:51:11.857Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 1
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs"
+      ],
+      "start": "2026-10-07T02:53:06.417Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs",
+        "wall-contact"
+      ],
+      "start": "2026-10-07T02:54:03.687Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs",
+        "floor-squeegee"
+      ],
+      "start": "2026-10-07T02:54:17.953Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs",
+        "destruction"
+      ],
+      "start": "2026-10-07T02:54:32.328Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs",
+        "props"
+      ],
+      "start": "2026-10-07T02:54:47.051Z",
+      "buildSHA256": "f9b7773bf5b19894a27d5c62e95a20e04da0f919239e014c555cdf17c3aefe12",
+      "status": 0
+    }
+  ],
+  "pauseFixValidation": [
+    {
+      "args": [
+        "tools/props-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:56:50.374Z",
+      "buildSHA256": "96d81ad8fb4c4c41aa1b70d7bc47622bfa013d31834a26c0ea0f1eee895677f0",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/destruction-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:57:00.751Z",
+      "buildSHA256": "96d81ad8fb4c4c41aa1b70d7bc47622bfa013d31834a26c0ea0f1eee895677f0",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/controller-verify.mjs",
+        "final-v34"
+      ],
+      "start": "2026-10-07T02:57:20.028Z",
+      "buildSHA256": "96d81ad8fb4c4c41aa1b70d7bc47622bfa013d31834a26c0ea0f1eee895677f0",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-verify.mjs"
+      ],
+      "start": "2026-10-07T02:57:34.171Z",
+      "buildSHA256": "96d81ad8fb4c4c41aa1b70d7bc47622bfa013d31834a26c0ea0f1eee895677f0",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs"
+      ],
+      "start": "2026-10-07T02:57:51.372Z",
+      "buildSHA256": "96d81ad8fb4c4c41aa1b70d7bc47622bfa013d31834a26c0ea0f1eee895677f0",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs",
+        "wall-contact"
+      ],
+      "start": "2026-10-07T02:58:47.824Z",
+      "buildSHA256": "96d81ad8fb4c4c41aa1b70d7bc47622bfa013d31834a26c0ea0f1eee895677f0",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs",
+        "floor-squeegee"
+      ],
+      "start": "2026-10-07T02:59:01.628Z",
+      "buildSHA256": "96d81ad8fb4c4c41aa1b70d7bc47622bfa013d31834a26c0ea0f1eee895677f0",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs",
+        "destruction"
+      ],
+      "start": "2026-10-07T02:59:15.671Z",
+      "buildSHA256": "96d81ad8fb4c4c41aa1b70d7bc47622bfa013d31834a26c0ea0f1eee895677f0",
+      "status": 0
+    },
+    {
+      "args": [
+        "tools/compute-profile.mjs",
+        "props"
+      ],
+      "start": "2026-10-07T02:59:30.302Z",
+      "buildSHA256": "96d81ad8fb4c4c41aa1b70d7bc47622bfa013d31834a26c0ea0f1eee895677f0",
+      "status": 0
+    }
+  ],
+  "validationNotes": [
+    "Full Chrome liquid, handling, controller, destruction, lighting and gameplay gauntlet passed on the candidate before the final pause/audio guards",
+    "The released build reran prop, destruction, controller and gameplay checks plus all five native profile modes after those guards",
+    "One initial idle profile failed at CPU p99 5.0 ms (strict gate is below 5 ms); its unchanged-build repeat passed. No performance threshold was relaxed",
+    "All V34 browser work was headless Chrome. Hardware Firefox requires a visible browser on this host and was not run following the user desktop-control restriction"
+  ],
+  "checks": [
+    "Six original props have 30 paint charts at the existing 160 texels/metre",
+    "Three pistol hits splinter a crate into wood debris; subsequent shots pass through its former collider",
+    "Two in-range bat strikes break the crate through the normal GPU melee fan",
+    "A physical 18 m/s detached-head collision damages a crate without a weapon or scripted prop hit",
+    "A bat-triggered barrel explosion wins over the simultaneous melee sound event",
+    "The room wall blocks blast damage to props behind it",
+    "A pending barrel chain waits while simulation is paused",
+    "A shot barrel detonates its neighbour once each; distant props survive and dry blasts create no blood",
+    "Native Spill paints the crate; breaking a wet face releases its finite liquid without a floating pool or duplication",
+    "Player collision blocks an intact crate and opens after its asynchronous destroyed flag arrives",
+    "Reset restores prop health, geometry, collision and barrel fuel"
+  ],
+  "chain": {
+    "mask": 24,
+    "blasts": 2,
+    "cuts": 0,
+    "fragments": 129
+  },
+  "physicalImpactDamage": 0.96820068359375,
+  "liquid": {
+    "before": 0.09504217529297058,
+    "after": 0.09500436782836896,
+    "airborne": 0
+  },
+  "playerCollision": {
+    "blocked": [
+      -6.45,
+      0,
+      -1.03
+    ],
+    "open": [
+      -6.45,
+      0,
+      -3.5005954487439603
+    ]
+  },
+  "paintCharts": [
+    {
+      "id": 77,
+      "w": 1.08,
+      "h": 1.08,
+      "width": 173,
+      "height": 173
+    },
+    {
+      "id": 78,
+      "w": 1.08,
+      "h": 1.1,
+      "width": 173,
+      "height": 176
+    },
+    {
+      "id": 79,
+      "w": 1.08,
+      "h": 1.1,
+      "width": 173,
+      "height": 176
+    },
+    {
+      "id": 80,
+      "w": 1.08,
+      "h": 1.1,
+      "width": 173,
+      "height": 176
+    },
+    {
+      "id": 81,
+      "w": 1.08,
+      "h": 1.1,
+      "width": 173,
+      "height": 176
+    },
+    {
+      "id": 82,
+      "w": 1.08,
+      "h": 1.08,
+      "width": 173,
+      "height": 173
+    },
+    {
+      "id": 83,
+      "w": 1.08,
+      "h": 1.1,
+      "width": 173,
+      "height": 176
+    },
+    {
+      "id": 84,
+      "w": 1.08,
+      "h": 1.1,
+      "width": 173,
+      "height": 176
+    },
+    {
+      "id": 85,
+      "w": 1.08,
+      "h": 1.1,
+      "width": 173,
+      "height": 176
+    },
+    {
+      "id": 86,
+      "w": 1.08,
+      "h": 1.1,
+      "width": 173,
+      "height": 176
+    },
+    {
+      "id": 87,
+      "w": 1.08,
+      "h": 1.08,
+      "width": 173,
+      "height": 173
+    },
+    {
+      "id": 88,
+      "w": 1.08,
+      "h": 1.1,
+      "width": 173,
+      "height": 176
+    },
+    {
+      "id": 89,
+      "w": 1.08,
+      "h": 1.1,
+      "width": 173,
+      "height": 176
+    },
+    {
+      "id": 90,
+      "w": 1.08,
+      "h": 1.1,
+      "width": 173,
+      "height": 176
+    },
+    {
+      "id": 91,
+      "w": 1.08,
+      "h": 1.1,
+      "width": 173,
+      "height": 176
+    },
+    {
+      "id": 92,
+      "w": 0.84,
+      "h": 0.84,
+      "width": 134,
+      "height": 134
+    },
+    {
+      "id": 93,
+      "w": 0.84,
+      "h": 1.16,
+      "width": 134,
+      "height": 186
+    },
+    {
+      "id": 94,
+      "w": 0.84,
+      "h": 1.16,
+      "width": 134,
+      "height": 186
+    },
+    {
+      "id": 95,
+      "w": 0.84,
+      "h": 1.16,
+      "width": 134,
+      "height": 186
+    },
+    {
+      "id": 96,
+      "w": 0.84,
+      "h": 1.16,
+      "width": 134,
+      "height": 186
+    },
+    {
+      "id": 97,
+      "w": 0.84,
+      "h": 0.84,
+      "width": 134,
+      "height": 134
+    },
+    {
+      "id": 98,
+      "w": 0.84,
+      "h": 1.16,
+      "width": 134,
+      "height": 186
+    },
+    {
+      "id": 99,
+      "w": 0.84,
+      "h": 1.16,
+      "width": 134,
+      "height": 186
+    },
+    {
+      "id": 100,
+      "w": 0.84,
+      "h": 1.16,
+      "width": 134,
+      "height": 186
+    },
+    {
+      "id": 101,
+      "w": 0.84,
+      "h": 1.16,
+      "width": 134,
+      "height": 186
+    },
+    {
+      "id": 102,
+      "w": 0.84,
+      "h": 0.84,
+      "width": 134,
+      "height": 134
+    },
+    {
+      "id": 103,
+      "w": 0.84,
+      "h": 1.16,
+      "width": 134,
+      "height": 186
+    },
+    {
+      "id": 104,
+      "w": 0.84,
+      "h": 1.16,
+      "width": 134,
+      "height": 186
+    },
+    {
+      "id": 105,
+      "w": 0.84,
+      "h": 1.16,
+      "width": 134,
+      "height": 186
+    },
+    {
+      "id": 106,
+      "w": 0.84,
+      "h": 1.16,
+      "width": 134,
+      "height": 186
+    }
+  ],
+  "profiles": [
+    {
+      "browser": "headless Chrome",
+      "label": "idle",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "startedAt": "2026-10-07T03:02:31.235Z",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      },
+      "summary": {
+        "frames": 360,
+        "seconds": 6,
+        "fps": 60,
+        "latestFPS": 59.5238095871648,
+        "intervalMs": {
+          "p50": 16.69999998807907,
+          "p95": 16.80000001192093,
+          "p99": 16.80000001192093,
+          "max": 16.900000005960464
+        },
+        "workMs": 0.5524999995198515,
+        "workPercentileMs": {
+          "p50": 0.5,
+          "p95": 1.5,
+          "p99": 1.800000011920929,
+          "max": 2.0999999940395355
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 0.30722222129503884,
+          "hud": 0.0708333338300387,
+          "profiler": 0.018055555555555554,
+          "input": 0.07055555532375972,
+          "other": 0.08583333351545863
+        },
+        "overBudget": 0,
+        "spikeFrames": 0,
+        "uploadCPU": 0,
+        "uploadMiB": 0,
+        "uploadMiBPerSecond": 0,
+        "uploadCalls": 0,
+        "steps": 1.9972222222222222,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.507328,
+          "p95": 2.883584,
+          "p99": 3.145728,
+          "max": 3.211264
+        },
+        "renderMS": {
+          "p50": 7.667712,
+          "p95": 8.257536,
+          "p99": 8.454144,
+          "max": 8.51968
+        }
+      },
+      "ticksPerSecond": 119.71480683137125,
+      "tileOverflow": 0,
+      "stampOverflow": 0,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "browser": "headless Chrome",
+      "label": "bat",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "startedAt": "2026-10-07T03:02:31.235Z",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      },
+      "summary": {
+        "frames": 360,
+        "seconds": 5.999300000011921,
+        "fps": 60.007000816642716,
+        "latestFPS": 59.88023945684179,
+        "intervalMs": {
+          "p50": 16.69999998807907,
+          "p95": 16.80000001192093,
+          "p99": 22.30000001192093,
+          "max": 24.5
+        },
+        "workMs": 0.622499998493327,
+        "workPercentileMs": {
+          "p50": 0.5,
+          "p95": 1.5999999940395355,
+          "p99": 3.199999988079071,
+          "max": 5.299999982118607
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 0.37638888822661504,
+          "hud": 0.097222222139438,
+          "profiler": 0.016111111061440572,
+          "input": 0.049444443898068534,
+          "other": 0.08333333316776488
+        },
+        "overBudget": 6,
+        "spikeFrames": 0,
+        "uploadCPU": 0,
+        "uploadMiB": 0,
+        "uploadMiBPerSecond": 0,
+        "uploadCalls": 0,
+        "steps": 1.9972222222222222,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.507328,
+          "p95": 2.94912,
+          "p99": 3.407872,
+          "max": 3.801088
+        },
+        "renderMS": {
+          "p50": 4.128768,
+          "p95": 6.488064,
+          "p99": 9.895936,
+          "max": 10.15808
+        }
+      },
+      "ticksPerSecond": 119.0594469282994,
+      "tileOverflow": 0,
+      "stampOverflow": 0,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992,
+          "GPU scene instances": 617760
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "browser": "headless Chrome",
+      "label": "pistol",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "startedAt": "2026-10-07T03:02:31.235Z",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      },
+      "summary": {
+        "frames": 360,
+        "seconds": 5.999900000005961,
+        "fps": 60.001000016607335,
+        "latestFPS": 60.24096376890021,
+        "intervalMs": {
+          "p50": 16.69999998807907,
+          "p95": 16.80000001192093,
+          "p99": 16.900000005960464,
+          "max": 17
+        },
+        "workMs": 0.5088888892696963,
+        "workPercentileMs": {
+          "p50": 0.4000000059604645,
+          "p95": 1.199999988079071,
+          "p99": 1.7999999821186066,
+          "max": 1.9000000059604645
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 0.28500000288089117,
+          "hud": 0.07777777678436704,
+          "profiler": 0.011944443980852763,
+          "input": 0.05916666520966424,
+          "other": 0.07500000041392114
+        },
+        "overBudget": 0,
+        "spikeFrames": 0,
+        "uploadCPU": 0,
+        "uploadMiB": 0,
+        "uploadMiBPerSecond": 0,
+        "uploadCalls": 0,
+        "steps": 1.9972222222222222,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.703936,
+          "p95": 3.014656,
+          "p99": 3.211264,
+          "max": 3.342336
+        },
+        "renderMS": {
+          "p50": 6.88128,
+          "p95": 7.405568,
+          "p99": 7.667712,
+          "max": 7.798784
+        }
+      },
+      "ticksPerSecond": 119.48955916473318,
+      "tileOverflow": 0,
+      "stampOverflow": 0,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992,
+          "GPU scene instances": 786192
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "browser": "headless Chrome",
+      "label": "spill",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "startedAt": "2026-10-07T03:02:31.235Z",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      },
+      "summary": {
+        "frames": 360,
+        "seconds": 6,
+        "fps": 60,
+        "latestFPS": 60.24096387705205,
+        "intervalMs": {
+          "p50": 16.69999998807907,
+          "p95": 16.80000001192093,
+          "p99": 16.80000001192093,
+          "max": 20.700000017881393
+        },
+        "workMs": 0.40888888869020673,
+        "workPercentileMs": {
+          "p50": 0.30000001192092896,
+          "p95": 1,
+          "p99": 1.699999988079071,
+          "max": 1.800000011920929
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 0.24805555583702193,
+          "hud": 0.027222222338120144,
+          "profiler": 0.015277777446640863,
+          "input": 0.045277777562538785,
+          "other": 0.07305555550588502
+        },
+        "overBudget": 1,
+        "spikeFrames": 0,
+        "uploadCPU": 0,
+        "uploadMiB": 0,
+        "uploadMiBPerSecond": 0,
+        "uploadCalls": 0,
+        "steps": 1.9972222222222222,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.572864,
+          "p95": 2.752512,
+          "p99": 2.94912,
+          "max": 3.145728
+        },
+        "renderMS": {
+          "p50": 7.53664,
+          "p95": 7.995392,
+          "p99": 8.192,
+          "max": 8.454144
+        }
+      },
+      "ticksPerSecond": 119.43018055325493,
+      "tileOverflow": 0,
+      "stampOverflow": 0,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992,
+          "GPU scene instances": 510400
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "browser": "headless Chrome",
+      "label": "drag",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "startedAt": "2026-10-07T03:02:31.235Z",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      },
+      "summary": {
+        "frames": 360,
+        "seconds": 5.99940000000596,
+        "fps": 60.00600060000039,
+        "latestFPS": 60.24096387705205,
+        "intervalMs": {
+          "p50": 16.69999998807907,
+          "p95": 16.80000001192093,
+          "p99": 16.900000005960464,
+          "max": 17
+        },
+        "workMs": 0.4033333352042569,
+        "workPercentileMs": {
+          "p50": 0.30000001192092896,
+          "p95": 1,
+          "p99": 1.5,
+          "max": 1.699999988079071
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 0.21722222227189275,
+          "hud": 0.051388889716731175,
+          "profiler": 0.009999999983443154,
+          "input": 0.05555555671453476,
+          "other": 0.06916666651765506
+        },
+        "overBudget": 0,
+        "spikeFrames": 0,
+        "uploadCPU": 0,
+        "uploadMiB": 0,
+        "uploadMiBPerSecond": 0,
+        "uploadCalls": 0,
+        "steps": 1.9972222222222222,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 2.228224,
+          "p95": 2.883584,
+          "p99": 3.997696,
+          "max": 4.653056
+        },
+        "renderMS": {
+          "p50": 7.471104,
+          "p95": 7.929856,
+          "p99": 8.126464,
+          "max": 8.192
+        }
+      },
+      "ticksPerSecond": 119.29185969556586,
+      "tileOverflow": 0,
+      "stampOverflow": 0,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 362,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1112064,
+          "GPU scene instances": 1408
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "browser": "headless Chrome",
+      "label": "chaos",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "startedAt": "2026-10-07T03:02:31.235Z",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      },
+      "summary": {
+        "frames": 360,
+        "seconds": 6,
+        "fps": 60,
+        "latestFPS": 59.88023945684179,
+        "intervalMs": {
+          "p50": 16.69999998807907,
+          "p95": 16.80000001192093,
+          "p99": 17.69999998807907,
+          "max": 26.299999982118607
+        },
+        "workMs": 0.5155555558701356,
+        "workPercentileMs": {
+          "p50": 0.30000001192092896,
+          "p95": 1.5,
+          "p99": 4.4000000059604645,
+          "max": 9
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 0.32277777791023254,
+          "hud": 0.035555555423100786,
+          "profiler": 0.018611111326350106,
+          "input": 0.05138888897167312,
+          "other": 0.08722222223877907
+        },
+        "overBudget": 3,
+        "spikeFrames": 1,
+        "uploadCPU": 0,
+        "uploadMiB": 0,
+        "uploadMiBPerSecond": 0,
+        "uploadCalls": 0,
+        "steps": 1.9972222222222222,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 2.228224,
+          "p95": 3.538944,
+          "p99": 3.866624,
+          "max": 4.521984
+        },
+        "renderMS": {
+          "p50": 9.371648,
+          "p95": 9.764864,
+          "p99": 10.027008,
+          "max": 10.420224
+        }
+      },
+      "ticksPerSecond": 119.65528670865098,
+      "tileOverflow": 0,
+      "stampOverflow": 0,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 25
+        },
+        "writes": {
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "browser": "headless Chrome",
+      "label": "wall-contact",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "startedAt": "2026-10-07T03:03:27.211Z",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      },
+      "summary": {
+        "frames": 335,
+        "seconds": 5.724099999994039,
+        "fps": 58.52448419845021,
+        "latestFPS": 59.88023945684179,
+        "intervalMs": {
+          "p50": 16.69999998807907,
+          "p95": 16.80000001192093,
+          "p99": 16.900000005960464,
+          "max": 173.90000000596046
+        },
+        "workMs": 0.48328358433139856,
+        "workPercentileMs": {
+          "p50": 0.4000000059604645,
+          "p95": 1.2999999821186066,
+          "p99": 1.699999988079071,
+          "max": 1.7000000178813934
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 0.29104477531874356,
+          "hud": 0.04268656800042338,
+          "profiler": 0.017611941027997145,
+          "input": 0.053134329906150475,
+          "other": 0.078805970078084
+        },
+        "overBudget": 1,
+        "spikeFrames": 1,
+        "uploadCPU": 0,
+        "uploadMiB": 0,
+        "uploadMiBPerSecond": 0,
+        "uploadCalls": 0,
+        "steps": 2.035820895522388,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 3.538944,
+          "p95": 4.25984,
+          "p99": 4.653056,
+          "max": 10.223616
+        },
+        "renderMS": {
+          "p50": 4.718592,
+          "p95": 5.308416,
+          "p99": 5.57056,
+          "max": 5.636096
+        }
+      },
+      "ticksPerSecond": 113.41402752445698,
+      "tileOverflow": 0,
+      "stampOverflow": 0,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 334,
+          "asynchronous GPU timing": 335,
+          "GPU telemetry snapshot": 23
+        },
+        "writes": {
+          "frame uniforms": 1035264
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "browser": "headless Chrome",
+      "label": "floor-squeegee",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "startedAt": "2026-10-07T03:03:41.868Z",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      },
+      "summary": {
+        "frames": 360,
+        "seconds": 5.999900000005961,
+        "fps": 60.001000016607335,
+        "latestFPS": 60.24096387705205,
+        "intervalMs": {
+          "p50": 16.69999998807907,
+          "p95": 16.80000001192093,
+          "p99": 16.900000005960464,
+          "max": 35.29999998211861
+        },
+        "workMs": 0.47999999928805565,
+        "workPercentileMs": {
+          "p50": 0.4000000059604645,
+          "p95": 1.300000011920929,
+          "p99": 1.7000000178813934,
+          "max": 1.800000011920929
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 0.29305555671453476,
+          "hud": 0.0399999996026357,
+          "profiler": 0.013888888971673117,
+          "input": 0.054166665507687464,
+          "other": 0.07888888849152459
+        },
+        "overBudget": 1,
+        "spikeFrames": 1,
+        "uploadCPU": 0,
+        "uploadMiB": 0,
+        "uploadMiBPerSecond": 0,
+        "uploadCalls": 0,
+        "steps": 1.9972222222222222,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 1.769472,
+          "p95": 2.818048,
+          "p99": 3.538944,
+          "max": 4.718592
+        },
+        "renderMS": {
+          "p50": 5.373952,
+          "p95": 6.029312,
+          "p99": 6.22592,
+          "max": 6.291456
+        }
+      },
+      "ticksPerSecond": 119.41040079496521,
+      "tileOverflow": 0,
+      "stampOverflow": 0,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "browser": "headless Chrome",
+      "label": "destruction",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "startedAt": "2026-10-07T03:03:56.459Z",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      },
+      "summary": {
+        "frames": 359,
+        "seconds": 5.983300000011921,
+        "fps": 60.00033426358109,
+        "latestFPS": 59.88023945684179,
+        "intervalMs": {
+          "p50": 16.69999998807907,
+          "p95": 16.80000001192093,
+          "p99": 16.900000005960464,
+          "max": 21.900000005960464
+        },
+        "workMs": 0.4949860728052665,
+        "workPercentileMs": {
+          "p50": 0.4000000059604645,
+          "p95": 1.399999976158142,
+          "p99": 1.7999999821186066,
+          "max": 4.300000011920929
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 0.29749303524872717,
+          "hud": 0.037325905807171024,
+          "profiler": 0.015598886109328204,
+          "input": 0.06267409545465433,
+          "other": 0.08189415018538579
+        },
+        "overBudget": 2,
+        "spikeFrames": 0,
+        "uploadCPU": 0,
+        "uploadMiB": 0,
+        "uploadMiBPerSecond": 0,
+        "uploadCalls": 0,
+        "steps": 1.9972144846796658,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 4.063232,
+          "p95": 9.17504,
+          "p99": 18.67776,
+          "max": 26.738688
+        },
+        "renderMS": {
+          "p50": 8.126464,
+          "p95": 9.109504,
+          "p99": 9.306112,
+          "max": 9.50272
+        }
+      },
+      "ticksPerSecond": 119.1976127320955,
+      "tileOverflow": 0,
+      "stampOverflow": 0,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 359,
+          "asynchronous GPU timing": 359,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1105920,
+          "GPU scene instances": 39424
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "browser": "headless Chrome",
+      "label": "prop-destruction",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "startedAt": "2026-10-07T03:04:11.251Z",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      },
+      "summary": {
+        "frames": 360,
+        "seconds": 6.000099999994039,
+        "fps": 59.999000016725994,
+        "latestFPS": 59.88023956370228,
+        "intervalMs": {
+          "p50": 16.69999998807907,
+          "p95": 16.80000001192093,
+          "p99": 18,
+          "max": 20.900000005960464
+        },
+        "workMs": 0.46888888908757104,
+        "workPercentileMs": {
+          "p50": 0.4000000059604645,
+          "p95": 1.2999999821186066,
+          "p99": 1.699999988079071,
+          "max": 1.9000000059604645
+        },
+        "phases": {
+          "physics": 0,
+          "paint": 0,
+          "drops": 0,
+          "uploadPrep": 0,
+          "render": 0.2838888891041279,
+          "hud": 0.029722221940755845,
+          "profiler": 0.014999999519851473,
+          "input": 0.06083333376381132,
+          "other": 0.07944444475902451
+        },
+        "overBudget": 3,
+        "spikeFrames": 0,
+        "uploadCPU": 0,
+        "uploadMiB": 0,
+        "uploadMiBPerSecond": 0,
+        "uploadCalls": 0,
+        "steps": 1.9972222222222222,
+        "droppedSimMs": 0,
+        "gpuMs": null,
+        "gpuSamples": 0
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 3.211264,
+          "p95": 11.730944,
+          "p99": 16.515072,
+          "max": 22.9376
+        },
+        "renderMS": {
+          "p50": 9.109504,
+          "p95": 9.633792,
+          "p99": 10.092544,
+          "max": 10.354688
+        }
+      },
+      "ticksPerSecond": 119.27212572373863,
+      "tileOverflow": 0,
+      "stampOverflow": 0,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 353,
+          "asynchronous GPU timing": 353,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "frame uniforms": 1108992,
+          "GPU scene instances": 39424
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    }
+  ],
+  "media": [
+    {
+      "path": "tools/out/props-pass/recordings/smear-v34-crates-barrels.mp4",
+      "sha256": "3943dc9562b36da0cbf207473ffb3c3c4b9d4f20f9d0a78bea02262e472d2490",
+      "bytes": 3704919,
+      "duration": 16.01582,
+      "width": 1600,
+      "height": 1000,
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "audioCodec": "aac",
+      "channels": 2,
+      "audioPeakDb": -8.2,
+      "clips": [
+        {
+          "name": "crate",
+          "seconds": 7,
+          "cuts": 0,
+          "broken": [
+            0
+          ]
+        },
+        {
+          "name": "barrels",
+          "seconds": 9,
+          "cuts": 14,
+          "broken": [
+            3,
+            4
+          ]
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Props are fixed obstacles until broken; their released wood/metal fragments use the bounded GPU ordnance pool",
+    "Five planar paint charts project onto each prop, including the curved barrel; chart allocations use 160 pigment texels and 40 film cells per metre",
+    "Player collision receives destroyed bits through existing asynchronous telemetry, typically within 250 ms; GPU rays, ragdolls, shadows and geometry change immediately",
+    "The inherited partial-wetting liquid and coating model remains stylized; the isolated new finite-liquid tests do not claim a calibrated whole-game fluid solver"
+  ],
+  "inheritedMedia": [
+    "tools/out/destruction-pass/recordings/smear-v33-destruction.mp4",
+    "tools/out/destruction-pass/recordings/smear-v32-v33-ceiling.mp4",
+    "tools/out/destruction-pass/recordings/smear-v32-v33-dummy.mp4"
+  ],
+  "staticChecks": [
+    "Rebuild produces the same HTML SHA-256",
+    "Modified JS syntax checks passed",
+    "Git whitespace check passed",
+    "V8.9 and V7 archives retain their original SHA-256"
+  ]
+}

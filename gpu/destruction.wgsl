@@ -82,7 +82,8 @@ fn queueBlast(point:vec3f,power:f32){
 }
 fn blastVisibility(center:vec3f,p:vec3f)->bool{
  let delta=p-center;let d=length(delta);if(d<.035){return true;}
- return rayHit(center,delta/d,max(0,d-.025),false,-1).surface<0;
+ // Ray distance also blocks unpainted backs/undersides of solid boxes.
+ return rayHit(center,delta/d,max(0,d-.025),false,-1).t>=max(0,d-.025);
 }
 @compute @workgroup_size(64) fn ordnance(@builtin(global_invocation_id) id:vec3u){
  let i=id.x;if(i>=128u){return;}let s=ordnanceState(i);let kind=atomicLoad(&work[s+23u]);if(kind==0u){return;}
@@ -93,7 +94,8 @@ fn blastVisibility(center:vec3f,p:vec3f)->bool{
  if(hit.surface>=0){
   p=hit.p+hit.n*(radius+.002);let incoming=max(0,-dot(velocity,hit.n));
   velocity-=hit.n*min(0,dot(velocity,hit.n))*select(1.28,1.46,kind==1u);velocity*=select(.69,.82,kind==1u);
-  if(kind==2u&&incoming>.5){
+  if(kind>=2u&&incoming>.5){
+   if(incoming>4){hitProp(hit.surface,min(.18,incoming*.009));}
    let tangent=safeNorm(velocity-hit.n*dot(velocity,hit.n));let end=hit.p+tangent*clamp(incoming*.016,.025,.26);
    contactSweep(u32(hit.surface),hit.p,end,vec2f(radius*1.6),vec2f(radius*1.6),0,0,clamp(incoming*.09,.12,.8),11,atomicLoad(&work[s+11u]),0);
    let receiver=record(u32(hit.surface));let cell=vec2u(clamp(uv(receiver,hit.p)*vec2f(filmDimensions(receiver)),vec2f(0),vec2f(filmDimensions(receiver))-1));
@@ -103,7 +105,7 @@ fn blastVisibility(center:vec3f,p:vec3f)->bool{
  }
  putVector(s,p);putVector(s+4u,velocity);putVector(s+8u,old);atomicStore(&work[s+7u],bitcast<u32>(age));
  if(kind==1u&&age>=1.45){atomicStore(&work[s+23u],0u);queueBlast(p,constants[header(3).z+1u].z);}
- else if(kind==2u&&(age>6||p.y<-.2)){atomicStore(&work[s+23u],0u);}
+ else if(kind>=2u&&(age>6||p.y<-.2)){atomicStore(&work[s+23u],0u);}
 }
 @compute @workgroup_size(1) fn detonate(){
  let controlAddress=destructionMeta();var mask=atomicLoad(&work[controlAddress]);
@@ -126,19 +128,22 @@ fn blastVisibility(center:vec3f,p:vec3f)->bool{
    b.coat.w=max(0,b.coat.w-spent/.10);b.coat.x+=retained/.02;
    bodies[i]=b;for(var k=i/15u*15u;k<(i/15u+1u)*15u;k++){bodies[k].motor.w=0;bodies[k].status.z=0;}damagePart(i,pressure*2.7*frame.rayD.w);atomicMax(&work[fractureState(i)+7u],u32(pressure*40000));
   }
+  for(var j=0u;j<header(0).x;j++){let k=header(1).x+j*5u;let tag=constants[k+2u].w;if(tag<=0||propGone(tag)){continue;}let p=constants[k].xyz;let nearest=clamp(center,p-constants[k+2u].xyz,p+constants[k+2u].xyz);let distance=length(p-center);if(distance<radius&&blastVisibility(center,nearest)){propDamage(tag,pow(max(0,1-distance/radius),1.4)*power*3.2);}}
   for(var k=0u;k<42u;k++){
    let h=seed+k*73u;let direction=safeNorm(vec3f(hash(h)-.5,hash(h+1u)-.35,hash(h+2u)-.5));
    spawnOrdnance(2u,center+direction*.07,direction*(5+hash(h+3u)*12)*sqrt(power),.013+hash(h+4u)*.025,h);
   }
   for(var rec=0u;rec<header(0).z;rec++){
-   let r=record(rec);let d=dot(center-r.center.xyz,r.n.xyz);if(d<-.01||d>radius*.8){continue;}
+   let r=record(rec);if(propGone(r.center.w)){continue;}let d=dot(center-r.center.xyz,r.n.xyz);if(d<-.01||d>radius*.8){continue;}
    let p=center-r.n.xyz*d;let extent=sqrt(max(0,radius*radius*.64-d*d));let c=uv(r,p);
    if(any(c+vec2f(extent)/r.size.xy<vec2f(0))||any(c-vec2f(extent)/r.size.xy>vec2f(1))){continue;}
    let nearest=r.center.xyz+r.u.xyz*((clamp(c.x,0,1)-.5)*r.size.x)+r.v.xyz*((clamp(c.y,0,1)-.5)*r.size.y);
    if(!blastVisibility(center,nearest)){continue;}
    contactStamp(rec,p,p,vec2f(extent),vec2f(extent),0,0,.85*power,10,seed,0);
   }
-  atomicMax(&work[38],0x40000000u|(u32(clamp(power*.85,0,1)*4095)<<8u)|255u);atomicAdd(&work[39],1u);
+  // Detonation runs serially after interaction. Its boom outranks a bat hit
+  // in the same frame; preserve the strongest boom when several barrels chain.
+  let boom=0x40000000u|(u32(clamp(power*.85,0,1)*4095)<<8u)|255u;let previous=atomicLoad(&work[38]);atomicStore(&work[38],select(boom,max(previous,boom),(previous&0x40000000u)!=0u));atomicAdd(&work[39],1u);
  }
  atomicStore(&work[controlAddress],mask);
  atomicStore(&work[controlAddress+8u],select(0u,header(3).y,mask!=0u));atomicStore(&work[controlAddress+9u],1u);atomicStore(&work[controlAddress+10u],1u);
@@ -148,7 +153,7 @@ fn blastVisibility(center:vec3f,p:vec3f)->bool{
 // cross a solid obstacle. Donors read the snapshot; all writes are atomic sums.
 @compute @workgroup_size(256) fn blastFilm(@builtin(workgroup_id) group:vec3u,@builtin(local_invocation_index) lane:u32){
  if(lane==0u){filmRecordID=filmRecordForGroup(group.x);}workgroupBarrier();
- let rec=filmRecordID;let r=record(rec);let dims=filmDimensions(r);let local=(group.x-u32(r.extra.w))*256u+lane;if(local>=dims.x*dims.y){return;}
+ let rec=filmRecordID;let r=record(rec);if(propGone(r.center.w)){return;}let dims=filmDimensions(r);let local=(group.x-u32(r.extra.w))*256u+lane;if(local>=dims.x*dims.y){return;}
  let cell=vec2u(local%dims.x,local/dims.x);let address=u32(r.extra.z)+local;let mass=filmRead(1u,address);if(mass<.002){return;}
  let p=r.center.xyz+r.u.xyz*((f32(cell.x)+.5)/r.u.w-.5)*r.size.x+r.v.xyz*((f32(cell.y)+.5)/r.v.w-.5)*r.size.y;
  let controlAddress=destructionMeta();let mask=atomicLoad(&work[controlAddress]);var displacement=vec2f(0);var lift=0.0;
@@ -179,7 +184,7 @@ fn blastVisibility(center:vec3f,p:vec3f)->bool{
   if((mask&(1u<<slot))==0u){continue;}let s=blastState(slot);let age=frame.camera.w-ordFloat(s+4u);if(age<-.05||age>.22){continue;}
   let center=ordVector(s);let radius=ordFloat(s+3u);let strength=ordFloat(s+5u)*exp(-max(0,age)*13);
   for(var rec=0u;rec<header(0).z;rec++){
-   let r=record(rec);let d=dot(center-r.center.xyz,r.n.xyz);if(d<-.01||d>=radius){continue;}
+   let r=record(rec);if(propGone(r.center.w)){continue;}let d=dot(center-r.center.xyz,r.n.xyz);if(d<-.01||d>=radius){continue;}
    let p=center-r.n.xyz*d;let extent=sqrt(radius*radius-d*d);let c=uv(r,p);
    if(any(c+vec2f(extent)/r.size.xy<vec2f(0))||any(c-vec2f(extent)/r.size.xy>vec2f(1))){continue;}
    let nearest=r.center.xyz+r.u.xyz*((clamp(c.x,0,1)-.5)*r.size.x)+r.v.xyz*((clamp(c.y,0,1)-.5)*r.size.y);if(!blastVisibility(center,nearest)){continue;}

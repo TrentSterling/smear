@@ -56,7 +56,7 @@ fn wallPotential(rec:u32,r:Record,cell:vec2i,mass:f32)->f32 {
 }
 @compute @workgroup_size(256) fn accelerateFilm(@builtin(workgroup_id) group:vec3u,@builtin(local_invocation_index) lane:u32){
  if(lane==0u){filmRecordID=filmRecordForGroup(group.x);}workgroupBarrier();
- let r=record(filmRecordID);let dims=filmDimensions(r);let local=(group.x-u32(r.extra.w))*256u+lane;if(local>=dims.x*dims.y){return;}
+ let r=record(filmRecordID);if(propGone(r.center.w)){return;}let dims=filmDimensions(r);let local=(group.x-u32(r.extra.w))*256u+lane;if(local>=dims.x*dims.y){return;}
  let address=u32(r.extra.z)+local;let mass=filmRead(1u,address);let dt=frame.settings.y;var velocity=filmVelocity(address);
  if(mass==0){atomicStore(&wet[filmOffset(5u)+address],0u);atomicStore(&wet[filmOffset(6u)+address],0u);return;}
  // Viscous drag permits visible acceleration and leaves thin residue pinned.
@@ -79,7 +79,7 @@ fn wallPotential(rec:u32,r:Record,cell:vec2i,mass:f32)->f32 {
 }
 @compute @workgroup_size(256) fn spreadFilm(@builtin(workgroup_id) group:vec3u,@builtin(local_invocation_index) lane:u32){
  if(lane==0u){filmRecordID=filmRecordForGroup(group.x);}workgroupBarrier();
- let rec=filmRecordID;let r=record(rec);let dims=filmDimensions(r);let local=(group.x-u32(r.extra.w))*256u+lane;if(local>=dims.x*dims.y){return;}
+ let rec=filmRecordID;let r=record(rec);if(propGone(r.center.w)){return;}let dims=filmDimensions(r);let local=(group.x-u32(r.extra.w))*256u+lane;if(local>=dims.x*dims.y){return;}
  let cell=vec2i(i32(local%dims.x),i32(local/dims.x));let address=u32(r.extra.z)+local;let mass=filmRead(1u,address);let dt=frame.settings.y;
  let spacing=r.size.xy/vec2f(dims);let velocityHere=filmVelocity(address);let mobility=clamp(sqrt(mass)*1.5,.06,1.0);var change=0.0;
  let wall=abs(r.n.y)<.65;var potential=0.0;var held=0.0;var wallReady=false;
@@ -123,7 +123,10 @@ fn wallPotential(rec:u32,r:Record,cell:vec2i,mass:f32)->f32 {
 @compute @workgroup_size(256) fn runoffFilm(@builtin(workgroup_id) group:vec3u,@builtin(local_invocation_index) lane:u32){
  if(lane==0u){filmRecordID=filmRecordForGroup(group.x);}workgroupBarrier();
  let rec=filmRecordID;if(rec<16u){return;}let r=record(rec);let dims=filmDimensions(r);let local=(group.x-u32(r.extra.w))*256u+lane;if(local>=dims.x*dims.y){return;}
- let cell=vec2u(local%dims.x,local/dims.x);let address=u32(r.extra.z)+local;let mass=filmRead(0u,address);if(mass<.025){return;}
+ let cell=vec2u(local%dims.x,local/dims.x);let address=u32(r.extra.z)+local;let mass=filmRead(0u,address);if(propGone(r.center.w)){
+  let amount=atomicExchange(&wet[filmOffset(0u)+address],0u);if(amount==0u){return;}let volume=f32(amount)/FILM_SCALE*r.size.x*r.size.y/f32(dims.x*dims.y);let p=r.center.xyz+r.u.xyz*((f32(cell.x)+.5)/r.u.w-.5)*r.size.x+r.v.xyz*((f32(cell.y)+.5)/r.v.w-.5)*r.size.y;let seed=address*977u;
+  if(atomicAdd(&work[destructionMeta()+1u],1u)<72u&&launchDrop(p+r.n.xyz*.025,r.n.xyz*(.8+hash(seed)*2)+vec3f(0,1,0),clamp(pow(volume,.333333)*.45,.005,.022),999u,volume)){return;}returnFilm(floorRecord(p),vec3f(p.x,0,p.z),volume);return;
+ }if(mass<.025){return;}
  var exitDirection=vec2f(0);let velocity=filmVelocity(address);
  for(var axis=0u;axis<2u;axis++){
   if(cell[axis]!=0u&&cell[axis]+1u!=dims[axis]){continue;}
