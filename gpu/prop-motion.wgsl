@@ -27,6 +27,9 @@ fn syncProp(i:u32){
 struct PropContact{point:vec3f,depth:f32,normal:vec3f};
 fn pointBox(p:vec3f,center:vec3f,q:vec4f,half:vec3f,kind:f32)->PropContact{
  let local=rotate(inverseQ(q),p-center);var nearest=clamp(local,-half,half);var normal=vec3f(0,1,0);var depth=0.0;
+ // The room ceiling bounds the interior. Its visual slab must never offer an
+ // upward-facing support contact after a fast vertex crosses its midpoint.
+ if(kind== -1){return PropContact(center+rotate(q,vec3f(local.x,-half.y,local.z)),local.y+half.y,rotate(q,vec3f(0,-1,0)));}
  if(kind==2){
   let radius=length(local.xz);let side=vec3f(local.x/max(radius,1e-7),0,local.z/max(radius,1e-7));
   nearest=vec3f(side.x*min(radius,half.x),clamp(local.y,-half.y,half.y),side.z*min(radius,half.x));
@@ -112,7 +115,7 @@ fn releaseProp(){
    let count=select(8u,24u,b.half.w==2);
    // Cache broadphase candidates once per body/iteration, not per vertex.
    var candidates:array<u32,64>;var candidateCount=0u;
-   for(var j=0u;j<header(0).x;j++){let box=header(1).x+j*5u;if(constants[box+2u].w==f32(i+1u)||!liveBox(box)){continue;}let local=rotate(inverseQ(constants[box+1u]),b.p.xyz-constants[box].xyz);let separation=length(max(abs(local)-constants[box+2u].xyz,vec3f(0)));if(separation>length(b.half.xyz)+.35){continue;}if(candidateCount<64u){candidates[candidateCount]=box;candidateCount++;}}
+   for(var j=0u;j<header(0).x;j++){let box=header(1).x+j*5u;if(constants[box+2u].w==f32(i+1u)||!liveBox(box)){continue;}let local=rotate(inverseQ(constants[box+1u]),b.p.xyz-constants[box].xyz);let separation=length(max(abs(local)-constants[box+2u].xyz,vec3f(0)));if(constants[box].w!= -1&&separation>length(b.half.xyz)+.35){continue;}if(candidateCount<64u){candidates[candidateCount]=box;candidateCount++;}}
    for(var corner=0u;corner<count;corner++){
     var point=propVertex(b,corner);propOtherID=-1;propOther.status.x=0;
     if(point.y<.002){constants[propData(i)+14u].z=1;impact=max(impact,max(0,-(b.v.xyz+cross(b.w.xyz,point-b.p.xyz)).y));b=solvePropContact(b,point,vec3f(0,1,0),.002-point.y);}

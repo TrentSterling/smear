@@ -5,6 +5,13 @@ fn liveBox(k:u32)->bool{return !propGone(constants[k+2u].w);}
 fn propDamage(tag:f32,amount:f32){if(tag<=0||propGone(tag)||amount<=0){return;}atomicAdd(&work[propState(u32(tag)-1u)],u32(min(amount,4.0)*65536));}
 fn hitProp(rec:i32,amount:f32){if(rec>=0){propDamage(record(u32(rec)).center.w,amount);}}
 fn impactProp(hit:WorldImpact){if(hit.receiver<0||hit.closing<5){return;}hitProp(hit.receiver,smoothstep(5.0,16.0,hit.closing)*.6);}
+// Small, real fragments from a non-destructive weapon hit. These use the same
+// bounded debris pool and wet-contact sweeps as explosion debris.
+fn chipProp(rec:i32,point:vec3f,normal:vec3f,strength:f32){
+ if(rec<0){return;}let tag=record(u32(rec)).center.w;if(tag<=0||propGone(tag)){return;}
+ let b=propBody(u32(tag)-1u);let metal=b.half.w!=1;let seed=atomicLoad(&work[5])*1973u+u32(tag)*719u;
+ for(var i=0u;i<5u;i++){let h=seed+i*977u;let spread=safeNorm(normal*.7+vec3f(hash(h)-.5,hash(h+1u)*.6,hash(h+2u)-.5));spawnOrdnance(select(3u,2u,metal),point+normal*.045,propVelocity(tag,point)+spread*(1.8+hash(h+3u)*3.2)*strength,select(.025+hash(h+4u)*.026,.013+hash(h+4u)*.011,metal),h);}
+}
 @compute @workgroup_size(1) fn breakProps(){
  if(frame.settings.z<=0&&(frame.action.y<.5||frame.action.y>=8)){return;}
  for(var j=0u;j<header(0).x;j++){

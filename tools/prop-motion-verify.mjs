@@ -29,7 +29,7 @@ try{
  // Spawn through the visible menu and commit on a real upward-facing receiver.
  await page.eval('__smear.reset();__smear.step(0)');await page.eval('__smear.controls.mode("cursor");__smear.manual(true)');
  await page.call('Input.dispatchKeyEvent',{type:'keyDown',code:'KeyB',key:'b'});await page.call('Input.dispatchKeyEvent',{type:'keyUp',code:'KeyB',key:'b'});assert(await page.eval('!document.getElementById("toybox").hidden'));
- await page.call('Input.insertText',{text:'crate'});assert(await page.eval(`document.querySelector('#toy-items [data-kind="2"]').hidden`));
+ await page.eval('document.getElementById("toy-search").focus()');await page.call('Input.insertText',{text:'crate'});assert(await page.eval(`document.querySelector('#toy-items [data-kind="2"]').hidden`));
  const menu=await page.eval(`(()=>{const b=document.querySelector('#toy-items [data-kind="1"]').getBoundingClientRect();return{x:b.x+b.width/2,y:b.y+b.height/2}})()`);await page.mouse('mousePressed',menu.x,menu.y);await page.mouse('mouseReleased',menu.x,menu.y);
  assert.equal((await page.eval('__smear.toybox.state()')).placement.kind,1);
  await page.eval('__smear.view([0,2,1],[0,2,-8]);__smear.pointer(800,500);__smear.render();__smear.buddy.confirm()');assert((await page.eval('__smear.toybox.state()')).placement);assert.equal((await page.eval('__smear.props()')).filter(p=>p.active).length,6);check('A vertical wall cannot accept a prop placement');

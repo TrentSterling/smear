@@ -127,26 +127,41 @@ fn wallPotential(rec:u32,r:Record,cell:vec2i,mass:f32)->f32 {
   let amount=atomicExchange(&wet[filmOffset(0u)+address],0u);if(amount==0u){return;}let volume=f32(amount)/FILM_SCALE*r.size.x*r.size.y/f32(dims.x*dims.y);let p=r.center.xyz+r.u.xyz*((f32(cell.x)+.5)/r.u.w-.5)*r.size.x+r.v.xyz*((f32(cell.y)+.5)/r.v.w-.5)*r.size.y;let seed=address*977u;
   if(atomicAdd(&work[destructionMeta()+1u],1u)<72u&&launchDrop(p+r.n.xyz*.025,r.n.xyz*(.8+hash(seed)*2)+vec3f(0,1,0),clamp(pow(volume,.333333)*.45,.005,.022),999u,volume)){return;}returnFilm(floorRecord(p),vec3f(p.x,0,p.z),volume);return;
  }if(mass<.025){return;}
- var exitDirection=vec2f(0);let velocity=filmVelocity(address);
+ var exitDirection=vec2f(0);let velocity=filmVelocity(address);var edgeAxis=0u;
  for(var axis=0u;axis<2u;axis++){
   if(cell[axis]!=0u&&cell[axis]+1u!=dims[axis]){continue;}
   let direction=select(1.0,-1.0,cell[axis]==0u);let downhill=-select(r.u.y,r.v.y,axis==1u)*direction;
-  if(downhill>.05||r.n.y>.5||velocity[axis]*direction>.04){exitDirection[axis]=direction;}
+  if(downhill>.05||r.n.y>.5||velocity[axis]*direction>.04){exitDirection[axis]=direction;edgeAxis=axis;}
  }
  let overhead=r.n.y<-.3;let dripRate=select(1.0,materialTune().w,overhead);if(dripRate<=0){return;}
  let site=hash(address*1973u+rec*73u);let tick=atomicLoad(&work[5])/2u;
  if(overhead&&(site<.62||mass<(.08+.12*hash(address*397u))/sqrt(dripRate))){return;}
  let hanging=overhead;if(!hanging&&dot(exitDirection,exitDirection)==0){return;}
- if(!overhead&&(address+tick)%8u!=0u){return;}
+ // Raised edges gather into uneven, persistent outlets instead of emitting
+ // identical drops from every texel on an eight-tick conveyor pattern.
+ let edgeHeight=r.center.y+r.u.y*((f32(cell.x)+.5)/r.u.w-.5)*r.size.x+r.v.y*((f32(cell.y)+.5)/r.v.w-.5)*r.size.y;
+ let raisedEdge=!overhead&&edgeHeight>.12;
+ if(raisedEdge){
+  let along=1u-edgeAxis;let band=cell[along]/6u;let edgeSeed=rec*1973u+edgeAxis*1777u+u32(exitDirection[edgeAxis]>0)*719u+band*397u;
+  let outlet=min(dims[along]-1u,band*6u+1u+u32(hash(edgeSeed)*4));
+  let hold=.035+hash(edgeSeed+71u)*.09;
+  if(cell[along]!=outlet){
+   let amount=takeWet(filmOffset(0u)+address,u32(max(0,mass-hold)*min(.42,frame.settings.y*18)*FILM_SCALE));
+   var next=cell;next[along]=u32(i32(cell[along])+select(-1,1,outlet>cell[along]));
+   atomicAdd(&wet[filmOffset(0u)+filmAddress(r,next)],amount);return;
+  }
+  if(mass<hold+.035||hash(address*977u+tick*131u)>=frame.settings.y*(4+min(mass,2.0)*9)){return;}
+ }else if(!overhead&&(address+tick)%8u!=0u){return;}
  // Change detachment frequency, not the visible size of every drop. Suppressed
  // drops retain their full supply overhead instead of raining tiny substitutes.
  if(overhead&&hash(address*977u+tick*131u)>=frame.settings.y*(.7+min(mass,2.0)*2.4)*dripRate){return;}
  if(overhead&&atomicAdd(&work[37],1u)>=u32(max(1.0,24*dripRate))){return;}
  var point=r.center.xyz+r.u.xyz*((f32(cell.x)+.5)/r.u.w-.5)*r.size.x+r.v.xyz*((f32(cell.y)+.5)/r.v.w-.5)*r.size.y;
  if(overhead){point+=r.u.xyz*((hash(address*433u)-.5)*.020)+r.v.xyz*((hash(address*719u)-.5)*.020);}
+ if(raisedEdge){let tangent=select(r.v.xyz,r.u.xyz,edgeAxis==1u);point+=tangent*((hash(address+tick*433u)-.5)*.018);}
  point+=r.n.xyz*.018+(r.u.xyz*exitDirection.x+r.v.xyz*exitDirection.y)*.035;
  if(atomicAdd(&work[30],1u)>=24u){return;}
- let amount=min(mass,max(.025,mass*select(.22,.30+hash(address+tick*331u)*.45,overhead)));let volume=amount*r.size.x*r.size.y/f32(dims.x*dims.y);
+ let amount=min(mass,max(.025,mass*select(.22,.25+hash(address+tick*331u)*.45,overhead||raisedEdge)));let volume=amount*r.size.x*r.size.y/f32(dims.x*dims.y);
  if(point.y<.025){returnFilm(floorRecord(point),point,volume);takeWet(filmOffset(0u)+address,u32(round(amount*FILM_SCALE)));atomicAdd(&work[26],1u);return;}
  var motion=r.u.xyz*velocity.x+r.v.xyz*velocity.y+r.n.xyz*.10+vec3f(0,-.35,0);
  if(overhead){motion=r.u.xyz*(velocity.x+(hash(address+tick*83u)-.5)*.18)+r.v.xyz*(velocity.y+(hash(address+tick*163u)-.5)*.18)+r.n.xyz*(.03+hash(address+tick*277u)*.12);}

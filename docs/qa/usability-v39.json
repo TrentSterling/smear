@@ -1,0 +1,1898 @@
+{
+  "version": "0.39.0",
+  "at": "2026-10-07T19:02:09.209Z",
+  "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+  "browser": "Headless hardware Chrome; audio enabled/running with browser output muted",
+  "firefox": "Gameplay not run: user prohibits headed browsers and desktop focus interference. Exact embedded WGSL passes pinned Naga 29.0.4.",
+  "checks": [
+    {
+      "command": "node tools/wgsl-verify.mjs",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 0.486,
+      "result": [
+        "COMPLETE both embedded WGSL modules passed Naga validation"
+      ]
+    },
+    {
+      "command": "node tools/usability-verify.mjs",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 13.26,
+      "result": [
+        "COMPLETE 8 usability and impact checks"
+      ]
+    },
+    {
+      "command": "node tools/edge-runoff-verify.mjs",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 6.641,
+      "result": [
+        "{\"result\":\"COMPLETE edge runoff and conservation checks\",\"outlets\":14,\"width\":84,\"dropCount\":80,\"initial\":0.015750160217285175,\"total\":0.015750145978017827}"
+      ]
+    },
+    {
+      "command": "node tools/ceiling-verify.mjs",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 16.802,
+      "result": [
+        "{\"result\":\"COMPLETE ceiling impacts and held-release checks\",\"failures\":[],\"rig\":4.999999934083586,\"final\":0.2600427669191826,\"held\":[-2.719277858734131,4.448500633239746,5.07573127746582],\"released\":[-1.9268358945846558,0.5514999628067017,5.233949661254883],\"heldRig\":4.9999997011805455,\"releasedRig\":0.2600520904079672}"
+      ]
+    },
+    {
+      "command": "node tools/compute-verify.mjs",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 17.572,
+      "result": [
+        "COMPLETE compute game checks passed (10 checks)"
+      ]
+    },
+    {
+      "command": "node tools/showcase-verify.mjs",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 16.986,
+      "result": [
+        "COMPLETE after showcase checks"
+      ]
+    },
+    {
+      "command": "node tools/arsenal-verify.mjs final-v39",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 42.819,
+      "result": [
+        "COMPLETE 6 arsenal checks passed"
+      ]
+    },
+    {
+      "command": "node tools/fragment-verify.mjs final-v39",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 7.066,
+      "result": [
+        "COMPLETE fragment wetness and conservation checks"
+      ]
+    },
+    {
+      "command": "node tools/props-verify.mjs final-v39",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 10.88,
+      "result": [
+        "COMPLETE 11 prop checks passed"
+      ]
+    },
+    {
+      "command": "node tools/prop-motion-verify.mjs final-v39",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 10.309,
+      "result": [
+        "COMPLETE 12 prop motion checks passed"
+      ]
+    },
+    {
+      "command": "node tools/prop-liquid-verify.mjs final-v39",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 9.718,
+      "result": [
+        "COMPLETE 5 prop liquid/player checks passed"
+      ]
+    },
+    {
+      "command": "node tools/destruction-verify.mjs final-v39",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 18.933,
+      "result": [
+        "COMPLETE 8 checks passed"
+      ]
+    },
+    {
+      "command": "node tools/bleeding-verify.mjs final-v39",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 10.645,
+      "result": [
+        "COMPLETE 2 checks passed"
+      ]
+    },
+    {
+      "command": "node tools/buddy-verify.mjs final-v39",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 11.077,
+      "result": [
+        "COMPLETE 15 buddy checks passed"
+      ]
+    },
+    {
+      "command": "node tools/controller-verify.mjs final-v39",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 14.06,
+      "result": [
+        "  \"result\": \"COMPLETE FPS controller and spiked bat checks\","
+      ]
+    },
+    {
+      "command": "node tools/momentum-verify.mjs final-v39",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 21.069,
+      "result": [
+        "  \"result\": \"COMPLETE momentum and weapon lifecycle checks\","
+      ]
+    },
+    {
+      "command": "node tools/handling-verify.mjs final-v39",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 34.938,
+      "result": [
+        "  \"result\": \"COMPLETE handling, impact audio and floor squeegee checks\","
+      ]
+    },
+    {
+      "command": "node tools/wet-verify.mjs final-v39",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 10.332,
+      "result": [
+        "  \"result\": \"COMPLETE wet contact checks\","
+      ]
+    },
+    {
+      "command": "node tools/film-verify.mjs final-v39",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 20.46,
+      "result": [
+        "  \"result\": \"COMPLETE liquid film checks\","
+      ]
+    },
+    {
+      "command": "node tools/brush-flow-verify.mjs final-v39",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 12.792,
+      "result": [
+        "  \"result\": \"COMPLETE integrated brush and drainage checks\","
+      ]
+    },
+    {
+      "command": "node tools/wall-contact-verify.mjs final-v39",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 23.723,
+      "result": []
+    },
+    {
+      "command": "node tools/wet-finish-verify.mjs final-v39",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 10.48,
+      "result": [
+        "COMPLETE wet finish checks"
+      ]
+    },
+    {
+      "command": "node tools/utility-verify.mjs final-v39",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 22.196,
+      "result": [
+        "COMPLETE 16 utility checks passed"
+      ]
+    },
+    {
+      "command": "node tools/ltc-verify.mjs final-v39",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 19.823,
+      "result": [
+        "  \"result\": \"COMPLETE LTC integration checks\","
+      ]
+    },
+    {
+      "command": "node tools/compute-profile.mjs utility",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 50.591,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (1 checks)"
+      ]
+    },
+    {
+      "command": "node tools/compute-profile.mjs destruction",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 14.213,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (1 checks)"
+      ]
+    },
+    {
+      "command": "node tools/compute-profile.mjs",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 57.911,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (8 checks)"
+      ]
+    },
+    {
+      "command": "node tools/compute-profile.mjs rockets",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 14.442,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (1 checks)"
+      ]
+    },
+    {
+      "command": "node tools/usability-capture.mjs",
+      "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+      "status": 0,
+      "seconds": 87.278,
+      "result": [
+        "COMPLETE V38/V39 matched gameplay captures"
+      ]
+    }
+  ],
+  "usability": [
+    "B toggles the toybox; Escape closes it without recapture or an overlapping pause menu; Tab deliberately resumes look",
+    "Search accepts B in a word, and Escape leaves the search/menu cleanly",
+    "Holding C can click Add dummy; placement cancellation returns to a usable free cursor",
+    "Tab exposes the toolbar; Add dummy commits with a free mouse and leaves capture under player control",
+    "T toggles a visible 0.25x badge and measured quarter-speed simulation, then restores 120 Hz",
+    "Magnet visibly acquires barrels, ignores wood, and launches over two metres while left mouse remains held instead of reeling them back",
+    "Pistol hits shed persistent wood chips or short glowing metal sparks while the struck prop is still intact",
+    "A bat strike also sheds chips before the crate breaks"
+  ],
+  "ceiling": {
+    "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+    "cases": [
+      {
+        "kind": "crate",
+        "angle": 0,
+        "peak": 4.448543071746826,
+        "final": {
+          "id": 0,
+          "kind": "crate",
+          "p": [
+            0.8641819357872009,
+            0.5414999127388,
+            6.886833190917969
+          ],
+          "q": [
+            0.1888917237520218,
+            0.6814101338386536,
+            0.6814102530479431,
+            -0.18889173865318298
+          ],
+          "v": [
+            0,
+            0,
+            0
+          ],
+          "w": [
+            0,
+            0,
+            0
+          ],
+          "faces": {
+            "yp": 77,
+            "zp": 78,
+            "zn": 79,
+            "xp": 80,
+            "xn": 81,
+            "yn": 117
+          },
+          "active": true,
+          "damage": 0.701568603515625,
+          "broken": false
+        }
+      },
+      {
+        "kind": "crate",
+        "angle": 0.4,
+        "peak": 4.345676422119141,
+        "final": {
+          "id": 0,
+          "kind": "crate",
+          "p": [
+            -6.112491607666016,
+            0.5414999127388,
+            7.05682897567749
+          ],
+          "q": [
+            -0.6438831090927124,
+            0.6438829302787781,
+            -0.29225781559944153,
+            0.29225781559944153
+          ],
+          "v": [
+            0,
+            0,
+            0
+          ],
+          "w": [
+            0,
+            0,
+            0
+          ],
+          "faces": {
+            "yp": 77,
+            "zp": 78,
+            "zn": 79,
+            "xp": 80,
+            "xn": 81,
+            "yn": 117
+          },
+          "active": true,
+          "damage": 0.700714111328125,
+          "broken": false
+        }
+      },
+      {
+        "kind": "crate",
+        "angle": 0.8,
+        "peak": 4.118018627166748,
+        "final": {
+          "id": 0,
+          "kind": "crate",
+          "p": [
+            -3.2693684101104736,
+            0.5514998435974121,
+            4.638686656951904
+          ],
+          "q": [
+            -0.7204572558403015,
+            4.67148808525053e-9,
+            0.6934992671012878,
+            -2.777149354926678e-8
+          ],
+          "v": [
+            0,
+            0,
+            0
+          ],
+          "w": [
+            0,
+            0,
+            0
+          ],
+          "faces": {
+            "yp": 77,
+            "zp": 78,
+            "zn": 79,
+            "xp": 80,
+            "xn": 81,
+            "yn": 117
+          },
+          "active": true,
+          "damage": 0.7361907958984375,
+          "broken": false
+        }
+      },
+      {
+        "kind": "barrel",
+        "angle": 0,
+        "peak": 4.385715961456299,
+        "final": {
+          "id": 3,
+          "kind": "barrel",
+          "p": [
+            -6.76698112487793,
+            0.4183192551136017,
+            1.1923251152038574
+          ],
+          "q": [
+            -0.24058641493320465,
+            0.20864200592041016,
+            -0.6649190783500671,
+            -0.6756250858306885
+          ],
+          "v": [
+            -0.030692024156451225,
+            0.057529762387275696,
+            -0.4207988977432251
+          ],
+          "w": [
+            -1.008803367614746,
+            0.0002943095751106739,
+            0.056180328130722046
+          ],
+          "faces": {
+            "yp": 92,
+            "zp": 93,
+            "zn": 94,
+            "xp": 95,
+            "xn": 96,
+            "yn": 120
+          },
+          "active": true,
+          "damage": 0.7239837646484375,
+          "broken": false
+        }
+      },
+      {
+        "kind": "barrel",
+        "angle": 0.4,
+        "peak": 4.322906970977783,
+        "final": {
+          "id": 3,
+          "kind": "barrel",
+          "p": [
+            -3.5060794353485107,
+            0.6541122794151306,
+            5.000592231750488
+          ],
+          "q": [
+            0.9227173924446106,
+            0.08058903366327286,
+            0.371986985206604,
+            -0.06102057546377182
+          ],
+          "v": [
+            -0.08503081649541855,
+            0.06408126652240753,
+            0.35431715846061707
+          ],
+          "w": [
+            0.41567742824554443,
+            -0.25408220291137695,
+            0.10409502685070038
+          ],
+          "faces": {
+            "yp": 92,
+            "zp": 93,
+            "zn": 94,
+            "xp": 95,
+            "xn": 96,
+            "yn": 120
+          },
+          "active": true,
+          "damage": 0.70220947265625,
+          "broken": false
+        }
+      },
+      {
+        "kind": "barrel",
+        "angle": 0.8,
+        "peak": 4.302830219268799,
+        "final": {
+          "id": 3,
+          "kind": "barrel",
+          "p": [
+            -2.9216864109039307,
+            0.41820070147514343,
+            2.2914297580718994
+          ],
+          "q": [
+            0.5722889304161072,
+            0.48361653089523315,
+            -0.4153127670288086,
+            0.5158639550209045
+          ],
+          "v": [
+            0.08140242844820023,
+            0.05270439386367798,
+            -0.36689990758895874
+          ],
+          "w": [
+            -0.8821782469749451,
+            -0.00029218150302767754,
+            -0.17780758440494537
+          ],
+          "faces": {
+            "yp": 92,
+            "zp": 93,
+            "zn": 94,
+            "xp": 95,
+            "xn": 96,
+            "yn": 120
+          },
+          "active": true,
+          "damage": 0.8543853759765625,
+          "broken": false
+        }
+      }
+    ],
+    "checks": [],
+    "profile": "C:\\Users\\trent\\AppData\\Local\\Temp\\smear-chrome-OrjTqm",
+    "held": {
+      "id": 0,
+      "kind": "crate",
+      "p": [
+        -2.719277858734131,
+        4.448500633239746,
+        5.07573127746582
+      ],
+      "q": [
+        4.086041087703052e-7,
+        0.1542133092880249,
+        2.1060583321741433e-7,
+        0.9880375862121582
+      ],
+      "v": [
+        0.17103001475334167,
+        -0.057106032967567444,
+        0.03091614693403244
+      ],
+      "w": [
+        -0.02460215799510479,
+        0.03789561241865158,
+        0.07145044952630997
+      ],
+      "faces": {
+        "yp": 77,
+        "zp": 78,
+        "zn": 79,
+        "xp": 80,
+        "xn": 81,
+        "yn": 117
+      },
+      "active": true,
+      "damage": 0.3693695068359375,
+      "broken": false
+    },
+    "released": {
+      "id": 0,
+      "kind": "crate",
+      "p": [
+        -1.9268358945846558,
+        0.5514999628067017,
+        5.233949661254883
+      ],
+      "q": [
+        -3.879750209989652e-8,
+        0.531437337398529,
+        -2.1674155803452777e-9,
+        0.8470975756645203
+      ],
+      "v": [
+        0,
+        0,
+        0
+      ],
+      "w": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "yp": 77,
+        "zp": 78,
+        "zn": 79,
+        "xp": 80,
+        "xn": 81,
+        "yn": 117
+      },
+      "active": true,
+      "damage": 0.3968963623046875,
+      "broken": false
+    },
+    "rig": {
+      "peak": 4.999999934083586,
+      "finalTop": 0.2600427669191826,
+      "parts": [
+        {
+          "name": "Torso",
+          "doll": 0,
+          "severed": false,
+          "socketMask": 0,
+          "p": [
+            -3.1762874126434326,
+            0.12770892679691315,
+            5.192937850952148
+          ],
+          "q": [
+            -0.7128938436508179,
+            -0.0666716992855072,
+            -0.046918030828237534,
+            0.6965169906616211
+          ],
+          "v": [
+            -0.0007813788834027946,
+            0.000016093252270366065,
+            0.0017244223272427917
+          ],
+          "wet": 1.649999976158142,
+          "damage": 32.001251220703125,
+          "reserve": 7.125890254974365,
+          "bleeding": 1.6502214670181274,
+          "mode": 0,
+          "active": 1,
+          "target": [
+            -3.1762804985046387,
+            0.1277087926864624,
+            5.192922592163086
+          ],
+          "gait": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "Hips",
+          "doll": 0,
+          "severed": false,
+          "socketMask": 0,
+          "p": [
+            -3.2221224308013916,
+            0.12227451056241989,
+            5.514202117919922
+          ],
+          "q": [
+            -0.6796720623970032,
+            -0.04047168046236038,
+            -0.03892406448721886,
+            0.7313636541366577
+          ],
+          "v": [
+            0.0007496460457332432,
+            0,
+            0.0021101145539432764
+          ],
+          "wet": 1.649999976158142,
+          "damage": 54.69059753417969,
+          "reserve": 6.237565040588379,
+          "bleeding": 2,
+          "mode": 0,
+          "active": 1,
+          "target": [
+            -3.2221288681030273,
+            0.12227748334407806,
+            5.51418399810791
+          ],
+          "gait": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "Head",
+          "doll": 0,
+          "severed": false,
+          "socketMask": 0,
+          "p": [
+            -3.070988655090332,
+            0.12467089295387268,
+            4.7855706214904785
+          ],
+          "q": [
+            -0.6984120011329651,
+            -0.33340007066726685,
+            0.08624858409166336,
+            0.6273964047431946
+          ],
+          "v": [
+            -0.0006385873421095312,
+            0,
+            0.0028319961857050657
+          ],
+          "wet": 1.6137303113937378,
+          "damage": 56.296722412109375,
+          "reserve": 6.186771392822266,
+          "bleeding": 2,
+          "mode": 0,
+          "active": 1,
+          "target": [
+            -3.0709831714630127,
+            0.12467096745967865,
+            4.78554630279541
+          ],
+          "gait": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "Left upper arm",
+          "doll": 0,
+          "severed": false,
+          "socketMask": 0,
+          "p": [
+            -3.413963794708252,
+            0.13023336231708527,
+            5.155940055847168
+          ],
+          "q": [
+            -0.3381679654121399,
+            0.5526414513587952,
+            -0.5336368680000305,
+            0.5435636639595032
+          ],
+          "v": [
+            -0.009269713424146175,
+            0.00021815298532601446,
+            0.005607604514807463
+          ],
+          "wet": 1.222845196723938,
+          "damage": 32.000221252441406,
+          "reserve": 7.463301658630371,
+          "bleeding": 1.4000412225723267,
+          "mode": 0,
+          "active": 1,
+          "target": [
+            -3.413886547088623,
+            0.13023154437541962,
+            5.155893325805664
+          ],
+          "gait": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "Left forearm",
+          "doll": 0,
+          "severed": false,
+          "socketMask": 0,
+          "p": [
+            -3.48850154876709,
+            0.06884623318910599,
+            5.461198329925537
+          ],
+          "q": [
+            -0.2973560690879822,
+            0.5100299119949341,
+            -0.5752332806587219,
+            0.566176176071167
+          ],
+          "v": [
+            -0.017963740974664688,
+            0.00003308057421236299,
+            0.003220701590180397
+          ],
+          "wet": 1.6499913930892944,
+          "damage": 48.022159576416016,
+          "reserve": 6.487398624420166,
+          "bleeding": 2,
+          "mode": 0,
+          "active": 1,
+          "target": [
+            -3.488347291946411,
+            0.0688459575176239,
+            5.461170673370361
+          ],
+          "gait": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "Left hand",
+          "doll": 0,
+          "severed": false,
+          "socketMask": 0,
+          "p": [
+            -3.585892915725708,
+            0.04359200969338417,
+            5.657887935638428
+          ],
+          "q": [
+            -0.42912429571151733,
+            0.21234019100666046,
+            -0.555487871170044,
+            0.6798507571220398
+          ],
+          "v": [
+            -0.00430352333933115,
+            0.0001569092128193006,
+            0.014604215510189533
+          ],
+          "wet": 1.4873549938201904,
+          "damage": 49.39369583129883,
+          "reserve": 6.453276634216309,
+          "bleeding": 2,
+          "mode": 0,
+          "active": 1,
+          "target": [
+            -3.5858559608459473,
+            0.04359070211648941,
+            5.65776252746582
+          ],
+          "gait": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "Left thigh",
+          "doll": 0,
+          "severed": false,
+          "socketMask": 0,
+          "p": [
+            -3.199767827987671,
+            0.10284353047609329,
+            5.688232421875
+          ],
+          "q": [
+            -0.09412223845720291,
+            -0.35574260354042053,
+            0.6727493405342102,
+            0.6418694257736206
+          ],
+          "v": [
+            0.001394916675053537,
+            0.000042021270928671584,
+            -0.0024069149512797594
+          ],
+          "wet": 1.649999976158142,
+          "damage": 40.737831115722656,
+          "reserve": 6.750794410705566,
+          "bleeding": 1.7824419736862183,
+          "mode": 0,
+          "active": 1,
+          "target": [
+            -3.199779987335205,
+            0.10284318029880524,
+            5.688253402709961
+          ],
+          "gait": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "Left shin",
+          "doll": 0,
+          "severed": false,
+          "socketMask": 0,
+          "p": [
+            -2.883754014968872,
+            0.06927213072776794,
+            5.934557914733887
+          ],
+          "q": [
+            -0.09309528023004532,
+            -0.3543650209903717,
+            0.673473060131073,
+            0.642022430896759
+          ],
+          "v": [
+            0.001422267989255488,
+            0,
+            -0.0025163202080875635
+          ],
+          "wet": 1.4185541868209839,
+          "damage": 31.40826416015625,
+          "reserve": 7.486501693725586,
+          "bleeding": 1.3745225667953491,
+          "mode": 0,
+          "active": 1,
+          "target": [
+            -2.8837664127349854,
+            0.06927316635847092,
+            5.934579849243164
+          ],
+          "gait": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "Left foot",
+          "doll": 0,
+          "severed": false,
+          "socketMask": 0,
+          "p": [
+            -2.698291063308716,
+            0.05930968374013901,
+            6.094285011291504
+          ],
+          "q": [
+            -0.2690170407295227,
+            -0.20017702877521515,
+            0.7173499464988708,
+            0.6107110977172852
+          ],
+          "v": [
+            -0.013465863652527332,
+            0,
+            0.010828220285475254
+          ],
+          "wet": 0.9529053568840027,
+          "damage": 26.648719787597656,
+          "reserve": 7.617469310760498,
+          "bleeding": 1.1668579578399658,
+          "mode": 0,
+          "active": 1,
+          "target": [
+            -2.6981754302978516,
+            0.05933103337883949,
+            6.094192028045654
+          ],
+          "gait": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "Right upper arm",
+          "doll": 0,
+          "severed": false,
+          "socketMask": 0,
+          "p": [
+            -2.873805284500122,
+            0.07733766734600067,
+            5.221309661865234
+          ],
+          "q": [
+            -0.5730436444282532,
+            0.5043482184410095,
+            -0.3728347420692444,
+            0.5274922847747803
+          ],
+          "v": [
+            0.008068635128438473,
+            0.0006267427816055715,
+            -0.005743774119764566
+          ],
+          "wet": 1.1937456130981445,
+          "damage": 34.134864807128906,
+          "reserve": 7.236663341522217,
+          "bleeding": 1.493693470954895,
+          "mode": 0,
+          "active": 1,
+          "target": [
+            -2.873875617980957,
+            0.07733244448900223,
+            5.221359729766846
+          ],
+          "gait": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "Right forearm",
+          "doll": 0,
+          "severed": false,
+          "socketMask": 0,
+          "p": [
+            -2.778409242630005,
+            0.06493356078863144,
+            5.526496887207031
+          ],
+          "q": [
+            -0.613304853439331,
+            0.532541811466217,
+            -0.33139878511428833,
+            0.4800325334072113
+          ],
+          "v": [
+            -0.001969293924048543,
+            0,
+            -0.0005470261094160378
+          ],
+          "wet": 1.5461267232894897,
+          "damage": 46.808433532714844,
+          "reserve": 6.521768569946289,
+          "bleeding": 2,
+          "mode": 0,
+          "active": 1,
+          "target": [
+            -2.7783920764923096,
+            0.06493870168924332,
+            5.526501655578613
+          ],
+          "gait": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "Right hand",
+          "doll": 0,
+          "severed": false,
+          "socketMask": 0,
+          "p": [
+            -2.721007823944092,
+            0.0463324598968029,
+            5.739565849304199
+          ],
+          "q": [
+            -0.6239050626754761,
+            0.3115934729576111,
+            -0.17181842029094696,
+            0.6957947611808777
+          ],
+          "v": [
+            -0.006635755766183138,
+            0,
+            0.004053641576319933
+          ],
+          "wet": 1.3485615253448486,
+          "damage": 45.214698791503906,
+          "reserve": 6.587560653686523,
+          "bleeding": 1.9784058332443237,
+          "mode": 0,
+          "active": 1,
+          "target": [
+            -2.7209508419036865,
+            0.0463373102247715,
+            5.73953104019165
+          ],
+          "gait": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "Right thigh",
+          "doll": 0,
+          "severed": false,
+          "socketMask": 0,
+          "p": [
+            -3.2377734184265137,
+            0.10288853198289871,
+            5.739988327026367
+          ],
+          "q": [
+            -0.6353590488433838,
+            -0.649030864238739,
+            0.2430998831987381,
+            0.34055882692337036
+          ],
+          "v": [
+            -0.001613727188669145,
+            0,
+            0.0032821567729115486
+          ],
+          "wet": 1.6499980688095093,
+          "damage": 34.39391326904297,
+          "reserve": 7.220293045043945,
+          "bleeding": 1.5049277544021606,
+          "mode": 0,
+          "active": 1,
+          "target": [
+            -3.2377593517303467,
+            0.1028924435377121,
+            5.739959716796875
+          ],
+          "gait": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "Right shin",
+          "doll": 0,
+          "severed": false,
+          "socketMask": 0,
+          "p": [
+            -3.20086407661438,
+            0.07133398205041885,
+            5.963871002197266
+          ],
+          "q": [
+            -0.08043217658996582,
+            -0.16845722496509552,
+            0.6723071932792664,
+            0.7163489460945129
+          ],
+          "v": [
+            0.0027077794075012207,
+            0,
+            -0.010612307116389275
+          ],
+          "wet": 1.6499980688095093,
+          "damage": 31.448875427246094,
+          "reserve": 7.479198455810547,
+          "bleeding": 1.3761574029922485,
+          "mode": 0,
+          "active": 1,
+          "target": [
+            -3.200887680053711,
+            0.07133553177118301,
+            5.963963508605957
+          ],
+          "gait": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "name": "Right foot",
+          "doll": 0,
+          "severed": false,
+          "socketMask": 0,
+          "p": [
+            -2.97989559173584,
+            0.05915294215083122,
+            6.067786693572998
+          ],
+          "q": [
+            -0.19765302538871765,
+            -0.14695143699645996,
+            0.7209935784339905,
+            0.647693395614624
+          ],
+          "v": [
+            -0.00408140616491437,
+            0.0028458235319703817,
+            -0.009495516307651997
+          ],
+          "wet": 1.1203858852386475,
+          "damage": 4.193138122558594,
+          "reserve": 8.723457336425781,
+          "bleeding": 0.1849171668291092,
+          "mode": 0,
+          "active": 1,
+          "target": [
+            -2.979860544204712,
+            0.059129226952791214,
+            6.067868232727051
+          ],
+          "gait": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "heldTop": 4.9999997011805455,
+      "releasedTop": 0.2600520904079672
+    },
+    "failures": [],
+    "errors": [],
+    "result": "COMPLETE ceiling impacts and held-release checks"
+  },
+  "edgeBefore": {
+    "buildSHA256": "be2208a3a3c9cfa7fa11f158dc9716bf323a81191f2fbad673e1214b7aa651ee",
+    "checks": [
+      "Raised edge releases finite drops through concentrated uneven outlets",
+      "A full 900-drop pool retains all liquid on the surface, including lateral edge gathering"
+    ],
+    "profile": "C:\\Users\\trent\\AppData\\Local\\Temp\\smear-chrome-nWLII6",
+    "flow": {
+      "initial": 0.015750160217285175,
+      "mobile": 0.0005807876586914062,
+      "residue": 0,
+      "retained": 0,
+      "airborne": 0.015170316881267354,
+      "total": 0.01575110453995876,
+      "runoff": 672,
+      "surface": {
+        "center": [
+          -3.65,
+          0.723,
+          -0.35
+        ],
+        "u": [
+          1,
+          0,
+          0
+        ],
+        "width": 84,
+        "area": 0.000625
+      },
+      "dropCount": 672,
+      "outlets": 84
+    },
+    "full": {
+      "initial": 0.015750160217285175,
+      "mobile": 0.015750160217285175,
+      "residue": 0,
+      "retained": 0,
+      "airborne": 0,
+      "total": 0.015750160217285175,
+      "runoff": 0,
+      "surface": {
+        "center": [
+          -3.65,
+          0.723,
+          -0.35
+        ],
+        "u": [
+          1,
+          0,
+          0
+        ],
+        "width": 84,
+        "area": 0.000625
+      },
+      "dropCount": 900
+    },
+    "result": "Recorded V38 uniform-edge control"
+  },
+  "edgeAfter": {
+    "buildSHA256": "8e5f62727c16967f92a80e45a54ed8d38ee84ef1b0b89d7cc3f5b1fc4bd87ebf",
+    "checks": [
+      "Raised edge releases finite drops through concentrated uneven outlets",
+      "A full 900-drop pool retains all liquid on the surface, including lateral edge gathering"
+    ],
+    "profile": "C:\\Users\\trent\\AppData\\Local\\Temp\\smear-chrome-LRX6rJ",
+    "flow": {
+      "initial": 0.015750160217285175,
+      "mobile": 0.004089117050170898,
+      "residue": 0,
+      "retained": 0,
+      "airborne": 0.011661028927846928,
+      "total": 0.015750145978017827,
+      "runoff": 80,
+      "surface": {
+        "center": [
+          -3.65,
+          0.723,
+          -0.35
+        ],
+        "u": [
+          1,
+          0,
+          0
+        ],
+        "width": 84,
+        "area": 0.000625
+      },
+      "dropCount": 80,
+      "outlets": 14
+    },
+    "full": {
+      "initial": 0.015750160217285175,
+      "mobile": 0.01575016021728516,
+      "residue": 0,
+      "retained": 0,
+      "airborne": 0,
+      "total": 0.01575016021728516,
+      "runoff": 0,
+      "surface": {
+        "center": [
+          -3.65,
+          0.723,
+          -0.35
+        ],
+        "u": [
+          1,
+          0,
+          0
+        ],
+        "width": 84,
+        "area": 0.000625
+      },
+      "dropCount": 900
+    },
+    "result": "COMPLETE edge runoff and conservation checks"
+  },
+  "profiles": [
+    {
+      "label": "idle",
+      "fps": 60.00100001690537,
+      "cpuMs": {
+        "p50": 0.30000001192092896,
+        "p95": 1,
+        "p99": 1.300000011920929,
+        "max": 1.699999988079071
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 2.228224,
+          "p95": 2.555904,
+          "p99": 3.145728,
+          "max": 3.342336
+        },
+        "renderMS": {
+          "p50": 9.633792,
+          "p95": 9.961472,
+          "p99": 10.092544,
+          "max": 10.420224
+        }
+      },
+      "ticksPerSecond": 120.02663559180957,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 361,
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5776,
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "bat",
+      "fps": 59.99933148341315,
+      "cpuMs": {
+        "p50": 0.30000001192092896,
+        "p95": 0.9000000357627869,
+        "p99": 1.2999999523162842,
+        "max": 1.5
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 2.29376,
+          "p95": 6.88128,
+          "p99": 8.716288,
+          "max": 11.010048
+        },
+        "renderMS": {
+          "p50": 5.111808,
+          "p95": 7.798784,
+          "p99": 11.599872,
+          "max": 11.730944
+        }
+      },
+      "ticksPerSecond": 119.9400299850075,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5760,
+          "frame uniforms": 1105920,
+          "GPU scene instances": 617760
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "pistol",
+      "fps": 60,
+      "cpuMs": {
+        "p50": 0.30000001192092896,
+        "p95": 1,
+        "p99": 1.300000011920929,
+        "max": 1.5
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 2.359296,
+          "p95": 3.473408,
+          "p99": 3.735552,
+          "max": 3.93216
+        },
+        "renderMS": {
+          "p50": 7.53664,
+          "p95": 7.929856,
+          "p99": 8.126464,
+          "max": 8.257536
+        }
+      },
+      "ticksPerSecond": 120.09914001055137,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 361,
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5776,
+          "frame uniforms": 1108992,
+          "GPU scene instances": 785136
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "spill",
+      "fps": 60.001000016309305,
+      "cpuMs": {
+        "p50": 0.30000001192092896,
+        "p95": 0.800000011920929,
+        "p99": 1.300000011920929,
+        "max": 1.600000023841858
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 2.29376,
+          "p95": 3.670016,
+          "p99": 7.733248,
+          "max": 8.388608
+        },
+        "renderMS": {
+          "p50": 8.781824,
+          "p95": 9.109504,
+          "p99": 9.240576,
+          "max": 9.371648
+        }
+      },
+      "ticksPerSecond": 119.85105887804968,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 361,
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5776,
+          "frame uniforms": 1108992,
+          "GPU scene instances": 510400
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "drag",
+      "fps": 60.00434571827276,
+      "cpuMs": {
+        "p50": 0.2999999523162842,
+        "p95": 0.800000011920929,
+        "p99": 1.300000011920929,
+        "max": 1.800000011920929
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 2.818048,
+          "p95": 4.194304,
+          "p99": 4.849664,
+          "max": 6.422528
+        },
+        "renderMS": {
+          "p50": 9.8304,
+          "p95": 10.223616,
+          "p99": 10.420224,
+          "max": 10.551296
+        }
+      },
+      "ticksPerSecond": 119.54443428381411,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 360,
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5760,
+          "frame uniforms": 1105920,
+          "GPU scene instances": 1408
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "chaos",
+      "fps": 60,
+      "cpuMs": {
+        "p50": 0.2999999523162842,
+        "p95": 0.800000011920929,
+        "p99": 1.199999988079071,
+        "max": 1.300000011920929
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 2.686976,
+          "p95": 3.2768,
+          "p99": 3.93216,
+          "max": 4.390912
+        },
+        "renderMS": {
+          "p50": 12.45184,
+          "p95": 12.845056,
+          "p99": 12.976128,
+          "max": 13.1072
+        }
+      },
+      "ticksPerSecond": 119.84309032303258,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 361,
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5776,
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "mop",
+      "fps": 59.99933148341315,
+      "cpuMs": {
+        "p50": 0.30000001192092896,
+        "p95": 0.9000000357627869,
+        "p99": 1.300000011920929,
+        "max": 1.699999988079071
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 3.014656,
+          "p95": 3.60448,
+          "p99": 4.325376,
+          "max": 5.24288
+        },
+        "renderMS": {
+          "p50": 5.439488,
+          "p95": 5.701632,
+          "p99": 5.832704,
+          "max": 5.89824
+        }
+      },
+      "ticksPerSecond": 119.64190628399207,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 360,
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5760,
+          "frame uniforms": 1105920,
+          "GPU scene instances": 443520
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "blower",
+      "fps": 60.01400326778686,
+      "cpuMs": {
+        "p50": 0.30000001192092896,
+        "p95": 0.800000011920929,
+        "p99": 1.5,
+        "max": 1.600000023841858
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 2.94912,
+          "p95": 3.407872,
+          "p99": 3.735552,
+          "max": 4.128768
+        },
+        "renderMS": {
+          "p50": 5.701632,
+          "p95": 6.094848,
+          "p99": 6.22592,
+          "max": 6.22592
+        }
+      },
+      "ticksPerSecond": 119.96273002586105,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 361,
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5776,
+          "frame uniforms": 1108992,
+          "GPU scene instances": 382448
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "washer",
+      "fps": 59.99832873736108,
+      "cpuMs": {
+        "p50": 0.2999999523162842,
+        "p95": 0.8999999761581421,
+        "p99": 1.199999988079071,
+        "max": 1.300000011920929
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 3.014656,
+          "p95": 4.521984,
+          "p99": 4.718592,
+          "max": 5.046272
+        },
+        "renderMS": {
+          "p50": 5.373952,
+          "p95": 5.701632,
+          "p99": 5.832704,
+          "max": 5.89824
+        }
+      },
+      "ticksPerSecond": 119.68482994875279,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 360,
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5760,
+          "frame uniforms": 1105920,
+          "GPU scene instances": 444576
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "vacuum",
+      "fps": 60.00100001690537,
+      "cpuMs": {
+        "p50": 0.20000004768371582,
+        "p95": 0.800000011920929,
+        "p99": 1.399999976158142,
+        "max": 1.600000023841858
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 3.014656,
+          "p95": 4.456448,
+          "p99": 5.046272,
+          "max": 5.24288
+        },
+        "renderMS": {
+          "p50": 5.832704,
+          "p95": 6.22592,
+          "p99": 6.422528,
+          "max": 6.684672
+        }
+      },
+      "ticksPerSecond": 119.94077820081684,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 361,
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5776,
+          "frame uniforms": 1108992,
+          "GPU scene instances": 445984
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "magnet",
+      "fps": 60.00400026704212,
+      "cpuMs": {
+        "p50": 0.30000001192092896,
+        "p95": 0.699999988079071,
+        "p99": 1.2999999523162842,
+        "max": 1.7999999523162842
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 2.686976,
+          "p95": 3.93216,
+          "p99": 4.58752,
+          "max": 5.046272
+        },
+        "renderMS": {
+          "p50": 5.767168,
+          "p95": 6.160384,
+          "p99": 6.291456,
+          "max": 6.619136
+        }
+      },
+      "ticksPerSecond": 120.0646117462053,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 361,
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5776,
+          "frame uniforms": 1108992,
+          "GPU scene instances": 445984
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "accident-line",
+      "fps": 59.83920303553803,
+      "cpuMs": {
+        "p50": 0.2999999523162842,
+        "p95": 0.8999999761581421,
+        "p99": 1.2999999523162842,
+        "max": 1.600000023841858
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 3.538944,
+          "p95": 9.043968,
+          "p99": 13.1072,
+          "max": 21.037056
+        },
+        "renderMS": {
+          "p50": 7.274496,
+          "p95": 10.878976,
+          "p99": 11.4688,
+          "max": 11.730944
+        }
+      },
+      "ticksPerSecond": 119.59414504324685,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 316,
+          "asynchronous collision sound event": 335,
+          "asynchronous GPU timing": 335,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5760,
+          "frame uniforms": 1105920,
+          "GPU scene instances": 1232
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "destruction",
+      "fps": 60.001000016309305,
+      "cpuMs": {
+        "p50": 0.30000001192092896,
+        "p95": 0.8999999761581421,
+        "p99": 1.399999976158142,
+        "max": 1.5
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 4.25984,
+          "p95": 7.471104,
+          "p99": 9.764864,
+          "max": 15.204352
+        },
+        "renderMS": {
+          "p50": 9.895936,
+          "p95": 11.010048,
+          "p99": 11.272192,
+          "max": 11.403264
+        }
+      },
+      "ticksPerSecond": 119.87895716874714,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 360,
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5776,
+          "frame uniforms": 1108992,
+          "GPU scene instances": 39424
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "rapid-rockets",
+      "fps": 56.82387939989885,
+      "cpuMs": {
+        "p50": 0.30000001192092896,
+        "p95": 1,
+        "p99": 1.399999976158142,
+        "max": 1.600000023841858
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 5.308416,
+          "p95": 11.730944,
+          "p99": 14.41792,
+          "max": 23.527424
+        },
+        "renderMS": {
+          "p50": 9.895936,
+          "p95": 13.1072,
+          "p99": 13.369344,
+          "max": 13.43488
+        }
+      },
+      "ticksPerSecond": 119.82425775624313,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 268,
+          "asynchronous collision sound event": 296,
+          "asynchronous GPU timing": 299,
+          "GPU telemetry snapshot": 23
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5536,
+          "frame uniforms": 1062912,
+          "GPU scene instances": 487168
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    }
+  ],
+  "comparisons": [
+    "tools/out/usability-pass/recordings/compare-grenade.mp4",
+    "tools/out/usability-pass/recordings/compare-violet.mp4",
+    "tools/out/usability-pass/recordings/compare-edges.mp4",
+    "tools/out/usability-pass/recordings/compare-chips.mp4"
+  ],
+  "limitations": [
+    "LTC area lights remain unshadowed.",
+    "Magnet affects barrels and metal fragments, not wooden props or buddies."
+  ]
+}

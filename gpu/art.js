@@ -36,7 +36,9 @@ SmearCompute.prototype.artDirection=function(){
   for(const backing of [true,false]){
    const positions=points.flatMap(p=>p.clone().sub(center).multiplyScalar(backing?1.065:1).add(center).addScaledVector(normal,backing?-.018:0).toArray());
    const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(positions,3));geo.setAttribute('uv',new T.Float32BufferAttribute([0,0,1,0,1,1,0,1],2));geo.setIndex([0,1,2,0,2,3]);geo.computeVertexNormals();
-   const level=Math.max(...light.radiance);const face=new T.MeshBasicMaterial({color:new T.Color(...light.radiance.map(c=>c/level*3))});
+   // Visible colored diffuser faces use a lower display exposure than the
+   // emitted radiance, retaining their hue through the scene tone mapper.
+   const level=Math.max(...light.radiance),violet=light.name.startsWith('violet');const face=new T.MeshBasicMaterial({color:new T.Color(...light.radiance.map(c=>violet?Math.pow(c/level,2.0)*.8:c/level*3))});
    const mesh=add(geo,backing?dark:face,[0,0,0]);mesh.castShadow=false;mesh.name=light.name+(backing?' frame':'');if(!backing)mesh.userData.ltcEmitter=light.name;
   }
  }

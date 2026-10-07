@@ -3,6 +3,7 @@ const VOLUME_SCALE:f32=16777216.0;
 fn toolID()->u32{return (u32(frame.settings.w)>>8u)&15u;}
 fn toolLeft()->bool{return (u32(frame.settings.w)&65536u)!=0u;}
 fn toolRight()->bool{return (u32(frame.settings.w)&131072u)!=0u;}
+fn magnetPull()->bool{return toolLeft()&&toolID()==10u&&atomicLoad(&work[utilityBase()+16u])==0u;}
 // Return after the CAS loop so Naga sees an explicit value on every exit path.
 fn takeStored(address:u32,wanted:u32)->u32{var old=atomicLoad(&work[address]);var amount=0u;loop{amount=min(old,wanted);let r=atomicCompareExchangeWeak(&work[address],old,old-amount);if(r.exchanged){break;}old=r.old_value;}return amount;}
 fn storeVolume(address:u32,volume:f32,capacity:f32)->f32{let wanted=u32(max(0,volume)*VOLUME_SCALE);let limit=u32(capacity*VOLUME_SCALE);var old=atomicLoad(&work[address]);var added=0u;loop{added=min(wanted,limit-min(old,limit));let r=atomicCompareExchangeWeak(&work[address],old,old+added);if(r.exchanged){break;}old=r.old_value;}return f32(added)/VOLUME_SCALE;}
@@ -16,6 +17,7 @@ fn utilityWind(p:vec3f)->vec3f{var force=vec3f(0);if(atomicLoad(&work[utilityBas
 fn utilityAim()->RayHit{return rayHit(frame.rayO.xyz,safeNorm(frame.rayD.xyz),select(8.0,2.6,toolID()==6u),true,-1);}
 @compute @workgroup_size(1) fn utilityForces(){
  let u=utilityBase();let tool=toolID();let left=toolLeft();let right=toolRight();let axis=safeNorm(frame.rayD.xyz);let origin=frame.rayO.xyz;let dt=1.0/120;
+ if(!left||tool!=10u){atomicStore(&work[u+16u],0u);}atomicStore(&work[u+17u],0u);atomicStore(&work[u+18u],0u);
  if(left&&tool>=6u&&tool<=9u){let hit=utilityAim();putVector(u+4u,hit.p);atomicStore(&work[u+7u],u32(hit.surface+1));}else{atomicStore(&work[u+7u],0u);}
  var devices=false;for(var i=8u;i<propCount();i++){if(!propGone(f32(i+1u))&&constants[propData(i)+6u].w>=4&&atomicLoad(&work[utilityProp(i)+1u])!=0u){devices=true;}}
  let enabled=(left&&tool>=6u&&tool<=9u)||devices;atomicStore(&work[u+28u],select(0u,header(3).y,enabled));atomicStore(&work[u+29u],1u);atomicStore(&work[u+30u],1u);atomicStore(&work[u+31u],select(0u,1u,devices));
@@ -46,7 +48,7 @@ fn utilityAim()->RayHit{return rayHit(frame.rayO.xyz,safeNorm(frame.rayD.xyz),se
  if(tool==6u&&atomicLoad(&work[u])>u32(.225*VOLUME_SCALE)&&mass<.02){let v=f32(takeStored(u,u32(area*dt*.025*VOLUME_SCALE)))/VOLUME_SCALE;returnFilm(rec,p,v);}
 }
 fn utilitySecondary(){
- let tool=toolID();if(tool==10u){let axis=safeNorm(frame.rayD.xyz);let origin=frame.rayO.xyz;for(var i=0u;i<propCount();i++){let b=propBody(i);if(!propGone(f32(i+1u))&&b.half.w==2&&distance(b.p.xyz,origin+axis*1.9)<2.1){propImpulse(f32(i+1u),b.p.xyz,axis*18/max(b.p.w,.01));}}for(var i=8u;i<128u;i++){let s=ordnanceState(i);if(atomicLoad(&work[s+23u])==2u&&distance(ordVector(s),origin+axis*1.6)<2.1){putVector(s+4u,axis*27);}}}
+ let tool=toolID();if(tool==10u){atomicStore(&work[utilityBase()+16u],1u);let axis=safeNorm(frame.rayD.xyz);let origin=frame.rayO.xyz;for(var i=0u;i<propCount();i++){let b=propBody(i);if(!propGone(f32(i+1u))&&b.half.w==2&&distance(b.p.xyz,origin+axis*1.9)<2.1&&utilityVisible(origin,b.p.xyz)){propImpulse(f32(i+1u),b.p.xyz,axis*18/max(b.p.w,.01));}}for(var i=8u;i<128u;i++){let s=ordnanceState(i);if(atomicLoad(&work[s+23u])==2u&&distance(ordVector(s),origin+axis*1.6)<2.1&&blastVisibility(origin,ordVector(s))){putVector(s+4u,axis*27);}}}
 }
 fn toggleUtilityProp(){let hit=utilityAim();var id=999u;if(frame.goal.w>=180){id=u32(frame.goal.w)-180u;}else if(hit.surface>=0){let tag=record(u32(hit.surface)).center.w;if(tag>0){id=u32(tag)-1u;}}if(id<propCount()&&constants[propData(id)+6u].w>=4){let u=utilityProp(id)+1u;atomicStore(&work[u],1u-min(1u,atomicLoad(&work[u])));}}
 
@@ -60,12 +62,12 @@ fn toggleUtilityProp(){let hit=utilityAim();var id=999u;if(frame.goal.w>=180){id
  }
  if(index<180u+propCount()){let i=index-180u;if(propGone(f32(i+1u))){return;}let b=propBody(i);var force=fanForce(b.p.xyz)*2;let belt=beltVelocity(b.p.xyz,b.half.y);if(length(belt)>0){force+=(belt-b.v.xyz)*18/max(b.p.w,.01);}
   if(left&&(tool==7u||tool==8u)){force+=axis*coneForce(origin,axis,b.p.xyz,7,select(.3,.09,tool==8u))*65;}
-  if(left&&tool==10u&&b.half.w==2&&distance(origin,b.p.xyz)<7&&utilityVisible(origin,b.p.xyz)){force+=(bounded((origin+axis*1.9-b.p.xyz)*12,18)-b.v.xyz)*12/max(b.p.w,.01);}
+  if(magnetPull()&&b.half.w==2&&distance(origin,b.p.xyz)<7&&utilityVisible(origin,b.p.xyz)){atomicOr(&work[u+17u],1u<<i);force+=(bounded((origin+axis*1.9-b.p.xyz)*12,18)-b.v.xyz)*12/max(b.p.w,.01);}
   if(length(force)>.01){propImpulse(f32(i+1u),b.p.xyz,force*dt);}return;
  }
  let i=index-180u-propCount()+8u;if(i>=128u){return;}let state=ordnanceState(i);let kind=atomicLoad(&work[state+23u]);if(kind!=2u&&kind!=3u&&kind!=5u){return;}let p=ordVector(state);let v=ordVector(state+4u);var force=fanForce(p);
  if(left&&tool==9u&&kind!=5u&&coneForce(origin,axis,p,5,.25)>.1){var old=atomicLoad(&work[u+2u]);loop{if(old>=80u){break;}let result=atomicCompareExchangeWeak(&work[u+2u],old,old+1u);if(result.exchanged){atomicStore(&work[state+23u],0u);if(kind==3u){atomicAdd(&work[u+3u],1u);}return;}old=result.old_value;}}
- if(left&&tool==10u&&kind==2u&&distance(origin,p)<7&&blastVisibility(origin,p)){force+=(origin+axis*1.6-p)*25-v*7;}
+ if(magnetPull()&&kind==2u&&distance(origin,p)<7&&blastVisibility(origin,p)){atomicAdd(&work[u+18u],1u);force+=(origin+axis*1.6-p)*25-v*7;}
  if(left&&(tool==7u||tool==8u)){force+=axis*coneForce(origin,axis,p,7,.3)*32;}let belt=beltVelocity(p,ordFloat(state+3u));if(length(belt)>0){force+=(belt-v)*12;}
  if(length(force)>.1){atomicStore(&work[state+20u],0u);putVector(state+4u,bounded(v+force*dt,32));}
 }

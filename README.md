@@ -2,7 +2,11 @@
 
 Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V38 / 0.38.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+**V39 / 0.39.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+
+V39 fixes ceiling contacts so fast crates and held buddies stay inside the room. **Tab** frees or recaptures the mouse; **B** toggles the toybox, and closing it leaves the cursor available. Hold **C** to aim freely and click HUD buttons. Add/Restore placement returns to the cursor instead of reopening pause. **T** toggles quarter-speed slow motion with a visible status badge.
+
+The magnet pulls visible barrels and metal fragments within 7 m. Cyan feedback shows active targets; right mouse launches, and releasing left mouse rearms the pull. Wood and buddies are not magnetic. Grenades have a cupped hand grip. Pistol and bat hits shed wood chips or brief metal sparks before a prop breaks; those fragments retain physical wet-contact behavior. Raised-edge runoff gathers into uneven outlets with finite liquid transfers, and the violet diffuser faces retain their purple hue without changing their LTC radiance. See [V39 evidence](docs/qa/usability-v39.json).
 
 V38 expands the LTC lighting into a colored material-response lab: an amber ceiling halo, cyan triangular panel, violet chevrons and low warm/cool strips join the original fixtures. Polished and matte surfaces contrast with wet blood. The old directional sun, artificial sky specular and directional shadow map are removed; area lights are unshadowed, with modest ambient fill. No froxels. The same emitter vertices drive their visible meshes and numerical polygon integration.
 
@@ -12,7 +16,7 @@ V38 verification: `npm run verify:showcase`, `npm run verify:ltc`, `npm run reco
 
 V37.1 fixes Firefox startup validation of the finite reservoir helpers. Both helpers return after their atomic retry loop, preserving the same liquid transfers. `npm run verify:shaders` validates the complete embedded compute and render modules with pinned Naga 29.0.4 without opening a browser; Rust/Cargo is required for this development check. The release gate runs it before browser tests. See [patch evidence](docs/qa/utility-v37.1.json).
 
-V37 adds **The Accident Line**, a physical chain: a conveyor drives a crate into three explosive barrels, the blast scatters boards and buddy parts, and a fan drives the aftermath through spilled liquid. [Load the machine with reference defaults](https://tront.xyz/smear/?v=38&defaults=1&machine=1), then click **Start Accident Line**. The pieces remain normal movable props. **B > Build machine** restores that arrangement and resets the room; **X** toggles a selected or aimed fan/conveyor independently.
+V37 adds **The Accident Line**, a physical chain: a conveyor drives a crate into three explosive barrels, the blast scatters boards and buddy parts, and a fan drives the aftermath through spilled liquid. [Load the machine with reference defaults](https://tront.xyz/smear/?v=39&defaults=1&machine=1), then click **Start Accident Line**. The pieces remain normal movable props. **B > Build machine** restores that arrangement and resets the room; **X** toggles a selected or aimed fan/conveyor independently.
 
 The toybox contains the entire cleanup/contraption set:
 
@@ -22,7 +26,7 @@ The toybox contains the entire cleanup/contraption set:
 | 8 / Leaf blower | Move wet film, airborne blood, loose parts and boards; dry residue stays put | Release to stop |
 | 9 / Pressure washer | Strip wet/dry stains into mobile dirty runoff and push light objects | Release to stop |
 | 0 / Wet vacuum | Collect liquid and small wood/metal fragments | Right mouse: spray stored liquid and fragments back out |
-| - / Magnet gun | Gather barrels and metal fragments | Right mouse: launch the gathered cluster |
+| - / Magnet gun | Hold left mouse: pull visible barrels and metal fragments within 7 m | Right mouse: launch; release left mouse to pull again |
 | = / Sticky charges | Throw a charge that attaches to a body, prop or wall | G or right mouse: detonate all charges |
 | B / Paint bucket | Place, grab, tilt or throw a finite payload; its fill level follows its contents | Refill from a loaded mop |
 | B / Fan + conveyor | Place, grab, turn and stack powered machines | X: toggle power |
@@ -43,7 +47,7 @@ V34 adds three breakable wooden crates and three explosive barrels around the ro
 
 V33 adds breakable joints, bleeding severed sockets and **weapon 5: Grenade**. Repeated pistol or bat hits damage joints; close explosions can separate the whole dummy. Detached groups retain independent grab/throw momentum and their closed shell geometry. Wounds, pistol spray and explosion spray spend finite per-part reserves. Heal closes wounds without reconnecting joints; Reset restores the full dummy. Grenades bounce for a 1.45-second fuse, launch physical fragments, scorch nearby surfaces, and push existing wet liquid outward into ridges and airborne spray. Pistol misses leave bullet pits; fragments leave dry black scuffs and push wet paint. These effects run on the GPU with the existing 900-drop limit. Fragment geometry, soot and blast smoke are stylized effects, not structural destruction of the room.
 
-**Tune > Effects** now includes Blast power (0.4-1.8, default 1) and Joint fragility (0.25-2, default 1). Ceiling runoff uses uneven release sites, varying thresholds, irregular timing and drop sizes. Wall drainage retains its existing solver. Open [reference defaults](https://tront.xyz/smear/?v=38&defaults=1), choose **Restart with reference defaults** on the play menu, or run `__smear.defaults()` in the console. This restarts with default tuning and controls, ignores saved preferences for that session and leaves those saved preferences intact. Remove `defaults=1` to use them again. `verify:destruction`, `verify:bleeding` and `record:destruction` cover the new mechanics and matched footage; see `docs/qa/destruction-v33.json`.
+**Tune > Effects** now includes Blast power (0.4-1.8, default 1) and Joint fragility (0.25-2, default 1). Ceiling runoff uses uneven release sites, varying thresholds, irregular timing and drop sizes. Wall drainage retains its existing solver. Open [reference defaults](https://tront.xyz/smear/?v=39&defaults=1), choose **Restart with reference defaults** on the play menu, or run `__smear.defaults()` in the console. This restarts with default tuning and controls, ignores saved preferences for that session and leaves those saved preferences intact. Remove `defaults=1` to use them again. `verify:destruction`, `verify:bleeding` and `record:destruction` cover the new mechanics and matched footage; see `docs/qa/destruction-v33.json`.
 
 V32 adds click-to-play FPS mouse capture, Esc/menu/focus pausing, held C free aim, and weapon 4: a spiked baseball bat with GPU contact, finite blood spray, knockback and impact audio. Free cursor remains available on the play menu. ARC Light Studies supplies the locally fitted GGX LTC tables and polygon-light integration: the three ceiling strips and five rear panels now illuminate surfaces and reflect in the real liquid normals. The existing directional shadows remain; area emitters are unshadowed, with constant emission (no scene reflections or painted-emitter modulation). The GGX fit and fast edge evaluation are approximations. `verify:controls`, `verify:ltc` and `record:controls` cover input, melee, numerical lighting validation and matched footage. See `docs/qa/controller-ltc-v32.json`.
 
@@ -98,13 +102,13 @@ The local V10 art pass adds an amber and teal test lab, world-planted alternatin
 Open index.html in desktop Chrome or Firefox on Windows with hardware acceleration and WebGPU enabled. It works offline with no runtime downloads, installation or build. A hardware adapter is required. The CPU version remains available as [archived V8.9](versions/smear_v8.9_cpu.html).
 
 - Click Enter the room to capture the mouse. Left mouse: use the selected tool. 1-6: weapons; 7-0: cleanup; - / =: magnet / sticky charges.
-- Mouse: look. Hold C: free aim/drag without rotating the camera. Right mouse: pistol aim, wring, reverse vacuum, launch magnets or detonate sticky charges.
+- Mouse: look. Hold C: free aim/drag and HUD buttons without rotating the camera. Right mouse: pistol aim, wring, reverse vacuum, launch magnets or detonate sticky charges.
 - WASD: move. Shift: sprint. Space: jump. Ctrl: crouch.
 - Wheel: push/pull the held body. Q / E: twist.
 - B: searchable toybox and machine setup. X: device power. G: remote detonation. Delete: remove the selected or aimed prop.
 - N: place a new buddy. R: restore the last grabbed buddy. During placement, Q / E turns the preview and Esc cancels.
-- Esc: pause and free the mouse. L: mouse capture/pause. F: Walk / Fly. Tab: controls.
-- T: slow motion. P: pause. H: hide HUD. F3 / Perf: live profiling.
+- Tab: free/capture mouse. B: open/close toybox. Esc: close menu/cancel preview, or pause play. L: mouse capture/pause. F: Walk / Fly. Controls: top toolbar.
+- T: toggle 0.25x slow motion; the HUD shows when it is active. P: pause. H: hide HUD. F3 / Perf: live profiling.
 - Tune: walking, recovery, blood, transfer and coverage settings. Heal, wash and clean operate on GPU state.
 
 Stains last for the session. Tuning keeps the existing smear.tune.v8 storage key and migration from dragmark.tune.v7.

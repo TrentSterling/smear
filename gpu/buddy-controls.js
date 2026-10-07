@@ -1,7 +1,6 @@
 // Player commands live beside the retained HUD/input closure.
-let placementReturnPaused=false;
-function finishPlacementControls(){if(placementReturnPaused){fpsControl.phase='paused';paused=true;}placementReturnPaused=false;syncControlMenu();}
-function beginPlacementControls(){panel=null;activeSlider=null;toybox.hidden=true;placementReturnPaused=fpsControl.mode==='fps'&&!fpsControl.inspection&&!document.pointerLockElement;paused=false;if(placementReturnPaused)fpsControl.phase='placing';syncControlMenu();}
+function finishPlacementControls(){if(fpsControl.phase==='placing'){fpsControl.phase='cursor';paused=false;}syncControlMenu();}
+function beginPlacementControls(){panel=null;activeSlider=null;toybox.hidden=true;paused=false;if(fpsControl.mode==='fps'&&!fpsControl.inspection&&!document.pointerLockElement)fpsControl.phase='placing';syncControlMenu();}
 function cancelBuddyPlacement(){if(compute?.placement){compute.cancelBuddy();finishPlacementControls();notify('Placement cancelled.');lastHUDKey='';}}
 function beginBuddyPlacement(restore=false){
  if(!compute?.ready||compute.buddyBusy)return;

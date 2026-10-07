@@ -3,16 +3,16 @@
 fn meleeStrike(){
  atomicAdd(&work[54],1u);
  let forward=safeNorm(frame.rayD.xyz);let right=safeNorm(cross(forward,vec3f(0,1,0)));let up=safeNorm(cross(right,forward));
- var best=RayHit(2.15,frame.rayO.xyz+forward*2.15,vec3f(0,1,0),-1,-1);var score=100.0;var wall=false;var propScore=100.0;var propHit:i32=-1;
+ var best=RayHit(2.15,frame.rayO.xyz+forward*2.15,vec3f(0,1,0),-1,-1);var score=100.0;var wall=false;var propScore=100.0;var propHit:i32=-1;var propContact=best;
  for(var y=-1;y<=1;y++){for(var x=-3;x<=3;x++){
   let direction=safeNorm(forward+right*(f32(x)*.095)+up*(f32(y)*.055));
   let hit=rayHit(frame.rayO.xyz,direction,2.15,true,-1);
   wall=wall||(hit.body<0&&hit.t<2.15);
   let candidate=hit.t+abs(f32(x))*.035+abs(f32(y))*.02;
-  if(hit.surface>=0&&record(u32(hit.surface)).center.w>0&&candidate<propScore){propHit=hit.surface;propScore=candidate;}
+  if(hit.surface>=0&&record(u32(hit.surface)).center.w>0&&candidate<propScore){propHit=hit.surface;propScore=candidate;propContact=hit;}
   if(hit.body>=0&&candidate<score){best=hit;score=candidate;}
  }}
- if(propHit>=0&&propScore<score){hitProp(propHit,.70*clamp(frame.action.w,.4,2.4));propSurfaceImpulse(propHit,frame.rayO.xyz+forward*propScore,safeNorm(forward+up*.25)*45*clamp(frame.action.w,.4,2.4));atomicAdd(&work[57],1u);atomicAdd(&work[39],1u);atomicMax(&work[38],0x80000000u|(u32(.72*4095)<<8u)|255u);return;}
+ if(propHit>=0&&propScore<score){hitProp(propHit,.70*clamp(frame.action.w,.4,2.4));chipProp(propHit,propContact.p,propContact.n,1.3);propSurfaceImpulse(propHit,frame.rayO.xyz+forward*propScore,safeNorm(forward+up*.25)*45*clamp(frame.action.w,.4,2.4));atomicAdd(&work[57],1u);atomicAdd(&work[39],1u);atomicMax(&work[38],0x80000000u|(u32(.72*4095)<<8u)|255u);return;}
  if(best.body<0){if(wall){atomicAdd(&work[57],1u);atomicAdd(&work[39],1u);atomicMax(&work[38],0x80000000u|(u32(.45*4095)<<8u)|255u);}return;}
  let index=u32(best.body);let base=index/15u*15u;let direction=safeNorm(forward-right*.45+up*.16);let strength=clamp(frame.action.w,.4,2.4);
  for(var k=base;k<base+15u;k++){bodies[k].status.x=1;bodies[k].status.z=0;bodies[k].motor.w=0;if(component(k)==component(index)){bodies[k].v=vec4f(bodies[k].v.xyz+direction*(4.5+strength*2.5),0);}}

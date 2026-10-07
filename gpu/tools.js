@@ -105,7 +105,25 @@ SmearCompute.prototype.buildTools=function(){
  for(let j=0;j<5;j++){const y=-.10+j*.028,r=Math.sqrt(Math.max(.0001,.066**2-((y+.045)/1.25)**2));const ring=add(this.grenadeTool,new T.TorusGeometry(r,.003,5,24),ink,[0,y,0]);ring.rotation.x=Math.PI/2;}
  add(this.grenadeTool,new T.CylinderGeometry(.023,.026,.030,12),steel,[0,.043,0]);box(this.grenadeTool,[.023,.010,.089],[0,.063,.013],steel,.002);box(this.grenadeTool,[.023,.12,.008],[0,.01,.058],steel,.002);
  add(this.grenadeTool,new T.TorusGeometry(.025,.003,6,18),steel,[.035,.045,0],[0,Math.PI/2,0]);
- label(this.grenadeTool,'SM / FRAG',[0,-.047,0],[.065,.033],[0,0,0],.065);makeHand(this.grenadeTool).position.set(.025,-.028,.015);
+ label(this.grenadeTool,'SM / FRAG',[0,-.047,0],[.065,.033],[0,0,0],.065);
+ // A cupped power grip around the grenade, with the thumb over the lever.
+ // The wrist follows the right forearm instead of reusing the pistol grip.
+ const grenadeHand=new T.Group();this.grenadeTool.add(grenadeHand);
+ const grenadePalm=add(grenadeHand,new T.SphereGeometry(1,16,12),glove,[.029,-.061,.073]);grenadePalm.scale.set(.043,.052,.026);grenadePalm.rotation.z=-.22;
+ for(let i=0;i<3;i++)segment(grenadeHand,[.027,-.036-i*.016,.097],[.050,-.043-i*.016,.092],.0016,seam);
+ for(let i=0;i<4;i++){
+  const y=-.012-i*.027,r=Math.sqrt(Math.max(.0005,.071**2-((y+.045)/1.25)**2));
+  segment(grenadeHand,[.044,y,.065],[-r*.75,y,.048],.0125,glove);
+  segment(grenadeHand,[-r*.75,y,.048],[-r,y-.004,.004],.012,glove);
+  segment(grenadeHand,[-r,y-.004,.004],[-r*.72,y-.010,-.038],.011,glove);
+  segment(grenadeHand,[-r*.84,y+.007,.027],[-r*.90,y+.006,.006],.0015,seam);
+ }
+ segment(grenadeHand,[.066,-.048,.060],[.067,.006,.030],.017,glove);
+ segment(grenadeHand,[.067,.006,.030],[.018,.029,.047],.015,glove);
+ segment(grenadeHand,[.034,-.105,.065],[.071,-.169,.135],.032,glove);
+ const grenadeCuff=box(grenadeHand,[.083,.044,.078],[.073,-.163,.141],rubber,.007);grenadeCuff.rotation.set(-.65,0,-.25);
+ segment(grenadeHand,[.078,-.180,.154],[.176,-.330,.300],.047,ink);
+ box(grenadeHand,[.045,.010,.024],[.079,-.142,.173],amber,.003).rotation.x=-.65;
  // Shoulder launcher: open muzzle, reinforced tube, heat shield and folding sight.
  this.rocketTool=new T.Group();this.rocketTool.userData.viewTool=true;this.rocketTool.visible=false;this.camera.add(this.rocketTool);
  cylinder(this.rocketTool,.086,.78,[0,.06,-.13],ink);
@@ -158,7 +176,7 @@ SmearCompute.prototype.buildTools=function(){
 SmearCompute.prototype.updateToolPresentation=function(dt,{tool,panel,time,left,batAge=10,rocketAge=10}){
  for(let i=0;i<this.utilityTools.length;i++){const g=this.utilityTools[i];g.visible=tool===i+6&&!panel;if(g.visible){const active=left?Math.sin(time*35)*.003:0;g.position.set(i===0?.18:.27,-.20+active,-.51);g.rotation.set(i===0?-.18:-.06,-.09,-.09);}}
  this.rocketTool.visible=tool===5&&!panel;if(this.rocketTool.visible){const kick=Math.exp(-rocketAge*19)*Math.sin(Math.min(1,rocketAge*32)*Math.PI/2);this.rocketTool.position.set(.26,-.235,-.46+kick*.065);this.rocketTool.rotation.set(-.025+kick*.055,.035,-.025-kick*.02);}
- this.grenadeTool.visible=tool===4&&!panel;if(this.grenadeTool.visible){this.grenadeTool.position.set(.25,-.15,-.52);this.grenadeTool.rotation.set(-.14,-.1,-.18);}
+ this.grenadeTool.visible=tool===4&&!panel;if(this.grenadeTool.visible){this.grenadeTool.position.set(.23,-.13,-.48);this.grenadeTool.rotation.set(-.08,-.24,.12);}
  this.spillCan.visible=tool===2&&!panel;
  if(this.spillCan.visible){this.spillCan.position.set(.255,-.13,-.54);this.spillCan.rotation.set(-.1,0,-.14);if(left)this.spillCan.position.y+=Math.sin(time*38)*.003;}
  this.bat.visible=tool===3&&!panel;
