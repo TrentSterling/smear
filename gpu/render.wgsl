@@ -21,7 +21,12 @@ struct Output {
 };
 fn transformed(v:Input,index:u32)->Output {
  let object=objects[index];if(object.flags.w==9&&(work[19]&(1u<<u32(object.params.y)))!=0u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,vec3f(0),v.n,index);}var p=(object.model*vec4f(v.p,1)).xyz;var n=(object.normal*vec4f(v.n,0)).xyz;var local=p;var localNormal=n;
- if(object.flags.w==5||object.flags.w==6){
+ if(object.flags.w==10){
+  if(work[1006]==0u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}
+  let angle=bitcast<f32>(work[1012]);let q=vec4f(0,sin(angle*.5),0,cos(angle*.5));
+  p=rotate(q,v.p)+vec3f(bitcast<f32>(work[1009]),bitcast<f32>(work[1010]),bitcast<f32>(work[1011]));n=rotate(q,v.n);
+ }
+ else if(object.flags.w==5||object.flags.w==6){
   let base=u32(object.params.x);if(base>=u32(frame.settings.x)){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}
   if(v.rig.z>0&&work[fractureState(base+u32(v.rig.z)-1u)]!=0u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}
   p=vec3f(0);n=vec3f(0);
@@ -89,6 +94,7 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
  let worldDx=dpdx(v.world);let worldDy=dpdy(v.world);
  let localAA=max(max(length(dpdx(v.local)),length(dpdy(v.local)))*.45,.00006);
  let object=objects[v.index];var color=object.color.rgb;var alpha=object.color.a;var rough=object.params.w;var metal=object.flags.x;let basic=object.flags.z<0;
+ if(object.flags.w==10){let c=select(vec3f(.94,.28,.19),vec3f(.39,.91,.68),work[1008]==1u);let band=select(.65,1.0,fract(v.world.y*16)>.2);return vec4f(c*band,.63);}
  if(object.flags.w==6){if(front||dot(v.normal,frame.camera.xyz-v.world)>0){discard;}return vec4f(.065,.095,.09,1);}
  if(object.flags.w==5){
   color=vec3f(.60,.43,.24);rough=.49;

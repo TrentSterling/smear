@@ -12,7 +12,8 @@ const wallMode=process.argv.includes('wall-contact');
 const floorMode=process.argv.includes('floor-squeegee');
 const blastMode=process.argv.includes('destruction');
 const propMode=process.argv.includes('props');
-const width=3000,height=1800,out=resolve('tools/out/compute-native-'+(propMode?'props-':blastMode?'destruction-':floorMode?'squeegee-':wallMode?'wall-':'')+browser);await mkdir(out,{recursive:true});
+const buddyMode=process.argv.includes('buddy');
+const width=3000,height=1800,out=resolve('tools/out/compute-native-'+(buddyMode?'buddy-':propMode?'props-':blastMode?'destruction-':floorMode?'squeegee-':wallMode?'wall-':'')+browser);await mkdir(out,{recursive:true});
 const page=await launchComputeBrowser({port:9598,width,height});
 const receipt={startedAt:new Date().toISOString(),viewport:[width,height],audioOutputMuted:true,browserProfile:page.dir,checks:[],profiles:[]};
 const watchdog=setTimeout(()=>{page.kill();process.exit(1);},180000);
@@ -40,7 +41,10 @@ try{
   assert(report.summary.fps>55,`${label}: ${report.summary.fps} FPS`);assert(report.summary.workPercentileMs.p99<5,`${label}: CPU p99 ${report.summary.workPercentileMs.p99}`);
   const ticksPerSecond=(state.steps-firstTick)/((Date.now()-started)/1000);assert(ticksPerSecond>110&&ticksPerSecond<125,label+' actual GPU tick rate '+ticksPerSecond);receipt.profiles.push({label,report,state,audit,ticksPerSecond});console.log(JSON.stringify({label,fps:report.summary.fps,main:report.summary.workPercentileMs,gpu:report.compute.summary,particles:state.particles,hits:state.hits,ticksPerSecond,audit}));await page.shot(resolve(out,label+'.png'));return state;
  }
- if(blastMode||propMode){
+ if(buddyMode){
+  await profile('buddy-preview',()=>page.eval("(async()=>{__smear.chaos();__smear.preset('default');await __smear.step(120);__smear.view([-3,2,7],[-3,0,3]);__smear.pointer(1500,900);__smear.buddy.begin(false);__smear.key('KeyE',true);})()"),()=>page.eval("__smear.key('KeyE',false)"));
+  assert(await page.eval('!!__smear.buddy.state().placement'));receipt.checks.push('A rotating GPU placement preview in the ten-buddy scene keeps the native frame budget without pose or paint downloads');
+ }else if(blastMode||propMode){
   const result=await profile(propMode?'prop-destruction':'destruction',()=>page.eval(`(async()=>{__smear.preset('default');__smear.chaos();__smear.tool(4);__smear.view([4,3,6],[0,1,0]);await __smear.step(120);window.__blastIndex=0;window.__blastTimer=setInterval(()=>{const p=${JSON.stringify(propMode?[[5.65,.58,-6.7],[6.6,.58,5.8],[-6.45,.55,-1.8],[-6.4,.55,6.4]]:[[-.12,.35,.3],[-2.4,.35,-2.95],[2.55,.35,-2.95],[0,.35,2.5]])}[__blastIndex++%4];__smear.blast(p);},750);})()`),()=>page.eval('clearInterval(__blastTimer)'));
   if(propMode){assert((await page.eval('__smear.props()')).filter(p=>p.broken).length>=3);}else assert(result.parts.some(p=>p.severed));receipt.checks.push('Repeated blasts in the ten-dummy scene retain 120 Hz simulation and native frame budget without body, fracture or pigment readbacks');
  }else if(floorMode){

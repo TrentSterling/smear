@@ -111,5 +111,6 @@ SmearCompute.prototype.buildDummy=function(){
   cap.position.copy(anchor);cap.scale.set(radius,radius,radius);cap.quaternion.setFromUnitVectors(new V(0,1,0),anchor.clone().normalize());cap.userData.severCap={body:body.id-1,child:joint.b.id-1};cap.castShadow=true;this.scene.add(cap);
  }}
  for(let doll=0;doll<12;doll++)for(const [geo,role]of [[geometry,5],[shell,6]]){const mesh=new T.Mesh(geo,new T.MeshStandardMaterial({color:0xffffff,roughness:.54}));mesh.userData.dummyRole=role;mesh.userData.dummyBase=doll*15;mesh.castShadow=role===5;mesh.frustumCulled=false;this.scene.add(mesh);}
+ const ghost=new T.Mesh(geometry,new T.MeshBasicMaterial({color:0x8cdbb9}));ghost.userData.gpuGrabRole=10;ghost.castShadow=false;this.scene.add(ghost);
  this.dummy={method:'SDF union, indexed isosurface, gradient normals, offset shell, GPU skinning',vertices:vertices.length/3,triangles:indices.length/3,bones:15,stats};
 };

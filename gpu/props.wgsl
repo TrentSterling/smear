@@ -6,7 +6,7 @@ fn propDamage(tag:f32,amount:f32){if(tag<=0||propGone(tag)||amount<=0){return;}a
 fn hitProp(rec:i32,amount:f32){if(rec>=0){propDamage(record(u32(rec)).center.w,amount);}}
 fn impactProp(hit:WorldImpact){if(hit.receiver<0||hit.closing<5){return;}hitProp(hit.receiver,smoothstep(5.0,16.0,hit.closing)*.6);}
 @compute @workgroup_size(1) fn breakProps(){
- if(frame.settings.z<=0&&frame.action.y<.5){return;}
+ if(frame.settings.z<=0&&(frame.action.y<.5||frame.action.y>=8)){return;}
  for(var j=0u;j<header(0).x;j++){
   let k=header(1).x+j*5u;let tag=constants[k+2u].w;if(tag<=0||propGone(tag)){continue;}
   let id=u32(tag)-1u;let state=propState(id);if(atomicLoad(&work[state])<65536u){continue;}

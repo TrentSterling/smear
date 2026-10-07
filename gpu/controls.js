@@ -6,7 +6,8 @@ const controlOverlay=document.createElement('div');controlOverlay.id='play-menu'
 controlOverlay.innerHTML='<section><small>SMEAR / PLAY</small><h1>Leave a mark.</h1><p id="play-message">Click to capture the mouse and play.</p><button id="play-resume">Enter the room</button><div class="play-keys">WASD move · Mouse look · Shift run<br>Hold C for free aim · Esc pauses<br>1 Grab · 2 Pistol · 3 Spill · 4 Spiked bat · 5 Grenade</div><button id="play-cursor">Use free cursor</button><button id="play-defaults" style="margin-top:8px;background:none;color:#c8d1c8;border-color:#536461;font-size:12px">Restart with reference defaults</button></section>';
 document.body.appendChild(controlOverlay);$('play-defaults').onclick=()=>{const u=new URL(location.href);u.searchParams.set('defaults','1');location.href=u.href;};
 const controlStyle=document.createElement('style');controlStyle.textContent='#play-menu{position:fixed;inset:0;z-index:3;display:none;align-items:center;justify-content:center;pointer-events:none;background:rgba(13,24,25,.22)}#play-menu section{pointer-events:auto;width:min(430px,calc(100vw - 32px));padding:30px;background:#1b2929;color:#eae2cd;border:1px solid #607270;box-shadow:0 18px 65px #0007}#play-menu small{letter-spacing:3px;color:#cda956;font:700 11px Arial}#play-menu h1{font-size:34px;margin:12px 0}#play-menu p{font-size:14px;line-height:1.5;color:#c8d1c8}#play-menu button{cursor:pointer;width:100%;padding:13px 15px;font:700 15px Arial;border:1px solid #ddc591;background:#ddc591;color:#172b2e}#play-menu button:disabled{opacity:.55;cursor:wait}#play-menu .play-keys{font:13px/1.9 Arial;color:#b5c1bb;margin:18px 0}#play-menu #play-cursor{font-size:12px;padding:8px;background:none;border-color:#536461;color:#c8d1c8}';document.head.appendChild(controlStyle);
-function clearPlayInput(){
+function clearPlayInput(keepPlacement=false){
+ if(!keepPlacement)cancelBuddyPlacement();
  keys.clear();mouse.left=mouse.right=false;aimDown=false;activeSlider=null;player.jump=false;player.vel.set(0,0,0);fpsControl.freeAim=false;
  releaseGrab(false);shotFlashUntil=-1;viewKick=recoilPitch=aimBlend=0;flash.visible=false;slide.position.z=0;
  if(typeof compute!=='undefined'&&compute){compute.inputAction=0;compute.pickRequested=false;compute.pickEpoch++;}cancelBat();updateScrape(0,0);
@@ -26,7 +27,7 @@ function pauseControls(){
 function controlLockFailed(){fpsControl.pending=false;fpsControl.phase='paused';paused=true;fpsControl.error='Mouse capture was blocked. Click Resume to retry, or use free cursor.';syncControlMenu();}
 requestLook=()=>{
  if(fpsControl.pending||!compute?.ready)return;
- panel=null;activeSlider=null;clearPlayInput();fpsControl.error='';fpsControl.pending=true;fpsControl.phase='requesting';paused=true;
+ panel=null;activeSlider=null;clearPlayInput(true);fpsControl.error='';fpsControl.pending=true;fpsControl.phase='requesting';paused=true;
  try{const result=canvas.requestPointerLock();if(result?.catch)result.catch(controlLockFailed);}catch{controlLockFailed();}syncControlMenu();
 };
 unlockLook=()=>{clearPlayInput();stickyLook=false;temporaryLook=false;if(document.pointerLockElement===canvas)document.exitPointerLock();};
@@ -64,7 +65,7 @@ window.addEventListener('pointerdown',e=>{
  if(fpsControl.mode==='fps'&&!fpsControl.inspection&&document.pointerLockElement!==canvas){if(e.button===0||e.button===2){e.preventDefault();requestLook();}return;}
  if(paused)return;
  if(e.button===2){e.preventDefault();if(document.pointerLockElement===canvas){mouse.right=true;aimDown=tool===1;}else requestLook();return;}
- if(e.button!==0)return;pressedUI=false;if(demo)releaseGrab(false);mouse.left=true;
+ if(e.button!==0)return;if(compute.placement){confirmBuddyPlacement();return;}pressedUI=false;if(demo)releaseGrab(false);mouse.left=true;
  if(tool===0)compute.pick();else if(tool===1)shoot();else if(tool===2)spill();else if(tool===3)swingBat();else throwGrenade();
 });
 window.addEventListener('pointerup',e=>{
@@ -86,10 +87,11 @@ window.addEventListener('keydown',e=>{
  if(e.code==='F3'){e.preventDefault();if(!e.repeat){if(!fpsControl.inspection)pauseControls();runtimeProfiler.show();syncControlMenu();}return;}
  if(e.target.closest?.('#runtime-profile,input,textarea,select'))return;
  if(['Space','Tab','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','KeyC'].includes(e.code))e.preventDefault();if(e.repeat)return;startAudio();
- if(e.code==='Escape'){panel=null;if(fpsControl.mode==='fps'&&!fpsControl.inspection)pauseControls();else{clearPlayInput();unlockLook();paused=false;}return;}
+ if(e.code==='Escape'){if(compute?.placement){cancelBuddyPlacement();notify('Placement cancelled.');return;}panel=null;if(fpsControl.mode==='fps'&&!fpsControl.inspection)pauseControls();else{clearPlayInput();unlockLook();paused=false;}return;}
  if(e.code==='Tab'){openPanel(panel?null:'controls');return;}
  if(e.code==='KeyP'||e.code==='KeyL'){if(paused||document.pointerLockElement!==canvas)requestLook();else pauseControls();return;}
  if(panel||paused)return;keys.add(e.code);
+ if(e.code==='KeyN'){beginBuddyPlacement(false);return;}if(e.code==='KeyR'){beginBuddyPlacement(true);return;}
  if(e.code==='KeyC'&&document.pointerLockElement===canvas){const p=aimXY();mouse.x=p.x;mouse.y=p.y;fpsControl.freeAim=true;if(grab)grab.rayOffset=null;}
  if(/^Digit[1-5]$/.test(e.code))setTool(Number(e.code.at(-1))-1);
  if(e.code==='KeyF')toggleFly();if(e.code==='Space')player.jump=true;
@@ -102,7 +104,7 @@ document.addEventListener('pointerlockerror',controlLockFailed);
 document.addEventListener('pointerlockchange',()=>{
  const locked=document.pointerLockElement===canvas;canvas.style.cursor=locked?'none':'default';fpsControl.pending=false;
  if(locked&&fpsControl.phase!=='requesting'){document.exitPointerLock();return;}
- if(locked){clearPlayInput();stickyLook=true;temporaryLook=false;fpsControl.phase='playing';paused=false;mouse.x=W/2;mouse.y=H/2;}
+ if(locked){clearPlayInput(true);stickyLook=true;temporaryLook=false;fpsControl.phase='playing';paused=false;mouse.x=W/2;mouse.y=H/2;}
  else{clearPlayInput();stickyLook=false;temporaryLook=false;if(fpsControl.mode==='fps'&&!fpsControl.inspection){fpsControl.phase='paused';paused=true;}}
  syncControlMenu();
 });
