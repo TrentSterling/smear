@@ -1,0 +1,96 @@
+{
+  "version": "0.37.1",
+  "at": "2026-10-07T11:25:25.556Z",
+  "buildSHA256": "9832765350deba0d2e056724fc1b6aa8eca24b5332ac26d8de1d928442ad3be1",
+  "change": "Move successful CAS return values out of reservoir retry loops; retain finite liquid transfer semantics.",
+  "compiler": {
+    "validator": "Naga 29.0.4",
+    "releasedV37": {
+      "sha256": "4c01ea9aa9d0ad2e940a629cce49986ea54247b30188d629d3f4a4b6e3de2fb8",
+      "result": "error: Function [130] 'storeVolume' is invalid\n     ┌─ C:\\trontstack\\smear\\tools\\out\\wgsl-validation\\v37-reproduced\\compute.wgsl:1730:1\n     │\n1730 │ fn storeVolume(address:u32,volume:f32,capacity:f32)->f32{let wanted=u32(max(0,volume)*VOLUME_SCALE);let limit=u32(capacity*VOLUME_SCALE);var old=atomicLoad(&work[address]);loop{let added=min(wanted,limit-min(old,limit));let r=atomicCompareExchangeWeak(&work[address],old,old+added);if(r.exchanged){return f32(added)/VOLUME_SCALE;}old=r.old_value;}}\n     │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ naga::ir::Function [130]\n     │\n     = The `return` expression None does not match the declared return type Some([9])\n\n\n"
+    },
+    "fixedModules": [
+      "common + compute",
+      "common + render"
+    ],
+    "passed": true
+  },
+  "utilityChecks": [
+    "Native number keys select cleanup tools; all six new procedural tool models exist",
+    "Native mop fills a finite reservoir while preserving total wet liquid",
+    "An aimed bucket accepts finite mop contents through native right mouse wringing",
+    "A tilted or thrown bucket pays for airborne paint from its finite payload",
+    "Leaf blower transports existing wet liquid directionally without creating supply",
+    "Air-driven liquid crosses floor-chart seams without stopping or cloning volume",
+    "Blower leaves dry pigment and dry residue in place",
+    "Pressure washer strips dry stain into mobile dirty runoff",
+    "Wet vacuum collects paid liquid and reverses to spray it back into the room",
+    "Magnet gathers a GPU barrel and launches it with native secondary input",
+    "Sticky charges attach to moving body parts and G detonates them once",
+    "Conveyor-driven physical crate impact starts a barrel chain that breaks props and dismembers buddies",
+    "Settled machine survives five seconds armed and native Start triggers its barrel chain during real-time play",
+    "Native placement creates a powered fan; device power can be switched independently",
+    "Sticky charges retain their local attachment when a prop moves, then detonate remotely",
+    "Wet vacuum captures and re-ejects small debris while retaining metal versus wood"
+  ],
+  "coreChecks": [
+    "Hardware GPU compute and no CPU physics/paint readback",
+    "120 GPU ticks; finite bodies and floor collision",
+    "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+    "Compute paints persistent floor pigment",
+    "GPU clear erases every floor tile",
+    "GPU reset restores three dolls",
+    "Repeatable GPU simulation after reset",
+    "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+    "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+    "Audio enabled and running, output separately muted"
+  ],
+  "profiles": [
+    {
+      "name": "mop",
+      "fps": 60.00534866605681,
+      "cpuP99Ms": 1.699999988079071,
+      "ticksPerSecond": 119.95401762633824
+    },
+    {
+      "name": "blower",
+      "fps": 59.999000017024,
+      "cpuP99Ms": 1.5999999642372131,
+      "ticksPerSecond": 120.11712251257205
+    },
+    {
+      "name": "washer",
+      "fps": 59.99933148341315,
+      "cpuP99Ms": 1.699999988079071,
+      "ticksPerSecond": 119.80737506849712
+    },
+    {
+      "name": "vacuum",
+      "fps": 60.00033426358109,
+      "cpuP99Ms": 1.600000023841858,
+      "ticksPerSecond": 119.60608177724367
+    },
+    {
+      "name": "magnet",
+      "fps": 60.00400026704212,
+      "cpuP99Ms": 1.600000023841858,
+      "ticksPerSecond": 120.09714228659774
+    },
+    {
+      "name": "accident-line",
+      "fps": 60.00133707667116,
+      "cpuP99Ms": 1.5,
+      "ticksPerSecond": 119.78142804737018
+    }
+  ],
+  "browser": "headless Chrome hardware WebGPU",
+  "firefox": "Reported shader error reproduced with Naga; full Firefox gameplay not run because desktop interaction remains prohibited",
+  "releaseGate": "npm run verify:shaders now precedes browser tests in verify:release",
+  "evidence": [
+    "tools/out/wgsl-validation/v37-reproduced/receipt.json",
+    "tools/out/wgsl-validation/current/receipt.json",
+    "tools/out/utility-pass/firefox-fix-v37.1/receipt.json",
+    "tools/out/compute-chrome/verification.json",
+    "tools/out/compute-native-utility-chrome/verification.json"
+  ]
+}

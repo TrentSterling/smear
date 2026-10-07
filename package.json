@@ -1,6 +1,6 @@
 {
   "name": "smear",
-  "version": "0.37.0",
+  "version": "0.37.1",
   "private": true,
   "description": "An offline WebGPU compute ragdoll and persistent paint playground.",
   "type": "module",
@@ -20,7 +20,7 @@
     "verify:worker": "node tools/worker-verify.mjs",
     "verify:physics": "node tools/physics-verify.mjs",
     "verify:details": "node tools/details-verify.mjs",
-    "verify:release": "node tools/compute-verify.mjs && node tools/compute-profile.mjs && node tools/compute-verify.mjs firefox",
+    "verify:release": "node tools/wgsl-verify.mjs && node tools/compute-verify.mjs && node tools/compute-profile.mjs && node tools/compute-verify.mjs firefox",
     "verify:context": "node tools/context-verify.mjs",
     "profile:recovery": "node tools/recovery-profile.mjs",
     "profile:cold": "node tools/cold-profile.mjs",
@@ -92,6 +92,7 @@
     "record:arsenal": "node tools/arsenal-capture.mjs",
     "verify:utility": "node tools/utility-verify.mjs final-v37",
     "profile:utility": "node tools/compute-profile.mjs utility",
-    "record:utility": "node tools/utility-capture.mjs"
+    "record:utility": "node tools/utility-capture.mjs",
+    "verify:shaders": "node tools/wgsl-verify.mjs"
   }
 }

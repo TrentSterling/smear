@@ -3,8 +3,9 @@ const VOLUME_SCALE:f32=16777216.0;
 fn toolID()->u32{return (u32(frame.settings.w)>>8u)&15u;}
 fn toolLeft()->bool{return (u32(frame.settings.w)&65536u)!=0u;}
 fn toolRight()->bool{return (u32(frame.settings.w)&131072u)!=0u;}
-fn takeStored(address:u32,wanted:u32)->u32{var old=atomicLoad(&work[address]);loop{let amount=min(old,wanted);let r=atomicCompareExchangeWeak(&work[address],old,old-amount);if(r.exchanged){return amount;}old=r.old_value;}}
-fn storeVolume(address:u32,volume:f32,capacity:f32)->f32{let wanted=u32(max(0,volume)*VOLUME_SCALE);let limit=u32(capacity*VOLUME_SCALE);var old=atomicLoad(&work[address]);loop{let added=min(wanted,limit-min(old,limit));let r=atomicCompareExchangeWeak(&work[address],old,old+added);if(r.exchanged){return f32(added)/VOLUME_SCALE;}old=r.old_value;}}
+// Return after the CAS loop so Naga sees an explicit value on every exit path.
+fn takeStored(address:u32,wanted:u32)->u32{var old=atomicLoad(&work[address]);var amount=0u;loop{amount=min(old,wanted);let r=atomicCompareExchangeWeak(&work[address],old,old-amount);if(r.exchanged){break;}old=r.old_value;}return amount;}
+fn storeVolume(address:u32,volume:f32,capacity:f32)->f32{let wanted=u32(max(0,volume)*VOLUME_SCALE);let limit=u32(capacity*VOLUME_SCALE);var old=atomicLoad(&work[address]);var added=0u;loop{added=min(wanted,limit-min(old,limit));let r=atomicCompareExchangeWeak(&work[address],old,old+added);if(r.exchanged){break;}old=r.old_value;}return f32(added)/VOLUME_SCALE;}
 fn resetUtilityProp(i:u32){let u=utilityProp(i);for(var k=0u;k<8u;k++){atomicStore(&work[u+k],0u);}if(propGone(f32(i+1u))){return;}let kind=u32(constants[propData(i)+6u].w);if(kind==3u){atomicStore(&work[u],u32(.5*VOLUME_SCALE));}if(kind>=4u){atomicStore(&work[u+1u],1u);}}
 fn drainUtilityProp(i:u32){let u=utilityProp(i);let volume=f32(atomicExchange(&work[u],0u))/VOLUME_SCALE;if(volume>0){let p=constants[propData(i)].xyz;returnFilm(floorRecord(p),vec3f(p.x,0,p.z),volume);}}
 fn utilityVisible(origin:vec3f,p:vec3f)->bool{let delta=p-origin;let d=length(delta);let hit=rayHit(origin,safeNorm(delta),max(0,d-.06),false,-1);if(hit.t>=d-.07){return true;}if(hit.surface>=0){let tag=record(u32(hit.surface)).center.w;if(tag>0){let b=propBody(u32(tag)-1u);return pointBox(p,b.p.xyz,b.q,b.half.xyz,b.half.w).depth>=-.03;}}return false;}
