@@ -16,7 +16,7 @@ async function confirmBuddyPlacement(){
  if(!compute?.placement||compute.buddyBusy)return;
  mouse.left=false;const result=await compute.confirmBuddy();if(!result)return;
  if(result.status===1)finishPlacementControls();
- if(result.kind){if(result.status===1){selectedProp=result.slot;notify('Placed '+(result.kind===1?'crate':'barrel')+'. Grab it with tool 1.');}else notify(({2:'Aim at a level top surface.',3:'Move inside the room.',4:'Another prop or wall blocks that spot.',5:'A buddy occupies that spot.',6:'All four slots are occupied or still draining. Remove or break one first.',7:'Place it farther from you.'})[result.status]+' | Move and click again.',60);lastHUDKey='';return;}
+ if(result.kind){if(result.status===1){selectedProp=result.slot;notify('Placed '+toyNames[result.kind]+'. Grab: 1 | Power: X');}else notify(({2:'Aim at a level top surface.',3:'Move inside the room.',4:'Another prop or wall blocks that spot.',5:'A buddy occupies that spot.',6:'No free slot of that type. Remove one first and let its liquid drain.',7:'Place it farther from you.'})[result.status]+' | Move and click again.',60);lastHUDKey='';return;}
  if(result.status===1){selected=fullBodies[result.base];notify((result.adding?'Added':'Restored')+' buddy '+(result.base/15+1)+'. Room and stains preserved.');}
  else notify(({2:'Aim at the room floor.',3:'Move farther from the room edge.',4:'That spot intersects a wall or prop.',5:'Another buddy occupies that spot.',6:'All 12 buddy slots are in use.',7:'Place the buddy farther from you.'})[result.status]+' | Move the preview and click again.',60);
  lastHUDKey='';

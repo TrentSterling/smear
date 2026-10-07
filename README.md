@@ -2,7 +2,26 @@
 
 Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V36 / 0.36.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+**V37 / 0.37.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+
+V37 adds **The Accident Line**, a physical chain: a conveyor drives a crate into three explosive barrels, the blast scatters boards and buddy parts, and a fan drives the aftermath through spilled liquid. [Load the machine with reference defaults](https://tront.xyz/smear/?v=37&defaults=1&machine=1), then click **Start Accident Line**. The pieces remain normal movable props. **B > Build machine** restores that arrangement and resets the room; **X** toggles a selected or aimed fan/conveyor independently.
+
+The toybox contains the entire cleanup/contraption set:
+
+| Key / item | Primary action | Secondary action |
+| --- | --- | --- |
+| 7 / Mop | Soak finite wet liquid and push it with the textured brush; saturation leaves dirty streaks | Right mouse while aiming at a bucket: wring |
+| 8 / Leaf blower | Move wet film, airborne blood, loose parts and boards; dry residue stays put | Release to stop |
+| 9 / Pressure washer | Strip wet/dry stains into mobile dirty runoff and push light objects | Release to stop |
+| 0 / Wet vacuum | Collect liquid and small wood/metal fragments | Right mouse: spray stored liquid and fragments back out |
+| - / Magnet gun | Gather barrels and metal fragments | Right mouse: launch the gathered cluster |
+| = / Sticky charges | Throw a charge that attaches to a body, prop or wall | G or right mouse: detonate all charges |
+| B / Paint bucket | Place, grab, tilt or throw a finite payload; its fill level follows its contents | Refill from a loaded mop |
+| B / Fan + conveyor | Place, grab, turn and stack powered machines | X: toggle power |
+
+Number keys 1-6 retain the existing weapons. Brackets cycle all twelve tools. The pool is bounded at four crates, four barrels, two buckets, one fan and one conveyor. New tools have procedural first-person models, motor/flow audio and pressure-jet feedback. Tool tanks, wind, contacts, sticky attachments and liquid transfers stay on the GPU; the HUD reads four small reservoir counters. There are 149 world charts with unchanged 160/40 pigment/film samples per metre. Original V36 chart IDs remain stable.
+
+V37 verification: `npm run verify:utility`, `npm run profile:utility`, and `npm run record:utility`; affected gameplay regressions remain required. See [V37 evidence](docs/qa/utility-v37.json). Background verification uses headless hardware Chrome. Firefox was not exercised because the user's desktop-input restriction remains active.
 
 V36 adds a **movable toybox**. Press **B / Toybox**, search for a crate or barrel, and click to preview placement on a level floor, bench or prop. **Q/E** rotates the preview; click places it and Escape cancels. Tool 1 grabs props, the wheel changes distance, and Q/E twists them. Release keeps their real momentum. Up to four crates and four barrels share a bounded GPU pool. **Delete** or the toybox button removes the selected prop (or the one under the reticle). **Restore prop layout** replaces the original six props without resetting buddies or cleaning the room. It releases mobile liquid at the previous locations before moving the charts; replaced props lose their own dry stains. A just-removed wet slot becomes available after it drains.
 
@@ -16,7 +35,7 @@ V34 adds three breakable wooden crates and three explosive barrels around the ro
 
 V33 adds breakable joints, bleeding severed sockets and **weapon 5: Grenade**. Repeated pistol or bat hits damage joints; close explosions can separate the whole dummy. Detached groups retain independent grab/throw momentum and their closed shell geometry. Wounds, pistol spray and explosion spray spend finite per-part reserves. Heal closes wounds without reconnecting joints; Reset restores the full dummy. Grenades bounce for a 1.45-second fuse, launch physical fragments, scorch nearby surfaces, and push existing wet liquid outward into ridges and airborne spray. Pistol misses leave bullet pits; fragments leave dry black scuffs and push wet paint. These effects run on the GPU with the existing 900-drop limit. Fragment geometry, soot and blast smoke are stylized effects, not structural destruction of the room.
 
-**Tune > Effects** now includes Blast power (0.4-1.8, default 1) and Joint fragility (0.25-2, default 1). Ceiling runoff uses uneven release sites, varying thresholds, irregular timing and drop sizes. Wall drainage retains its existing solver. Open [reference defaults](https://tront.xyz/smear/?v=36&defaults=1), choose **Restart with reference defaults** on the play menu, or run `__smear.defaults()` in the console. This restarts with default tuning and controls, ignores saved preferences for that session and leaves those saved preferences intact. Remove `defaults=1` to use them again. `verify:destruction`, `verify:bleeding` and `record:destruction` cover the new mechanics and matched footage; see `docs/qa/destruction-v33.json`.
+**Tune > Effects** now includes Blast power (0.4-1.8, default 1) and Joint fragility (0.25-2, default 1). Ceiling runoff uses uneven release sites, varying thresholds, irregular timing and drop sizes. Wall drainage retains its existing solver. Open [reference defaults](https://tront.xyz/smear/?v=37&defaults=1), choose **Restart with reference defaults** on the play menu, or run `__smear.defaults()` in the console. This restarts with default tuning and controls, ignores saved preferences for that session and leaves those saved preferences intact. Remove `defaults=1` to use them again. `verify:destruction`, `verify:bleeding` and `record:destruction` cover the new mechanics and matched footage; see `docs/qa/destruction-v33.json`.
 
 V32 adds click-to-play FPS mouse capture, Esc/menu/focus pausing, held C free aim, and weapon 4: a spiked baseball bat with GPU contact, finite blood spray, knockback and impact audio. Free cursor remains available on the play menu. ARC Light Studies supplies the locally fitted GGX LTC tables and polygon-light integration: the three ceiling strips and five rear panels now illuminate surfaces and reflect in the real liquid normals. The existing directional shadows remain; area emitters are unshadowed, with constant emission (no scene reflections or painted-emitter modulation). The GGX fit and fast edge evaluation are approximations. `verify:controls`, `verify:ltc` and `record:controls` cover input, melee, numerical lighting validation and matched footage. See `docs/qa/controller-ltc-v32.json`.
 
@@ -70,11 +89,11 @@ The local V10 art pass adds an amber and teal test lab, world-planted alternatin
 
 Open index.html in desktop Chrome or Firefox on Windows with hardware acceleration and WebGPU enabled. It works offline with no runtime downloads, installation or build. A hardware adapter is required. The CPU version remains available as [archived V8.9](versions/smear_v8.9_cpu.html).
 
-- Click Enter the room to capture the mouse. Left mouse: grab, fire, spill, swing or throw a grenade; 1 / 2 / 3 / 4 / 5 / 6 select the tool.
-- Mouse: look. Hold C: free aim/drag without rotating the camera. Right mouse: pistol aim.
+- Click Enter the room to capture the mouse. Left mouse: use the selected tool. 1-6: weapons; 7-0: cleanup; - / =: magnet / sticky charges.
+- Mouse: look. Hold C: free aim/drag without rotating the camera. Right mouse: pistol aim, wring, reverse vacuum, launch magnets or detonate sticky charges.
 - WASD: move. Shift: sprint. Space: jump. Ctrl: crouch.
 - Wheel: push/pull the held body. Q / E: twist.
-- B: searchable toybox. Delete: remove the selected or aimed prop.
+- B: searchable toybox and machine setup. X: device power. G: remote detonation. Delete: remove the selected or aimed prop.
 - N: place a new buddy. R: restore the last grabbed buddy. During placement, Q / E turns the preview and Esc cancels.
 - Esc: pause and free the mouse. L: mouse capture/pause. F: Walk / Fly. Tab: controls.
 - T: slow motion. P: pause. H: hide HUD. F3 / Perf: live profiling.
@@ -112,6 +131,6 @@ The audited starting point is V34, commit `a476f02496f12264a0f3aac50823e572880f0
 
 **Every playable milestone needs evidence:** preserve the accepted build, exercise the feature through real game input, review matched MP4 footage with audio, run the affected conservation/control/momentum regressions, and profile native 3000x1800 workloads at defaults plus the new worst case. Automated checks prove behavior and bounds; Trent's play feedback decides whether the action is satisfying. Use headless Chrome while the desktop-interference restriction remains in effect. Report Firefox coverage separately. Publish only a verified playable increment, with matching package/HUD/API versions and a checked live build.
 
-### Approved next: cleanup tools and chain-reaction machines
+### Cleanup and chain-reaction milestone
 
-After the V36 arsenal/placement increment, implement the complete requested set: a finite-capacity mop with wringing into buckets; directional blower; pressure washer with dirty runoff; reversible wet vacuum; carryable/pourable paint buckets; movable fan and conveyor; magnet gun; attached remote sticky charges. Combine them in a playable Rube Goldberg arrangement. These are authorized implementation work, not shipped features yet. They must interact with real GPU bodies, props, debris and finite liquid, retain dry-stain behavior where appropriate, and support normal player input.
+The approved mop, blower, washer, vacuum, buckets, fan/conveyor, magnet and sticky charges are implemented in V37 with the Accident Line starter arrangement. Rope/pin constraints, saved layouts, optional challenges and replay remain future work.

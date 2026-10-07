@@ -20,7 +20,7 @@ fn propEmpty(id:u32)->bool{
 @compute @workgroup_size(1) fn propPlacement(){
  let kind=u32(frame.goal.w);var slot=999u;
  for(var i=0u;i<propCount();i++){if(u32(constants[propData(i)+6u].w)==kind&&propGone(f32(i+1u))&&propEmpty(i)){slot=i;break;}}
- let half=select(vec3f(.54,.55,.54),vec3f(.42,.58,.42),kind==2u);
+ var half=vec3f(.54,.55,.54);for(var i=0u;i<propCount();i++){if(u32(constants[propData(i)+6u].w)==kind){half=constants[propData(i)+6u].xyz;break;}}
  let hit=rayHit(frame.rayO.xyz,safeNorm(frame.rayD.xyz),18,false,-1);let p=hit.p+vec3f(0,half.y+.008,0);let q=yawQ(frame.local.x);
  var valid=2u;if(hit.surface>=0&&hit.n.y>.9){valid=propClearance(p,q,half);}if(slot==999u){valid=6u;}
  atomicStore(&work[1006],kind+2u);atomicStore(&work[1007],slot);atomicStore(&work[1008],valid);atomicStore(&work[1012],bitcast<u32>(frame.local.x));
@@ -28,13 +28,14 @@ fn propEmpty(id:u32)->bool{
  if(frame.action.y!=9){return;}atomicStore(&work[1013],valid);if(valid!=1u){return;}
  let s=propData(slot);constants[s]=vec4f(p,constants[s].w);constants[s+1u]=q;constants[s+2u]=vec4f(0);constants[s+3u]=vec4f(0);for(var k=8u;k<16u;k++){constants[s+k]=vec4f(0);}constants[s+15u].x=1;
  for(var k=0u;k<8u;k++){atomicStore(&work[propState(slot)+k],0u);}atomicAnd(&work[19],~(1u<<slot));syncProp(slot);
+ resetUtilityProp(slot);
 }
 @compute @workgroup_size(1) fn removeProp(){
  let hit=rayHit(frame.rayO.xyz,safeNorm(frame.rayD.xyz),18,true,-1);var slot=999u;
  if(frame.goal.w>=180){slot=u32(frame.goal.w)-180u;}else if(hit.body<0&&hit.surface>=0){let tag=record(u32(hit.surface)).center.w;if(tag>0){slot=u32(tag)-1u;}}
- if(slot<propCount()&&!propGone(f32(slot+1u))){atomicOr(&work[19],1u<<slot);constants[propData(slot)+15u].x=0;atomicStore(&work[1013],1u);}else{atomicStore(&work[1013],2u);}
+ if(slot<propCount()&&!propGone(f32(slot+1u))){drainUtilityProp(slot);atomicOr(&work[19],1u<<slot);constants[propData(slot)+15u].x=0;atomicStore(&work[1013],1u);}else{atomicStore(&work[1013],2u);}
 }
-@compute @workgroup_size(1) fn retireProps(){atomicStore(&work[19],(1u<<propCount())-1u);}
+@compute @workgroup_size(1) fn retireProps(){for(var i=8u;i<propCount();i++){drainUtilityProp(i);}atomicStore(&work[19],(1u<<propCount())-1u);}
 // Clear only a recycled prop's surfaces after its old mobile supply has drained.
 // Layout restore drains at the previous locations before invoking this kernel.
 @compute @workgroup_size(256) fn clearPropPaint(@builtin(global_invocation_id) id:vec3u){

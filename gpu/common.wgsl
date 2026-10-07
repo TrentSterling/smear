@@ -47,7 +47,9 @@ fn ordnanceState(i:u32)->u32{return destructionBase()+1440u+i*24u;}
 fn blastState(i:u32)->u32{return destructionBase()+4512u+i*12u;}
 fn destructionMeta()->u32{return destructionBase()+4704u;}
 fn propState(i:u32)->u32{return destructionMeta()+32u+i*8u;}
-fn secondaryPaintBase()->u32{return destructionMeta()+96u;}
+fn utilityBase()->u32{return destructionMeta()+32u+propCount()*8u;}
+fn utilityProp(i:u32)->u32{return utilityBase()+32u+i*8u;}
+fn secondaryPaintBase()->u32{return utilityBase()+160u;}
 // Movable props retain their own GPU rigid state and six rest-space charts.
 // No actor transforms are downloaded by the normal frame loop.
 fn propData(i:u32)->u32{return header(3).z+3u+i*40u;}

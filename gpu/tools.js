@@ -117,6 +117,16 @@ SmearCompute.prototype.buildTools=function(){
  box(this.rocketTool,[.10,.025,.13],[0,.181,-.11],ink,.004);box(this.rocketTool,[.014,.075,.024],[-.035,.216,-.11],steel,.002);box(this.rocketTool,[.014,.075,.024],[.035,.216,-.11],steel,.002);box(this.rocketTool,[.08,.010,.024],[0,.258,-.11],amber,.002);
  label(this.rocketTool,'SM / ROCKET',[.088,.08,-.10],[.30,.067],[0,Math.PI/2,0]);
  makeHand(this.rocketTool).position.set(.018,-.028,.01);const support=makeHand(this.rocketTool);support.position.set(-.08,.025,-.29);support.rotation.z=-.8;
+ // Cleanup tools share the same grip language, with distinct working ends.
+ this.utilityTools=[];
+ const makeUtility=()=>{const g=new T.Group();g.userData.viewTool=true;g.visible=false;this.camera.add(g);this.utilityTools.push(g);return g;};
+ const mop=makeUtility();segment(mop,[0,-.13,.07],[0,-.10,-.87],.019,steel);cylinder(mop,.026,.20,[0,-.11,-.02],rubber);box(mop,[.42,.045,.14],[0,-.13,-.88],amber,.009);
+ for(let i=0;i<22;i++){const x=(i/21-.5)*.39;segment(mop,[x,-.15,-.87],[x+Math.sin(i*2.7)*.014,-.22,-.91-(i%4)*.022],.009,ceramic);segment(mop,[x,-.15,-.87],[x,-.22,-.80+(i%3)*.014],.009,ceramic);}makeHand(mop);
+ const blower=makeUtility();add(blower,new T.SphereGeometry(.105,20,12),amber,[0,-.025,.035]).scale.set(1,1,1.25);cylinder(blower,.057,.16,[0,-.017,-.095],ink);cylinder(blower,.038,.40,[0,-.012,-.34],steel);box(blower,[.10,.025,.025],[0,.098,.02],ink);for(let i=0;i<6;i++)box(blower,[.018,.085,.004],[.104,-.019,-.004+i*.013],rubber,.001);makeHand(blower);
+ const washer=makeUtility();box(washer,[.065,.055,.18],[0,.012,.015],amber);box(washer,[.05,.11,.054],[0,-.072,.067],ink);cylinder(washer,.011,.65,[0,.018,-.36],steel);cylinder(washer,.025,.07,[0,.018,-.70],ink);cylinder(washer,.012,.008,[0,.018,-.741],ceramic);segment(washer,[0,-.13,.08],[.10,-.25,.19],.013,rubber);makeHand(washer);
+ const vacuum=makeUtility();cylinder(vacuum,.076,.25,[0,-.01,-.025],ceramic);for(const z of [-.14,.095])cylinder(vacuum,.079,.032,[0,-.01,z],ink);cylinder(vacuum,.036,.28,[0,-.015,-.28],steel);box(vacuum,[.24,.045,.065],[0,-.028,-.44],ink);for(let i=0;i<8;i++)box(vacuum,[.010,.044,.055],[-.08+i*.023,-.043,-.443],rubber,.001);box(vacuum,[.017,.082,.14],[.08,-.016,-.03],amber);makeHand(vacuum);
+ const magnet=makeUtility();box(magnet,[.105,.095,.19],[0,.0,-.025],ink,.012);for(const x of [-.083,.083]){box(magnet,[.045,.08,.26],[x,.016,-.18],steel);box(magnet,[.047,.082,.055],[x,.016,-.294],x<0?amber:ceramic);for(let i=0;i<7;i++)box(magnet,[.05,.088,.009],[x,.016,-.22+i*.018],amber,.002);}box(magnet,[.062,.11,.062],[0,-.087,.052],rubber);makeHand(magnet);
+ const sticky=makeUtility();add(sticky,new T.CylinderGeometry(.073,.073,.035,18),ink,[0,-.014,-.012],null);box(sticky,[.075,.028,.066],[0,.016,-.012],amber);box(sticky,[.040,.011,.029],[0,.037,-.012],ceramic);for(const x of [-.057,.057])segment(sticky,[x,.007,-.056],[x,.007,.033],.005,steel);makeHand(sticky).position.set(.021,-.025,.025);
  // Keep moving subassemblies independent and pack the rest by material.
  const merge=(root,exclude=[])=>{
   root.updateWorldMatrix(true,true);const inverse=root.matrixWorld.clone().invert(),groups=new Map();
@@ -124,12 +134,13 @@ SmearCompute.prototype.buildTools=function(){
   for(const child of [...root.children])if(!exclude.includes(child))root.remove(child);
   for(const [material,data]of groups){const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(data.positions,3));g.setAttribute('normal',new T.Float32BufferAttribute(data.normals,3));g.setAttribute('uv',new T.Float32BufferAttribute(data.uvs,2));g.setIndex(data.indices);add(root,g,material);}
  };
- merge(this.gun,[this.slide,this.flash]);merge(this.slide);merge(this.spillCan);merge(this.bat);merge(this.grenadeTool);merge(this.rocketTool);
+ merge(this.gun,[this.slide,this.flash]);merge(this.slide);merge(this.spillCan);merge(this.bat);merge(this.grenadeTool);merge(this.rocketTool);for(const root of this.utilityTools)merge(root);
  this.toolPresentation={pistol:'beveled receiver, articulated slide, sights, gloved grip',spill:'pressure bottle and pump',bat:'turned wooden bat, wrapped grip, twelve steel spikes and gloved hand',meshes:0};
  this.toolPresentation.rocket='reinforced tube, open muzzle, heat shield, sight and two gloved hands';
  for(const root of [this.gun,this.spillCan,this.bat,this.grenadeTool,this.rocketTool])root.traverse(o=>{if(o.isMesh)this.toolPresentation.meshes++;});
 };
 SmearCompute.prototype.updateToolPresentation=function(dt,{tool,panel,time,left,batAge=10,rocketAge=10}){
+ for(let i=0;i<this.utilityTools.length;i++){const g=this.utilityTools[i];g.visible=tool===i+6&&!panel;if(g.visible){const active=left?Math.sin(time*35)*.003:0;g.position.set(i===0?.18:.27,-.20+active,-.51);g.rotation.set(i===0?-.18:-.06,-.09,-.09);}}
  this.rocketTool.visible=tool===5&&!panel;if(this.rocketTool.visible){const kick=Math.exp(-rocketAge*13)*Math.sin(Math.min(1,rocketAge*20)*Math.PI/2);const reload=Math.sin(Math.min(1,Math.max(0,rocketAge-.15)/.9)*Math.PI);this.rocketTool.position.set(.29,-.23-reload*.085,-.60+kick*.14);this.rocketTool.rotation.set(-.04+kick*.12+reload*.12,-.10,-.06);}
  this.grenadeTool.visible=tool===4&&!panel;if(this.grenadeTool.visible){this.grenadeTool.position.set(.25,-.15,-.52);this.grenadeTool.rotation.set(-.14,-.1,-.18);}
  this.spillCan.visible=tool===2&&!panel;

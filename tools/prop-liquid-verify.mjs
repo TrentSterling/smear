@@ -7,7 +7,7 @@ try{
  page=await launch({port:9759,width:1600,height:1000,headless:true});receipt.profile=page.dir;
  await page.goto(pathToFileURL(resolve('index.html')).href+'?defaults=1');await until(()=>page.eval('!!window.__smearComputeReady'),{timeout:90000});await page.eval('__smear.manual(true)');await page.mouse('mousePressed',800,120);await page.mouse('mouseReleased',800,120);await installDestructionFixture(page);
  await page.eval(`(()=>{const g=__smearGPU,d=g.device;window.__toyTest={
- async reset(){__smear.reset();await __smear.step(0);g.bodyCount=0;g.syncCounts();g.clearDrops();__smear.clean();__smear.tune({walking:false,recover:false});d.queue.writeBuffer(g.workBuffer,19*4,new Uint32Array([254]));},
+ async reset(){__smear.reset();await __smear.step(0);g.bodyCount=0;g.syncCounts();g.clearDrops();__smear.clean();__smear.tune({walking:false,recover:false});d.queue.writeBuffer(g.workBuffer,19*4,new Uint32Array([((1<<g.props.length)-1)&~1]));},
  async pose(p,q=[0,0,0,1],v=[0,0,0],w=[0,0,0]){const a=new Float32Array(await __destructionFixture.read(g.constantBuffer,g.propDataOffset,640));a.set(p,0);a.set(q,4);a.set(v,8);a.set(w,12);a.fill(0,32,64);a[60]=1;d.queue.writeBuffer(g.constantBuffer,g.propDataOffset,a);},
  async chart(id){const a=new Float32Array(await __destructionFixture.read(g.constantBuffer,0,g.constantBuffer.size));const u=new Uint32Array(a.buffer);return Array.from(a.slice((u[6]+id*7)*4,(u[6]+id*7+4)*4));},
  async film(id){const r=g.records[id];return Array.from(new Uint32Array(await __destructionFixture.read(g.wetBuffer,(g.surfaces.length*3136+r.filmOffset)*4,r.filmWidth*r.filmHeight*4))).reduce((a,b)=>a+b,0)/65536*(g.surfaces[id].w*g.surfaces[id].h)/(r.filmWidth*r.filmHeight);},

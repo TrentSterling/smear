@@ -11,6 +11,7 @@ fn debrisOutput(v:Input,i:u32,boards:bool)->Output{
 @fragment fn debrisFragment(v:Output)->@location(0) vec4f{
  let kind=work[ordnanceState(v.index)+23u];var color=vec3f(.016,.024,.024);var rough=.85;var metal=.25;
  if(kind==3u||kind==5u){let grain=.80+.12*sin(v.local.x*92+sin(v.local.z*23)*2);color=vec3f(.40,.24,.10)*grain;rough=.87;metal=0;}
+ if(kind==6u){color=mix(vec3f(.09,.12,.16),vec3f(.95,.28,.025),select(.15,.8,fract(frame.camera.w*3)>.65));rough=.4;metal=.5;}
  if(kind==4u){color=select(vec3f(.16,.22,.21),vec3f(.72,.37,.04),v.local.z>.40);rough=.35;metal=.6;}
  if(kind==1u){color=vec3f(.13,.17,.055);rough=.50;metal=.50;let seam=step(.87,fract(v.uv.x*8))+step(.84,fract(v.uv.y*6));color*=1-min(1.0,seam)*.75;if(v.local.y>.70){color=vec3f(.75,.28,.015);}}
  return shade(v.world,v.normal,color,rough,metal,false,false,0);
@@ -39,3 +40,14 @@ fn debrisOutput(v:Input,i:u32,boards:bool)->Output{
  let s=blastState(v.index/5u);let age=frame.camera.w-bitcast<f32>(work[s+4u]);let hot=exp(-age*21);let edge=pow(max(0,dot(v.normal,safeNorm(frame.camera.xyz-v.world))),.5);
  return vec4f(mix(vec3f(.065,.075,.069),vec3f(1,.64,.15),hot),edge*(1-smoothstep(.1,.7,age))*.52);
 }
+// Visual pressure jets use the cached GPU hit; they do not allocate blood.
+@vertex fn utilityJetVertex(v:Input,@builtin(instance_index) i:u32)->Output{
+ let tool=(u32(frame.settings.w)>>8u)&15u;let enabled=(u32(frame.settings.w)&65536u)!=0u&&(tool==7u||tool==8u);
+ if(!enabled){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,v.p,v.n,i);}
+ let axis=safeNorm(frame.rayD.xyz);let right=safeNorm(cross(axis,vec3f(0,1,0)));let up=cross(right,axis);let nozzle=frame.rayO.xyz+axis*.70+right*.20-up*.13;
+ let hit=vec3f(bitcast<f32>(work[utilityBase()+4u]),bitcast<f32>(work[utilityBase()+5u]),bitcast<f32>(work[utilityBase()+6u]));let end=select(frame.rayO.xyz+axis*5,hit,work[utilityBase()+7u]!=0u);let path=end-nozzle;let direction=safeNorm(path);let phase=fract(f32(i)/32+frame.camera.w*select(1.6,3.1,tool==8u));let lengthLimit=select(min(length(path),2.8),length(path),tool==8u);
+ let radius=select(.02+phase*.09,.008+phase*.014,tool==8u);let flutter=vec3f(hash(i*173u)-.5,hash(i*197u)-.5,hash(i*257u)-.5)*radius;
+ let world=nozzle+direction*phase*lengthLimit+flutter+right*v.p.x*radius+up*v.p.y*radius+direction*v.p.z*select(.07,.12,tool==8u);
+ return Output(frame.vp*vec4f(world,1),world,v.n,v.uv,vec3f(phase,f32(tool),0),v.n,i);
+}
+@fragment fn utilityJetFragment(v:Output)->@location(0) vec4f{return vec4f(select(vec3f(.70,.78,.74),vec3f(.78,.90,.96),v.local.y==8),select(.055,.28,v.local.y==8)*(1-v.local.x));}

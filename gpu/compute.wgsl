@@ -270,6 +270,12 @@ fn rayHit(o:vec3f,d:vec3f,limit:f32,includeBodies:bool,ignoreBody:i32)->RayHit {
  if(frame.action.y==5){meleeStrike();return;}
  if(frame.action.y==6){throwGrenade();return;}
  if(frame.action.y==12){fireRocket();return;}
+ if(frame.action.y==13){throwSticky();return;}
+ if(frame.action.y==14){detonateStickies();return;}
+ if(frame.action.y==15){buildContraption();return;}
+ if(frame.action.y==16){utilitySecondary();return;}
+ if(frame.action.y==17){toggleUtilityProp();return;}
+ if(frame.action.y==18){runContraption();return;}
  if(frame.action.y==7){queueBlast(frame.rayO.xyz,constants[header(3).z+1u].z);return;}
  if(frame.action.y<.5){return;}let hit=rayHit(frame.rayO.xyz,safeNorm(frame.rayD.xyz),35,true,-1);atomicStore(&work[6],bitcast<u32>(hit.body));atomicStore(&work[7],bitcast<u32>(hit.t));atomicStore(&work[10],bitcast<u32>(hit.p.x));atomicStore(&work[11],bitcast<u32>(hit.p.y));atomicStore(&work[12],bitcast<u32>(hit.p.z));
  if(frame.action.y==1&&hit.body<0&&hit.surface>=0){let tag=record(u32(hit.surface)).center.w;if(tag>0){let id=u32(tag)-1u;let b=propBody(id);atomicStore(&work[6],180u+id);let local=rotate(inverseQ(b.q),hit.p-b.p.xyz);for(var k=0u;k<3u;k++){atomicStore(&work[13u+k],bitcast<u32>(local[k]));}return;}}
@@ -287,7 +293,7 @@ fn rayHit(o:vec3f,d:vec3f,limit:f32,includeBodies:bool,ignoreBody:i32)->RayHit {
  }else if(hit.surface>=0){if(frame.action.y==2){hitProp(hit.surface,.38*frame.rayD.w);propSurfaceImpulse(hit.surface,hit.p,frame.rayD.xyz*7*frame.action.w);splatKind(u32(hit.surface),hit.p,.038,1,atomicLoad(&work[5]),9);for(var k=0u;k<4u;k++){let seed=atomicLoad(&work[5])+k*371u;spawnOrdnance(2u,hit.p+hit.n*.03,hit.n*(1+hash(seed)*3)+vec3f(hash(seed+1u)-.5,hash(seed+2u),hash(seed+3u)-.5)*2,.009+hash(seed+4u)*.008,seed);}}if(frame.action.y==3){let r=record(u32(hit.surface));splat(u32(hit.surface),hit.p,.32,1,atomicLoad(&work[5]));let c=uv(r,hit.p);atomicMax(&wet[wetCell(r,c)],50000u);for(var k=0u;k<10u;k++){let h=k*37u+atomicLoad(&work[5]);emit(hit.p+hit.n*.03,hit.n*(.5+hash(h)*1.2)+vec3f((hash(h+1u)-.5)*2,hash(h+2u)*1.8,(hash(h+3u)-.5)*2),.008+hash(h+4u)*.01,999u);}}}
 }
 @compute @workgroup_size(64) fn droplets(@builtin(global_invocation_id) id:vec3u) {
- let i=id.x;if(i>=900u||atomicLoad(&work[64u+i])==0u){return;}var p=particles[i];let dt=1.0/120.0;p.previous=vec4f(p.p.xyz,p.previous.w);p.v.y-=9.81*dt;p.v=vec4f(p.v.xyz*exp(-.08*dt),p.v.w+dt);p.p=vec4f(p.p.xyz+p.v.xyz*dt,p.p.w);let delta=p.p.xyz-p.previous.xyz;let travel=length(delta);let h=rayHit(p.previous.xyz,safeNorm(delta),travel,true,select(-1,i32(p.previous.w),p.v.w<.22));
+ let i=id.x;if(i>=900u||atomicLoad(&work[64u+i])==0u){return;}if(utilityCollectDrop(i)){return;}var p=particles[i];let dt=1.0/120.0;p.previous=vec4f(p.p.xyz,p.previous.w);p.v=vec4f(bounded(p.v.xyz+utilityWind(p.p.xyz)*dt,32),p.v.w);p.v.y-=9.81*dt;p.v=vec4f(p.v.xyz*exp(-.08*dt),p.v.w+dt);p.p=vec4f(p.p.xyz+p.v.xyz*dt,p.p.w);let delta=p.p.xyz-p.previous.xyz;let travel=length(delta);let h=rayHit(p.previous.xyz,safeNorm(delta),travel,true,select(-1,i32(p.previous.w),p.v.w<.22));
  if(h.t<travel){if(h.surface>=0){let radius=max(.018,p.p.w*(3+min(3,length(p.v.xyz)*.22)));if(p.extra.x>0){returnFilm(u32(h.surface),h.p,p.extra.x);splatKind(u32(h.surface),h.p,radius,.65,i+atomicLoad(&work[5]),5);atomicAdd(&work[28],1u);}else{splat(u32(h.surface),h.p,radius,.7,i+atomicLoad(&work[5]));}let r=record(u32(h.surface));if(p.extra.x==0){atomicMax(&wet[wetCell(r,uv(r,h.p))],12000u);}}else if(h.body>=0){if(p.extra.x>0){atomicAdd(&work[contactMemory(u32(h.body))+9u],u32(round(p.extra.x/.02*65536)));atomicAdd(&work[33],1u);}let b=bodies[u32(h.body)];let local=rotate(inverseQ(b.q),h.p-b.p.xyz);let n=rotate(inverseQ(b.q),h.n);let a=abs(n);var face:u32;var c:vec2f;var half:vec2f;if(a.x>a.y&&a.x>a.z){face=select(1u,0u,n.x>0);c=local.zy;half=b.half.zy;}else if(a.y>a.z){face=select(3u,2u,n.y>0);c=local.xz;half=b.half.xz;}else{face=select(5u,4u,n.z>0);c=local.xy;half=b.half.xy;}let point=(c/half*.5+.5+vec2f(f32(face%3u),f32(face/3u)))/vec2f(3,2);stamp(header(0).z+u32(h.body),point,point,vec2f(.045,.065),.55,0,f32(i%18u),0);}
   atomicStore(&work[64u+i],0u);atomicSub(&work[9],1u);atomicAdd(&work[17],1u);
  }else if(p.v.w>7||p.p.y<-.15){atomicStore(&work[64u+i],0u);atomicSub(&work[9],1u);}particles[i]=p;
@@ -332,7 +338,7 @@ fn coverage(s:Stamp,point:vec2f)->vec4f {
  }else if(s.info.y==11){
   let delta=(s.b.xy-s.a.xy)*r.size.xy;let rel=(p-s.a.xy)*r.size.xy;let t=clamp(dot(rel,delta)/max(dot(delta,delta),1e-8),0,1);let distance=length(rel-delta*t);let width=radius.x*r.size.x;
   let grain=hash(u32(point.x)*971u+u32(point.y)*131u+u32(s.info.z));alpha=(1-smoothstep(width*.4,width,distance))*(.4+.6*grain)*s.b.w;color=vec3f(.035,.043,.040);
- }else if(s.info.y==1||s.info.y==13){
+ }else if(s.info.y==1||s.info.y==13||s.info.y==14||s.info.y==15){
   let seed=u32(s.info.z);let size=radius*r.size.xy;let previousSize=s.color.yz;let travel=s.color.w;var rgb=vec3f(0);
   for(var j=0u;j<54u;j++){
    let h=hash(seed*113u+j*977u);let h2=hash(seed*337u+j*199u);let h3=hash(seed*41u+j*57u);let h4=hash(seed*617u+j*521u);let h5=hash(seed*181u+j*881u);
@@ -382,7 +388,7 @@ fn coverage(s:Stamp,point:vec2f)->vec4f {
    if(s.info.y==3){liquidPush+=contactDisplacement(s,r,vec2f(pos)+.5)*2.2;}
   }
   if(smudging){value=displacedPaint(rec,vec2f(pos)+.5,value,velocities);}
-  for(var j=0u;j<total;j++){let index=select(indices[min(j,255u)],j,count>256u);let s=stamps[index];if(u32(s.info.x)!=rec||s.info.y==3||s.info.y==12){continue;}{let source=coverage(s,vec2f(pos)+.5);if(source.a>0){value=over(value,source);let footprintArea=max(.002,s.a.z*s.a.w*r.size.x*r.size.y);var supply=select(select(.18,.036,s.info.y==1),.006/footprintArea,s.info.y==4);if(s.info.y==6||s.info.y==8){supply=s.color.w*.75/(3.2*footprintArea*max(s.b.w,.001));}
+  for(var j=0u;j<total;j++){let index=select(indices[min(j,255u)],j,count>256u);let s=stamps[index];if(u32(s.info.x)!=rec||s.info.y==3||s.info.y==12){continue;}{let source=coverage(s,vec2f(pos)+.5);if(source.a>0){if(s.info.y==14||s.info.y==15){var wetness=1.0;if(s.info.y==15){let cell=filmPosition(rec,vec2i(vec2f(pos)/r.size.zw*vec2f(filmDimensions(r))));wetness=select(0.0,smoothstep(.002,.035,filmRead(1u,u32(max(0,cell)))),cell>=0);}value=vec4f(value.rgb,value.a*(1-clamp(source.a*wetness,0,1)));continue;}value=over(value,source);let footprintArea=max(.002,s.a.z*s.a.w*r.size.x*r.size.y);var supply=select(select(.18,.036,s.info.y==1),.006/footprintArea,s.info.y==4);if(s.info.y==6||s.info.y==8){supply=s.color.w*.75/(3.2*footprintArea*max(s.b.w,.001));}
   // Contact deposits finite film along the bristles. Raster strokes add pigment only.
   if(s.info.y>=9||s.info.y==5||s.info.y==2||(s.info.y==1&&abs(r.n.y)<.65)){supply=0;}liquid+=source.a*supply;}}}
   pigment[offset]=pack(value);depositFilm(rec,pos,liquid,liquidPush);

@@ -22,7 +22,7 @@ fn syncProp(i:u32){
 }
 @compute @workgroup_size(1) fn resetProps(){
  atomicStore(&work[19],((1u<<propCount())-1u)&~63u);
- for(var i=0u;i<propCount();i++){for(var k=0u;k<8u;k++){atomicStore(&work[propState(i)+k],0u);}let s=propData(i);constants[s]=vec4f(constants[s+4u].xyz,constants[s].w);constants[s+1u]=constants[s+5u];constants[s+2u]=vec4f(0);constants[s+3u]=vec4f(0);for(var k=8u;k<16u;k++){constants[s+k]=vec4f(0);}constants[s+15u].x=select(0.0,1.0,i<6u);syncProp(i);}
+ for(var i=0u;i<propCount();i++){for(var k=0u;k<8u;k++){atomicStore(&work[propState(i)+k],0u);}let s=propData(i);constants[s]=vec4f(constants[s+4u].xyz,constants[s].w);constants[s+1u]=constants[s+5u];constants[s+2u]=vec4f(0);constants[s+3u]=vec4f(0);for(var k=8u;k<16u;k++){constants[s+k]=vec4f(0);}constants[s+15u].x=select(0.0,1.0,i<6u);syncProp(i);resetUtilityProp(i);}
 }
 struct PropContact{point:vec3f,depth:f32,normal:vec3f};
 fn pointBox(p:vec3f,center:vec3f,q:vec4f,half:vec3f,kind:f32)->PropContact{
@@ -54,14 +54,17 @@ fn propEdgeContact(a:Body,b:Body)->PropContact{
 }
 var<private> propOther:Body;
 var<private> propOtherID:i32;
+var<private> propCurrentID:u32;
 fn solvePropContact(input:Body,point:vec3f,n:vec3f,depth:f32)->Body{
  var b=input;let arm=point-b.p.xyz;let otherArm=point-propOther.p.xyz;let otherEff=select(0.0,eff(propOther,otherArm,n),propOtherID>=0);
  let effective=eff(b,arm,n)+otherEff+1e-6;
- let relative=b.v.xyz+cross(b.w.xyz,arm)-select(vec3f(0),propOther.v.xyz+cross(propOther.w.xyz,otherArm),propOtherID>=0);
+ var beltA=vec3f(0);var beltB=vec3f(0);if(b.half.w==5&&atomicLoad(&work[utilityProp(propCurrentID)+1u])!=0u&&abs(rotate(inverseQ(b.q),arm).y-b.half.y)<.14){beltA=rotate(b.q,vec3f(8,0,0));}if(propOtherID>=0&&propOther.half.w==5&&atomicLoad(&work[utilityProp(u32(propOtherID))+1u])!=0u&&abs(rotate(inverseQ(propOther.q),otherArm).y-propOther.half.y)<.14){beltB=rotate(propOther.q,vec3f(8,0,0));}
+ let relative=b.v.xyz+cross(b.w.xyz,arm)+beltA-select(vec3f(0),propOther.v.xyz+cross(propOther.w.xyz,otherArm)+beltB,propOtherID>=0);
  let closing=dot(relative,n);let normalImpulse=max(0,-closing*select(1.0,1.14,closing< -1.2))/effective;
  var impulse=n*normalImpulse;let tangent=relative-n*closing;let speed=length(tangent);
  if(speed>1e-6){let t=tangent/speed;let te=eff(b,arm,t)+select(0.0,eff(propOther,otherArm,t),propOtherID>=0);impulse-=t*min(speed/max(te,1e-6),normalImpulse*.68);}
  b.v=vec4f(b.v.xyz+impulse*b.p.w,0);b.w=vec4f(b.w.xyz+invWorld(b,cross(arm,impulse)),0);
+ if(closing< -3.0&&propOtherID>=0&&b.half.w<=2&&propOther.half.w<=2){let energy=.5*normalImpulse*(-closing);propDamage(f32(propCurrentID+1u),energy/select(95.0,50.0,b.half.w==2));propDamage(f32(propOtherID+1),energy/select(95.0,50.0,propOther.half.w==2));}
  let correction=max(0,min(depth-.0005,.06))*.62/effective;
  b.p=vec4f(b.p.xyz+n*correction*b.p.w,b.p.w);b.q=rotateStep(b.q,invWorld(b,cross(arm,n*correction)));
  if(propOtherID>=0){propOther.v=vec4f(propOther.v.xyz-impulse*propOther.p.w,0);propOther.w=vec4f(propOther.w.xyz-invWorld(propOther,cross(otherArm,impulse)),0);propOther.p=vec4f(propOther.p.xyz-n*correction*propOther.p.w,propOther.p.w);propOther.q=rotateStep(propOther.q,-invWorld(propOther,cross(otherArm,n*correction)));if(length(impulse)>.06){constants[propData(u32(propOtherID))+14u]=vec4f(0);}saveProp(u32(propOtherID),propOther);syncProp(u32(propOtherID));}
@@ -105,13 +108,16 @@ fn releaseProp(){
  }
  for(var iteration=0u;iteration<9u;iteration++){
   for(var i=0u;i<propCount();i++){
-   if(propGone(f32(i+1u))||constants[propData(i)+14u].y>.5){continue;}var b=propBody(i);var impact=0.0;
+   if(propGone(f32(i+1u))||constants[propData(i)+14u].y>.5){continue;}var b=propBody(i);propCurrentID=i;var impact=0.0;
    let count=select(8u,24u,b.half.w==2);
+   // Cache broadphase candidates once per body/iteration, not per vertex.
+   var candidates:array<u32,64>;var candidateCount=0u;
+   for(var j=0u;j<header(0).x;j++){let box=header(1).x+j*5u;if(constants[box+2u].w==f32(i+1u)||!liveBox(box)){continue;}let local=rotate(inverseQ(constants[box+1u]),b.p.xyz-constants[box].xyz);let separation=length(max(abs(local)-constants[box+2u].xyz,vec3f(0)));if(separation>length(b.half.xyz)+.35){continue;}if(candidateCount<64u){candidates[candidateCount]=box;candidateCount++;}}
    for(var corner=0u;corner<count;corner++){
     var point=propVertex(b,corner);propOtherID=-1;propOther.status.x=0;
     if(point.y<.002){constants[propData(i)+14u].z=1;impact=max(impact,max(0,-(b.v.xyz+cross(b.w.xyz,point-b.p.xyz)).y));b=solvePropContact(b,point,vec3f(0,1,0),.002-point.y);}
-    for(var j=0u;j<header(0).x;j++){
-     let box=header(1).x+j*5u;let tag=constants[box+2u].w;if(tag==f32(i+1u)||!liveBox(box)){continue;}
+    for(var candidate=0u;candidate<candidateCount;candidate++){
+     let box=candidates[candidate];let tag=constants[box+2u].w;if(tag==f32(i+1u)||!liveBox(box)){continue;}
      if(distance(constants[box].xyz,b.p.xyz)>length(constants[box+2u].xyz)+length(b.half.xyz)+.06){continue;}
      point=propVertex(b,corner);let hit=pointBox(point,constants[box].xyz,constants[box+1u],constants[box+2u].xyz,constants[box].w);if(hit.depth< -.002){continue;}
      propOtherID=i32(tag)-1;propOther.status.x=0;if(propOtherID>=0){propOther=propBody(u32(propOtherID));}
@@ -120,10 +126,10 @@ fn releaseProp(){
      b=solvePropContact(b,point,hit.normal,hit.depth+.002);
     }
    }
-   if(b.half.w==1){for(var otherID=i+1u;otherID<propCount();otherID++){
-    if(propGone(f32(otherID+1u))){continue;}let other=propBody(otherID);if(other.half.w!=1||distance(b.p.xyz,other.p.xyz)>length(b.half.xyz)+length(other.half.xyz)){continue;}
+   if(b.half.w!=2){for(var otherID=i+1u;otherID<propCount();otherID++){
+    if(propGone(f32(otherID+1u))){continue;}let other=propBody(otherID);if(other.half.w==2||distance(b.p.xyz,other.p.xyz)>length(b.half.xyz)+length(other.half.xyz)){continue;}
     var vertexContact=false;for(var k=0u;k<8u;k++){if(pointBox(propVertex(b,k),other.p.xyz,other.q,other.half.xyz,1).depth>=0||pointBox(propVertex(other,k),b.p.xyz,b.q,b.half.xyz,1).depth>=0){vertexContact=true;break;}}
-    if(!vertexContact){let hit=propEdgeContact(b,other);if(hit.depth>0){propOtherID=i32(otherID);propOther=other;b=solvePropContact(b,hit.point,hit.normal,hit.depth);}}
+    if(!vertexContact){let hit=propEdgeContact(b,other);if(hit.depth>0){propOtherID=i32(otherID);propOther=other;if(hit.normal.y>.55){constants[propData(i)+14u].z=1;}b=solvePropContact(b,hit.point,hit.normal,hit.depth);}}
    }}
    let s=propData(i);if(iteration==0u&&impact>2&&frame.camera.w>constants[s+13u].w){
     constants[s+13u]=vec4f(0,0,0,frame.camera.w+.15);atomicMax(&work[38],(u32(clamp(impact/14,.12,1.0)*4095)<<8u)|255u);atomicAdd(&work[39],1u);
