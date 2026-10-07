@@ -9,7 +9,7 @@ function beginBuddyPlacement(restore=false){
  if(!restore&&base>=180){notify('All 12 buddy slots are in use. Grab one and press R to restore it.');return;}
  releaseGrab(false);resetToolTransient();demo=null;compute.beginBuddy(base);
  beginPlacementControls();
- notify((restore?'Restore buddy '+(base/15+1):'Place a new buddy')+' | Aim at clear floor | Click: place | Q/E: turn | Esc: cancel',60);
+ notify((restore?'Restore buddy '+(base/15+1):'Place '+compute.dummyVariants[(base/15)%3]+' buddy')+' | Aim at clear floor | Click: place | Q/E: turn | Esc: cancel',60);
 }
 async function confirmBuddyPlacement(){
  if(!compute?.placement||compute.buddyBusy)return;

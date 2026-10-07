@@ -13,7 +13,7 @@ fn heldComponent(i:u32)->bool{return frame.local.w>.5&&frame.goal.w<180&&compone
 fn rigBroken(base:u32)->bool{for(var k=0u;k<15u;k++){if(cut(base+k)){return true;}}return false;}
 fn queueFracture(i:u32,amount:f32){
  if(i%15u==1u||cut(i)||amount<=0){return;}
- atomicAdd(&work[fractureState(i)+1u],u32(amount*constants[header(3).z+1u].w*65536));atomicStore(&work[63],1u);
+ atomicAdd(&work[fractureState(i)+1u],u32(amount*select(select(1.0,1.12,i/15u%3u==1u),.87,i/15u%3u==2u)*constants[header(3).z+1u].w*65536));atomicStore(&work[63],1u);
 }
 fn damagePart(i:u32,amount:f32){
  if(amount>0){atomicStore(&work[fractureState(i)+6u],0u);}
@@ -61,7 +61,7 @@ fn ordFloat(i:u32)->f32{return bitcast<f32>(atomicLoad(&work[i]));}
 fn ordVector(i:u32)->vec3f{return vec3f(ordFloat(i),ordFloat(i+1u),ordFloat(i+2u));}
 fn putVector(i:u32,v:vec3f){for(var k=0u;k<3u;k++){atomicStore(&work[i+k],bitcast<u32>(v[k]));}}
 fn spawnOrdnance(kind:u32,p:vec3f,v:vec3f,r:f32,seed:u32)->bool{
- let explosive=kind==1u||kind==4u||kind==6u;let first=select(8u,0u,explosive);let count=select(120u,8u,explosive);
+ let explosive=kind==1u||kind==4u||kind==6u||kind==7u;let first=select(8u,0u,explosive);let count=select(120u,8u,explosive);
  var chosen=128u;var oldest=-1.0;
  for(var n=0u;n<count;n++){let i=first+(seed+n)%count;let s=ordnanceState(i);let resident=atomicLoad(&work[s+23u]);
   if(resident==0u){chosen=i;break;}
@@ -98,18 +98,18 @@ fn blastVisibility(center:vec3f,p:vec3f)->bool{
  let dt:f32=1.0/120;let old=ordVector(s);var velocity=ordVector(s+4u);let age=ordFloat(s+7u)+dt;let radius=ordFloat(s+3u);
  if((kind==3u||kind==5u)&&(atomicLoad(&work[s+20u])&0x80000000u)!=0u){atomicStore(&work[s+7u],bitcast<u32>(age));if(age>select(14.0,30.0,kind==5u)){atomicStore(&work[s+23u],0u);}return;}
  // exp(-drag / 120), pre-evaluated to avoid a Naga/DXC f64 exp overload.
- if(kind!=4u){velocity.y-=9.81*dt;velocity*=select(.99833472f,.99933356f,kind==1u);}var p=old+velocity*dt;
+ if(kind!=4u){velocity.y-=select(9.81,1.2,kind==7u)*dt;velocity*=select(.99833472f,.99933356f,kind==1u);}var p=old+velocity*dt;
  let delta=p-old;let distance=length(delta);let hit=rayHit(old,safeNorm(delta),distance+radius,false,-1);
  let skip=select(-1,i32(atomicLoad(&work[s+20u]))-1,age<ordFloat(s+21u));let bodyHit=projectileBodyHit(old,delta,radius,skip);
  if(bodyHit.body>=0&&bodyHit.time*distance<hit.t){
   p=old+delta*bodyHit.time+bodyHit.normal*.003;if(kind==6u){attachSticky(s,p,bodyHit.normal,u32(bodyHit.body)+1u);return;}putVector(s,p);atomicStore(&work[s+12u],u32(bodyHit.body)+1u);putVector(s+13u,velocity);putVector(s+16u,bodyHit.normal);atomicStore(&work[s+19u],kind);
   if(kind==1u||kind==4u){atomicStore(&work[s+23u],0u);queueBlast(p,constants[header(3).z+1u].z*select(1.0,1.3,kind==4u));return;}
-  velocity-=bodyHit.normal*min(0,dot(velocity,bodyHit.normal))*1.25;velocity*=.5;atomicStore(&work[s+20u],u32(bodyHit.body)+1u);atomicStore(&work[s+21u],bitcast<u32>(age+.12));
+  if(kind==7u){velocity*=.985;p=old+safeNorm(delta)*min(distance,max(0,hit.t-radius-.002));atomicAdd(&work[destructionMeta()+23u],1u);}else{velocity-=bodyHit.normal*min(0,dot(velocity,bodyHit.normal))*1.25;velocity*=.5;}atomicStore(&work[s+20u],u32(bodyHit.body)+1u);atomicStore(&work[s+21u],bitcast<u32>(age+.12));
  }
  else if(hit.surface>=0){
   p=hit.p+hit.n*(radius+.002);if(kind==6u){let tag=record(u32(hit.surface)).center.w;attachSticky(s,p,hit.n,select(1000u,180u+u32(tag),tag>0));return;}let incoming=max(0,-dot(velocity,hit.n));
   if(kind==4u){hitProp(hit.surface,.8);propSurfaceImpulse(hit.surface,hit.p,velocity*.8);atomicStore(&work[s+23u],0u);queueBlast(p,1.3*constants[header(3).z+1u].z);return;}
-  velocity-=hit.n*min(0,dot(velocity,hit.n))*select(1.28,1.46,kind==1u);velocity*=select(.69,.82,kind==1u);
+  if(kind==7u){atomicStore(&work[s+12u],256u+u32(hit.surface));putVector(s+13u,velocity);putVector(s+16u,hit.n);velocity=reflect(velocity,hit.n)*.96;atomicAdd(&work[destructionMeta()+22u],1u);atomicMax(&work[38],0x20000000u|(u32(clamp(incoming*.045,.15,1)*4095)<<8u)|255u);atomicAdd(&work[39],1u);}else{velocity-=hit.n*min(0,dot(velocity,hit.n))*select(1.28,1.46,kind==1u);velocity*=select(.69,.82,kind==1u);}
   if((kind==3u||kind==5u)&&hit.n.y>.95&&length(velocity)<.55){velocity=vec3f(0);p=hit.p+hit.n*(radius*select(.28,.16,kind==5u)+.002);atomicStore(&work[s+20u],0x80000000u);}
   if(kind>=2u&&incoming>.5){
    if(incoming>4){hitProp(hit.surface,min(.18,incoming*.009));propSurfaceImpulse(hit.surface,hit.p,-hit.n*incoming*.045);}

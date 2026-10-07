@@ -136,21 +136,45 @@ SmearCompute.prototype.buildTools=function(){
  label(this.rocketTool,'SM / ROCKET',[.088,.08,-.10],[.30,.067],[0,Math.PI/2,0]);
  // A compact trigger hand and a mirrored support grip. Forearms run back
  // toward their own shoulders rather than duplicating the pistol wrist pose.
- const launcherHand=(side,origin,wrist,elbow)=>{
-  const root=new T.Group();root.position.set(...origin);this.rocketTool.add(root);
+ const launcherHand=(side,origin,wrist,elbow,parent=this.rocketTool)=>{
+  const root=new T.Group();root.position.set(...origin);parent.add(root);
   box(root,[.062,.083,.054],[side*.012,-.073,.002],glove,.014);
   box(root,[.050,.040,.006],[side*.014,-.065,.032],seam,.004);
   for(let i=0;i<4;i++){const y=-.038-i*.017;segment(root,[side*.038,y,-.023],[-side*.032,y-.004,-.028],.0105,glove);segment(root,[-side*.032,y-.004,-.028],[-side*.035,y-.010,.013],.0105,glove);}
   segment(root,[side*.044,-.070,.020],[side*.042,-.020,-.004],.013,glove);
   segment(root,[side*.042,-.020,-.004],[side*.012,-.014,-.022],.012,glove);
   const joint=[origin[0]+side*.012,origin[1]-.115,origin[2]+.012];
-  segment(this.rocketTool,joint,wrist,.034,glove);segment(this.rocketTool,wrist,elbow,.043,ink);
-  const cuff=new T.Group();cuff.position.set(...wrist);cuff.quaternion.setFromUnitVectors(new V(0,1,0),new V(...elbow).sub(new V(...wrist)).normalize());this.rocketTool.add(cuff);add(cuff,new T.CylinderGeometry(.046,.046,.045,16),rubber);
+  segment(parent,joint,wrist,.034,glove);segment(parent,wrist,elbow,.043,ink);
+  const cuff=new T.Group();cuff.position.set(...wrist);cuff.quaternion.setFromUnitVectors(new V(0,1,0),new V(...elbow).sub(new V(...wrist)).normalize());parent.add(cuff);add(cuff,new T.CylinderGeometry(.046,.046,.045,16),rubber);
  };
  launcherHand(1,[0,.008,.075],[.055,-.17,.16],[.18,-.32,.50]);
  // The support hand has a real foregrip to close around, below the tube.
  box(this.rocketTool,[.050,.104,.055],[0,-.061,-.285],rubber,.008);
  launcherHand(-1,[0,.002,-.285],[-.065,-.14,-.20],[-.34,-.28,.22]);
+ // Pump shotgun with a moving fore-end, magazine tube and a stock tucked back.
+ this.shotgunTool=new T.Group();this.shotgunTool.userData.viewTool=true;this.camera.add(this.shotgunTool);
+ const shotgun=this.shotgunTool;shotgun.scale.setScalar(.9);box(shotgun,[.085,.10,.24],[0,.025,-.015],ink,.010);
+ cylinder(shotgun,.025,.55,[0,.049,-.32],steel);cylinder(shotgun,.018,.008,[0,.049,-.599],rubber);
+ cylinder(shotgun,.022,.45,[0,-.010,-.30],ink);cylinder(shotgun,.024,.028,[0,-.010,-.535],amber);
+ box(shotgun,[.065,.09,.25],[0,-.015,.22],timber,.019);box(shotgun,[.078,.10,.025],[0,-.02,.354],rubber,.009);
+ box(shotgun,[.045,.11,.068],[0,-.064,.074],rubber,.008);box(shotgun,[.009,.018,.017],[0,.084,-.49],amber,.002);
+ box(shotgun,[.003,.045,.093],[.044,.025,.007],steel,.002);
+ this.shotgunPump=new T.Group();shotgun.add(this.shotgunPump);box(this.shotgunPump,[.085,.065,.18],[0,-.038,-.34],timber,.012);
+ for(let i=0;i<9;i++)box(this.shotgunPump,[.089,.067,.005],[0,-.038,-.412+i*.018],rubber,.001);
+ this.shotgunFlash=add(shotgun,new T.SphereGeometry(.055,6,4),new T.MeshBasicMaterial({color:0xffd17e}),[0,.049,-.66]);this.shotgunFlash.scale.z=2.5;this.shotgunFlash.visible=false;
+ label(shotgun,'SM / 12',[0,.079,-.010],[.054,.086],[-Math.PI/2,0,0]);
+ launcherHand(1,[0,.016,.085],[.07,-.17,.17],[.23,-.31,.47],shotgun);
+ launcherHand(-1,[0,-.020,-.31],[-.075,-.18,-.21],[-.32,-.30,.20],this.shotgunPump);
+ // Open twin guide rails frame the visibly toothed blade instead of a gun barrel.
+ this.sawTool=new T.Group();this.sawTool.userData.viewTool=true;this.camera.add(this.sawTool);const saw=this.sawTool;saw.scale.setScalar(.86);
+ box(saw,[.16,.15,.25],[0,.025,.015],ink,.016);box(saw,[.17,.055,.20],[0,.112,.015],amber,.008);
+ for(const x of [-.065,.065]){box(saw,[.033,.056,.43],[x,-.040,-.26],steel,.006);box(saw,[.037,.06,.032],[x,-.040,-.47],amber,.003);}
+ this.loadedSaw=add(saw,this.sawGeometry(),steel,[0,.058,-.25]);this.loadedSaw.scale.setScalar(.15);this.loadedSaw.rotation.z=Math.PI/2;
+ for(const x of [-.083,.083])cylinder(saw,.045,.07,[x,.021,.095],steel);
+ box(saw,[.055,.115,.072],[0,-.10,.095],rubber,.009);box(saw,[.055,.10,.052],[0,-.096,-.21],rubber,.006);
+ label(saw,'SM / SAW',[.087,.06,.015],[.18,.074],[0,Math.PI/2,0]);
+ launcherHand(1,[0,-.030,.095],[.08,-.22,.18],[.24,-.34,.46],saw);
+ launcherHand(-1,[0,-.027,-.21],[-.07,-.19,-.14],[-.33,-.31,.21],saw);
  // Cleanup tools share the same grip language, with distinct working ends.
  this.utilityTools=[];
  const makeUtility=()=>{const g=new T.Group();g.userData.viewTool=true;g.visible=false;this.camera.add(g);this.utilityTools.push(g);return g;};
@@ -168,12 +192,20 @@ SmearCompute.prototype.buildTools=function(){
   for(const child of [...root.children])if(!exclude.includes(child))root.remove(child);
   for(const [material,data]of groups){const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(data.positions,3));g.setAttribute('normal',new T.Float32BufferAttribute(data.normals,3));g.setAttribute('uv',new T.Float32BufferAttribute(data.uvs,2));g.setIndex(data.indices);add(root,g,material);}
  };
- merge(this.gun,[this.slide,this.flash]);merge(this.slide);merge(this.spillCan);merge(this.bat);merge(this.grenadeTool);merge(this.rocketTool);for(const root of this.utilityTools)merge(root);
+ merge(this.gun,[this.slide,this.flash]);merge(this.slide);merge(this.spillCan);merge(this.bat);merge(this.grenadeTool);merge(this.rocketTool);merge(this.shotgunTool,[this.shotgunPump,this.shotgunFlash]);merge(this.shotgunPump);merge(this.sawTool,[this.loadedSaw]);for(const root of this.utilityTools)merge(root);
  this.toolPresentation={pistol:'beveled receiver, articulated slide, sights, gloved grip',spill:'pressure bottle and pump',bat:'turned wooden bat, wrapped grip, twelve steel spikes and gloved hand',meshes:0};
  this.toolPresentation.rocket='shouldered tube, trigger grip, forward support grip and correctly sided gloved forearms';
  for(const root of [this.gun,this.spillCan,this.bat,this.grenadeTool,this.rocketTool])root.traverse(o=>{if(o.isMesh)this.toolPresentation.meshes++;});
 };
-SmearCompute.prototype.updateToolPresentation=function(dt,{tool,panel,time,left,batAge=10,rocketAge=10}){
+SmearCompute.prototype.sawGeometry=function(){
+ const T=this.THREE,g=new T.CylinderGeometry(1,1,.09,64,1),p=g.attributes.position;
+ for(let i=0;i<p.count;i++){const x=p.getX(i),z=p.getZ(i);if(Math.hypot(x,z)<.5)continue;const tooth=Math.round((Math.atan2(z,x)+Math.PI)*32/Math.PI),r=tooth%2===0?1:.82;p.setXYZ(i,x*r,p.getY(i),z*r);}g.computeVertexNormals();return g;
+};
+SmearCompute.prototype.updateToolPresentation=function(dt,{tool,panel,time,left,batAge=10,rocketAge=10,arsenalAge=10}){
+ for(const [id,g]of [[12,this.shotgunTool],[13,this.sawTool]]){g.visible=tool===id&&!panel;if(g.visible){const kick=Math.exp(-arsenalAge*15)*Math.sin(Math.min(1,arsenalAge*35)*Math.PI/2);g.position.set(.245,-.21,-.48+kick*.095);g.rotation.set(-.035+kick*.095,-.015,-.035);}}
+ this.shotgunFlash.visible=arsenalAge<.065;
+ this.shotgunPump.position.z=arsenalAge>.24&&arsenalAge<.58?Math.sin((arsenalAge-.24)/.34*Math.PI)*.08:0;
+ this.loadedSaw.rotation.set(0,0,Math.PI/2);this.loadedSaw.rotateY(time*25);this.loadedSaw.visible=arsenalAge>.17;
  for(let i=0;i<this.utilityTools.length;i++){const g=this.utilityTools[i];g.visible=tool===i+6&&!panel;if(g.visible){const active=left?Math.sin(time*35)*.003:0;g.position.set(i===0?.18:.27,-.20+active,-.51);g.rotation.set(i===0?-.18:-.06,-.09,-.09);}}
  this.rocketTool.visible=tool===5&&!panel;if(this.rocketTool.visible){const kick=Math.exp(-rocketAge*19)*Math.sin(Math.min(1,rocketAge*32)*Math.PI/2);this.rocketTool.position.set(.26,-.235,-.46+kick*.065);this.rocketTool.rotation.set(-.025+kick*.055,.035,-.025-kick*.02);}
  this.grenadeTool.visible=tool===4&&!panel;if(this.grenadeTool.visible){this.grenadeTool.position.set(.23,-.13,-.48);this.grenadeTool.rotation.set(-.08,-.24,.12);}

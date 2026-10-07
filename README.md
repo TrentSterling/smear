@@ -2,7 +2,11 @@
 
 Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V39 / 0.39.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+**V40 / 0.40.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+
+V40 adds **Z: shotgun** (twelve pellets, 700 ms cadence) and **J: sawblade launcher** (480 ms cadence). Blades cut through limbs, bounce off the room and props for six seconds, shed physical sparks and scrape wet blood. Both weapons have dedicated two-handed models, recoil and procedural sounds. B also exposes them in the toybox.
+
+The room starts with Classic, ivory/orange Runner and teal Heavy buddies. Added buddies cycle those builds. Width, mass and break resistance vary while the articulated skeleton and paint resolution stay the same. Exposed sockets now have torn shell rims and recessed interiors; the old cylindrical caps are removed. See [V40 evidence](docs/qa/arsenal-v40.json).
 
 V39 fixes ceiling contacts so fast crates and held buddies stay inside the room. **Tab** frees or recaptures the mouse; **B** toggles the toybox, and closing it leaves the cursor available. Hold **C** to aim freely and click HUD buttons. Add/Restore placement returns to the cursor instead of reopening pause. **T** toggles quarter-speed slow motion with a visible status badge.
 
@@ -31,7 +35,7 @@ The toybox contains the entire cleanup/contraption set:
 | B / Paint bucket | Place, grab, tilt or throw a finite payload; its fill level follows its contents | Refill from a loaded mop |
 | B / Fan + conveyor | Place, grab, turn and stack powered machines | X: toggle power |
 
-Number keys 1-6 retain the existing weapons. Brackets cycle all twelve tools. The pool is bounded at four crates, four barrels, two buckets, one fan and one conveyor. New tools have procedural first-person models, motor/flow audio and pressure-jet feedback. Tool tanks, wind, contacts, sticky attachments and liquid transfers stay on the GPU; the HUD reads four small reservoir counters. There are 149 world charts with unchanged 160/40 pigment/film samples per metre. Original V36 chart IDs remain stable.
+Number keys 1-6 retain the existing weapons. Brackets cycle all fourteen tools. The pool is bounded at four crates, four barrels, two buckets, one fan and one conveyor. New tools have procedural first-person models, motor/flow audio and pressure-jet feedback. Tool tanks, wind, contacts, sticky attachments and liquid transfers stay on the GPU; the HUD reads four small reservoir counters. There are 149 world charts with unchanged 160/40 pigment/film samples per metre. Original V36 chart IDs remain stable.
 
 V37 verification: `npm run verify:utility`, `npm run profile:utility`, and `npm run record:utility`; affected gameplay regressions remain required. See [V37 evidence](docs/qa/utility-v37.json). Background verification uses headless hardware Chrome. Firefox was not exercised because the user's desktop-input restriction remains active.
 
@@ -101,7 +105,7 @@ The local V10 art pass adds an amber and teal test lab, world-planted alternatin
 
 Open index.html in desktop Chrome or Firefox on Windows with hardware acceleration and WebGPU enabled. It works offline with no runtime downloads, installation or build. A hardware adapter is required. The CPU version remains available as [archived V8.9](versions/smear_v8.9_cpu.html).
 
-- Click Enter the room to capture the mouse. Left mouse: use the selected tool. 1-6: weapons; 7-0: cleanup; - / =: magnet / sticky charges.
+- Click Enter the room to capture the mouse. Left mouse: use the selected tool. 1-6: weapons; Z: shotgun; J: sawblade; 7-0: cleanup; - / =: magnet / sticky charges.
 - Mouse: look. Hold C: free aim/drag and HUD buttons without rotating the camera. Right mouse: pistol aim, wring, reverse vacuum, launch magnets or detonate sticky charges.
 - WASD: move. Shift: sprint. Space: jump. Ctrl: crouch.
 - Wheel: push/pull the held body. Q / E: twist.

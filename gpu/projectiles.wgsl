@@ -22,16 +22,17 @@ fn fireRocket(){
 }
 @compute @workgroup_size(1) fn projectileImpacts(){
  for(var i=0u;i<128u;i++){
-  let s=ordnanceState(i);let event=atomicExchange(&work[s+12u],0u);if(event==0u){continue;}let index=event-1u;if(index>=u32(frame.settings.x)){continue;}
+  let s=ordnanceState(i);let event=atomicExchange(&work[s+12u],0u);if(event==0u){continue;}if(event>=256u&&atomicLoad(&work[s+19u])==7u){let rec=i32(event-256u);let point=ordVector(s);let n=ordVector(s+16u);if(record(u32(rec)).center.w>0){chipProp(rec,point,n,.8);}else{for(var k=0u;k<3u;k++){let seed=atomicLoad(&work[5])*1973u+i*719u+k*73u;spawnOrdnance(2u,point+n*.02,n*(1+hash(seed)*3)+vec3f(hash(seed+1u)-.5,hash(seed+2u),hash(seed+3u)-.5)*3,.011,seed);}}continue;}
+  let index=event-1u;if(index>=u32(frame.settings.x)){continue;}
   let kind=atomicLoad(&work[s+19u]);let incoming=ordVector(s+13u);let n=ordVector(s+16u);var b=bodies[index];let point=ordVector(s);let relative=incoming-b.v.xyz;
   let closing=max(0,-dot(relative,n));let mass=select(select(.055,.18,kind==5u),select(.40,.9,kind==4u),kind==1u||kind==4u);
-  let impulse=safeNorm(relative)*min(32.0,length(relative)*mass);let damage=clamp(closing*mass*.022,.025,1.2)*frame.rayD.w;
+  let impulse=safeNorm(relative)*min(32.0,length(relative)*mass);let damage=select(clamp(closing*mass*.022,.025,1.2),1.15,kind==7u)*frame.rayD.w;
   b.v=vec4f(bounded(b.v.xyz+impulse*b.p.w,21),0);b.w=vec4f(bounded(b.w.xyz+invWorld(b,cross(point-b.p.xyz,impulse)),26),0);
   b.status.x=1;b.status.z=0;b.motor.w=0;b.blood.x=min(2,b.blood.x+damage);b.blood.w=max(0,b.blood.w-damage*34);damagePart(index,damage);
   let spent=min(b.coat.w,damage*.24*frame.action.z);let portion=spent*.1/10;var emitted=0.0;
   if(portion>1e-7){for(var drop=0u;drop<10u;drop++){let seed=i*977u+drop*73u+atomicLoad(&work[5]);let spray=safeNorm(n+vec3f(hash(seed)-.5,hash(seed+1u)-.5,hash(seed+2u)-.5));if(launchDrop(point+n*.02,b.v.xyz+spray*(2+hash(seed+3u)*5),.006+hash(seed+4u)*.005,index,portion)){emitted+=portion;}}}
   b.coat.w=max(0,b.coat.w-emitted/.1);bodies[index]=b;
   for(var k=index/15u*15u;k<(index/15u+1u)*15u;k++){bodies[k].motor.w=0;bodies[k].status.x=1;bodies[k].status.z=0;}
-  atomicAdd(&work[16],1u);atomicAdd(&work[destructionMeta()+16u],1u);atomicAdd(&work[39],1u);atomicMax(&work[38],(u32(clamp(closing*.055,.15,1)*4095)<<8u)|index);
+  atomicAdd(&work[16],1u);atomicAdd(&work[destructionMeta()+16u],1u);atomicAdd(&work[39],1u);atomicMax(&work[38],select(0u,0x20000000u,kind==7u)|(u32(clamp(closing*.055,.15,1)*4095)<<8u)|index);
  }
 }

@@ -15,8 +15,9 @@ const propMode=process.argv.includes('props');
 const toyMode=process.argv.includes('toybox');
 const buddyMode=process.argv.includes('buddy');
 const utilityMode=process.argv.includes('utility');
+const arsenalMode=process.argv.includes('arsenal');
 const rocketMode=process.argv.includes('rockets');
-const width=3000,height=1800,out=resolve('tools/out/compute-native-'+(rocketMode?'rockets-':utilityMode?'utility-':toyMode?'toybox-':buddyMode?'buddy-':propMode?'props-':blastMode?'destruction-':floorMode?'squeegee-':wallMode?'wall-':'')+browser);await mkdir(out,{recursive:true});
+const width=3000,height=1800,out=resolve('tools/out/compute-native-'+(arsenalMode?'arsenal-':rocketMode?'rockets-':utilityMode?'utility-':toyMode?'toybox-':buddyMode?'buddy-':propMode?'props-':blastMode?'destruction-':floorMode?'squeegee-':wallMode?'wall-':'')+browser);await mkdir(out,{recursive:true});
 const page=await launchComputeBrowser({port:9598,width,height});
 const receipt={startedAt:new Date().toISOString(),viewport:[width,height],audioOutputMuted:true,browserProfile:page.dir,checks:[],profiles:[]};
 const watchdog=setTimeout(()=>{page.kill();process.exit(1);},180000);
@@ -46,7 +47,10 @@ try{
   // Stop the timing window before explicit diagnostic downloads and teardown.
   const ticksPerSecond=(state.steps-began.tick)/((ended.time-began.time)/1000);assert.equal(state.steps,ended.tick);assert(ticksPerSecond>110&&ticksPerSecond<125,label+' actual GPU tick rate '+ticksPerSecond);receipt.profiles.push({label,report,state,audit,ticksPerSecond,window:{began,ended}});console.log(JSON.stringify({label,fps:report.summary.fps,main:report.summary.workPercentileMs,gpu:report.compute.summary,particles:state.particles,hits:state.hits,ticksPerSecond,audit}));await page.shot(resolve(out,label+'.png'));return state;
  }
- if(rocketMode){
+ if(arsenalMode){
+  for(const [tool,label]of [[12,'shotgun'],[13,'sawblades']])await profile(label,async()=>{await page.eval(`(async()=>{__smear.chaos();__smear.preset('default');await __smear.step(90);__smear.view([4,2.2,3.6],[-2.4,1,-2.95]);__smear.pointer(1500,900);__smear.tool(${tool});window.__arsenalTarget=0;window.__arsenalAim=setInterval(()=>__smear.view([4,2.2,3.6],[[-2.4,1,-2.95],[2.55,1,-2.95],[0,.25,.6]][__arsenalTarget++%3]),950);})()`);await page.mouse('mousePressed',1500,900);},async()=>{await page.mouse('mouseReleased',1500,900);await page.eval('clearInterval(__arsenalAim)');});
+  receipt.checks.push('Native held shotgun and sawblade fire in ten-buddy scenes retain the frame budget with no body or pigment downloads');
+ }else if(rocketMode){
   await profile('rapid-rockets',async()=>{await page.eval("(async()=>{__smear.chaos();__smear.preset('default');await __smear.step(90);__smear.view([4,2.2,3.6],[-2.4,1,-2.95]);__smear.pointer(1500,900);__smear.tool(5);window.__rocketTarget=0;window.__rocketAim=setInterval(()=>__smear.view([4,2.2,3.6],[[-2.4,1,-2.95],[2.55,1,-2.95],[0,.5,.6]][__rocketTarget++%3]),1100);})()");await page.mouse('mousePressed',1500,900);},async()=>{await page.mouse('mouseReleased',1500,900);await page.eval('clearInterval(__rocketAim)');});
   receipt.checks.push('Native held rapid rockets in a ten-buddy scene retain the frame budget without body or pigment downloads');
  }else if(utilityMode){

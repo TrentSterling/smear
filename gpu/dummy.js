@@ -1,6 +1,14 @@
 // SDF-authored crash-test dummy. CRITTERS' smooth union, gradient normals and
 // offset-shell rendering adapted to an indexed surface and the 15-body GPU rig.
 // No downloaded meshes or textures. Geometry is built once and shared by 12 dolls.
+SmearCompute.prototype.prepareDummyVariants=function(){
+ this.dummyVariants=['Classic','Runner','Heavy'];
+ for(let i=0;i<this.sourceBodies.length;i++){
+  const b=this.sourceBodies[i],variant=Math.floor(i/15)%3,part=i%15,scale=variant===1?(part===2?.92:.82):variant===2?(part===2?1.08:1.18):1,mass=variant===1?.72:variant===2?1.45:1;
+  b.half.x*=scale;b.half.z*=scale;b.im/=mass;b.invI.multiplyScalar(1/(mass*scale*scale));
+  for(const s of b.samples){s.p.x*=scale;s.p.z*=scale;s.r*=scale;}b.bound=Math.max(...b.samples.map(s=>s.p.length()+s.r));
+ }
+};
 SmearCompute.prototype.buildDummy=function(){
  const T=this.THREE,parts=this.sourceBodies.slice(15,30),V=T.Vector3;
  const specifications=[];const smooth=(a,b,k)=>{const h=Math.max(0,Math.min(1,.5+.5*(b-a)/k));return b+(a-b)*h-k*h*(1-h);};
@@ -105,10 +113,22 @@ SmearCompute.prototype.buildDummy=function(){
  const shell=geometry.clone();shell.setAttribute('position',new T.Float32BufferAttribute(outlines,3));shell.setAttribute('normal',new T.Float32BufferAttribute(outlineNormals,3));
  // Remove the former primitive mannequin only from rendering; physics and picking keep the same rig.
  for(const b of this.sourceBodies)b.mesh.visible=false;for(const j of this.joints)j.cover.visible=false;for(const d of this.sourceDolls)d.spine.visible=false;
- const capGeo=new T.CylinderGeometry(1,1,.20,16,1),capMat=new T.MeshStandardMaterial({color:0x411019,roughness:.35,metalness:.15});
+ // Torn shell rim, sloped tissue and a recessed core. No protruding tube caps.
+ const caps=Array.from({length:7},(_,seed)=>{
+  const positions=[],uv=[],triangles=[],segments=24,rings=[1,.83,.52,.14];
+  for(let ring=0;ring<rings.length;ring++)for(let i=0;i<segments;i++){
+   const a=i/segments*Math.PI*2,tear=Math.sin(i*2.31+seed*3.7)*.065+Math.sin(i*5.19+seed)*.045,r=rings[ring]*(1+tear),depth=ring===0?-.025+tear*.22:ring===1?-.10+tear*.30:ring===2?-.25+tear*.18:-.33;
+   positions.push(Math.cos(a)*r+(1-rings[ring])*.07,depth,Math.sin(a)*r);uv.push(i/segments,rings[ring]);
+  }
+  for(let ring=0;ring<3;ring++)for(let i=0;i<segments;i++){const a=ring*segments+i,b=ring*segments+(i+1)%segments,c=a+segments,d=b+segments;triangles.push(a,c,b,b,c,d);}
+  const center=positions.length/3;positions.push(.07,-.35,0);uv.push(.5,0);for(let i=0;i<segments;i++)triangles.push(3*segments+i,center,3*segments+(i+1)%segments);
+  const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(positions,3));g.setAttribute('uv',new T.Float32BufferAttribute(uv,2));g.setIndex(triangles);g.computeVertexNormals();return g;
+ }),capMat=new T.MeshStandardMaterial({color:0x411019,roughness:.35,metalness:.02});
  for(const joint of this.joints){for(const [body,anchor]of [[joint.a,joint.pa],[joint.b,joint.pb]]){
-  const cap=new T.Mesh(capGeo,capMat),radius=Math.min(body.half.x,body.half.z)*.83;
-  cap.position.copy(anchor);cap.scale.set(radius,radius,radius);cap.quaternion.setFromUnitVectors(new V(0,1,0),anchor.clone().normalize());cap.userData.severCap={body:body.id-1,child:joint.b.id-1};cap.castShadow=true;this.scene.add(cap);
+  const child=(joint.b.id-1)%15,variant=Math.floor((body.id-1)/15)%3,scale=variant===1?(child===2?.92:.82):variant===2?(child===2?1.08:1.18):1;
+  const radius=[.13,.13,.056,.062,.047,.032,.078,.060,.041,.062,.047,.032,.078,.060,.041][child]*scale;
+  const cap=new T.Mesh(caps[(body.id+joint.b.id)%caps.length],capMat),normal=anchor.clone().normalize();
+  cap.position.copy(anchor).addScaledVector(normal,-.006);cap.scale.set(radius,radius,radius);cap.quaternion.setFromUnitVectors(new V(0,1,0),normal);cap.userData.severCap={body:body.id-1,child:joint.b.id-1};cap.castShadow=true;this.scene.add(cap);
  }}
  for(let doll=0;doll<12;doll++)for(const [geo,role]of [[geometry,5],[shell,6]]){const mesh=new T.Mesh(geo,new T.MeshStandardMaterial({color:0xffffff,roughness:.54}));mesh.userData.dummyRole=role;mesh.userData.dummyBase=doll*15;mesh.castShadow=role===5;mesh.frustumCulled=false;this.scene.add(mesh);}
  const ghost=new T.Mesh(geometry,new T.MeshBasicMaterial({color:0x8cdbb9}));ghost.userData.gpuGrabRole=10;ghost.castShadow=false;this.scene.add(ghost);

@@ -280,6 +280,8 @@ fn rayHit(o:vec3f,d:vec3f,limit:f32,includeBodies:bool,ignoreBody:i32)->RayHit {
  if(frame.action.y==16){utilitySecondary();return;}
  if(frame.action.y==17){toggleUtilityProp();return;}
  if(frame.action.y==18){runContraption();return;}
+ if(frame.action.y==19){fireShotgun();return;}
+ if(frame.action.y==20){fireSaw();return;}
  if(frame.action.y==7){queueBlast(frame.rayO.xyz,constants[header(3).z+1u].z);return;}
  if(frame.action.y<.5){return;}let hit=rayHit(frame.rayO.xyz,safeNorm(frame.rayD.xyz),35,true,-1);atomicStore(&work[6],bitcast<u32>(hit.body));atomicStore(&work[7],bitcast<u32>(hit.t));atomicStore(&work[10],bitcast<u32>(hit.p.x));atomicStore(&work[11],bitcast<u32>(hit.p.y));atomicStore(&work[12],bitcast<u32>(hit.p.z));
  if(frame.action.y==1&&hit.body<0&&hit.surface>=0){let tag=record(u32(hit.surface)).center.w;if(tag>0){let id=u32(tag)-1u;let b=propBody(id);atomicStore(&work[6],180u+id);let local=rotate(inverseQ(b.q),hit.p-b.p.xyz);for(var k=0u;k<3u;k++){atomicStore(&work[13u+k],bitcast<u32>(local[k]));}return;}}

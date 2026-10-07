@@ -10,6 +10,7 @@ struct Object { model:mat4x4f, normal:mat4x4f, color:vec4f, params:vec4f, flags:
 @group(0) @binding(8) var linearSampler:sampler;
 @group(0) @binding(11) var<storage,read> wet:array<u32>;
 fn header(i:u32)->vec4u {return bitcast<vec4u>(constants[i]);}
+fn socketRadius(id:u32,child:u32)->f32{let radii=array<f32,15>(.13,.13,.056,.062,.047,.032,.078,.060,.041,.062,.047,.032,.078,.060,.041);return radii[child]*dummyScale(id/15u*15u+child).x;}
 fn record(i:u32)->Record {let b=header(1).z+i*7u;return Record(constants[b],constants[b+1u],constants[b+2u],constants[b+3u],constants[b+4u],bitcast<vec4u>(constants[b+5u]),constants[b+6u]);}
 struct Input {@location(0) p:vec3f,@location(1) n:vec3f,@location(2) uv:vec2f,@location(3) rig:vec4f,@location(4) weights:vec4f};
 struct Output {
@@ -28,13 +29,13 @@ fn transformed(v:Input,index:u32)->Output {
  else if(object.flags.w==10){
   if(work[1006]==0u||work[1006]>2u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}
   let angle=bitcast<f32>(work[1012]);let q=vec4f(0,sin(angle*.5),0,cos(angle*.5));
-  p=rotate(q,v.p)+vec3f(bitcast<f32>(work[1009]),bitcast<f32>(work[1010]),bitcast<f32>(work[1011]));n=rotate(q,v.n);
+  var restPoint=vec3f(0);var restNormal=vec3f(0);for(var k=0u;k<4u;k++){if(v.weights[k]<=0){continue;}let id=work[1007]+u32(v.rig[k]);let bind=header(3).w+id*2u;let rest=constants[bind];let bq=constants[bind+1u];restPoint+=(rest.xyz+rotate(bq,rotate(inverseQ(bq),v.p-rest.xyz)*dummyScale(id)))*v.weights[k];restNormal+=rotate(bq,safeNorm(rotate(inverseQ(bq),v.n)/dummyScale(id)))*v.weights[k];}p=rotate(q,restPoint)+vec3f(bitcast<f32>(work[1009]),bitcast<f32>(work[1010]),bitcast<f32>(work[1011]));n=rotate(q,restNormal);
  }
  else if(object.flags.w==5||object.flags.w==6){
   let base=u32(object.params.x);if(base>=u32(frame.settings.x)){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}
   if(v.rig.z>0&&work[fractureState(base+u32(v.rig.z)-1u)]!=0u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}
   p=vec3f(0);n=vec3f(0);
-  for(var k=0u;k<4u;k++){if(v.weights[k]<=0){continue;}let id=base+u32(v.rig[k]);let bind=header(3).w+id*2u;let rest=constants[bind];let q=constants[bind+1u];let inverse=vec4f(-q.xyz,q.w);let lp=rotate(inverse,v.p-rest.xyz);let ln=rotate(inverse,v.n);let body=bodies[id];p+=(rotate(body.q,lp)+body.p.xyz)*v.weights[k];n+=rotate(body.q,ln)*v.weights[k];}
+  for(var k=0u;k<4u;k++){if(v.weights[k]<=0){continue;}let id=base+u32(v.rig[k]);let bind=header(3).w+id*2u;let rest=constants[bind];let q=constants[bind+1u];let inverse=vec4f(-q.xyz,q.w);let lp=rotate(inverse,v.p-rest.xyz)*dummyScale(id);let ln=safeNorm(rotate(inverse,v.n)/dummyScale(id));let body=bodies[id];p+=(rotate(body.q,lp)+body.p.xyz)*v.weights[k];n+=rotate(body.q,ln)*v.weights[k];}
   let bind=header(3).w+(base+u32(v.rig.x))*2u;let q=constants[bind+1u];local=rotate(vec4f(-q.xyz,q.w),v.p-constants[bind].xyz);localNormal=rotate(vec4f(-q.xyz,q.w),v.n);
  }
  else if(object.flags.w==3||object.flags.w==4){if(frame.local.w<.5){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}var point=vec3f(0);if(frame.goal.w>=180){let s=propData(u32(frame.goal.w)-180u);point=constants[s].xyz+rotate(constants[s+1u],frame.local.xyz);}else{let b=bodies[u32(frame.goal.w)];point=b.p.xyz+rotate(b.q,frame.local.xyz);}if(object.flags.w==3){p+=point;}else{let start=frame.camera.xyz+vec3f(.1,-.12,-.06);let delta=point-start;let direction=safeNorm(delta);let orientation=normalize(vec4f(cross(vec3f(0,1,0),direction),1+direction.y));p.y*=length(delta);p=rotate(orientation,p)+(point+start)*.5;n=rotate(orientation,n);}}
@@ -87,9 +88,18 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
  let localAA=max(max(length(dpdx(v.local)),length(dpdy(v.local)))*.45,.00006);
  let object=objects[v.index];var color=object.color.rgb;var alpha=object.color.a;var rough=object.params.w;var metal=object.flags.x;let basic=object.flags.z<0;
  if(object.flags.w==10||object.flags.w==11){let c=select(vec3f(.94,.28,.19),vec3f(.39,.91,.68),work[1008]==1u);let band=select(.65,1.0,fract(v.world.y*16)>.2);return vec4f(c*band,.63);}
+ // Open the original closed skin only inside exposed sockets. The recessed
+ // tear mesh can then be seen instead of intersecting a beige end face.
+ if(object.flags.w==5||object.flags.w==6){
+  let id=u32(object.params.x)+u32(v.uv.y+.5);var mask=work[fractureState(id)+5u];let joints=array<u32,15>(0u,0u,1u,2u,3u,4u,5u,6u,7u,8u,9u,10u,11u,12u,13u);
+  for(var socket=0u;socket<4u&&mask!=0u;socket++){
+   let child=firstTrailingBit(mask);mask&=~(1u<<child);let j=header(1).y+(id/15u*14u+joints[child])*4u;let anchor=constants[j+select(1u,2u,child==id%15u)].xyz;let axis=safeNorm(anchor);let delta=v.local*dummyScale(id)-anchor;let radius=socketRadius(id,child);
+   if(dot(delta,axis)>-.42*radius-.006&&length(delta-axis*dot(delta,axis))<radius*1.08){discard;}
+  }
+ }
  if(object.flags.w==6){if(front||dot(v.normal,frame.camera.xyz-v.world)>0){discard;}return vec4f(.065,.095,.09,1);}
  if(object.flags.w==5){
-  color=vec3f(.60,.43,.24);rough=.49;
+  let variant=u32(object.params.x)/15u%3u;color=select(select(vec3f(.60,.43,.24),vec3f(.78,.76,.66),variant==1u),vec3f(.065,.26,.27),variant==2u);rough=select(.49,.31,variant==2u);
   if(v.uv.x>.1&&v.uv.x<.5){color=vec3f(.49,.35,.21);rough=.76;}
   if(v.uv.x>.5){color=vec3f(.022,.031,.032);rough=.73;}
   if(v.uv.x>1.5){color=vec3f(.36,.38,.34);rough=.38;metal=.7;
@@ -97,7 +107,10 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
    let recess=max(smoothstep(r*.48-localAA,r*.48+localAA,length(bolt)),1-smoothstep(r*.20-localAA,r*.20+localAA,hex));color=mix(color,vec3f(.025,.034,.033),recess);metal=mix(metal,.35,recess);
    let slotMask=(1-smoothstep(.001,.001+localAA,abs(bolt.y)))*(1-smoothstep(r*.33-localAA,r*.33+localAA,abs(bolt.x)));color*=1-slotMask*.6;
   }
-  let bone=u32(v.uv.y+.5);var marker=vec2f(1);var radius=0.0;
+  let bone=u32(v.uv.y+.5);
+  if(variant==1u&&v.uv.x<.5&&(bone==0u||bone==3u||bone==9u)){let stripe=1-smoothstep(.028,.032,abs(v.local.y-.05));color=mix(color,vec3f(.85,.16,.035),stripe);}
+  if(variant==2u&&v.uv.x<.5&&(bone==0u||bone==3u||bone==9u)){let panel=select(1-smoothstep(.07,.11,abs(v.local.y-.08)),smoothstep(.01,.08,v.local.y),bone!=0u);color=mix(color,vec3f(.40,.31,.10),panel);metal=mix(metal,.42,panel);rough=mix(rough,.34,panel);}
+  var marker=vec2f(1);var radius=0.0;
   if(v.uv.x<.5){
    // Mold parting line, shell edge bands and recessed instrumentation screws.
    let seam=1-smoothstep(.0007,.0017+localAA,abs(v.local.z+.023));color=mix(color,vec3f(.22,.17,.10),seam*.5);
@@ -116,7 +129,7 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
   if(bone==0u&&v.localNormal.z>.65){marker=v.local.xy-vec2f(.085,.075);radius=.044;}
   if(radius>0){let distance=length(marker);let quadrants=smoothstep(vec2f(-localAA),vec2f(localAA),marker);let yellow=quadrants.x*quadrants.y+(1-quadrants.x)*(1-quadrants.y);var markerColor=mix(vec3f(.015,.023,.023),vec3f(.92,.67,.15),yellow);markerColor=mix(markerColor,vec3f(.014,.020,.021),smoothstep(radius-.004-localAA,radius-.004+localAA,distance));color=mix(color,markerColor,1-smoothstep(radius-localAA,radius+localAA,distance));}
  }
- if(object.flags.w==8){let radius=max(.001,length(v.local));let grain=hash(u32(abs(v.local.x)*2000)+u32(abs(v.local.z)*3000));color=mix(vec3f(.012,.020,.019),vec3f(.14,.004,.010),grain);rough=.3;metal=.18;}
+ if(object.flags.w==8){let radial=v.uv.y;let fibers=sin(v.uv.x*251+sin(radial*35)*2)*.5+.5;let variant=u32(object.params.x)/15u%3u;let shell=select(select(vec3f(.60,.43,.24),vec3f(.78,.76,.66),variant==1u),vec3f(.065,.26,.27),variant==2u);color=mix(vec3f(.023,.004,.008),vec3f(.21,.012,.022),smoothstep(.12,.82,radial));color*=.77+fibers*.23;color=mix(color,shell,smoothstep(.87,.96,radial));rough=mix(.26,.67,smoothstep(.82,.99,radial));metal=0;}
  if(object.flags.w==5){let id=u32(object.params.x)+u32(v.uv.y+.5);let charred=clamp(f32(work[fractureState(id)+7u])/65536,0,.88);color=mix(color,vec3f(.019,.025,.022),charred);rough=mix(rough,.92,charred);}
  if(object.params.z>=0){let tex=textureSampleLevel(maps,linearSampler,vec2f(v.uv.x,1-v.uv.y),i32(object.params.z),0);color*=pow(tex.rgb,vec3f(2.2));alpha*=tex.a;}
  if(alpha<.02){discard;}
@@ -126,7 +139,7 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
   if(constants[k].w==2&&color.r>color.g*1.8&&abs(local.y)>.30&&abs(local.y)<.42){color=mix(vec3f(.035,.047,.038),vec3f(.75,.49,.10),step(.5,fract(atan2(local.z,local.x)*3+local.y*9)));}
  }
  var stain=vec4f(0);var fresh=0.0;var liquid=vec4f(0);var liquidNormal=normalize(v.normal);
- if(object.params.x>=0&&(object.flags.w==0||object.flags.w==5)){let id=u32(object.params.x)+select(0u,u32(v.uv.y+.5),object.flags.w==5);let b=bodies[id];stain=paintAt(header(0).z+id,skinUV(v.local,v.localNormal,b.half.xyz));fresh=min(b.coat.x,1);}
+ if(object.params.x>=0&&(object.flags.w==0||object.flags.w==5)){let id=u32(object.params.x)+select(0u,u32(v.uv.y+.5),object.flags.w==5);let b=bodies[id];stain=paintAt(header(0).z+id,skinUV(v.local*select(vec3f(1),dummyScale(id),object.flags.w==5),v.localNormal,b.half.xyz));fresh=min(b.coat.x,1);}
  else if(object.params.x<0&&receiverID>=0){
   let r=record(u32(receiverID));let d=v.world-r.center.xyz;let metres=vec2f(dot(d,r.u.xyz),dot(d,r.v.xyz));let surfaceUV=metres/r.size.xy+.5;
   stain=paintAt(u32(receiverID),surfaceUV);liquid=filmAt(u32(receiverID),surfaceUV);

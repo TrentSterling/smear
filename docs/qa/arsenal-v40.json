@@ -1,0 +1,972 @@
+{
+  "version": "0.40.0",
+  "at": "2026-10-07T19:32:59.982Z",
+  "buildSHA256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+  "browser": "Headless hardware Chrome, 3000x1800 native profiles, audio enabled/running with output muted",
+  "firefox": "Gameplay not run: headed browsers and desktop focus interference remain prohibited. Pinned Naga 29.0.4 passed both exact embedded modules.",
+  "releaseDifference": {
+    "integrationSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+    "releaseSHA256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+    "computeSHA256": "b7e3158fce5c64e3968e4a9764decb228410f82fa8fddc18588004204fffe7e0",
+    "changes": "Final visual review sizes socket geometry and skin openings from joint-specific radii; HUD draw counter includes the additional blade draw. Exact compute module equality asserted. Rendering, core gameplay, cut/restore, native profiles and new weapons reverified."
+  },
+  "integrationChecks": [
+    {
+      "command": "node tools/wgsl-verify.mjs",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 0.505,
+      "result": [
+        "COMPLETE both embedded WGSL modules passed Naga validation"
+      ]
+    },
+    {
+      "command": "node tools/ricochet-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 14.703,
+      "result": [
+        "COMPLETE 10 new arsenal and dummy checks"
+      ]
+    },
+    {
+      "command": "node tools/compute-profile.mjs rockets",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 14.524,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (1 checks)"
+      ]
+    },
+    {
+      "command": "node tools/compute-profile.mjs arsenal",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 21.828,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (1 checks)"
+      ]
+    },
+    {
+      "command": "node tools/compute-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 18.032,
+      "result": [
+        "COMPLETE compute game checks passed (10 checks)"
+      ]
+    },
+    {
+      "command": "node tools/usability-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 13.722,
+      "result": [
+        "COMPLETE 8 usability and impact checks"
+      ]
+    },
+    {
+      "command": "node tools/ceiling-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 16.638,
+      "result": [
+        "{\"result\":\"COMPLETE ceiling impacts and held-release checks\",\"failures\":[],\"rig\":4.999999934083586,\"final\":0.2600427669191826,\"held\":[-2.719277858734131,4.448500633239746,5.07573127746582],\"released\":[-1.9268358945846558,0.5514999628067017,5.233949661254883],\"heldRig\":4.9999997011805455,\"releasedRig\":0.2600520904079672}"
+      ]
+    },
+    {
+      "command": "node tools/showcase-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 17.001,
+      "result": [
+        "COMPLETE after showcase checks"
+      ]
+    },
+    {
+      "command": "node tools/arsenal-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 43.834,
+      "result": [
+        "COMPLETE 6 arsenal checks passed"
+      ]
+    },
+    {
+      "command": "node tools/destruction-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 19.4,
+      "result": [
+        "COMPLETE 8 checks passed"
+      ]
+    },
+    {
+      "command": "node tools/bleeding-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 11.134,
+      "result": [
+        "COMPLETE 2 checks passed"
+      ]
+    },
+    {
+      "command": "node tools/fragment-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 7.417,
+      "result": [
+        "COMPLETE fragment wetness and conservation checks"
+      ]
+    },
+    {
+      "command": "node tools/buddy-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 11.474,
+      "result": [
+        "COMPLETE 15 buddy checks passed"
+      ]
+    },
+    {
+      "command": "node tools/controller-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 14.255,
+      "result": [
+        "  \"result\": \"COMPLETE FPS controller and spiked bat checks\","
+      ]
+    },
+    {
+      "command": "node tools/momentum-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 21.219,
+      "result": [
+        "  \"result\": \"COMPLETE momentum and weapon lifecycle checks\","
+      ]
+    },
+    {
+      "command": "node tools/handling-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 35.545,
+      "result": [
+        "  \"result\": \"COMPLETE handling, impact audio and floor squeegee checks\","
+      ]
+    },
+    {
+      "command": "node tools/props-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 11.308,
+      "result": [
+        "COMPLETE 11 prop checks passed"
+      ]
+    },
+    {
+      "command": "node tools/prop-motion-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 10.681,
+      "result": [
+        "COMPLETE 12 prop motion checks passed"
+      ]
+    },
+    {
+      "command": "node tools/prop-liquid-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 9.873,
+      "result": [
+        "COMPLETE 5 prop liquid/player checks passed"
+      ]
+    },
+    {
+      "command": "node tools/utility-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 22.104,
+      "result": [
+        "COMPLETE 16 utility checks passed"
+      ]
+    },
+    {
+      "command": "node tools/wet-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 10.169,
+      "result": [
+        "  \"result\": \"COMPLETE wet contact checks\","
+      ]
+    },
+    {
+      "command": "node tools/film-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 20.848,
+      "result": [
+        "  \"result\": \"COMPLETE liquid film checks\","
+      ]
+    },
+    {
+      "command": "node tools/brush-flow-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 13.077,
+      "result": [
+        "  \"result\": \"COMPLETE integrated brush and drainage checks\","
+      ]
+    },
+    {
+      "command": "node tools/wall-contact-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 23.847,
+      "result": []
+    },
+    {
+      "command": "node tools/wet-finish-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 10.655,
+      "result": [
+        "COMPLETE wet finish checks"
+      ]
+    },
+    {
+      "command": "node tools/ltc-verify.mjs final-v40",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 19.966,
+      "result": [
+        "  \"result\": \"COMPLETE LTC integration checks\","
+      ]
+    },
+    {
+      "command": "node tools/compute-profile.mjs",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 58.039,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (8 checks)"
+      ]
+    },
+    {
+      "command": "node tools/compute-profile.mjs destruction",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 14.525,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (1 checks)"
+      ]
+    },
+    {
+      "command": "node tools/compute-profile.mjs buddy",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 14.422,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (1 checks)"
+      ]
+    },
+    {
+      "command": "node tools/ricochet-capture.mjs",
+      "buildSHA256": "30b43e37e1db52b6c03ffa97c52d7537b07de2cae796909a8ce2b98728f11c2c",
+      "status": 0,
+      "seconds": 72.931,
+      "result": [
+        "COMPLETE V39/V40 comparisons and new weapon gameplay captures"
+      ]
+    }
+  ],
+  "finalChecks": [
+    {
+      "command": "node tools/wgsl-verify.mjs",
+      "buildSHA256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+      "status": 0,
+      "seconds": 0.578,
+      "result": [
+        "COMPLETE both embedded WGSL modules passed Naga validation"
+      ]
+    },
+    {
+      "command": "node tools/ricochet-capture.mjs",
+      "buildSHA256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+      "status": 0,
+      "seconds": 74.231,
+      "result": [
+        "COMPLETE V39/V40 comparisons and new weapon gameplay captures"
+      ]
+    },
+    {
+      "command": "node tools/ricochet-verify.mjs release-v40",
+      "buildSHA256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+      "status": 0,
+      "seconds": 14.89,
+      "result": [
+        "COMPLETE 10 new arsenal and dummy checks"
+      ]
+    },
+    {
+      "command": "node tools/compute-verify.mjs",
+      "buildSHA256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+      "status": 0,
+      "seconds": 18.032,
+      "result": [
+        "COMPLETE compute game checks passed (10 checks)"
+      ]
+    },
+    {
+      "command": "node tools/dummy-inspect.mjs release-v40",
+      "buildSHA256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+      "status": 0,
+      "seconds": 10.685,
+      "result": [
+        "  \"result\": \"COMPLETE SDF model views and live rig\","
+      ]
+    },
+    {
+      "command": "node tools/destruction-verify.mjs release-v40",
+      "buildSHA256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+      "status": 0,
+      "seconds": 19.063,
+      "result": [
+        "COMPLETE 8 checks passed"
+      ]
+    },
+    {
+      "command": "node tools/bleeding-verify.mjs release-v40",
+      "buildSHA256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+      "status": 0,
+      "seconds": 11.154,
+      "result": [
+        "COMPLETE 2 checks passed"
+      ]
+    },
+    {
+      "command": "node tools/buddy-verify.mjs release-v40",
+      "buildSHA256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+      "status": 0,
+      "seconds": 11.523,
+      "result": [
+        "COMPLETE 15 buddy checks passed"
+      ]
+    },
+    {
+      "command": "node tools/controller-verify.mjs release-v40",
+      "buildSHA256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+      "status": 0,
+      "seconds": 13.96,
+      "result": [
+        "  \"result\": \"COMPLETE FPS controller and spiked bat checks\","
+      ]
+    },
+    {
+      "command": "node tools/wet-finish-verify.mjs release-v40",
+      "buildSHA256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+      "status": 0,
+      "seconds": 10.524,
+      "result": [
+        "COMPLETE wet finish checks"
+      ]
+    },
+    {
+      "command": "node tools/ltc-verify.mjs release-v40",
+      "buildSHA256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+      "status": 0,
+      "seconds": 20.495,
+      "result": [
+        "  \"result\": \"COMPLETE LTC integration checks\","
+      ]
+    },
+    {
+      "command": "node tools/compute-profile.mjs",
+      "buildSHA256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+      "status": 0,
+      "seconds": 57.917,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (8 checks)"
+      ]
+    },
+    {
+      "command": "node tools/compute-profile.mjs arsenal",
+      "buildSHA256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+      "status": 0,
+      "seconds": 21.869,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (1 checks)"
+      ]
+    },
+    {
+      "command": "node tools/compute-profile.mjs rockets",
+      "buildSHA256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+      "status": 0,
+      "seconds": 14.605,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (1 checks)"
+      ]
+    },
+    {
+      "command": "node tools/compute-profile.mjs destruction",
+      "buildSHA256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+      "status": 0,
+      "seconds": 14.568,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (1 checks)"
+      ]
+    },
+    {
+      "command": "node tools/compute-profile.mjs buddy",
+      "buildSHA256": "772e370284c6fc1a7f3f9d57fb4877ca0ede69c5cd56b3180106061a9a83525b",
+      "status": 0,
+      "seconds": 14.376,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (1 checks)"
+      ]
+    }
+  ],
+  "weaponChecks": [
+    "Twelve-pellet shotgun severs a close hit and conserves finite blood, including a saturated 900-drop pool",
+    "A solid room wall blocks every shotgun pellet and protects the buddy behind it",
+    "A sawblade sweeps into a buddy, cuts a joint and continues flying after contact",
+    "Wall contact reflects a live steel blade without an explosion; it expires after six seconds",
+    "Ricocheting blades move finite floor blood and shed real metal sparks on contact",
+    "Sawblades share the eight projectile slots without consuming fragment slots or overwriting active projectiles",
+    "Close shotgun impact breaks a crate into six persistent boards plus small chips",
+    "Classic, Runner and Heavy have distinct collision widths and masses and remain finite through five seconds of simulation",
+    "All 336 exposed sockets use irregular recessed surfaces without cylindrical cap geometry",
+    "Native Z/J shortcuts select both weapons; held fire respects cadence and pause clears firing"
+  ],
+  "blood": {
+    "pellets": 12,
+    "cuts": 1,
+    "bloodBefore": 13.500000000000004,
+    "bloodAfter": 13.353633072674276,
+    "airborne": 0.14636698458343744
+  },
+  "fullPool": {
+    "pellets": 12,
+    "cuts": 1,
+    "bloodBefore": 13.500000000000004,
+    "bloodAfter": 13.499999859631064,
+    "airborne": 0
+  },
+  "sawCut": {
+    "hits": 11,
+    "cuts": 7
+  },
+  "ricochet": {
+    "kind": 7,
+    "age": 0.3749999701976776,
+    "p": [
+      -3,
+      1.9167594909667969,
+      -1.5586247444152832
+    ],
+    "v": [
+      0,
+      -0.4286833703517914,
+      22.265825271606445
+    ]
+  },
+  "wetBlade": {
+    "contacts": 1,
+    "before": 0.6825069427489842,
+    "after": 0.6825085163116154,
+    "sparks": 3
+  },
+  "variants": [
+    {
+      "half": [
+        0.235,
+        0.23,
+        0.15
+      ],
+      "mass": 15,
+      "bound": 0.255
+    },
+    {
+      "half": [
+        0.19269999999999998,
+        0.23,
+        0.12299999999999998
+      ],
+      "mass": 10.799999999999999,
+      "bound": 0.23249999999999998
+    },
+    {
+      "half": [
+        0.2773,
+        0.23,
+        0.177
+      ],
+      "mass": 21.75,
+      "bound": 0.280698880196024
+    }
+  ],
+  "cutMeshes": {
+    "count": 336,
+    "allRecessed": true
+  },
+  "profiles": [
+    {
+      "label": "idle",
+      "fps": 60.00100001690537,
+      "cpuMs": {
+        "p50": 0.30000001192092896,
+        "p95": 1,
+        "p99": 1.300000011920929,
+        "max": 1.699999988079071
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 2.228224,
+          "p95": 3.2768,
+          "p99": 3.473408,
+          "max": 3.538944
+        },
+        "renderMS": {
+          "p50": 10.027008,
+          "p95": 10.48576,
+          "p99": 10.682368,
+          "max": 10.81344
+        }
+      },
+      "ticksPerSecond": 119.90487435717704,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 361,
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5776,
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "bat",
+      "fps": 60.00033426358109,
+      "cpuMs": {
+        "p50": 0.30000001192092896,
+        "p95": 0.8999999761581421,
+        "p99": 1.300000011920929,
+        "max": 1.300000011920929
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 2.228224,
+          "p95": 4.25984,
+          "p99": 10.420224,
+          "max": 11.010048
+        },
+        "renderMS": {
+          "p50": 5.177344,
+          "p95": 7.929856,
+          "p99": 11.665408,
+          "max": 11.862016
+        }
+      },
+      "ticksPerSecond": 119.77344661002832,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5760,
+          "frame uniforms": 1105920,
+          "GPU scene instances": 617760
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "pistol",
+      "fps": 60,
+      "cpuMs": {
+        "p50": 0.3999999761581421,
+        "p95": 0.9000000357627869,
+        "p99": 1.300000011920929,
+        "max": 1.600000023841858
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 2.359296,
+          "p95": 3.473408,
+          "p99": 3.670016,
+          "max": 3.735552
+        },
+        "renderMS": {
+          "p50": 7.53664,
+          "p95": 7.86432,
+          "p99": 7.995392,
+          "max": 8.192
+        }
+      },
+      "ticksPerSecond": 119.97870003708532,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 361,
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5776,
+          "frame uniforms": 1108992,
+          "GPU scene instances": 785840
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "spill",
+      "fps": 60.00033426358109,
+      "cpuMs": {
+        "p50": 0.30000001192092896,
+        "p95": 0.800000011920929,
+        "p99": 1.399999976158142,
+        "max": 1.600000023841858
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 2.29376,
+          "p95": 3.735552,
+          "p99": 7.733248,
+          "max": 9.17504
+        },
+        "renderMS": {
+          "p50": 8.84736,
+          "p95": 9.306112,
+          "p99": 9.50272,
+          "max": 9.699328
+        }
+      },
+      "ticksPerSecond": 119.79634621167816,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 360,
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5760,
+          "frame uniforms": 1105920,
+          "GPU scene instances": 508992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "drag",
+      "fps": 60.00500041670139,
+      "cpuMs": {
+        "p50": 0.30000001192092896,
+        "p95": 0.800000011920929,
+        "p99": 1.4000000357627869,
+        "max": 1.9000000357627869
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 2.818048,
+          "p95": 3.407872,
+          "p99": 4.128768,
+          "max": 5.177344
+        },
+        "renderMS": {
+          "p50": 10.223616,
+          "p95": 10.616832,
+          "p99": 10.747904,
+          "max": 10.81344
+        }
+      },
+      "ticksPerSecond": 120.30726675982483,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 361,
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5776,
+          "frame uniforms": 1108992,
+          "GPU scene instances": 1408
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "chaos",
+      "fps": 60.00033426358109,
+      "cpuMs": {
+        "p50": 0.30000001192092896,
+        "p95": 0.9000000357627869,
+        "p99": 1.300000011920929,
+        "max": 1.4000000357627869
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 2.686976,
+          "p95": 3.145728,
+          "p99": 4.128768,
+          "max": 4.390912
+        },
+        "renderMS": {
+          "p50": 12.12416,
+          "p95": 13.565952,
+          "p99": 13.959168,
+          "max": 14.09024
+        }
+      },
+      "ticksPerSecond": 119.72956770822408,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 360,
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5760,
+          "frame uniforms": 1105920
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "shotgun",
+      "fps": 60.00100001690537,
+      "cpuMs": {
+        "p50": 0.3999999761581421,
+        "p95": 1.0999999642372131,
+        "p99": 1.300000011920929,
+        "max": 1.699999988079071
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 2.818048,
+          "p95": 4.063232,
+          "p99": 4.25984,
+          "max": 4.390912
+        },
+        "renderMS": {
+          "p50": 11.14112,
+          "p95": 11.79648,
+          "p99": 12.12416,
+          "max": 12.386304
+        }
+      },
+      "ticksPerSecond": 120.03325020781381,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 361,
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 367,
+          "GPU telemetry snapshot": 25
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5872,
+          "frame uniforms": 1127424,
+          "GPU scene instances": 845504
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "sawblades",
+      "fps": 59.99933148341315,
+      "cpuMs": {
+        "p50": 0.30000001192092896,
+        "p95": 0.9000000357627869,
+        "p99": 1.399999976158142,
+        "max": 1.699999988079071
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 2.94912,
+          "p95": 4.58752,
+          "p99": 4.980736,
+          "max": 5.111808
+        },
+        "renderMS": {
+          "p50": 10.682368,
+          "p95": 11.599872,
+          "p99": 11.79648,
+          "max": 11.927552
+        }
+      },
+      "ticksPerSecond": 119.69169815789326,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 360,
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 366,
+          "GPU telemetry snapshot": 25
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5856,
+          "frame uniforms": 1124352,
+          "GPU scene instances": 498608
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "rapid-rockets",
+      "fps": 57.66241580486072,
+      "cpuMs": {
+        "p50": 0.3999999761581421,
+        "p95": 1.100000023841858,
+        "p99": 1.5999999642372131,
+        "max": 1.899999976158142
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 5.767168,
+          "p95": 9.961472,
+          "p99": 12.845056,
+          "max": 13.172736
+        },
+        "renderMS": {
+          "p50": 10.027008,
+          "p95": 12.255232,
+          "p99": 13.041664,
+          "max": 13.238272
+        }
+      },
+      "ticksPerSecond": 119.82135119773743,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 276,
+          "asynchronous collision sound event": 300,
+          "asynchronous GPU timing": 303,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5616,
+          "frame uniforms": 1078272,
+          "GPU scene instances": 494208
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "destruction",
+      "fps": 60.00033426358109,
+      "cpuMs": {
+        "p50": 0.3999999761581421,
+        "p95": 1.100000023841858,
+        "p99": 1.5,
+        "max": 1.699999988079071
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 4.456448,
+          "p95": 9.17504,
+          "p99": 10.747904,
+          "max": 15.663104
+        },
+        "renderMS": {
+          "p50": 9.437184,
+          "p95": 11.337728,
+          "p99": 11.665408,
+          "max": 12.058624
+        }
+      },
+      "ticksPerSecond": 119.76347130840344,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 360,
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5760,
+          "frame uniforms": 1105920,
+          "GPU scene instances": 43120
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "buddy-preview",
+      "fps": 60.000334264178804,
+      "cpuMs": {
+        "p50": 0.3999999761581421,
+        "p95": 1,
+        "p99": 1.5,
+        "max": 1.800000011920929
+      },
+      "gpu": {
+        "computeMS": {
+          "p50": 3.735552,
+          "p95": 4.325376,
+          "p99": 5.111808,
+          "max": 6.356992
+        },
+        "renderMS": {
+          "p50": 9.437184,
+          "p95": 10.354688,
+          "p99": 10.616832,
+          "max": 11.075584
+        }
+      },
+      "ticksPerSecond": 119.79739411486086,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 360,
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5760,
+          "frame uniforms": 1105920
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    }
+  ],
+  "comparisons": [
+    "tools/out/arsenal-v40-pass/recordings/compare-variants.mp4",
+    "tools/out/arsenal-v40-pass/recordings/compare-socket.mp4",
+    "tools/out/arsenal-v40-pass/recordings/after-shotgun.mp4",
+    "tools/out/arsenal-v40-pass/recordings/after-sawblade.mp4"
+  ],
+  "limitations": [
+    "LTC lights remain unshadowed.",
+    "Eight projectile slots are shared by grenades, rockets, sticky charges and sawblades.",
+    "Dummy builds cycle through three fixed profiles; they retain the same joint layout."
+  ]
+}

@@ -3,6 +3,7 @@ struct Frame {
  camera:vec4f, rayO:vec4f, rayD:vec4f, goal:vec4f, local:vec4f,
  settings:vec4f, action:vec4f, tune:vec4f,
 };
+fn dummyScale(id:u32)->vec3f{let variant=id/15u%3u;let head=id%15u==2u;let s=select(select(1.0,select(.82,.92,head),variant==1u),select(1.18,1.08,head),variant==2u);return vec3f(s,1,s);}
 struct Body {
  p:vec4f, q:vec4f, v:vec4f, w:vec4f, prevP:vec4f, prevQ:vec4f,
  half:vec4f, invI:vec4f, coat:vec4f, blood:vec4f,
