@@ -1,6 +1,6 @@
 @group(0) @binding(0) var<uniform> frame:Frame;
 @group(0) @binding(1) var<storage,read_write> bodies:array<Body>;
-@group(0) @binding(2) var<storage,read> constants:array<vec4f>;
+@group(0) @binding(2) var<storage,read_write> constants:array<vec4f>;
 @group(0) @binding(3) var<storage,read_write> particles:array<Particle>;
 @group(0) @binding(4) var<storage,read_write> stamps:array<Stamp>;
 @group(0) @binding(5) var<storage,read_write> pigment:array<u32>;
@@ -56,7 +56,7 @@ struct WorldImpact { point:vec3f, closing:f32, normal:vec3f, radius:f32, velocit
 var<workgroup> worldImpacts:array<WorldImpact,15>;
 fn rememberImpact(lane:u32,b:Body,point:vec3f,n:vec3f,radius:f32,receiver:i32) {
  if(receiver<0){return;}
- let velocity=b.v.xyz+cross(b.w.xyz,point-b.prevP.xyz);
+ let velocity=b.v.xyz+cross(b.w.xyz,point-b.prevP.xyz)-surfaceVelocity(receiver,point);
  let closing=max(0,-dot(velocity,n));
  if(worldImpacts[lane].receiver<0||closing>worldImpacts[lane].closing){worldImpacts[lane]=WorldImpact(point,closing,n,radius,velocity,receiver);}
 }
@@ -238,7 +238,7 @@ fn joint(base:u32,j:u32,angles:bool) {
    for(var si=0u;si<u32(b.half.w);si++){let s=sample(b,si);let p=rotate(b.q,s.xyz)+b.p.xyz;if(p.y<s.w+.015){b.v.y=max(b.v.y,0);let friction=exp(-1.8*dt);b.v.x*=friction;b.v.z*=friction;}}
   }
   b.blood.y+=dt*max(.05,b.blood.x)*frame.action.z;b.blood.z=max(0,b.blood.z-dt);b.coat.y=max(0,b.coat.y-dt);b.coat.x=max(0,b.coat.x-dt*2.3/frame.tune.w);
-  impactProp(worldImpacts[lane]);b=impactBlood(index,b,worldImpacts[lane]);
+  impactProp(worldImpacts[lane]);if(worldImpacts[lane].receiver>=0){let hit=worldImpacts[lane];propSurfaceImpulse(hit.receiver,hit.point,-hit.normal*min(80.0,hit.closing/max(b.p.w,.001))*.65);}b=impactBlood(index,b,worldImpacts[lane]);
   b=paintContact(index,b,dt);
   let flingSpeed=length(b.v.xyz)+length(b.w.xyz)*b.invI.w*.55;
   b.coat.z=min(1.5,b.coat.z+dt*max(0,flingSpeed-1.8)*1.5);
@@ -261,16 +261,18 @@ struct RayHit { t:f32, p:vec3f, n:vec3f, surface:i32, body:i32 };
 fn rayHit(o:vec3f,d:vec3f,limit:f32,includeBodies:bool,ignoreBody:i32)->RayHit {
  var hit=RayHit(limit, o+d*limit,vec3f(0,1,0),-1,-1);
  if(d.y<-.00001){let t=-o.y/d.y;if(t>=0&&t<hit.t){let p=o+d*t;if(abs(p.x)<8&&abs(p.z)<8){hit=RayHit(t,p,vec3f(0,1,0),i32(floorRecord(p)),-1);}}}
- for(var j=0u;j<header(0).x;j++){let k=header(1).x+j*5u;if(!liveBox(k)){continue;}let q=constants[k+1u];let p=rotate(inverseQ(q),o-constants[k].xyz);let v=rotate(inverseQ(q),d);let h=constants[k+2u].xyz;let inv=1.0/select(vec3f(.0000001),v,abs(v)>vec3f(.0000001));let a=(-h-p)*inv;let b=(h-p)*inv;let low=min(a,b);let high=max(a,b);let entry=select(max(max(low.x,low.y),low.z),barrelEntry(p,v,h),constants[k].w==2);let exit=min(min(high.x,high.y),high.z);if(entry<0||entry>exit||entry>=hit.t){continue;}let point=p+v*entry;let axis=abs(point/h);var n:vec3f;var face:i32;if(axis.x>axis.y&&axis.x>axis.z){n=vec3f(select(-1.0,1.0,point.x>0),0,0);face=i32(select(constants[k+3u].y,constants[k+3u].x,point.x>0));}else if(axis.y>axis.z){n=vec3f(0,select(-1.0,1.0,point.y>0),0);face=i32(select(constants[k+3u].w,constants[k+3u].z,point.y>0));}else{n=vec3f(0,0,select(-1.0,1.0,point.z>0));face=i32(select(constants[k+4u].y,constants[k+4u].x,point.z>0));}if(constants[k].w==2&&abs(point.y)<h.y-.001){n=safeNorm(vec3f(point.x,0,point.z));}hit=RayHit(entry,o+d*entry,rotate(q,n),face,-1);}
+ for(var j=0u;j<header(0).x;j++){let k=header(1).x+j*5u;if(!liveBox(k)||(ignoreBody>=180&&i32(constants[k+2u].w)+179==ignoreBody)){continue;}let q=constants[k+1u];let p=rotate(inverseQ(q),o-constants[k].xyz);let v=rotate(inverseQ(q),d);let h=constants[k+2u].xyz;let inv=1.0/select(vec3f(.0000001),v,abs(v)>vec3f(.0000001));let a=(-h-p)*inv;let b=(h-p)*inv;let low=min(a,b);let high=max(a,b);let entry=select(max(max(low.x,low.y),low.z),barrelEntry(p,v,h),constants[k].w==2);let exit=min(min(high.x,high.y),high.z);if(entry<0||entry>exit||entry>=hit.t){continue;}let point=p+v*entry;let axis=abs(point/h);var n:vec3f;var face:i32;if(axis.x>axis.y&&axis.x>axis.z){n=vec3f(select(-1.0,1.0,point.x>0),0,0);face=i32(select(constants[k+3u].y,constants[k+3u].x,point.x>0));}else if(axis.y>axis.z){n=vec3f(0,select(-1.0,1.0,point.y>0),0);face=i32(select(constants[k+3u].w,constants[k+3u].z,point.y>0));}else{n=vec3f(0,0,select(-1.0,1.0,point.z>0));face=i32(select(constants[k+4u].y,constants[k+4u].x,point.z>0));}if(constants[k].w==2&&abs(point.y)<h.y-.001){n=safeNorm(vec3f(point.x,0,point.z));}hit=RayHit(entry,o+d*entry,rotate(q,n),face,-1);}
  if(includeBodies){for(var i=0u;i<u32(frame.settings.x);i++){if(i32(i)==ignoreBody){continue;}let b=bodies[i];for(var j=0u;j<u32(b.half.w);j++){let s=sample(b,j);let center=b.p.xyz+rotate(b.q,s.xyz);let offset=o-center;let projection=dot(offset,d);let disc=projection*projection-dot(offset,offset)+s.w*s.w;if(disc<0){continue;}let t=-projection-sqrt(disc);if(t>0&&t<hit.t){let p=o+d*t;hit=RayHit(t,p,safeNorm(p-center),-1,i32(i));}}}}return hit;
 }
 @compute @workgroup_size(1) fn interaction() {
- if(frame.action.y>=8){return;}
- if(frame.action.y==4){releaseThrow();return;}
+ if(frame.action.y>=8&&frame.action.y<=11){return;}
+ if(frame.action.y==4){if(frame.goal.w>=180){releaseProp();}else{releaseThrow();}return;}
  if(frame.action.y==5){meleeStrike();return;}
  if(frame.action.y==6){throwGrenade();return;}
+ if(frame.action.y==12){fireRocket();return;}
  if(frame.action.y==7){queueBlast(frame.rayO.xyz,constants[header(3).z+1u].z);return;}
  if(frame.action.y<.5){return;}let hit=rayHit(frame.rayO.xyz,safeNorm(frame.rayD.xyz),35,true,-1);atomicStore(&work[6],bitcast<u32>(hit.body));atomicStore(&work[7],bitcast<u32>(hit.t));atomicStore(&work[10],bitcast<u32>(hit.p.x));atomicStore(&work[11],bitcast<u32>(hit.p.y));atomicStore(&work[12],bitcast<u32>(hit.p.z));
+ if(frame.action.y==1&&hit.body<0&&hit.surface>=0){let tag=record(u32(hit.surface)).center.w;if(tag>0){let id=u32(tag)-1u;let b=propBody(id);atomicStore(&work[6],180u+id);let local=rotate(inverseQ(b.q),hit.p-b.p.xyz);for(var k=0u;k<3u;k++){atomicStore(&work[13u+k],bitcast<u32>(local[k]));}return;}}
  if(hit.body>=0){let i=u32(hit.body);var b=bodies[i];let local=rotate(inverseQ(b.q),hit.p-b.p.xyz);for(var k=0u;k<3u;k++){atomicStore(&work[13u+k],bitcast<u32>(local[k]));}
   if(frame.action.y==2){
    for(var k=i/15u*15u;k<(i/15u+1u)*15u;k++){bodies[k].status.x=1;bodies[k].motor.w=0;bodies[k].status.z=0;}
@@ -282,7 +284,7 @@ fn rayHit(o:vec3f,d:vec3f,limit:f32,includeBodies:bool,ignoreBody:i32)->RayHit {
    b.coat.w=max(0,b.coat.w-(retained+emitted)/.10);bodies[i]=b;atomicAdd(&work[16],1u);
   }
   if(frame.action.y==2||frame.action.y==3){if(frame.action.y==3){b.coat.x=min(1.65,b.coat.x+.12);bodies[i]=b;}let c=skinPoint(b,local,rotate(inverseQ(b.q),hit.n));stamp(header(0).z+i,c,c,vec2f(.07,.12),.75,0,f32(i%18u),0);}
- }else if(hit.surface>=0){if(frame.action.y==2){hitProp(hit.surface,.38*frame.rayD.w);splatKind(u32(hit.surface),hit.p,.038,1,atomicLoad(&work[5]),9);for(var k=0u;k<4u;k++){let seed=atomicLoad(&work[5])+k*371u;spawnOrdnance(2u,hit.p+hit.n*.03,hit.n*(1+hash(seed)*3)+vec3f(hash(seed+1u)-.5,hash(seed+2u),hash(seed+3u)-.5)*2,.009+hash(seed+4u)*.008,seed);}}if(frame.action.y==3){let r=record(u32(hit.surface));splat(u32(hit.surface),hit.p,.32,1,atomicLoad(&work[5]));let c=uv(r,hit.p);atomicMax(&wet[wetCell(r,c)],50000u);for(var k=0u;k<10u;k++){let h=k*37u+atomicLoad(&work[5]);emit(hit.p+hit.n*.03,hit.n*(.5+hash(h)*1.2)+vec3f((hash(h+1u)-.5)*2,hash(h+2u)*1.8,(hash(h+3u)-.5)*2),.008+hash(h+4u)*.01,999u);}}}
+ }else if(hit.surface>=0){if(frame.action.y==2){hitProp(hit.surface,.38*frame.rayD.w);propSurfaceImpulse(hit.surface,hit.p,frame.rayD.xyz*7*frame.action.w);splatKind(u32(hit.surface),hit.p,.038,1,atomicLoad(&work[5]),9);for(var k=0u;k<4u;k++){let seed=atomicLoad(&work[5])+k*371u;spawnOrdnance(2u,hit.p+hit.n*.03,hit.n*(1+hash(seed)*3)+vec3f(hash(seed+1u)-.5,hash(seed+2u),hash(seed+3u)-.5)*2,.009+hash(seed+4u)*.008,seed);}}if(frame.action.y==3){let r=record(u32(hit.surface));splat(u32(hit.surface),hit.p,.32,1,atomicLoad(&work[5]));let c=uv(r,hit.p);atomicMax(&wet[wetCell(r,c)],50000u);for(var k=0u;k<10u;k++){let h=k*37u+atomicLoad(&work[5]);emit(hit.p+hit.n*.03,hit.n*(.5+hash(h)*1.2)+vec3f((hash(h+1u)-.5)*2,hash(h+2u)*1.8,(hash(h+3u)-.5)*2),.008+hash(h+4u)*.01,999u);}}}
 }
 @compute @workgroup_size(64) fn droplets(@builtin(global_invocation_id) id:vec3u) {
  let i=id.x;if(i>=900u||atomicLoad(&work[64u+i])==0u){return;}var p=particles[i];let dt=1.0/120.0;p.previous=vec4f(p.p.xyz,p.previous.w);p.v.y-=9.81*dt;p.v=vec4f(p.v.xyz*exp(-.08*dt),p.v.w+dt);p.p=vec4f(p.p.xyz+p.v.xyz*dt,p.p.w);let delta=p.p.xyz-p.previous.xyz;let travel=length(delta);let h=rayHit(p.previous.xyz,safeNorm(delta),travel,true,select(-1,i32(p.previous.w),p.v.w<.22));
@@ -314,7 +316,7 @@ fn rayHit(o:vec3f,d:vec3f,limit:f32,includeBodies:bool,ignoreBody:i32)->RayHit {
  atomicStore(&work[20],activeBodies);atomicStore(&work[21],wounds);atomicStore(&work[22],bitcast<u32>(scraping));
 }
 @compute @workgroup_size(64) fn bin(@builtin(global_invocation_id) id:vec3u) {
- let i=id.x;if(i>=min(8192u,atomicLoad(&work[3]))){return;}let s=stamps[i];let r=record(u32(s.info.x));let extent=max(max(s.a.z*r.size.x,s.a.w*r.size.y),max(s.color.y,s.color.z));let pad=select(s.a.zw*2.3,vec2f(extent*2.3+.025)/r.size.xy,s.info.y==1||s.info.y==3||s.info.y==4||s.info.y==6||s.info.y==8)+vec2f(3)/r.size.zw;let a=vec2u(clamp(floor((min(s.a.xy,s.b.xy)-pad)*r.size.zw/16),vec2f(0),vec2f(r.address.zw)-1));let b=vec2u(clamp(floor((max(s.a.xy,s.b.xy)+pad)*r.size.zw/16),vec2f(0),vec2f(r.address.zw)-1));let h=header(2);
+ let i=id.x;if(i>=min(8192u,atomicLoad(&work[3]))){return;}let s=stamps[i];let r=record(u32(s.info.x));let extent=max(max(s.a.z*r.size.x,s.a.w*r.size.y),max(s.color.y,s.color.z));let pad=select(s.a.zw*2.3,vec2f(extent*2.3+.025)/r.size.xy,s.info.y==1||s.info.y==3||s.info.y==4||s.info.y==6||s.info.y==8||s.info.y==13)+vec2f(3)/r.size.zw;let a=vec2u(clamp(floor((min(s.a.xy,s.b.xy)-pad)*r.size.zw/16),vec2f(0),vec2f(r.address.zw)-1));let b=vec2u(clamp(floor((max(s.a.xy,s.b.xy)+pad)*r.size.zw/16),vec2f(0),vec2f(r.address.zw)-1));let h=header(2);
  for(var y=a.y;y<=b.y;y++){for(var x=a.x;x<=b.x;x++){let tile=r.address.y+x+y*r.address.z;let n=atomicAdd(&work[h.y+tile],1u);if(n==0u){let activeIndex=atomicAdd(&work[0],1u);atomicStore(&work[h.z+activeIndex],tile);}if(n<256u){let address=select(secondaryPaintBase()+tile*128u+n-128u,h.w+tile*128u+n,n<128u);atomicStore(&work[address],i);}else{atomicAdd(&work[18],1u);}}}
 }
 var<workgroup> indices:array<u32,256>;
@@ -330,7 +332,7 @@ fn coverage(s:Stamp,point:vec2f)->vec4f {
  }else if(s.info.y==11){
   let delta=(s.b.xy-s.a.xy)*r.size.xy;let rel=(p-s.a.xy)*r.size.xy;let t=clamp(dot(rel,delta)/max(dot(delta,delta),1e-8),0,1);let distance=length(rel-delta*t);let width=radius.x*r.size.x;
   let grain=hash(u32(point.x)*971u+u32(point.y)*131u+u32(s.info.z));alpha=(1-smoothstep(width*.4,width,distance))*(.4+.6*grain)*s.b.w;color=vec3f(.035,.043,.040);
- }else if(s.info.y==1){
+ }else if(s.info.y==1||s.info.y==13){
   let seed=u32(s.info.z);let size=radius*r.size.xy;let previousSize=s.color.yz;let travel=s.color.w;var rgb=vec3f(0);
   for(var j=0u;j<54u;j++){
    let h=hash(seed*113u+j*977u);let h2=hash(seed*337u+j*199u);let h3=hash(seed*41u+j*57u);let h4=hash(seed*617u+j*521u);let h5=hash(seed*181u+j*881u);

@@ -89,7 +89,7 @@ fn impactBlood(index:u32,input:Body,hit:WorldImpact)->Body {
  if(sameContact){return b;}
  if(hit.receiver<0||hit.closing<3.0||b.status.x<.5||frame.rayD.w<=0||contactFloat(contactMemory(index)+7u)>0){return b;}
  let outgoing=b.v.xyz+cross(b.w.xyz,hit.point-b.p.xyz);
- let lost=min(hit.closing,max(0,dot(outgoing-hit.velocity,hit.normal)));
+ let lost=min(hit.closing,max(0,dot(outgoing-surfaceVelocity(hit.receiver,hit.point)-hit.velocity,hit.normal)));
  // A held limb can rotate rapidly as the positional grab solver presses it
  // against the wall. Require a real fast approach of the held rig; ordinary
  // loaded scraping already has its own accepted abrasion response.
@@ -253,7 +253,7 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
  // Tangential travel under load includes rotation; hovering/resting does no work.
  let held=heldComponent(index);var pressure=0.0;
  if(held){let part=localBodies[u32(frame.goal.w)%15u];let point=part.p.xyz+rotate(part.q,frame.local.xyz);pressure=clamp(-dot(frame.goal.xyz-point,r.n.xyz)/.16,0,1);}
- let contactMotion=b.v.xyz+cross(b.w.xyz,foot.p-b.p.xyz);
+ let contactMotion=b.v.xyz+cross(b.w.xyz,foot.p-b.p.xyz)-surfaceVelocity(foot.receiver,foot.p);
  let slip=length(contactMotion-r.n.xyz*dot(contactMotion,r.n.xyz))+abs(dot(b.w.xyz,r.n.xyz))*sqrt(radius.x*radius.y)*.6;
  let load=clamp(max(0,r.n.y)*.35+pressure+.10,0,1);
  let scrape=max(0,slip-.12)*dt*load*select(.08,1.0,held)*frame.rayD.w*materialTune().y;
@@ -270,7 +270,7 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
  let smudge=materialTune().x*(1+wear*1.25);
  let oldRec=i32(b.track.w)-1;let samePlane=oldRec==i32(rec)||(oldRec>=0&&oldRec<16&&rec<16u);
  let connected=b.track.w>0&&samePlane&&atomicLoad(&work[mem+4u])==foot.face;
- var previous=b.track.xyz;var oldAngle=contactFloat(mem);var oldRadius=vec2f(contactFloat(mem+1u),contactFloat(mem+2u));var travelled=contactFloat(mem+3u);
+ var previous=b.track.xyz;if(connected&&r.center.w>0){let prop=propBody(u32(r.center.w)-1u);previous=prop.p.xyz+rotate(prop.q,previous);}var oldAngle=contactFloat(mem);var oldRadius=vec2f(contactFloat(mem+1u),contactFloat(mem+2u));var travelled=contactFloat(mem+3u);
  let wall=abs(r.n.y)<.65;let before=bodies[index];let incoming=max(0,-dot(before.v.xyz+cross(before.w.xyz,foot.p-before.p.xyz),r.n.xyz));
  if(wall&&impactClock<=0&&frame.tune.y>.001&&incoming>1.4&&b.coat.x>.10){
   b.coat.x-=wallSplat(foot,b.coat.x,incoming,seed+atomicLoad(&work[5])*31u,before.v.xyz+cross(before.w.xyz,foot.p-before.p.xyz));atomicStore(&work[mem+7u],bitcast<u32>(.28));
@@ -341,7 +341,7 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
  if(!wall&&resting>.35&&poolClock>.55&&(b.blood.x>.001||b.coat.x>.30)&&b.coat.x>.08){
   let spread=1+min(.85,sqrt(resting)*.24);let amount=min(.22,b.coat.x*.18);poolDeposit(rec,foot.p,radius*spread,angle,amount,seed);b.coat.x=max(0,b.coat.x-amount*.80);poolClock=0;atomicAdd(&work[24],1u);
  }
- if(save){b.track=vec4f(foot.p,f32(rec)+1);atomicStore(&work[mem],bitcast<u32>(angle));atomicStore(&work[mem+1u],bitcast<u32>(radius.x));atomicStore(&work[mem+2u],bitcast<u32>(radius.y));atomicStore(&work[mem+3u],bitcast<u32>(travelled));atomicStore(&work[mem+4u],foot.face);}
+ if(save){var savedPoint=foot.p;if(r.center.w>0){let prop=propBody(u32(r.center.w)-1u);savedPoint=rotate(inverseQ(prop.q),savedPoint-prop.p.xyz);}b.track=vec4f(savedPoint,f32(rec)+1);atomicStore(&work[mem],bitcast<u32>(angle));atomicStore(&work[mem+1u],bitcast<u32>(radius.x));atomicStore(&work[mem+2u],bitcast<u32>(radius.y));atomicStore(&work[mem+3u],bitcast<u32>(travelled));atomicStore(&work[mem+4u],foot.face);}
  atomicStore(&work[mem+5u],bitcast<u32>(resting));atomicStore(&work[mem+6u],bitcast<u32>(poolClock));return b;
 }
 

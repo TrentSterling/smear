@@ -12,7 +12,7 @@ fn meleeStrike(){
   if(hit.surface>=0&&record(u32(hit.surface)).center.w>0&&candidate<propScore){propHit=hit.surface;propScore=candidate;}
   if(hit.body>=0&&candidate<score){best=hit;score=candidate;}
  }}
- if(propHit>=0&&propScore<score){hitProp(propHit,.70*clamp(frame.action.w,.4,2.4));atomicAdd(&work[57],1u);atomicAdd(&work[39],1u);atomicMax(&work[38],0x80000000u|(u32(.72*4095)<<8u)|255u);return;}
+ if(propHit>=0&&propScore<score){hitProp(propHit,.70*clamp(frame.action.w,.4,2.4));propSurfaceImpulse(propHit,frame.rayO.xyz+forward*propScore,safeNorm(forward+up*.25)*45*clamp(frame.action.w,.4,2.4));atomicAdd(&work[57],1u);atomicAdd(&work[39],1u);atomicMax(&work[38],0x80000000u|(u32(.72*4095)<<8u)|255u);return;}
  if(best.body<0){if(wall){atomicAdd(&work[57],1u);atomicAdd(&work[39],1u);atomicMax(&work[38],0x80000000u|(u32(.45*4095)<<8u)|255u);}return;}
  let index=u32(best.body);let base=index/15u*15u;let direction=safeNorm(forward-right*.45+up*.16);let strength=clamp(frame.action.w,.4,2.4);
  for(var k=base;k<base+15u;k++){bodies[k].status.x=1;bodies[k].status.z=0;bodies[k].motor.w=0;if(component(k)==component(index)){bodies[k].v=vec4f(bodies[k].v.xyz+direction*(4.5+strength*2.5),0);}}

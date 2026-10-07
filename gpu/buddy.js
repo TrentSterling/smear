@@ -16,7 +16,7 @@ SmearCompute.prototype.confirmBuddy=async function(){
   e.copyBufferToBuffer(this.workBuffer,1006*4,b,0,32);this.device.queue.submit([e.finish()]);
   await b.mapAsync(GPUMapMode.READ);const result=new Uint32Array(b.getMappedRange().slice(0));b.unmap();b.destroy();
   if(epoch!==this.audioEpoch)return null;
-  const status=result[7];if(status===1){this.bodyCount=Math.max(this.bodyCount,request.base+15);this.syncCounts();this.cancelBuddy();}
-  return {status,base:request.base,adding:result[0]===1};
+  const status=result[7];if(status===1){if(!request.kind){this.bodyCount=Math.max(this.bodyCount,request.base+15);this.syncCounts();}this.cancelBuddy();}
+  return {status,kind:request.kind,slot:result[1],base:request.base,adding:result[0]===1};
  }finally{this.buddyBusy=false;}
 };

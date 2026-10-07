@@ -106,6 +106,17 @@ SmearCompute.prototype.buildTools=function(){
  add(this.grenadeTool,new T.CylinderGeometry(.023,.026,.030,12),steel,[0,.043,0]);box(this.grenadeTool,[.023,.010,.089],[0,.063,.013],steel,.002);box(this.grenadeTool,[.023,.12,.008],[0,.01,.058],steel,.002);
  add(this.grenadeTool,new T.TorusGeometry(.025,.003,6,18),steel,[.035,.045,0],[0,Math.PI/2,0]);
  label(this.grenadeTool,'SM / FRAG',[0,-.047,0],[.065,.033],[0,0,0],.065);makeHand(this.grenadeTool).position.set(.025,-.028,.015);
+ // Shoulder launcher: open muzzle, reinforced tube, heat shield and folding sight.
+ this.rocketTool=new T.Group();this.rocketTool.userData.viewTool=true;this.rocketTool.visible=false;this.camera.add(this.rocketTool);
+ cylinder(this.rocketTool,.086,.78,[0,.06,-.13],ink);
+ for(const z of [-.50,-.30,.12,.23])cylinder(this.rocketTool,.096,.035,[0,.06,z],steel);
+ cylinder(this.rocketTool,.080,.008,[0,.06,-.526],rubber);cylinder(this.rocketTool,.063,.010,[0,.06,-.532],ink);
+ for(let i=0;i<5;i++)box(this.rocketTool,[.12,.035,.065],[0,.146,-.37+i*.08],ceramic,.005);
+ for(const x of [-.078,.078])box(this.rocketTool,[.018,.045,.37],[x,.057,-.13],amber,.004);
+ box(this.rocketTool,[.072,.13,.085],[0,-.066,.08],rubber,.008);
+ box(this.rocketTool,[.10,.025,.13],[0,.181,-.11],ink,.004);box(this.rocketTool,[.014,.075,.024],[-.035,.216,-.11],steel,.002);box(this.rocketTool,[.014,.075,.024],[.035,.216,-.11],steel,.002);box(this.rocketTool,[.08,.010,.024],[0,.258,-.11],amber,.002);
+ label(this.rocketTool,'SM / ROCKET',[.088,.08,-.10],[.30,.067],[0,Math.PI/2,0]);
+ makeHand(this.rocketTool).position.set(.018,-.028,.01);const support=makeHand(this.rocketTool);support.position.set(-.08,.025,-.29);support.rotation.z=-.8;
  // Keep moving subassemblies independent and pack the rest by material.
  const merge=(root,exclude=[])=>{
   root.updateWorldMatrix(true,true);const inverse=root.matrixWorld.clone().invert(),groups=new Map();
@@ -113,11 +124,13 @@ SmearCompute.prototype.buildTools=function(){
   for(const child of [...root.children])if(!exclude.includes(child))root.remove(child);
   for(const [material,data]of groups){const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(data.positions,3));g.setAttribute('normal',new T.Float32BufferAttribute(data.normals,3));g.setAttribute('uv',new T.Float32BufferAttribute(data.uvs,2));g.setIndex(data.indices);add(root,g,material);}
  };
- merge(this.gun,[this.slide,this.flash]);merge(this.slide);merge(this.spillCan);merge(this.bat);merge(this.grenadeTool);
+ merge(this.gun,[this.slide,this.flash]);merge(this.slide);merge(this.spillCan);merge(this.bat);merge(this.grenadeTool);merge(this.rocketTool);
  this.toolPresentation={pistol:'beveled receiver, articulated slide, sights, gloved grip',spill:'pressure bottle and pump',bat:'turned wooden bat, wrapped grip, twelve steel spikes and gloved hand',meshes:0};
- for(const root of [this.gun,this.spillCan,this.bat,this.grenadeTool])root.traverse(o=>{if(o.isMesh)this.toolPresentation.meshes++;});
+ this.toolPresentation.rocket='reinforced tube, open muzzle, heat shield, sight and two gloved hands';
+ for(const root of [this.gun,this.spillCan,this.bat,this.grenadeTool,this.rocketTool])root.traverse(o=>{if(o.isMesh)this.toolPresentation.meshes++;});
 };
-SmearCompute.prototype.updateToolPresentation=function(dt,{tool,panel,time,left,batAge=10}){
+SmearCompute.prototype.updateToolPresentation=function(dt,{tool,panel,time,left,batAge=10,rocketAge=10}){
+ this.rocketTool.visible=tool===5&&!panel;if(this.rocketTool.visible){const kick=Math.exp(-rocketAge*13)*Math.sin(Math.min(1,rocketAge*20)*Math.PI/2);const reload=Math.sin(Math.min(1,Math.max(0,rocketAge-.15)/.9)*Math.PI);this.rocketTool.position.set(.29,-.23-reload*.085,-.60+kick*.14);this.rocketTool.rotation.set(-.04+kick*.12+reload*.12,-.10,-.06);}
  this.grenadeTool.visible=tool===4&&!panel;if(this.grenadeTool.visible){this.grenadeTool.position.set(.25,-.15,-.52);this.grenadeTool.rotation.set(-.14,-.1,-.18);}
  this.spillCan.visible=tool===2&&!panel;
  if(this.spillCan.visible){this.spillCan.position.set(.255,-.13,-.54);this.spillCan.rotation.set(-.1,0,-.14);if(left)this.spillCan.position.y+=Math.sin(time*38)*.003;}

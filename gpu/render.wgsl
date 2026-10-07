@@ -21,8 +21,10 @@ struct Output {
 };
 fn transformed(v:Input,index:u32)->Output {
  let object=objects[index];if(object.flags.w==9&&(work[19]&(1u<<u32(object.params.y)))!=0u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,vec3f(0),v.n,index);}var p=(object.model*vec4f(v.p,1)).xyz;var n=(object.normal*vec4f(v.n,0)).xyz;var local=p;var localNormal=n;
- if(object.flags.w==10){
-  if(work[1006]==0u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}
+ if(object.flags.w==9){let s=propData(u32(object.params.y));local=p-constants[s+4u].xyz;p=constants[s].xyz+rotate(constants[s+1u],local);n=rotate(constants[s+1u],n);}
+ else if(object.flags.w==11){if(work[1006]!=u32(object.params.y)+2u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}let angle=bitcast<f32>(work[1012]);let q=vec4f(0,sin(angle*.5),0,cos(angle*.5));p=rotate(q,p)+vec3f(bitcast<f32>(work[1009]),bitcast<f32>(work[1010]),bitcast<f32>(work[1011]));n=rotate(q,n);}
+ else if(object.flags.w==10){
+  if(work[1006]==0u||work[1006]>2u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}
   let angle=bitcast<f32>(work[1012]);let q=vec4f(0,sin(angle*.5),0,cos(angle*.5));
   p=rotate(q,v.p)+vec3f(bitcast<f32>(work[1009]),bitcast<f32>(work[1010]),bitcast<f32>(work[1011]));n=rotate(q,v.n);
  }
@@ -33,7 +35,7 @@ fn transformed(v:Input,index:u32)->Output {
   for(var k=0u;k<4u;k++){if(v.weights[k]<=0){continue;}let id=base+u32(v.rig[k]);let bind=header(3).w+id*2u;let rest=constants[bind];let q=constants[bind+1u];let inverse=vec4f(-q.xyz,q.w);let lp=rotate(inverse,v.p-rest.xyz);let ln=rotate(inverse,v.n);let body=bodies[id];p+=(rotate(body.q,lp)+body.p.xyz)*v.weights[k];n+=rotate(body.q,ln)*v.weights[k];}
   let bind=header(3).w+(base+u32(v.rig.x))*2u;let q=constants[bind+1u];local=rotate(vec4f(-q.xyz,q.w),v.p-constants[bind].xyz);localNormal=rotate(vec4f(-q.xyz,q.w),v.n);
  }
- else if(object.flags.w==3||object.flags.w==4){if(frame.local.w<.5){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}let b=bodies[u32(frame.goal.w)];let point=b.p.xyz+rotate(b.q,frame.local.xyz);if(object.flags.w==3){p+=point;}else{let start=frame.camera.xyz+vec3f(.1,-.12,-.06);let delta=point-start;let direction=safeNorm(delta);let orientation=normalize(vec4f(cross(vec3f(0,1,0),direction),1+direction.y));p.y*=length(delta);p=rotate(orientation,p)+(point+start)*.5;n=rotate(orientation,n);}}
+ else if(object.flags.w==3||object.flags.w==4){if(frame.local.w<.5){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}var point=vec3f(0);if(frame.goal.w>=180){let s=propData(u32(frame.goal.w)-180u);point=constants[s].xyz+rotate(constants[s+1u],frame.local.xyz);}else{let b=bodies[u32(frame.goal.w)];point=b.p.xyz+rotate(b.q,frame.local.xyz);}if(object.flags.w==3){p+=point;}else{let start=frame.camera.xyz+vec3f(.1,-.12,-.06);let delta=point-start;let direction=safeNorm(delta);let orientation=normalize(vec4f(cross(vec3f(0,1,0),direction),1+direction.y));p.y*=length(delta);p=rotate(orientation,p)+(point+start)*.5;n=rotate(orientation,n);}}
  else if(object.params.x>=0){if(object.flags.w==8&&work[fractureState(u32(object.params.y))]==0u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}let id=u32(object.params.x);if(id>=u32(frame.settings.x)){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}let b=bodies[id];
   if(object.flags.w==1){let second=bodies[u32(object.flags.z)];let k=header(1).y+u32(object.params.y)*4u;let pa=constants[k+1u].xyz;let pb=constants[k+2u].xyz;p=rotate(b.q,p)+(b.p.xyz+rotate(b.q,pa)+second.p.xyz+rotate(second.q,pb))*.5;n=rotate(b.q,n);}
   else if(object.flags.w==2){let second=bodies[u32(object.flags.z)];let q=normalize(b.q+select(second.q,-second.q,dot(b.q,second.q)<0));p=rotate(q,p)+(b.p.xyz+second.p.xyz)*.5;n=rotate(q,n);}
@@ -94,7 +96,7 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
  let worldDx=dpdx(v.world);let worldDy=dpdy(v.world);
  let localAA=max(max(length(dpdx(v.local)),length(dpdy(v.local)))*.45,.00006);
  let object=objects[v.index];var color=object.color.rgb;var alpha=object.color.a;var rough=object.params.w;var metal=object.flags.x;let basic=object.flags.z<0;
- if(object.flags.w==10){let c=select(vec3f(.94,.28,.19),vec3f(.39,.91,.68),work[1008]==1u);let band=select(.65,1.0,fract(v.world.y*16)>.2);return vec4f(c*band,.63);}
+ if(object.flags.w==10||object.flags.w==11){let c=select(vec3f(.94,.28,.19),vec3f(.39,.91,.68),work[1008]==1u);let band=select(.65,1.0,fract(v.world.y*16)>.2);return vec4f(c*band,.63);}
  if(object.flags.w==6){if(front||dot(v.normal,frame.camera.xyz-v.world)>0){discard;}return vec4f(.065,.095,.09,1);}
  if(object.flags.w==5){
   color=vec3f(.60,.43,.24);rough=.49;
@@ -129,7 +131,7 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
  if(object.params.z>=0){let tex=textureSampleLevel(maps,linearSampler,vec2f(v.uv.x,1-v.uv.y),i32(object.params.z),0);color*=pow(tex.rgb,vec3f(2.2));alpha*=tex.a;}
  if(alpha<.02){discard;}
  var receiverID=object.params.y;
- if(object.flags.w==9){let k=header(1).x+u32(object.flags.z)*5u;let local=v.world-constants[k].xyz;let a=abs(local/constants[k+2u].xyz);if(a.y>a.x&&a.y>a.z){receiverID=constants[k+3u].z;}else if(a.x>a.z){receiverID=select(constants[k+3u].y,constants[k+3u].x,local.x>0);}else{receiverID=select(constants[k+4u].y,constants[k+4u].x,local.z>0);}
+ if(object.flags.w==9){let k=header(1).x+u32(object.flags.z)*5u;let local=rotate(inverseQ(constants[k+1u]),v.world-constants[k].xyz);let a=abs(local/constants[k+2u].xyz);if(a.y>a.x&&a.y>a.z){receiverID=select(constants[k+3u].w,constants[k+3u].z,local.y>0);}else if(a.x>a.z){receiverID=select(constants[k+3u].y,constants[k+3u].x,local.x>0);}else{receiverID=select(constants[k+4u].y,constants[k+4u].x,local.z>0);}
   if(constants[k].w==1&&color.r>color.b*1.5){let grain=sin(local.y*117+sin(local.x*5)*2+sin(local.z*21))*.06;let seam=step(.965,fract((local.y+.55)*5.5));color*=1+grain-seam*.35;}
   if(constants[k].w==2&&color.r>color.g*1.8&&abs(local.y)>.30&&abs(local.y)<.42){color=mix(vec3f(.035,.047,.038),vec3f(.75,.49,.10),step(.5,fract(atan2(local.z,local.x)*3+local.y*9)));}
  }

@@ -1,0 +1,663 @@
+{
+  "version": "0.36.0",
+  "at": "2026-10-07T05:43:34.495Z",
+  "buildSHA256": "c66b19bb44730d86e0308a897bf1e920b789fd047f2b195f136a9c954f1d2997",
+  "buildBytes": 1286620,
+  "previousReleaseSHA256": "76a049e86789e59ea79100523d8a565166e16b54f15c88cc9ce3c2e584b4a364",
+  "browser": "headless Chrome hardware WebGPU",
+  "firefox": "Not tested for this release; no headed browser or desktop mouse/focus interaction authorized",
+  "checks": [
+    "Movable-prop shaders boot on hardware WebGPU",
+    "All six props rest on the floor for three seconds without creep, explosions or nonfinite state",
+    "Native grab and mouse motion lift and carry the GPU crate",
+    "Mouse release preserves crate momentum through free flight",
+    "A vertical wall cannot accept a prop placement",
+    "Native Q/E input rotates the placement preview during real-time play",
+    "Searchable toybox and native click place the spare crate on the floor",
+    "Occupied four-crate capacity refuses another spawn",
+    "Remove selected prop frees its slot without an explosion",
+    "A barrel placed on the crate stays stacked under GPU gravity",
+    "A sleeping stacked barrel wakes and falls when its support is removed",
+    "Restore prop layout resets the original six toys and frees spare slots",
+    "Native Spill pigment stays byte-identical on a translating, rotating prop while its chart follows the GPU pose",
+    "A wet crate underside transfers finite liquid and textured contact paint onto the floor",
+    "Restore layout preserves mobile liquid, stationary wall film and room paint while replacing stained props",
+    "Native WASD movement is blocked by the current GPU prop collider",
+    "Removing the prop opens its former location for native player movement",
+    "Six original props and two spare slots have 48 paint charts at the existing 160 texels/metre",
+    "Three pistol hits splinter a crate into wood debris; subsequent shots pass through its former collider",
+    "Two in-range bat strikes break the crate through the normal GPU melee fan",
+    "A physical 18 m/s detached-head collision damages a crate without a weapon or scripted prop hit",
+    "A bat-triggered barrel explosion wins over the simultaneous melee sound event",
+    "The room wall blocks blast damage to props behind it",
+    "A pending barrel chain waits while simulation is paused",
+    "A shot barrel detonates its neighbour once each; distant props survive and dry blasts create no blood",
+    "Native Spill paints the crate; breaking a wet face releases its finite liquid without a floating pool or duplication",
+    "Player collision blocks an intact crate and opens after its asynchronous destroyed flag arrives",
+    "Reset restores prop health, geometry, collision and barrel fuel",
+    "Restore requires a selected buddy",
+    "R selects the grabbed rig for restoration and cancels its grab without throwing",
+    "Restoration reconnects all 15 parts and refills once, preserving exact room/skin paint, all liquid, airborne drops, other bodies/cuts and prop state",
+    "The restored rig survives 120 physics ticks with bounded joints",
+    "Occupied placement is rejected without consuming a buddy slot",
+    "Wall and non-floor aiming cannot place a buddy",
+    "Room edges, prop intersections and the player keep placement invalid",
+    "N and a normal click place a new, rotated buddy in the previewed clear location",
+    "Escape and weapon switching remove the preview without placing or firing",
+    "Focus loss cancels placement",
+    "The 12-buddy limit refuses placement instead of silently adding nothing",
+    "Reset invalidates an in-flight placement acknowledgement",
+    "Preview rendering cannot advance a pending barrel chain while simulation is paused",
+    "Locked N/E placement keeps lock; Add from pause uses an unobstructed free-cursor preview and Escape returns to pause without recapturing",
+    "Restore from pause also enters cursor placement and returns cleanly to pause without stealing mouse capture",
+    "Native grenade hits the ragdoll and detonates before its fuse with finite blood and dismemberment",
+    "A 260 m/s swept grenade cannot tunnel through a head; direct damage, impulse and paid spray occur before the blast pass",
+    "A missed grenade still bounces off the room and detonates once on its fuse",
+    "Digit 6 and native fire launch a visible 38 m/s rocket with a contact explosion",
+    "Rocket contact with a room wall explodes once without waiting for a fuse",
+    "Crates leave six substantial planks and sixteen splinters; boards settle and remain after nine seconds"
+  ],
+  "finalSuite": {
+    "at": "2026-10-07T05:31:01.790Z",
+    "sha256": "c66b19bb44730d86e0308a897bf1e920b789fd047f2b195f136a9c954f1d2997",
+    "jobs": [
+      {
+        "job": [
+          "buddy-verify.mjs",
+          "final-v36-focus"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "prop-motion-verify.mjs",
+          "final-v36-arsenal"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "prop-liquid-verify.mjs",
+          "final-v36-arsenal"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "props-verify.mjs",
+          "final-v36-arsenal"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "controller-verify.mjs",
+          "final-v36-arsenal"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "momentum-verify.mjs",
+          "final-v36-arsenal"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "handling-verify.mjs",
+          "final-v36-arsenal"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "destruction-verify.mjs",
+          "final-v36-arsenal"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "bleeding-verify.mjs",
+          "final-v36-arsenal"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "fragment-verify.mjs",
+          "final-v36-arsenal"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "compute-verify.mjs"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "compute-profile.mjs",
+          "wall-contact"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "compute-profile.mjs",
+          "toybox"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "compute-profile.mjs",
+          "destruction"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "compute-profile.mjs"
+        ],
+        "status": 0
+      }
+    ]
+  },
+  "earlierBroaderSuite": {
+    "at": "2026-10-07T04:55:39.675Z",
+    "sha256": "78e05d9d8f8f91ae424ab8fa6079b1d5966e4ccd754dc460d2c27c16fa9861e0",
+    "jobs": [
+      {
+        "job": [
+          "prop-motion-verify.mjs",
+          "final-v36"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "prop-liquid-verify.mjs",
+          "final-v36"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "props-verify.mjs",
+          "final-v36"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "buddy-verify.mjs",
+          "final-v36"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "controller-verify.mjs",
+          "final-v36"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "momentum-verify.mjs",
+          "final-v36"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "handling-verify.mjs",
+          "final-v36"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "destruction-verify.mjs",
+          "final-v36"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "bleeding-verify.mjs",
+          "final-v36"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "fragment-verify.mjs",
+          "final-v36"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "wet-verify.mjs",
+          "final-v36"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "film-verify.mjs",
+          "final-v36"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "brush-flow-verify.mjs",
+          "final-v36"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "wall-contact-verify.mjs",
+          "final-v36"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "impact-verify.mjs",
+          "final-v36"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "carry-verify.mjs",
+          "final-v36"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "smudge-verify.mjs",
+          "final-v36"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "rivulet-verify.mjs",
+          "final-v36"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "ltc-verify.mjs",
+          "final-v36"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "compute-verify.mjs"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "compute-profile.mjs"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "compute-profile.mjs",
+          "toybox"
+        ],
+        "status": 0
+      },
+      {
+        "job": [
+          "compute-profile.mjs",
+          "wall-contact"
+        ],
+        "status": 1
+      }
+    ]
+  },
+  "profiles": [
+    {
+      "label": "idle",
+      "fps": 60.001000016607335,
+      "ticksPerSecond": 119.86215851818038,
+      "cpuP99": 3.2000000178813934,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.835008,
+          "p95": 2.555904,
+          "p99": 2.883584,
+          "max": 3.211264
+        },
+        "renderMS": {
+          "p50": 8.585216,
+          "p95": 9.043968,
+          "p99": 9.17504,
+          "max": 9.240576
+        }
+      },
+      "readbacks": [
+        "asynchronous GPU timing",
+        "asynchronous player contact correction",
+        "asynchronous collision sound event",
+        "GPU telemetry snapshot"
+      ],
+      "canvasReads": 0
+    },
+    {
+      "label": "bat",
+      "fps": 57.83526117554488,
+      "ticksPerSecond": 120.05861391402478,
+      "cpuP99": 4.0999999940395355,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.900544,
+          "p95": 4.063232,
+          "p99": 29.425664,
+          "max": 59.441152
+        },
+        "renderMS": {
+          "p50": 4.194304,
+          "p95": 5.24288,
+          "p99": 10.48576,
+          "max": 10.682368
+        }
+      },
+      "readbacks": [
+        "asynchronous collision sound event",
+        "asynchronous GPU timing",
+        "GPU telemetry snapshot"
+      ],
+      "canvasReads": 0
+    },
+    {
+      "label": "pistol",
+      "fps": 60.00133707697003,
+      "ticksPerSecond": 119.69369069419012,
+      "cpuP99": 1.600000023841858,
+      "gpu": {
+        "computeMS": {
+          "p50": 2.490368,
+          "p95": 3.670016,
+          "p99": 3.866624,
+          "max": 4.390912
+        },
+        "renderMS": {
+          "p50": 7.20896,
+          "p95": 7.86432,
+          "p99": 7.995392,
+          "max": 8.323072
+        }
+      },
+      "readbacks": [
+        "asynchronous player contact correction",
+        "asynchronous collision sound event",
+        "asynchronous GPU timing",
+        "GPU telemetry snapshot"
+      ],
+      "canvasReads": 0
+    },
+    {
+      "label": "spill",
+      "fps": 59,
+      "ticksPerSecond": 119.90686845168801,
+      "cpuP99": 1.5999999940395355,
+      "gpu": {
+        "computeMS": {
+          "p50": 1.900544,
+          "p95": 4.58752,
+          "p99": 23.003136,
+          "max": 23.724032
+        },
+        "renderMS": {
+          "p50": 8.126464,
+          "p95": 8.84736,
+          "p99": 9.17504,
+          "max": 9.371648
+        }
+      },
+      "readbacks": [
+        "asynchronous player contact correction",
+        "asynchronous collision sound event",
+        "asynchronous GPU timing",
+        "GPU telemetry snapshot"
+      ],
+      "canvasReads": 0
+    },
+    {
+      "label": "drag",
+      "fps": 60.00800106692815,
+      "ticksPerSecond": 120.14063619584894,
+      "cpuP99": 1.699999988079071,
+      "gpu": {
+        "computeMS": {
+          "p50": 2.94912,
+          "p95": 4.653056,
+          "p99": 5.177344,
+          "max": 7.012352
+        },
+        "renderMS": {
+          "p50": 8.454144,
+          "p95": 9.109504,
+          "p99": 9.371648,
+          "max": 9.568256
+        }
+      },
+      "readbacks": [
+        "asynchronous player contact correction",
+        "asynchronous collision sound event",
+        "asynchronous GPU timing",
+        "GPU telemetry snapshot"
+      ],
+      "canvasReads": 0
+    },
+    {
+      "label": "chaos",
+      "fps": 60.00800106692815,
+      "ticksPerSecond": 119.99467430028878,
+      "cpuP99": 1.5,
+      "gpu": {
+        "computeMS": {
+          "p50": 2.94912,
+          "p95": 3.997696,
+          "p99": 5.439488,
+          "max": 5.767168
+        },
+        "renderMS": {
+          "p50": 10.289152,
+          "p95": 10.747904,
+          "p99": 11.075584,
+          "max": 11.272192
+        }
+      },
+      "readbacks": [
+        "asynchronous player contact correction",
+        "asynchronous collision sound event",
+        "asynchronous GPU timing",
+        "GPU telemetry snapshot"
+      ],
+      "canvasReads": 0
+    },
+    {
+      "label": "wall-contact",
+      "fps": 60.001000016607335,
+      "ticksPerSecond": 120.00266302743425,
+      "cpuP99": 1.7000000178813934,
+      "gpu": {
+        "computeMS": {
+          "p50": 4.521984,
+          "p95": 5.24288,
+          "p99": 6.029312,
+          "max": 6.946816
+        },
+        "renderMS": {
+          "p50": 5.046272,
+          "p95": 5.439488,
+          "p99": 5.767168,
+          "max": 5.767168
+        }
+      },
+      "readbacks": [
+        "asynchronous collision sound event",
+        "asynchronous GPU timing",
+        "GPU telemetry snapshot"
+      ],
+      "canvasReads": 0
+    },
+    {
+      "label": "full-toybox",
+      "fps": 60.008001066630044,
+      "ticksPerSecond": 120.29123140186469,
+      "cpuP99": 1.800000011920929,
+      "gpu": {
+        "computeMS": {
+          "p50": 4.128768,
+          "p95": 7.143424,
+          "p99": 13.369344,
+          "max": 14.155776
+        },
+        "renderMS": {
+          "p50": 7.012352,
+          "p95": 7.53664,
+          "p99": 7.86432,
+          "max": 7.995392
+        }
+      },
+      "readbacks": [
+        "asynchronous player contact correction",
+        "asynchronous collision sound event",
+        "asynchronous GPU timing",
+        "GPU telemetry snapshot"
+      ],
+      "canvasReads": 0
+    },
+    {
+      "label": "destruction",
+      "fps": 59.33180686231557,
+      "ticksPerSecond": 119.78342357351103,
+      "cpuP99": 1.7000000178813934,
+      "gpu": {
+        "computeMS": {
+          "p50": 5.57056,
+          "p95": 12.320768,
+          "p99": 23.003136,
+          "max": 39.714816
+        },
+        "renderMS": {
+          "p50": 8.84736,
+          "p95": 9.961472,
+          "p99": 10.420224,
+          "max": 10.616832
+        }
+      },
+      "readbacks": [
+        "asynchronous player contact correction",
+        "asynchronous collision sound event",
+        "asynchronous GPU timing",
+        "GPU telemetry snapshot"
+      ],
+      "canvasReads": 0
+    }
+  ],
+  "liquid": {
+    "contact": {
+      "before": 0.20994345703125536,
+      "after": 0.209969099879536,
+      "propRemaining": 0.1669381588892011
+    },
+    "restore": {
+      "before": 40.956793839322266,
+      "after": 40.95679403390026,
+      "wallBefore": 40.75,
+      "wallAfter": 40.75,
+      "discardedDryPropResidue": 0.002697755794411671
+    }
+  },
+  "captures": [
+    {
+      "name": "before",
+      "buildSHA256": "2e63a9d080c491d8a291f33e273a4c3831fc40bbf548fe6b11076f221219b6eb",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 2,
+        "lastThud": {
+          "strength": 0.8498168498168498,
+          "melee": false,
+          "explosion": true,
+          "body": 255,
+          "latency": 8.400000005960464,
+          "frameID": 102
+        }
+      }
+    },
+    {
+      "name": "after",
+      "buildSHA256": "c66b19bb44730d86e0308a897bf1e920b789fd047f2b195f136a9c954f1d2997",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 15,
+        "lastThud": {
+          "strength": 0.14993894993894993,
+          "melee": false,
+          "explosion": false,
+          "body": 6,
+          "latency": 7.700000017881393,
+          "frameID": 186
+        }
+      }
+    },
+    {
+      "name": "rocket",
+      "buildSHA256": "c66b19bb44730d86e0308a897bf1e920b789fd047f2b195f136a9c954f1d2997",
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 6,
+        "lastThud": {
+          "strength": 0.7897435897435897,
+          "melee": false,
+          "explosion": false,
+          "body": 13,
+          "latency": 7.4000000059604645,
+          "frameID": 92
+        }
+      }
+    }
+  ],
+  "media": [
+    "tools/out/arsenal-pass/recordings/grenade-contact-before-after.mp4",
+    "tools/out/arsenal-pass/recordings/rocket.mp4",
+    "tools/out/toybox-pass/recordings/smear-v35-v36-toybox.mp4"
+  ],
+  "fixedDuringVerification": [
+    "Real-time prop dragging initially called a retained CPU ragdoll tether method on a prop proxy; removed the stale update because the GPU already draws it.",
+    "Restore prop layout previously advanced paused room-wall film; the exact wall-film regression reproduced the leak and now passes.",
+    "Native rotation test now re-aims its fixed target after the walking camera moves under gravity.",
+    "The native profiler awaits GPU fixture setup and times only the unpaused interval, excluding explicit diagnostic downloads. Earlier stress failures remain in the local receipts.",
+    "Rocket action 12 initially met the old placement guard; routing now excludes only placement actions 8 through 11."
+  ],
+  "limitations": [
+    "Eight prop slots: four crates and four barrels.",
+    "Replaced props discard their own dry stains; mobile liquid drains at old positions and room paint is preserved.",
+    "Wood fragments use bounded simplified collision and settle flat; they are not full authored plank rigid bodies.",
+    "Area LTC lights remain unshadowed.",
+    "Mop, blower, washer, vacuum, buckets, fans/conveyors, magnet gun, sticky charges and the Rube Goldberg preset are authorized next work, not in V36."
+  ]
+}

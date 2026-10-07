@@ -9,7 +9,7 @@ fn component(i:u32)->u32{
  let base=i/15u*15u;var p=i%15u;
  for(var k=0u;k<5u;k++){if(p==1u||cut(base+p)){break;}p=BODY_PARENT[p];}return base+p;
 }
-fn heldComponent(i:u32)->bool{return frame.local.w>.5&&component(i)==component(u32(frame.goal.w));}
+fn heldComponent(i:u32)->bool{return frame.local.w>.5&&frame.goal.w<180&&component(i)==component(u32(frame.goal.w));}
 fn rigBroken(base:u32)->bool{for(var k=0u;k<15u;k++){if(cut(base+k)){return true;}}return false;}
 fn queueFracture(i:u32,amount:f32){
  if(i%15u==1u||cut(i)||amount<=0){return;}
@@ -61,16 +61,16 @@ fn ordFloat(i:u32)->f32{return bitcast<f32>(atomicLoad(&work[i]));}
 fn ordVector(i:u32)->vec3f{return vec3f(ordFloat(i),ordFloat(i+1u),ordFloat(i+2u));}
 fn putVector(i:u32,v:vec3f){for(var k=0u;k<3u;k++){atomicStore(&work[i+k],bitcast<u32>(v[k]));}}
 fn spawnOrdnance(kind:u32,p:vec3f,v:vec3f,r:f32,seed:u32)->bool{
- let first=select(8u,0u,kind==1u);let count=select(120u,8u,kind==1u);
+ let explosive=kind==1u||kind==4u;let first=select(8u,0u,explosive);let count=select(120u,8u,explosive);
  for(var n=0u;n<count;n++){let i=first+(seed+n)%count;let s=ordnanceState(i);
   if(atomicLoad(&work[s+23u])!=0u){continue;}
   putVector(s,p);atomicStore(&work[s+3u],bitcast<u32>(r));putVector(s+4u,v);atomicStore(&work[s+7u],0u);
-  putVector(s+8u,p);atomicStore(&work[s+11u],seed);atomicStore(&work[s+12u],0u);atomicStore(&work[s+23u],kind);return true;
+  putVector(s+8u,p);atomicStore(&work[s+11u],seed);for(var k=12u;k<23u;k++){atomicStore(&work[s+k],0u);}atomicStore(&work[s+19u],kind);atomicStore(&work[s+22u],bitcast<u32>(frame.camera.w));atomicStore(&work[s+23u],kind);return true;
  }return false;
 }
 fn throwGrenade(){
- let direction=safeNorm(frame.rayD.xyz);let hit=rayHit(frame.rayO.xyz,direction,.55,false,-1);
- let start=frame.rayO.xyz+direction*max(.08,hit.t-.10);
+ let direction=safeNorm(frame.rayD.xyz);let hit=rayHit(frame.rayO.xyz,direction,.55,true,-1);
+ let start=frame.rayO.xyz+direction*max(0.0,hit.t-.10);
  if(spawnOrdnance(1u,start,direction*12+vec3f(0,2,0),.065,atomicLoad(&work[5])+77u)){atomicAdd(&work[destructionMeta()+5u],1u);}
 }
 fn queueBlast(point:vec3f,power:f32){
@@ -88,14 +88,23 @@ fn blastVisibility(center:vec3f,p:vec3f)->bool{
 @compute @workgroup_size(64) fn ordnance(@builtin(global_invocation_id) id:vec3u){
  let i=id.x;if(i>=128u){return;}let s=ordnanceState(i);let kind=atomicLoad(&work[s+23u]);if(kind==0u){return;}
  let dt:f32=1.0/120;let old=ordVector(s);var velocity=ordVector(s+4u);let age=ordFloat(s+7u)+dt;let radius=ordFloat(s+3u);
+ if((kind==3u||kind==5u)&&(atomicLoad(&work[s+20u])&0x80000000u)!=0u){atomicStore(&work[s+7u],bitcast<u32>(age));if(age>select(14.0,30.0,kind==5u)){atomicStore(&work[s+23u],0u);}return;}
  // exp(-drag / 120), pre-evaluated to avoid a Naga/DXC f64 exp overload.
- velocity.y-=9.81*dt;velocity*=select(.99833472f,.99933356f,kind==1u);var p=old+velocity*dt;
+ if(kind!=4u){velocity.y-=9.81*dt;velocity*=select(.99833472f,.99933356f,kind==1u);}var p=old+velocity*dt;
  let delta=p-old;let distance=length(delta);let hit=rayHit(old,safeNorm(delta),distance+radius,false,-1);
- if(hit.surface>=0){
+ let skip=select(-1,i32(atomicLoad(&work[s+20u]))-1,age<ordFloat(s+21u));let bodyHit=projectileBodyHit(old,delta,radius,skip);
+ if(bodyHit.body>=0&&bodyHit.time*distance<hit.t){
+  p=old+delta*bodyHit.time+bodyHit.normal*.003;putVector(s,p);atomicStore(&work[s+12u],u32(bodyHit.body)+1u);putVector(s+13u,velocity);putVector(s+16u,bodyHit.normal);atomicStore(&work[s+19u],kind);
+  if(kind==1u||kind==4u){atomicStore(&work[s+23u],0u);queueBlast(p,constants[header(3).z+1u].z*select(1.0,1.3,kind==4u));return;}
+  velocity-=bodyHit.normal*min(0,dot(velocity,bodyHit.normal))*1.25;velocity*=.5;atomicStore(&work[s+20u],u32(bodyHit.body)+1u);atomicStore(&work[s+21u],bitcast<u32>(age+.12));
+ }
+ else if(hit.surface>=0){
   p=hit.p+hit.n*(radius+.002);let incoming=max(0,-dot(velocity,hit.n));
+  if(kind==4u){hitProp(hit.surface,.8);propSurfaceImpulse(hit.surface,hit.p,velocity*.8);atomicStore(&work[s+23u],0u);queueBlast(p,1.3*constants[header(3).z+1u].z);return;}
   velocity-=hit.n*min(0,dot(velocity,hit.n))*select(1.28,1.46,kind==1u);velocity*=select(.69,.82,kind==1u);
+  if((kind==3u||kind==5u)&&hit.n.y>.95&&length(velocity)<.55){velocity=vec3f(0);p=hit.p+hit.n*(radius*select(.28,.16,kind==5u)+.002);atomicStore(&work[s+20u],0x80000000u);}
   if(kind>=2u&&incoming>.5){
-   if(incoming>4){hitProp(hit.surface,min(.18,incoming*.009));}
+   if(incoming>4){hitProp(hit.surface,min(.18,incoming*.009));propSurfaceImpulse(hit.surface,hit.p,-hit.n*incoming*.045);}
    let tangent=safeNorm(velocity-hit.n*dot(velocity,hit.n));let end=hit.p+tangent*clamp(incoming*.016,.025,.26);
    contactSweep(u32(hit.surface),hit.p,end,vec2f(radius*1.6),vec2f(radius*1.6),0,0,clamp(incoming*.09,.12,.8),11,atomicLoad(&work[s+11u]),0);
    let receiver=record(u32(hit.surface));let cell=vec2u(clamp(uv(receiver,hit.p)*vec2f(filmDimensions(receiver)),vec2f(0),vec2f(filmDimensions(receiver))-1));
@@ -105,7 +114,8 @@ fn blastVisibility(center:vec3f,p:vec3f)->bool{
  }
  putVector(s,p);putVector(s+4u,velocity);putVector(s+8u,old);atomicStore(&work[s+7u],bitcast<u32>(age));
  if(kind==1u&&age>=1.45){atomicStore(&work[s+23u],0u);queueBlast(p,constants[header(3).z+1u].z);}
- else if(kind>=2u&&(age>6||p.y<-.2)){atomicStore(&work[s+23u],0u);}
+ else if(kind==4u&&age>3){atomicStore(&work[s+23u],0u);queueBlast(p,1.3*constants[header(3).z+1u].z);}
+ else if(kind!=1u&&kind!=4u&&(age>select(select(6.0,14.0,kind==3u),30.0,kind==5u)||p.y<-.2)){atomicStore(&work[s+23u],0u);}
 }
 @compute @workgroup_size(1) fn detonate(){
  let controlAddress=destructionMeta();var mask=atomicLoad(&work[controlAddress]);
@@ -128,7 +138,8 @@ fn blastVisibility(center:vec3f,p:vec3f)->bool{
    b.coat.w=max(0,b.coat.w-spent/.10);b.coat.x+=retained/.02;
    bodies[i]=b;for(var k=i/15u*15u;k<(i/15u+1u)*15u;k++){bodies[k].motor.w=0;bodies[k].status.z=0;}damagePart(i,pressure*2.7*frame.rayD.w);atomicMax(&work[fractureState(i)+7u],u32(pressure*40000));
   }
-  for(var j=0u;j<header(0).x;j++){let k=header(1).x+j*5u;let tag=constants[k+2u].w;if(tag<=0||propGone(tag)){continue;}let p=constants[k].xyz;let nearest=clamp(center,p-constants[k+2u].xyz,p+constants[k+2u].xyz);let distance=length(p-center);if(distance<radius&&blastVisibility(center,nearest)){propDamage(tag,pow(max(0,1-distance/radius),1.4)*power*3.2);}}
+  for(var j=0u;j<header(0).x;j++){let k=header(1).x+j*5u;let tag=constants[k+2u].w;if(tag<=0||propGone(tag)){continue;}let p=constants[k].xyz;let q=constants[k+1u];let nearest=p+rotate(q,clamp(rotate(inverseQ(q),center-p),-constants[k+2u].xyz,constants[k+2u].xyz));let distance=length(p-center);if(distance<radius&&blastVisibility(center,nearest)){let pressure=pow(max(0,1-distance/radius),1.4)*power;propDamage(tag,pressure*3.2);propImpulse(tag,nearest,safeNorm(p-center+vec3f(0,.15,0))*pressure*85);}}
+  for(var debris=8u;debris<128u;debris++){let o=ordnanceState(debris);let kind=atomicLoad(&work[o+23u]);if(kind!=3u&&kind!=5u){continue;}let p=ordVector(o);let distance=length(p-center);if(distance<radius&&blastVisibility(center,p)){atomicStore(&work[o+20u],0u);putVector(o+4u,ordVector(o+4u)+safeNorm(p-center+vec3f(0,.15,0))*(1-distance/radius)*power*13);}}
   for(var k=0u;k<42u;k++){
    let h=seed+k*73u;let direction=safeNorm(vec3f(hash(h)-.5,hash(h+1u)-.35,hash(h+2u)-.5));
    spawnOrdnance(2u,center+direction*.07,direction*(5+hash(h+3u)*12)*sqrt(power),.013+hash(h+4u)*.025,h);

@@ -1,10 +1,10 @@
-// Static breakables share the GPU world collider and paint-receiver formats.
-// Only their destroyed bit returns with existing telemetry for player collision.
+// Shared GPU rigid props. The six original IDs and thirty charts remain stable.
 SmearCompute.prototype.buildProps=function(){
  const T=this.THREE,V=T.Vector3,Q=T.Quaternion;
  const wood=new T.MeshStandardMaterial({color:0x957244,roughness:.84}),edge=new T.MeshStandardMaterial({color:0x594730,roughness:.8}),steel=new T.MeshStandardMaterial({color:0x283a3b,roughness:.52,metalness:.65}),red=new T.MeshStandardMaterial({color:0xa04929,roughness:.46,metalness:.45}),yellow=new T.MeshStandardMaterial({color:0xe2bd50,roughness:.5,metalness:.25});
  const boxGeo=new T.BoxGeometry(1,1,1),ringGeo=new T.TorusGeometry(.415,.022,6,32);
- const defs=[['crate',[-6.45,.55,-1.8]],['crate',[6.4,.55,4.2]],['crate',[-6.4,.55,6.4]],['barrel',[5.65,.58,-6.7]],['barrel',[6.75,.58,-5.55]],['barrel',[6.6,.58,5.8]]];
+ const defs=[['crate',[-6.45,.55,-1.8]],['crate',[6.4,.55,4.2]],['crate',[-6.4,.55,6.4]],['barrel',[5.65,.58,-6.7]],['barrel',[6.75,.58,-5.55]],['barrel',[6.6,.58,5.8]],['crate',[100,.55,100]],['barrel',[103,.58,100]]];
+ for(const kind of [1,2]){const geo=kind===1?new T.BoxGeometry(1.08,1.10,1.08):new T.CylinderGeometry(.42,.42,1.16,24);const ghost=new T.Mesh(geo,new T.MeshBasicMaterial({color:0x80efba}));ghost.userData.propGhost=kind;ghost.castShadow=false;this.scene.add(ghost);}
  this.props=[];
  for(const [kind,point]of defs){
   const id=this.props.length,p=new V(...point),isBarrel=kind==='barrel',size=isBarrel?new V(.84,1.16,.84):new V(1.08,1.10,1.08);
@@ -34,4 +34,6 @@ SmearCompute.prototype.buildProps=function(){
   }
   this.props.push({id,kind,position:point,size:size.toArray(),box:b,faces:Object.fromEntries(Object.entries(b.faces).map(([name,s])=>[name,s.id]))});
  }
+ // Append undersides after the original charts so existing receiver IDs survive.
+ for(const prop of this.props){const b=prop.box,s=this.propSurface(b.p.clone().add(new V(0,-b.half.y-.003,0)),new V(1,0,0),new V(0,0,-1),b.half.x*2,b.half.z*2);s.propIndex=prop.id;s.mesh.visible=false;b.faces.yn=s;prop.faces.yn=s.id;}
 };

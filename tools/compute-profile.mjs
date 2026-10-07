@@ -12,8 +12,9 @@ const wallMode=process.argv.includes('wall-contact');
 const floorMode=process.argv.includes('floor-squeegee');
 const blastMode=process.argv.includes('destruction');
 const propMode=process.argv.includes('props');
+const toyMode=process.argv.includes('toybox');
 const buddyMode=process.argv.includes('buddy');
-const width=3000,height=1800,out=resolve('tools/out/compute-native-'+(buddyMode?'buddy-':propMode?'props-':blastMode?'destruction-':floorMode?'squeegee-':wallMode?'wall-':'')+browser);await mkdir(out,{recursive:true});
+const width=3000,height=1800,out=resolve('tools/out/compute-native-'+(toyMode?'toybox-':buddyMode?'buddy-':propMode?'props-':blastMode?'destruction-':floorMode?'squeegee-':wallMode?'wall-':'')+browser);await mkdir(out,{recursive:true});
 const page=await launchComputeBrowser({port:9598,width,height});
 const receipt={startedAt:new Date().toISOString(),viewport:[width,height],audioOutputMuted:true,browserProfile:page.dir,checks:[],profiles:[]};
 const watchdog=setTimeout(()=>{page.kill();process.exit(1);},180000);
@@ -33,15 +34,24 @@ try{
  receipt.audio=await page.eval('__smear.compute.audio()');assert.equal(receipt.audio.enabled,true);assert.equal(receipt.audio.state,'running');
  receipt.quality=await page.eval('__smear.quality()');assert.deepEqual(receipt.quality.canvas,[width,height]);assert.equal(receipt.quality.maxDrops,900);
  async function profile(label,start,stop=()=>page.eval('void 0')){
-  await start();await sleep(300);await page.eval('__smear.perf.clear();__smearGPU.gpuSamples.length=0;__gpuAudit.reads={};__gpuAudit.writes={};__gpuAudit.canvasReads=0;__gpuAudit.active=true;__smear.manual(false)');
-  const firstTick=await page.eval('__smearGPU.steps'),started=Date.now();await sleep(6000);await stop();await page.eval('__smear.manual(true);__gpuAudit.active=false');
+  await start();await page.eval('__smearGPU.device.queue.onSubmittedWorkDone()');await sleep(300);
+  const began=await page.eval('(()=>{__smear.perf.clear();__smearGPU.gpuSamples.length=0;__gpuAudit.reads={};__gpuAudit.writes={};__gpuAudit.canvasReads=0;__gpuAudit.active=true;__smear.manual(false);return {tick:__smearGPU.steps,time:performance.now()};})()');
+  await sleep(6000);const ended=await page.eval('(()=>{__smear.manual(true);__gpuAudit.active=false;return {tick:__smearGPU.steps,time:performance.now()};})()');await stop();
   const report=await page.eval('__smear.perf.report()'),state=await page.eval('__smear.compute.state()'),audit=await page.eval('__gpuAudit');
   receipt.lastAttempt={label,summary:report.summary,gpu:report.compute?.summary,audit};
-  assert.deepEqual(state.errors,[]);assert.equal(state.stampOverflow,0);assert.equal(audit.canvasReads,0);assert.equal(audit.webGLContexts,0);assert(!Object.keys(audit.reads).some(k=>/body inspection|pigment/.test(k)));assert(!Object.keys(audit.writes).some(k=>/pigment|droplet|ragdoll/.test(k)));
+  assert.deepEqual(state.errors,[]);assert.equal(state.stampOverflow,0);assert.equal(audit.canvasReads,0);assert.equal(audit.webGLContexts,0);assert(!Object.keys(audit.reads).some(k=>/body inspection|prop inspection|pigment/.test(k)));assert(!Object.keys(audit.writes).some(k=>/pigment|droplet|ragdoll/.test(k)));
   assert(report.summary.fps>55,`${label}: ${report.summary.fps} FPS`);assert(report.summary.workPercentileMs.p99<5,`${label}: CPU p99 ${report.summary.workPercentileMs.p99}`);
-  const ticksPerSecond=(state.steps-firstTick)/((Date.now()-started)/1000);assert(ticksPerSecond>110&&ticksPerSecond<125,label+' actual GPU tick rate '+ticksPerSecond);receipt.profiles.push({label,report,state,audit,ticksPerSecond});console.log(JSON.stringify({label,fps:report.summary.fps,main:report.summary.workPercentileMs,gpu:report.compute.summary,particles:state.particles,hits:state.hits,ticksPerSecond,audit}));await page.shot(resolve(out,label+'.png'));return state;
+  // Stop the timing window before explicit diagnostic downloads and teardown.
+  const ticksPerSecond=(state.steps-began.tick)/((ended.time-began.time)/1000);assert.equal(state.steps,ended.tick);assert(ticksPerSecond>110&&ticksPerSecond<125,label+' actual GPU tick rate '+ticksPerSecond);receipt.profiles.push({label,report,state,audit,ticksPerSecond,window:{began,ended}});console.log(JSON.stringify({label,fps:report.summary.fps,main:report.summary.workPercentileMs,gpu:report.compute.summary,particles:state.particles,hits:state.hits,ticksPerSecond,audit}));await page.shot(resolve(out,label+'.png'));return state;
  }
- if(buddyMode){
+ if(toyMode){
+  await page.eval("(async()=>{__smear.chaos();__smear.preset('default');await __smear.step(120);__smear.toybox.place(1);__smear.view([-3,3,7],[-3,0,5]);__smear.pointer(1500,900);__smear.render();await __smear.buddy.confirm();__smear.toybox.place(2);__smear.view([-1.8,3,7],[-1.8,0,5]);__smear.pointer(1500,900);__smear.render();await __smear.buddy.confirm();})()");
+  assert.equal((await page.eval('__smear.props()')).filter(p=>p.active).length,8);
+  await page.eval('__smear.tool(0);__smear.view([-6.45,2,1.5],[-6.45,.55,-1.8]);__smear.pointer(1500,900)');await page.mouse('mousePressed',1500,900);await page.eval('__smear.render()');await until(()=>page.eval('__smearGPU.input().body===180&&__smearGPU.input().held'),{label:'native crate pick'});
+  let moving=true;const move=(async()=>{let n=0;while(moving){await page.mouse('mouseMoved',1500+Math.sin(n*.055)*360,770+Math.cos(n*.05)*100);n++;await sleep(16);}})();
+  try{await profile('full-toybox',()=>page.eval('void 0'),()=>page.mouse('mouseReleased',1500,770));}finally{moving=false;await move;}
+  receipt.checks.push('Eight props, ten buddies, native crate dragging and active player collision retain the native frame budget without prop/body/pigment downloads');
+ }else if(buddyMode){
   await profile('buddy-preview',()=>page.eval("(async()=>{__smear.chaos();__smear.preset('default');await __smear.step(120);__smear.view([-3,2,7],[-3,0,3]);__smear.pointer(1500,900);__smear.buddy.begin(false);__smear.key('KeyE',true);})()"),()=>page.eval("__smear.key('KeyE',false)"));
   assert(await page.eval('!!__smear.buddy.state().placement'));receipt.checks.push('A rotating GPU placement preview in the ten-buddy scene keeps the native frame budget without pose or paint downloads');
  }else if(blastMode||propMode){
@@ -72,7 +82,7 @@ try{
  await page.eval('__smear.step(2400)');const recovered=await page.eval('__smear.compute.state()');assert(recovered.parts.every(p=>[...p.p,...p.q,...p.v].every(Number.isFinite)));assert(recovered.parts.some(p=>p.mode>1.5));receipt.checks.push('Finite long GPU simulation and recovery');
  }else{
   await installWallContactFixture(page);
-  await profile('wall-contact',async()=>{await page.eval("__contactPlay.setup('drag')");await page.eval("__smear.grab(0,'Torso',[0,0,.125])");await page.eval('__contactPlay.advance(240);__contactPlay.startTick=__smearGPU.steps-240;__contactPlay.timer=setInterval(()=>__smear.target(__contactTarget((__smearGPU.steps-__contactPlay.startTick)/120,"drag")),8)');},()=>page.eval('__contactPlay.stop();__smear.release()'));
+  await profile('wall-contact',async()=>{await page.eval("__contactPlay.setup('drag')");await page.eval("__smear.grab(0,'Torso',[0,0,.125])");await page.eval('(async()=>{await __contactPlay.advance(240);__contactPlay.startTick=__smearGPU.steps-240;__contactPlay.timer=setInterval(()=>__smear.target(__contactTarget((__smearGPU.steps-__contactPlay.startTick)/120,"drag")),8);})()');},()=>page.eval('__contactPlay.stop();__smear.release()'));
   receipt.checks.push('Sustained native wall contact remains above 55 FPS with GPU simulation and no body or pigment readbacks');
  }
  receipt.errors=page.logs.filter(s=>/^EXCEPTION:|^error:/i.test(s));assert.deepEqual(receipt.errors,[]);receipt.result='COMPLETE native GPU gameplay and 3000x1800 profiles passed';console.log(receipt.result+' ('+receipt.checks.length+' checks)');

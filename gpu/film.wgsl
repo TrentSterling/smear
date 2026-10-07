@@ -123,7 +123,7 @@ fn wallPotential(rec:u32,r:Record,cell:vec2i,mass:f32)->f32 {
 @compute @workgroup_size(256) fn runoffFilm(@builtin(workgroup_id) group:vec3u,@builtin(local_invocation_index) lane:u32){
  if(lane==0u){filmRecordID=filmRecordForGroup(group.x);}workgroupBarrier();
  let rec=filmRecordID;if(rec<16u){return;}let r=record(rec);let dims=filmDimensions(r);let local=(group.x-u32(r.extra.w))*256u+lane;if(local>=dims.x*dims.y){return;}
- let cell=vec2u(local%dims.x,local/dims.x);let address=u32(r.extra.z)+local;let mass=filmRead(0u,address);if(propGone(r.center.w)){
+ let cell=vec2u(local%dims.x,local/dims.x);let address=u32(r.extra.z)+local;let mass=filmRead(0u,address);if(frame.action.y==11&&r.center.w<=0){return;}if(propGone(r.center.w)){
   let amount=atomicExchange(&wet[filmOffset(0u)+address],0u);if(amount==0u){return;}let volume=f32(amount)/FILM_SCALE*r.size.x*r.size.y/f32(dims.x*dims.y);let p=r.center.xyz+r.u.xyz*((f32(cell.x)+.5)/r.u.w-.5)*r.size.x+r.v.xyz*((f32(cell.y)+.5)/r.v.w-.5)*r.size.y;let seed=address*977u;
   if(atomicAdd(&work[destructionMeta()+1u],1u)<72u&&launchDrop(p+r.n.xyz*.025,r.n.xyz*(.8+hash(seed)*2)+vec3f(0,1,0),clamp(pow(volume,.333333)*.45,.005,.022),999u,volume)){return;}returnFilm(floorRecord(p),vec3f(p.x,0,p.z),volume);return;
  }if(mass<.025){return;}
@@ -150,6 +150,7 @@ fn wallPotential(rec:u32,r:Record,cell:vec2i,mass:f32)->f32 {
  if(point.y<.025){returnFilm(floorRecord(point),point,volume);takeWet(filmOffset(0u)+address,u32(round(amount*FILM_SCALE)));atomicAdd(&work[26],1u);return;}
  var motion=r.u.xyz*velocity.x+r.v.xyz*velocity.y+r.n.xyz*.10+vec3f(0,-.35,0);
  if(overhead){motion=r.u.xyz*(velocity.x+(hash(address+tick*83u)-.5)*.18)+r.v.xyz*(velocity.y+(hash(address+tick*163u)-.5)*.18)+r.n.xyz*(.03+hash(address+tick*277u)*.12);}
+ motion+=propVelocity(r.center.w,point);
  if(launchDrop(point,motion,clamp(pow(volume,.333333)*.45,.005,.022),999u,volume)){takeWet(filmOffset(0u)+address,u32(round(amount*FILM_SCALE)));atomicAdd(&work[26],1u);}
 }
 fn returnFilm(rec:u32,point:vec3f,volume:f32){
