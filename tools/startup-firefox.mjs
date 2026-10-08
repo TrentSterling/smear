@@ -1,0 +1,11 @@
+// Explicitly authorized isolated Firefox window; never attaches to a user profile.
+import {launchFirefox} from './bidi.mjs';import {until} from './cdp.mjs';
+import {readFile,writeFile,mkdir} from 'node:fs/promises';import {resolve} from 'node:path';import {pathToFileURL} from 'node:url';import {createHash} from 'node:crypto';
+const out=resolve('tools/out/gauntlet-v46/firefox');await mkdir(out,{recursive:true});const r={at:new Date().toISOString(),runs:[]};
+for(const [label,source]of (process.argv.includes('after-only')?[['after','index.html']]:[['before','tools/out/gauntlet-v46/before/build.html'],['after','index.html']])){
+ const html=await readFile(source,'utf8');const hook=`window.__bootPhases={};for(const key of ['init','pipelines','buildDummy','buildProps','packGeometry','loadDummyMesh','textures']){const f=SmearCompute.prototype[key];if(!f)continue;SmearCompute.prototype[key]=function(...args){const start=performance.now();const end=()=>{__bootPhases[key]={start,ms:performance.now()-start};};const result=f.apply(this,args);if(result?.then)return result.then(v=>{end();return v;});end();return result;};}`;
+ const file=resolve(out,label+'.html');await writeFile(file,html.replace('computeBoot().catch(computeFailure);',hook+'computeBoot().catch(computeFailure);'));
+ const page=await launchFirefox({port:9597,width:1600,height:1000,headless:false});const row={label,profile:page.dir,sha256:createHash('sha256').update(html).digest('hex'),loads:[]};r.runs.push(row);
+ try{for(let n=0;n<2;n++){await page.goto(pathToFileURL(file).href+'?defaults=1&run='+n);await until(async()=>{if(page.logs.some(s=>s.startsWith('error:')))throw Error(page.logs.join('\n'));return page.eval('!!window.__smearComputeReady');},{timeout:90000,label:'Firefox GPU ready'});const data=await page.eval('({ready:__bootPhases.init.start+__bootPhases.init.ms,phases:__bootPhases,loading:window.__smearStartup,adapter:{vendor:__smearGPU.adapter.info.vendor,architecture:__smearGPU.adapter.info.architecture,isFallbackAdapter:__smearGPU.adapter.info.isFallbackAdapter},errors:__smearGPU.errors})');row.loads.push(data);console.log(JSON.stringify({label,n,...data}));await page.shot(resolve(out,label+'-'+n+'.png'));}}
+ catch(e){row.error=e.stack;process.exitCode=1;console.error(e);}finally{page.kill();await writeFile(resolve(out,'receipt.json'),JSON.stringify(r,null,2));}
+}

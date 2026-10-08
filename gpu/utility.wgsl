@@ -47,8 +47,16 @@ fn utilityAim()->RayHit{return rayHit(frame.rayO.xyz,safeNorm(frame.rayD.xyz),se
  let tank=u+select(0u,1u,tool==9u);let capacity=select(.25,2.0,tool==9u);let taken=takeWet(filmOffset(0u)+address,u32(mass*min(.8,dt*10)*FILM_SCALE));let volume=f32(taken)/FILM_SCALE*area;let stored=storeVolume(tank,volume,capacity);if(volume>stored){returnFilm(rec,p,volume-stored);}
  if(tool==6u&&atomicLoad(&work[u])>u32(.225*VOLUME_SCALE)&&mass<.02){let v=f32(takeStored(u,u32(area*dt*.025*VOLUME_SCALE)))/VOLUME_SCALE;returnFilm(rec,p,v);}
 }
+// Stable separate capture berths. Contact impulses can now keep props apart
+// instead of fighting several springs whose targets are the same point.
+fn magnetTarget(id:u32,origin:vec3f,axis:vec3f)->vec3f{
+ var rank=0u;for(var j=0u;j<id;j++){let b=propBody(j);if(!propGone(f32(j+1u))&&(b.half.w==2||b.half.w==8)&&distance(origin,b.p.xyz)<7){rank++;}}
+ let right=safeNorm(cross(axis,select(vec3f(0,1,0),vec3f(0,0,1),abs(axis.y)>.94)));let up=safeNorm(cross(right,axis));
+ let side=select(-1.0,1.0,rank%2u==1u);let offset=select(0.0,side*1.18*f32((rank+1u)/2u),rank>0u);
+ return origin+axis*(2.15+f32(rank/3u)*.45)+right*offset+up*select(0.0,.18,rank>0u);
+}
 fn utilitySecondary(){
- let tool=toolID();if(tool==10u){atomicStore(&work[utilityBase()+16u],1u);let axis=safeNorm(frame.rayD.xyz);let origin=frame.rayO.xyz;for(var i=0u;i<propCount();i++){let b=propBody(i);if(!propGone(f32(i+1u))&&(b.half.w==2||b.half.w==8)&&distance(b.p.xyz,origin+axis*1.9)<2.1&&utilityVisible(origin,b.p.xyz)){propImpulse(f32(i+1u),b.p.xyz,axis*18/max(b.p.w,.01));}}for(var i=8u;i<128u;i++){let s=ordnanceState(i);if((atomicLoad(&work[s+23u])==2u||atomicLoad(&work[s+23u])==10u)&&distance(ordVector(s),origin+axis*1.6)<2.1&&blastVisibility(origin,ordVector(s))){atomicStore(&work[s+20u],0u);putVector(s+4u,axis*27);}}}
+ let tool=toolID();if(tool==10u){atomicStore(&work[utilityBase()+16u],1u);let axis=safeNorm(frame.rayD.xyz);let origin=frame.rayO.xyz;for(var i=0u;i<propCount();i++){let b=propBody(i);if(!propGone(f32(i+1u))&&(b.half.w==2||b.half.w==8)&&distance(b.p.xyz,magnetTarget(i,origin,axis))<2.1&&utilityVisible(origin,b.p.xyz)){propImpulse(f32(i+1u),b.p.xyz,axis*18/max(b.p.w,.01));}}for(var i=8u;i<128u;i++){let s=ordnanceState(i);if((atomicLoad(&work[s+23u])==2u||atomicLoad(&work[s+23u])==10u)&&distance(ordVector(s),origin+axis*1.6)<2.1&&blastVisibility(origin,ordVector(s))){atomicStore(&work[s+20u],0u);putVector(s+4u,axis*27);}}}
 }
 fn toggleUtilityProp(){let hit=utilityAim();var id=999u;if(frame.goal.w>=180){id=u32(frame.goal.w)-180u;}else if(hit.surface>=0){let tag=record(u32(hit.surface)).center.w;if(tag>0){id=u32(tag)-1u;}}id=machineOwner(id);if(id<propCount()&&machineKind(constants[propData(id)+6u].w)){let u=utilityProp(id)+1u;atomicStore(&work[u],1u-min(1u,atomicLoad(&work[u])));}}
 
@@ -62,7 +70,7 @@ fn toggleUtilityProp(){let hit=utilityAim();var id=999u;if(frame.goal.w>=180){id
  }
  if(index<180u+propCount()){let i=index-180u;if(propGone(f32(i+1u))){return;}let b=propBody(i);var force=fanForce(b.p.xyz)*2;let belt=beltVelocity(b.p.xyz,b.half.y);if(length(belt)>0){force+=(belt-b.v.xyz)*18/max(b.p.w,.01);}
   if(left&&(tool==7u||tool==8u)){force+=axis*coneForce(origin,axis,b.p.xyz,7,select(.3,.09,tool==8u))*65;}
-  if(magnetPull()&&(b.half.w==2||b.half.w==8)&&distance(origin,b.p.xyz)<7&&utilityVisible(origin,b.p.xyz)){atomicOr(&work[u+17u],1u<<i);force+=(bounded((origin+axis*1.9-b.p.xyz)*12,18)-b.v.xyz)*12/max(b.p.w,.01);}
+  if(magnetPull()&&(b.half.w==2||b.half.w==8)&&distance(origin,b.p.xyz)<7&&utilityVisible(origin,b.p.xyz)){atomicOr(&work[u+17u],1u<<i);force+=bounded((bounded((magnetTarget(i,origin,axis)-b.p.xyz)*5,8)-b.v.xyz)*8,42)/max(b.p.w,.01);}
   if(length(force)>.01){propImpulse(f32(i+1u),b.p.xyz,force*dt);}return;
  }
  let i=index-180u-propCount()+8u;if(i>=128u){return;}let state=ordnanceState(i);let kind=atomicLoad(&work[state+23u]);if(kind!=2u&&!restingFragment(kind)){return;}let p=ordVector(state);let v=ordVector(state+4u);var force=fanForce(p);

@@ -2,7 +2,7 @@
 SmearCompute.prototype.buildTools=function(){
  const T=this.THREE,V=T.Vector3;
  const mat=(color,roughness=.55,metalness=.08)=>{const m=new T.MeshStandardMaterial({color,roughness,metalness});m.color.convertSRGBToLinear();return m;};
- const ink=mat(0x253a3e,.5),steel=mat(0x778887,.3,.72),ceramic=mat(0xd9d2b7,.43),amber=mat(0xd09a32,.5),rubber=mat(0x18292c,.85),glove=mat(0x8c7060,.83),seam=mat(0x54463e,.8);
+ const ink=mat(0x253a3e,.5),steel=mat(0x778887,.3,.72),ceramic=mat(0xd9d2b7,.43),amber=mat(0xd09a32,.5),rubber=mat(0x18292c,.85),glove=mat(0x596568,.76),seam=mat(0x293b3d,.87);
  const add=(parent,geometry,material,p=[0,0,0])=>{const m=new T.Mesh(geometry,material);m.position.set(...p);m.castShadow=false;parent.add(m);return m;};
  const shapes=new Map();
  const box=(parent,size,p,material,r=.004)=>{
@@ -12,25 +12,31 @@ SmearCompute.prototype.buildTools=function(){
  };
  const cylinder=(parent,radius,length,p,material)=>{const m=add(parent,new T.CylinderGeometry(radius,radius,length,20),material,p);m.rotation.x=Math.PI/2;return m;};
  const segment=(parent,a,b,r,material)=>{const from=new V(...a),to=new V(...b),delta=to.clone().sub(from),m=add(parent,new T.CapsuleGeometry(r,Math.max(.001,delta.length()-2*r),4,10),material,from.add(to).multiplyScalar(.5).toArray());m.quaternion.setFromUnitVectors(new V(0,1,0),delta.normalize());return m;};
- const label=(parent,text,p,size,rotation,radius=0)=>{const c=document.createElement('canvas');c.width=512;c.height=256;const ctx=c.getContext('2d');ctx.fillStyle='#d9d2b7';ctx.fillRect(0,0,512,256);ctx.fillStyle='#253a3e';ctx.font='900 92px Arial';ctx.textAlign='center';ctx.fillText(text,256,119);ctx.font='bold 35px Arial';ctx.fillText('MATERIAL RESPONSE LAB',256,190);const m=add(parent,radius?new T.CylinderGeometry(radius,radius,size[1],24,1,true,-size[0]/radius/2,size[0]/radius):new T.PlaneGeometry(...size),new T.MeshStandardMaterial({map:new T.CanvasTexture(c),roughness:.65}),p);m.rotation.set(...rotation);return m;};
- const makeHand=(parent)=>{
-  const root=new T.Group();parent.add(root);
-  const palm=box(root,[.063,.091,.047],[.023,-.103,.094],glove,.014);palm.rotation.z=-.18;
-  const pad=box(root,[.045,.046,.005],[.022,-.091,.120],seam,.002);pad.rotation.z=-.18;
-  for(let i=0;i<3;i++)segment(root,[.004,-.091+i*.011,.125],[.036,-.097+i*.011,.125],.0014,glove);
-  segment(root,[.030,-.13,.104],[.043,-.195,.153],.030,glove);
-  const forearm=new V(.115,-.33,.34),wrist=new V(.043,-.195,.153);const sleeve=add(root,new T.CylinderGeometry(.034,.048,forearm.distanceTo(wrist),18),ink,wrist.clone().add(forearm).multiplyScalar(.5).toArray());sleeve.quaternion.setFromUnitVectors(new V(0,1,0),wrist.clone().sub(forearm).normalize());
-  const cuff=box(root,[.079,.042,.072],[.042,-.176,.152],rubber,.006);cuff.rotation.x=-.65;
-  box(root,[.050,.008,.022],[.043,-.159,.183],amber,.003).rotation.x=-.65;
-  for(let i=0;i<3;i++){
-   const y=-.076-i*.022;
-   segment(root,[.027,y,.056],[-.037,y-.007,.061],.012,glove);
-   segment(root,[-.037,y-.007,.061],[-.031,y-.011,.098],.012,glove);
-   segment(root,[-.032,y+.006,.071],[-.031,y+.005,.085],.002,seam);
+ const label=(parent,text,p,size,rotation,radius=0)=>{const group=new T.Group();group.position.set(...p);group.rotation.set(...rotation);parent.add(group);
+  const backing=add(group,radius?new T.CylinderGeometry(radius,radius,size[1],32,1,true,-size[0]/radius/2,size[0]/radius):new T.PlaneGeometry(...size),ceramic);
+  const letters=this.glyphMesh(text,size[0]*.88,size[1]*.49,0x253a3e,radius?radius+.0008:0);letters.position.set(0,size[1]*.10,radius?0:.0008);group.add(letters);
+  const sub=this.glyphMesh('SMEAR / FIELD LAB',size[0]*.86,size[1]*.15,0x253a3e,radius?radius+.0009:0,0);sub.position.set(0,-size[1]*.28,radius?0:.0009);group.add(sub);return group;};
+ this.handRigs=[];this.reloadParts=[];
+ const registerHand=(root,parent,side=1)=>{root.userData.handRig=true;root.userData.side=side;parent.add(root);this.handRigs.push(root);return root;};
+ const makeHand=(parent,power=false)=>{
+  const root=registerHand(new T.Group(),parent);
+  // Four articulated fingers close around the handle; a separate thumb
+  // opposes the fingers instead of floating beside a block-shaped palm.
+  const palm=add(root,new T.SphereGeometry(1,18,12),glove,[.040,-.105,.091]);palm.scale.set(.026,.052,.030);palm.rotation.z=-.10;
+  const pad=add(root,new T.SphereGeometry(1,16,10),seam,[.049,-.099,.111]);pad.scale.set(.022,.031,.011);
+  for(let i=power?0:1;i<4;i++){
+   const y=-.059-i*.024;const front=.029+(i===3?.008:0);
+   segment(root,[.038,y,.059],[-.016,y-.002,front],.011,glove);
+   segment(root,[-.016,y-.002,front],[-.036,y-.009,.065],.011,glove);
+   segment(root,[-.036,y-.009,.065],[-.020,y-.013,.093],.010,glove);
+   segment(root,[-.030,y+.003,.050],[-.035,y-.001,.065],.0015,seam);
   }
-  segment(root,[.038,-.074,.084],[.038,-.043,.039],.015,glove);
-  segment(root,[.038,-.043,.039],[.032,-.041,.014],.014,glove);
-  segment(root,[.018,-.071,.031],[-.007,-.063,.020],.010,glove);
+  if(!power){segment(root,[.047,-.069,.077],[.039,-.063,.013],.011,glove);segment(root,[.039,-.063,.013],[.007,-.063,.015],.010,glove);}
+  segment(root,[.054,-.100,.101],[.061,-.057,.088],.014,glove);segment(root,[.061,-.057,.088],[.010,-.054,.054],.013,glove);
+  segment(root,[.041,-.125,.098],[.058,-.195,.158],.030,glove);
+  const wrist=new V(.058,-.195,.158),elbow=new V(.155,-.35,.38),axis=elbow.clone().sub(wrist);
+  const sleeve=add(root,new T.CylinderGeometry(.034,.050,axis.length(),20),ink,wrist.clone().add(elbow).multiplyScalar(.5).toArray());sleeve.quaternion.setFromUnitVectors(new V(0,1,0),axis.normalize());
+  const cuff=add(root,new T.CylinderGeometry(.038,.041,.034,18),rubber,wrist.toArray());cuff.quaternion.copy(sleeve.quaternion);box(root,[.032,.008,.016],[.063,-.174,.178],amber,.002).rotation.x=-.65;
   return root;
  };
  // Retain the live slide and flash groups referenced by the input/recoil code.
@@ -64,7 +70,9 @@ SmearCompute.prototype.buildTools=function(){
  segment(this.gun,[.022,-.087,-.014],[.022,-.086,.039],.005,ink);
  segment(this.gun,[0,-.044,.009],[0,-.069,.020],.005,steel);
  label(this.slide,'SM / 09',[0,.068,.004],[.039,.021],[-Math.PI/2,0,0]);
- makeHand(this.gun);this.flash.position.z=-.177;
+ this.pistolHand=makeHand(this.gun);this.flash.position.z=-.177;
+ this.pistolMagazine=new T.Group();this.gun.add(this.pistolMagazine);this.pistolMagazine.userData.reloadPart=true;
+ box(this.pistolMagazine,[.039,.103,.050],[0,-.117,.065],rubber,.004);box(this.pistolMagazine,[.061,.015,.076],[0,-.174,.078],amber,.003);
  // Spill has its own visible pressure bottle and pump instead of an empty viewport.
  this.spillCan=new T.Group();this.spillCan.userData.viewTool=true;this.spillCan.visible=false;this.camera.add(this.spillCan);
  this.spillCan.scale.setScalar(.82);
@@ -76,7 +84,7 @@ SmearCompute.prototype.buildTools=function(){
  cylinder(this.spillCan,.017,.039,[0,.073,-.098],steel);cylinder(this.spillCan,.010,.002,[0,.073,-.119],rubber);
  box(this.spillCan,[.029,.016,.064],[0,.095,-.012],amber,.005);
  label(this.spillCan,'PIGMENT',[0,-.065,.015],[.082,.080],[0,0,0],.061);
- const spillHand=makeHand(this.spillCan);spillHand.position.set(.034,-.010,.009);spillHand.rotation.z=-.12;
+ const spillHand=makeHand(this.spillCan,true);spillHand.position.set(.029,.016,-.014);spillHand.rotation.z=-.12;
  // Turned timber, wrapped grip and staggered steel spikes; a single rigid tool.
  this.bat=new T.Group();this.bat.userData.viewTool=true;this.bat.visible=false;this.camera.add(this.bat);
  const timber=mat(0xa57a45,.72,.01),endgrain=mat(0x735035,.8),tape=mat(0x3a4240,.93);
@@ -98,7 +106,7 @@ SmearCompute.prototype.buildTools=function(){
   }
  }
  label(shaft,'SM / IMPACT',[0,.23,0],[.07,.065],[0,0,0],.042);
- makeHand(this.bat);
+ this.batHand=makeHand(this.bat,true);
  // A segmented grenade, safety lever, pin ring and the same gloved grip.
  this.grenadeTool=new T.Group();this.grenadeTool.userData.viewTool=true;this.grenadeTool.visible=false;this.camera.add(this.grenadeTool);
  const olive=mat(0x637138,.55,.35);add(this.grenadeTool,new T.SphereGeometry(.066,16,12),olive,[0,-.045,0]).scale.y=1.25;
@@ -108,7 +116,7 @@ SmearCompute.prototype.buildTools=function(){
  label(this.grenadeTool,'SM / FRAG',[0,-.047,0],[.065,.033],[0,0,0],.065);
  // A cupped power grip around the grenade, with the thumb over the lever.
  // The wrist follows the right forearm instead of reusing the pistol grip.
- const grenadeHand=new T.Group();this.grenadeTool.add(grenadeHand);
+ const grenadeHand=registerHand(new T.Group(),this.grenadeTool);this.grenadeHand=grenadeHand;
  const grenadePalm=add(grenadeHand,new T.SphereGeometry(1,16,12),glove,[.029,-.061,.073]);grenadePalm.scale.set(.038,.050,.022);grenadePalm.rotation.z=-.22;
  for(let i=0;i<3;i++)segment(grenadeHand,[.027,-.036-i*.016,.097],[.050,-.043-i*.016,.092],.0016,seam);
  for(let i=0;i<4;i++){
@@ -120,7 +128,7 @@ SmearCompute.prototype.buildTools=function(){
  }
  segment(grenadeHand,[.066,-.048,.060],[.067,.006,.030],.017,glove);
  segment(grenadeHand,[.067,.006,.030],[.018,.029,.047],.015,glove);
- segment(grenadeHand,[.034,-.105,.065],[.071,-.169,.135],.032,glove);
+ segment(grenadeHand,[.034,-.085,.065],[.071,-.169,.135],.032,glove);
  const grenadeCuff=box(grenadeHand,[.083,.044,.078],[.073,-.163,.141],rubber,.007);grenadeCuff.rotation.set(-.65,0,-.25);
  segment(grenadeHand,[.078,-.180,.154],[.176,-.330,.300],.047,ink);
  box(grenadeHand,[.045,.010,.024],[.079,-.142,.173],amber,.003).rotation.x=-.65;
@@ -137,7 +145,7 @@ SmearCompute.prototype.buildTools=function(){
  // A compact trigger hand and a mirrored support grip. Forearms run back
  // toward their own shoulders rather than duplicating the pistol wrist pose.
  const launcherHand=(side,origin,wrist,elbow,parent=this.rocketTool)=>{
-  const root=new T.Group();root.position.set(...origin);parent.add(root);
+  const root=registerHand(new T.Group(),parent,side);root.position.set(...origin);
   const palm=add(root,new T.SphereGeometry(1,16,12),glove,[side*.021,-.073,.019]);palm.scale.set(.037,.049,.025);palm.rotation.z=side*-.13;
   box(root,[.050,.040,.006],[side*.014,-.065,.032],seam,.004);
   for(let i=side>0?1:0;i<4;i++){const y=-.038-i*.017;segment(root,[side*.038,y,-.023],[-side*.032,y-.004,-.028],.0105,glove);segment(root,[-side*.032,y-.004,-.028],[-side*.035,y-.010,.013],.0105,glove);}
@@ -145,13 +153,15 @@ SmearCompute.prototype.buildTools=function(){
   segment(root,[side*.044,-.070,.020],[side*.042,-.020,-.004],.013,glove);
   segment(root,[side*.042,-.020,-.004],[side*.012,-.014,-.022],.012,glove);
   const joint=[origin[0]+side*.012,origin[1]-.115,origin[2]+.012];
-  segment(parent,joint,wrist,.034,glove);segment(parent,wrist,elbow,.043,ink);
-  const cuff=new T.Group();cuff.position.set(...wrist);cuff.quaternion.setFromUnitVectors(new V(0,1,0),new V(...elbow).sub(new V(...wrist)).normalize());parent.add(cuff);add(cuff,new T.CylinderGeometry(.046,.046,.045,16),rubber);
+  const wristLocal=wrist.map((v,i)=>v-origin[i]);segment(root,joint.map((v,i)=>v-origin[i]),wristLocal,.031,glove);
+  const arm=new T.Group();arm.userData.reloadPart=true;root.add(arm);add(arm,new T.CylinderGeometry(.060,.034,1,16),ink);
+  const cuff=new T.Group();cuff.userData.reloadPart=true;cuff.position.set(...wristLocal);root.add(cuff);add(cuff,new T.CylinderGeometry(.046,.043,.045,16),rubber);
+  root.userData.forearm={arm,cuff,wrist:new V(...wristLocal),anchor:new V(side<0?-.34:.43,-.65,.04)};return root;
  };
  launcherHand(1,[0,.008,.075],[.055,-.17,.16],[.18,-.32,.50]);
  // The support hand has a real foregrip to close around, below the tube.
  box(this.rocketTool,[.050,.104,.055],[0,-.061,-.285],rubber,.008);
- launcherHand(-1,[0,.002,-.285],[-.065,-.14,-.20],[-.34,-.28,.22]);
+ this.rocketSupport=launcherHand(-1,[0,.002,-.285],[-.065,-.14,-.20],[-.34,-.28,.22]);
  // Pump shotgun with a moving fore-end, magazine tube and a stock tucked back.
  this.shotgunTool=new T.Group();this.shotgunTool.userData.viewTool=true;this.camera.add(this.shotgunTool);
  const shotgun=this.shotgunTool;shotgun.scale.setScalar(.9);box(shotgun,[.085,.10,.24],[0,.025,-.015],ink,.010);
@@ -165,7 +175,7 @@ SmearCompute.prototype.buildTools=function(){
  this.shotgunFlash=add(shotgun,new T.SphereGeometry(.055,6,4),new T.MeshBasicMaterial({color:0xffd17e}),[0,.049,-.66]);this.shotgunFlash.scale.z=2.5;this.shotgunFlash.visible=false;
  label(shotgun,'SM / 12',[0,.079,-.010],[.054,.086],[-Math.PI/2,0,0]);
  launcherHand(1,[0,.016,.085],[.07,-.17,.17],[.23,-.31,.47],shotgun);
- launcherHand(-1,[0,-.020,-.31],[-.075,-.18,-.21],[-.32,-.30,.20],this.shotgunPump);
+ this.shotgunSupport=launcherHand(-1,[0,-.020,-.31],[-.075,-.18,-.21],[-.32,-.30,.20],this.shotgunPump);
  // Open twin guide rails frame the visibly toothed blade instead of a gun barrel.
  this.sawTool=new T.Group();this.sawTool.userData.viewTool=true;this.camera.add(this.sawTool);const saw=this.sawTool;saw.scale.setScalar(.86);
  box(saw,[.16,.15,.25],[0,.025,.015],ink,.016);box(saw,[.17,.055,.20],[0,.112,.015],amber,.008);
@@ -175,16 +185,16 @@ SmearCompute.prototype.buildTools=function(){
  box(saw,[.055,.115,.072],[0,-.10,.095],rubber,.009);box(saw,[.055,.10,.052],[0,-.096,-.21],rubber,.006);
  label(saw,'SM / SAW',[.087,.06,.015],[.18,.074],[0,Math.PI/2,0]);
  launcherHand(1,[0,-.030,.095],[.08,-.22,.18],[.24,-.34,.46],saw);
- launcherHand(-1,[0,-.027,-.21],[-.07,-.19,-.14],[-.33,-.31,.21],saw);
+ this.sawSupport=launcherHand(-1,[0,-.027,-.21],[-.07,-.19,-.14],[-.33,-.31,.21],saw);
  // Cleanup tools share the same grip language, with distinct working ends.
  this.utilityTools=[];
  const makeUtility=()=>{const g=new T.Group();g.userData.viewTool=true;g.visible=false;this.camera.add(g);this.utilityTools.push(g);return g;};
  const mop=makeUtility();segment(mop,[0,-.13,.07],[0,-.10,-.87],.019,steel);cylinder(mop,.026,.20,[0,-.11,-.02],rubber);box(mop,[.42,.045,.14],[0,-.13,-.88],amber,.009);
- for(let i=0;i<22;i++){const x=(i/21-.5)*.39;segment(mop,[x,-.15,-.87],[x+Math.sin(i*2.7)*.014,-.22,-.91-(i%4)*.022],.009,ceramic);segment(mop,[x,-.15,-.87],[x,-.22,-.80+(i%3)*.014],.009,ceramic);}makeHand(mop);
- const blower=makeUtility();add(blower,new T.SphereGeometry(.105,20,12),amber,[0,-.025,.035]).scale.set(1,1,1.25);cylinder(blower,.057,.16,[0,-.017,-.095],ink);cylinder(blower,.038,.40,[0,-.012,-.34],steel);box(blower,[.10,.025,.025],[0,.098,.02],ink);for(let i=0;i<6;i++)box(blower,[.018,.085,.004],[.104,-.019,-.004+i*.013],rubber,.001);makeHand(blower);
- const washer=makeUtility();box(washer,[.065,.055,.18],[0,.012,.015],amber);box(washer,[.05,.11,.054],[0,-.072,.067],ink);cylinder(washer,.011,.65,[0,.018,-.36],steel);cylinder(washer,.025,.07,[0,.018,-.70],ink);cylinder(washer,.012,.008,[0,.018,-.741],ceramic);segment(washer,[0,-.13,.08],[.10,-.25,.19],.013,rubber);makeHand(washer);
- const vacuum=makeUtility();cylinder(vacuum,.076,.25,[0,-.01,-.025],ceramic);for(const z of [-.14,.095])cylinder(vacuum,.079,.032,[0,-.01,z],ink);cylinder(vacuum,.036,.28,[0,-.015,-.28],steel);box(vacuum,[.24,.045,.065],[0,-.028,-.44],ink);for(let i=0;i<8;i++)box(vacuum,[.010,.044,.055],[-.08+i*.023,-.043,-.443],rubber,.001);box(vacuum,[.017,.082,.14],[.08,-.016,-.03],amber);makeHand(vacuum);
- const magnet=makeUtility();box(magnet,[.105,.095,.19],[0,.0,-.025],ink,.012);for(const x of [-.083,.083]){box(magnet,[.045,.08,.26],[x,.016,-.18],steel);box(magnet,[.047,.082,.055],[x,.016,-.294],x<0?amber:ceramic);for(let i=0;i<7;i++)box(magnet,[.05,.088,.009],[x,.016,-.22+i*.018],amber,.002);}box(magnet,[.062,.11,.062],[0,-.087,.052],rubber);makeHand(magnet);
+ for(let i=0;i<22;i++){const x=(i/21-.5)*.39;segment(mop,[x,-.15,-.87],[x+Math.sin(i*2.7)*.014,-.22,-.91-(i%4)*.022],.009,ceramic);segment(mop,[x,-.15,-.87],[x,-.22,-.80+(i%3)*.014],.009,ceramic);}const mopHand=makeHand(mop,true);mopHand.rotation.x=Math.PI/2;mopHand.position.set(0,-.019,.068);
+ const blower=makeUtility();add(blower,new T.SphereGeometry(.105,20,12),amber,[0,-.025,.035]).scale.set(1,1,1.25);cylinder(blower,.057,.16,[0,-.017,-.095],ink);cylinder(blower,.038,.40,[0,-.012,-.34],steel);box(blower,[.10,.025,.025],[0,.098,.02],ink);for(let i=0;i<6;i++)box(blower,[.018,.085,.004],[.104,-.019,-.004+i*.013],rubber,.001);box(blower,[.053,.105,.061],[0,-.105,.066],rubber,.008);makeHand(blower);
+ const washer=makeUtility();box(washer,[.065,.055,.18],[0,.012,.015],amber);box(washer,[.05,.11,.054],[0,-.072,.067],ink);cylinder(washer,.011,.65,[0,.018,-.36],steel);cylinder(washer,.025,.07,[0,.018,-.70],ink);cylinder(washer,.012,.008,[0,.018,-.741],ceramic);segment(washer,[0,-.13,.08],[.10,-.25,.19],.013,rubber);makeHand(washer).position.set(0,.010,-.010);
+ const vacuum=makeUtility();cylinder(vacuum,.076,.25,[0,-.01,-.025],ceramic);for(const z of [-.14,.095])cylinder(vacuum,.079,.032,[0,-.01,z],ink);cylinder(vacuum,.036,.28,[0,-.015,-.28],steel);box(vacuum,[.24,.045,.065],[0,-.028,-.44],ink);for(let i=0;i<8;i++)box(vacuum,[.010,.044,.055],[-.08+i*.023,-.043,-.443],rubber,.001);box(vacuum,[.017,.082,.14],[.08,-.016,-.03],amber);box(vacuum,[.053,.105,.061],[0,-.105,.066],rubber,.008);makeHand(vacuum);
+ const magnet=makeUtility();box(magnet,[.105,.095,.19],[0,.0,-.025],ink,.012);for(const x of [-.083,.083]){box(magnet,[.045,.08,.26],[x,.016,-.18],steel);box(magnet,[.047,.082,.055],[x,.016,-.294],x<0?amber:ceramic);for(let i=0;i<7;i++)box(magnet,[.05,.088,.009],[x,.016,-.22+i*.018],amber,.002);}box(magnet,[.062,.11,.062],[0,-.087,.052],rubber);makeHand(magnet).position.set(0,.014,-.014);
  const sticky=makeUtility();add(sticky,new T.CylinderGeometry(.073,.073,.035,18),ink,[0,-.014,-.012],null);box(sticky,[.075,.028,.066],[0,.016,-.012],amber);box(sticky,[.040,.011,.029],[0,.037,-.012],ceramic);for(const x of [-.057,.057])segment(sticky,[x,.007,-.056],[x,.007,.033],.005,steel);makeHand(sticky).position.set(.021,-.025,.025);
  this.brawlTools=[];
  const boot=new T.Group();boot.userData.viewTool=true;boot.visible=false;this.camera.add(boot);this.brawlTools.push(boot);
@@ -192,14 +202,21 @@ SmearCompute.prototype.buildTools=function(){
  for(let n=0;n<5;n++)segment(boot,[-.045,.072,-.15+n*.035],[.045,.072,-.13+n*.035],.004,amber);
  const palms=new T.Group();palms.userData.viewTool=true;palms.visible=false;this.camera.add(palms);this.brawlTools.push(palms);
  for(const side of [-1,1]){const x=side*.19;box(palms,[.085,.10,.038],[x,0,0],glove,.015);for(let n=0;n<4;n++){const fx=x+(n-1.5)*.022;segment(palms,[fx,.025,0],[fx,.105-Math.abs(n-1.4)*.012,-.009],.009,glove);}segment(palms,[x-side*.047,-.028,0],[x-side*.075,.025,-.012],.014,glove);segment(palms,[x,-.045,.015],[x+side*.075,-.18,.30],.037,ink);box(palms,[.09,.032,.06],[x,-.067,.045],rubber,.008);}
+ this.pistolSupport=launcherHand(-1,[-.035,-.13,.095],[-.13,-.23,.20],[-.33,-.36,.40],this.gun);this.pistolSupport.visible=false;
  // Keep moving subassemblies independent and pack the rest by material.
  const merge=(root,exclude=[])=>{
+  exclude=[...exclude,...root.children.filter(c=>c.userData.handRig||c.userData.reloadPart)];for(const child of exclude)if(child.userData.handRig||child.userData.reloadPart)merge(child);
   root.updateWorldMatrix(true,true);const inverse=root.matrixWorld.clone().invert(),groups=new Map();
   root.traverse(o=>{if(!o.isMesh)return;for(let p=o;p&&p!==root;p=p.parent)if(exclude.includes(p))return;const g=o.geometry.clone().applyMatrix4(inverse.clone().multiply(o.matrixWorld));let group=groups.get(o.material);if(!group){group={positions:[],normals:[],uvs:[],indices:[]};groups.set(o.material,group);}const base=group.positions.length/3;for(const [name,key]of [['position','positions'],['normal','normals'],['uv','uvs']])for(const v of g.attributes[name].array)group[key].push(v);if(g.index)for(const index of g.index.array)group.indices.push(base+index);else for(let i=0;i<g.attributes.position.count;i++)group.indices.push(base+i);g.dispose();});
   for(const child of [...root.children])if(!exclude.includes(child))root.remove(child);
   for(const [material,data]of groups){const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(data.positions,3));g.setAttribute('normal',new T.Float32BufferAttribute(data.normals,3));g.setAttribute('uv',new T.Float32BufferAttribute(data.uvs,2));g.setIndex(data.indices);add(root,g,material);}
  };
  merge(this.gun,[this.slide,this.flash]);merge(this.slide);merge(this.spillCan);merge(this.bat);merge(this.grenadeTool);merge(this.rocketTool);merge(this.shotgunTool,[this.shotgunPump,this.shotgunFlash]);merge(this.shotgunPump);merge(this.sawTool,[this.loadedSaw]);for(const root of [...this.utilityTools,...this.brawlTools])merge(root);
+ this.reloadShell=add(this.shotgunSupport,new T.CylinderGeometry(.012,.012,.062,12),amber,[0,-.055,-.025]);this.reloadShell.rotation.x=Math.PI/2;this.reloadShell.visible=false;
+ this.rocketRound=new T.Group();this.rocketSupport.add(this.rocketRound);this.rocketRound.position.set(0,-.060,-.07);this.rocketRound.rotation.y=Math.PI;cylinder(this.rocketRound,.035,.29,[0,0,0],amber);const nose=add(this.rocketRound,new T.ConeGeometry(.035,.13,20),steel,[0,0,-.21]);nose.rotation.x=-Math.PI/2;this.rocketRound.visible=false;
+ this.reloadBlade=add(this.sawSupport,this.sawGeometry(),steel,[0,.10,-.05]);this.reloadBlade.scale.setScalar(.15);this.reloadBlade.rotation.z=Math.PI/2;this.reloadBlade.visible=false;
+ this.toolRoots=[null,this.gun,this.spillCan,this.bat,this.grenadeTool,this.rocketTool,...this.utilityTools,this.shotgunTool,this.sawTool];
+ for(const root of [...this.handRigs,this.pistolMagazine])root.userData.restPose={p:root.position.clone(),q:root.quaternion.clone()};
  this.toolPresentation={pistol:'beveled receiver, articulated slide, sights, gloved grip',spill:'pressure bottle and pump',bat:'turned wooden bat, wrapped grip, twelve steel spikes and gloved hand',meshes:0};
  this.toolPresentation.rocket='shouldered tube, trigger grip, forward support grip and correctly sided gloved forearms';
  for(const root of [this.gun,this.spillCan,this.bat,this.grenadeTool,this.rocketTool])root.traverse(o=>{if(o.isMesh)this.toolPresentation.meshes++;});
@@ -208,7 +225,7 @@ SmearCompute.prototype.sawGeometry=function(){
  const T=this.THREE,g=new T.CylinderGeometry(1,1,.09,64,1),p=g.attributes.position;
  for(let i=0;i<p.count;i++){const x=p.getX(i),z=p.getZ(i);if(Math.hypot(x,z)<.5)continue;const tooth=Math.round((Math.atan2(z,x)+Math.PI)*32/Math.PI),r=tooth%2===0?1:.82;p.setXYZ(i,x*r,p.getY(i),z*r);}g.computeVertexNormals();return g;
 };
-SmearCompute.prototype.updateToolPresentation=function(dt,{tool,panel,time,left,batAge=10,brawlAge=10,brawlKick=true,rocketAge=10,arsenalAge=10}){
+SmearCompute.prototype.updateToolPresentation=function(dt,{tool,panel,time,left,batAge=10,brawlAge=10,brawlKick=true,rocketAge=10,arsenalAge=10,reloadAge=10,reloadDuration=1.6,grenadeAge=10,inspectAge=10}){
  const brawling=brawlAge<.60&&!panel;const thrust=brawlAge<.14?brawlAge/.14:Math.max(0,1-(brawlAge-.14)/.46);for(let i=0;i<2;i++){const g=this.brawlTools[i];g.visible=brawling&&(i===0)===brawlKick;if(i===0){g.position.set(.10,-.59+thrust*.23,-.35-thrust*.52);g.rotation.set(-.35+thrust*.25,0,-.10);}else{g.position.set(0,-.32+thrust*.19,-.26-thrust*.48);g.rotation.set(.14,0,0);}}
  for(const [id,g]of [[12,this.shotgunTool],[13,this.sawTool]]){g.visible=tool===id&&!panel;if(g.visible){const kick=Math.exp(-arsenalAge*15)*Math.sin(Math.min(1,arsenalAge*35)*Math.PI/2);g.position.set(.245,-.21,-.48+kick*.095);g.rotation.set(-.035+kick*.095,-.015,-.035);}}
  this.shotgunFlash.visible=arsenalAge<.065;
@@ -226,5 +243,6 @@ SmearCompute.prototype.updateToolPresentation=function(dt,{tool,panel,time,left,
   this.bat.position.set(.29+wind*.10-sweep*.47,-.40+wind*.025+sweep*.10,-.85-wind*.03-sweep*.11);
   this.bat.rotation.set(.17+wind*.12-sweep*.56,-.15+wind*.28-sweep*.58,-.23-wind*.48+sweep*1.65);
  }
+ this.animateHandling({tool,time,reloadAge,reloadDuration,grenadeAge,inspectAge});
  if(brawling)for(const g of [this.gun,this.spillCan,this.bat,this.grenadeTool,this.rocketTool,this.shotgunTool,this.sawTool,...this.utilityTools])g.visible=false;
 };

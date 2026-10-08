@@ -9,7 +9,7 @@ SmearCompute.prototype.prepareDummyVariants=function(){
   for(const s of b.samples){s.p.x*=scale;s.p.z*=scale;s.r*=scale;}b.bound=Math.max(...b.samples.map(s=>s.p.length()+s.r));
  }
 };
-SmearCompute.prototype.buildDummy=function(){
+SmearCompute.prototype.meshDummy=function(){
  const T=this.THREE,parts=this.sourceBodies.slice(15,30),V=T.Vector3;
  const specifications=[];const smooth=(a,b,k)=>{const h=Math.max(0,Math.min(1,.5+.5*(b-a)/k));return b+(a-b)*h-k*h*(1-h);};
  const ellipsoid=(c,r)=>p=>{const x=(p[0]-c[0])/r[0],y=(p[1]-c[1])/r[1],z=(p[2]-c[2])/r[2];const k0=Math.hypot(x,y,z),k1=Math.hypot(x/r[0],y/r[1],z/r[2]);return k1>1e-8?k0*(k0-1)/k1:-Math.min(...r);};
@@ -109,7 +109,17 @@ SmearCompute.prototype.buildDummy=function(){
   }
   stats.push({name:spec.name,bone:spec.bone,vertices:vertices.length/3-start,maxFieldError:errorMax});
  }
- const geometry=new T.BufferGeometry();geometry.setAttribute('position',new T.Float32BufferAttribute(vertices,3));geometry.setAttribute('normal',new T.Float32BufferAttribute(normals,3));geometry.setAttribute('uv',new T.Float32BufferAttribute(uvs,2));geometry.setAttribute('skinIndex',new T.Float32BufferAttribute(bones,4));geometry.setAttribute('skinWeight',new T.Float32BufferAttribute(weights,4));geometry.setIndex(indices);
+ return {vertices,normals,uvs,bones,weights,indices,outlines,outlineNormals,stats};
+};
+SmearCompute.prototype.loadDummyMesh=async function(){
+ const data=window.__smearDummyMesh,raw=await this.decodedAssets.mesh;if(raw.byteLength!==data.bytes)throw Error('Dummy asset size mismatch');
+ for(let i=0;i<15;i++){const b=this.sourceBodies[i+15];if(b.restP.toArray().some((v,j)=>Math.abs(v-data.rig[i].p[j])>1e-6)||b.restQ.toArray().some((v,j)=>Math.abs(v-data.rig[i].q[j])>1e-6))throw Error('Dummy rig changed; rebuild the authored mesh');}
+ this.prebuiltDummy={stats:data.stats};for(const [key,a]of Object.entries(data.arrays)){this.prebuiltDummy[key]=key==='indices'?new Uint32Array(raw,a.offset,a.length):new Float32Array(raw,a.offset,a.length);}
+};
+SmearCompute.prototype.buildDummy=function(){
+ const T=this.THREE,V=T.Vector3;
+ const {vertices,normals,uvs,bones,weights,indices,outlines,outlineNormals,stats}=this.prebuiltDummy||this.meshDummy();
+ const geometry=new T.BufferGeometry();geometry.setAttribute('position',new T.Float32BufferAttribute(vertices,3));geometry.setAttribute('normal',new T.Float32BufferAttribute(normals,3));geometry.setAttribute('uv',new T.Float32BufferAttribute(uvs,2));geometry.setAttribute('skinIndex',new T.Float32BufferAttribute(bones,4));geometry.setAttribute('skinWeight',new T.Float32BufferAttribute(weights,4));geometry.setIndex(new T.BufferAttribute(new Uint32Array(indices),1));
  const shell=geometry.clone();shell.setAttribute('position',new T.Float32BufferAttribute(outlines,3));shell.setAttribute('normal',new T.Float32BufferAttribute(outlineNormals,3));
  // Remove the former primitive mannequin only from rendering; physics and picking keep the same rig.
  for(const b of this.sourceBodies)b.mesh.visible=false;for(const j of this.joints)j.cover.visible=false;for(const d of this.sourceDolls)d.spine.visible=false;

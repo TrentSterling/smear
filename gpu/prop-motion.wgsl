@@ -47,12 +47,24 @@ fn propVertex(b:Body,index:u32)->vec3f{
  return b.p.xyz+rotate(b.q,b.half.xyz*vec3f(select(-1.0,1.0,(index&1u)!=0u),select(-1.0,1.0,(index&2u)!=0u),select(-1.0,1.0,(index&4u)!=0u)));
 }
 // Edge/edge overlap has no contained vertex. SAT supplies that missing contact.
+fn propSupport(b:Body,direction:vec3f)->vec3f{
+ let n=rotate(inverseQ(b.q),direction);var p=b.half.xyz*sign(n);
+ if(b.half.w==2){let radial=length(n.xz);p=vec3f(n.x*b.half.x/max(radial,1e-7),sign(n.y)*b.half.y,n.z*b.half.x/max(radial,1e-7));}
+ return b.p.xyz+rotate(b.q,p);
+}
 fn propEdgeContact(a:Body,b:Body)->PropContact{
- var axes:array<vec3f,15>;for(var k=0u;k<3u;k++){var axis=vec3f(0);axis[k]=1;axes[k]=rotate(a.q,axis);axes[k+3u]=rotate(b.q,axis);}for(var i=0u;i<3u;i++){for(var j=0u;j<3u;j++){axes[6u+i*3u+j]=cross(axes[i],axes[j+3u]);}}
+ var axes:array<vec3f,6>;for(var k=0u;k<3u;k++){var axis=vec3f(0);axis[k]=1;axes[k]=rotate(a.q,axis);axes[k+3u]=rotate(b.q,axis);}
+ let cylinderA=a.half.w==2;let cylinderB=b.half.w==2;let axisCount=15u+select(0u,9u,cylinderA)+select(0u,9u,cylinderB);
+ // Preserve every SAT axis in its original order, but generate expensive rim
+ // axes only after the face axes fail to separate the pair. No 33-axis spill.
  var depth=1e6;var normal=vec3f(0,1,0);let delta=a.p.xyz-b.p.xyz;
- for(var k=0u;k<15u;k++){if(dot(axes[k],axes[k])<1e-8){continue;}let n=safeNorm(axes[k]);let an=rotate(inverseQ(a.q),n);let bn=rotate(inverseQ(b.q),n);let ra=select(dot(abs(an),a.half.xyz),a.half.x*length(an.xz)+a.half.y*abs(an.y),a.half.w==2);let rb=select(dot(abs(bn),b.half.xyz),b.half.x*length(bn.xz)+b.half.y*abs(bn.y),b.half.w==2);let overlap=ra+rb-abs(dot(delta,n));if(overlap<=0){return PropContact(vec3f(0),-1,normal);}if(overlap<depth){depth=overlap;normal=n*select(-1.0,1.0,dot(delta,n)>=0);}}
- let localA=rotate(inverseQ(a.q),-normal);let localB=rotate(inverseQ(b.q),normal);
- let supportA=a.p.xyz+rotate(a.q,a.half.xyz*sign(localA));let supportB=b.p.xyz+rotate(b.q,b.half.xyz*sign(localB));
+ for(var k=0u;k<axisCount;k++){
+  var axis=vec3f(0);if(k<6u){axis=axes[k];}else if(k<15u){axis=cross(axes[(k-6u)/3u],axes[(k-6u)%3u+3u]);}else{
+   let radial=k-15u;var cylinder=a;var other=b;var up=axes[1];if(!cylinderA||radial>=9u){cylinder=b;other=a;up=axes[4];}
+   let corner=radial%9u;var d=other.p.xyz-cylinder.p.xyz;if(corner>0u){d=propVertex(other,corner-1u)-cylinder.p.xyz;}axis=d-up*dot(d,up);
+  }
+  if(dot(axis,axis)<1e-8){continue;}let n=safeNorm(axis);let an=rotate(inverseQ(a.q),n);let bn=rotate(inverseQ(b.q),n);let ra=select(dot(abs(an),a.half.xyz),a.half.x*length(an.xz)+a.half.y*abs(an.y),cylinderA);let rb=select(dot(abs(bn),b.half.xyz),b.half.x*length(bn.xz)+b.half.y*abs(bn.y),cylinderB);let overlap=ra+rb-abs(dot(delta,n));if(overlap<=0){return PropContact(vec3f(0),-1,normal);}if(overlap<depth){depth=overlap;normal=n*select(-1.0,1.0,dot(delta,n)>=0);}}
+ let supportA=propSupport(a,-normal);let supportB=propSupport(b,normal);
  return PropContact((supportA+supportB)*.5,depth,normal);
 }
 var<private> propOther:Body;
@@ -150,10 +162,10 @@ fn releaseProp(){
      if(hit.normal.y>.55){constants[propData(i)+14u].z=1;}impact=max(impact,max(0,-dot(b.v.xyz,hit.normal)));b=solvePropContact(b,point,hit.normal,hit.depth);
     }}
    }}
-   if(b.half.w!=2){for(var otherID=i+1u;otherID<propCount();otherID++){
-    if(propGone(f32(otherID+1u))){continue;}let other=propBody(otherID);if(other.half.w==2||distance(b.p.xyz,other.p.xyz)>length(b.half.xyz)+length(other.half.xyz)){continue;}
+   {for(var otherID=i+1u;otherID<propCount();otherID++){
+    if(propGone(f32(otherID+1u))){continue;}let other=propBody(otherID);if(distance(b.p.xyz,other.p.xyz)>length(b.half.xyz)+length(other.half.xyz)){continue;}
     var vertexContact=false;for(var k=0u;k<8u;k++){if(pointBox(propVertex(b,k),other.p.xyz,other.q,other.half.xyz,1).depth>=0||pointBox(propVertex(other,k),b.p.xyz,b.q,b.half.xyz,1).depth>=0){vertexContact=true;break;}}
-    if(!vertexContact){let hit=propEdgeContact(b,other);if(hit.depth>0){propOtherID=i32(otherID);propOther=other;if(hit.normal.y>.55){constants[propData(i)+14u].z=1;}b=solvePropContact(b,hit.point,hit.normal,hit.depth);}}
+    if(!vertexContact||b.half.w==2||other.half.w==2){let hit=propEdgeContact(b,other);if(hit.depth>0){propOtherID=i32(otherID);propOther=other;if(hit.normal.y>.55){constants[propData(i)+14u].z=1;}b=solvePropContact(b,hit.point,hit.normal,hit.depth);}}
    }}
    let s=propData(i);if(iteration==0u&&impact>2&&frame.camera.w>constants[s+13u].w){
     constants[s+13u]=vec4f(0,0,0,frame.camera.w+.15);atomicMax(&work[38],(u32(clamp(impact/14,.12,1.0)*4095)<<8u)|255u);atomicAdd(&work[39],1u);

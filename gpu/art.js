@@ -1,8 +1,9 @@
 // Original procedural test-lab art. Runs once before the GPU scene is packed.
 SmearCompute.prototype.artDirection=function(){
  const T=this.THREE,ink=0x183b44,cream=0xf0dfb5,amber=0xe5a636;
+ this.scene.traverse(mesh=>{const map=mesh.material?.map;if(!map?.userData.glyphLabel)return;const text=map.userData.glyphLabel;if(text==='SMEAR'||text==='by Tront'){mesh.visible=false;return;}const g=this.glyphMesh(text,mesh.geometry.parameters.width,mesh.geometry.parameters.height*.70,0xeef0dc);mesh.geometry=g.geometry;mesh.material=g.material;mesh.userData.glyphText=text;});
  const material=(color,roughness=.6)=>{const m=new T.MeshStandardMaterial({color,roughness,metalness:.06});m.color.convertSRGBToLinear();return m;};
- for(const s of this.surfaces){s.mesh.material=s.mesh.material.clone();s.mesh.material.map=null;s.mesh.material.color.setHex(s.grid?0x829c9d:s.w>15?0xe3dbc3:0xb8c9c1).convertSRGBToLinear();s.mesh.material.roughness=s.grid?(s.center.x<0?.26:.86):.64;
+ for(const s of this.surfaces){s.mesh.material=s.mesh.material.clone();s.mesh.material.map=null;s.mesh.material.color.setHex(s.grid?0x829c9d:s.w>15?0xe3dbc3:0xb8c9c1).convertSRGBToLinear();s.mesh.material.roughness=s.grid?(s.center.x<0?.29:.49):.39;s.mesh.material.metalness=s.grid?.12:.07;
   if(!s.grid&&s.w<15&&s.n.y>.7){s.mesh.material.roughness=s.center.x<0?.18:.88;s.mesh.material.metalness=s.center.x<0?.72:.03;}
  }
  for(const b of this.staticBoxes){b.mesh.material=material(b.half.y>2?0xe3dbc3:ink);}
@@ -22,10 +23,11 @@ SmearCompute.prototype.artDirection=function(){
  for(const x of [-7.94,7.94])add(new T.BoxGeometry(.045,.085,15.8),yellow,[x,1.25,0]);
  for(const z of [-7.94,7.94])add(new T.BoxGeometry(15.8,.085,.045),yellow,[0,1.25,z]);
  const sign=(text,sub,p,width,height)=>{
-  const c=document.createElement('canvas');c.width=1024;c.height=256;const g=c.getContext('2d');g.fillStyle='#183b44';g.fillRect(0,0,1024,256);g.fillStyle='#edb645';g.fillRect(0,0,14,256);g.font='900 136px Arial';g.fillStyle='#f3e8cd';g.fillText(text,42,154);g.font='bold 26px Arial';g.fillStyle='#a6c4c1';g.fillText(sub,48,217);
-  const tex=new T.CanvasTexture(c);const mat=new T.MeshBasicMaterial({map:tex});add(new T.PlaneGeometry(width,height),mat,p).castShadow=false;
+  const group=new T.Group();group.position.set(...p);this.scene.add(group);const back=new T.Mesh(new T.PlaneGeometry(width,height),dark);group.add(back);
+  const title=this.glyphMesh(text,width*.90,height*.52,0xf3e8cd);title.position.set(0,height*.13,.004);group.add(title);
+  const subtitle=this.glyphMesh(sub,width*.89,height*.15,0xa6c4c1,0,0);subtitle.position.set(0,-height*.30,.005);group.add(subtitle);
  };
- sign('SMEAR','MATERIAL RESPONSE LAB  /  09', [0,2.65,-7.955],4.4,1.1);
+ sign('SMEAR','MATERIAL RESPONSE LAB / TRONT', [0,2.65,-7.955],4.4,1.1);
  sign('01','IMPACT / TRANSFER',[-5.7,2.5,-7.95],2.05,.5125);
  sign('02','SURFACE / FLOW',[5.7,2.5,-7.95],2.05,.5125);
  // A visible spindle and crossarm explain the moving emitter paths.

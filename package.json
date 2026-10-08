@@ -1,6 +1,6 @@
 {
   "name": "smear",
-  "version": "0.45.0",
+  "version": "0.46.0",
   "private": true,
   "description": "An offline WebGPU compute ragdoll and persistent paint playground.",
   "type": "module",
@@ -117,6 +117,9 @@
     "profile:junk": "node tools/compute-profile.mjs junk",
     "record:junk": "node tools/junk-capture.mjs",
     "profile:startup": "node tools/startup-profile.mjs",
+    "profile:startup:firefox": "node tools/startup-firefox.mjs after-only",
+    "verify:gauntlet": "node tools/gauntlet-v46.mjs",
+    "record:gauntlet": "node tools/gauntlet-v46.mjs record",
     "verify:lights:motion": "node tools/light-motion-verify.mjs",
     "record:lights:motion": "node tools/light-motion-verify.mjs record"
   }

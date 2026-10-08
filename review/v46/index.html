@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SMEAR 46 / hands and handling review</title>
+<style>
+@font-face{font-family:Barlow;src:url('../../vendor/fonts/Barlow-Regular.woff')}@font-face{font-family:Display;src:url('../../vendor/fonts/BarlowCondensed-SemiBold.woff')}
+*{box-sizing:border-box}body{margin:0;background:#102020;color:#eee7d5;font:18px/1.5 Barlow,system-ui,sans-serif}main{max-width:1220px;margin:auto;padding:44px 28px 80px}a{color:#dcc68c}header{border-bottom:1px solid #48605b;padding-bottom:28px}h1,h2,h3{font-family:Display,system-ui,sans-serif;line-height:1.05}h1{font-size:clamp(38px,6vw,72px);margin:18px 0}h2{font-size:34px;margin:48px 0 18px}h3{font-size:25px;margin:8px 0}p{max-width:850px}.eyebrow{letter-spacing:2px;font-size:13px;color:#dcc68c}.clips{display:grid;grid-template-columns:1fr 1fr;gap:32px 22px}video{width:100%;display:block;background:#050e12;aspect-ratio:8/5}figure{margin:0}figcaption{color:#bdd0ca;font-size:15px;margin-top:8px}.wide{grid-column:1/-1}.wide video{max-height:650px}label{display:block;margin:12px 0}select{font:inherit;background:#eee7d5;color:#102020;border:0;padding:10px 35px 10px 12px}#poses{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}#poses img{width:100%;display:block}details{border-top:1px solid #48605b;padding:18px 0;margin-top:40px}summary{cursor:pointer}code,kbd{font-size:.85em;color:#dcc68c}.muted{color:#bdd0ca}a:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #65d6dd;outline-offset:5px}@media(max-width:750px){.clips,#poses{grid-template-columns:1fr}main{padding:25px 18px}.wide{grid-column:auto}}
+</style>
+<main>
+<header><div class="eyebrow">SMEAR / BUILD 46 / CAPTURED IN GAME</div><h1>Hands. Hardware. Handling.</h1><p>Thirteen tools, three inspection angles each, and five playable recordings with game audio. Rounded gloves, connected cuffs, revised grips and moving reload assemblies.</p><a href="../../?v=46">Play build 46</a> &nbsp; / &nbsp; <a href="evidence.json">Verification receipt</a></header>
+<p><kbd>R</kbd> reloads or primes your held tool. <kbd>I</kbd> runs its inspection animation. Ammunition stays unlimited; with Grab selected, <kbd>R</kbd> still restores a buddy.</p>
+<h2>Reload, inspect, fire</h2>
+<div class="clips">
+<figure><video controls playsinline preload="metadata" src="pistol.mp4"></video><figcaption><h3>Pistol</h3>Magazine removal and seating, support hand, inspection and firing.</figcaption></figure>
+<figure><video controls playsinline preload="metadata" src="rocket.mp4"></video><figcaption><h3>Rocket launcher</h3>Round insertion and separate support grip, followed by rapid fire.</figcaption></figure>
+<figure><video controls playsinline preload="metadata" src="shotgun.mp4"></video><figcaption><h3>Shotgun</h3>Shell insertion, inspection, pump motion and firing.</figcaption></figure>
+<figure><video controls playsinline preload="metadata" src="sawblade.mp4"></video><figcaption><h3>Sawblade launcher</h3>Replacement blade, inspection and bouncing blades.</figcaption></figure>
+<figure class="wide"><video controls playsinline preload="metadata" src="tools-and-hands.mp4"></video><figcaption><h3>The rest of the kit</h3>Spill bottle, bat, grenade, mop, blower, washer, wet vac, magnet and sticky launcher. Includes a bat swing and grenade throw.</figcaption></figure>
+</div>
+<h2>Grip inspection</h2><p class="muted">Full-size stills from the same build. Select a tool, then open any angle to inspect it closely.</p>
+<label for="tool">Tool <select id="tool"></select></label><div id="poses"></div>
+<details open><summary>What the evidence covers</summary><p>The videos capture the game’s WebGPU canvas at 1440 × 900 with its audio stream, using native key and mouse events and a stationary camera in Fly mode. The separate text overlay is visible in screenshots but is outside the video stream. The three-angle stills use a test-only viewmodel rotation and closer offset to expose grip seams. The only change after these recordings keeps stationary Settings/About text visible; weapon code, shaders, physics and assets are identical.</p><p>Barrel separation, barrel stacking and two-barrel magnetic capture are exercised by the GPU gauntlet. The release receipt records the shader, gameplay and native-resolution performance checks.</p><p><strong>Startup remains unfinished:</strong> mesh generation now runs in a worker and is cached. The loader updates its actual stage, elapsed time and shader count. Isolated Firefox measured about 22 seconds cold and 10 seconds cached before the entry button; shader compilation remains the main delay.</p><p>The room also gains dry surface grain and LTC response. Barlow SDF glyphs cover in-game labels and interface text, including the curved bat label. Loading and error messages use browser text until the GPU is available.</p></details>
+</main>
+<script>
+const names=['Pistol','Spill bottle','Spiked bat','Grenade','Rocket launcher','Mop','Blower','Washer','Wet vac','Magnet','Sticky launcher','Shotgun','Sawblade launcher'];
+const select=document.querySelector('#tool'),poses=document.querySelector('#poses');names.forEach((name,i)=>select.add(new Option(name,i+1)));
+function show(){poses.replaceChildren();for(const angle of ['front','inside','outside']){const figure=document.createElement('figure'),link=document.createElement('a'),img=document.createElement('img'),caption=document.createElement('figcaption');link.href=`tool-${select.value}-${angle}.png`;img.src=link.href;img.alt=`${names[select.value-1]} grip, ${angle} angle`;img.loading='lazy';link.append(img);caption.textContent=angle[0].toUpperCase()+angle.slice(1);figure.append(link,caption);poses.append(figure);}}select.addEventListener('change',show);show();
+</script>
+</html>

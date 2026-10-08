@@ -8,6 +8,7 @@ struct Object { model:mat4x4f, normal:mat4x4f, color:vec4f, params:vec4f, flags:
 @group(0) @binding(6) var<storage,read> work:array<u32>;
 @group(0) @binding(7) var maps:texture_2d_array<f32>;
 @group(0) @binding(8) var linearSampler:sampler;
+@group(0) @binding(13) var glyphAtlas:texture_2d<f32>;
 @group(0) @binding(11) var<storage,read> wet:array<u32>;
 fn header(i:u32)->vec4u {return bitcast<vec4u>(constants[i]);}
 fn socketRadius(id:u32,child:u32)->f32{let radii=array<f32,15>(.13,.13,.056,.062,.047,.032,.078,.060,.041,.062,.047,.032,.078,.060,.041);return radii[child]*dummyScale(id/15u*15u+child).x;}
@@ -85,7 +86,13 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
  }
  color*=.92;color=clamp((color*(2.51*color+.03))/(color*(2.43*color+.59)+.14),vec3f(0),vec3f(1));return vec4f(pow(color,vec3f(1.0/2.2)),1);
 }
+fn finishNoise(p:vec2f)->vec3f{
+ let cell=vec2u(vec2i(floor(p)));let f=fract(p);let u=f*f*(3-2*f);let du=6*f*(1-f);
+ let seed=cell.x*1597u+cell.y*5171u;let a=hash(seed);let b=hash(seed+1597u);let c=hash(seed+5171u);let d=hash(seed+6768u);
+ return vec3f(mix(mix(a,b,u.x),mix(c,d,u.x),u.y)-.5,mix(b-a,d-c,u.y)*du.x,mix(c-a,d-b,u.x)*du.y);
+}
 @fragment fn fragment(v:Output,@builtin(front_facing) front:bool)->@location(0) vec4f {
+ let glyphFootprint=max(length(dpdx(v.uv)),length(dpdy(v.uv)))*184.32;
  let worldDx=dpdx(v.world);let worldDy=dpdy(v.world);
  let localAA=max(max(length(dpdx(v.local)),length(dpdy(v.local)))*.45,.00006);
  let object=objects[v.index];var color=object.color.rgb;if(object.flags.w==18){let on=work[utilityProp(u32(object.params.y))+1u]!=0u;return vec4f(select(vec3f(.22,.12,.035),vec3f(.20,.95,.42),on),1);}var alpha=object.color.a;var rough=object.params.w;var metal=object.flags.x;let basic=object.flags.z<0;
@@ -126,13 +133,14 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
  if(object.flags.w==8){let radial=v.uv.y;let fibers=sin(v.uv.x*251+sin(radial*35)*2)*.5+.5;let variant=u32(object.params.x)/15u%3u;let shell=select(select(vec3f(.60,.43,.24),vec3f(.78,.76,.66),variant==1u),vec3f(.065,.26,.27),variant==2u);color=mix(vec3f(.023,.004,.008),vec3f(.21,.012,.022),smoothstep(.12,.82,radial));color*=.77+fibers*.23;color=mix(color,shell,smoothstep(.87,.96,radial));rough=mix(.26,.67,smoothstep(.82,.99,radial));metal=0;}
  if(object.flags.w==5){let id=u32(object.params.x)+u32(v.uv.y+.5);let charred=clamp(f32(work[fractureState(id)+7u])/65536,0,.88);color=mix(color,vec3f(.019,.025,.022),charred);rough=mix(rough,.92,charred);}
  if(object.params.z>=0){let tex=textureSampleLevel(maps,linearSampler,vec2f(v.uv.x,1-v.uv.y),i32(object.params.z),0);color*=pow(tex.rgb,vec3f(2.2));alpha*=tex.a;}
+ if(object.params.z== -2){let distance=textureSampleLevel(glyphAtlas,linearSampler,v.uv,0).r;let width=max(glyphFootprint,.015);alpha*=smoothstep(.5-width,.5+width,distance);}
  if(alpha<.02){discard;}
  var receiverID=select(object.params.y,-1.0,object.flags.w>=16);
  if(object.flags.w==9||object.flags.w==12||object.flags.w==13||object.flags.w==14||object.flags.w==15){let k=header(1).x+u32(object.flags.z)*5u;let local=rotate(inverseQ(constants[k+1u]),v.world-constants[k].xyz);let a=abs(local/constants[k+2u].xyz);if(a.y>a.x&&a.y>a.z){receiverID=select(constants[k+3u].w,constants[k+3u].z,local.y>0);}else if(a.x>a.z){receiverID=select(constants[k+3u].y,constants[k+3u].x,local.x>0);}else{receiverID=select(constants[k+4u].y,constants[k+4u].x,local.z>0);}
   if(constants[k].w==1&&color.r>color.b*1.5){let grain=sin(local.y*117+sin(local.x*5)*2+sin(local.z*21))*.06;let seam=step(.965,fract((local.y+.55)*5.5));color*=1+grain-seam*.35;}
   if(constants[k].w==2&&color.r>color.g*1.8&&abs(local.y)>.30&&abs(local.y)<.42){color=mix(vec3f(.035,.047,.038),vec3f(.75,.49,.10),step(.5,fract(atan2(local.z,local.x)*3+local.y*9)));}
  }
- var stain=vec4f(0);var fresh=0.0;var liquid=vec4f(0);var liquidNormal=normalize(v.normal);
+ var stain=vec4f(0);var fresh=0.0;var liquid=vec4f(0);var liquidNormal=normalize(v.normal);var dryNormal=normalize(v.normal);
  if(object.params.x>=0&&(object.flags.w==0||object.flags.w==5)){let id=u32(object.params.x)+select(0u,u32(v.uv.y+.5),object.flags.w==5);let b=bodies[id];stain=paintAt(header(0).z+id,skinUV(v.local*select(vec3f(1),dummyScale(id),object.flags.w==5),v.localNormal,b.half.xyz));fresh=min(b.coat.x,1);}
  else if(object.params.x<0&&receiverID>=0){
   let r=record(u32(receiverID));let d=v.world-r.center.xyz;let metres=vec2f(dot(d,r.u.xyz),dot(d,r.v.xyz));let surfaceUV=metres/r.size.xy+.5;
@@ -142,6 +150,19 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
   // Coarse pigment mobility must not keep an empty, dried patch glossy.
   fresh=smoothstep(.003,.10,liquid.x);
   let aa=max(abs(vec2f(dot(worldDx,r.u.xyz),dot(worldDx,r.v.xyz)))+abs(vec2f(dot(worldDy,r.u.xyz),dot(worldDy,r.v.xyz))),vec2f(.0005));
+  if(r.center.w==0){
+   // Sealed concrete, powder coat and acoustic ceiling panels. Derivative
+   // filtering fades the fine finish before it can shimmer in the distance.
+   let footprint=max(aa.x,aa.y);let floorSurface=abs(r.n.y)>.7&&r.center.y<.1;let ceiling=r.n.y<-.7;
+   let coarse=finishNoise(metres*4.7);let micro=finishNoise(metres*155);let broad=coarse.x;let fine=micro.x;
+   let visible=1-smoothstep(.003,.022,footprint);let finishAmount=select(.042,.025,floorSurface);
+   color*=1+broad*.027+fine*finishAmount*visible;
+   rough=clamp(rough+broad*.04+fine*.035*visible,.22,.76);
+   let slope=micro.yz*select(.027,.012,ceiling)*visible+coarse.yz*.002;
+   dryNormal=safeNorm(v.normal-r.u.xyz*slope.x-r.v.xyz*slope.y);
+   if(ceiling){let joint=abs(fract(metres/1.2+.5)-.5)*1.2;let seam=1-smoothstep(vec2f(.004),vec2f(.004)+aa,joint);color*=1-max(seam.x,seam.y)*.28;rough=.58+broad*.06;}
+   if(!floorSurface&&!ceiling&&r.size.x>10){let panel=abs(fract((metres.x+.6)/1.2)-.5)*1.2;let seam=1-smoothstep(.0025,.0025+aa.x,panel);color*=1-seam*.15;}
+  }
   let grain=vec2u(vec2i(floor((metres+r.size.xy*.5)*160)));let finish=(hash(grain.x+grain.y*1973u)-.5)*.026;
   color*=1+finish/(1+max(aa.x,aa.y)*160);
   if(receiverID<16){
@@ -165,7 +186,7 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
  let mobileAlpha=smoothstep(select(.006,.018,wallFilm),select(.027,.12,wallFilm),liquid.x)*.98;let residueAlpha=smoothstep(.003,.022,liquid.y);
  let residue=vec4f(.24,.012,.025,residueAlpha*.85*mix(.25,1.0,smoothstep(.025,.60,stain.a)));stain=over(stain,residue);
  let liquidColor=mix(vec3f(.43,.021,.037),vec3f(.19,.005,.014),1-exp(-liquid.x*1.4));stain=over(stain,vec4f(liquidColor,mobileAlpha));fresh=max(fresh,smoothstep(.002,.05,liquid.x));
- color=mix(color,pow(stain.rgb,vec3f(2.2))*mix(vec3f(.66,.65,.58),vec3f(1.05,1,1),fresh),stain.a);rough=mix(rough,mix(.91,.24,fresh),smoothstep(.07,.86,stain.a));rough=mix(rough,mix(.19,.095,smoothstep(.04,.45,liquid.x)),mobileAlpha);let out=shade(v.world,normalize(mix(v.normal,liquidNormal,mobileAlpha)),color,rough,metal,basic,object.flags.w==7,max(mobileAlpha,fresh*stain.a*.6));var glow=vec3f(0);if(object.flags.w==9&&(work[utilityBase()+17u]&(1u<<u32(object.params.y)))!=0u&&(u32(frame.settings.w)&65536u)!=0u){let rim=pow(1-abs(dot(safeNorm(v.normal),safeNorm(frame.camera.xyz-v.world))),2.0);glow=vec3f(.08,.65,.90)*(.08+rim*.72);}return vec4f(min(vec3f(1),out.rgb+glow),alpha);
+ color=mix(color,pow(stain.rgb,vec3f(2.2))*mix(vec3f(.66,.65,.58),vec3f(1.05,1,1),fresh),stain.a);rough=mix(rough,mix(.91,.24,fresh),smoothstep(.07,.86,stain.a));rough=mix(rough,mix(.19,.095,smoothstep(.04,.45,liquid.x)),mobileAlpha);let out=shade(v.world,normalize(mix(dryNormal,liquidNormal,mobileAlpha)),color,rough,metal,basic,object.flags.w==7,max(mobileAlpha,fresh*stain.a*.6));var glow=vec3f(0);if(object.flags.w==9&&(work[utilityBase()+17u]&(1u<<u32(object.params.y)))!=0u&&(u32(frame.settings.w)&65536u)!=0u){let rim=pow(1-abs(dot(safeNorm(v.normal),safeNorm(frame.camera.xyz-v.world))),2.0);glow=vec3f(.08,.65,.90)*(.08+rim*.72);}return vec4f(min(vec3f(1),out.rgb+glow),alpha);
 }
 @vertex fn particleVertex(v:Input,@builtin(instance_index) i:u32)->Output {
  let p=particles[i];if(work[64u+i]==0u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,v.p,v.n,0u);}let up=safeNorm(p.v.xyz);let x=safeNorm(cross(up,select(vec3f(0,1,0),vec3f(1,0,0),abs(up.y)>.95)));let z=cross(x,up);let scale=vec3f(p.p.w,p.p.w*clamp(1+length(p.v.xyz)*.21,1,2.7),p.p.w);let local=v.p*scale;let world=p.p.xyz+x*local.x+up*local.y+z*local.z;let n=safeNorm(x*v.n.x+up*v.n.y+z*v.n.z);return Output(frame.vp*vec4f(world,1),world,n,v.uv,v.p,v.n,0u);
@@ -187,6 +208,7 @@ fn socketVisible(v:Output)->bool {let object=objects[v.index];
 // Match opaque alpha/socket coverage without evaluating paint or LTC lighting.
 @fragment fn visibilityFragment(v:Output,@builtin(front_facing) front:bool)->@location(0) vec4f {
  let object=objects[v.index];if(object.flags.w==6&&(front||dot(v.normal,frame.camera.xyz-v.world)>0)){discard;}if(object.flags.w==10||object.flags.w==11||object.color.a<.999||!socketVisible(v)){discard;}
+ if(object.params.z== -2&&textureSampleLevel(glyphAtlas,linearSampler,v.uv,0).r<.6){discard;}
  if(object.params.z>=0&&textureSampleLevel(maps,linearSampler,vec2f(v.uv.x,1-v.uv.y),i32(object.params.z),0).a<.999){discard;}
  return vec4f(0);
 }

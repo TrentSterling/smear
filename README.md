@@ -2,7 +2,15 @@
 
 Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V45 / 0.45.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+**V46 / 0.46.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+
+V46 adds a worker-based asset loader with a persistent authored-mesh cache and live loading stages. The full-quality dummy mesh is generated off the UI thread, and unused CPU material canvases are removed. Firefox still spends substantial time compiling shaders: the measured revised cold start is 21.6 seconds and cached reload 10.1 seconds. This is a responsiveness improvement, not a completed fix for the Firefox cold-start delay.
+
+The room now has procedural finish on dry walls, ceiling and floor, with visible dry LTC response. Barlow distance-field glyphs replace world signs, floor numbers, curved weapon labels, gameplay HUD and menu text. The equipped weapon and status sit below the reticle. DOM controls retain keyboard/accessibility semantics.
+
+Barrels participate in dynamic radial/edge contacts, and the magnet assigns separate capture positions instead of pulling every metal prop into one point. Hands have rounded palms, finger segments and connected cuffs. **R** reloads/primes a held tool (**Grab + R** still restores a buddy); **I** inspects it. Pistol magazines, shotgun shells/pump, rockets and sawblades have separate moving reload assemblies. Ammunition remains unlimited.
+
+See the [weapon inspection and MP4 proof page](review/v46/) for all thirteen held tools from three angles and actual gameplay recordings with audio.
 
 V45 cuts fresh-profile local startup from 12.0-15.7 seconds to 5.6 seconds on the test machine. Tool actions compile as smaller independent pipelines, and the build records the reachable WGSL functions for each pipeline instead of making every compiler process the entire game. All shaders are ready before play; physics, paint resolution and model detail are retained. Cached reloads measured 3.7 seconds, compared with 3.2-3.7 seconds previously.
 

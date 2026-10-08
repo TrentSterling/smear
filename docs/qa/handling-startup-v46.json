@@ -1,0 +1,1408 @@
+{
+  "version": "0.46.0",
+  "at": "2026-10-08T22:18:24.721Z",
+  "buildSHA256": "11bdfdafc3dbc44fd075a01ecb67f21a61279cce491fe298890f08c5a7551fb8",
+  "finalDiff": {
+    "profiledBuildSHA256": "d1e26563f0a33b7ce99032b1ff0032b7f7875b0119e7a8b87e6fe2de0057cf00",
+    "finalBuildSHA256": "11bdfdafc3dbc44fd075a01ecb67f21a61279cce491fe298890f08c5a7551fb8",
+    "soleFinalChange": "Retain Settings/About GPU glyph vertices until the original static canvas actually redraws. No other generated HTML bytes change.",
+    "verification": "Replacing exactly the retained drawUI wrapper in the profiled build reproduces the final HTML byte-for-byte."
+  },
+  "finalBuildChecks": {
+    "gauntlet": [
+      "Overlapping upright barrels separate and remain solid",
+      "Barrel-on-barrel stack supports weight for three simulated seconds",
+      "Two magnetized barrels remain separated during a two-second pull",
+      "Native R completes reload and native I starts inspection",
+      "GPU glyphs cover world/tool labels and place the weapon indicator beside the reticle",
+      "Settings glyphs stay visible while the cached canvas panel is idle"
+    ],
+    "ui": [
+      "Gameplay has no canvas action buttons or floating machine, cursor or speed buttons",
+      "B and Escape close the Toybox into free cursor; Tab captures deliberately, and Add buddy uses an unobstructed placement preview",
+      "Settings return to pause, all fourteen tools are accessible, and search spans categories without stealing hotkeys",
+      "Wheel changes tools and slow motion has a compact explicit status",
+      "Native E starts all three demos from a physical switch, rejects out-of-reach use, and stops moving machinery in place",
+      "Rotated press switches stay aligned, solid junk blocks use, and Grab clicks the physical button without grabbing or firing",
+      "Revised crusher completes a crushing cycle and injures its loaded buddy"
+    ],
+    "chrome": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "firefox": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ]
+  },
+  "baseline": {
+    "version": "0.45.0",
+    "sha256": "59f85ac7799e85d70dd20199b42fbb20c778dab8effb41f840e806769dda616b"
+  },
+  "changes": [
+    "Full authored mesh generated in a Worker and cached in IndexedDB; visible loading stages and program progress",
+    "Dry procedural surface grain and LTC response on floor, walls and ceiling",
+    "GPU SDF Barlow lettering on world signs, curved tool labels, centered HUD, menus and profiler",
+    "Barrel radial support contacts and separated magnet capture berths",
+    "Revised hands and grips; R reload/prime and I inspection; moving magazines, shells, rocket rounds and sawblades"
+  ],
+  "checks": [
+    {
+      "command": "tools/wgsl-verify.mjs",
+      "status": 0,
+      "result": [
+        "COMPLETE 63 embedded WGSL modules passed Naga validation"
+      ]
+    },
+    {
+      "command": "tools/compute-profile.mjs rockets",
+      "status": 0,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed"
+      ],
+      "receipt": "tools\\out\\compute-native-rockets-chrome\\verification.json"
+    },
+    {
+      "command": "tools/gauntlet-v46.mjs",
+      "status": 0,
+      "seconds": 9.201,
+      "result": [
+        "COMPLETE V46 gauntlet checks"
+      ]
+    },
+    {
+      "command": "tools/prop-motion-verify.mjs final-v46",
+      "status": 0,
+      "seconds": 10.081,
+      "result": [
+        "COMPLETE 12 prop motion checks passed"
+      ]
+    },
+    {
+      "command": "tools/utility-verify.mjs final-v46",
+      "status": 0,
+      "seconds": 21.319,
+      "result": [
+        "COMPLETE 16 utility checks passed"
+      ]
+    },
+    {
+      "command": "tools/static-geometry-verify.mjs final-v46",
+      "status": 0,
+      "seconds": 8.63,
+      "result": [
+        "COMPLETE static platform collision checks"
+      ]
+    },
+    {
+      "command": "tools/ui-verify.mjs",
+      "status": 0,
+      "seconds": 17.388,
+      "result": [
+        "COMPLETE 7 UI and model checks"
+      ]
+    },
+    {
+      "command": "tools/compute-verify.mjs",
+      "status": 0,
+      "seconds": 19.523,
+      "result": [
+        "COMPLETE compute game checks passed (10 checks)"
+      ]
+    },
+    {
+      "command": "tools/compute-profile.mjs",
+      "status": 0,
+      "seconds": 59.732,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (8 checks)"
+      ]
+    },
+    {
+      "command": "tools/compute-profile.mjs junk",
+      "status": 0,
+      "seconds": 35.304,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (1 checks)"
+      ]
+    },
+    {
+      "command": "tools/startup-profile.mjs v46-final",
+      "status": 0,
+      "seconds": 6.79,
+      "result": []
+    },
+    {
+      "command": "tools/startup-firefox.mjs after-only",
+      "status": 0,
+      "seconds": 35.066,
+      "result": []
+    },
+    {
+      "command": "tools/compute-verify.mjs firefox",
+      "status": 0,
+      "seconds": 36.122,
+      "result": [
+        "COMPLETE compute game checks passed (10 checks)"
+      ]
+    }
+  ],
+  "engineRegressions": {
+    "sha256": "54714c6ec35b88fbea07b210d839ee253e989bcf602ee2834bf6d86bcf4c6f9c",
+    "checks": [
+      {
+        "command": "tools/wgsl-verify.mjs",
+        "status": 0,
+        "seconds": 3.319,
+        "result": [
+          "COMPLETE 63 embedded WGSL modules passed Naga validation"
+        ]
+      },
+      {
+        "command": "tools/gauntlet-v46.mjs",
+        "status": 0,
+        "seconds": 8.815,
+        "result": [
+          "COMPLETE V46 gauntlet checks"
+        ]
+      },
+      {
+        "command": "tools/ui-verify.mjs",
+        "status": 0,
+        "seconds": 16.576,
+        "result": [
+          "COMPLETE 7 UI and model checks"
+        ]
+      },
+      {
+        "command": "tools/prop-motion-verify.mjs final-v46",
+        "status": 0,
+        "seconds": 9.742,
+        "result": [
+          "COMPLETE 12 prop motion checks passed"
+        ]
+      },
+      {
+        "command": "tools/utility-verify.mjs final-v46",
+        "status": 0,
+        "seconds": 21.273,
+        "result": [
+          "COMPLETE 16 utility checks passed"
+        ]
+      },
+      {
+        "command": "tools/controller-verify.mjs final-v46",
+        "status": 0,
+        "seconds": 13.627,
+        "result": [
+          "  \"result\": \"COMPLETE FPS controller and spiked bat checks\","
+        ]
+      },
+      {
+        "command": "tools/arsenal-verify.mjs final-v46",
+        "status": 0,
+        "seconds": 44.294,
+        "result": [
+          "COMPLETE 6 arsenal checks passed"
+        ]
+      },
+      {
+        "command": "tools/bat-verify.mjs final-v46",
+        "status": 0,
+        "seconds": 9.96,
+        "result": [
+          "COMPLETE bat durability checks"
+        ]
+      },
+      {
+        "command": "tools/junk-verify.mjs final-v46",
+        "status": 0,
+        "seconds": 28.217,
+        "result": [
+          "COMPLETE junk and machine checks"
+        ]
+      },
+      {
+        "command": "tools/visibility-verify.mjs",
+        "status": 0,
+        "seconds": 7.753,
+        "result": [
+          "COMPLETE visibility pass preserves room, cut sockets, machinery and translucent preview coverage"
+        ]
+      },
+      {
+        "command": "tools/bullet-liquid-verify.mjs final-v46",
+        "status": 0,
+        "seconds": 6.795,
+        "result": [
+          "COMPLETE 9 bullet liquid checks"
+        ]
+      },
+      {
+        "command": "tools/compute-verify.mjs",
+        "status": 0,
+        "seconds": 16.427,
+        "result": [
+          "COMPLETE compute game checks passed (10 checks)"
+        ]
+      },
+      {
+        "command": "tools/ltc-verify.mjs final-v46",
+        "status": 0,
+        "seconds": 34.872,
+        "result": [
+          "  \"result\": \"COMPLETE LTC integration checks\","
+        ]
+      }
+    ],
+    "scope": "Earlier candidate regressions, retained with their own build hash. Final build separately repeats barrel, prop motion, utility, static geometry, UI and release gates after SAT evaluation and GPU text compositor optimizations."
+  },
+  "gauntlet": {
+    "checks": [
+      "Overlapping upright barrels separate and remain solid",
+      "Barrel-on-barrel stack supports weight for three simulated seconds",
+      "Two magnetized barrels remain separated during a two-second pull",
+      "Native R completes reload and native I starts inspection",
+      "GPU glyphs cover world/tool labels and place the weapon indicator beside the reticle",
+      "Settings glyphs stay visible while the cached canvas panel is idle"
+    ],
+    "barrelSide": {
+      "a": {
+        "id": 3,
+        "kind": "barrel",
+        "p": [
+          -2.577601909637451,
+          0.5816278457641602,
+          4.985406398773193
+        ],
+        "q": [
+          -0.00009152080747298896,
+          -0.013858921825885773,
+          -0.00012327621516305953,
+          0.9999038577079773
+        ],
+        "v": [
+          0,
+          0,
+          0
+        ],
+        "w": [
+          0,
+          0,
+          0
+        ],
+        "faces": {
+          "yp": 92,
+          "zp": 93,
+          "zn": 94,
+          "xp": 95,
+          "xn": 96,
+          "yn": 120
+        },
+        "active": true,
+        "damage": 0,
+        "broken": false
+      },
+      "b": {
+        "id": 4,
+        "kind": "barrel",
+        "p": [
+          -1.734744906425476,
+          0.5816279053688049,
+          4.989248752593994
+        ],
+        "q": [
+          -0.0000918999794521369,
+          -0.011050049215555191,
+          -0.00012308737495914102,
+          0.9999389052391052
+        ],
+        "v": [
+          0,
+          0,
+          0
+        ],
+        "w": [
+          0,
+          0,
+          0
+        ],
+        "faces": {
+          "yp": 97,
+          "zp": 98,
+          "zn": 99,
+          "xp": 100,
+          "xn": 101,
+          "yn": 121
+        },
+        "active": true,
+        "damage": 0,
+        "broken": false
+      }
+    },
+    "barrelStack": {
+      "a": {
+        "id": 3,
+        "kind": "barrel",
+        "p": [
+          -3.016636371612549,
+          0.5815907120704651,
+          4.933694839477539
+        ],
+        "q": [
+          -0.00008534683001926169,
+          -0.03702773153781891,
+          -0.00008072429773164913,
+          0.9993141889572144
+        ],
+        "v": [
+          -0.0011260147439315915,
+          0.016708869487047195,
+          -0.027821343392133713
+        ],
+        "w": [
+          -0.03981340676546097,
+          -0.022292394191026688,
+          -0.011314557865262032
+        ],
+        "faces": {
+          "yp": 92,
+          "zp": 93,
+          "zn": 94,
+          "xp": 95,
+          "xn": 96,
+          "yn": 120
+        },
+        "active": true,
+        "damage": 0,
+        "broken": false
+      },
+      "b": {
+        "id": 4,
+        "kind": "barrel",
+        "p": [
+          -3.0007951259613037,
+          1.7430819272994995,
+          4.818830490112305
+        ],
+        "q": [
+          -0.00009188093827106059,
+          -0.041560351848602295,
+          -0.00009939205483533442,
+          0.9991359114646912
+        ],
+        "v": [
+          0.013638059608638287,
+          0.013178198598325253,
+          -0.07184648513793945
+        ],
+        "w": [
+          -0.0391860157251358,
+          -0.02615257538855076,
+          -0.008431931026279926
+        ],
+        "faces": {
+          "yp": 97,
+          "zp": 98,
+          "zn": 99,
+          "xp": 100,
+          "xn": 101,
+          "yn": 121
+        },
+        "active": true,
+        "damage": 0,
+        "broken": false
+      }
+    },
+    "magnet": {
+      "a": {
+        "id": 3,
+        "kind": "barrel",
+        "p": [
+          -2.4998316764831543,
+          1.088199257850647,
+          4.866537570953369
+        ],
+        "q": [
+          -0.020350346341729164,
+          -0.04272497817873955,
+          -0.011174303479492664,
+          0.9988170266151428
+        ],
+        "v": [
+          -0.00030982992029748857,
+          -0.0003554461582098156,
+          0.00007873068534536287
+        ],
+        "w": [
+          -0.013664289377629757,
+          -0.029026037082076073,
+          -0.007523792330175638
+        ],
+        "faces": {
+          "yp": 92,
+          "zp": 93,
+          "zn": 94,
+          "xp": 95,
+          "xn": 96,
+          "yn": 120
+        },
+        "active": true,
+        "damage": 0,
+        "broken": false
+      },
+      "b": {
+        "id": 4,
+        "kind": "barrel",
+        "p": [
+          -1.3197782039642334,
+          1.2668602466583252,
+          4.84420108795166
+        ],
+        "q": [
+          -0.02138994261622429,
+          -0.052275046706199646,
+          -0.012919709086418152,
+          0.9983200430870056
+        ],
+        "v": [
+          -0.00045177576248534024,
+          -0.00046407475019805133,
+          0.00007166684372350574
+        ],
+        "w": [
+          -0.014200029894709587,
+          -0.035778917372226715,
+          -0.00882271770387888
+        ],
+        "faces": {
+          "yp": 97,
+          "zp": 98,
+          "zn": 99,
+          "xp": 100,
+          "xn": 101,
+          "yn": 121
+        },
+        "active": true,
+        "damage": 0,
+        "broken": false
+      }
+    },
+    "text": {
+      "glyphs": 76,
+      "canvas": true,
+      "r": {
+        "x": 702.3359375,
+        "y": 481,
+        "width": 35.328125,
+        "height": 19,
+        "top": 481,
+        "right": 737.6640625,
+        "bottom": 500,
+        "left": 702.3359375
+      },
+      "meshes": 22
+    }
+  },
+  "startup": {
+    "method": "Local offline HTML. Each browser uses a new dedicated profile, followed by a reload in that same profile. OS and driver shader caches are not forcibly cleared. Firefox is headed with explicit user permission; Chrome is headless. Figures measure navigation through all shaders and simulation warmup, before the entry button.",
+    "chrome": [
+      {
+        "cache": "fresh profile",
+        "readyMs": 4990.899999976158,
+        "pipelineMs": 4486.700000047684,
+        "mainMeshAssemblyMs": 15.700000047683716
+      },
+      {
+        "cache": "same-profile reload",
+        "readyMs": 843.3000000119209,
+        "pipelineMs": 429,
+        "mainMeshAssemblyMs": 16.19999998807907
+      }
+    ],
+    "firefox": [
+      {
+        "cache": "fresh profile",
+        "readyMs": 21578,
+        "pipelineMs": 19416,
+        "mainMeshAssemblyMs": 14,
+        "loadingAnimationFrames": 1236,
+        "worstLoadingFrameMs": 343,
+        "meshCacheHit": false,
+        "adapter": {
+          "vendor": "",
+          "architecture": "",
+          "isFallbackAdapter": false
+        },
+        "errors": []
+      },
+      {
+        "cache": "same-profile reload",
+        "readyMs": 10089,
+        "pipelineMs": 8227,
+        "mainMeshAssemblyMs": 19,
+        "loadingAnimationFrames": 555,
+        "worstLoadingFrameMs": 363,
+        "meshCacheHit": true,
+        "adapter": {
+          "vendor": "",
+          "architecture": "",
+          "isFallbackAdapter": false
+        },
+        "errors": []
+      }
+    ]
+  },
+  "profiles": [
+    {
+      "label": "chrome",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      },
+      "result": "COMPLETE native GPU gameplay and 3000x1800 profiles passed",
+      "workloads": [
+        {
+          "label": "idle",
+          "fps": 59.999000017024,
+          "cpuP99ms": 3.300000011920929,
+          "ticksPerSecond": 119.97071449941261,
+          "gpu": {
+            "computeMS": {
+              "p50": 1.96608,
+              "p95": 3.080192,
+              "p99": 3.2768,
+              "max": 3.342336
+            },
+            "renderMS": {
+              "p50": 10.354688,
+              "p95": 10.81344,
+              "p99": 11.075584,
+              "max": 11.14112
+            }
+          },
+          "readbacks": [
+            "asynchronous player contact correction",
+            "asynchronous collision sound event",
+            "asynchronous GPU timing",
+            "GPU telemetry snapshot"
+          ],
+          "canvasReads": 0,
+          "webGLContexts": 0
+        },
+        {
+          "label": "bat",
+          "fps": 60.00033426358109,
+          "cpuP99ms": 3.199999988079071,
+          "ticksPerSecond": 119.56033723022853,
+          "gpu": {
+            "computeMS": {
+              "p50": 3.211264,
+              "p95": 7.405568,
+              "p99": 19.595264,
+              "max": 20.054016
+            },
+            "renderMS": {
+              "p50": 4.980736,
+              "p95": 5.701632,
+              "p99": 6.094848,
+              "max": 6.291456
+            }
+          },
+          "readbacks": [
+            "asynchronous collision sound event",
+            "asynchronous GPU timing",
+            "GPU telemetry snapshot"
+          ],
+          "canvasReads": 0,
+          "webGLContexts": 0
+        },
+        {
+          "label": "pistol",
+          "fps": 60.00800106692815,
+          "cpuP99ms": 3.199999988079071,
+          "ticksPerSecond": 119.8450823618528,
+          "gpu": {
+            "computeMS": {
+              "p50": 2.097152,
+              "p95": 2.490368,
+              "p99": 2.62144,
+              "max": 3.014656
+            },
+            "renderMS": {
+              "p50": 6.5536,
+              "p95": 6.946816,
+              "p99": 7.077888,
+              "max": 7.143424
+            }
+          },
+          "readbacks": [
+            "asynchronous player contact correction",
+            "asynchronous collision sound event",
+            "asynchronous GPU timing",
+            "GPU telemetry snapshot"
+          ],
+          "canvasReads": 0,
+          "webGLContexts": 0
+        },
+        {
+          "label": "spill",
+          "fps": 60,
+          "cpuP99ms": 4.399999976158142,
+          "ticksPerSecond": 119.95873818761812,
+          "gpu": {
+            "computeMS": {
+              "p50": 2.031616,
+              "p95": 3.801088,
+              "p99": 10.223616,
+              "max": 10.551296
+            },
+            "renderMS": {
+              "p50": 7.012352,
+              "p95": 7.405568,
+              "p99": 7.667712,
+              "max": 7.929856
+            }
+          },
+          "readbacks": [
+            "asynchronous player contact correction",
+            "asynchronous collision sound event",
+            "asynchronous GPU timing",
+            "GPU telemetry snapshot"
+          ],
+          "canvasReads": 0,
+          "webGLContexts": 0
+        },
+        {
+          "label": "drag",
+          "fps": 60.00400026704212,
+          "cpuP99ms": 2.899999976158142,
+          "ticksPerSecond": 120.29724415984639,
+          "gpu": {
+            "computeMS": {
+              "p50": 2.490368,
+              "p95": 3.93216,
+              "p99": 4.718592,
+              "max": 5.701632
+            },
+            "renderMS": {
+              "p50": 10.354688,
+              "p95": 10.944512,
+              "p99": 11.272192,
+              "max": 11.337728
+            }
+          },
+          "readbacks": [
+            "asynchronous player contact correction",
+            "asynchronous collision sound event",
+            "asynchronous GPU timing",
+            "GPU telemetry snapshot"
+          ],
+          "canvasReads": 0,
+          "webGLContexts": 0
+        },
+        {
+          "label": "chaos",
+          "fps": 60.00200006654967,
+          "cpuP99ms": 4.399999976158142,
+          "ticksPerSecond": 119.85105887804968,
+          "gpu": {
+            "computeMS": {
+              "p50": 2.359296,
+              "p95": 3.473408,
+              "p99": 3.93216,
+              "max": 4.325376
+            },
+            "renderMS": {
+              "p50": 11.862016,
+              "p95": 12.910592,
+              "p99": 13.500416,
+              "max": 13.631488
+            }
+          },
+          "readbacks": [
+            "asynchronous player contact correction",
+            "asynchronous collision sound event",
+            "asynchronous GPU timing",
+            "GPU telemetry snapshot"
+          ],
+          "canvasReads": 0,
+          "webGLContexts": 0
+        }
+      ]
+    },
+    {
+      "label": "junk-chrome",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      },
+      "result": "COMPLETE native GPU gameplay and 3000x1800 profiles passed",
+      "workloads": [
+        {
+          "label": "junk-crusher",
+          "fps": 59.99832873736108,
+          "cpuP99ms": 3.699999988079071,
+          "ticksPerSecond": 119.77145141629231,
+          "gpu": {
+            "computeMS": {
+              "p50": 3.080192,
+              "p95": 4.980736,
+              "p99": 5.505024,
+              "max": 5.963776
+            },
+            "renderMS": {
+              "p50": 5.89824,
+              "p95": 6.356992,
+              "p99": 6.815744,
+              "max": 7.077888
+            }
+          },
+          "readbacks": [
+            "asynchronous player contact correction",
+            "asynchronous collision sound event",
+            "asynchronous GPU timing",
+            "GPU telemetry snapshot"
+          ],
+          "canvasReads": 0,
+          "webGLContexts": 0
+        },
+        {
+          "label": "junk-glass",
+          "fps": 60.00033426358109,
+          "cpuP99ms": 3,
+          "ticksPerSecond": 119.66380960306233,
+          "gpu": {
+            "computeMS": {
+              "p50": 2.94912,
+              "p95": 6.488064,
+              "p99": 8.716288,
+              "max": 9.8304
+            },
+            "renderMS": {
+              "p50": 5.832704,
+              "p95": 6.88128,
+              "p99": 7.274496,
+              "max": 7.667712
+            }
+          },
+          "readbacks": [
+            "asynchronous player contact correction",
+            "asynchronous collision sound event",
+            "asynchronous GPU timing",
+            "GPU telemetry snapshot"
+          ],
+          "canvasReads": 0,
+          "webGLContexts": 0
+        },
+        {
+          "label": "junk-pinball",
+          "fps": 60.00033426358109,
+          "cpuP99ms": 4,
+          "ticksPerSecond": 119.68970568674705,
+          "gpu": {
+            "computeMS": {
+              "p50": 5.046272,
+              "p95": 8.126464,
+              "p99": 10.81344,
+              "max": 11.337728
+            },
+            "renderMS": {
+              "p50": 5.89824,
+              "p95": 7.077888,
+              "p99": 7.602176,
+              "max": 7.995392
+            }
+          },
+          "readbacks": [
+            "asynchronous player contact correction",
+            "asynchronous collision sound event",
+            "asynchronous GPU timing",
+            "GPU telemetry snapshot"
+          ],
+          "canvasReads": 0,
+          "webGLContexts": 0
+        },
+        {
+          "label": "junk-ten-buddies",
+          "fps": 59.999000017024,
+          "cpuP99ms": 3.600000023841858,
+          "ticksPerSecond": 120.01265043218382,
+          "gpu": {
+            "computeMS": {
+              "p50": 4.980736,
+              "p95": 6.88128,
+              "p99": 8.323072,
+              "max": 11.599872
+            },
+            "renderMS": {
+              "p50": 10.354688,
+              "p95": 11.4688,
+              "p99": 11.862016,
+              "max": 22.478848
+            }
+          },
+          "readbacks": [
+            "asynchronous player contact correction",
+            "asynchronous collision sound event",
+            "asynchronous GPU timing",
+            "GPU telemetry snapshot"
+          ],
+          "canvasReads": 0,
+          "webGLContexts": 0
+        }
+      ]
+    },
+    {
+      "label": "rockets-chrome",
+      "viewport": [
+        3000,
+        1800
+      ],
+      "audio": {
+        "enabled": true,
+        "state": "running",
+        "thuds": 0,
+        "lastThud": null
+      },
+      "result": "COMPLETE native GPU gameplay and 3000x1800 profiles passed",
+      "workloads": [
+        {
+          "label": "rapid-rockets",
+          "fps": 56.66716814591787,
+          "cpuP99ms": 4.600000023841858,
+          "ticksPerSecond": 119.7475142811939,
+          "gpu": {
+            "computeMS": {
+              "p50": 5.701632,
+              "p95": 12.255232,
+              "p99": 16.973824,
+              "max": 28.18048
+            },
+            "renderMS": {
+              "p50": 9.109504,
+              "p95": 10.682368,
+              "p99": 11.206656,
+              "max": 11.403264
+            }
+          },
+          "readbacks": [
+            "asynchronous player contact correction",
+            "asynchronous collision sound event",
+            "asynchronous GPU timing",
+            "GPU telemetry snapshot"
+          ],
+          "canvasReads": 0,
+          "webGLContexts": 0
+        }
+      ]
+    }
+  ],
+  "firefoxGameplay": {
+    "result": "COMPLETE compute game checks passed",
+    "checks": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:157.0) Gecko/20100101 Firefox/157.0"
+  },
+  "proof": {
+    "page": "https://tront.xyz/smear/review/v46/",
+    "clips": [
+      {
+        "name": "pistol",
+        "file": "pistol.mp4",
+        "bytes": 1328775,
+        "audio": {
+          "enabled": true,
+          "state": "running",
+          "thuds": 0,
+          "lastThud": null
+        },
+        "sha256": "bb9d92ef7640e718e3bd87ceabbaf0c792ad393d390a276be9b7f2cc33ae7a7e",
+        "media": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_name": "h264",
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "codec_name": "aac"
+            }
+          ],
+          "format": {
+            "duration": "7.477333"
+          }
+        }
+      },
+      {
+        "name": "rocket",
+        "file": "rocket.mp4",
+        "bytes": 1748131,
+        "audio": {
+          "enabled": true,
+          "state": "running",
+          "thuds": 3,
+          "lastThud": {
+            "strength": 1,
+            "melee": false,
+            "explosion": true,
+            "saw": false,
+            "junk": false,
+            "machine": false,
+            "material": 0,
+            "body": 255,
+            "latency": 11.200000047683716,
+            "frameID": 974
+          }
+        },
+        "sha256": "913c005a6be7be5d6230d93420cfead312bc8a7f18622933f111f0d29430c3bb",
+        "media": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_name": "h264",
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "codec_name": "aac"
+            }
+          ],
+          "format": {
+            "duration": "7.462333"
+          }
+        }
+      },
+      {
+        "name": "shotgun",
+        "file": "shotgun.mp4",
+        "bytes": 1648060,
+        "audio": {
+          "enabled": true,
+          "state": "running",
+          "thuds": 3,
+          "lastThud": {
+            "strength": 1,
+            "melee": false,
+            "explosion": true,
+            "saw": false,
+            "junk": false,
+            "machine": false,
+            "material": 0,
+            "body": 255,
+            "latency": 11.200000047683716,
+            "frameID": 974
+          }
+        },
+        "sha256": "339233e614d8dd446ec0b06f8f63501410d58affc2b7475628c84861a22623d0",
+        "media": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_name": "h264",
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "codec_name": "aac"
+            }
+          ],
+          "format": {
+            "duration": "7.467833"
+          }
+        }
+      },
+      {
+        "name": "sawblade",
+        "file": "sawblade.mp4",
+        "bytes": 1835829,
+        "audio": {
+          "enabled": true,
+          "state": "running",
+          "thuds": 10,
+          "lastThud": {
+            "strength": 0.7172161172161172,
+            "melee": false,
+            "explosion": false,
+            "saw": true,
+            "junk": false,
+            "machine": false,
+            "material": 0,
+            "body": 255,
+            "latency": 8.599999964237213,
+            "frameID": 2065
+          }
+        },
+        "sha256": "0de69aa84a42fa427ef6d4eed607eff40dcc17785a1139ad6463ac28035daefa",
+        "media": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_name": "h264",
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "codec_name": "aac"
+            }
+          ],
+          "format": {
+            "duration": "7.474333"
+          }
+        }
+      },
+      {
+        "name": "tools-and-hands",
+        "file": "tools-and-hands.mp4",
+        "bytes": 4609371,
+        "audio": {
+          "enabled": true,
+          "state": "running",
+          "thuds": 56,
+          "lastThud": {
+            "strength": 0.14993894993894993,
+            "melee": false,
+            "explosion": false,
+            "saw": false,
+            "junk": false,
+            "machine": false,
+            "material": 0,
+            "body": 44,
+            "latency": 8.699999988079071,
+            "frameID": 2668
+          }
+        },
+        "sha256": "046751a6df582cff2e74319234d1ca3b6b7400514df5c6381093db5d1e4b5dd9",
+        "media": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_name": "h264",
+              "width": 1440,
+              "height": 900
+            },
+            {
+              "codec_name": "aac"
+            }
+          ],
+          "format": {
+            "duration": "15.744833"
+          }
+        }
+      }
+    ],
+    "poses": [
+      {
+        "tool": 1,
+        "angle": "front",
+        "file": "tool-1-front.png",
+        "sha256": "22fb2ee42d561156d355ec91861ee4760124912e9f9338934d88c0be990a3e19"
+      },
+      {
+        "tool": 1,
+        "angle": "inside",
+        "file": "tool-1-inside.png",
+        "sha256": "28bd745f92f897b3bda0babf2ce77fdaac4b070da5fc46ea371f57274d34e900"
+      },
+      {
+        "tool": 1,
+        "angle": "outside",
+        "file": "tool-1-outside.png",
+        "sha256": "7676676e8173543f00bd52eb135ee659b8b09914bf6a9da3b48d48d3ba6c0396"
+      },
+      {
+        "tool": 2,
+        "angle": "front",
+        "file": "tool-2-front.png",
+        "sha256": "f461e29b1aa225d30b27300db003d705c26f8c26270d8eda5c7a470855ac162e"
+      },
+      {
+        "tool": 2,
+        "angle": "inside",
+        "file": "tool-2-inside.png",
+        "sha256": "0ad7596e909d79dbc575062de192640e088a153e6378173ac31f760ecd30fea5"
+      },
+      {
+        "tool": 2,
+        "angle": "outside",
+        "file": "tool-2-outside.png",
+        "sha256": "ed9fb37e3575f7ee79d2e90cef6df63b961d91419c69f31f878c60f2baa30476"
+      },
+      {
+        "tool": 3,
+        "angle": "front",
+        "file": "tool-3-front.png",
+        "sha256": "2091c0c6f116f776f900cec075a567a5563f8124651185417b5e9c169555585c"
+      },
+      {
+        "tool": 3,
+        "angle": "inside",
+        "file": "tool-3-inside.png",
+        "sha256": "db4ac1d465fb76809f69d91e41237eb0551a76083880dcfc281b96c3898e630a"
+      },
+      {
+        "tool": 3,
+        "angle": "outside",
+        "file": "tool-3-outside.png",
+        "sha256": "ca700de54f47aa4c7880ca729b88286e9c0453022123aa17f5144114e680567c"
+      },
+      {
+        "tool": 4,
+        "angle": "front",
+        "file": "tool-4-front.png",
+        "sha256": "1b4a61aaccf831636c1f5345de4c80f4eac57ad8f1abb6d53dc8427f69d7ead6"
+      },
+      {
+        "tool": 4,
+        "angle": "inside",
+        "file": "tool-4-inside.png",
+        "sha256": "2d3961471c8edaf8f9eebaf596774666a47a08ea2c833a660cb81e0122fb1b30"
+      },
+      {
+        "tool": 4,
+        "angle": "outside",
+        "file": "tool-4-outside.png",
+        "sha256": "26a0ebf7dcb1526d123189fbda638db5e92a6bd35d2b8f4090e7d634a99a7fb5"
+      },
+      {
+        "tool": 5,
+        "angle": "front",
+        "file": "tool-5-front.png",
+        "sha256": "c78c35aeac8721f31773000b8b7536e5568a97428753dd7af768a140b875f738"
+      },
+      {
+        "tool": 5,
+        "angle": "inside",
+        "file": "tool-5-inside.png",
+        "sha256": "e148053bc30521056c73f6f812ec630a2b1d87239b955fab5c41f76449a2869e"
+      },
+      {
+        "tool": 5,
+        "angle": "outside",
+        "file": "tool-5-outside.png",
+        "sha256": "d29e38a16c76e2918d8498fd39050c33c4d6fead5ab096d2f46bbb059dcf236c"
+      },
+      {
+        "tool": 6,
+        "angle": "front",
+        "file": "tool-6-front.png",
+        "sha256": "a9124f73bbd601bf36296be4cab6c89c408bbf2e13e854d2cff5506d717d462a"
+      },
+      {
+        "tool": 6,
+        "angle": "inside",
+        "file": "tool-6-inside.png",
+        "sha256": "ee66db387a732046dfb33b01146d6b520ce492d1c4c56af7b16feb2c1b4b1a72"
+      },
+      {
+        "tool": 6,
+        "angle": "outside",
+        "file": "tool-6-outside.png",
+        "sha256": "fdbebaeb80173b953201320108741dc43bfe7de2c93910db155838bb3e8cbef9"
+      },
+      {
+        "tool": 7,
+        "angle": "front",
+        "file": "tool-7-front.png",
+        "sha256": "66095e72686a67b68d8b0a662da70606d9df5dd7a2fa27432134ef0f2b819995"
+      },
+      {
+        "tool": 7,
+        "angle": "inside",
+        "file": "tool-7-inside.png",
+        "sha256": "dd27b0ab6e2cf5f8f48bdf0709c2bfaefc3b3017545749adfda43f6e02c696bf"
+      },
+      {
+        "tool": 7,
+        "angle": "outside",
+        "file": "tool-7-outside.png",
+        "sha256": "b62451fe4fcec15c3b4cef4da4d3549f4ed68092ff28982784a63fdef33ad59a"
+      },
+      {
+        "tool": 8,
+        "angle": "front",
+        "file": "tool-8-front.png",
+        "sha256": "3173eda9efd3d0e20347d58243d8daac3d566cc877dd54738edd08895b8fde26"
+      },
+      {
+        "tool": 8,
+        "angle": "inside",
+        "file": "tool-8-inside.png",
+        "sha256": "c32fe3bc78bf0439b21fff29c77d68008cf5f961666a61c50f4df75006a7e812"
+      },
+      {
+        "tool": 8,
+        "angle": "outside",
+        "file": "tool-8-outside.png",
+        "sha256": "b78f2474d1d50faabd5887b9b55bb90b8799dae4a6e372bc0fb84da766e8786f"
+      },
+      {
+        "tool": 9,
+        "angle": "front",
+        "file": "tool-9-front.png",
+        "sha256": "b2a5bc6edde3fcc61e4d8c4f91fb767e2426e1b3be205ab8f5a00e967def92a4"
+      },
+      {
+        "tool": 9,
+        "angle": "inside",
+        "file": "tool-9-inside.png",
+        "sha256": "6d7ba56667da8ce8bc0aaec2eda4302b146e204fc070f385ac78c8d73a8cbeed"
+      },
+      {
+        "tool": 9,
+        "angle": "outside",
+        "file": "tool-9-outside.png",
+        "sha256": "987483b8c392d59e66beb793d35d9cdc230c43cb0a4f79d0fe16cf2b36abda68"
+      },
+      {
+        "tool": 10,
+        "angle": "front",
+        "file": "tool-10-front.png",
+        "sha256": "c5772daf712c5d2bcbe7a220a1f98b240f01e710638a558765e47c3fb0a5a108"
+      },
+      {
+        "tool": 10,
+        "angle": "inside",
+        "file": "tool-10-inside.png",
+        "sha256": "c90bab48110ce204bc87737ae7d1d5894dc48ab5bcd8ddbbc0178d8a54a17039"
+      },
+      {
+        "tool": 10,
+        "angle": "outside",
+        "file": "tool-10-outside.png",
+        "sha256": "b5f4632287d7835b0498dc69a97dd3486ad56c2669f478bb79fa2dbf5cccc254"
+      },
+      {
+        "tool": 11,
+        "angle": "front",
+        "file": "tool-11-front.png",
+        "sha256": "ba6625d1bc382dde121fefb01ce826e3cd71c72efb9cb25a0cb216c98e08312f"
+      },
+      {
+        "tool": 11,
+        "angle": "inside",
+        "file": "tool-11-inside.png",
+        "sha256": "6c18c742c1a40a3083dbeb3e30e2263a600f1fcc90f16c55a3d10805ae54c038"
+      },
+      {
+        "tool": 11,
+        "angle": "outside",
+        "file": "tool-11-outside.png",
+        "sha256": "76ceefcd75e2e2e61e92c5dce8a66415746be91c8007f47c041a202deb42374c"
+      },
+      {
+        "tool": 12,
+        "angle": "front",
+        "file": "tool-12-front.png",
+        "sha256": "54def52224681964534a6e3f1b03171801ee8f7659c551a42b981d3fe5b9e134"
+      },
+      {
+        "tool": 12,
+        "angle": "inside",
+        "file": "tool-12-inside.png",
+        "sha256": "6165ca7e929227d3fdd75009decbad1b316720a05e0cbe5bf012783369dd81fb"
+      },
+      {
+        "tool": 12,
+        "angle": "outside",
+        "file": "tool-12-outside.png",
+        "sha256": "a035c1ccaceee6fa8dbe58288389e5d66efedfde7fdd9430582f44d254ff6ccc"
+      },
+      {
+        "tool": 13,
+        "angle": "front",
+        "file": "tool-13-front.png",
+        "sha256": "f554a5eb121898d9b9e6239ca3dc2cdb5804b6975a1dcb20bb410cc343139bc0"
+      },
+      {
+        "tool": 13,
+        "angle": "inside",
+        "file": "tool-13-inside.png",
+        "sha256": "bf84ce15a3a96be14de59512b4731f188e8d480a5db8ad4712c8c635865de219"
+      },
+      {
+        "tool": 13,
+        "angle": "outside",
+        "file": "tool-13-outside.png",
+        "sha256": "a800633268bd1ca9c6a0602fdc9ef4dc733f1c7a9a98d9c57c7aec3bf4c35f82"
+      }
+    ],
+    "method": "Native input recordings from the WebGPU game canvas with game audio and a stationary Fly camera. Text overlay is visible in screenshots but not in raw-canvas MP4s. Stills rotate and offset the complete held model for inspection.",
+    "visuallyInspected": [
+      "Encoded pistol, rocket, shotgun and sawblade reload frames",
+      "Bat curved lettering and grip",
+      "Grenade front grip",
+      "Mop outside and magnet inside views",
+      "Centered profiler screenshot"
+    ]
+  },
+  "constraints": {
+    "physicsHz": 120,
+    "solverIterations": 9,
+    "dropSlots": 900,
+    "debrisSlots": 120,
+    "projectileSlots": 8,
+    "propSlots": 24,
+    "worldReceivers": 221,
+    "pigmentTexelsPerMetre": 160,
+    "filmSamplesPerMetre": 40,
+    "msaa": 4,
+    "emitters": 21,
+    "normalActorOrPaintReadbacks": 0
+  },
+  "limitations": [
+    "Firefox cold startup remains slow; threaded meshing and animated progress do not eliminate shader compilation.",
+    "Loading/error text uses browser rendering until WebGPU is ready; DOM controls retain semantics and native text editing.",
+    "Area lights remain unshadowed.",
+    "Ammunition remains unlimited; manual reloads are presentation and a temporary firing lock."
+  ],
+  "deployment": {
+    "url": "https://tront.xyz/smear/?v=46",
+    "liveReceipt": "tools/out/release-v46/live-verification.json",
+    "requiresExactHTMLHashAndHardwareBoot": true
+  }
+}

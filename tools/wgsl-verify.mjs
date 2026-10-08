@@ -31,6 +31,7 @@ if(shaders.programs){
  assert.equal(unique.size,13,'Render pipeline list changed; audit the exact validation modules');
  for(const [key,entries]of unique){const file=resolve(out,'render-'+key+'.wgsl');fs.writeFileSync(file,programSource(shaders.common+'\n'+shaders.render,shaders.programs.render,entries));paths.push(file);}
 }
+const glyph=html.match(/window\.__smearGlyphShader=("(?:[^"\\]|\\.)*");/);if(glyph){const path=resolve(out,'glyph.wgsl');fs.writeFileSync(path,JSON.parse(glyph[1]));paths.push(path);}
 const result=spawnSync('cargo',['run','--quiet','--locked','--manifest-path','tools/wgsl-check/Cargo.toml','--target-dir','tools/out/wgsl-check-target','--',...paths],{encoding:'utf8',windowsHide:true,timeout:180000,maxBuffer:4*1024*1024});
 const receipt={at:new Date().toISOString(),input,sha256:createHash('sha256').update(html).digest('hex'),validator:'Naga 29.0.4',modules:paths,status:result.status,stdout:result.stdout,stderr:result.stderr,error:result.error?.message,passed:result.status===0&&!result.error};
 fs.writeFileSync(resolve(out,'receipt.json'),JSON.stringify(receipt,null,2)+'\n');

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';import {createHash} from 'node:crypto';
-const baselineV42=process.argv.includes('baseline-v42'),buildFile=baselineV42?'tools/out/junk-v43-pass/before/index.html':'index.html';
+const baselineV42=process.argv.includes('baseline-v42'),baselineV45=process.argv.includes('baseline-v45'),buildFile=baselineV42?'tools/out/junk-v43-pass/before/index.html':baselineV45?'tools/out/gauntlet-v46/before/build.html':'index.html';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
@@ -22,7 +22,7 @@ const bulletMode=process.argv.includes('bullet-liquid');
 const arsenalMode=process.argv.includes('arsenal');
 const junkMode=process.argv.includes('junk');
 const rocketMode=process.argv.includes('rockets');
-const width=3000,height=1800,out=resolve('tools/out/compute-native-'+(junkMode?'junk-':bulletMode?'bullet-liquid-':arsenalMode?'arsenal-':rocketMode?'rockets-':utilityMode?'utility-':toyMode?'toybox-':buddyMode?'buddy-':propMode?'props-':blastMode?'destruction-':floorMode?'squeegee-':wallMode?'wall-':'')+browser+(baselineV42?'-baseline-v42':''));await mkdir(out,{recursive:true});
+const width=3000,height=1800,out=resolve('tools/out/compute-native-'+(junkMode?'junk-':bulletMode?'bullet-liquid-':arsenalMode?'arsenal-':rocketMode?'rockets-':utilityMode?'utility-':toyMode?'toybox-':buddyMode?'buddy-':propMode?'props-':blastMode?'destruction-':floorMode?'squeegee-':wallMode?'wall-':'')+browser+(baselineV42?'-baseline-v42':baselineV45?'-baseline-v45':''));await mkdir(out,{recursive:true});
 const page=await launchComputeBrowser({port:9598,width,height});
 const receipt={sha256:createHash('sha256').update(fs.readFileSync(buildFile)).digest('hex'),startedAt:new Date().toISOString(),viewport:[width,height],audioOutputMuted:true,browserProfile:page.dir,checks:[],profiles:[]};
 const watchdog=setTimeout(()=>{page.kill();process.exit(1);},180000);
@@ -42,7 +42,9 @@ try{
  receipt.audio=await page.eval('__smear.compute.audio()');assert.equal(receipt.audio.enabled,true);assert.equal(receipt.audio.state,'running');
  receipt.quality=await page.eval('__smear.quality()');assert.deepEqual(receipt.quality.canvas,[width,height]);assert.equal(receipt.quality.maxDrops,900);
  async function profile(label,start,stop=()=>page.eval('void 0')){
-  await start();await page.eval('__smearGPU.device.queue.onSubmittedWorkDone()');await sleep(300);
+  // The centered profiler covers the aim point. Hide it only while acquiring
+  // native input, then include its normal cost throughout the timing window.
+  await page.eval('__smear.perf.show(false)');await start();await page.eval('__smear.perf.show(true);__smearGPU.device.queue.onSubmittedWorkDone()');await sleep(300);
   const began=await page.eval('(()=>{__smear.perf.clear();__smearGPU.gpuSamples.length=0;__gpuAudit.reads={};__gpuAudit.writes={};__gpuAudit.canvasReads=0;__gpuAudit.active=true;__smear.manual(false);return {tick:__smearGPU.steps,time:performance.now()};})()');
   await sleep(6000);const ended=await page.eval('(()=>{__smear.manual(true);__gpuAudit.active=false;return {tick:__smearGPU.steps,time:performance.now()};})()');await stop();
   const report=await page.eval('__smear.perf.report()'),state=await page.eval('__smear.compute.state()'),audit=await page.eval('__gpuAudit');
@@ -50,7 +52,7 @@ try{
   assert.deepEqual(state.errors,[]);assert.equal(state.stampOverflow,0);assert.equal(audit.canvasReads,0);assert.equal(audit.webGLContexts,0);assert(!Object.keys(audit.reads).some(k=>/body inspection|prop inspection|pigment/.test(k)));assert(!Object.keys(audit.writes).some(k=>/pigment|droplet|ragdoll/.test(k)));
   assert(report.summary.fps>55,`${label}: ${report.summary.fps} FPS`);assert(report.summary.workPercentileMs.p99<5,`${label}: CPU p99 ${report.summary.workPercentileMs.p99}`);
   // Stop the timing window before explicit diagnostic downloads and teardown.
-  const ticksPerSecond=(state.steps-began.tick)/((ended.time-began.time)/1000);assert.equal(state.steps,ended.tick);assert(ticksPerSecond>110&&ticksPerSecond<125,label+' actual GPU tick rate '+ticksPerSecond);receipt.profiles.push({label,report,state,audit,ticksPerSecond,window:{began,ended}});console.log(JSON.stringify({label,fps:report.summary.fps,main:report.summary.workPercentileMs,gpu:report.compute.summary,particles:state.particles,hits:state.hits,ticksPerSecond,audit}));await page.shot(resolve(out,label+'.png'));return state;
+  const ticksPerSecond=(state.steps-began.tick)/((ended.time-began.time)/1000);assert.equal(state.steps,ended.tick);assert(ticksPerSecond>110&&ticksPerSecond<125,label+' actual GPU tick rate '+ticksPerSecond);receipt.profiles.push({label,report,state,audit,ticksPerSecond,window:{began,ended}});console.log(JSON.stringify({label,fps:report.summary.fps,main:report.summary.workPercentileMs,gpu:report.compute.summary,particles:state.particles,hits:state.hits,ticksPerSecond,audit}));await page.shot(resolve(out,label+'.png'));await page.eval('__smear.perf.show(false)');return state;
  }
  if(junkMode){
   for(const name of ['crusher','glass','pinball'])await profile('junk-'+name,()=>page.eval("__smear.utility.demo('"+name+"');__smear.manual(true);__smear.utility.run()"));

@@ -3,14 +3,14 @@ const fpsControl={mode:'fps',phase:'ready',freeAim:false,pending:false,error:'',
 let controlMenuState=null;
 try{if(!window.__smearDefaults&&localStorage.getItem('smear.controls.mode')==='cursor')fpsControl.mode='cursor';}catch{}
 const controlOverlay=document.createElement('div');controlOverlay.id='play-menu';
-controlOverlay.innerHTML='<section><small>SMEAR / 45</small><h1>Ready to make a mess?</h1><p id="play-message">Click to capture the mouse and play.</p><button id="play-resume">Enter the room</button><button id="play-cursor">Use free cursor</button><button id="play-defaults" style="margin-top:8px;background:none;color:#c8d1c8;border-color:#536461;font-size:12px">Restart with reference defaults</button></section>';
+controlOverlay.innerHTML='<section><small>SMEAR / 46</small><h1>Ready to make a mess?</h1><p id="play-message">Click to capture the mouse and play.</p><button id="play-resume">Enter the room</button><button id="play-cursor">Use free cursor</button><button id="play-defaults" style="margin-top:8px;background:none;color:#c8d1c8;border-color:#536461;font-size:12px">Restart with reference defaults</button></section>';
 document.body.appendChild(controlOverlay);$('play-defaults').onclick=()=>{const u=new URL(location.href);u.searchParams.set('defaults','1');location.href=u.href;};
 const controlStyle=document.createElement('style');controlStyle.textContent='#play-menu{position:fixed;inset:0;z-index:3;display:none;align-items:center;justify-content:center;pointer-events:none;background:rgba(13,24,25,.22)}#play-menu section{pointer-events:auto;width:min(430px,calc(100vw - 32px));padding:30px;background:#1b2929;color:#eae2cd;border:1px solid #607270;box-shadow:0 18px 65px #0007}#play-menu small{letter-spacing:3px;color:#cda956;font:700 11px Arial}#play-menu h1{font-size:34px;margin:12px 0}#play-menu p{font-size:14px;line-height:1.5;color:#c8d1c8}#play-menu button{cursor:pointer;width:100%;padding:13px 15px;font:700 15px Arial;border:1px solid #ddc591;background:#ddc591;color:#172b2e}#play-menu button:disabled{opacity:.55;cursor:wait}#play-menu .play-keys{font:13px/1.9 Arial;color:#b5c1bb;margin:18px 0}#play-menu #play-cursor{font-size:12px;padding:8px;background:none;border-color:#536461;color:#c8d1c8}';document.head.appendChild(controlStyle);
 function clearPlayInput(keepPlacement=false){
  if(!keepPlacement)cancelBuddyPlacement();
  keys.clear();mouse.left=mouse.right=false;aimDown=false;activeSlider=null;player.jump=false;player.vel.set(0,0,0);fpsControl.freeAim=false;
  releaseGrab(false);shotFlashUntil=-1;viewKick=recoilPitch=aimBlend=0;flash.visible=false;slide.position.z=0;
- if(typeof compute!=='undefined'&&compute){compute.inputAction=0;compute.pickRequested=false;compute.pickEpoch++;}cancelBat();cancelBrawl();updateScrape(0,0);
+ if(typeof compute!=='undefined'&&compute){compute.inputAction=0;compute.pickRequested=false;compute.pickEpoch++;}cancelBat();cancelBrawl();cancelReload();updateScrape(0,0);
 }
 function syncControlMenu(){
  const visible=(fpsControl.mode==='fps'||paused)&&!fpsControl.inspection&&!['playing','cursor','menu'].includes(fpsControl.phase)&&!compute?.placement&&!panel&&!runtimeProfiler.visible&&toybox.hidden;
@@ -71,7 +71,7 @@ window.addEventListener('pointerdown',e=>{
  if(fpsControl.mode==='fps'&&!fpsControl.inspection&&!compute.placement&&document.pointerLockElement!==canvas){if(e.button===0||e.button===2){e.preventDefault();requestLook();}return;}
  if(paused)return;
  if(e.button===2){e.preventDefault();if(document.pointerLockElement===canvas||tool>=6){mouse.right=true;aimDown=tool===1;if(tool===10)compute.secondary();if(tool===11)compute.detonateCharges();}else requestLook();return;}
- if(e.button!==0)return;if(compute.placement){confirmBuddyPlacement();return;}pressedUI=false;if(demo)releaseGrab(false);mouse.left=true;
+ if(e.button!==0)return;if(reloadAge<reloadDuration)return;if(compute.placement){confirmBuddyPlacement();return;}pressedUI=false;if(demo)releaseGrab(false);mouse.left=true;
  if(tool===0&&(compute.cache.control&255)&&!grab){mouse.left=false;compute.interactMachine();}else if(tool===0)compute.pick();else if(tool===1)shoot();else if(tool===2)spill();else if(tool===3)swingBat();else if(tool===4)throwGrenade();else if(tool===5)fireRocket();else if(tool===11)throwSticky();else if(tool===12)fireShotgun();else if(tool===13)fireSaw();
 });
 window.addEventListener('pointerup',e=>{
@@ -100,7 +100,7 @@ window.addEventListener('keydown',e=>{
  if(e.code==='KeyB'&&!panel){openToybox();return;}if(panel||paused)return;keys.add(e.code);
  if(e.code==='KeyE'&&!grab&&!compute.placement){compute.interactMachine();return;}
  if(e.code==='KeyB'){openToybox();return;}if(e.code==='Delete'){removeSelectedToy();return;}
- if(e.code==='KeyN'){beginBuddyPlacement(false);return;}if(e.code==='KeyR'){beginBuddyPlacement(true);return;}
+ if(e.code==='KeyN'){beginBuddyPlacement(false);return;}if(e.code==='KeyR'){if(tool===0)beginBuddyPlacement(true);else reloadWeapon();return;}if(e.code==='KeyI'){inspectAge=0;return;}
  if(e.code==='KeyC'&&document.pointerLockElement===canvas){const p=aimXY();mouse.x=p.x;mouse.y=p.y;fpsControl.freeAim=true;if(grab)grab.rayOffset=null;}
  if(/^Digit[0-9]$/.test(e.code))setTool((Number(e.code.at(-1))+9)%10);
  if(e.code==='Minus')setTool(10);if(e.code==='Equal')setTool(11);if(e.code==='KeyZ')setTool(12);if(e.code==='KeyJ')setTool(13);
@@ -125,6 +125,9 @@ document.addEventListener('pointerlockchange',()=>{
  else{const intentional=['cursor','menu','placing'].includes(fpsControl.phase);clearPlayInput(intentional);stickyLook=false;temporaryLook=false;if(fpsControl.mode==='fps'&&!fpsControl.inspection&&!intentional){fpsControl.phase='paused';paused=true;}}
  syncControlMenu();
 });
+let reloadAge=10,reloadDuration=1.6,inspectAge=10,grenadeAge=10,reloadClick=false;
+function cancelReload(){reloadAge=10;inspectAge=10;grenadeAge=10;}
+function reloadWeapon(){if(paused||panel||tool===0||reloadAge<reloadDuration)return;reloadDuration=tool===12?1.9:tool===5?1.75:tool===13?1.65:tool===1?1.55:1.2;reloadAge=0;reloadClick=false;mouse.left=mouse.right=false;aimDown=false;cancelBat();startAudio();weaponNoise(1600,650,.085,.065);}
 let batAge=10,batStrikePending=false,batSwings=0;
 function cancelBat(){batAge=10;batStrikePending=false;}
 function swingBat(){
@@ -135,6 +138,7 @@ let brawlAge=10,brawlKick=true,brawlPending=false;
 function cancelBrawl(){brawlAge=10;brawlPending=false;}
 function swingBrawl(kick){if(paused||panel||compute.placement||brawlAge<.60)return;releaseGrab(false);mouse.left=false;cancelBat();brawlAge=0;brawlKick=kick;brawlPending=true;startAudio();weaponNoise(360,1100,.18,.10);}
 function tickControls(dt){
+ if(!paused&&!panel){const elapsed=dt*(slow?.25:1);reloadAge+=elapsed;inspectAge+=elapsed;grenadeAge+=elapsed;if(reloadAge<reloadDuration&&!reloadClick&&reloadAge>reloadDuration*.72){reloadClick=true;weaponNoise(2300,900,.065,.08);weaponTone(420,220,.06,.018);}}
  if(paused||panel)cancelBrawl();else{brawlAge+=dt;if(brawlPending&&brawlAge>=.14){brawlPending=false;compute.inputAction=brawlKick?21:22;}}
  if(fpsControl.mode==='fps'&&!fpsControl.inspection&&!['playing','cursor'].includes(fpsControl.phase)&&!compute?.placement)paused=true;
  if(paused||panel||tool!==3)cancelBat();else{batAge+=dt;if(batStrikePending&&batAge>=.16){batStrikePending=false;compute.melee();}}
@@ -154,9 +158,9 @@ function tickUtilityAudio(){
 }
 
 let grenadeClock=-1,rocketClock=-1,rocketFiredAt=-1e9,stickyClock=-1;
-function throwSticky(){if(paused||panel||tool!==11||performance.now()<stickyClock)return;stickyClock=performance.now()+450;compute.sticky();}
-function fireRocket(){if(paused||panel||tool!==5||performance.now()<rocketClock)return;rocketFiredAt=performance.now();rocketClock=rocketFiredAt+320;compute.rocket();startAudio();if(audio&&soundOn&&noiseBuf){const t=audio.currentTime,s=audio.createBufferSource(),f=audio.createBiquadFilter(),g=audio.createGain();s.buffer=noiseBuf;f.type="bandpass";f.frequency.setValueAtTime(650,t);f.frequency.exponentialRampToValueAtTime(140,t+.3);g.gain.setValueAtTime(.40,t);g.gain.exponentialRampToValueAtTime(.001,t+.45);s.connect(f);f.connect(g);g.connect(master);s.start(t);s.stop(t+.46);}}
-function throwGrenade(){if(paused||panel||tool!==4||performance.now()<grenadeClock)return;grenadeClock=performance.now()+750;compute.grenade();}
+function throwSticky(){if(reloadAge<reloadDuration||paused||panel||tool!==11||performance.now()<stickyClock)return;stickyClock=performance.now()+450;compute.sticky();}
+function fireRocket(){if(reloadAge<reloadDuration||paused||panel||tool!==5||performance.now()<rocketClock)return;rocketFiredAt=performance.now();rocketClock=rocketFiredAt+320;compute.rocket();startAudio();if(audio&&soundOn&&noiseBuf){const t=audio.currentTime,s=audio.createBufferSource(),f=audio.createBiquadFilter(),g=audio.createGain();s.buffer=noiseBuf;f.type="bandpass";f.frequency.setValueAtTime(650,t);f.frequency.exponentialRampToValueAtTime(140,t+.3);g.gain.setValueAtTime(.40,t);g.gain.exponentialRampToValueAtTime(.001,t+.45);s.connect(f);f.connect(g);g.connect(master);s.start(t);s.stop(t+.46);}}
+function throwGrenade(){if(reloadAge<reloadDuration||paused||panel||tool!==4||performance.now()<grenadeClock)return;grenadeClock=performance.now()+750;grenadeAge=0;compute.grenade();}
 let shotgunClock=-1,sawClock=-1,arsenalFiredAt=-1e9;
 function weaponNoise(frequency,end,duration,volume,delay=0){
  if(!audio||!soundOn||!noiseBuf)return;const t=audio.currentTime+delay,s=audio.createBufferSource(),f=audio.createBiquadFilter(),g=audio.createGain();s.buffer=noiseBuf;f.type='bandpass';f.Q.value=.7;f.frequency.setValueAtTime(frequency,t);f.frequency.exponentialRampToValueAtTime(end,t+duration);g.gain.setValueAtTime(volume,t);g.gain.exponentialRampToValueAtTime(.001,t+duration);s.connect(f);f.connect(g);g.connect(master);s.start(t);s.stop(t+duration+.01);
@@ -165,10 +169,10 @@ function weaponTone(start,end,duration,volume,type='triangle'){
  if(!audio||!soundOn)return;const t=audio.currentTime,o=audio.createOscillator(),g=audio.createGain();o.type=type;o.frequency.setValueAtTime(start,t);o.frequency.exponentialRampToValueAtTime(end,t+duration);g.gain.setValueAtTime(volume,t);g.gain.exponentialRampToValueAtTime(.001,t+duration);o.connect(g);g.connect(master);o.start(t);o.stop(t+duration+.01);
 }
 function fireShotgun(){
- const now=performance.now();if(paused||panel||tool!==12||now<shotgunClock)return;shotgunClock=now+700;arsenalFiredAt=now;compute.shotgun();startAudio();weaponNoise(3500,110,.25,.55);weaponTone(105,31,.28,.30);weaponNoise(1800,650,.06,.10,.28);weaponNoise(900,2200,.08,.09,.40);
+ const now=performance.now();if(reloadAge<reloadDuration||paused||panel||tool!==12||now<shotgunClock)return;shotgunClock=now+700;arsenalFiredAt=now;compute.shotgun();startAudio();weaponNoise(3500,110,.25,.55);weaponTone(105,31,.28,.30);weaponNoise(1800,650,.06,.10,.28);weaponNoise(900,2200,.08,.09,.40);
 }
 function fireSaw(){
- const now=performance.now();if(paused||panel||tool!==13||now<sawClock)return;sawClock=now+480;arsenalFiredAt=now;compute.saw();startAudio();weaponTone(160,820,.20,.07,'sawtooth');weaponNoise(1800,4300,.23,.17);weaponTone(85,40,.10,.12);
+ const now=performance.now();if(reloadAge<reloadDuration||paused||panel||tool!==13||now<sawClock)return;sawClock=now+480;arsenalFiredAt=now;compute.saw();startAudio();weaponTone(160,820,.20,.07,'sawtooth');weaponNoise(1800,4300,.23,.17);weaponTone(85,40,.10,.12);
 }
 function playSawImpact(strength,solid){
  if(solid){weaponTone(2400,770,.17,.08*strength,'square');weaponNoise(5200,1300,.11,.14*strength);}else{weaponNoise(720,130,.18,.24*strength);weaponTone(170,47,.13,.08*strength,'sawtooth');}
