@@ -6,7 +6,12 @@ async function boot(path='index.html'){await page.goto(pathToFileURL(resolve(pat
 async function flick(pause,reverse=false,cancel=false){await page.eval('__handling.throwSetup()');await page.eval(`__handling.flick(${pause},${reverse})`);const before=await page.eval('__handling.momentum()');await page.eval(`__smear.release(${!cancel});__smearGPU.submit(0)`);const after=await page.eval('__handling.momentum()');return {before,after};}
 async function pool(options={}){await page.eval(`__handling.poolSetup(${JSON.stringify(options)})`);const before=await page.eval('__handling.poolRead()');await page.eval('__handling.twist(true);__impactTest.advance(480)');const after=await page.eval('__handling.poolRead()');await page.eval('__handling.hide()');return {before,after};}
 function compact(r){const {field,...rest}=r;return rest;}
-async function clickSound(){await page.eval('new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))');const b=await page.eval('__smear.ui().find(b=>/^Sound (on|off)$/.test(b.label))');await page.mouse('mousePressed',b.x+20,b.y+15);await page.mouse('mouseReleased',b.x+20,b.y+15);}
+async function clickSound(){
+ // V44 moved Sound into the real pause menu; exercise its native button.
+ await page.eval('__smear.controls.mode("fps")');
+ const b=await page.eval('(()=>{const r=document.getElementById("play-sound").getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2};})()');
+ await page.mouse('mousePressed',b.x,b.y);await page.mouse('mouseReleased',b.x,b.y);await page.eval('__smear.manual(true)');
+}
 try{
  await boot('tools/out/throw-pass/before/index.html');receipt.beforeThrow=await flick(8);const baselinePool=await pool();receipt.beforePool={before:compact(baselinePool.before),after:compact(baselinePool.after)};await page.shot(resolve(out,'before-pool.png'));
  await boot();receipt.throws={};for(const pause of [0,2,4,8,16,32])receipt.throws[pause]=await flick(pause);

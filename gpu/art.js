@@ -28,6 +28,13 @@ SmearCompute.prototype.artDirection=function(){
  sign('SMEAR','MATERIAL RESPONSE LAB  /  09', [0,2.65,-7.955],4.4,1.1);
  sign('01','IMPACT / TRANSFER',[-5.7,2.5,-7.95],2.05,.5125);
  sign('02','SURFACE / FLOW',[5.7,2.5,-7.95],2.05,.5125);
+ // A visible spindle and crossarm explain the moving emitter paths.
+ this.lightRig=new T.Group();this.lightRig.position.fromArray(window.__smearLightMotion.pivot);this.scene.add(this.lightRig);
+ const moving=mesh=>{mesh.userData.movingLight=true;this.lightRig.attach(mesh);return mesh;};
+ add(new T.CylinderGeometry(.065,.065,.64,12),dark,[0,4.66,1.6]);
+ moving(add(new T.CylinderGeometry(.17,.17,.18,16),dark,[0,4.32,1.6]));
+ moving(add(new T.BoxGeometry(4.94,.10,.12),dark,[0,4.32,1.6]));
+ for(const x of [-2.4,2.4])moving(add(new T.CylinderGeometry(.034,.034,.48,10),dark,[x,4.04,1.6]));
  // Actual polygon fixtures, using the exact vertices integrated by LTC.
  for(const light of window.__smearLights.filter(l=>l.build)){
   const points=light.vertices.map(p=>new T.Vector3(...p));
@@ -38,8 +45,8 @@ SmearCompute.prototype.artDirection=function(){
    const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(positions,3));geo.setAttribute('uv',new T.Float32BufferAttribute([0,0,1,0,1,1,0,1],2));geo.setIndex([0,1,2,0,2,3]);geo.computeVertexNormals();
    // Visible colored diffuser faces use a lower display exposure than the
    // emitted radiance, retaining their hue through the scene tone mapper.
-   const level=Math.max(...light.radiance),violet=light.name.startsWith('violet');const face=new T.MeshBasicMaterial({color:new T.Color(...light.radiance.map(c=>violet?Math.pow(c/level,2.0)*.8:c/level*3))});
-   const mesh=add(geo,backing?dark:face,[0,0,0]);mesh.castShadow=false;mesh.name=light.name+(backing?' frame':'');if(!backing)mesh.userData.ltcEmitter=light.name;
+   const level=Math.max(...light.radiance),violet=light.name.includes('violet');const face=new T.MeshBasicMaterial({color:new T.Color(...light.radiance.map(c=>violet?Math.pow(c/level,2.0)*.8:c/level*3))});
+   const mesh=add(geo,backing?dark:face,[0,0,0]);mesh.castShadow=false;mesh.name=light.name+(backing?' frame':'');if(!backing)mesh.userData.ltcEmitter=light.name;if(light.moving)moving(mesh);
   }
  }
  this.completePaintReceivers();
@@ -61,7 +68,7 @@ SmearCompute.prototype.completePaintReceivers=function(){
  }
  this.scene.updateMatrixWorld(true);const boxes=new Set(this.staticBoxes.map(b=>b.mesh));this.paintOverlays=[];
  this.scene.traverse(mesh=>{
-  if(!mesh.isMesh||mesh.userData.surface||boxes.has(mesh)||mesh===this.dropMesh)return;
+  if(!mesh.isMesh||mesh.userData.movingLight||mesh.userData.surface||boxes.has(mesh)||mesh===this.dropMesh)return;
   for(let p=mesh;p;p=p.parent)if(p.userData.body||p===this.gun||p===this.spillCan||p===this.grip)return;
   if(!['BoxGeometry','PlaneGeometry'].includes(mesh.geometry?.type))return;
   const point=mesh.getWorldPosition(new T.Vector3());let receiver=null,best=.23;
@@ -72,4 +79,15 @@ SmearCompute.prototype.completePaintReceivers=function(){
   }
   if(receiver){mesh.userData.paintReceiver=receiver.id;this.paintOverlays.push({mesh,receiver:receiver.id});}
  });
+};
+
+// Both the rendered fixture matrices and LTC polygon coordinates use this same
+// rigid transform and simulation clock. Pause and slow motion stay coherent.
+SmearCompute.prototype.updateLights=function(time){
+ if(this.lightTime===time)return;this.lightTime=time;
+ this.lightRig.rotation.y=time*window.__smearLightMotion.speed;this.lightRig.updateMatrixWorld(true);
+ for(const lamp of this.movingLights){
+  for(let i=0;i<4;i++){lamp.point.copy(lamp.local[i]).applyMatrix4(this.lightRig.matrixWorld);lamp.data.set(lamp.point.toArray(),i*4);}
+  this.device.queue.writeBuffer(this.constantBuffer,lamp.offset,lamp.data);
+ }
 };

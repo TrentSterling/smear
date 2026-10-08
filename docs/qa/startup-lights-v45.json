@@ -1,0 +1,729 @@
+{
+  "version": "0.45.0",
+  "at": "2026-10-08T14:39:24.572Z",
+  "buildSHA256": "59f85ac7799e85d70dd20199b42fbb20c778dab8effb41f840e806769dda616b",
+  "baseline": {
+    "version": "0.44.0",
+    "path": "tools/out/startup-v45/before/build.html",
+    "sha256": "b33c6c9dd8f9f0b1932e4a9dece0854c3ddd85b7373eda669af5938612ae954a"
+  },
+  "features": [
+    "Eight independent action pipelines replace the combined interaction shader; same action numbers and gameplay equations",
+    "Build-time reachable function ranges preserve original WGSL text while removing unrelated functions from each runtime module",
+    "All gameplay pipelines compile before ready; no first-use gameplay compilation or simulation quality reduction",
+    "A physical ceiling spindle and rotating crossarm carry cyan and violet LTC bars; shared geometry/emitter transforms",
+    "Lights use simulation time, pause with the room, and honor quarter-speed slow motion"
+  ],
+  "startup": {
+    "method": "Local offline HTML, headless hardware Chrome at 1920x1080. Navigation start through all five warmup submissions and queue completion. New browser profile per sample; second navigation measures same-browser cache. CPU sampling enabled during each fresh load. OS/driver caches were not forcibly cleared.",
+    "before": [
+      {
+        "path": "tools/out/startup-v45/before/profile.json",
+        "sha256": "b33c6c9dd8f9f0b1932e4a9dece0854c3ddd85b7373eda669af5938612ae954a",
+        "runs": [
+          {
+            "cache": "fresh browser profile",
+            "readyMs": 15659.899999976158,
+            "pipelineMs": 14921,
+            "modelMs": 1433.699999988079
+          },
+          {
+            "cache": "same-browser reload",
+            "readyMs": 3738.199999988079,
+            "pipelineMs": 3294.900000035763,
+            "modelMs": 2139.800000011921
+          }
+        ]
+      },
+      {
+        "path": "tools/out/startup-v45/before-2/profile.json",
+        "sha256": "b33c6c9dd8f9f0b1932e4a9dece0854c3ddd85b7373eda669af5938612ae954a",
+        "runs": [
+          {
+            "cache": "fresh browser profile",
+            "readyMs": 12029.5,
+            "pipelineMs": 11323.899999976158,
+            "modelMs": 1328.8999999761581
+          },
+          {
+            "cache": "same-browser reload",
+            "readyMs": 3257.099999964237,
+            "pipelineMs": 2855,
+            "modelMs": 2071.100000023842
+          }
+        ]
+      },
+      {
+        "path": "tools/out/startup-v45/before-3/profile.json",
+        "sha256": "b33c6c9dd8f9f0b1932e4a9dece0854c3ddd85b7373eda669af5938612ae954a",
+        "runs": [
+          {
+            "cache": "fresh browser profile",
+            "readyMs": 12012.199999988079,
+            "pipelineMs": 11361.5,
+            "modelMs": 1323.800000011921
+          },
+          {
+            "cache": "same-browser reload",
+            "readyMs": 3197.699999988079,
+            "pipelineMs": 2794.800000011921,
+            "modelMs": 2011.7999999523163
+          }
+        ]
+      }
+    ],
+    "after": [
+      {
+        "path": "tools/out/startup-v45/final-1/profile.json",
+        "sha256": "59f85ac7799e85d70dd20199b42fbb20c778dab8effb41f840e806769dda616b",
+        "runs": [
+          {
+            "cache": "fresh browser profile",
+            "readyMs": 5576.699999988079,
+            "pipelineMs": 4994,
+            "modelMs": 1447.800000011921
+          },
+          {
+            "cache": "same-browser reload",
+            "readyMs": 3745.899999976158,
+            "pipelineMs": 3341,
+            "modelMs": 2066.399999976158
+          }
+        ]
+      },
+      {
+        "path": "tools/out/startup-v45/final-2/profile.json",
+        "sha256": "59f85ac7799e85d70dd20199b42fbb20c778dab8effb41f840e806769dda616b",
+        "runs": [
+          {
+            "cache": "fresh browser profile",
+            "readyMs": 5624.700000047684,
+            "pipelineMs": 5078.800000011921,
+            "modelMs": 1448.300000011921
+          },
+          {
+            "cache": "same-browser reload",
+            "readyMs": 3739,
+            "pipelineMs": 3334.100000023842,
+            "modelMs": 2111.400000035763
+          }
+        ]
+      },
+      {
+        "path": "tools/out/startup-v45/final-3/profile.json",
+        "sha256": "59f85ac7799e85d70dd20199b42fbb20c778dab8effb41f840e806769dda616b",
+        "runs": [
+          {
+            "cache": "fresh browser profile",
+            "readyMs": 5633,
+            "pipelineMs": 4997.600000023842,
+            "modelMs": 1430.699999988079
+          },
+          {
+            "cache": "same-browser reload",
+            "readyMs": 3705.800000011921,
+            "pipelineMs": 3300.100000023842,
+            "modelMs": 2060.400000035763
+          }
+        ]
+      }
+    ],
+    "coldMedianBeforeMs": 12029.5,
+    "coldMedianAfterMs": 5624.700000047684,
+    "warmMedianBeforeMs": 3257.099999964237,
+    "warmMedianAfterMs": 3739
+  },
+  "constraints": {
+    "physicsHz": 120,
+    "solverIterations": 9,
+    "dropSlots": 900,
+    "debrisSlots": 120,
+    "projectileSlots": 8,
+    "propSlots": 24,
+    "worldReceivers": 221,
+    "pigmentTexelsPerMetre": 160,
+    "filmSamplesPerMetre": 40,
+    "msaa": 4,
+    "emitters": 21,
+    "normalActorOrPaintReadbacks": 0,
+    "scalarTelemetryBytes": 160
+  },
+  "checks": [
+    {
+      "command": "tools/wgsl-verify.mjs",
+      "status": 0,
+      "seconds": 1.654,
+      "result": [
+        "COMPLETE 62 embedded WGSL modules passed Naga validation"
+      ]
+    },
+    {
+      "command": "tools/startup-profile.mjs before-2 tools/out/startup-v45/before/build.html",
+      "status": 0,
+      "seconds": 16.061,
+      "result": []
+    },
+    {
+      "command": "tools/startup-profile.mjs before-3 tools/out/startup-v45/before/build.html",
+      "status": 0,
+      "seconds": 15.796,
+      "result": []
+    },
+    {
+      "command": "tools/startup-profile.mjs final-1",
+      "status": 0,
+      "seconds": 9.993,
+      "result": []
+    },
+    {
+      "command": "tools/startup-profile.mjs final-2",
+      "status": 0,
+      "seconds": 10.086,
+      "result": []
+    },
+    {
+      "command": "tools/startup-profile.mjs final-3",
+      "status": 0,
+      "seconds": 9.986,
+      "result": []
+    },
+    {
+      "command": "tools/ltc-verify.mjs final-v45",
+      "status": 0,
+      "seconds": 32.475,
+      "result": [
+        "  \"result\": \"COMPLETE LTC integration checks\","
+      ]
+    },
+    {
+      "command": "tools/compute-verify.mjs final-v45",
+      "status": 0,
+      "seconds": 17.242,
+      "result": [
+        "COMPLETE compute game checks passed (10 checks)"
+      ]
+    },
+    {
+      "command": "tools/controller-verify.mjs final-v45",
+      "status": 0,
+      "seconds": 13.627,
+      "result": [
+        "  \"result\": \"COMPLETE FPS controller and spiked bat checks\","
+      ]
+    },
+    {
+      "command": "tools/handling-verify.mjs final-v45",
+      "status": 0,
+      "seconds": 40.237,
+      "result": [
+        "  \"result\": \"COMPLETE handling, impact audio and floor squeegee checks\","
+      ]
+    },
+    {
+      "command": "tools/bat-verify.mjs final-v45",
+      "status": 0,
+      "seconds": 10.633,
+      "result": [
+        "COMPLETE bat durability checks"
+      ]
+    },
+    {
+      "command": "tools/brawl-verify.mjs final-v45",
+      "status": 0,
+      "seconds": 10.601,
+      "result": [
+        "COMPLETE brawl and buddy reaction checks"
+      ]
+    },
+    {
+      "command": "tools/arsenal-verify.mjs final-v45",
+      "status": 0,
+      "seconds": 43.519,
+      "result": [
+        "COMPLETE 6 arsenal checks passed"
+      ]
+    },
+    {
+      "command": "tools/ricochet-verify.mjs final-v45",
+      "status": 0,
+      "seconds": 14.317,
+      "result": [
+        "COMPLETE 10 new arsenal and dummy checks"
+      ]
+    },
+    {
+      "command": "tools/bullet-liquid-verify.mjs final-v45",
+      "status": 0,
+      "seconds": 7.368,
+      "result": [
+        "COMPLETE 9 bullet liquid checks"
+      ]
+    },
+    {
+      "command": "tools/junk-verify.mjs final-v45",
+      "status": 0,
+      "seconds": 26.615,
+      "result": [
+        "COMPLETE junk and machine checks"
+      ]
+    },
+    {
+      "command": "tools/utility-verify.mjs final-v45",
+      "status": 0,
+      "seconds": 21.348,
+      "result": [
+        "COMPLETE 16 utility checks passed"
+      ]
+    },
+    {
+      "command": "tools/visibility-verify.mjs",
+      "status": 0,
+      "seconds": 8.241,
+      "result": [
+        "COMPLETE visibility pass preserves room, cut sockets, machinery and translucent preview coverage"
+      ]
+    },
+    {
+      "command": "tools/compute-profile.mjs",
+      "status": 0,
+      "seconds": 56.405,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (8 checks)"
+      ]
+    },
+    {
+      "command": "tools/compute-profile.mjs junk",
+      "status": 0,
+      "seconds": 34.395,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (1 checks)"
+      ]
+    },
+    {
+      "command": "tools/compute-profile.mjs rockets",
+      "status": 0,
+      "seconds": 13.588,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (1 checks)"
+      ]
+    }
+  ],
+  "lights": {
+    "checks": [
+      "Moving fixture vertices match the actual GPU LTC polygon buffer at three poses",
+      "Wet-floor pixels change with moving LTC lighting and stay identical with LTC disabled",
+      "Native slow motion runs the lights at quarter speed and Escape freezes the fixture"
+    ],
+    "reflectionMeanAbsoluteRGB": {
+      "0": 0,
+      "1": 7.364609455375515
+    },
+    "normalAndSlowTicks": {
+      "normal": 120,
+      "slow": 31
+    },
+    "video": "tools/out/startup-v45/lights/moving-ltc.mp4",
+    "matchedVideo": "tools/out/startup-v45/matched/before-after.mp4",
+    "matched": [
+      {
+        "label": "before",
+        "profile": "C:\\Users\\trent\\AppData\\Local\\Temp\\smear-chrome-XuMR1H",
+        "sha256": "b33c6c9dd8f9f0b1932e4a9dece0854c3ddd85b7373eda669af5938612ae954a",
+        "audio": {
+          "enabled": true,
+          "state": "running",
+          "thuds": 0,
+          "lastThud": null
+        }
+      },
+      {
+        "label": "after",
+        "profile": "C:\\Users\\trent\\AppData\\Local\\Temp\\smear-chrome-zVjWsq",
+        "sha256": "59f85ac7799e85d70dd20199b42fbb20c778dab8effb41f840e806769dda616b",
+        "audio": {
+          "enabled": true,
+          "state": "running",
+          "thuds": 0,
+          "lastThud": null
+        }
+      }
+    ],
+    "audio": {
+      "enabled": true,
+      "state": "running",
+      "thuds": 0,
+      "lastThud": null
+    },
+    "inspected": [
+      "rig-0.png",
+      "rig-4.5.png",
+      "rig-9.png",
+      "video-midpoint.png"
+    ],
+    "numericLTC": {
+      "samples": 27,
+      "maxRelativeError": 0.00006301797793777817,
+      "times": [
+        0,
+        4.5,
+        9
+      ]
+    }
+  },
+  "visibility": [
+    {
+      "name": "room",
+      "meanAbsoluteRGB": 0.0038347916666666665,
+      "changedFraction": 0.000288125
+    },
+    {
+      "name": "cuts",
+      "meanAbsoluteRGB": 0.004345208333333334,
+      "changedFraction": 0.000298125
+    },
+    {
+      "name": "crusher",
+      "meanAbsoluteRGB": 0.007014166666666667,
+      "changedFraction": 0.000504375
+    },
+    {
+      "name": "preview",
+      "meanAbsoluteRGB": 0.00004708333333333333,
+      "changedFraction": 0
+    }
+  ],
+  "profiles": [
+    {
+      "path": "tools/out/compute-native-chrome/verification.json",
+      "profiles": [
+        {
+          "label": "idle",
+          "fps": 60.00033426358109,
+          "cpuP99ms": 1.399999976158142,
+          "ticksPerSecond": 119.70166150520195,
+          "gpu": {
+            "computeMS": {
+              "p50": 2.097152,
+              "p95": 3.211264,
+              "p99": 3.2768,
+              "max": 3.342336
+            },
+            "renderMS": {
+              "p50": 9.437184,
+              "p95": 9.764864,
+              "p99": 9.895936,
+              "max": 10.027008
+            }
+          },
+          "readbacks": [
+            "asynchronous player contact correction",
+            "asynchronous collision sound event",
+            "asynchronous GPU timing",
+            "GPU telemetry snapshot"
+          ],
+          "canvasReads": 0,
+          "webGLContexts": 0
+        },
+        {
+          "label": "bat",
+          "fps": 60,
+          "cpuP99ms": 1.199999988079071,
+          "ticksPerSecond": 120.0671844076578,
+          "gpu": {
+            "computeMS": {
+              "p50": 3.407872,
+              "p95": 12.12416,
+              "p99": 12.845056,
+              "max": 19.267584
+            },
+            "renderMS": {
+              "p50": 4.58752,
+              "p95": 5.177344,
+              "p99": 5.57056,
+              "max": 5.636096
+            }
+          },
+          "readbacks": [
+            "asynchronous collision sound event",
+            "asynchronous GPU timing",
+            "GPU telemetry snapshot"
+          ],
+          "canvasReads": 0,
+          "webGLContexts": 0
+        },
+        {
+          "label": "pistol",
+          "fps": 60.0013370772689,
+          "cpuP99ms": 1.300000011920929,
+          "ticksPerSecond": 119.80737506849712,
+          "gpu": {
+            "computeMS": {
+              "p50": 2.228224,
+              "p95": 3.211264,
+              "p99": 3.473408,
+              "max": 4.25984
+            },
+            "renderMS": {
+              "p50": 6.160384,
+              "p95": 6.422528,
+              "p99": 6.5536,
+              "max": 6.684672
+            }
+          },
+          "readbacks": [
+            "asynchronous player contact correction",
+            "asynchronous collision sound event",
+            "asynchronous GPU timing",
+            "GPU telemetry snapshot"
+          ],
+          "canvasReads": 0,
+          "webGLContexts": 0
+        },
+        {
+          "label": "spill",
+          "fps": 59.99933148341315,
+          "cpuP99ms": 1.399999976158142,
+          "ticksPerSecond": 119.78142804737018,
+          "gpu": {
+            "computeMS": {
+              "p50": 2.162688,
+              "p95": 3.735552,
+              "p99": 9.699328,
+              "max": 9.764864
+            },
+            "renderMS": {
+              "p50": 6.619136,
+              "p95": 6.88128,
+              "p99": 7.077888,
+              "max": 7.340032
+            }
+          },
+          "readbacks": [
+            "asynchronous player contact correction",
+            "asynchronous collision sound event",
+            "asynchronous GPU timing",
+            "GPU telemetry snapshot"
+          ],
+          "canvasReads": 0,
+          "webGLContexts": 0
+        },
+        {
+          "label": "drag",
+          "fps": 60.00500041670139,
+          "cpuP99ms": 1.199999988079071,
+          "ticksPerSecond": 119.98069658671888,
+          "gpu": {
+            "computeMS": {
+              "p50": 2.62144,
+              "p95": 3.145728,
+              "p99": 3.866624,
+              "max": 4.325376
+            },
+            "renderMS": {
+              "p50": 9.437184,
+              "p95": 9.764864,
+              "p99": 9.961472,
+              "max": 10.027008
+            }
+          },
+          "readbacks": [
+            "asynchronous player contact correction",
+            "asynchronous collision sound event",
+            "asynchronous GPU timing",
+            "GPU telemetry snapshot"
+          ],
+          "canvasReads": 0,
+          "webGLContexts": 0
+        },
+        {
+          "label": "chaos",
+          "fps": 60.003000150126724,
+          "cpuP99ms": 1.100000023841858,
+          "ticksPerSecond": 120.17710309906577,
+          "gpu": {
+            "computeMS": {
+              "p50": 2.490368,
+              "p95": 3.538944,
+              "p99": 3.801088,
+              "max": 4.390912
+            },
+            "renderMS": {
+              "p50": 10.878976,
+              "p95": 11.665408,
+              "p99": 11.993088,
+              "max": 12.189696
+            }
+          },
+          "readbacks": [
+            "asynchronous player contact correction",
+            "asynchronous collision sound event",
+            "asynchronous GPU timing",
+            "GPU telemetry snapshot"
+          ],
+          "canvasReads": 0,
+          "webGLContexts": 0
+        }
+      ]
+    },
+    {
+      "path": "tools/out/compute-native-junk-chrome/verification.json",
+      "profiles": [
+        {
+          "label": "junk-crusher",
+          "fps": 60.00033426358109,
+          "cpuP99ms": 1.300000011920929,
+          "ticksPerSecond": 119.6996687035189,
+          "gpu": {
+            "computeMS": {
+              "p50": 3.211264,
+              "p95": 5.439488,
+              "p99": 7.798784,
+              "max": 8.126464
+            },
+            "renderMS": {
+              "p50": 5.701632,
+              "p95": 6.160384,
+              "p99": 6.356992,
+              "max": 6.5536
+            }
+          },
+          "readbacks": [
+            "asynchronous player contact correction",
+            "asynchronous collision sound event",
+            "asynchronous GPU timing",
+            "GPU telemetry snapshot"
+          ],
+          "canvasReads": 0,
+          "webGLContexts": 0
+        },
+        {
+          "label": "junk-glass",
+          "fps": 60.00033426358109,
+          "cpuP99ms": 1.2999999523162842,
+          "ticksPerSecond": 119.60807146516963,
+          "gpu": {
+            "computeMS": {
+              "p50": 3.080192,
+              "p95": 7.471104,
+              "p99": 8.323072,
+              "max": 10.092544
+            },
+            "renderMS": {
+              "p50": 5.373952,
+              "p95": 6.5536,
+              "p99": 6.88128,
+              "max": 7.012352
+            }
+          },
+          "readbacks": [
+            "asynchronous player contact correction",
+            "asynchronous collision sound event",
+            "asynchronous GPU timing",
+            "GPU telemetry snapshot"
+          ],
+          "canvasReads": 0,
+          "webGLContexts": 0
+        },
+        {
+          "label": "junk-pinball",
+          "fps": 60.0013370772689,
+          "cpuP99ms": 1.300000011920929,
+          "ticksPerSecond": 119.79939017302233,
+          "gpu": {
+            "computeMS": {
+              "p50": 5.636096,
+              "p95": 8.650752,
+              "p99": 10.616832,
+              "max": 11.075584
+            },
+            "renderMS": {
+              "p50": 5.57056,
+              "p95": 6.684672,
+              "p99": 7.012352,
+              "max": 7.20896
+            }
+          },
+          "readbacks": [
+            "asynchronous player contact correction",
+            "asynchronous collision sound event",
+            "asynchronous GPU timing",
+            "GPU telemetry snapshot"
+          ],
+          "canvasReads": 0,
+          "webGLContexts": 0
+        },
+        {
+          "label": "junk-ten-buddies",
+          "fps": 60,
+          "cpuP99ms": 1.600000023841858,
+          "ticksPerSecond": 120.2131202131202,
+          "gpu": {
+            "computeMS": {
+              "p50": 4.849664,
+              "p95": 6.619136,
+              "p99": 7.929856,
+              "max": 11.665408
+            },
+            "renderMS": {
+              "p50": 9.437184,
+              "p95": 10.48576,
+              "p99": 11.010048,
+              "max": 11.14112
+            }
+          },
+          "readbacks": [
+            "asynchronous player contact correction",
+            "asynchronous collision sound event",
+            "asynchronous GPU timing",
+            "GPU telemetry snapshot"
+          ],
+          "canvasReads": 0,
+          "webGLContexts": 0
+        }
+      ]
+    },
+    {
+      "path": "tools/out/compute-native-rockets-chrome/verification.json",
+      "profiles": [
+        {
+          "label": "rapid-rockets",
+          "fps": 59.66766112732981,
+          "cpuP99ms": 1.399999976158142,
+          "ticksPerSecond": 119.86699916874481,
+          "gpu": {
+            "computeMS": {
+              "p50": 5.767168,
+              "p95": 10.420224,
+              "p99": 13.369344,
+              "max": 17.36704
+            },
+            "renderMS": {
+              "p50": 8.388608,
+              "p95": 9.8304,
+              "p99": 10.289152,
+              "max": 10.48576
+            }
+          },
+          "readbacks": [
+            "asynchronous player contact correction",
+            "asynchronous collision sound event",
+            "asynchronous GPU timing",
+            "GPU telemetry snapshot"
+          ],
+          "canvasReads": 0,
+          "webGLContexts": 0
+        }
+      ]
+    }
+  ],
+  "deployment": {
+    "url": "https://tront.xyz/smear/?v=45",
+    "liveReceipt": "tools/out/release-v45/live-verification.json",
+    "requiresExactHTMLHashAndHardwareBoot": true
+  },
+  "limitations": [
+    "Cached reload time was 3.74 seconds versus 3.26 seconds before; the measured gain is fresh shader compilation.",
+    "Only headless hardware Chrome gameplay was tested under the desktop-interference restriction. Pinned Naga validated all 62 exact/full modules; Firefox gameplay remains untested.",
+    "Area lights remain unshadowed. The moving pair replaces the two low front-wall strips, retaining 21 emitters."
+  ]
+}

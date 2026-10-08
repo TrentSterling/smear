@@ -2,7 +2,11 @@
 
 Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V44 / 0.44.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+**V45 / 0.45.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+
+V45 cuts fresh-profile local startup from 12.0-15.7 seconds to 5.6 seconds on the test machine. Tool actions compile as smaller independent pipelines, and the build records the reachable WGSL functions for each pipeline instead of making every compiler process the entire game. All shaders are ready before play; physics, paint resolution and model detail are retained. Cached reloads measured 3.7 seconds, compared with 3.2-3.7 seconds previously.
+
+A rotating ceiling crossarm now carries violet and cyan LTC bars. The fixture geometry and emitted polygons share one rigid transform; colored reflections sweep across blood, props and glossy surfaces. Pause and quarter-speed motion affect the lights too. The existing 21-emitter budget is retained by replacing the two low front-wall strips. See [V45 evidence](docs/qa/startup-lights-v45.json). `npm run profile:startup` measures fresh and cached loads, and `npm run verify:lights:motion` checks actual emitter coordinates, wet-floor pixels and native controls.
 
 V44 clears the gameplay button banks. Only the equipped tool, a short status line and contextual interaction prompts remain. **B** opens Tools / Props / Demos / Room; all fourteen tools and room actions live there. **Esc** opens the pause menu, with Settings, Controls, Sound and About. Closing the Toybox leaves the mouse free; **Tab** deliberately recaptures it. The wheel switches tools unless you are holding a prop or buddy.
 

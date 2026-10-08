@@ -14,8 +14,11 @@ lights.push({name:'cyan triangle',radiance:[2.2,12,17],build:true,vertices:[[-7.
 // Opposite wall: two violet blades form a chevron, both facing -X.
 lights.push(rect('violet chevron upper',[7.925,3.38,.1],[0,.56,.70],[0,.075,-.060],[12,3.2,14],true));
 lights.push(rect('violet chevron lower',[7.925,2.26,.1],[0,.56,-.70],[0,-.075,-.060],[12,3.2,14],true));
-lights.push(rect('low warm strip',[-3.9,1.42,7.925],[1.65,0,0],[0,-.075,0],[14,6.5,2],true));
-lights.push(rect('low cool strip',[3.9,1.42,7.925],[1.65,0,0],[0,-.075,0],[2,9,14],true));
+// A ceiling-mounted rotating crossarm carries two real colored area emitters.
+export const lightMotion={pivot:[0,4.32,1.6],speed:.34};
+lights.push({...rect('moving violet bar',[-2.4,3.78,1.6],[.11,0,0],[0,0,1.10],[16,2.8,19],true),moving:true});
+lights.push({...rect('moving cyan bar',[2.4,3.78,1.6],[.11,0,0],[0,0,1.10],[2,12,20],true),moving:true});
+
 
 export function lightShader(){
  return `var sum=ltcRingEmitter(basis,transform,p,vec3f(0,4.70,1.6),1.55,1.27,vec3f(18,9.5,3.2),base*(1-metal)*(1-f0),specular);

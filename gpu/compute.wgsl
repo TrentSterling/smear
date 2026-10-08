@@ -279,24 +279,23 @@ fn rayHit(o:vec3f,d:vec3f,limit:f32,includeBodies:bool,ignoreBody:i32)->RayHit {
  for(var j=0u;j<header(0).x;j++){let k=header(1).x+j*5u;if(!liveBox(k)||(ignoreBody>=180&&i32(constants[k+2u].w)+179==ignoreBody)){continue;}let q=constants[k+1u];let p=rotate(inverseQ(q),o-constants[k].xyz);let v=rotate(inverseQ(q),d);let h=constants[k+2u].xyz;let inv=1.0/select(vec3f(.0000001),v,abs(v)>vec3f(.0000001));let a=(-h-p)*inv;let b=(h-p)*inv;let low=min(a,b);let high=max(a,b);let entry=select(max(max(low.x,low.y),low.z),barrelEntry(p,v,h),constants[k].w==2);let exit=min(min(high.x,high.y),high.z);if(entry<0||entry>exit||entry>=hit.t){continue;}let point=p+v*entry;let axis=abs(point/h);var n:vec3f;var face:i32;if(axis.x>axis.y&&axis.x>axis.z){n=vec3f(select(-1.0,1.0,point.x>0),0,0);face=i32(select(constants[k+3u].y,constants[k+3u].x,point.x>0));}else if(axis.y>axis.z){n=vec3f(0,select(-1.0,1.0,point.y>0),0);face=i32(select(constants[k+3u].w,constants[k+3u].z,point.y>0));}else{n=vec3f(0,0,select(-1.0,1.0,point.z>0));face=i32(select(constants[k+4u].y,constants[k+4u].x,point.z>0));}if(constants[k].w==2&&abs(point.y)<h.y-.001){n=safeNorm(vec3f(point.x,0,point.z));}hit=RayHit(entry,o+d*entry,rotate(q,n),face,-1);}
  if(includeBodies){for(var i=0u;i<u32(frame.settings.x);i++){if(i32(i)==ignoreBody){continue;}let b=bodies[i];for(var j=0u;j<u32(b.half.w);j++){let s=sample(b,j);let center=b.p.xyz+rotate(b.q,s.xyz);let offset=o-center;let projection=dot(offset,d);let disc=projection*projection-dot(offset,offset)+s.w*s.w;if(disc<0){continue;}let t=-projection-sqrt(disc);if(t>0&&t<hit.t){let p=o+d*t;hit=RayHit(t,p,safeNorm(p-center),-1,i32(i));}}}}return hit;
 }
+// Compile independent action families instead of one enormous driver shader.
+// The CPU selects exactly one entry point from the existing action number.
+@compute @workgroup_size(1) fn interactRelease(){if(frame.goal.w>=180){releaseProp();}else{releaseThrow();}}
+@compute @workgroup_size(1) fn interactMelee(){if(frame.action.y==5){meleeStrike();}else{brawlStrike(frame.action.y==21);}}
+@compute @workgroup_size(1) fn interactOrdnance(){
+ switch u32(frame.action.y){
+  case 6u:{throwGrenade();}case 7u:{queueBlast(frame.rayO.xyz,constants[header(3).z+1u].z);}
+  case 12u:{fireRocket();}case 13u:{throwSticky();}case 14u:{detonateStickies();}case 20u:{fireSaw();}default:{}
+ }
+}
+@compute @workgroup_size(1) fn interactMachine(){
+ switch u32(frame.action.y){case 16u:{utilitySecondary();}case 17u:{toggleUtilityProp();}case 18u:{runContraption();}case 26u:{pressMachineControl();}default:{}}
+}
+@compute @workgroup_size(1) fn interactContraption(){buildContraption();}
+@compute @workgroup_size(1) fn interactDemo(){buildJunkDemo(u32(frame.action.y)-23u);}
+@compute @workgroup_size(1) fn interactShotgun(){fireShotgun();}
 @compute @workgroup_size(1) fn interaction() {
- if(frame.action.y>=8&&frame.action.y<=11){return;}
- if(frame.action.y==4){if(frame.goal.w>=180){releaseProp();}else{releaseThrow();}return;}
- if(frame.action.y==5){meleeStrike();return;}
- if(frame.action.y==6){throwGrenade();return;}
- if(frame.action.y==12){fireRocket();return;}
- if(frame.action.y==13){throwSticky();return;}
- if(frame.action.y==14){detonateStickies();return;}
- if(frame.action.y==15){buildContraption();return;}
- if(frame.action.y==16){utilitySecondary();return;}
- if(frame.action.y==17){toggleUtilityProp();return;}
- if(frame.action.y==18){runContraption();return;}
- if(frame.action.y==26){pressMachineControl();return;}
- if(frame.action.y==19){fireShotgun();return;}
- if(frame.action.y>=23&&frame.action.y<=25){buildJunkDemo(u32(frame.action.y)-23u);return;}
- if(frame.action.y==21||frame.action.y==22){brawlStrike(frame.action.y==21);return;}
- if(frame.action.y==20){fireSaw();return;}
- if(frame.action.y==7){queueBlast(frame.rayO.xyz,constants[header(3).z+1u].z);return;}
  if(frame.action.y<.5){return;}let hit=rayHit(frame.rayO.xyz,safeNorm(frame.rayD.xyz),35,true,-1);atomicStore(&work[6],bitcast<u32>(hit.body));atomicStore(&work[7],bitcast<u32>(hit.t));atomicStore(&work[10],bitcast<u32>(hit.p.x));atomicStore(&work[11],bitcast<u32>(hit.p.y));atomicStore(&work[12],bitcast<u32>(hit.p.z));
  if(frame.action.y==1&&hit.body<0&&hit.surface>=0){let tag=record(u32(hit.surface)).center.w;if(tag>0){let id=u32(tag)-1u;let b=propBody(id);atomicStore(&work[6],180u+id);let local=rotate(inverseQ(b.q),hit.p-b.p.xyz);for(var k=0u;k<3u;k++){atomicStore(&work[13u+k],bitcast<u32>(local[k]));}return;}}
  if(hit.body>=0){let i=u32(hit.body);var b=bodies[i];let local=rotate(inverseQ(b.q),hit.p-b.p.xyz);for(var k=0u;k<3u;k++){atomicStore(&work[13u+k],bitcast<u32>(local[k]));}
