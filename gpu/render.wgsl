@@ -19,11 +19,12 @@ struct Output {
  @location(5) @interpolate(flat) index:u32,
 };
 fn transformed(v:Input,index:u32)->Output {
- let object=objects[index];if((object.flags.w==9||object.flags.w==12||object.flags.w==13||object.flags.w==14)&&(work[19]&(1u<<u32(object.params.y)))!=0u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,vec3f(0),v.n,index);}var p=(object.model*vec4f(v.p,1)).xyz;var n=(object.normal*vec4f(v.n,0)).xyz;var local=p;var localNormal=n;
- if(object.flags.w==9||object.flags.w==12||object.flags.w==13||object.flags.w==14){let id=u32(object.params.y);let s=propData(id);local=p-constants[s+4u].xyz;
+ let object=objects[index];if((object.flags.w==9||object.flags.w==12||object.flags.w==13||object.flags.w==14||object.flags.w==15)&&(work[19]&(1u<<u32(object.params.y)))!=0u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,vec3f(0),v.n,index);}var p=(object.model*vec4f(v.p,1)).xyz;var n=(object.normal*vec4f(v.n,0)).xyz;var local=p;var localNormal=n;
+ if(object.flags.w==9||object.flags.w==12||object.flags.w==13||object.flags.w==14||object.flags.w==15){let id=u32(object.params.y);let s=propData(id);local=p-constants[s+4u].xyz;
   if(object.flags.w==12){let fill=f32(work[utilityProp(id)])/16777216.0;if(fill<.001){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}local.y-=.50*(1-min(1.0,fill));}
   if(object.flags.w==13){let angle=select(0.0,frame.camera.w*24,work[utilityProp(id)+1u]!=0u);let spin=vec4f(0,0,sin(angle*.5),cos(angle*.5));local=rotate(spin,local-vec3f(0,.14,.09))+vec3f(0,.14,.09);n=rotate(spin,n);}
   if(object.flags.w==14&&work[utilityProp(id)+1u]!=0u){local.x=fract((local.x+1.02+frame.camera.w*1.6)/2.04)*2.04-1.02;}
+  if(object.flags.w==15){let top=constants[propData(18u)].y+2.20;local.y=.11+(local.y-.11)*clamp(top-constants[s].y-.11,.03,2.3);}
   p=constants[s].xyz+rotate(constants[s+1u],local);n=rotate(constants[s+1u],n);}
  else if(object.flags.w==11){if(work[1006]!=u32(object.params.y)+2u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}let angle=bitcast<f32>(work[1012]);let q=vec4f(0,sin(angle*.5),0,cos(angle*.5));p=rotate(q,p)+vec3f(bitcast<f32>(work[1009]),bitcast<f32>(work[1010]),bitcast<f32>(work[1011]));n=rotate(q,n);}
  else if(object.flags.w==10){
@@ -88,15 +89,7 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
  let localAA=max(max(length(dpdx(v.local)),length(dpdy(v.local)))*.45,.00006);
  let object=objects[v.index];var color=object.color.rgb;var alpha=object.color.a;var rough=object.params.w;var metal=object.flags.x;let basic=object.flags.z<0;
  if(object.flags.w==10||object.flags.w==11){let c=select(vec3f(.94,.28,.19),vec3f(.39,.91,.68),work[1008]==1u);let band=select(.65,1.0,fract(v.world.y*16)>.2);return vec4f(c*band,.63);}
- // Open the original closed skin only inside exposed sockets. The recessed
- // tear mesh can then be seen instead of intersecting a beige end face.
- if(object.flags.w==5||object.flags.w==6){
-  let id=u32(object.params.x)+u32(v.uv.y+.5);var mask=work[fractureState(id)+5u];let joints=array<u32,15>(0u,0u,1u,2u,3u,4u,5u,6u,7u,8u,9u,10u,11u,12u,13u);
-  for(var socket=0u;socket<4u&&mask!=0u;socket++){
-   let child=firstTrailingBit(mask);mask&=~(1u<<child);let j=header(1).y+(id/15u*14u+joints[child])*4u;let anchor=constants[j+select(1u,2u,child==id%15u)].xyz;let axis=safeNorm(anchor);let delta=v.local*dummyScale(id)-anchor;let radius=socketRadius(id,child);
-   if(dot(delta,axis)>-.42*radius-.006&&length(delta-axis*dot(delta,axis))<radius*1.08){discard;}
-  }
- }
+ if(!socketVisible(v)){discard;}
  if(object.flags.w==6){if(front||dot(v.normal,frame.camera.xyz-v.world)>0){discard;}return vec4f(.065,.095,.09,1);}
  if(object.flags.w==5){
   let variant=u32(object.params.x)/15u%3u;color=select(select(vec3f(.60,.43,.24),vec3f(.78,.76,.66),variant==1u),vec3f(.065,.26,.27),variant==2u);rough=select(.49,.31,variant==2u);
@@ -134,7 +127,7 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
  if(object.params.z>=0){let tex=textureSampleLevel(maps,linearSampler,vec2f(v.uv.x,1-v.uv.y),i32(object.params.z),0);color*=pow(tex.rgb,vec3f(2.2));alpha*=tex.a;}
  if(alpha<.02){discard;}
  var receiverID=object.params.y;
- if(object.flags.w==9||object.flags.w==12||object.flags.w==13||object.flags.w==14){let k=header(1).x+u32(object.flags.z)*5u;let local=rotate(inverseQ(constants[k+1u]),v.world-constants[k].xyz);let a=abs(local/constants[k+2u].xyz);if(a.y>a.x&&a.y>a.z){receiverID=select(constants[k+3u].w,constants[k+3u].z,local.y>0);}else if(a.x>a.z){receiverID=select(constants[k+3u].y,constants[k+3u].x,local.x>0);}else{receiverID=select(constants[k+4u].y,constants[k+4u].x,local.z>0);}
+ if(object.flags.w==9||object.flags.w==12||object.flags.w==13||object.flags.w==14||object.flags.w==15){let k=header(1).x+u32(object.flags.z)*5u;let local=rotate(inverseQ(constants[k+1u]),v.world-constants[k].xyz);let a=abs(local/constants[k+2u].xyz);if(a.y>a.x&&a.y>a.z){receiverID=select(constants[k+3u].w,constants[k+3u].z,local.y>0);}else if(a.x>a.z){receiverID=select(constants[k+3u].y,constants[k+3u].x,local.x>0);}else{receiverID=select(constants[k+4u].y,constants[k+4u].x,local.z>0);}
   if(constants[k].w==1&&color.r>color.b*1.5){let grain=sin(local.y*117+sin(local.x*5)*2+sin(local.z*21))*.06;let seam=step(.965,fract((local.y+.55)*5.5));color*=1+grain-seam*.35;}
   if(constants[k].w==2&&color.r>color.g*1.8&&abs(local.y)>.30&&abs(local.y)<.42){color=mix(vec3f(.035,.047,.038),vec3f(.75,.49,.10),step(.5,fract(atan2(local.z,local.x)*3+local.y*9)));}
  }
@@ -155,7 +148,7 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
    let edge=max(abs(v.world.x),abs(v.world.z));if(edge>7.45){color*=.60;}
    let ring=min(abs(length(v.world.xz-vec2f(-2.4,-2.95))-.68),abs(length(v.world.xz-vec2f(2.55,-2.95))-.68));
    let marking=1-smoothstep(.014,.014+max(aa.x,aa.y),ring);color=mix(color,vec3f(.85,.62,.20),marking*.8);
-  }else if(object.flags.w!=9&&object.flags.w!=12&&object.flags.w!=13&&object.flags.w!=14){
+  }else if(object.flags.w!=9&&object.flags.w!=12&&object.flags.w!=13&&object.flags.w!=14&&object.flags.w!=15){
    let edge=min(r.size.x*.5-abs(metres.x),r.size.y*.5-abs(metres.y));let bevel=1-smoothstep(.009,.028,edge);color=mix(color,vec3f(.12,.22,.23),bevel*.42);
    if(r.size.x>15){color=mix(vec3f(.055,.19,.21),color,smoothstep(1.16,1.18,v.world.y));}
    else if(abs(r.n.y)<.7){
@@ -177,3 +170,23 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
  let p=particles[i];if(work[64u+i]==0u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,v.p,v.n,0u);}let up=safeNorm(p.v.xyz);let x=safeNorm(cross(up,select(vec3f(0,1,0),vec3f(1,0,0),abs(up.y)>.95)));let z=cross(x,up);let scale=vec3f(p.p.w,p.p.w*clamp(1+length(p.v.xyz)*.21,1,2.7),p.p.w);let local=v.p*scale;let world=p.p.xyz+x*local.x+up*local.y+z*local.z;let n=safeNorm(x*v.n.x+up*v.n.y+z*v.n.z);return Output(frame.vp*vec4f(world,1),world,n,v.uv,v.p,v.n,0u);
 }
 @fragment fn particleFragment(v:Output)->@location(0) vec4f {return shade(v.world,v.normal,vec3f(.14,.002,.007),.22,0,false,false,1);}
+
+fn socketVisible(v:Output)->bool {let object=objects[v.index];
+ // Open the original closed skin only inside exposed sockets. The recessed
+ // tear mesh can then be seen instead of intersecting a beige end face.
+ if(object.flags.w==5||object.flags.w==6){
+  let id=u32(object.params.x)+u32(v.uv.y+.5);var mask=work[fractureState(id)+5u];let joints=array<u32,15>(0u,0u,1u,2u,3u,4u,5u,6u,7u,8u,9u,10u,11u,12u,13u);
+  for(var socket=0u;socket<4u&&mask!=0u;socket++){
+   let child=firstTrailingBit(mask);mask&=~(1u<<child);let j=header(1).y+(id/15u*14u+joints[child])*4u;let anchor=constants[j+select(1u,2u,child==id%15u)].xyz;let axis=safeNorm(anchor);let delta=v.local*dummyScale(id)-anchor;let radius=socketRadius(id,child);
+   if(dot(delta,axis)>-.42*radius-.006&&length(delta-axis*dot(delta,axis))<radius*1.08){return false;}
+  }
+ }
+ return true;
+}
+// Match opaque alpha/socket coverage without evaluating paint or LTC lighting.
+@fragment fn visibilityFragment(v:Output,@builtin(front_facing) front:bool)->@location(0) vec4f {
+ let object=objects[v.index];if(object.flags.w==6&&(front||dot(v.normal,frame.camera.xyz-v.world)>0)){discard;}if(object.flags.w==10||object.flags.w==11||object.color.a<.999||!socketVisible(v)){discard;}
+ if(object.params.z>=0&&textureSampleLevel(maps,linearSampler,vec2f(v.uv.x,1-v.uv.y),i32(object.params.z),0).a<.999){discard;}
+ return vec4f(0);
+}
+@fragment fn solidVisibilityFragment()->@location(0) vec4f{return vec4f(0);}

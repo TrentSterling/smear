@@ -1,11 +1,12 @@
 fn debrisVector(s:u32)->vec3f{return vec3f(bitcast<f32>(work[s]),bitcast<f32>(work[s+1u]),bitcast<f32>(work[s+2u]));}
 fn debrisOutput(v:Input,i:u32,boards:bool)->Output{
- let s=ordnanceState(i);let kind=work[s+23u];if(kind==0u||kind==7u||boards!=(kind==3u||kind==5u)){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,v.p,v.n,i);}
- let age=bitcast<f32>(work[s+7u]);let seed=work[s+11u];let radius=bitcast<f32>(work[s+3u]);let theta=age*(3+hash(seed)*9);var q=vec4f(safeNorm(vec3f(hash(seed)-.5,.4,hash(seed+1u)-.5))*sin(theta*.5),cos(theta*.5));if((kind==3u||kind==5u)&&(work[s+20u]&0x80000000u)!=0u){let yaw=hash(seed)*6.283185;q=vec4f(0,sin(yaw*.5),0,cos(yaw*.5));}
+ let s=ordnanceState(i);let kind=work[s+23u];if(kind==0u||kind==7u||boards!=restingFragment(kind)){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,v.p,v.n,i);}
+ let age=bitcast<f32>(work[s+7u]);let seed=work[s+11u];let radius=bitcast<f32>(work[s+3u]);let theta=age*(3+hash(seed)*9);var q=vec4f(safeNorm(vec3f(hash(seed)-.5,.4,hash(seed+1u)-.5))*sin(theta*.5),cos(theta*.5));if(restingFragment(kind)&&(work[s+20u]&0x80000000u)!=0u){let yaw=hash(seed)*6.283185;q=vec4f(0,sin(yaw*.5),0,cos(yaw*.5));}
  var scale=select(vec3f(.72+hash(seed),.45+hash(seed+2u),.60+hash(seed+3u)),vec3f(1,1.3,1),kind==1u)*radius;if(kind==3u||kind==5u){scale=select(vec3f(3.2,.28,.42),vec3f(3.0,.16,.68),kind==5u)*radius;}
+ if(kind==8u){scale=vec3f(1.9,.08,1.1)*radius;}if(kind==9u){scale=vec3f(1.3,.28,.9)*radius;}if(kind==10u){scale=vec3f(1.6,.18,1.2)*radius;}
  if(kind==2u&&age<.20){let velocity=debrisVector(s+4u);let direction=safeNorm(velocity);let stretch=max(0,length(velocity)*.004)*(1-age/.20);let world=debrisVector(s)+rotate(q,v.p*scale)+direction*v.p.z*stretch;return Output(frame.vp*vec4f(world,1),world,rotate(q,v.n),v.uv,v.p,v.n,i);}
  if(kind==4u){let forward=safeNorm(debrisVector(s+4u));let right=safeNorm(cross(forward,select(vec3f(0,1,0),vec3f(1,0,0),abs(forward.y)>.95)));let up=cross(right,forward);let p=v.p*vec3f(.8,.8,3.1)*radius;let world=debrisVector(s)+right*p.x+up*p.y+forward*p.z;return Output(frame.vp*vec4f(world,1),world,right*v.n.x+up*v.n.y+forward*v.n.z,v.uv,v.p,v.n,i);}
- let world=debrisVector(s)+rotate(q,v.p*scale);return Output(frame.vp*vec4f(world,1),world,rotate(q,v.n),v.uv,v.p,v.n,i);
+ var shape=v.p;if(kind==8u){shape.x*=mix(.18,1.0,(1-shape.z)*.5);shape.z+=shape.x*(hash(seed+3u)-.5)*.45;}if(kind==9u){shape.x*=mix(.55,1.0,(1-shape.z)*.5);shape.y+=shape.x*shape.x*.30;shape.z+=shape.x*(hash(seed+4u)-.5)*.5;}if(kind==10u){shape.y+=abs(shape.x)*.85;shape.z*=.75+shape.x*.20;}let world=debrisVector(s)+rotate(q,shape*scale);return Output(frame.vp*vec4f(world,1),world,rotate(q,v.n),v.uv,v.p,v.n,i);
 }
 @vertex fn debrisVertex(v:Input,@builtin(instance_index) i:u32)->Output{return debrisOutput(v,i,false);}
 @vertex fn sawVertex(v:Input,@builtin(instance_index) i:u32)->Output{
@@ -15,14 +16,15 @@ fn debrisOutput(v:Input,i:u32,boards:bool)->Output{
 }
 @vertex fn boardVertex(v:Input,@builtin(instance_index) i:u32)->Output{return debrisOutput(v,i,true);}
 @fragment fn debrisFragment(v:Output)->@location(0) vec4f{
- let grainAA=1.0/(1+fwidth(v.local.z)*65);let kind=work[ordnanceState(v.index)+23u];var color=vec3f(.016,.024,.024);var rough=.85;var metal=.25;
+ let geometric=safeNorm(cross(dpdx(v.world),dpdy(v.world)));let facet=geometric*select(-1.0,1.0,dot(geometric,v.normal)>=0);let grainAA=1.0/(1+fwidth(v.local.z)*65);let kind=work[ordnanceState(v.index)+23u];var color=vec3f(.016,.024,.024);var rough=.85;var metal=.25;
  if(kind==3u||kind==5u){let phase=v.local.z*34+sin(v.local.x*2.3+f32(v.index))*.9;let grain=.86+(.09*sin(phase)+.04*sin(v.local.z*105+v.local.x*.9))*grainAA;color=vec3f(.49,.30,.13)*grain;rough=.87;metal=0;}
+ if(kind==8u){color=vec3f(.15,.61,.56);rough=.085;metal=.32;}if(kind==9u){color=select(vec3f(.55,.24,.09),vec3f(.80,.73,.58),v.localNormal.y>0);rough=select(.8,.22,v.localNormal.y>0);metal=0;}if(kind==10u){color=select(vec3f(.58,.63,.61),vec3f(.65,.08,.03),v.local.x>.2);rough=.25;metal=.85;}
  if(kind==7u){let r=length(v.local.xz);let ring=1-smoothstep(.018,.035,abs(r-.57));color=mix(vec3f(.44,.49,.48),vec3f(.045,.075,.073),ring);rough=.25;metal=.86;if(r<.14){color=vec3f(.10,.13,.12);rough=.38;}}
  if(kind==6u){color=mix(vec3f(.09,.12,.16),vec3f(.95,.28,.025),select(.15,.8,fract(frame.camera.w*3)>.65));rough=.4;metal=.5;}
  if(kind==4u){color=select(vec3f(.16,.22,.21),vec3f(.72,.37,.04),v.local.z>.40);rough=.35;metal=.6;}
  if(kind==2u){let age=bitcast<f32>(work[ordnanceState(v.index)+7u]);let hot=1-smoothstep(.02,.24,age);if(hot>0){return mix(shade(v.world,v.normal,color,rough,metal,false,false,0),vec4f(1,.64+.30*hot,.15+.70*hot,1),hot);}}
  if(kind==1u){color=vec3f(.13,.17,.055);rough=.50;metal=.50;let seam=step(.87,fract(v.uv.x*8))+step(.84,fract(v.uv.y*6));color*=1-min(1.0,seam)*.75;if(v.local.y>.70){color=vec3f(.75,.28,.015);}}
- return shade(v.world,v.normal,color,rough,metal,false,false,0);
+ return shade(v.world,select(v.normal,facet,junkFragment(kind)),color,rough,metal,false,false,0);
 }
 // Eight short plumes per explosive slot. The last plume lingers after impact.
 @vertex fn rocketTrailVertex(v:Input,@builtin(instance_index) i:u32)->Output{

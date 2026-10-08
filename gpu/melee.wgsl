@@ -1,3 +1,16 @@
+// Kick and shove share an occluded close-range sweep; neither cuts joints.
+fn brawlStrike(kick:bool){
+ let forward=safeNorm(frame.rayD.xyz);let right=safeNorm(cross(forward,vec3f(0,1,0)));let up=safeNorm(cross(right,forward));let reach=select(1.65,1.9,kick);
+ var best=RayHit(reach,frame.rayO.xyz+forward*reach,vec3f(0,1,0),-1,-1);var score=100.0;
+ for(var x=-2;x<=2;x++){for(var y=-1;y<=1;y++){let hit=rayHit(frame.rayO.xyz,safeNorm(forward+right*f32(x)*.085+up*f32(y)*.07),reach,true,-1);let rank=hit.t+abs(f32(x))*.03+abs(f32(y))*.015;if(hit.t<reach&&rank<score){best=hit;score=rank;}}}
+ atomicAdd(&work[utilityBase()+26u],1u);if(score==100){return;}let direction=safeNorm(forward+vec3f(0,select(.04,.20,kick),0));
+ if(best.body>=0){let index=u32(best.body);let base=index/15u*15u;let standing=bodies[base+1u].motor.w>=1.5&&!kick&&!rigBroken(base);let speed=select(2.0,5.5,kick);
+  atomicStore(&work[fractureState(base+1u)+2u],bitcast<u32>(frame.camera.w+.8));
+  for(var n=0u;n<15u;n++){let i=base+n;if(component(i)!=component(index)){continue;}bodies[i].v=vec4f(bounded(bodies[i].v.xyz+direction*speed,21),0);bodies[i].status.x=1;bodies[i].status.z=0;if(!standing){bodies[i].motor.w=0;}else{bodies[i].motor.x+=direction.x*.18;bodies[i].motor.z+=direction.z*.18;}}
+  bodies[index].blood.w=max(0,bodies[index].blood.w-select(4.0,12.0,kick)*frame.rayD.w);atomicAdd(&work[utilityBase()+27u],1u);
+ }else if(best.surface>=0){propSurfaceImpulse(best.surface,best.p,direction*select(16.0,38.0,kick));hitProp(best.surface,select(.06,.23,kick));chipProp(best.surface,best.p,best.n,select(.25,.65,kick));if(kick){bulletLiquid(u32(best.surface),best.p,forward,.6,atomicLoad(&work[5]));}}
+ atomicAdd(&work[39],1u);atomicMax(&work[38],0x80000000u|(u32(select(.42,.72,kick)*4095)<<8u)|select(255u,u32(max(0,best.body)),best.body>=0));
+}
 // One close-range arc per swing. Every ray tests room occlusion before bodies.
 // Work words 54-57 are cumulative melee swings, body hits, spent volume and wall hits.
 fn batJointDamage(index:u32,point:vec3f,damage:f32){

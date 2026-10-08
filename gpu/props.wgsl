@@ -2,26 +2,27 @@
 // Word 19 disables destroyed or unoccupied slots for every collision/render path.
 fn propGone(tag:f32)->bool{return tag>0&&(atomicLoad(&work[19])&(1u<<(u32(tag)-1u)))!=0u;}
 fn liveBox(k:u32)->bool{return !propGone(constants[k+2u].w);}
-fn propDamage(tag:f32,amount:f32){if(tag<=0||propGone(tag)||amount<=0){return;}atomicAdd(&work[propState(u32(tag)-1u)],u32(min(amount,4.0)*65536));}
+fn propDamage(tag:f32,amount:f32){if(tag<=0||propGone(tag)||amount<=0){return;}let kind=constants[propData(u32(tag)-1u)+6u].w;if(!breakableProp(kind)){return;}let factor=select(select(select(1.0,9.0,kind==6),1.9,kind==7),1.25,kind==8);atomicAdd(&work[propState(u32(tag)-1u)],u32(min(amount*factor,4.0)*65536));}
 fn hitProp(rec:i32,amount:f32){if(rec>=0){propDamage(record(u32(rec)).center.w,amount);}}
 fn impactProp(hit:WorldImpact){if(hit.receiver<0||hit.closing<5){return;}hitProp(hit.receiver,smoothstep(5.0,16.0,hit.closing)*.6);}
 // Small, real fragments from a non-destructive weapon hit. These use the same
 // bounded debris pool and wet-contact sweeps as explosion debris.
 fn chipProp(rec:i32,point:vec3f,normal:vec3f,strength:f32){
  if(rec<0){return;}let tag=record(u32(rec)).center.w;if(tag<=0||propGone(tag)){return;}
- let b=propBody(u32(tag)-1u);let metal=b.half.w!=1;let seed=atomicLoad(&work[5])*1973u+u32(tag)*719u;
- for(var i=0u;i<5u;i++){let h=seed+i*977u;let spread=safeNorm(normal*.7+vec3f(hash(h)-.5,hash(h+1u)*.6,hash(h+2u)-.5));spawnOrdnance(select(3u,2u,metal),point+normal*.045,propVelocity(tag,point)+spread*(1.8+hash(h+3u)*3.2)*strength,select(.025+hash(h+4u)*.026,.013+hash(h+4u)*.011,metal),h);}
+ let b=propBody(u32(tag)-1u);let metal=b.half.w!=1;let shard=select(select(select(0u,8u,b.half.w==6),9u,b.half.w==7),10u,b.half.w==8);let seed=atomicLoad(&work[5])*1973u+u32(tag)*719u;
+ for(var i=0u;i<5u;i++){let h=seed+i*977u;let spread=safeNorm(normal*.7+vec3f(hash(h)-.5,hash(h+1u)*.6,hash(h+2u)-.5));spawnOrdnance(select(select(3u,2u,metal),shard,shard>0u),point+normal*.045,propVelocity(tag,point)+spread*(1.8+hash(h+3u)*3.2)*strength,select(.025+hash(h+4u)*.026,.013+hash(h+4u)*.011,metal),h);}
 }
 @compute @workgroup_size(1) fn breakProps(){
  if(frame.settings.z<=0&&(frame.action.y<.5||frame.action.y>=8)){return;}
  for(var j=0u;j<header(0).x;j++){
   let k=header(1).x+j*5u;let tag=constants[k+2u].w;if(tag<=0||propGone(tag)){continue;}
-  let id=u32(tag)-1u;if(constants[k].w>2){continue;}let state=propState(id);if(atomicLoad(&work[state])<65536u){continue;}
+  let id=u32(tag)-1u;if(!breakableProp(constants[k].w)){continue;}let state=propState(id);if(atomicLoad(&work[state])<65536u){continue;}
   atomicOr(&work[19],1u<<id);atomicStore(&work[state+1u],atomicLoad(&work[5])+1u);constants[propData(id)+15u].x=0;
   let center=constants[k].xyz;let half=constants[k+2u].xyz;let kind=u32(constants[k].w);let seed=id*1973u+atomicLoad(&work[5])*83u;
-  for(var n=0u;n<22u;n++){if(kind==2u&&n>=16u){break;}let h=seed+n*977u;let direction=safeNorm(vec3f(hash(h)-.5,hash(h+1u)*.75+.1,hash(h+2u)-.5));let offset=vec3f((hash(h+3u)-.5)*half.x*1.7,(hash(h+4u)-.5)*half.y*1.7,(hash(h+5u)-.5)*half.z*1.7);let point=center+rotate(constants[k+1u],offset);let board=kind==1u&&n<6u;spawnOrdnance(select(select(3u,2u,kind==2u),5u,board),point,propVelocity(tag,point)+direction*(2+hash(h+6u)*4),select(.045+hash(h+7u)*.045,.13+hash(h+7u)*.055,board),h);}
+  for(var n=0u;n<22u;n++){if(kind==2u&&n>=16u){break;}let h=seed+n*977u;let direction=safeNorm(vec3f(hash(h)-.5,hash(h+1u)*.75+.1,hash(h+2u)-.5));let offset=vec3f((hash(h+3u)-.5)*half.x*1.7,(hash(h+4u)-.5)*half.y*1.7,(hash(h+5u)-.5)*half.z*1.7);let point=center+rotate(constants[k+1u],offset);let board=kind==1u&&n<6u;var fragment=select(select(3u,2u,kind==2u),5u,board);if(kind>=6u){fragment=kind+2u;}spawnOrdnance(fragment,point,propVelocity(tag,point)+direction*(2+hash(h+6u)*4),select(select(.045+hash(h+7u)*.045,.13+hash(h+7u)*.055,board),.07+hash(h+7u)*.055,kind>=6u),h);}
+
   if(kind==2u){queueBlast(center,1.15*constants[header(3).z+1u].z);}
-  else{atomicAdd(&work[39],1u);atomicMax(&work[38],(u32(.78*4095)<<8u)|255u);}
+  else{atomicAdd(&work[39],1u);atomicMax(&work[38],select(0u,0x10000000u|((kind-6u)<<24u),kind>=6u)|(u32(.78*4095)<<8u)|255u);}
  }
 }
 // Cylinder entry is used for the curved barrel; paint projects to six

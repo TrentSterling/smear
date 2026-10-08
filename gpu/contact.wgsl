@@ -17,8 +17,8 @@ fn footprint(b:Body)->Footprint {
  for(var si=0u;si<u32(b.half.w);si++){
   let s=sample(b,si);let center=b.p.xyz+rotate(b.q,s.xyz);
   if(center.y-s.w<nearest){nearest=center.y-s.w;rec=i32(floorRecord(center));}
-  for(var j=16u;j<header(0).z;j++){
-   let r=record(j);if(propGone(r.center.w)){continue;}let distance=dot(center-r.center.xyz,r.n.xyz);let c=uv(r,center);
+  for(var candidate=0u;candidate<contactReceiverCount;candidate++){
+   let j=contactReceivers[candidate];let r=record(j);let distance=dot(center-r.center.xyz,r.n.xyz);let c=uv(r,center);
    if(distance>-.025&&distance-s.w<nearest&&all(c>=vec2f(0))&&all(c<=vec2f(1))){nearest=distance-s.w;rec=i32(j);}
   }
  }
@@ -347,7 +347,8 @@ fn paintContact(index:u32,input:Body,dt:f32)->Body {
 
 // Paint snapshot dispatch completes before rasterization. Only binned tiles are
 // copied; the bin halo includes every backtrace tap, including adjacent floor tiles.
-fn tileRecord(tile:u32)->u32 {for(var i=0u;i<header(0).w;i++){let r=record(i);if(tile>=r.address.y&&tile<r.address.y+r.address.z*r.address.w){return i;}}return 0u;}
+// Tile allocations are contiguous and ordered for room, props and skin.
+fn tileRecord(tile:u32)->u32 {var low=0u;var high=header(0).w;loop{if(low+1u>=high){break;}let mid=(low+high)/2u;if(record(mid).address.y<=tile){low=mid;}else{high=mid;}}return low;}
 @compute @workgroup_size(8,8) fn snapshotPaint(@builtin(workgroup_id) group:vec3u,@builtin(local_invocation_id) local:vec3u){
  let tile=atomicLoad(&work[header(2).z+group.x]);let r=record(tileRecord(tile));let t=tile-r.address.y;let origin=vec2u(t%r.address.z,t/r.address.z)*16u;
  for(var y=0u;y<2u;y++){for(var x=0u;x<2u;x++){let pos=origin+local.xy+vec2u(x,y)*8u;if(all(pos<vec2u(r.size.zw))){let address=r.address.x+pos.x+pos.y*u32(r.size.z);paintBefore[address]=pigment[address];}}}

@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import fs from 'node:fs';import {createHash} from 'node:crypto';
+const baselineV42=process.argv.includes('baseline-v42'),buildFile=baselineV42?'tools/out/junk-v43-pass/before/index.html':'index.html';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
@@ -18,10 +20,11 @@ const buddyMode=process.argv.includes('buddy');
 const utilityMode=process.argv.includes('utility');
 const bulletMode=process.argv.includes('bullet-liquid');
 const arsenalMode=process.argv.includes('arsenal');
+const junkMode=process.argv.includes('junk');
 const rocketMode=process.argv.includes('rockets');
-const width=3000,height=1800,out=resolve('tools/out/compute-native-'+(bulletMode?'bullet-liquid-':arsenalMode?'arsenal-':rocketMode?'rockets-':utilityMode?'utility-':toyMode?'toybox-':buddyMode?'buddy-':propMode?'props-':blastMode?'destruction-':floorMode?'squeegee-':wallMode?'wall-':'')+browser);await mkdir(out,{recursive:true});
+const width=3000,height=1800,out=resolve('tools/out/compute-native-'+(junkMode?'junk-':bulletMode?'bullet-liquid-':arsenalMode?'arsenal-':rocketMode?'rockets-':utilityMode?'utility-':toyMode?'toybox-':buddyMode?'buddy-':propMode?'props-':blastMode?'destruction-':floorMode?'squeegee-':wallMode?'wall-':'')+browser+(baselineV42?'-baseline-v42':''));await mkdir(out,{recursive:true});
 const page=await launchComputeBrowser({port:9598,width,height});
-const receipt={startedAt:new Date().toISOString(),viewport:[width,height],audioOutputMuted:true,browserProfile:page.dir,checks:[],profiles:[]};
+const receipt={sha256:createHash('sha256').update(fs.readFileSync(buildFile)).digest('hex'),startedAt:new Date().toISOString(),viewport:[width,height],audioOutputMuted:true,browserProfile:page.dir,checks:[],profiles:[]};
 const watchdog=setTimeout(()=>{page.kill();process.exit(1);},180000);
 try{
  await page.init(`if(globalThis.GPUBuffer){window.__gpuAudit={active:false,reads:{},writes:{},canvasReads:0,webGLContexts:0};
@@ -29,7 +32,7 @@ try{
  const write=GPUQueue.prototype.writeBuffer;GPUQueue.prototype.writeBuffer=function(buffer,offset,data,...args){if(__gpuAudit.active)__gpuAudit.writes[buffer.label]=(__gpuAudit.writes[buffer.label]||0)+(data.byteLength||0);return write.call(this,buffer,offset,data,...args);};
  const read=CanvasRenderingContext2D.prototype.getImageData;CanvasRenderingContext2D.prototype.getImageData=function(...args){if(__gpuAudit.active)__gpuAudit.canvasReads++;return read.apply(this,args);};
  const ctx=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,...args){if(/^webgl/.test(type))__gpuAudit.webGLContexts++;return ctx.call(this,type,...args);};}`);
- await page.goto(pathToFileURL(resolve('index.html')).href);
+ await page.goto(pathToFileURL(resolve(buildFile)).href);
  await until(()=>page.eval('!!window.__smearComputeReady||document.getElementById("failure")?.style.display==="block"'),{timeout:60000,label:'GPU boot'});
  assert.equal(await page.eval('document.getElementById("failure").style.display==="block"?document.getElementById("failure").textContent:null'),null);
  receipt.browser=await page.eval('navigator.userAgent');
@@ -49,7 +52,11 @@ try{
   // Stop the timing window before explicit diagnostic downloads and teardown.
   const ticksPerSecond=(state.steps-began.tick)/((ended.time-began.time)/1000);assert.equal(state.steps,ended.tick);assert(ticksPerSecond>110&&ticksPerSecond<125,label+' actual GPU tick rate '+ticksPerSecond);receipt.profiles.push({label,report,state,audit,ticksPerSecond,window:{began,ended}});console.log(JSON.stringify({label,fps:report.summary.fps,main:report.summary.workPercentileMs,gpu:report.compute.summary,particles:state.particles,hits:state.hits,ticksPerSecond,audit}));await page.shot(resolve(out,label+'.png'));return state;
  }
- if(bulletMode){
+ if(junkMode){
+  for(const name of ['crusher','glass','pinball'])await profile('junk-'+name,()=>page.eval("__smear.utility.demo('"+name+"');__smear.manual(true);__smear.utility.run()"));
+  await profile('junk-ten-buddies',()=>page.eval("__smear.utility.demo('pinball');__smear.manual(true);for(let i=0;i<7;i++)__smearGPU.add();__smear.utility.run();__smear.tool(5);__smear.view([-2.7,2.1,6.4],[-2.6,.4,3.3]);__smear.pointer(1500,900)").then(()=>page.mouse('mousePressed',1500,900)),()=>page.mouse('mouseReleased',1500,900));
+  receipt.checks.push('Three machinery demos and ten-buddy rapid rockets retain the native frame budget without actor or paint downloads');
+ }else if(bulletMode){
   await installUtilityFixture(page);
   for(const [tool,label]of [[1,'wet-pistol'],[12,'wet-shotgun']])await profile(label,async()=>{await page.eval(`(async()=>{__smear.chaos();__smear.preset('default');await __smear.step(90);await __utilityTest.patch({point:[-3,0,5],radius:1.5,mass:.65});__smear.view([-3,1.68,6.8],[-3,0,5]);__smear.pointer(1500,900);__smear.tool(${tool});})()`);await page.mouse('mousePressed',1500,900);},()=>page.mouse('mouseReleased',1500,900));
   receipt.checks.push('Native sustained pistol and shotgun impacts push wet film in ten-buddy scenes without body or pigment downloads');

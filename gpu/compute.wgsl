@@ -57,6 +57,12 @@ fn skinPoint(b:Body,p:vec3f,n:vec3f)->vec2f {
 // touch the same receiver when the final brush footprint is evaluated.
 struct WorldImpact { point:vec3f, closing:f32, normal:vec3f, radius:f32, velocity:vec3f, receiver:i32 };
 var<workgroup> worldImpacts:array<WorldImpact,15>;
+// The live room/prop set is fixed throughout a physics dispatch. Share its
+// ordered indices across body samples and all nine contact iterations.
+var<workgroup> contactBoxes:array<u32,64>;
+var<workgroup> contactBoxCount:u32;
+var<workgroup> contactReceivers:array<u32,512>;
+var<workgroup> contactReceiverCount:u32;
 fn rememberImpact(lane:u32,b:Body,point:vec3f,n:vec3f,radius:f32,receiver:i32) {
  if(receiver<0){return;}
  let velocity=b.v.xyz+cross(b.w.xyz,point-b.prevP.xyz)-surfaceVelocity(receiver,point);
@@ -68,8 +74,8 @@ fn worldContact(b:Body,lane:u32)->Body {
  for(var si=0u;si<u32(b.half.w);si++){
   let s=sample(out,si);var p=rotate(out.q,s.xyz)+out.p.xyz;var n=vec3f(0,1,0);var point=vec3f(p.x,0,p.z);var depth=s.w-p.y;
   if(depth>0){rememberImpact(lane,b,point,n,s.w,i32(floorRecord(point)));let r=point-out.p.xyz;let lambda=min(depth,.08)/(eff(out,r,n)+1e-5);out.p=vec4f(out.p.xyz+n*lambda*out.p.w,out.p.w);out.q=rotateStep(out.q,invWorld(out,cross(r,n)*lambda));}
-  for(var j=0u;j<header(0).x;j++){
-   let offset=header(1).x+j*5u;if(!liveBox(offset)){continue;}let bp=constants[offset].xyz;let bq=constants[offset+1u];let half=constants[offset+2u].xyz;
+  for(var j=0u;j<contactBoxCount;j++){
+   let offset=contactBoxes[j];let bp=constants[offset].xyz;let bq=constants[offset+1u];let half=constants[offset+2u].xyz;
    let ceiling=constants[offset].w== -1;
    p=rotate(out.q,s.xyz)+out.p.xyz;
    let previous=b.prevP.xyz+rotate(b.prevQ,s.xyz);let travel=length(p-previous);let candidate=rotate(inverseQ(bq),p-bp);if(!ceiling&&any(abs(candidate)>half+vec3f(s.w+.02+travel))){continue;}
@@ -155,17 +161,17 @@ fn recoveryTargets(base:u32) {
 }
 fn gaitTargets(base:u32) {
  var hip=localBodies[1];if(hip.motor.w<.5){for(var k=0u;k<15u;k++){localBodies[k].gait=vec4f(0);localBodies[k].targetP=vec4f(localBodies[k].p.xyz,0);}return;}
- let dt=1.0/120;let root=vec3f(hip.motor.x,0,hip.motor.z);let q=yawQ(hip.motor.y);let blend=hip.gait.y;
+ let dt=1.0/120;let flinch=clamp((bitcast<f32>(atomicLoad(&work[fractureState(base+1u)+2u]))-frame.camera.w)/.8,0,1);let root=vec3f(hip.motor.x,0,hip.motor.z);let q=yawQ(hip.motor.y);let blend=hip.gait.y;
  var previous:array<vec4f,15>;for(var k=0u;k<15u;k++){previous[k]=localBodies[k].targetP;}
  if(hip.motor.w<1.5){recoveryTargets(base);for(var k=0u;k<15u;k++){localBodies[k].targetV=vec4f(bounded((localBodies[k].targetP.xyz-previous[k].xyz)/dt,2.8),0);}return;}
  for(var side=0u;side<2u;side++){
-  let i=8u+side*6u;var f=localBodies[i];let sign=select(-1.0,1.0,side==1u);let ideal=root+rotate(q,vec3f(sign*.137,.078,.024));
+  let i=8u+side*6u;let injury=clamp((100-min(localBodies[i].blood.w,min(localBodies[i-1u].blood.w,localBodies[i-2u].blood.w)))/75,0,1);var f=localBodies[i];let sign=select(-1.0,1.0,side==1u);let ideal=root+rotate(q,vec3f(sign*.137,.078,.024));
   if(f.gait.z<.5){f.targetP=vec4f(ideal,1);f.targetQ=q;f.footFrom=vec4f(ideal,hip.motor.y);f.footTo=f.footFrom;f.gait=vec4f(0,0,1,0);}
   let other=localBodies[8u+(1u-side)*6u];let error=length(ideal-f.targetP.xyz);let twist=abs(angleDelta(hip.motor.y,f.footTo.w));
   if(f.gait.y<.5&&other.gait.y<.5&&side==u32(hip.gait.w)&&(error>.105||twist>.24)){
    f.gait.x=0;f.gait.y=1;f.footFrom=vec4f(f.targetP.xyz,f.footTo.w);f.footTo=vec4f(ideal+rotate(q,vec3f(0,0,min(.22,hip.gait.x*.34))),hip.motor.y);
   }
-  if(f.gait.y>.5){f.gait.x=min(1,f.gait.x+dt/.38);let t=f.gait.x;let ease=t*t*(3-2*t);f.targetP=vec4f(mix(f.footFrom.xyz,f.footTo.xyz,ease)+vec3f(0,sin(t*3.141593)*(.05+.020*blend),0),1);f.targetQ=quatMul(yawQ(f.footFrom.w+angleDelta(f.footTo.w,f.footFrom.w)*ease),pitchQ(.20*sin(t*6.283185)*blend));
+  if(f.gait.y>.5){f.gait.x=min(1,f.gait.x+dt/(.38+injury*.16));let t=f.gait.x;let ease=t*t*(3-2*t);f.targetP=vec4f(mix(f.footFrom.xyz,f.footTo.xyz,ease)+vec3f(0,sin(t*3.141593)*(.05+.020*blend)*(1-injury*.55),0),1);f.targetQ=quatMul(yawQ(f.footFrom.w+angleDelta(f.footTo.w,f.footFrom.w)*ease),pitchQ(.20*sin(t*6.283185)*blend));
    if(t>=1){f.gait.y=0;f.targetP=vec4f(f.footTo.xyz,1);hip.gait.w=f32(1u-side);}
   }
   localBodies[i]=f;
@@ -177,10 +183,10 @@ fn gaitTargets(base:u32) {
  // Keep a small knee bend without pulling a planted foot beyond the leg's reach.
  for(var side=0u;side<2u;side++){let first=header(1).y+(base/15u*14u+5u+side*6u)*4u;let foot=localBodies[8u+side*6u];let ankle=foot.targetP.xyz+rotate(foot.targetQ,constants[first+10u].xyz);let hipOffset=rotate(q,constants[first+1u].xyz);let horizontal=(root+hipOffset-ankle).xz;let reach=length(constants[first+5u].xyz-constants[first+2u].xyz)+length(constants[first+9u].xyz-constants[first+6u].xyz)-.008;height=min(height,ankle.y-hipOffset.y+sqrt(max(.01,reach*reach-dot(horizontal,horizontal))));}
  hip.targetP=vec4f(root+vec3f(0,height,0),1);hip.targetQ=quatMul(q,yawQ(hip.gait.z*.10));localBodies[1]=hip;
- let joints=base/15u*14u;childTarget(base,joints,quatMul(q,quatMul(yawQ(-hip.gait.z*.13),pitchQ(.025*blend))));childTarget(base,joints+1u,q);
+ let joints=base/15u*14u;childTarget(base,joints,quatMul(q,quatMul(yawQ(-hip.gait.z*.13),pitchQ(.025*blend+flinch*.15))));childTarget(base,joints+1u,q);
  for(var side=0u;side<2u;side++){
   legTarget(base,side,q);let sign=select(-1.0,1.0,side==1u);let swing=-sign*hip.gait.z;
-  let armQ=quatMul(q,quatMul(pitchQ(swing),vec4f(0,0,sin(sign*.05),cos(sign*.05))));let foreQ=quatMul(armQ,pitchQ(-.13-max(0,-swing)*.35));
+  let armQ=quatMul(q,quatMul(pitchQ(swing-flinch*.95),vec4f(0,0,sin(sign*.05),cos(sign*.05))));let foreQ=quatMul(armQ,pitchQ(-.13-max(0,-swing)*.35-flinch*.8));
   childTarget(base,joints+2u+side*6u,armQ);childTarget(base,joints+3u+side*6u,foreQ);childTarget(base,joints+4u+side*6u,foreQ);
  }
  for(var k=0u;k<15u;k++){localBodies[k].targetV=vec4f(select(vec3f(0),bounded((localBodies[k].targetP.xyz-previous[k].xyz)/dt,2.8),previous[k].w>.5),0);}
@@ -204,6 +210,7 @@ fn joint(base:u32,j:u32,angles:bool) {
 }
 @compute @workgroup_size(16) fn physics(@builtin(workgroup_id) group:vec3u,@builtin(local_invocation_index) lane:u32) {
  let base=group.x*15u;let dt=1.0/120.0;
+ if(lane==0u){contactBoxCount=0u;contactReceiverCount=0u;for(var j=0u;j<header(0).x;j++){let k=header(1).x+j*5u;if(liveBox(k)){contactBoxes[contactBoxCount]=k;contactBoxCount++;}}for(var j=16u;j<header(0).z;j++){if(!propGone(record(j).center.w)){contactReceivers[contactReceiverCount]=j;contactReceiverCount++;}}}
  if(lane<15u){worldImpacts[lane]=WorldImpact(vec3f(0),0,vec3f(0),0,vec3f(0),-1);var b=bodies[base+lane];if(base+lane<u32(frame.settings.x)){
   if(frame.action.x==1){b.status.x=1;b.motor.w=0;b.blood.x=max(b.blood.x,select(.08,.85,lane<3u));b.v=vec4f((vec3f(hash(base+lane+4u),hash(base+lane+51u),hash(base+lane+97u))-.5)*vec3f(4,5,4),0);b.w=vec4f((vec3f(hash(base+lane+25u),hash(base+lane+71u),hash(base+lane+138u))-.5)*8,0);}
   if(frame.local.w>.5&&u32(frame.goal.w)/15u==group.x){b.status.x=1;b.motor.w=0;b.status.z=0;}
@@ -226,7 +233,7 @@ fn joint(base:u32,j:u32,angles:bool) {
      let lag=length(hip.p.xz-hip.motor.xz);requested*=clamp((.32-lag)/.18,0,1);
     }
    }
-   hip.gait.x=mix(hip.gait.x,requested,1-exp(-dt*6.5));hip.gait.y=mix(hip.gait.y,clamp(hip.gait.x/.55,0,1),1-exp(-dt*7));
+   let legHealth=min(min(localBodies[6].blood.w,localBodies[7].blood.w),min(localBodies[12].blood.w,localBodies[13].blood.w));requested*=1-.5*clamp((100-legHealth)/75,0,1);requested*=1-clamp((bitcast<f32>(atomicLoad(&work[fractureState(base+1u)+2u]))-frame.camera.w)/.8,0,1);hip.gait.x=mix(hip.gait.x,requested,1-exp(-dt*6.5));hip.gait.y=mix(hip.gait.y,clamp(hip.gait.x/.55,0,1),1-exp(-dt*7));
    let next=vec3f(hip.motor.x,0,hip.motor.z)+rotate(yawQ(hip.motor.y),vec3f(0,0,hip.gait.x*dt));if(navFree(next)){hip.motor.x=next.x;hip.motor.z=next.z;}
   }
   localBodies[1]=hip;
@@ -285,6 +292,8 @@ fn rayHit(o:vec3f,d:vec3f,limit:f32,includeBodies:bool,ignoreBody:i32)->RayHit {
  if(frame.action.y==17){toggleUtilityProp();return;}
  if(frame.action.y==18){runContraption();return;}
  if(frame.action.y==19){fireShotgun();return;}
+ if(frame.action.y>=23&&frame.action.y<=25){buildJunkDemo(u32(frame.action.y)-23u);return;}
+ if(frame.action.y==21||frame.action.y==22){brawlStrike(frame.action.y==21);return;}
  if(frame.action.y==20){fireSaw();return;}
  if(frame.action.y==7){queueBlast(frame.rayO.xyz,constants[header(3).z+1u].z);return;}
  if(frame.action.y<.5){return;}let hit=rayHit(frame.rayO.xyz,safeNorm(frame.rayD.xyz),35,true,-1);atomicStore(&work[6],bitcast<u32>(hit.body));atomicStore(&work[7],bitcast<u32>(hit.t));atomicStore(&work[10],bitcast<u32>(hit.p.x));atomicStore(&work[11],bitcast<u32>(hit.p.y));atomicStore(&work[12],bitcast<u32>(hit.p.z));
@@ -388,7 +397,7 @@ fn coverage(s:Stamp,point:vec2f)->vec4f {
  let h=header(2);let tile=atomicLoad(&work[h.z+group.x]);let count=atomicLoad(&work[h.y+tile]);let n=min(count,256u);
  for(var j=lane;j<n;j+=64u){let address=select(secondaryPaintBase()+tile*128u+j-128u,h.w+tile*128u+j,j<128u);indices[j]=atomicLoad(&work[address]);}workgroupBarrier();
  if(lane==0u){for(var i=1u;i<n;i++){let value=indices[i];var j=i;loop{if(j==0u||indices[j-1u]<=value){break;}indices[j]=indices[j-1u];j--;}indices[j]=value;}}workgroupBarrier();
- var rec=0u;for(var i=0u;i<header(0).w;i++){let r=record(i);if(tile>=r.address.y&&tile<r.address.y+r.address.z*r.address.w){rec=i;break;}}
+ let rec=tileRecord(tile);
  let r=record(rec);let t=tile-r.address.y;let origin=vec2u(t%r.address.z,t/r.address.z)*16u;
  for(var y=0u;y<2u;y++){for(var x=0u;x<2u;x++){let pos=origin+local.xy+vec2u(x,y)*8u;if(any(pos>=vec2u(r.size.zw))){continue;}let offset=r.address.x+pos.x+pos.y*u32(r.size.z);var value=unpack(pigment[offset]);var liquid=0.0;var liquidPush=vec2f(0);let total=select(n,min(8192u,atomicLoad(&work[3])),count>256u);
   var velocities:array<vec2f,9>;var smudging=false;

@@ -2,7 +2,13 @@
 
 Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V42 / 0.42.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+**V43 / 0.43.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+
+V43 adds **glass panels, ceramic jugs and magnetic metal cans**, with distinct physical shards and procedural break sounds. Wet glass and debris slide farther, move the existing blood film and leave contact trails. Vacuum collection preserves the new fragment materials. The bounded debris pool prioritizes readable pieces even during saturated destruction.
+
+**B: Toybox** now includes a press crusher, spring launcher and spinning sweeper. The press has a physical moving plate and solid frame; X toggles a selected machine, and Delete removes the whole press. Three armed demos reset the room and supply finite pools: [Pressure Test](https://tront.xyz/smear/?demo=crusher&defaults=1), [Glass Run](https://tront.xyz/smear/?demo=glass&defaults=1) and [Wet Pinball](https://tront.xyz/smear/?demo=pinball&defaults=1). Click Start after building one. The original Accident Line remains available.
+
+**K: kick / U: shove** add close-range physical interactions without direct joint cutting. A standing buddy braces after a shove; injured attached legs slow the walking gait and change its cadence. The V42 bat durability remains intact. An opaque visibility pass avoids evaluating LTC and paint behind other geometry, retaining full resolution, existing lighting and socket/preview coverage. See [V43 evidence](docs/qa/junk-v43.json).
 
 V42 makes the spiked bat wear down one joint over repeated hits while retaining its knockback, wounds and finite blood spray. At reference defaults, a fresh Classic/Runner head takes four focused hits and a limb or torso takes five; Heavy takes five and six. Even maximum saved damage/fragility needs three bat strikes on a fresh joint. Pelvis hits target the nearest attached joint instead of weakening the spine and both hips together. Pistol, shotgun, saw and explosive damage retain their existing behavior. See [V42 evidence](docs/qa/bat-v42.json).
 

@@ -67,7 +67,7 @@ fn spawnOrdnance(kind:u32,p:vec3f,v:vec3f,r:f32,seed:u32)->bool{
   if(resident==0u){chosen=i;break;}
   // Destruction runs serially. Preserve the six readable crate boards even
   // when a barrel chain has already filled every slot with metal flecks.
-  let replaceable=(kind==5u&&(resident==2u||resident==3u))||(kind==3u&&resident==2u);
+  let replaceable=((kind==5u||junkFragment(kind))&&(resident==2u||resident==3u||junkFragment(resident)))||(kind==3u&&resident==2u);
   if(replaceable&&ordFloat(s+7u)>oldest){oldest=ordFloat(s+7u);chosen=i;}
  }
  if(chosen<128u){let s=ordnanceState(chosen);
@@ -96,7 +96,7 @@ fn blastVisibility(center:vec3f,p:vec3f)->bool{
  let i=id.x;if(i>=128u){return;}let s=ordnanceState(i);let kind=atomicLoad(&work[s+23u]);if(kind==0u){return;}
  if(kind==6u&&followSticky(s)){return;}
  let dt:f32=1.0/120;let old=ordVector(s);var velocity=ordVector(s+4u);let age=ordFloat(s+7u)+dt;let radius=ordFloat(s+3u);
- if((kind==3u||kind==5u)&&(atomicLoad(&work[s+20u])&0x80000000u)!=0u){atomicStore(&work[s+7u],bitcast<u32>(age));if(age>select(14.0,30.0,kind==5u)){atomicStore(&work[s+23u],0u);}return;}
+ if(restingFragment(kind)&&(atomicLoad(&work[s+20u])&0x80000000u)!=0u){atomicStore(&work[s+7u],bitcast<u32>(age));if(age>select(14.0,30.0,kind==5u||junkFragment(kind))){atomicStore(&work[s+23u],0u);}return;}
  // exp(-drag / 120), pre-evaluated to avoid a Naga/DXC f64 exp overload.
  if(kind!=4u){velocity.y-=select(9.81,1.2,kind==7u)*dt;velocity*=select(.99833472f,.99933356f,kind==1u);}var p=old+velocity*dt;
  let delta=p-old;let distance=length(delta);let hit=rayHit(old,safeNorm(delta),distance+radius,false,-1);
@@ -107,11 +107,12 @@ fn blastVisibility(center:vec3f,p:vec3f)->bool{
   if(kind==7u){velocity*=.985;p=old+safeNorm(delta)*min(distance,max(0,hit.t-radius-.002));atomicAdd(&work[destructionMeta()+23u],1u);}else{velocity-=bodyHit.normal*min(0,dot(velocity,bodyHit.normal))*1.25;velocity*=.5;}atomicStore(&work[s+20u],u32(bodyHit.body)+1u);atomicStore(&work[s+21u],bitcast<u32>(age+.12));
  }
  else if(hit.surface>=0){
-  p=hit.p+hit.n*(radius+.002);if(kind==6u){let tag=record(u32(hit.surface)).center.w;attachSticky(s,p,hit.n,select(1000u,180u+u32(tag),tag>0));return;}let incoming=max(0,-dot(velocity,hit.n));
+  p=hit.p+hit.n*(radius+.002);if(kind==6u){let tag=record(u32(hit.surface)).center.w;attachSticky(s,p,hit.n,select(1000u,180u+u32(tag),tag>0));return;}let incoming=max(0,-dot(velocity,hit.n));let receiver=record(u32(hit.surface));let filmCell=vec2u(clamp(uv(receiver,hit.p)*vec2f(filmDimensions(receiver)),vec2f(0),vec2f(filmDimensions(receiver))-1));let wetSlide=filmRead(0u,filmAddress(receiver,filmCell))>.006;
   if(kind==4u){hitProp(hit.surface,.8);propSurfaceImpulse(hit.surface,hit.p,velocity*.8);atomicStore(&work[s+23u],0u);queueBlast(p,1.3*constants[header(3).z+1u].z);return;}
-  if(kind==7u){atomicStore(&work[s+12u],256u+u32(hit.surface));putVector(s+13u,velocity);putVector(s+16u,hit.n);velocity=reflect(velocity,hit.n)*.96;atomicAdd(&work[destructionMeta()+22u],1u);atomicMax(&work[38],0x20000000u|(u32(clamp(incoming*.045,.15,1)*4095)<<8u)|255u);atomicAdd(&work[39],1u);}else{velocity-=hit.n*min(0,dot(velocity,hit.n))*select(1.28,1.46,kind==1u);velocity*=select(.69,.82,kind==1u);}
-  if((kind==3u||kind==5u)&&hit.n.y>.95&&length(velocity)<.55){velocity=vec3f(0);p=hit.p+hit.n*(radius*select(.28,.16,kind==5u)+.002);atomicStore(&work[s+20u],0x80000000u);}
-  if(kind>=2u&&incoming>.5){
+  if(kind==7u){atomicStore(&work[s+12u],256u+u32(hit.surface));putVector(s+13u,velocity);putVector(s+16u,hit.n);velocity=reflect(velocity,hit.n)*.96;atomicAdd(&work[destructionMeta()+22u],1u);atomicMax(&work[38],0x20000000u|(u32(clamp(incoming*.045,.15,1)*4095)<<8u)|255u);atomicAdd(&work[39],1u);}else{velocity-=hit.n*min(0,dot(velocity,hit.n))*select(1.28,1.46,kind==1u);velocity*=select(select(.69,.82,kind==1u),select(.96,.985,kind==8u),restingFragment(kind)&&wetSlide&&hit.n.y>.65);}
+  if(restingFragment(kind)&&hit.n.y>.95&&length(velocity)<.32){velocity=vec3f(0);p=hit.p+hit.n*(radius*select(select(select(.28,.16,kind==5u),.08,kind==8u),.18,kind==10u)+.002);atomicStore(&work[s+20u],0x80000000u);}
+  if(restingFragment(kind)&&wetSlide&&length(velocity)>.18){debrisFilmPush(u32(hit.surface),hit.p,velocity,radius);}
+  if(kind>=2u&&(incoming>.5||(restingFragment(kind)&&wetSlide&&length(velocity)>.5))){
    if(incoming>4){hitProp(hit.surface,min(.18,incoming*.009));propSurfaceImpulse(hit.surface,hit.p,-hit.n*incoming*.045);}
    let tangent=safeNorm(velocity-hit.n*dot(velocity,hit.n));let end=hit.p+tangent*clamp(incoming*.016,.025,.26);
    contactSweep(u32(hit.surface),hit.p,end,vec2f(radius*1.6),vec2f(radius*1.6),0,0,clamp(incoming*.09,.12,.8),11,atomicLoad(&work[s+11u]),0);
@@ -123,7 +124,7 @@ fn blastVisibility(center:vec3f,p:vec3f)->bool{
  putVector(s,p);putVector(s+4u,velocity);putVector(s+8u,old);atomicStore(&work[s+7u],bitcast<u32>(age));
  if(kind==1u&&age>=1.45){atomicStore(&work[s+23u],0u);queueBlast(p,constants[header(3).z+1u].z);}
  else if(kind==4u&&age>3){atomicStore(&work[s+23u],0u);queueBlast(p,1.3*constants[header(3).z+1u].z);}
- else if(kind!=1u&&kind!=4u&&kind!=6u&&(age>select(select(6.0,14.0,kind==3u),30.0,kind==5u)||p.y<-.2)){atomicStore(&work[s+23u],0u);}
+ else if(kind!=1u&&kind!=4u&&kind!=6u&&(age>select(select(6.0,14.0,kind==3u),30.0,kind==5u||junkFragment(kind))||p.y<-.2)){atomicStore(&work[s+23u],0u);}
 }
 @compute @workgroup_size(1) fn detonate(){
  let controlAddress=destructionMeta();var mask=atomicLoad(&work[controlAddress]);var pending=0u;
@@ -134,7 +135,7 @@ fn blastVisibility(center:vec3f,p:vec3f)->bool{
   let center=ordVector(s);let radius=ordFloat(s+3u);let power=ordFloat(s+5u);let seed=atomicLoad(&work[s+6u]);
   pending|=1u<<slot;
   for(var j=0u;j<header(0).x;j++){let k=header(1).x+j*5u;let tag=constants[k+2u].w;if(tag<=0||propGone(tag)){continue;}let p=constants[k].xyz;let q=constants[k+1u];let nearest=p+rotate(q,clamp(rotate(inverseQ(q),center-p),-constants[k+2u].xyz,constants[k+2u].xyz));let distance=length(p-center);if(distance<radius&&blastVisibility(center,nearest)){let pressure=pow(max(0,1-distance/radius),1.4)*power;propDamage(tag,pressure*3.2);propImpulse(tag,nearest,safeNorm(p-center+vec3f(0,.15,0))*pressure*85);}}
-  for(var debris=8u;debris<128u;debris++){let o=ordnanceState(debris);let kind=atomicLoad(&work[o+23u]);if(kind!=3u&&kind!=5u){continue;}let p=ordVector(o);let distance=length(p-center);if(distance<radius&&blastVisibility(center,p)){atomicStore(&work[o+20u],0u);putVector(o+4u,ordVector(o+4u)+safeNorm(p-center+vec3f(0,.15,0))*(1-distance/radius)*power*13);}}
+  for(var debris=8u;debris<128u;debris++){let o=ordnanceState(debris);let kind=atomicLoad(&work[o+23u]);if(!restingFragment(kind)){continue;}let p=ordVector(o);let distance=length(p-center);if(distance<radius&&blastVisibility(center,p)){atomicStore(&work[o+20u],0u);putVector(o+4u,ordVector(o+4u)+safeNorm(p-center+vec3f(0,.15,0))*(1-distance/radius)*power*13);}}
   for(var k=0u;k<42u;k++){
    let h=seed+k*73u;let direction=safeNorm(vec3f(hash(h)-.5,hash(h+1u)-.35,hash(h+2u)-.5));
    spawnOrdnance(2u,center+direction*.07,direction*(5+hash(h+3u)*12)*sqrt(power),.013+hash(h+4u)*.025,h);

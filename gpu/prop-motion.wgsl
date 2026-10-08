@@ -7,7 +7,7 @@ fn saveProp(i:u32,b:Body){let s=propData(i);constants[s]=b.p;constants[s+1u]=b.q
 fn propVelocity(tag:f32,p:vec3f)->vec3f{if(tag<=0){return vec3f(0);}let b=propBody(u32(tag)-1u);return b.v.xyz+cross(b.w.xyz,p-b.p.xyz);}
 fn surfaceVelocity(rec:i32,p:vec3f)->vec3f{if(rec<0){return vec3f(0);}return propVelocity(record(u32(rec)).center.w,p);}
 fn propImpulse(tag:f32,p:vec3f,j:vec3f){
- if(tag<=0||propGone(tag)){return;}let id=u32(tag)-1u;let b=propBody(id);let torque=cross(p-b.p.xyz,j);let state=propState(id);
+ if(tag<=0||propGone(tag)){return;}let id=u32(tag)-1u;let b=propBody(id);if(b.p.w==0){return;}let torque=cross(p-b.p.xyz,j);let state=propState(id);
  for(var k=0u;k<3u;k++){atomicAdd(&work[state+2u+k],bitcast<u32>(i32(clamp(j[k],-2000,2000)*4096)));atomicAdd(&work[state+5u+k],bitcast<u32>(i32(clamp(torque[k],-2000,2000)*4096)));}
 }
 fn propSurfaceImpulse(rec:i32,p:vec3f,j:vec3f){if(rec>=0){propImpulse(record(u32(rec)).center.w,p,j);}}
@@ -64,10 +64,11 @@ fn solvePropContact(input:Body,point:vec3f,n:vec3f,depth:f32)->Body{
  var beltA=vec3f(0);var beltB=vec3f(0);if(b.half.w==5&&atomicLoad(&work[utilityProp(propCurrentID)+1u])!=0u&&abs(rotate(inverseQ(b.q),arm).y-b.half.y)<.14){beltA=rotate(b.q,vec3f(8,0,0));}if(propOtherID>=0&&propOther.half.w==5&&atomicLoad(&work[utilityProp(u32(propOtherID))+1u])!=0u&&abs(rotate(inverseQ(propOther.q),otherArm).y-propOther.half.y)<.14){beltB=rotate(propOther.q,vec3f(8,0,0));}
  let relative=b.v.xyz+cross(b.w.xyz,arm)+beltA-select(vec3f(0),propOther.v.xyz+cross(propOther.w.xyz,otherArm)+beltB,propOtherID>=0);
  let closing=dot(relative,n);let normalImpulse=max(0,-closing*select(1.0,1.14,closing< -1.2))/effective;
+ var friction=.68;if(b.half.w>=6&&b.half.w<=8&&point.y<.025&&n.y>.9){let r=record(floorRecord(point));let dims=filmDimensions(r);let cell=vec2u(clamp(uv(r,point)*vec2f(dims),vec2f(0),vec2f(dims)-1));if(filmRead(0u,filmAddress(r,cell))>.004){friction=.13;}}
  var impulse=n*normalImpulse;let tangent=relative-n*closing;let speed=length(tangent);
- if(speed>1e-6){let t=tangent/speed;let te=eff(b,arm,t)+select(0.0,eff(propOther,otherArm,t),propOtherID>=0);impulse-=t*min(speed/max(te,1e-6),normalImpulse*.68);}
+ if(speed>1e-6){let t=tangent/speed;let te=eff(b,arm,t)+select(0.0,eff(propOther,otherArm,t),propOtherID>=0);impulse-=t*min(speed/max(te,1e-6),normalImpulse*friction);}
  b.v=vec4f(b.v.xyz+impulse*b.p.w,0);b.w=vec4f(b.w.xyz+invWorld(b,cross(arm,impulse)),0);
- if(closing< -3.0&&propOtherID>=0&&b.half.w<=2&&propOther.half.w<=2){let energy=.5*normalImpulse*(-closing);propDamage(f32(propCurrentID+1u),energy/select(95.0,50.0,b.half.w==2));propDamage(f32(propOtherID+1),energy/select(95.0,50.0,propOther.half.w==2));}
+ if(closing< -3.0&&propOtherID>=0&&breakableProp(b.half.w)&&(breakableProp(propOther.half.w)||propOther.half.w==13)){let energy=.5*normalImpulse*(-closing);propDamage(f32(propCurrentID+1u),energy/select(95.0,50.0,b.half.w==2));propDamage(f32(propOtherID+1),energy/select(95.0,50.0,propOther.half.w==2));}
  let correction=max(0,min(depth-.0005,.06))*.62/effective;
  b.p=vec4f(b.p.xyz+n*correction*b.p.w,b.p.w);b.q=rotateStep(b.q,invWorld(b,cross(arm,n*correction)));
  if(propOtherID>=0){propOther.v=vec4f(propOther.v.xyz-impulse*propOther.p.w,0);propOther.w=vec4f(propOther.w.xyz-invWorld(propOther,cross(otherArm,impulse)),0);propOther.p=vec4f(propOther.p.xyz-n*correction*propOther.p.w,propOther.p.w);propOther.q=rotateStep(propOther.q,-invWorld(propOther,cross(otherArm,n*correction)));if(length(impulse)>.06){constants[propData(u32(propOtherID))+14u]=vec4f(0);}saveProp(u32(propOtherID),propOther);syncProp(u32(propOtherID));}
@@ -82,7 +83,7 @@ fn releaseProp(){
 @compute @workgroup_size(1) fn propPhysics(){
  let dt=1.0/120;
  for(var i=0u;i<propCount();i++){
-  if(propGone(f32(i+1u))){continue;}let s=propData(i);var b=propBody(i);constants[s+8u]=b.p;constants[s+9u]=b.q;
+  if(propGone(f32(i+1u))||constants[propData(i)].w==0){continue;}let s=propData(i);var b=propBody(i);constants[s+8u]=b.p;constants[s+9u]=b.q;
   var linear=vec3f(0);var angular=vec3f(0);for(var k=0u;k<3u;k++){linear[k]=f32(bitcast<i32>(atomicExchange(&work[propState(i)+2u+k],0u)))/4096;angular[k]=f32(bitcast<i32>(atomicExchange(&work[propState(i)+5u+k],0u)))/4096;}
   let held=frame.local.w>.5&&u32(frame.goal.w)==180u+i;
   if(held||length(linear)>.025||length(angular)>.015){constants[s+14u]=vec4f(0);}
@@ -121,7 +122,7 @@ fn releaseProp(){
  }
  for(var iteration=0u;iteration<9u;iteration++){
   for(var i=0u;i<propCount();i++){
-   if(propGone(f32(i+1u))||constants[propData(i)+14u].y>.5){continue;}var b=propBody(i);propCurrentID=i;var impact=0.0;
+   if(propGone(f32(i+1u))||constants[propData(i)].w==0||constants[propData(i)+14u].y>.5){continue;}var b=propBody(i);propCurrentID=i;var impact=0.0;
    let count=select(8u,24u,b.half.w==2);
    // Cache broadphase candidates once per body/iteration, not per vertex.
    var candidates:array<u32,64>;var candidateCount=0u;
@@ -162,7 +163,7 @@ fn releaseProp(){
   }
  }
  for(var i=0u;i<propCount();i++){
-  let s=propData(i);let held=frame.local.w>.5&&u32(frame.goal.w)==180u+i;let v=constants[s+2u].xyz;
+  let s=propData(i);if(constants[s].w==0){continue;}let held=frame.local.w>.5&&u32(frame.goal.w)==180u+i;let v=constants[s+2u].xyz;
   if(held){let peak=constants[s+12u];if(frame.camera.w-peak.w>.10||length(v)>length(peak.xyz)||dot(v,peak.xyz)<=0){constants[s+12u]=vec4f(v,frame.camera.w);}}
   else if(constants[s+14u].y<.5){let quiet=length(v)<.08&&length(constants[s+3u].xyz)<.13&&constants[s+14u].z>.5;let age=select(0.0,constants[s+14u].x+dt,quiet);constants[s+14u].x=age;if(age>.35){constants[s+14u].y=1;constants[s+2u]=vec4f(0);constants[s+3u]=vec4f(0);}}
  }

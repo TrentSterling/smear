@@ -3,14 +3,14 @@ const fpsControl={mode:'fps',phase:'ready',freeAim:false,pending:false,error:'',
 let controlMenuState=null;
 try{if(!window.__smearDefaults&&localStorage.getItem('smear.controls.mode')==='cursor')fpsControl.mode='cursor';}catch{}
 const controlOverlay=document.createElement('div');controlOverlay.id='play-menu';
-controlOverlay.innerHTML='<section><small>SMEAR / PLAY</small><h1>Leave a mark.</h1><p id="play-message">Click to capture the mouse and play.</p><button id="play-resume">Enter the room</button><div class="play-keys">WASD move · Mouse look · Shift run<br>Hold C: free aim / buttons | Tab: free mouse<br>T: slow motion (0.25x) | Esc: pause<br>1 Grab · 2 Pistol · 3 Spill · 4 Spiked bat · 5 Grenade | 6 Rocket<br>7 Mop | 8 Blower | 9 Washer | 0 Vacuum<br>- Magnet | = Sticky | Z Shotgun | J Sawblade<br>B Toybox | G Detonate</div><button id="play-cursor">Use free cursor</button><button id="play-defaults" style="margin-top:8px;background:none;color:#c8d1c8;border-color:#536461;font-size:12px">Restart with reference defaults</button></section>';
+controlOverlay.innerHTML='<section><small>SMEAR / PLAY</small><h1>Leave a mark.</h1><p id="play-message">Click to capture the mouse and play.</p><button id="play-resume">Enter the room</button><div class="play-keys">WASD move · Mouse look · Shift run<br>Hold C: free aim / buttons | Tab: free mouse<br>T: slow motion (0.25x) | Esc: pause<br>1 Grab · 2 Pistol · 3 Spill · 4 Spiked bat · 5 Grenade | 6 Rocket<br>7 Mop | 8 Blower | 9 Washer | 0 Vacuum<br>- Magnet | = Sticky | Z Shotgun | J Sawblade<br>B Toybox | G Detonate | K Kick | U Shove</div><button id="play-cursor">Use free cursor</button><button id="play-defaults" style="margin-top:8px;background:none;color:#c8d1c8;border-color:#536461;font-size:12px">Restart with reference defaults</button></section>';
 document.body.appendChild(controlOverlay);$('play-defaults').onclick=()=>{const u=new URL(location.href);u.searchParams.set('defaults','1');location.href=u.href;};
 const controlStyle=document.createElement('style');controlStyle.textContent='#play-menu{position:fixed;inset:0;z-index:3;display:none;align-items:center;justify-content:center;pointer-events:none;background:rgba(13,24,25,.22)}#play-menu section{pointer-events:auto;width:min(430px,calc(100vw - 32px));padding:30px;background:#1b2929;color:#eae2cd;border:1px solid #607270;box-shadow:0 18px 65px #0007}#play-menu small{letter-spacing:3px;color:#cda956;font:700 11px Arial}#play-menu h1{font-size:34px;margin:12px 0}#play-menu p{font-size:14px;line-height:1.5;color:#c8d1c8}#play-menu button{cursor:pointer;width:100%;padding:13px 15px;font:700 15px Arial;border:1px solid #ddc591;background:#ddc591;color:#172b2e}#play-menu button:disabled{opacity:.55;cursor:wait}#play-menu .play-keys{font:13px/1.9 Arial;color:#b5c1bb;margin:18px 0}#play-menu #play-cursor{font-size:12px;padding:8px;background:none;border-color:#536461;color:#c8d1c8}';document.head.appendChild(controlStyle);
 function clearPlayInput(keepPlacement=false){
  if(!keepPlacement)cancelBuddyPlacement();
  keys.clear();mouse.left=mouse.right=false;aimDown=false;activeSlider=null;player.jump=false;player.vel.set(0,0,0);fpsControl.freeAim=false;
  releaseGrab(false);shotFlashUntil=-1;viewKick=recoilPitch=aimBlend=0;flash.visible=false;slide.position.z=0;
- if(typeof compute!=='undefined'&&compute){compute.inputAction=0;compute.pickRequested=false;compute.pickEpoch++;}cancelBat();updateScrape(0,0);
+ if(typeof compute!=='undefined'&&compute){compute.inputAction=0;compute.pickRequested=false;compute.pickEpoch++;}cancelBat();cancelBrawl();updateScrape(0,0);
 }
 function syncControlMenu(){
  const visible=(fpsControl.mode==='fps'||paused)&&!fpsControl.inspection&&!['playing','cursor','menu'].includes(fpsControl.phase)&&!compute?.placement&&!panel&&!runtimeProfiler.visible&&toybox.hidden;
@@ -104,7 +104,7 @@ window.addEventListener('keydown',e=>{
  if(/^Digit[0-9]$/.test(e.code))setTool((Number(e.code.at(-1))+9)%10);
  if(e.code==='Minus')setTool(10);if(e.code==='Equal')setTool(11);if(e.code==='KeyZ')setTool(12);if(e.code==='KeyJ')setTool(13);
  if(e.code==='BracketLeft')setTool((tool+13)%14);if(e.code==='BracketRight')setTool((tool+1)%14);
- if(e.code==='KeyG')compute.detonateCharges();if(e.code==='KeyX')compute.toggleDevice(selectedProp??-1);
+ if(e.code==='KeyK')swingBrawl(true);if(e.code==='KeyU')swingBrawl(false);if(e.code==='KeyG')compute.detonateCharges();if(e.code==='KeyX')compute.toggleDevice(selectedProp??-1);
  if(e.code==='KeyF')toggleFly();if(e.code==='Space')player.jump=true;
  if(e.code==='KeyT'){slow=!slow;notify(slow?'Slow motion: 0.25x | T: normal speed':'Normal speed | T: slow motion');}if(e.code==='KeyH')showHUD=!showHUD;if(e.code==='KeyV')toggleRecovery();
 });
@@ -130,7 +130,11 @@ function swingBat(){
  if(paused||panel||tool!==3||batAge<.64)return;batAge=0;batStrikePending=true;batSwings++;
  startAudio();if(audio&&soundOn&&noiseBuf){const s=audio.createBufferSource(),f=audio.createBiquadFilter(),g=audio.createGain(),t=audio.currentTime;s.buffer=noiseBuf;f.type='bandpass';f.frequency.setValueAtTime(300,t);f.frequency.exponentialRampToValueAtTime(1700,t+.13);f.Q.value=.7;g.gain.setValueAtTime(.001,t);g.gain.exponentialRampToValueAtTime(.17,t+.12);g.gain.exponentialRampToValueAtTime(.001,t+.25);s.connect(f);f.connect(g);g.connect(master);s.start(t);s.stop(t+.26);}
 }
+let brawlAge=10,brawlKick=true,brawlPending=false;
+function cancelBrawl(){brawlAge=10;brawlPending=false;}
+function swingBrawl(kick){if(paused||panel||compute.placement||brawlAge<.60)return;releaseGrab(false);mouse.left=false;cancelBat();brawlAge=0;brawlKick=kick;brawlPending=true;startAudio();weaponNoise(360,1100,.18,.10);}
 function tickControls(dt){
+ if(paused||panel)cancelBrawl();else{brawlAge+=dt;if(brawlPending&&brawlAge>=.14){brawlPending=false;compute.inputAction=brawlKick?21:22;}}
  if(fpsControl.mode==='fps'&&!fpsControl.inspection&&!['playing','cursor'].includes(fpsControl.phase)&&!compute?.placement)paused=true;
  if(paused||panel||tool!==3)cancelBat();else{batAge+=dt;if(batStrikePending&&batAge>=.16){batStrikePending=false;compute.melee();}}
  syncControlMenu();
@@ -173,4 +177,12 @@ function playSawImpact(strength,solid){
 }
 function playExplosion(strength){
  startAudio();if(!audio||!soundOn||!noiseBuf)return;const t=audio.currentTime,s=audio.createBufferSource(),f=audio.createBiquadFilter(),g=audio.createGain(),o=audio.createOscillator(),low=audio.createGain();s.buffer=noiseBuf;f.type='lowpass';f.frequency.setValueAtTime(4200,t);f.frequency.exponentialRampToValueAtTime(100,t+.65);g.gain.setValueAtTime(.55*strength,t);g.gain.exponentialRampToValueAtTime(.001,t+.8);s.connect(f);f.connect(g);g.connect(master);s.start(t);s.stop(t+.85);o.frequency.setValueAtTime(85,t);o.frequency.exponentialRampToValueAtTime(27,t+.4);low.gain.setValueAtTime(.45*strength,t);low.gain.exponentialRampToValueAtTime(.001,t+.55);o.connect(low);low.connect(master);o.start(t);o.stop(t+.6);
+}
+
+function playMachineImpact(strength,kind){if(kind===1){weaponTone(160,570,.22,.14*strength);weaponNoise(1900,300,.16,.15*strength);}else{weaponTone(65,25,.32,.3*strength);weaponNoise(900,90,.30,.24*strength);}}
+function playJunkImpact(strength,material){
+ const level=.12+.13*strength;
+ if(material===0){for(let i=0;i<6;i++)weaponTone(1800+i*421,700+i*283,.10+i*.035,level/(i+2),'sine');weaponNoise(7000,2400,.23,level);}
+ else if(material===1){weaponNoise(3400,450,.19,level*1.3);weaponTone(620,210,.22,level,'triangle');}
+ else{weaponTone(870,160,.34,level,'triangle');weaponTone(1320,480,.16,level*.5,'sine');weaponNoise(5200,1400,.10,level*.6);}
 }
