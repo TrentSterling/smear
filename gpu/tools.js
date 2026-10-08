@@ -19,7 +19,7 @@ SmearCompute.prototype.buildTools=function(){
   const pad=box(root,[.045,.046,.005],[.022,-.091,.120],seam,.002);pad.rotation.z=-.18;
   for(let i=0;i<3;i++)segment(root,[.004,-.091+i*.011,.125],[.036,-.097+i*.011,.125],.0014,glove);
   segment(root,[.030,-.13,.104],[.043,-.195,.153],.030,glove);
-  const sleeve=add(root,new T.CylinderGeometry(.030,.048,.23,18),ink,[.060,-.268,.210]);sleeve.rotation.x=-.62;
+  const forearm=new V(.115,-.33,.34),wrist=new V(.043,-.195,.153);const sleeve=add(root,new T.CylinderGeometry(.034,.048,forearm.distanceTo(wrist),18),ink,wrist.clone().add(forearm).multiplyScalar(.5).toArray());sleeve.quaternion.setFromUnitVectors(new V(0,1,0),wrist.clone().sub(forearm).normalize());
   const cuff=box(root,[.079,.042,.072],[.042,-.176,.152],rubber,.006);cuff.rotation.x=-.65;
   box(root,[.050,.008,.022],[.043,-.159,.183],amber,.003).rotation.x=-.65;
   for(let i=0;i<3;i++){
@@ -109,11 +109,11 @@ SmearCompute.prototype.buildTools=function(){
  // A cupped power grip around the grenade, with the thumb over the lever.
  // The wrist follows the right forearm instead of reusing the pistol grip.
  const grenadeHand=new T.Group();this.grenadeTool.add(grenadeHand);
- const grenadePalm=add(grenadeHand,new T.SphereGeometry(1,16,12),glove,[.029,-.061,.073]);grenadePalm.scale.set(.043,.052,.026);grenadePalm.rotation.z=-.22;
+ const grenadePalm=add(grenadeHand,new T.SphereGeometry(1,16,12),glove,[.029,-.061,.073]);grenadePalm.scale.set(.038,.050,.022);grenadePalm.rotation.z=-.22;
  for(let i=0;i<3;i++)segment(grenadeHand,[.027,-.036-i*.016,.097],[.050,-.043-i*.016,.092],.0016,seam);
  for(let i=0;i<4;i++){
   const y=-.012-i*.027,r=Math.sqrt(Math.max(.0005,.071**2-((y+.045)/1.25)**2));
-  segment(grenadeHand,[.044,y,.065],[-r*.75,y,.048],.0125,glove);
+  segment(grenadeHand,[.044,y,.065],[-r*.75,y,.048],.011,glove);
   segment(grenadeHand,[-r*.75,y,.048],[-r,y-.004,.004],.012,glove);
   segment(grenadeHand,[-r,y-.004,.004],[-r*.72,y-.010,-.038],.011,glove);
   segment(grenadeHand,[-r*.84,y+.007,.027],[-r*.90,y+.006,.006],.0015,seam);
@@ -126,10 +126,10 @@ SmearCompute.prototype.buildTools=function(){
  box(grenadeHand,[.045,.010,.024],[.079,-.142,.173],amber,.003).rotation.x=-.65;
  // Shoulder launcher: open muzzle, reinforced tube, heat shield and folding sight.
  this.rocketTool=new T.Group();this.rocketTool.userData.viewTool=true;this.rocketTool.visible=false;this.camera.add(this.rocketTool);
- cylinder(this.rocketTool,.086,.78,[0,.06,-.13],ink);
+ const tube=add(this.rocketTool,new T.CylinderGeometry(.086,.086,.78,32,1,true),ink,[0,.06,-.13]);tube.rotation.x=Math.PI/2;
  for(const z of [-.50,-.30,.12,.23])cylinder(this.rocketTool,.096,.035,[0,.06,z],steel);
- cylinder(this.rocketTool,.080,.008,[0,.06,-.526],rubber);cylinder(this.rocketTool,.063,.010,[0,.06,-.532],ink);
- for(let i=0;i<5;i++)box(this.rocketTool,[.12,.035,.065],[0,.146,-.37+i*.08],ceramic,.005);
+ const muzzle=add(this.rocketTool,new T.TorusGeometry(.082,.009,8,32),steel,[0,.06,-.525]);const bore=add(this.rocketTool,new T.CylinderGeometry(.076,.076,.13,32,1,true),rubber,[0,.06,-.46]);bore.rotation.x=Math.PI/2;cylinder(this.rocketTool,.075,.008,[0,.06,-.391],rubber);
+ box(this.rocketTool,[.095,.020,.37],[0,.151,-.14],ink,.006);for(let i=0;i<7;i++)box(this.rocketTool,[.073,.008,.017],[0,.165,-.29+i*.045],steel,.002);
  for(const x of [-.078,.078])box(this.rocketTool,[.018,.045,.37],[x,.057,-.13],amber,.004);
  box(this.rocketTool,[.072,.13,.085],[0,-.066,.08],rubber,.008);
  box(this.rocketTool,[.10,.025,.13],[0,.181,-.11],ink,.004);box(this.rocketTool,[.014,.075,.024],[-.035,.216,-.11],steel,.002);box(this.rocketTool,[.014,.075,.024],[.035,.216,-.11],steel,.002);box(this.rocketTool,[.08,.010,.024],[0,.258,-.11],amber,.002);
@@ -138,9 +138,10 @@ SmearCompute.prototype.buildTools=function(){
  // toward their own shoulders rather than duplicating the pistol wrist pose.
  const launcherHand=(side,origin,wrist,elbow,parent=this.rocketTool)=>{
   const root=new T.Group();root.position.set(...origin);parent.add(root);
-  box(root,[.062,.083,.054],[side*.012,-.073,.002],glove,.014);
+  const palm=add(root,new T.SphereGeometry(1,16,12),glove,[side*.021,-.073,.019]);palm.scale.set(.037,.049,.025);palm.rotation.z=side*-.13;
   box(root,[.050,.040,.006],[side*.014,-.065,.032],seam,.004);
-  for(let i=0;i<4;i++){const y=-.038-i*.017;segment(root,[side*.038,y,-.023],[-side*.032,y-.004,-.028],.0105,glove);segment(root,[-side*.032,y-.004,-.028],[-side*.035,y-.010,.013],.0105,glove);}
+  for(let i=side>0?1:0;i<4;i++){const y=-.038-i*.017;segment(root,[side*.038,y,-.023],[-side*.032,y-.004,-.028],.0105,glove);segment(root,[-side*.032,y-.004,-.028],[-side*.035,y-.010,.013],.0105,glove);}
+  if(side>0){segment(root,[.046,-.037,.014],[.044,-.027,-.039],.0105,glove);segment(root,[.044,-.027,-.039],[.009,-.035,-.048],.010,glove);}
   segment(root,[side*.044,-.070,.020],[side*.042,-.020,-.004],.013,glove);
   segment(root,[side*.042,-.020,-.004],[side*.012,-.014,-.022],.012,glove);
   const joint=[origin[0]+side*.012,origin[1]-.115,origin[2]+.012];
@@ -214,8 +215,8 @@ SmearCompute.prototype.updateToolPresentation=function(dt,{tool,panel,time,left,
  this.shotgunPump.position.z=arsenalAge>.24&&arsenalAge<.58?Math.sin((arsenalAge-.24)/.34*Math.PI)*.08:0;
  this.loadedSaw.rotation.set(0,0,Math.PI/2);this.loadedSaw.rotateY(time*25);this.loadedSaw.visible=arsenalAge>.17;
  for(let i=0;i<this.utilityTools.length;i++){const g=this.utilityTools[i];g.visible=tool===i+6&&!panel;if(g.visible){const active=left?Math.sin(time*35)*.003:0;g.position.set(i===0?.18:.27,-.20+active,-.51);g.rotation.set(i===0?-.18:-.06,-.09,-.09);}}
- this.rocketTool.visible=tool===5&&!panel;if(this.rocketTool.visible){const kick=Math.exp(-rocketAge*19)*Math.sin(Math.min(1,rocketAge*32)*Math.PI/2);this.rocketTool.position.set(.26,-.235,-.46+kick*.065);this.rocketTool.rotation.set(-.025+kick*.055,.035,-.025-kick*.02);}
- this.grenadeTool.visible=tool===4&&!panel;if(this.grenadeTool.visible){this.grenadeTool.position.set(.23,-.13,-.48);this.grenadeTool.rotation.set(-.08,-.24,.12);}
+ this.rocketTool.visible=tool===5&&!panel;if(this.rocketTool.visible){const kick=Math.exp(-rocketAge*19)*Math.sin(Math.min(1,rocketAge*32)*Math.PI/2);this.rocketTool.position.set(.255,-.255,-.47+kick*.065);this.rocketTool.rotation.set(-.025+kick*.055,.035,-.025-kick*.02);}
+ this.grenadeTool.visible=tool===4&&!panel;if(this.grenadeTool.visible){this.grenadeTool.position.set(.24,-.22,-.48);this.grenadeTool.rotation.set(-.08,-.24,.12);}
  this.spillCan.visible=tool===2&&!panel;
  if(this.spillCan.visible){this.spillCan.position.set(.255,-.13,-.54);this.spillCan.rotation.set(-.1,0,-.14);if(left)this.spillCan.position.y+=Math.sin(time*38)*.003;}
  this.bat.visible=tool===3&&!panel;

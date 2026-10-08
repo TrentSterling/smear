@@ -291,6 +291,7 @@ fn rayHit(o:vec3f,d:vec3f,limit:f32,includeBodies:bool,ignoreBody:i32)->RayHit {
  if(frame.action.y==16){utilitySecondary();return;}
  if(frame.action.y==17){toggleUtilityProp();return;}
  if(frame.action.y==18){runContraption();return;}
+ if(frame.action.y==26){pressMachineControl();return;}
  if(frame.action.y==19){fireShotgun();return;}
  if(frame.action.y>=23&&frame.action.y<=25){buildJunkDemo(u32(frame.action.y)-23u);return;}
  if(frame.action.y==21||frame.action.y==22){brawlStrike(frame.action.y==21);return;}
@@ -337,6 +338,7 @@ fn rayHit(o:vec3f,d:vec3f,limit:f32,includeBodies:bool,ignoreBody:i32)->RayHit {
  bodies[i]=b;
 }
 @compute @workgroup_size(1) fn telemetry() {
+ atomicStore(&work[utilityBase()+23u],machineControlHit());
  var activeBodies=0u;var wounds=0u;var scraping=0.0;for(var i=0u;i<u32(frame.settings.x);i++){let b=bodies[i];if(b.status.x>.5){activeBodies++;}if(b.blood.x>.001){wounds++;}if(b.track.w>0){scraping=max(scraping,min(1.0,length(b.v.xyz)*b.coat.x*.2));}}
  atomicStore(&work[20],activeBodies);atomicStore(&work[21],wounds);atomicStore(&work[22],bitcast<u32>(scraping));
 }

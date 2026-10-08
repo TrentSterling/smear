@@ -19,6 +19,6 @@ fn buildContraption(){
   constants[s]=vec4f(p,constants[s].w);constants[s+1u]=yawQ(yaw);constants[s+2u]=vec4f(0);constants[s+3u]=vec4f(0);constants[s+14u]=vec4f(0);constants[s+15u].x=select(0.0,1.0,enabled);if(enabled){atomicAnd(&work[19],~(1u<<i));}else{atomicOr(&work[19],1u<<i);}resetUtilityProp(i);if(i>=10u){atomicStore(&work[utilityProp(i)+1u],0u);}syncProp(i);
  }
  for(var i=0u;i<u32(frame.settings.x);i++){let base=i/15u;let bind=header(3).w+i*2u;let root=select(select(vec3f(3.3,0,2.35),vec3f(5.1,0,1.1),base==1u),vec3f(1.1,0,2.6),base==2u);var b=bodies[i];b.p=vec4f(root+constants[bind].xyz,b.p.w);b.q=constants[bind+1u];b.prevP=b.p;b.prevQ=b.q;b.v=vec4f(0);b.w=vec4f(0);b.motor=vec4f(root.x,0,root.z,0);b.status.x=1;b.status.z=0;bodies[i]=b;}
- atomicStore(&work[utilityBase()+18u],1u);
+ atomicStore(&work[utilityBase()+18u],1u);atomicStore(&work[utilityBase()+25u],65540u);
 }
-fn runContraption(){for(var i=8u;i<propCount();i++){if(machineKind(constants[propData(i)+6u].w)){atomicStore(&work[utilityProp(i)+1u],1u);}}atomicStore(&work[utilityBase()+18u],2u);}
+fn runContraption(){atomicAnd(&work[utilityBase()+25u],65535u);for(var i=8u;i<propCount();i++){if(machineKind(constants[propData(i)+6u].w)){atomicStore(&work[utilityProp(i)+1u],1u);}}atomicStore(&work[utilityBase()+18u],2u);}

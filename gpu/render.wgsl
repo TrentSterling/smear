@@ -19,13 +19,14 @@ struct Output {
  @location(5) @interpolate(flat) index:u32,
 };
 fn transformed(v:Input,index:u32)->Output {
- let object=objects[index];if((object.flags.w==9||object.flags.w==12||object.flags.w==13||object.flags.w==14||object.flags.w==15)&&(work[19]&(1u<<u32(object.params.y)))!=0u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,vec3f(0),v.n,index);}var p=(object.model*vec4f(v.p,1)).xyz;var n=(object.normal*vec4f(v.n,0)).xyz;var local=p;var localNormal=n;
- if(object.flags.w==9||object.flags.w==12||object.flags.w==13||object.flags.w==14||object.flags.w==15){let id=u32(object.params.y);let s=propData(id);local=p-constants[s+4u].xyz;
+ let object=objects[index];if((object.flags.w==9||object.flags.w==12||object.flags.w==13||object.flags.w==14||object.flags.w==15||object.flags.w==16||object.flags.w==17||object.flags.w==18)&&(work[19]&(1u<<u32(object.params.y)))!=0u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,vec3f(0),v.n,index);}var p=(object.model*vec4f(v.p,1)).xyz;var n=(object.normal*vec4f(v.n,0)).xyz;var local=p;var localNormal=n;
+ if(object.flags.w==9||object.flags.w==12||object.flags.w==13||object.flags.w==14||object.flags.w==15||object.flags.w==16||object.flags.w==17||object.flags.w==18){let id=u32(object.params.y);let s=propData(id);local=p-constants[s+4u].xyz;
   if(object.flags.w==12){let fill=f32(work[utilityProp(id)])/16777216.0;if(fill<.001){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}local.y-=.50*(1-min(1.0,fill));}
   if(object.flags.w==13){let angle=select(0.0,frame.camera.w*24,work[utilityProp(id)+1u]!=0u);let spin=vec4f(0,0,sin(angle*.5),cos(angle*.5));local=rotate(spin,local-vec3f(0,.14,.09))+vec3f(0,.14,.09);n=rotate(spin,n);}
   if(object.flags.w==14&&work[utilityProp(id)+1u]!=0u){local.x=fract((local.x+1.02+frame.camera.w*1.6)/2.04)*2.04-1.02;}
-  if(object.flags.w==15){let top=constants[propData(18u)].y+2.20;local.y=.11+(local.y-.11)*clamp(top-constants[s].y-.11,.03,2.3);}
-  p=constants[s].xyz+rotate(constants[s+1u],local);n=rotate(constants[s+1u],n);}
+  if(object.flags.w==15){let height=rotate(inverseQ(constants[propData(18u)+1u]),constants[s].xyz-constants[propData(18u)].xyz).y;local.y=.11+(local.y-.11)*max(.03,2.20-height-.11);}
+  var q=constants[s+1u];if(object.flags.w>=16){if(constants[s+6u].w==13){q=constants[s+10u];}if(object.flags.w==17&&frame.camera.w<bitcast<f32>(work[utilityProp(id)+4u])){local.z-=.018;}}
+  p=constants[s].xyz+rotate(q,local);n=rotate(q,n);}
  else if(object.flags.w==11){if(work[1006]!=u32(object.params.y)+2u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}let angle=bitcast<f32>(work[1012]);let q=vec4f(0,sin(angle*.5),0,cos(angle*.5));p=rotate(q,p)+vec3f(bitcast<f32>(work[1009]),bitcast<f32>(work[1010]),bitcast<f32>(work[1011]));n=rotate(q,n);}
  else if(object.flags.w==10){
   if(work[1006]==0u||work[1006]>2u){return Output(vec4f(0,0,2,1),vec3f(0),vec3f(0,1,0),v.uv,local,localNormal,index);}
@@ -87,7 +88,7 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
 @fragment fn fragment(v:Output,@builtin(front_facing) front:bool)->@location(0) vec4f {
  let worldDx=dpdx(v.world);let worldDy=dpdy(v.world);
  let localAA=max(max(length(dpdx(v.local)),length(dpdy(v.local)))*.45,.00006);
- let object=objects[v.index];var color=object.color.rgb;var alpha=object.color.a;var rough=object.params.w;var metal=object.flags.x;let basic=object.flags.z<0;
+ let object=objects[v.index];var color=object.color.rgb;if(object.flags.w==18){let on=work[utilityProp(u32(object.params.y))+1u]!=0u;return vec4f(select(vec3f(.22,.12,.035),vec3f(.20,.95,.42),on),1);}var alpha=object.color.a;var rough=object.params.w;var metal=object.flags.x;let basic=object.flags.z<0;
  if(object.flags.w==10||object.flags.w==11){let c=select(vec3f(.94,.28,.19),vec3f(.39,.91,.68),work[1008]==1u);let band=select(.65,1.0,fract(v.world.y*16)>.2);return vec4f(c*band,.63);}
  if(!socketVisible(v)){discard;}
  if(object.flags.w==6){if(front||dot(v.normal,frame.camera.xyz-v.world)>0){discard;}return vec4f(.065,.095,.09,1);}
@@ -126,7 +127,7 @@ fn shade(world:vec3f,n:vec3f,albedo:vec3f,rough:f32,metal:f32,basic:bool,viewToo
  if(object.flags.w==5){let id=u32(object.params.x)+u32(v.uv.y+.5);let charred=clamp(f32(work[fractureState(id)+7u])/65536,0,.88);color=mix(color,vec3f(.019,.025,.022),charred);rough=mix(rough,.92,charred);}
  if(object.params.z>=0){let tex=textureSampleLevel(maps,linearSampler,vec2f(v.uv.x,1-v.uv.y),i32(object.params.z),0);color*=pow(tex.rgb,vec3f(2.2));alpha*=tex.a;}
  if(alpha<.02){discard;}
- var receiverID=object.params.y;
+ var receiverID=select(object.params.y,-1.0,object.flags.w>=16);
  if(object.flags.w==9||object.flags.w==12||object.flags.w==13||object.flags.w==14||object.flags.w==15){let k=header(1).x+u32(object.flags.z)*5u;let local=rotate(inverseQ(constants[k+1u]),v.world-constants[k].xyz);let a=abs(local/constants[k+2u].xyz);if(a.y>a.x&&a.y>a.z){receiverID=select(constants[k+3u].w,constants[k+3u].z,local.y>0);}else if(a.x>a.z){receiverID=select(constants[k+3u].y,constants[k+3u].x,local.x>0);}else{receiverID=select(constants[k+4u].y,constants[k+4u].x,local.z>0);}
   if(constants[k].w==1&&color.r>color.b*1.5){let grain=sin(local.y*117+sin(local.x*5)*2+sin(local.z*21))*.06;let seam=step(.965,fract((local.y+.55)*5.5));color*=1+grain-seam*.35;}
   if(constants[k].w==2&&color.r>color.g*1.8&&abs(local.y)>.30&&abs(local.y)<.42){color=mix(vec3f(.035,.047,.038),vec3f(.75,.49,.10),step(.5,fract(atan2(local.z,local.x)*3+local.y*9)));}

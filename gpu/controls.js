@@ -3,7 +3,7 @@ const fpsControl={mode:'fps',phase:'ready',freeAim:false,pending:false,error:'',
 let controlMenuState=null;
 try{if(!window.__smearDefaults&&localStorage.getItem('smear.controls.mode')==='cursor')fpsControl.mode='cursor';}catch{}
 const controlOverlay=document.createElement('div');controlOverlay.id='play-menu';
-controlOverlay.innerHTML='<section><small>SMEAR / PLAY</small><h1>Leave a mark.</h1><p id="play-message">Click to capture the mouse and play.</p><button id="play-resume">Enter the room</button><div class="play-keys">WASD move · Mouse look · Shift run<br>Hold C: free aim / buttons | Tab: free mouse<br>T: slow motion (0.25x) | Esc: pause<br>1 Grab · 2 Pistol · 3 Spill · 4 Spiked bat · 5 Grenade | 6 Rocket<br>7 Mop | 8 Blower | 9 Washer | 0 Vacuum<br>- Magnet | = Sticky | Z Shotgun | J Sawblade<br>B Toybox | G Detonate | K Kick | U Shove</div><button id="play-cursor">Use free cursor</button><button id="play-defaults" style="margin-top:8px;background:none;color:#c8d1c8;border-color:#536461;font-size:12px">Restart with reference defaults</button></section>';
+controlOverlay.innerHTML='<section><small>SMEAR / 44</small><h1>Ready to make a mess?</h1><p id="play-message">Click to capture the mouse and play.</p><button id="play-resume">Enter the room</button><button id="play-cursor">Use free cursor</button><button id="play-defaults" style="margin-top:8px;background:none;color:#c8d1c8;border-color:#536461;font-size:12px">Restart with reference defaults</button></section>';
 document.body.appendChild(controlOverlay);$('play-defaults').onclick=()=>{const u=new URL(location.href);u.searchParams.set('defaults','1');location.href=u.href;};
 const controlStyle=document.createElement('style');controlStyle.textContent='#play-menu{position:fixed;inset:0;z-index:3;display:none;align-items:center;justify-content:center;pointer-events:none;background:rgba(13,24,25,.22)}#play-menu section{pointer-events:auto;width:min(430px,calc(100vw - 32px));padding:30px;background:#1b2929;color:#eae2cd;border:1px solid #607270;box-shadow:0 18px 65px #0007}#play-menu small{letter-spacing:3px;color:#cda956;font:700 11px Arial}#play-menu h1{font-size:34px;margin:12px 0}#play-menu p{font-size:14px;line-height:1.5;color:#c8d1c8}#play-menu button{cursor:pointer;width:100%;padding:13px 15px;font:700 15px Arial;border:1px solid #ddc591;background:#ddc591;color:#172b2e}#play-menu button:disabled{opacity:.55;cursor:wait}#play-menu .play-keys{font:13px/1.9 Arial;color:#b5c1bb;margin:18px 0}#play-menu #play-cursor{font-size:12px;padding:8px;background:none;border-color:#536461;color:#c8d1c8}';document.head.appendChild(controlStyle);
 function clearPlayInput(keepPlacement=false){
@@ -39,7 +39,7 @@ requestLook=()=>{
 unlockLook=()=>{clearPlayInput();stickyLook=false;temporaryLook=false;if(document.pointerLockElement===canvas)document.exitPointerLock();};
 toggleLook=()=>{if(document.pointerLockElement===canvas)freeCursor();else requestLook();};
 const panelWithoutLock=openPanel;
-openPanel=p=>{panelWithoutLock(p);if(!fpsControl.inspection&&fpsControl.mode==='fps'){if(p){pauseControls();fpsControl.phase='menu';}else freeCursor();}syncControlMenu();};
+openPanel=p=>{panelWithoutLock(p);if(!fpsControl.inspection&&fpsControl.mode==='fps'){if(p){pauseControls();fpsControl.phase='menu';}else pauseControls();}syncControlMenu();};
 const profilerWithoutLock=runtimeProfiler.show;
 runtimeProfiler.show=value=>{if(!fpsControl.inspection&&(value===true||(value===undefined&&!runtimeProfiler.visible)))pauseControls();profilerWithoutLock(value);syncControlMenu();};
 aimXY=()=>{
@@ -72,7 +72,7 @@ window.addEventListener('pointerdown',e=>{
  if(paused)return;
  if(e.button===2){e.preventDefault();if(document.pointerLockElement===canvas||tool>=6){mouse.right=true;aimDown=tool===1;if(tool===10)compute.secondary();if(tool===11)compute.detonateCharges();}else requestLook();return;}
  if(e.button!==0)return;if(compute.placement){confirmBuddyPlacement();return;}pressedUI=false;if(demo)releaseGrab(false);mouse.left=true;
- if(tool===0)compute.pick();else if(tool===1)shoot();else if(tool===2)spill();else if(tool===3)swingBat();else if(tool===4)throwGrenade();else if(tool===5)fireRocket();else if(tool===11)throwSticky();else if(tool===12)fireShotgun();else if(tool===13)fireSaw();
+ if(tool===0&&(compute.cache.control&255)&&!grab){mouse.left=false;compute.interactMachine();}else if(tool===0)compute.pick();else if(tool===1)shoot();else if(tool===2)spill();else if(tool===3)swingBat();else if(tool===4)throwGrenade();else if(tool===5)fireRocket();else if(tool===11)throwSticky();else if(tool===12)fireShotgun();else if(tool===13)fireSaw();
 });
 window.addEventListener('pointerup',e=>{
  if(e.button===0){if(activeSlider){saveTuning();activeSlider=null;}mouse.left=false;pressedUI=false;if(grab&&!grab.manual)releaseGrab(true);if(!fpsControl.freeAim&&document.pointerLockElement===canvas){mouse.x=W/2;mouse.y=H/2;}}
@@ -88,7 +88,7 @@ window.addEventListener('pointermove',e=>{
  }
  mouse.x=e.clientX;mouse.y=e.clientY;if(!paused)updateGrab();
 });
-window.addEventListener('wheel',e=>{if(e.target.closest?.('#runtime-profile,#play-menu'))return;e.preventDefault();if(grab&&!paused){grab.distance=clamp(grab.distance*Math.exp(-clamp(e.deltaY,-180,180)*.0017),.55,20);updateGrab();}},{passive:false});
+window.addEventListener('wheel',e=>{if(e.target.closest?.('#runtime-profile,#play-menu,#toybox,input,textarea,select')||panel||paused)return;e.preventDefault();if(grab&&!paused){grab.distance=clamp(grab.distance*Math.exp(-clamp(e.deltaY,-180,180)*.0017),.55,20);updateGrab();}else if(!compute.placement&&e.deltaY!==0)setTool((tool+(e.deltaY>0?1:13))%14);},{passive:false});
 window.addEventListener('keydown',e=>{
  if(e.code==='F3'){e.preventDefault();if(!e.repeat){if(!fpsControl.inspection)pauseControls();runtimeProfiler.show();syncControlMenu();}return;}
  if(!toybox.hidden){if(e.code==='Escape'||(e.code==='KeyB'&&e.target!==$('toy-search'))){e.preventDefault();closeToybox();}return;}
@@ -97,7 +97,8 @@ window.addEventListener('keydown',e=>{
  if(e.code==='Escape'){if(compute?.placement){cancelBuddyPlacement();notify('Placement cancelled.');return;}panel=null;if(fpsControl.mode==='fps'&&!fpsControl.inspection)pauseControls();else{clearPlayInput();unlockLook();paused=false;}return;}
  if(e.code==='Tab'){if(panel)openPanel(null);else toggleLook();return;}
  if(e.code==='KeyP'||e.code==='KeyL'){if(paused||document.pointerLockElement!==canvas)requestLook();else pauseControls();return;}
- if(panel||paused)return;keys.add(e.code);
+ if(e.code==='KeyB'&&!panel){openToybox();return;}if(panel||paused)return;keys.add(e.code);
+ if(e.code==='KeyE'&&!grab&&!compute.placement){compute.interactMachine();return;}
  if(e.code==='KeyB'){openToybox();return;}if(e.code==='Delete'){removeSelectedToy();return;}
  if(e.code==='KeyN'){beginBuddyPlacement(false);return;}if(e.code==='KeyR'){beginBuddyPlacement(true);return;}
  if(e.code==='KeyC'&&document.pointerLockElement===canvas){const p=aimXY();mouse.x=p.x;mouse.y=p.y;fpsControl.freeAim=true;if(grab)grab.rayOffset=null;}
@@ -142,10 +143,7 @@ function tickControls(dt){
  tickUtilityAudio();
 }
 
-const cursorReturn=document.createElement('button');cursorReturn.id='cursor-return';cursorReturn.hidden=true;cursorReturn.textContent='Mouse free | Tab or click room to look';cursorReturn.onclick=()=>requestLook();document.body.appendChild(cursorReturn);
-const timeStatus=document.createElement('button');timeStatus.id='time-status';timeStatus.hidden=true;timeStatus.textContent='SLOW MOTION 0.25x | T: normal';timeStatus.onclick=()=>{slow=false;notify('Normal speed | T: slow motion');};document.body.appendChild(timeStatus);
-controlStyle.textContent+='#cursor-return,#time-status{position:fixed;z-index:2;border:1px solid #68817a;background:#172a2deb;color:#ece1c6;padding:8px 12px;font:12px Arial;cursor:pointer}#cursor-return{bottom:158px;left:14px}#time-status{top:82px;left:14px;color:#f1d083}#cursor-return[hidden],#time-status[hidden]{display:none}';
-function updateControlHints(){const cursor=fpsControl.phase==='cursor'&&!compute?.placement&&!panel&&toybox.hidden&&!paused&&!fpsControl.inspection;if(cursorReturn.hidden===cursor)cursorReturn.hidden=!cursor;const showSlow=slow&&showHUD;if(timeStatus.hidden===showSlow)timeStatus.hidden=!showSlow;}
+function updateControlHints(){}
 
 let utilityAudio=null;
 function tickUtilityAudio(){

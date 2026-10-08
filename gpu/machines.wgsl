@@ -6,7 +6,7 @@ fn wakeMachineNeighbors(id:u32){let b=propBody(id);for(var i=8u;i<128u;i++){let 
 fn activateCrusher(){
  if(propCount()<24u||propGone(19)){return;}let b=propBody(18u);
  for(var id=19u;id<=21u;id++){let s=propData(id);atomicAnd(&work[19],~(1u<<id));constants[s+15u].x=1;for(var k=0u;k<8u;k++){atomicStore(&work[propState(id)+k],0u);atomicStore(&work[utilityProp(id)+k],0u);}}
- machinePose(19u,b.p.xyz+rotate(b.q,vec3f(0,2.24,0)),b.q,vec3f(0),vec3f(0));
+ machinePose(19u,b.p.xyz+rotate(b.q,vec3f(0,1.86,0)),b.q,vec3f(0),vec3f(0));
  for(var id=20u;id<=21u;id++){machinePose(id,b.p.xyz+rotate(b.q,vec3f(select(-.96,.96,id==21u),1.1,0)),b.q,vec3f(0),vec3f(0));}
 }
 fn removeMachine(id:u32){let first=machineOwner(id);let count=select(1u,4u,first==18u);for(var n=0u;n<count;n++){let slot=first+n;drainUtilityProp(slot);atomicOr(&work[19],1u<<slot);constants[propData(slot)+15u].x=0;}}
@@ -26,7 +26,7 @@ fn crusherInjury(index:u32,pressure:f32){
  if(propCount()<24u){return;}let dt=1.0/120;
  if(!propGone(19)){
   let base=propBody(18u);let u=utilityProp(18u);let on=atomicLoad(&work[u+1u])!=0u;var phase=ordFloat(u+2u);if(on){phase+=dt;atomicStore(&work[u+2u],bitcast<u32>(phase));}
-  let cycle=phase%4.2;let height=select(select(2.24,mix(2.24,.36,clamp((cycle-.75)/1.35,0,1)),cycle>=.75),mix(.36,2.24,clamp((cycle-2.50)/1.15,0,1)),cycle>=2.50);
+  let cycle=phase%4.2;let height=select(select(1.86,mix(1.86,.36,clamp((cycle-.75)/1.35,0,1)),cycle>=.75),mix(.36,1.86,clamp((cycle-2.50)/1.15,0,1)),cycle>=2.50);
   let p=base.p.xyz+rotate(base.q,vec3f(0,height,0));let v=(p-propBody(19u).p.xyz)/dt;machinePose(19u,p,base.q,v,vec3f(0));
   if(on){wakeMachineNeighbors(19u);}
   if(on&&cycle>=.75&&cycle<2.5){
@@ -58,5 +58,30 @@ fn buildJunkDemo(mode:u32){
  else if(mode==1u){demoProp(22u,center+vec3f(0,.16,0),0,false);demoProp(14u,center+vec3f(-.29,.71,.1),0,false);demoProp(16u,center+vec3f(.27,.68,0),0,false);demoProp(12u,center+vec3f(0,.43,-2.8),0,false);demoProp(13u,center+vec3f(1.0,.43,-2.8),.3,false);demoProp(10u,vec3f(-4,.55,1.7),1.570796,false);}
  else{demoProp(23u,center+vec3f(0,.165,0),0,false);demoProp(16u,center+vec3f(.70,.33,.45),0,false);demoProp(17u,center+vec3f(-.72,.33,-.42),0,false);demoProp(14u,center+vec3f(.15,.36,-.72),0,false);demoProp(15u,center+vec3f(-.15,.36,.72),0,false);demoProp(12u,center+vec3f(.90,.43,.55),1.57,false);demoProp(22u,vec3f(.2,.16,3.3),0,false);}
  for(var i=0u;i<u32(frame.settings.x);i++){let rig=i/15u;let root=select(select(vec3f(2.4,0,3.3),vec3f(4.5,0,2.3),rig==2u),select(center+vec3f(0,.31,0),vec3f(-2.6,0,5.2),mode!=0u),rig==0u);let bind=header(3).w+i*2u;var b=bodies[i];b.p=vec4f(root+constants[bind].xyz,b.p.w);b.q=constants[bind+1u];if(mode==0u&&rig==0u){let rotation=quatMul(yawQ(.785398),vec4f(0,0,.70710678,.70710678));b.p=vec4f(center+vec3f(0,.48,0)+rotate(rotation,constants[bind].xyz-vec3f(0,.975,0)),b.p.w);b.q=quatMul(rotation,b.q);}b.prevP=b.p;b.prevQ=b.q;b.v=vec4f(0);b.w=vec4f(0);b.motor=vec4f(root.x,0,root.z,0);b.status.x=1;b.status.z=0;bodies[i]=b;}
- atomicStore(&work[utilityBase()+25u],mode+1u);
+ atomicStore(&work[utilityBase()+25u],(mode+1u)|65536u);
+}
+
+// This is a short, occluded ray to the actual switch, not a remote selected-prop action.
+fn machineControlHit()->u32 {
+ var controlHit=0u;var nearest=3.0;let direction=safeNorm(frame.rayD.xyz);
+ for(var id=0u;id<propCount();id++){
+  let s=propData(id);let kind=constants[s+6u].w;
+  if(propGone(f32(id+1u))||!machineKind(kind)){continue;}
+  var q=constants[s+1u];if(kind==13){q=constants[s+10u];}
+  let origin=rotate(inverseQ(q),frame.rayO.xyz-constants[s].xyz);let ray=rotate(inverseQ(q),direction);
+  let button=machineControlPoint(kind);if(ray.z>=-.03){continue;}
+  let t=(button.z+.065-origin.z)/ray.z;if(t<0||t>nearest){continue;}
+  let delta=(origin+ray*t-button).xy;if(any(abs(delta)>vec2f(.105,.125))){continue;}
+  let obstruction=rayHit(frame.rayO.xyz,direction,max(0,t-.035),true,-1);
+  if(obstruction.t<t-.04){continue;}
+  nearest=t;controlHit=id+1u;
+ }
+ if(controlHit!=0u&&atomicLoad(&work[utilityProp(controlHit-1u)+1u])!=0u){controlHit|=256u;}
+ return controlHit;
+}
+fn pressMachineControl(){
+ let controlHit=machineControlHit()&255u;if(controlHit==0u){return;}let id=controlHit-1u;let u=utilityProp(id);
+ if((atomicLoad(&work[utilityBase()+25u])&65536u)!=0u){runContraption();}
+ else{atomicStore(&work[u+1u],1u-min(1u,atomicLoad(&work[u+1u])));}
+ atomicStore(&work[u+4u],bitcast<u32>(frame.camera.w+.20));
 }

@@ -61,3 +61,10 @@ fn breakableProp(kind:f32)->bool{return kind==1||kind==2||(kind>=6&&kind<=8);}
 fn machineKind(kind:f32)->bool{return kind==4||kind==5||kind==9||kind==12||kind==13;}
 fn junkFragment(kind:u32)->bool{return kind>=8u&&kind<=10u;}
 fn restingFragment(kind:u32)->bool{return kind==3u||kind==5u||junkFragment(kind);}
+
+// Physical controls use the same local coordinates in picking and rendering.
+fn machineControlPoint(kind:f32)->vec3f {
+ if(kind==9){return vec3f(.96,.85,.89);}if(kind==4){return vec3f(.30,-.12,.35);}
+ if(kind==5){return vec3f(.95,.42,.74);}if(kind==12){return vec3f(.57,.40,.59);}
+ return vec3f(0,.62,0);
+}
