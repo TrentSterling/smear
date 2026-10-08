@@ -1,0 +1,805 @@
+{
+  "version": "0.42.0",
+  "at": "2026-10-08T06:11:58.016Z",
+  "buildSHA256": "6fbd9212617fed3ead2c8a230caff56d84cb9b03b410ff0f34f7e8ebbe4dcb12",
+  "baselineSHA256": "44c86f16f4a4c34a64c946fdb9ee518dd7bfca605ff67d6f12e8a228ce32d04c",
+  "checks": [
+    {
+      "command": "tools/wgsl-verify.mjs",
+      "status": 0,
+      "seconds": 0.542,
+      "result": [
+        "COMPLETE both embedded WGSL modules passed Naga validation"
+      ]
+    },
+    {
+      "command": "tools/bat-verify.mjs final-v42",
+      "status": 0,
+      "seconds": 12.424,
+      "result": [
+        "COMPLETE bat durability checks"
+      ]
+    },
+    {
+      "command": "tools/controller-verify.mjs final-v42",
+      "status": 0,
+      "seconds": 14.874,
+      "result": [
+        "  \"result\": \"COMPLETE FPS controller and spiked bat checks\","
+      ]
+    },
+    {
+      "command": "tools/destruction-verify.mjs final-v42",
+      "status": 0,
+      "seconds": 21.545,
+      "result": [
+        "COMPLETE 8 checks passed"
+      ]
+    },
+    {
+      "command": "tools/ricochet-verify.mjs final-v42",
+      "status": 0,
+      "seconds": 15.881,
+      "result": [
+        "COMPLETE 10 new arsenal and dummy checks"
+      ]
+    },
+    {
+      "command": "tools/props-verify.mjs final-v42",
+      "status": 0,
+      "seconds": 11.45,
+      "result": [
+        "COMPLETE 11 prop checks passed"
+      ]
+    },
+    {
+      "command": "tools/compute-verify.mjs final-v42",
+      "status": 0,
+      "seconds": 18.169,
+      "result": [
+        "COMPLETE compute game checks passed (10 checks)"
+      ]
+    },
+    {
+      "command": "tools/compute-profile.mjs",
+      "status": 0,
+      "seconds": 58.784,
+      "result": [
+        "COMPLETE native GPU gameplay and 3000x1800 profiles passed (8 checks)"
+      ]
+    },
+    {
+      "command": "tools/bat-capture.mjs",
+      "status": 0,
+      "seconds": 23.357,
+      "result": [
+        "COMPLETE V41/V42 bat comparison"
+      ]
+    }
+  ],
+  "browser": "Headless hardware Chrome; native 3000x1800; audio enabled/running, output independently muted",
+  "firefox": "Gameplay untested under the user prohibition on desktop focus/mouse interference. Both exact embedded modules passed pinned Naga 29.0.4.",
+  "batChecks": [
+    "Focused head, torso, forearm and pelvis hits across all three dummy builds retain knockback, wounds and finite spray; repeated hits accumulate localized joint damage",
+    "Maximum damage/fragility still needs three hits on a fresh joint; zero damage never severs",
+    "One native mouse click applies one strike; the knocked-down rig remains joined after two seconds of real-time collisions"
+  ],
+  "baseline": [
+    {
+      "scenario": {
+        "variant": 0,
+        "part": 2
+      },
+      "firstSeparation": 2,
+      "cuts": [
+        2
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.67999267578125
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "variant": 0,
+        "part": 0
+      },
+      "firstSeparation": 3,
+      "cuts": [
+        0
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.4799957275390625
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "variant": 0,
+        "part": 4
+      },
+      "firstSeparation": 3,
+      "cuts": [
+        4
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.4799957275390625
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "variant": 0,
+        "part": 1
+      },
+      "firstSeparation": 4,
+      "cuts": [
+        0,
+        6,
+        12
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.287994384765625,
+          0.3119964599609375,
+          0.3119964599609375
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "variant": 1,
+        "part": 2
+      },
+      "firstSeparation": 2,
+      "cuts": [
+        17
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.7615966796875
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "variant": 1,
+        "part": 0
+      },
+      "firstSeparation": 2,
+      "cuts": [
+        15
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.53759765625
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "variant": 1,
+        "part": 4
+      },
+      "firstSeparation": 2,
+      "cuts": [
+        19
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.53759765625
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "variant": 1,
+        "part": 1
+      },
+      "firstSeparation": 3,
+      "cuts": [
+        21,
+        27
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.3225555419921875,
+          0.34942626953125,
+          0.34942626953125
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "variant": 2,
+        "part": 2
+      },
+      "firstSeparation": 2,
+      "cuts": [
+        32
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.5915985107421875
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "variant": 2,
+        "part": 0
+      },
+      "firstSeparation": 3,
+      "cuts": [
+        30
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.4175872802734375
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "variant": 2,
+        "part": 4
+      },
+      "firstSeparation": 3,
+      "cuts": [
+        34
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.4175872802734375
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "variant": 2,
+        "part": 1
+      },
+      "firstSeparation": 4,
+      "cuts": [
+        30,
+        36,
+        42
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.25054931640625,
+          0.2714385986328125,
+          0.2714385986328125
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "damage": 2.5,
+        "fragility": 2
+      },
+      "firstSeparation": 1,
+      "cuts": [
+        2
+      ],
+      "firstHit": {
+        "cuts": [
+          2
+        ],
+        "jointDamage": [
+          3.399993896484375
+        ],
+        "reserve": 403.3800001144409,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "damage": 0,
+        "fragility": 2
+      },
+      "firstSeparation": 0,
+      "cuts": [],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [],
+        "reserve": 405,
+        "particles": 0
+      }
+    }
+  ],
+  "current": [
+    {
+      "scenario": {
+        "variant": 0,
+        "part": 2
+      },
+      "firstSeparation": 4,
+      "cuts": [
+        2
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.279998779296875
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "variant": 0,
+        "part": 0
+      },
+      "firstSeparation": 5,
+      "cuts": [
+        0
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.2199859619140625
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "variant": 0,
+        "part": 4
+      },
+      "firstSeparation": 5,
+      "cuts": [
+        4
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.2199859619140625
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "variant": 0,
+        "part": 1
+      },
+      "firstSeparation": 5,
+      "cuts": [
+        0
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.2199859619140625
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "variant": 1,
+        "part": 2
+      },
+      "firstSeparation": 4,
+      "cuts": [
+        17
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.3135986328125
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "variant": 1,
+        "part": 0
+      },
+      "firstSeparation": 5,
+      "cuts": [
+        15
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.24639892578125
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "variant": 1,
+        "part": 4
+      },
+      "firstSeparation": 5,
+      "cuts": [
+        19
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.24639892578125
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "variant": 1,
+        "part": 1
+      },
+      "firstSeparation": 5,
+      "cuts": [
+        15
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.24639892578125
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "variant": 2,
+        "part": 2
+      },
+      "firstSeparation": 5,
+      "cuts": [
+        32
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.24359130859375
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "variant": 2,
+        "part": 0
+      },
+      "firstSeparation": 6,
+      "cuts": [
+        30
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.1913909912109375
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "variant": 2,
+        "part": 4
+      },
+      "firstSeparation": 6,
+      "cuts": [
+        34
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.1913909912109375
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "variant": 2,
+        "part": 1
+      },
+      "firstSeparation": 6,
+      "cuts": [
+        30
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.1913909912109375
+        ],
+        "reserve": 404.35200023651123,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "damage": 2.5,
+        "fragility": 2
+      },
+      "firstSeparation": 3,
+      "cuts": [
+        2
+      ],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [
+          0.339996337890625
+        ],
+        "reserve": 403.3800001144409,
+        "particles": 24
+      }
+    },
+    {
+      "scenario": {
+        "damage": 0,
+        "fragility": 2
+      },
+      "firstSeparation": 0,
+      "cuts": [],
+      "firstHit": {
+        "cuts": [],
+        "jointDamage": [],
+        "reserve": 405,
+        "particles": 0
+      }
+    }
+  ],
+  "native": {
+    "swings": 1,
+    "hits": 1,
+    "cuts": [],
+    "maxJoint": 0.007488162179185277,
+    "audio": {
+      "enabled": true,
+      "state": "running",
+      "thuds": 6,
+      "lastThud": {
+        "strength": 0.08327228327228327,
+        "melee": false,
+        "explosion": false,
+        "saw": false,
+        "body": 4,
+        "latency": 9.699999988079071,
+        "frameID": 241
+      }
+    }
+  },
+  "profiles": [
+    {
+      "label": "idle",
+      "fps": 60.00033426358109,
+      "ticksPerSecond": 119.79739411605057,
+      "cpuP99ms": 1.5999999642372131,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 360,
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5760,
+          "frame uniforms": 1105920
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "bat",
+      "fps": 60.00033426358109,
+      "ticksPerSecond": 119.6001131130006,
+      "cpuP99ms": 1.300000011920929,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous collision sound event": 357,
+          "asynchronous GPU timing": 357,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5760,
+          "frame uniforms": 1105920,
+          "GPU scene instances": 617760
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "pistol",
+      "fps": 60,
+      "ticksPerSecond": 119.97271078447014,
+      "cpuP99ms": 1.699999988079071,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 361,
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5776,
+          "frame uniforms": 1108992,
+          "GPU scene instances": 786016
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "spill",
+      "fps": 59.999000017024,
+      "ticksPerSecond": 120.02925920904984,
+      "cpuP99ms": 1.5999999642372131,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 361,
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5776,
+          "frame uniforms": 1108992,
+          "GPU scene instances": 510400
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "drag",
+      "fps": 60.00233992447826,
+      "ticksPerSecond": 119.73156150557782,
+      "cpuP99ms": 1.5,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 360,
+          "asynchronous collision sound event": 360,
+          "asynchronous GPU timing": 360,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5760,
+          "frame uniforms": 1105920,
+          "GPU scene instances": 1408
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    },
+    {
+      "label": "chaos",
+      "fps": 60,
+      "ticksPerSecond": 119.93080275434484,
+      "cpuP99ms": 1.399999976158142,
+      "audit": {
+        "active": false,
+        "reads": {
+          "asynchronous player contact correction": 361,
+          "asynchronous collision sound event": 361,
+          "asynchronous GPU timing": 361,
+          "GPU telemetry snapshot": 24
+        },
+        "writes": {
+          "GPU arena, joints and paint records": 5776,
+          "frame uniforms": 1108992
+        },
+        "canvasReads": 0,
+        "webGLContexts": 0
+      }
+    }
+  ],
+  "comparison": {
+    "scenario": "One real mouse swing with damage 2.5 and fragility 2 (maximum saved tuning)",
+    "clips": [
+      {
+        "label": "before",
+        "sha256": "44c86f16f4a4c34a64c946fdb9ee518dd7bfca605ff67d6f12e8a228ce32d04c",
+        "cuts": [
+          2
+        ],
+        "swings": 1,
+        "hits": 1,
+        "audio": {
+          "enabled": true,
+          "state": "running",
+          "thuds": 5,
+          "lastThud": {
+            "strength": 0.1623931623931624,
+            "melee": false,
+            "explosion": false,
+            "saw": false,
+            "body": 5,
+            "latency": 8.900000035762787,
+            "frameID": 76
+          }
+        }
+      },
+      {
+        "label": "after",
+        "sha256": "6fbd9212617fed3ead2c8a230caff56d84cb9b03b410ff0f34f7e8ebbe4dcb12",
+        "cuts": [],
+        "swings": 1,
+        "hits": 1,
+        "audio": {
+          "enabled": true,
+          "state": "running",
+          "thuds": 4,
+          "lastThud": {
+            "strength": 0.04908424908424908,
+            "melee": false,
+            "explosion": false,
+            "saw": false,
+            "body": 35,
+            "latency": 8.700000047683716,
+            "frameID": 66
+          }
+        }
+      }
+    ]
+  },
+  "notes": [
+    "Only bat joint wear changes. Existing bat momentum, wounds, paid liquid, prop damage, weapon cadence and other weapon fracture calls remain unchanged.",
+    "Pelvis strikes select one nearest attached outgoing joint. Per-strike wear is capped after damage, variant and fragility scaling; accumulated damage can still finish a previously weakened joint.",
+    "120 Hz, nine solver iterations, 900 droplets, 54 bristles and paint density are unchanged. No new GPU buffers, dispatches or normal-play actor/pigment readbacks."
+  ]
+}

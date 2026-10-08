@@ -1,5 +1,26 @@
 // One close-range arc per swing. Every ray tests room occlusion before bodies.
 // Work words 54-57 are cumulative melee swings, body hits, spent volume and wall hits.
+fn batJointDamage(index:u32,point:vec3f,damage:f32){
+ if(damage<=0){return;}atomicStore(&work[fractureState(index)+6u],0u);
+ var jointBody=index;
+ // The pelvis has three outgoing joints. A blunt strike wears the nearest
+ // attached one instead of damaging both hips and the spine simultaneously.
+ if(index%15u==1u){
+  let base=index/15u*15u;let children=array<u32,3>(0u,6u,12u);var nearest=1e9;jointBody=base;
+  for(var n=0u;n<3u;n++){
+   let child=base+children[n];if(cut(child)){continue;}
+   let joint=header(1).y+(index/15u*14u+BODY_JOINT[children[n]])*4u;
+   let anchor=bodies[index].p.xyz+rotate(bodies[index].q,constants[joint+1u].xyz);let distance=length(point-anchor);
+   if(distance<nearest){nearest=distance;jointBody=child;}
+  }
+ }
+ if(cut(jointBody)){return;}
+ let build=select(select(1.0,1.12,index/15u%3u==1u),.87,index/15u%3u==2u);
+ let amount=damage*select(.22,.28,index%15u==2u)*build*constants[header(3).z+1u].w;
+ // Keep injury/spray and knockback independent of blunt joint wear. Even high
+ // saved tuning needs three strikes to remove a previously undamaged joint.
+ atomicAdd(&work[fractureState(jointBody)+1u],u32(min(amount,.34)*65536));atomicStore(&work[63],1u);
+}
 fn meleeStrike(){
  atomicAdd(&work[54],1u);
  let forward=safeNorm(frame.rayD.xyz);let right=safeNorm(cross(forward,vec3f(0,1,0)));let up=safeNorm(cross(right,forward));
@@ -18,7 +39,7 @@ fn meleeStrike(){
  for(var k=base;k<base+15u;k++){bodies[k].status.x=1;bodies[k].status.z=0;bodies[k].motor.w=0;if(component(k)==component(index)){bodies[k].v=vec4f(bodies[k].v.xyz+direction*(4.5+strength*2.5),0);}}
  var b=bodies[index];let arm=best.p-b.p.xyz;
  b.v=vec4f(b.v.xyz+direction*(3*strength*b.p.w),0);b.w=vec4f(b.w.xyz+invWorld(b,cross(arm,direction*(14*strength))),0);
- let damage=frame.rayD.w;damagePart(index,damage*select(.48,.68,index%15u==2u));b.blood.x=min(2,b.blood.x+damage*.95);b.blood.w=max(0,b.blood.w-damage*select(26.0,42.0,index%15u==2u));
+ let damage=frame.rayD.w;batJointDamage(index,best.p,damage);b.blood.x=min(2,b.blood.x+damage*.95);b.blood.w=max(0,b.blood.w-damage*select(26.0,42.0,index%15u==2u));
  let reserve=min(b.coat.w,.48*damage*frame.action.z);b.coat.w-=reserve;
  let coating=min(b.coat.x,.18);b.coat.x-=coating;let volume=reserve*.10+coating*.02;
  let retained=min(volume*.15,max(0,1.65-b.coat.x)*.02);b.coat.x+=retained/.02;

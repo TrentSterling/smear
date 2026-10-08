@@ -2,7 +2,9 @@
 
 Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V41 / 0.41.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+**V42 / 0.42.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+
+V42 makes the spiked bat wear down one joint over repeated hits while retaining its knockback, wounds and finite blood spray. At reference defaults, a fresh Classic/Runner head takes four focused hits and a limb or torso takes five; Heavy takes five and six. Even maximum saved damage/fragility needs three bat strikes on a fresh joint. Pelvis hits target the nearest attached joint instead of weakening the spine and both hips together. Pistol, shotgun, saw and explosive damage retain their existing behavior. See [V42 evidence](docs/qa/bat-v42.json).
 
 V41 makes pistol and shotgun surface impacts push existing wet blood, kick up finite spray and bias the splash along the shot. Dry stains remain fixed; a full particle pool retains failed spray on the surface. Box-edge runoff now partly follows the connected side before dripping, keeping unequal outlets.
 
