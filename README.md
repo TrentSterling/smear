@@ -2,7 +2,13 @@
 
 Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V46 / 0.46.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+**V47 / 0.47.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+
+V47 shows the actual room before the rest of the physics/tool shaders finish. The loader stays centered, never exposes the pause menu during startup, and allows mouse capture to look around while compilation continues. Full-detail dummy geometry is attached after the room preview; simulation begins only when its programs are ready. Firefox still takes about 18 seconds cold and 9 seconds cached to finish the entire compile on this machine. The first room view arrives around 2.5 seconds cold / 1.9 seconds cached. This is an earlier usable preview, not a claim of instant full gameplay.
+
+Right mouse grabs with every weapon. **Y** now performs alternate actions (pistol aim, mop wring, vacuum reverse and magnet launch); **G** still detonates sticky charges. A larger weapon/ammo readout sits beside the aiming cursor on a dark backing. Equip hints fade after 3.5 seconds. Ammunition remains unlimited; manual reload progress is displayed there too.
+
+Toybox descriptions use full-width 16px body text, 20px tool names, stronger glyph coverage and native device-pixel resolution. Only the opened category is constructed, and hidden subtrees are excluded from glyph layout. See [V47 screenshots and timing evidence](review/v47/).
 
 V46 adds a worker-based asset loader with a persistent authored-mesh cache and live loading stages. The full-quality dummy mesh is generated off the UI thread, and unused CPU material canvases are removed. Firefox still spends substantial time compiling shaders: the measured revised cold start is 21.6 seconds and cached reload 10.1 seconds. This is a responsiveness improvement, not a completed fix for the Firefox cold-start delay.
 

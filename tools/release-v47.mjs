@@ -1,0 +1,8 @@
+// Sequential GPU checks only; each receipt belongs to the current HTML hash.
+import {spawnSync} from 'node:child_process';import fs from 'node:fs';import {createHash} from 'node:crypto';
+const out='tools/out/startup-v47/release';fs.mkdirSync(out,{recursive:true});
+const sha256=createHash('sha256').update(fs.readFileSync('index.html')).digest('hex'),path=out+'/checks.json';
+let receipt={sha256,checks:[]};if(fs.existsSync(path)){const previous=JSON.parse(fs.readFileSync(path));if(previous.sha256===sha256)receipt=previous;}
+const checks=[['shaders','tools/wgsl-verify.mjs'],['startup-chrome','tools/startup-v47.mjs','chrome','final'],['startup-firefox','tools/startup-v47.mjs','firefox','final'],['input','tools/controls-v47.mjs'],['ui','tools/ui-verify.mjs'],['controller','tools/controller-verify.mjs','final-v47'],['utility','tools/utility-verify.mjs','final-v47'],['gauntlet','tools/gauntlet-v46.mjs'],['chrome','tools/compute-verify.mjs'],['profile','tools/compute-profile.mjs'],['firefox','tools/compute-verify.mjs','firefox']];
+for(const [name,...args]of checks){if(receipt.checks.some(c=>c.name===name&&c.exit===0))continue;console.log('RUN '+name);const start=Date.now(),p=spawnSync(process.execPath,args,{encoding:'utf8',windowsHide:true,maxBuffer:20*1024*1024});fs.writeFileSync(out+'/'+name+'.log',(p.stdout||'')+(p.stderr||''));const row={name,exit:p.status,ms:Date.now()-start};receipt.checks.push(row);fs.writeFileSync(path,JSON.stringify(receipt,null,2));console.log(JSON.stringify(row));if(p.status!==0){console.error((p.stderr||p.stdout||String(p.error)).slice(-7000));process.exit(1);}}
+console.log('COMPLETE V47 release checks '+sha256);

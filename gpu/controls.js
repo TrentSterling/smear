@@ -1,19 +1,20 @@
 // Lives in the retained game closure. Pointer lock is a play state, not a held button.
 const fpsControl={mode:'fps',phase:'ready',freeAim:false,pending:false,error:'',inspection:false};
-let controlMenuState=null;
+let controlMenuState=null,rightGrab=false,grabButton=0;
+let toolHintUntil=0;
 try{if(!window.__smearDefaults&&localStorage.getItem('smear.controls.mode')==='cursor')fpsControl.mode='cursor';}catch{}
 const controlOverlay=document.createElement('div');controlOverlay.id='play-menu';
-controlOverlay.innerHTML='<section><small>SMEAR / 46</small><h1>Ready to make a mess?</h1><p id="play-message">Click to capture the mouse and play.</p><button id="play-resume">Enter the room</button><button id="play-cursor">Use free cursor</button><button id="play-defaults" style="margin-top:8px;background:none;color:#c8d1c8;border-color:#536461;font-size:12px">Restart with reference defaults</button></section>';
+controlOverlay.innerHTML='<section><small>SMEAR / 47</small><h1>Ready to make a mess?</h1><p id="play-message">Click to capture the mouse and play.</p><button id="play-resume">Enter the room</button><button id="play-cursor">Use free cursor</button><button id="play-defaults" style="margin-top:8px;background:none;color:#c8d1c8;border-color:#536461;font-size:12px">Restart with reference defaults</button></section>';
 document.body.appendChild(controlOverlay);$('play-defaults').onclick=()=>{const u=new URL(location.href);u.searchParams.set('defaults','1');location.href=u.href;};
 const controlStyle=document.createElement('style');controlStyle.textContent='#play-menu{position:fixed;inset:0;z-index:3;display:none;align-items:center;justify-content:center;pointer-events:none;background:rgba(13,24,25,.22)}#play-menu section{pointer-events:auto;width:min(430px,calc(100vw - 32px));padding:30px;background:#1b2929;color:#eae2cd;border:1px solid #607270;box-shadow:0 18px 65px #0007}#play-menu small{letter-spacing:3px;color:#cda956;font:700 11px Arial}#play-menu h1{font-size:34px;margin:12px 0}#play-menu p{font-size:14px;line-height:1.5;color:#c8d1c8}#play-menu button{cursor:pointer;width:100%;padding:13px 15px;font:700 15px Arial;border:1px solid #ddc591;background:#ddc591;color:#172b2e}#play-menu button:disabled{opacity:.55;cursor:wait}#play-menu .play-keys{font:13px/1.9 Arial;color:#b5c1bb;margin:18px 0}#play-menu #play-cursor{font-size:12px;padding:8px;background:none;border-color:#536461;color:#c8d1c8}';document.head.appendChild(controlStyle);
 function clearPlayInput(keepPlacement=false){
  if(!keepPlacement)cancelBuddyPlacement();
- keys.clear();mouse.left=mouse.right=false;aimDown=false;activeSlider=null;player.jump=false;player.vel.set(0,0,0);fpsControl.freeAim=false;
+ keys.clear();rightGrab=false;mouse.left=mouse.right=false;aimDown=false;activeSlider=null;player.jump=false;player.vel.set(0,0,0);fpsControl.freeAim=false;
  releaseGrab(false);shotFlashUntil=-1;viewKick=recoilPitch=aimBlend=0;flash.visible=false;slide.position.z=0;
  if(typeof compute!=='undefined'&&compute){compute.inputAction=0;compute.pickRequested=false;compute.pickEpoch++;}cancelBat();cancelBrawl();cancelReload();updateScrape(0,0);
 }
 function syncControlMenu(){
- const visible=(fpsControl.mode==='fps'||paused)&&!fpsControl.inspection&&!['playing','cursor','menu'].includes(fpsControl.phase)&&!compute?.placement&&!panel&&!runtimeProfiler.visible&&toybox.hidden;
+ const visible=!!window.__smearComputeReady&&(fpsControl.mode==='fps'||paused)&&!fpsControl.inspection&&!['playing','cursor','menu'].includes(fpsControl.phase)&&!compute?.placement&&!panel&&!runtimeProfiler.visible&&toybox.hidden;
  if(controlMenuState&&controlMenuState.visible===visible&&controlMenuState.phase===fpsControl.phase&&controlMenuState.pending===fpsControl.pending&&controlMenuState.error===fpsControl.error)return;
  controlMenuState={visible,phase:fpsControl.phase,pending:fpsControl.pending,error:fpsControl.error};
  controlOverlay.style.display=visible?'flex':'none';
@@ -23,7 +24,7 @@ function syncControlMenu(){
 // Intentional cursor release is distinct from browser Escape/focus loss.
 // Only a subsequent click or Tab requests capture; menu dismissal never does.
 function freeCursor(){
- clearPlayInput(true);fpsControl.pending=false;fpsControl.error='';fpsControl.phase='cursor';paused=false;stickyLook=temporaryLook=false;
+ clearPlayInput(true);toolHintUntil=performance.now()+3500;fpsControl.pending=false;fpsControl.error='';fpsControl.phase='cursor';paused=false;stickyLook=temporaryLook=false;
  if(document.pointerLockElement===canvas)document.exitPointerLock();syncControlMenu();
 }
 function pauseControls(){
@@ -32,7 +33,7 @@ function pauseControls(){
 }
 function controlLockFailed(){fpsControl.pending=false;fpsControl.phase='paused';paused=true;fpsControl.error='Mouse capture was blocked. Click Resume to retry, or use free cursor.';syncControlMenu();}
 requestLook=()=>{
- if(fpsControl.pending||!compute?.ready)return;
+ if(fpsControl.pending||!(compute?.ready||compute?.previewReady))return;
  panel=null;activeSlider=null;clearPlayInput(true);fpsControl.error='';fpsControl.pending=true;fpsControl.phase='requesting';paused=true;
  try{const result=canvas.requestPointerLock();if(result?.catch)result.catch(controlLockFailed);}catch{controlLockFailed();}syncControlMenu();
 };
@@ -70,13 +71,14 @@ window.addEventListener('pointerdown',e=>{
  if(panel)return;
  if(fpsControl.mode==='fps'&&!fpsControl.inspection&&!compute.placement&&document.pointerLockElement!==canvas){if(e.button===0||e.button===2){e.preventDefault();requestLook();}return;}
  if(paused)return;
- if(e.button===2){e.preventDefault();if(document.pointerLockElement===canvas||tool>=6){mouse.right=true;aimDown=tool===1;if(tool===10)compute.secondary();if(tool===11)compute.detonateCharges();}else requestLook();return;}
+ if(!compute?.ready)return;
+ if(e.button===2){e.preventDefault();if(compute.placement)return;rightGrab=true;cancelReload();cancelBat();if(!grab){grabButton=2;compute.pick();}return;}
  if(e.button!==0)return;if(reloadAge<reloadDuration)return;if(compute.placement){confirmBuddyPlacement();return;}pressedUI=false;if(demo)releaseGrab(false);mouse.left=true;
- if(tool===0&&(compute.cache.control&255)&&!grab){mouse.left=false;compute.interactMachine();}else if(tool===0)compute.pick();else if(tool===1)shoot();else if(tool===2)spill();else if(tool===3)swingBat();else if(tool===4)throwGrenade();else if(tool===5)fireRocket();else if(tool===11)throwSticky();else if(tool===12)fireShotgun();else if(tool===13)fireSaw();
+ if(tool===0&&(compute.cache.control&255)&&!grab){mouse.left=false;compute.interactMachine();}else if(tool===0&&!grab){grabButton=0;compute.pick();}else if(tool===1)shoot();else if(tool===2)spill();else if(tool===3)swingBat();else if(tool===4)throwGrenade();else if(tool===5)fireRocket();else if(tool===11)throwSticky();else if(tool===12)fireShotgun();else if(tool===13)fireSaw();
 });
 window.addEventListener('pointerup',e=>{
- if(e.button===0){if(activeSlider){saveTuning();activeSlider=null;}mouse.left=false;pressedUI=false;if(grab&&!grab.manual)releaseGrab(true);if(!fpsControl.freeAim&&document.pointerLockElement===canvas){mouse.x=W/2;mouse.y=H/2;}}
- if(e.button===2){mouse.right=false;aimDown=false;}
+ if(e.button===0){if(activeSlider){saveTuning();activeSlider=null;}mouse.left=false;pressedUI=false;if(grab&&!grab.manual&&grabButton===0)releaseGrab(true);if(!fpsControl.freeAim&&document.pointerLockElement===canvas){mouse.x=W/2;mouse.y=H/2;}}
+ if(e.button===2){rightGrab=false;if(grab&&!grab.manual&&grabButton===2)releaseGrab(true);if(grabButton===2)compute.pickEpoch++;}
 });
 window.addEventListener('pointermove',e=>{
  if(activeSlider){mouse.x=e.clientX;mouse.y=e.clientY;slideAt(mouse.x);return;}
@@ -97,7 +99,9 @@ window.addEventListener('keydown',e=>{
  if(e.code==='Escape'){if(compute?.placement){cancelBuddyPlacement();notify('Placement cancelled.');return;}panel=null;if(fpsControl.mode==='fps'&&!fpsControl.inspection)pauseControls();else{clearPlayInput();unlockLook();paused=false;}return;}
  if(e.code==='Tab'){if(panel)openPanel(null);else toggleLook();return;}
  if(e.code==='KeyP'||e.code==='KeyL'){if(paused||document.pointerLockElement!==canvas)requestLook();else pauseControls();return;}
+ if(!compute?.ready&&e.code!=='KeyC'){if(compute?.previewReady&&!paused&&['KeyW','KeyA','KeyS','KeyD','ShiftLeft','ShiftRight'].includes(e.code))keys.add(e.code);return;}
  if(e.code==='KeyB'&&!panel){openToybox();return;}if(panel||paused)return;keys.add(e.code);
+ if(e.code==='KeyY'){mouse.right=true;aimDown=tool===1;if(tool===10)compute.secondary();if(tool===11)compute.detonateCharges();return;}
  if(e.code==='KeyE'&&!grab&&!compute.placement){compute.interactMachine();return;}
  if(e.code==='KeyB'){openToybox();return;}if(e.code==='Delete'){removeSelectedToy();return;}
  if(e.code==='KeyN'){beginBuddyPlacement(false);return;}if(e.code==='KeyR'){if(tool===0)beginBuddyPlacement(true);else reloadWeapon();return;}if(e.code==='KeyI'){inspectAge=0;return;}
@@ -109,7 +113,7 @@ window.addEventListener('keydown',e=>{
  if(e.code==='KeyF')toggleFly();if(e.code==='Space')player.jump=true;
  if(e.code==='KeyT'){slow=!slow;notify(slow?'Slow motion: 0.25x | T: normal speed':'Normal speed | T: slow motion');}if(e.code==='KeyH')showHUD=!showHUD;if(e.code==='KeyV')toggleRecovery();
 });
-window.addEventListener('keyup',e=>{keys.delete(e.code);if(e.code==='KeyC')freeAimEnd();});
+window.addEventListener('keyup',e=>{keys.delete(e.code);if(e.code==='KeyY'){mouse.right=false;aimDown=false;}if(e.code==='KeyC')freeAimEnd();});
 window.addEventListener('blur',()=>{if(!fpsControl.inspection)pauseControls();else clearPlayInput();});
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&!fpsControl.inspection)pauseControls();});
 document.addEventListener('pointerlockerror',controlLockFailed);
@@ -121,6 +125,7 @@ document.addEventListener('pointerlockchange',()=>{
  if(locked&&fpsControl.phase==='playing')return;
  fpsControl.pending=false;
  if(locked&&fpsControl.phase!=='requesting'){document.exitPointerLock();return;}
+ document.getElementById('loading')?.classList.toggle('exploring',locked);
  if(locked){clearPlayInput(true);stickyLook=true;temporaryLook=false;fpsControl.phase='playing';paused=false;mouse.x=W/2;mouse.y=H/2;}
  else{const intentional=['cursor','menu','placing'].includes(fpsControl.phase);clearPlayInput(intentional);stickyLook=false;temporaryLook=false;if(fpsControl.mode==='fps'&&!fpsControl.inspection&&!intentional){fpsControl.phase='paused';paused=true;}}
  syncControlMenu();

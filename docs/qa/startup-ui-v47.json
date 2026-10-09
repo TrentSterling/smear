@@ -1,0 +1,135 @@
+{
+  "version": "0.47.0",
+  "at": "2026-10-09T01:49:33.653Z",
+  "sha256": "49edd19ef1cdca7b241a7163ca4534d433fb65770854210d4c1d79d61937b665",
+  "checks": [
+    {
+      "name": "shaders",
+      "exit": 0,
+      "ms": 2990
+    },
+    {
+      "name": "startup-chrome",
+      "exit": 0,
+      "ms": 9703
+    },
+    {
+      "name": "startup-firefox",
+      "exit": 0,
+      "ms": 29799
+    },
+    {
+      "name": "input",
+      "exit": 0,
+      "ms": 15180
+    },
+    {
+      "name": "ui",
+      "exit": 0,
+      "ms": 16901
+    },
+    {
+      "name": "controller",
+      "exit": 0,
+      "ms": 14899
+    },
+    {
+      "name": "utility",
+      "exit": 0,
+      "ms": 23028
+    },
+    {
+      "name": "gauntlet",
+      "exit": 0,
+      "ms": 11231
+    },
+    {
+      "name": "chrome",
+      "exit": 0,
+      "ms": 18170
+    },
+    {
+      "name": "profile",
+      "exit": 0,
+      "ms": 61164
+    },
+    {
+      "name": "firefox",
+      "exit": 0,
+      "ms": 33057
+    }
+  ],
+  "startup": {
+    "firefox": [
+      {
+        "previewMS": 2534,
+        "readyMS": 17793,
+        "meshMS": 2731,
+        "loadingFrames": 984,
+        "maxFrameMS": 645,
+        "meshCached": false,
+        "mouseCapturedThroughCompletion": true
+      },
+      {
+        "previewMS": 1930,
+        "readyMS": 8567,
+        "meshMS": 2124,
+        "loadingFrames": 463,
+        "maxFrameMS": 344,
+        "meshCached": true,
+        "mouseCapturedThroughCompletion": true
+      }
+    ],
+    "chrome": [
+      {
+        "previewMS": 1358.5,
+        "readyMS": 5696.600000023842,
+        "loadingFrames": 310,
+        "maxFrameMS": 166.20000004768372
+      },
+      {
+        "previewMS": 1135.2000000476837,
+        "readyMS": 1858.800000011921,
+        "loadingFrames": 89,
+        "maxFrameMS": 137.60000002384186
+      }
+    ],
+    "baselineFirefox": [
+      {
+        "readyMS": 17753,
+        "loadingFrames": 1023,
+        "maxFrameMS": 275
+      },
+      {
+        "readyMS": 8644,
+        "loadingFrames": 486,
+        "maxFrameMS": 270
+      }
+    ],
+    "method": "Local offline HTML, fresh isolated browser profile then reload. Hardware WebGPU, same host; OS/driver caches were not cleared. Preview is camera-only until compilation and warmup finish. No claimed full-start speedup."
+  },
+  "inputChecks": [
+    "Toybox builds no hidden item buttons at startup",
+    "All fourteen tools right-grab and release a GPU barrel without firing alternate actions",
+    "A quick released click cannot attach a late GPU picking result",
+    "Y preserves pistol alternate aim and releases cleanly",
+    "Weapon/ammo stays beside the reticle and equip hints disappear after 3.5 seconds",
+    "Center ammo readout reports manual reload then restores the unlimited supply",
+    "Menu uses readable body text and GPU glyphs render at device-pixel density"
+  ],
+  "research": [
+    {
+      "url": "https://threejs.org/docs/pages/Renderer.html",
+      "finding": "Per-object compileAsync and progress callback support staged precompilation. Reviewed as an architectural example, not benchmarked."
+    },
+    {
+      "url": "https://www.babylonjs.com/Demos/Offscreen/source/",
+      "finding": "Worker rendering demo separates canvas initialization, mesh import and readiness notification. Reviewed source; no code copied and no cross-engine speed claim."
+    }
+  ],
+  "proof": {
+    "page": "review/v47/",
+    "video": "firefox-startup.mp4",
+    "note": "Silent Firefox boot recording. Screenshot durations retain elapsed wall time; profiling is a separate run."
+  }
+}
