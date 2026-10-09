@@ -54,15 +54,17 @@ SmearCompute.prototype.buildProps=function(){
    piece(boxGeo,steel,[0,0,0],size.toArray());piece(boxGeo,edge,[0,.21,0],[2.06,.04,1.24]);for(const x of [-.98,.98])piece(new T.CylinderGeometry(.14,.14,1.32,18),yellow,[x,.1,0],null,[Math.PI/2,0,0]);for(let n=0;n<12;n++){const slat=piece(boxGeo,steel,[-.94+n*.17,.24,0],[.06,.02,1.22]);slat.userData.beltSlat=id;}for(const x of [-.7,0,.7])for(const z of [-1,1])piece(boxGeo,yellow,[x,.245,z*.047],[.17,.018,.022],[0,z*.55,0]);for(const z of [-.67,.67])piece(boxGeo,yellow,[0,.22,z],[2.2,.09,.05]);
   }else if(!isBarrel){
    piece(boxGeo,wood,[0,0,0],size.toArray());
+   // Butt the rails together and mount the diagonal on their outer face.
+   // Overlapping boards at the same depth flicker as the camera moves.
    for(const z of [-.557,.557]){
-    for(const x of [-.435,.435])piece(boxGeo,edge,[x,0,z],[.135,1.10,.045]);
-    for(const y of [-.46,.46])piece(boxGeo,edge,[0,y,z],[1.08,.13,.045]);
-    piece(boxGeo,edge,[0,0,z],[.105,1.23,.045],[0,0,z>0?-.72:.72]);
+    for(const x of [-.435,.435])piece(boxGeo,edge,[x,0,z],[.135,.79,.045]);
+    for(const y of [-.46,.46])piece(boxGeo,edge,[0,y,z],[1.159,.13,.045]);
+    piece(boxGeo,edge,[0,0,z+Math.sign(z)*.045],[.105,1.23,.045],[0,0,z>0?-.72:.72]);
    }
-   for(const x of [-.557,.557]){for(const y of [-.46,.46])piece(boxGeo,edge,[x,y,0],[.045,.13,1.08]);}
+   for(const x of [-.557,.557]){for(const y of [-.46,.46])piece(boxGeo,edge,[x,y,0],[.045,.13,1.069]);}
    for(const x of [-.49,.49])for(const z of [-.49,.49])piece(boxGeo,steel,[x,0,z],[.055,1.115,.055]);
    // Label plates are small physical pieces and receive the same surface paint.
-   piece(boxGeo,yellow,[.14,.20,.586],[.32,.15,.014]);
+   piece(boxGeo,yellow,[.14,.20,.632],[.32,.15,.014]);
   }else{
    const profile=[[-.58,.35],[-.56,.41],[-.48,.412],[-.45,.405],[-.25,.416],[0,.425],[.25,.416],[.45,.405],[.48,.412],[.56,.41],[.58,.35]].map(([y,r])=>new T.Vector2(r,y));
    piece(new T.LatheGeometry(profile,32),red,[0,0,0]);

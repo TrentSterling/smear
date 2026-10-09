@@ -2,7 +2,9 @@
 
 Grab a dummy, slam it into the room, and drag it through persistent blood. Walls catch splashes and develop downward drips.
 
-**V47 / 0.47.0** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+**V47.1 / 0.47.1** runs ragdolls, collisions, droplets, wet transfer and persistent paint in WebGPU compute shaders. Native WebGPU rendering reads those same buffers. Three.js r140 remains embedded for procedural model construction and camera math; it does not create a WebGL context.
+
+V47.1 fixes crate z-fighting: frame rails meet without overlapping outward faces, diagonal braces sit above the rails, and the label follows the brace. The geometry inspection reproduces 192 overlapping triangle pairs in V47 and zero in the corrected crate. `npm run verify:crate` checks the geometry and captures four GPU views.
 
 V47 shows the actual room before the rest of the physics/tool shaders finish. The loader stays centered, never exposes the pause menu during startup, and allows mouse capture to look around while compilation continues. Full-detail dummy geometry is attached after the room preview; simulation begins only when its programs are ready. Firefox still takes about 18 seconds cold and 9 seconds cached to finish the entire compile on this machine. The first room view arrives around 2.5 seconds cold / 1.9 seconds cached. This is an earlier usable preview, not a claim of instant full gameplay.
 

@@ -1,0 +1,105 @@
+{
+  "version": "0.47.1",
+  "at": "2026-10-09T04:18:25.455Z",
+  "sha256": "78b5a1600959d63e4f2698b0f5bd58af81ccf302eff54d5b722bf5da3ef153ce",
+  "geometry": {
+    "before": 192,
+    "after": 0,
+    "unit": "coplanar outward triangle-pair overlaps",
+    "views": [
+      "front",
+      "back",
+      "top",
+      "grazing"
+    ]
+  },
+  "validation": {
+    "shaderModules": 63,
+    "chrome": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "firefox": [
+      "Hardware GPU compute and no CPU physics/paint readback",
+      "120 GPU ticks; finite bodies and floor collision",
+      "Chaos: 150 bodies, live GPU droplets and no lost stamps",
+      "Compute paints persistent floor pigment",
+      "GPU clear erases every floor tile",
+      "GPU reset restores three dolls",
+      "Repeatable GPU simulation after reset",
+      "Twelve-dummy cap, finite physics, arena bounds and joint gaps below 15 cm",
+      "All three spawn torso sightlines at 1366, 1920 and 3000 px",
+      "Audio enabled and running, output separately muted"
+    ],
+    "native": [
+      {
+        "label": "idle",
+        "fps": 60.00033426358109,
+        "cpuP99": 3,
+        "ticksPerSecond": 119.69568329801623
+      },
+      {
+        "label": "bat",
+        "fps": 60.0013370772689,
+        "cpuP99": 3.199999988079071,
+        "ticksPerSecond": 119.68771328193584
+      },
+      {
+        "label": "pistol",
+        "fps": 60.00100001690537,
+        "cpuP99": 2.699999988079071,
+        "ticksPerSecond": 119.95275092775051
+      },
+      {
+        "label": "spill",
+        "fps": 60.00100001690537,
+        "cpuP99": 4,
+        "ticksPerSecond": 119.90088636831202
+      },
+      {
+        "label": "drag",
+        "fps": 59.99832873736108,
+        "cpuP99": 3,
+        "ticksPerSecond": 119.52853556739898
+      },
+      {
+        "label": "chaos",
+        "fps": 59.998000066783646,
+        "cpuP99": 2.800000011920929,
+        "ticksPerSecond": 120.08515734077996
+      }
+    ],
+    "initialProfileAttempt": {
+      "result": "FAIL",
+      "reason": "Idle CPU p99 was 5.0 ms at the strict <5 ms gate; unchanged rerun passed."
+    }
+  },
+  "firefoxConcurrencyExperiment": {
+    "sourceSHA256": "fcad35a9836e087683d914a5c1e0fcebf5cb05791aa6eb10eb977d89e488efd1",
+    "concurrentJobs": 64,
+    "runs": [
+      {
+        "readyMS": 18782,
+        "previewMS": 2531,
+        "maxFrameMS": 15637,
+        "loadingFrames": 158
+      },
+      {
+        "readyMS": 9494,
+        "previewMS": 2162,
+        "maxFrameMS": 6691,
+        "loadingFrames": 132
+      }
+    ],
+    "comparison": "V47 recorded Firefox two-job fresh/reload ready 17793/8567 ms; Chrome 5696.6/1858.8 ms. This additional run did not show a speedup and caused much longer UI stalls. Browser/driver compilation stages and cache contributions are not individually isolated. Driver caches were not cleared.",
+    "productionPolicyChanged": false
+  }
+}

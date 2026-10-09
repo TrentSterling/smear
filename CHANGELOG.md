@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.47.1 / V47.1 (crate depth flicker)
+
+- Remove coplanar overlaps between the crate's rails, corner joints and diagonal braces. Mount the label on the raised brace.
+- Add a geometric overlap regression and four hardware GPU inspection views. The V47 crate reproduces 192 coplanar triangle-pair overlaps; the corrected crate has zero.
+- Diagnose Firefox startup with Chrome's 64-job compilation limit in an isolated test: 18.8 seconds fresh and 9.5 seconds on reload, with UI stalls of 15.6 and 6.7 seconds. Keep the responsive two-job policy; this patch does not claim a startup speedup.
+
 ## 0.38.0 / V38 (polygon lights, visible debris and rapid rockets)
 
 - Expanded the room from eight to 21 emitter polygons, with an amber ceiling halo, cyan triangle, violet chevrons and low colored strips. Shared geometry drives the visible fixtures and LTC integrals. Polished/matte finishes contrast with wet blood.
